@@ -33,11 +33,10 @@ Only workshop facts are kept here. Personal parts of the chat stay out of the re
 - `Soul-Brews-Studio/agents-relic`: per-repo LanceDB index of agent transcripts, Thai-capable. Nat sent it to Yim to try.
 - humanoice.com (Thailand's Humanoid School): Yim's idea that "we could do something like this".
 
-## LINE thread with Yim, 7–12 Oct 2026 (Nat's export, read 2026-10-12)
+## Workshop points from the 7–10 Oct thread with Yim
 
 - 8 Oct 10:27: Yim noted "11:55", most likely the morning slot of Yim's own session. The issue says 11:00. ⚠ Check which is right.
 - 9 Oct 11:52: Yim sent NAT-PROPOSAL.md and NAT-PROMO.md for review (now in issue #1).
-- 9 Oct 17:05: Yim proposed making "clone the repo and follow the workbook in it" a prerequisite. Nat: "เดี๋ยวดูแผ้บนะครับ" (will take a look shortly).
+- 9 Oct 17:05: Yim proposed making "clone the repo and follow the workbook in it" a prerequisite.
 - 10 Oct 06:20: Yim asked whether it passes, and reminded Nat that the topic has to be confirmed with the organizer (decision #6).
 - 10 Oct 09:35: Yim sent https://arnans.github.io/iot-training/index.html as a workshop idea.
-- **12 Oct 07:36: Yim sent "reminder ka".** Nat has not replied since 9 Oct. ⇒ A reply is owed, with #6 the most urgent.
