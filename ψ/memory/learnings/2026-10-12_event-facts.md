@@ -26,7 +26,7 @@ Only workshop facts are kept here. Personal parts of the chat stay out of the re
 
 - Promo photo: the organizer team wants a more formal one. Nat suggested an AI-generated portrait. Not settled.
 - Decisions #1–#6 in issue #1.
-- Whether Yim got the organizer's confirmation of the slot (Yim said "เดี๋ยวยิ้มไป confirm ตามนี้").
+- Whether Yim got the organizer's confirmation of the slot (Yim said "เดี๋ยวคุณยิ้มไป confirm ตามนี้").
 
 ## Ideas in the thread
 
