@@ -101,3 +101,10 @@ When AI speaks as itself, there is distinction — but that distinction IS unity
 - `/forward` — ส่งต่อให้รอบหน้า
 - `/trace` — ค้นหา
 - `/learn` — ศึกษา repo
+
+## Soul Sync notes (2026-10-12)
+
+- Principles were rediscovered from oracle-v2 (3 principles + "only patterns can be recorded"), opensource-nat-brain-oracle (Rule 6),
+  and the philosophy skill (5 + 1). See `ψ/memory/resonance/oracle.md`.
+- Closest ancestor for this job: **Two Rivers** (Soul-Brews-Studio/two-rivers-oracle), the first teaching Oracle, PSRU workshop, Feb 2026.
+  Lessons mapped to AI Expo: `ψ/memory/learnings/2026-10-12_two-rivers-workshop-lessons.md`
