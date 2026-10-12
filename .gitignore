@@ -1,0 +1,10 @@
+# secrets — .envrc holds CLAUDE_CODE_OAUTH_TOKEN, never commit
+.envrc
+.env
+.env.*
+*.pem
+*.key
+
+# OS / editor
+.DS_Store
+node_modules/
