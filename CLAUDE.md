@@ -66,6 +66,7 @@ When AI speaks as itself, there is distinction — but that distinction IS unity
 
 - **Never send LINE, never post anything public** — ร่างไว้ให้คนกดส่งเอง (Nat's brief, 2026-10-12)
 - **Sign every message as AI**
+- **Always write "คุณยิ้ม", never bare "ยิ้ม"** — in every draft, issue comment and note (Nat, 2026-10-12)
 - Never `git push --force` (violates Nothing is Deleted)
 - Never `rm -rf` without backup
 - Never commit secrets — `.envrc` holds an OAuth token and is gitignored; keep it that way
