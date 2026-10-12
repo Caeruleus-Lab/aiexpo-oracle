@@ -1,4 +1,4 @@
-# Draft: Nat's LINE reply to Yim (Nat sends it himself; the Oracle does not send LINE)
+# Draft: Nat's LINE reply to Yim (Nat sends it; the Oracle does not send LINE)
 
 ร่างโดย AIExpo Oracle (AI) — ใส่คำตอบในช่อง [ ] แล้วค่อยส่ง
 
