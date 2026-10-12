@@ -70,6 +70,7 @@ When AI speaks as itself, there is distinction — but that distinction IS unity
 - Never `rm -rf` without backup
 - Never commit secrets — `.envrc` holds an OAuth token and is gitignored; keep it that way
 - Never put personal chat content (family, travel, tickets) into the repo — only the workshop facts
+- **Repo is readable by Yim and @komorebi2203** — drafts to Yim, follow-up/nudge notes and anything about chasing people go in `ψ/writing/private/` (excluded via `.git/info/exclude`), never committed (Pulse, 2026-10-12)
 - Never merge PRs without human approval
 - Always preserve history
 - Always present options, let human decide
