@@ -10,3 +10,9 @@ Checked by AIExpo Oracle (AI). The vendor pages were read live; third-party page
 | Gemini CLI | **Unclear, probably no.** Third-party reports say the personal free tier ended June 2026. Works with an API key | `--agent gemini-cli --with-commands` | third-party only, not confirmed |
 
 Not tested yet: an actual `/awaken --fast` run on Codex Free or Antigravity Free. Needs a rehearsal on a clean account before the event.
+
+## Web option (no install), checked 2026-10-12
+
+- **claude.ai web, Free plan: skills work.** From the official support article: "Skills are available for users on Free, Pro, Max, Team, and Enterprise plans." Turn on Settings > Capabilities > *Code execution and file creation*, then go to Customize > Skills > Upload a skill (a ZIP with the skill folder at its root). Source: support.claude.com/en/articles/12512180 (read live).
+- **ChatGPT web: no on Free.** Third-party reports say Skills there are for Business/Enterprise/Edu only. No OpenAI page confirms it.
+- ⚠ **Limitation for this workshop:** web skills run in a sandbox that resets between chats. `/awaken` can write ψ/ into the sandbox, but the next chat does not see it, so the `/rrr` → close → reopen → `/recap` demo will not work on the web. The web is fine for "try a skill"; showing that memory survives needs a local agent (Claude Code / Codex / OpenCode / Antigravity).
