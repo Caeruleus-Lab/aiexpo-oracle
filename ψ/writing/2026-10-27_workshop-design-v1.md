@@ -41,7 +41,7 @@ Fri 6 Nov 2026, 15:05–16:10 (65 min), Builder Stage. Topic and subtitle as agr
 
 **Kit**: one-page install guide (3 tools + the web path), template repo, workbook PDF, slide deck, a fallback video/screenshots of every live step.
 
-## 2b. คุณยิ้ม's 11:00 workshop, the same day
+## 2b. คุณยิ้ม's 11:00 workshop, the same day (Fri 6 Nov, confirmed by Nat 27 Oct)
 
 คุณยิ้ม runs "ออกแบบธุรกิจ SME 101: งานไหนให้คน งานไหนให้ AI และอะไรที่ต้องแก้ ต้องสร้าง หรือต้องซื้อ" at 11:00. That changes three things:
 

@@ -21,7 +21,7 @@ Only workshop facts are kept here. Personal parts of the chat stay out of the re
 - **Organizer**: พี่เอ๋อ, on the AI warroom stage. Brief: "พาคนทำแล้วได้ outcome ซักอย่าง" (lead people through the work so they leave with an outcome). Not a big stage.
 - **Yim's own session** (separate track): "ออกแบบธุรกิจ SME 101: งานไหนให้คน งานไหนให้ AI และอะไรที่ต้องแก้ ต้องสร้าง หรือต้องซื้อ".
   The proposal in issue #1 places it on 6 Nov at 11:00. If that holds, the two sessions run back to back on the same day.
-  **Nat, 27 Oct: คุณยิ้ม's own workshop is at 11:00** (settles the 11:00 vs "11:55" question below). Date still per the proposal (6 Nov); the poster for that slot has not been seen.
+  **Nat, 27 Oct: คุณยิ้ม's own workshop is at 11:00** (settles the 11:00 vs "11:55" question below). Same day, Fri 6 Nov (Nat, 27 Oct): the two sessions run back to back.
 
 ## Official promo (received 27 Oct 2026)
 
