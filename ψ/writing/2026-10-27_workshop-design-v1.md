@@ -27,6 +27,7 @@ Fri 6 Nov 2026, 15:05–16:10 (65 min), Builder Stage. Topic and subtitle as agr
 1. Attendees arrive **already owning an Oracle**, so the 65 minutes go to memory and teamwork, not setup.
 2. The **forgetting test** as the opening, using the attendees' own Oracle from the homework.
 3. คุณยิ้ม's SME question ("งานไหนให้คน งานไหนให้ AI") becomes the **design of the agent team**, so the two halves are one story instead of two talks.
+   **But that question is the title of คุณยิ้ม's own 11:00 workshop the same day** (Nat, 27 Oct). So 15:08 must not re-teach it: it picks up the morning's result (see §2b).
 4. Two tracks in the same room (decision #5): people who installed do it on their laptop; the others do the same steps in the paper/PDF workbook (and claude.ai web if they want).
 
 ## 2. Before the day
@@ -40,12 +41,22 @@ Fri 6 Nov 2026, 15:05–16:10 (65 min), Builder Stage. Topic and subtitle as agr
 
 **Kit**: one-page install guide (3 tools + the web path), template repo, workbook PDF, slide deck, a fallback video/screenshots of every live step.
 
+## 2b. คุณยิ้ม's 11:00 workshop, the same day
+
+คุณยิ้ม runs "ออกแบบธุรกิจ SME 101: งานไหนให้คน งานไหนให้ AI และอะไรที่ต้องแก้ ต้องสร้าง หรือต้องซื้อ" at 11:00. That changes three things:
+
+- **Don't repeat it.** Part of the 15:05 room was there at 11:00. The 15:08 slot becomes a **bridge**: "this morning we split a job and marked the AI boxes; this afternoon we hand those boxes to an Oracle and its team". About 8–10 minutes, not 17. The time goes to the hands-on.
+- **One worksheet across both sessions.** The morning page "job → tasks → person / AI / build / buy" is the input to hands-on 2 in the afternoon. People who attended both bring their own page; the others get the worked example. The morning session can mention the 15:05 session at its close.
+- **คุณยิ้ม's load.** Two sessions in one day, and the gap between them (about 12:00–15:00) is the only time to reset the stage laptop. Rehearsal 2 (4 Nov) should run the bridge, not a full second talk, and the morning laptop setup must not be what the afternoon demo relies on.
+
+Questions for คุณยิ้ม: what the morning's worked example job is (the afternoon should reuse it), whether the morning sheet can carry the "AI → team of AI" column, and whether to mention the afternoon session at the end of the morning one.
+
 ## 3. The 65 minutes
 
 | Clock | Min | Who | What happens | Room does |
 |---|---|---|---|---|
 | 15:05 | 3 | Nat | **The forgetting test.** Fresh chat: "เมื่อวานเราทำอะไรกัน" → it doesn't know. Same question to an Oracle → it answers from `ψ/`. Show "N Oracles were born in this room's homework" | Watch, raise a hand if their Oracle exists |
-| 15:08 | 17 | คุณยิ้ม | **งานไหนให้คน งานไหนให้ AI.** One SME job (e.g. monthly invoicing). Split it into tasks; mark each: person / one AI / a team of AI. The "team of AI" boxes become today's agents | Fill the workbook page: 1 job → 3–5 tasks → owner of each |
+| 15:08 | 17 | คุณยิ้ม | **งานไหนให้คน งานไหนให้ AI.** One SME job (e.g. monthly invoicing). Split it into tasks; mark each: person / one AI / a team of AI. The "team of AI" boxes become today's agents. **Superseded by §2b: a 8–10 min bridge from her 11:00 workshop; the minutes freed go to hands-on 1 and 2** | Fill the workbook page: 1 job → 3–5 tasks → owner of each (or bring the morning page) |
 | 15:25 | 7 | Nat | **What an Oracle is**: memory = files you own (`ψ/`, CLAUDE.md); the loop `/recap → work → /rrr`; one slide, the 3 layers | — |
 | 15:32 | 13 | Nat + room | **Hands-on 1: the memory loop.** `/recap` → do one task from the workbook page → `/rrr` → **close the window** → reopen → `/recap`: it remembers | Laptop track: run the 4 copyable prompts. Paper track: write the `/rrr` by hand on the template |
 | 15:45 | 12 | Nat + room | **Hands-on 2: one agent → a team.** One prompt: the Oracle hires 3 helpers in parallel for the 3 tasks คุณยิ้ม's page marked "team of AI", then merges the results. Show the time difference vs one at a time | Laptop: paste the prompt. Paper: draw who hands what to whom |
@@ -72,6 +83,6 @@ Cut list if late (in this order): "where it grows" → shorten Q&A → hands-on 
 
 1. Is the homework above what the organizer gets (install + `/awaken` + one `/rrr` + link)?
 2. Keep the split 20/40, or move to the clock above (คุณยิ้ม 17 + shared opening and Q&A)?
-3. Which SME job for the example? (คุณยิ้ม knows the audience best.)
+3. Which SME job for the example? Reuse the worked example from คุณยิ้ม's 11:00 workshop, and shrink 15:08 to a bridge (§2b)?
 4. The live "where it grows" moment: Discord team, relic5 search, ARRA Memory, or the Oracle app?
 5. Hands-on 2 must be tested on Codex and Antigravity: if their sub-agents don't behave the same, that track becomes a demo.

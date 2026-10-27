@@ -21,6 +21,7 @@ Only workshop facts are kept here. Personal parts of the chat stay out of the re
 - **Organizer**: พี่เอ๋อ, on the AI warroom stage. Brief: "พาคนทำแล้วได้ outcome ซักอย่าง" (lead people through the work so they leave with an outcome). Not a big stage.
 - **Yim's own session** (separate track): "ออกแบบธุรกิจ SME 101: งานไหนให้คน งานไหนให้ AI และอะไรที่ต้องแก้ ต้องสร้าง หรือต้องซื้อ".
   The proposal in issue #1 places it on 6 Nov at 11:00. If that holds, the two sessions run back to back on the same day.
+  **Nat, 27 Oct: คุณยิ้ม's own workshop is at 11:00** (settles the 11:00 vs "11:55" question below). Date still per the proposal (6 Nov); the poster for that slot has not been seen.
 
 ## Official promo (received 27 Oct 2026)
 
@@ -44,7 +45,7 @@ Only workshop facts are kept here. Personal parts of the chat stay out of the re
 
 ## Workshop points from the 7–10 Oct thread with Yim
 
-- 8 Oct 10:27: Yim noted "11:55", most likely the morning slot of Yim's own session. The issue says 11:00. ⚠ Check which is right.
+- 8 Oct 10:27: Yim noted "11:55", most likely the morning slot of Yim's own session. The issue says 11:00. ✅ Nat confirmed 11:00 on 27 Oct.
 - 9 Oct 11:52: Yim sent NAT-PROPOSAL.md and NAT-PROMO.md for review (now in issue #1).
 - 9 Oct 17:05: Yim proposed making "clone the repo and follow the workbook in it" a prerequisite.
 - 10 Oct 06:20: Yim asked whether it passes, and reminded Nat that the topic has to be confirmed with the organizer (decision #6).
