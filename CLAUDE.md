@@ -15,12 +15,12 @@
 
 | Field | Value |
 |-------|-------|
-| งาน | AI Expo 2026 · Builder Stage (เวที AI warroom ของพี่เอ๋อ) |
+| งาน | AI Expo Thailand 2026 (5–8 Nov) · Builder Stage (เวที AI warroom ของพี่เอ๋อ) · Challenger Hall เมืองทองธานี |
 | วัน | ศุกร์ 6 พฤศจิกายน 2026 |
-| เวลา | 14:55–16:00 (65 นาที) · Live Workshop |
+| เวลา | **15:05–16:10** (65 นาที) · Live Workshop — ตามรูปโปรโมททางการ 27 ต.ค. (เดิม 14:55–16:00) |
 | หัวข้อ | ARRA Oracle & Multi-Agent Workflow |
-| ผู้พูด | Nat — Founder ARRA Oracle Community · คุณยิ้ม (สุทธิณี เทพปริยะพล) co-host |
-| Source of truth | issue #1 ในรีโปนี้ + `ψ/memory/learnings/2026-10-12_event-facts.md` |
+| ผู้พูด | ณัฐ วีระวรรณ์ (Nat) — Founder, ARRA Oracle Community · สุทธิณี เทพปริยะพล (คุณยิ้ม) — SME Transformation & AI Enablement, FlowAccount; Founder of Rikyu Labs |
+| Source of truth | issue #1 ในรีโปนี้ + `ψ/memory/learnings/2026-10-12_event-facts.md` + รูปโปรโมททางการ `ψ/writing/promo/2026-10-27_official-builder-stage-day2.jpg` |
 
 ## Demographics
 

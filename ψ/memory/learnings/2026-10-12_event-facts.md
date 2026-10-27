@@ -22,9 +22,18 @@ Only workshop facts are kept here. Personal parts of the chat stay out of the re
 - **Yim's own session** (separate track): "ออกแบบธุรกิจ SME 101: งานไหนให้คน งานไหนให้ AI และอะไรที่ต้องแก้ ต้องสร้าง หรือต้องซื้อ".
   The proposal in issue #1 places it on 6 Nov at 11:00. If that holds, the two sessions run back to back on the same day.
 
+## Official promo (received 27 Oct 2026)
+
+`ψ/writing/promo/2026-10-27_official-builder-stage-day2.jpg` is the organizer's poster ("Builder Stage Day 01-04_Day2-12"). It changes or adds:
+
+- **Time is now 15:05–16:10** on Friday 6 Nov 2026 (still 65 minutes). It used to be 14:55–16:00. Plan the 20/40 split on the new clock.
+- **Event**: AI Expo Thailand, 5–8 November 2026, Challenger Hall, เมืองทองธานี. 6 Nov is Day 2.
+- **Speakers as printed**: ณัฐ วีระวรรณ์, Founder, ARRA Oracle Community; สุทธิณี เทพปริยะพล (คุณยิ้ม), SME Transformation & AI Enablement, FlowAccount, Founder of Rikyu Labs.
+- The formal promo photo is done: both photos are on the poster.
+
 ## Still open
 
-- Promo photo: the organizer team wants a more formal one. Nat suggested an AI-generated portrait. Not settled.
+- ~~Promo photo~~: done, see the official promo above (27 Oct).
 - Decisions #1–#6 in issue #1.
 - Whether Yim got the organizer's confirmation of the slot (Yim said "เดี๋ยวคุณยิ้มไป confirm ตามนี้").
 
