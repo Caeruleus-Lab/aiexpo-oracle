@@ -60,10 +60,10 @@ def card(i, l):
                     for a, b in zip(l["facts_th"], l["facts_en"]))
     addr = x["address"]
     return f'''<article class="card">
-  <a class="thumb" href="{d}th.html" data-href-en="{d}en.html"><img src="{d}{l["cover"]}" alt="" loading="lazy"></a>
+  <a class="thumb" href="{d}"><img src="{d}{l["cover"]}" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">{i:02d}</div>
-    <h2><a href="{d}th.html" data-href-en="{d}en.html"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></a></h2>
+    <h2><a href="{d}"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></a></h2>
     <p><span data-l="th">{H.escape(l["th_sub"])}</span><span data-l="en">{H.escape(l["en_sub"])}</span></p>
     <div class="facts">{facts}<span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> {addr[:6]}…{addr[-4:]}</span><span>{x["date"]}</span></div>
     <div class="chips">{chips}</div>
@@ -138,7 +138,7 @@ setLang(localStorage.getItem('books-lang')||'th');
 
 def page():
     cards = "\n".join(card(i + 1, l) for i, l in enumerate(LESSONS))
-    path = "\n".join(f'      <a href="{l["dir"]}/th.html" data-href-en="{l["dir"]}/en.html"><b>{i + 1:02d}</b><span class="t"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></span></a>'
+    path = "\n".join(f'      <a href="{l["dir"]}/"><b>{i + 1:02d}</b><span class="t"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></span></a>'
                       for i, l in enumerate(LESSONS))
     n = len(LESSONS)
     return f"""<!doctype html>
@@ -183,7 +183,7 @@ def page():
     <li><b>Claude Code</b>: <code>claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp</code></li>
     <li><b>Codex</b>: <code>codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp</code></li>
   </ol>
-  <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/th.html" data-href-en="2026-10-30_mcp-connect-guide/en.html"><span data-l="th">บทเรียน 03</span><span data-l="en">lesson 03</span></a></p>
+  <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 03</span><span data-l="en">lesson 03</span></a></p>
 </section>
 <p class="note"><span data-l="th">แต่ละบทมีสามฉบับ (base64 · ไทย · English) เซ็นรวมกัน กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Each lesson has three editions (base64 · Thai · English) signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
 </main>
