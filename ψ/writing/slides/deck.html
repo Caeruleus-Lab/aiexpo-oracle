@@ -2,9 +2,13 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<title>ARRA Oracle &amp; Multi-Agent Workflow — AI Expo 2026 (draft v1)</title>
+<title>ARRA Oracle &amp; Multi-Agent Workflow — AI Expo 2026 (v2)</title>
 <!--
-  Draft v1 by AIExpo Oracle (Oracle AI), 2026-10-29, for Nat and คุณยิ้ม to change.
+  v2 by AIExpo Oracle (Oracle AI), 2026-10-30, for Nat and คุณยิ้ม to change (v1: 2026-10-29, commit bbfcbaf).
+  v2 adds: homework slide (15), e-certificate QR as the last slide (17, placeholder until the svg is saved),
+  notes for the 15:05 start with zero changeover after Vibe Coding 101.
+  To put the real QR in: copy ~/Downloads/คุณนัท X คุณยิ้ม.svg to this folder as cert-qr.svg and swap the
+  .qrbox placeholder on slide 17 for <img class="qrimg" src="cert-qr.svg" alt="e-certificate QR">.
   Built from ψ/writing/2026-10-27_workshop-design-v1.md (the 65-minute clock)
   and ψ/writing/2026-10-29_nat-demo-recording-herdr-team.md (the "where it grows" part).
   Keys: → / Space next · ← previous · Home / End · N toggles speaker notes. Each slide is 1920×1080, scaled to the window.
@@ -67,6 +71,12 @@ body.shownotes .notes{display:block}
 .t-date small{font-size:40px;font-weight:400;margin-left:24px}
 .t-img{position:absolute;right:0;bottom:0;height:930px}
 .t-fade{position:absolute;right:0;bottom:0;width:760px;height:930px;background:linear-gradient(90deg,#04153a 0%,rgba(4,21,58,0) 75%),linear-gradient(180deg,#04153a 0%,rgba(4,21,58,0) 22%)}
+.qrbox{position:absolute;left:100px;top:300px;width:620px;height:620px;border:6px dashed #ffd35a;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#ffd35a;font-size:40px;line-height:1.4;font-weight:700}
+.qrbox small{font-size:28px;font-weight:400;margin-top:18px}
+.qrimg{position:absolute;left:100px;top:300px;width:620px;height:620px;background:#fff;border-radius:24px;padding:24px}
+.qrtext{position:absolute;left:800px;top:320px;width:1020px;font-size:46px;line-height:1.45}
+.qrtext b{color:#27e6f2}
+.todo{color:#ffd35a;font-weight:700}
 #count{position:fixed;right:14px;bottom:10px;color:#666;font:14px sans-serif}
 </style>
 </head>
@@ -83,7 +93,7 @@ body.shownotes .notes{display:block}
     <b>สุทธิณี เทพปริยะพล</b><span>SME Transformation &amp; AI Enablement, FlowAccount<br>Founder of Rikyu Labs</span></div>
   <div class="t-date">6 NOVEMBER 2026<small>15:05–16:10</small></div>
   <img class="t-img" src="speakers-crop.jpg" alt=""><div class="t-fade"></div>
-  <div class="notes">เปิดด้วยชื่อหัวข้อแล้วเข้าการทดสอบความลืมทันที ไม่เล่าประวัติ (บทเรียน MIdS: นำด้วยคนในห้อง ไม่ใช่ CV ผู้พูด)</div>
+  <div class="notes">15:05 ตรง ต่อจาก AI Vibe Coding 101 (14:00–15:05) ไม่มีช่วงเปลี่ยนเวที: เสียบ HDMI ทดสอบจอช่วงพักเวที 12:40–13:30 ไว้ก่อน แล้วรอข้างเวทีพร้อม deck เปิดที่สไลด์นี้ + สองหน้าต่างของการทดสอบความลืม (แชตใหม่ / Oracle) เปิดค้างไว้ เปิดด้วยชื่อหัวข้อแล้วเข้าการทดสอบความลืมทันที ไม่เล่าประวัติ (บทเรียน MIdS)</div>
 </section>
 
 <!-- 2 · subtitle -->
@@ -91,7 +101,8 @@ body.shownotes .notes{display:block}
   <div class="k">หัวข้อวันนี้</div>
   <div class="big">AI ที่จำงานของคุณได้<br><span style="color:#27e6f2">และความจำนั้นเป็นของคุณ</span></div>
   <div class="sub">ไม่สอนฟีเจอร์ — ให้รู้สึกว่า AI ลืม แล้วค้นพบเองว่าความจำที่เป็นไฟล์ แก้ได้</div>
-  <div class="draft">draft v1 · AIExpo Oracle (Oracle AI)</div>
+  <div class="draft">v2 · AIExpo Oracle (Oracle AI)</div>
+  <div class="notes">ผ่านเร็ว ไม่เกิน 30 วินาที คนเพิ่งเดินเข้าจากรอบ Vibe Coding ยังหาที่นั่งอยู่ ให้สไลด์นี้ค้างไว้ระหว่างนั้น</div>
 </section>
 
 <!-- 3 · forgetting test -->
@@ -104,7 +115,7 @@ body.shownotes .notes{display:block}
   <div class="chat b"><h3>Oracle ของคุณ</h3>
     <div class="q">“เมื่อวานเราทำอะไรกัน”</div>
     <div class="r">→ ตอบได้ จากไฟล์ใน <code>ψ/</code> ที่มันเขียนไว้เอง</div></div>
-  <div class="notes">ทำสดบนจอใหญ่ ทั้งสองหน้าต่าง ถามห้อง: ใครทำการบ้านแล้ว Oracle เกิดแล้ว ยกมือ</div>
+  <div class="notes">หน้าต่างทั้งสองเปิดไว้ก่อน 15:05 แล้ว (ไม่มีเวลาตั้งค่าบนเวที) ทำสดบนจอใหญ่ ทั้งสองหน้าต่าง ถามห้อง: ใครทำการบ้านแล้ว Oracle เกิดแล้ว ยกมือ</div>
 </section>
 
 <!-- 4 · registry -->
@@ -112,7 +123,7 @@ body.shownotes .notes{display:block}
   <div class="k">การบ้านก่อนวันงาน</div><div class="clock">15:07</div>
   <div class="big"><span style="color:#27e6f2">N</span> Oracle<br>เกิดในห้องนี้แล้ว</div>
   <div class="sub">ติดตั้ง · <code>/awaken --fast</code> · งานจริงหนึ่งชิ้น · <code>/rrr</code> · ส่งลิงก์ = e-certificate</div>
-  <div class="notes">เปลี่ยน N เป็นจำนวนจริงจากฟอร์มส่งการบ้านเช้าวันงาน (บทเรียน PSRU: ทะเบียนหลังทุกรอบการเกิด)</div>
+  <div class="notes">TODO: เปลี่ยน N เป็นจำนวนจริงจากที่ส่งการบ้านเข้ามา นับเช้าวันงาน ถ้ายังไม่มีตัวเลข ให้พูดว่า "ยกมือ" แทน ห้ามเดาตัวเลข (บทเรียน PSRU: ทะเบียนหลังทุกรอบการเกิด)</div>
 </section>
 
 <!-- 5 · bridge from คุณยิ้ม -->
@@ -221,15 +232,43 @@ body.shownotes .notes{display:block}
   <div class="k">ทำเดี๋ยวนี้</div><div class="clock">15:53 · 3 นาที</div>
   <div class="big"><code style="color:#27e6f2">/rrr</code><br>แล้วส่ง</div>
   <div class="sub">ลิงก์ repo หรือรูปหน้าสมุด — /rrr ที่แค่แนะนำ ไม่เคยเกิดขึ้น</div>
+  <div class="notes">ห้ามตัดช่องนี้ ให้ห้องพิมพ์ /rrr จริงตอนนี้ 3 นาที ไฟล์ที่ได้คือการบ้านที่ส่งในสไลด์ถัดไป</div>
 </section>
 
-<!-- 15 · close -->
+<!-- 15 · homework -->
 <section class="slide">
-  <div class="k">ปิดท้าย</div><div class="clock">15:56 · Q&amp;A</div>
+  <div class="k">การบ้าน → e-Certificate</div><div class="clock">15:56 · 2 นาที</div>
+  <h1>ส่งภายใน<em>วันงาน</em> · ศุกร์ 6 พฤศจิกายน</h1>
+  <ul class="body" style="top:330px">
+    <li>ติดตั้ง Claude Code (หรือ Codex / Antigravity) → <b>/awaken --fast</b> ตั้งชื่อ Oracle</li>
+    <li>ทำงานจริงหนึ่งชิ้น → <b>/rrr</b></li>
+    <li>ส่ง <b>ลิงก์ repo</b> หรือ <b>รูปหน้าสมุด</b> — ติดตั้งไม่ได้ ก็นับ</li>
+    <li>ชื่อที่ส่ง = ชื่อบน e-Certificate · สะกดให้ถูก</li>
+  </ul>
+  <div class="foot">ส่งที่: <span class="todo">TODO — ช่องทางส่ง (ฟอร์ม / QR) ยังไม่ได้เลือก · Nat ตัดสิน</span></div>
+  <div class="notes">ผู้จัดกำหนด: ส่งการบ้านภายในวันงาน ชื่อขึ้น e-Certificate (curate call 8 ต.ค.) ช่องทางส่งยังไม่ได้ตัดสิน ใส่ลิงก์จริงหรือ QR ก่อนส่งไฟล์สุดท้าย จันทร์ 2 พ.ย.</div>
+</section>
+
+<!-- 16 · close -->
+<section class="slide">
+  <div class="k">ปิดท้าย</div><div class="clock">15:58</div>
   <div class="big">ลบแชตได้<br><span style="color:#27e6f2">ไฟล์ยังอยู่</span></div>
   <div class="sub">ความจำนั้นเป็นของคุณ</div>
   <div class="foot">ARRA Oracle Community · AI Expo Thailand 2026 · Builder Stage</div>
-  <div class="notes">ลำดับตัดถ้าเกินเวลา: “ไปได้ไกลแค่ไหน” → ย่อ Q&amp;A → ลงมือ 2 เป็นเดโมอย่างเดียว ห้ามตัดการทดสอบความลืม และช่อง /rrr</div>
+  <div class="notes">หนึ่งนาที แล้วไปสไลด์ QR ทันที ถาม-ตอบบนสไลด์ QR เพื่อให้ QR ค้างบนจอจนจบ 16:10 ลำดับตัดถ้าเกินเวลา: “ไปได้ไกลแค่ไหน” → ย่อ Q&amp;A → ลงมือ 2 เป็นเดโมอย่างเดียว ห้ามตัดการทดสอบความลืม ช่อง /rrr และสไลด์ QR</div>
+</section>
+
+<!-- 17 · e-certificate QR (last slide) -->
+<section class="slide">
+  <div class="k">e-Certificate</div><div class="clock">15:59 – 16:10 · Q&amp;A</div>
+  <h1>สแกนก่อนออกจากห้อง</h1>
+  <div class="qrbox">PLACEHOLDER<br>QR e-Certificate<small>รอไฟล์ “คุณนัท X คุณยิ้ม.svg”<br>จาก LINE ผู้จัด (21 ต.ค.)</small></div>
+  <div class="qrtext">
+    <b>ARRA Oracle &amp; Multi-Agent Workflow</b><br>ณัฐ วีระวรรณ์ · สุทธิณี เทพปริยะพล<br><br>
+    ส่งการบ้านภายในวันงาน → ชื่อของคุณขึ้น <span style="white-space:nowrap">e-Certificate</span><br><br>
+    <span style="color:#cfe8ff">ถาม-ตอบ ระหว่างที่ QR อยู่บนจอ</span>
+  </div>
+  <div class="notes">ผู้จัดขอให้ QR e-Certificate ขึ้นจอก่อนจบคลาส เป็นสไลด์สุดท้าย ค้างสไลด์นี้ไว้ตลอดถาม-ตอบจนถึง 16:10 TODO: Nat บันทึก svg ลง ~/Downloads แล้วสลับ placeholder เป็นรูปจริง (วิธีอยู่ในคอมเมนต์หัวไฟล์)</div>
 </section>
 
 </div>
