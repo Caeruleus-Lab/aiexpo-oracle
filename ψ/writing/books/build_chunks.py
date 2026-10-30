@@ -7,9 +7,14 @@ the chunks here at build time, the query in the Worker at request time.
 A chunk is re-embedded only when its text hash changes, so rebuilding is cheap.
 Needs the wrangler login on this machine (its OAuth token calls the Workers AI REST API); the token is never printed.
 
-Usage: python3 build_index.py && python3 build_chunks.py   (then ./deploy.sh after committing)
+It also writes images.json: every screenshot a chunk shows, resized to at most 1280 px wide, JPEG quality 80,
+as base64 keyed by '<lesson>/<file>', so the Worker can return MCP image content blocks. Re-encoded only when the file changes.
+
+Usage: uv run --with pillow python build_chunks.py   (after build_index.py; then commit and ./deploy.sh)
 """
+import base64
 import hashlib
+import io
 import json
 import os
 import pathlib
@@ -73,8 +78,39 @@ def embed(texts, tok):
     return out
 
 
+IMG_RE = re.compile(r"!\[([^\]]*)\]\((images/[^)\s]+)\)")
+
+
+def build_images(lessons):
+    from PIL import Image
+    path = here / "images.json"
+    old = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    out, made = {}, 0
+    for l in lessons:
+        for f in sorted((here / l["dir"] / "images").glob("*.png")):
+            raw = f.read_bytes()
+            key = f'{l["key"]}/{f.name}'
+            h = hashlib.sha256(b"1280/jpeg80\n" + raw).hexdigest()[:16]
+            if key in old and old[key]["hash"] == h:
+                out[key] = old[key]
+                continue
+            im = Image.open(io.BytesIO(raw)).convert("RGB")
+            if im.width > 1280:
+                im = im.resize((1280, round(im.height * 1280 / im.width)), Image.LANCZOS)
+            buf = io.BytesIO()
+            im.save(buf, "JPEG", quality=80, optimize=True)
+            out[key] = dict(url=f'{SITE}/{l["dir"]}/images/{f.name}', mimeType="image/jpeg", width=im.width, height=im.height,
+                            bytes=buf.tell(), hash=h, data=base64.b64encode(buf.getvalue()).decode())
+            made += 1
+    path.write_text(json.dumps(out, separators=(",", ":")) + "\n", encoding="utf-8")
+    big = max(v["bytes"] for v in out.values())
+    print(f"images.json: {len(out)} images, {made} encoded now, largest {big // 1024} KB, total {path.stat().st_size // 1024} KB")
+    return out
+
+
 def main():
     lessons = json.loads((here / "lessons.json").read_text(encoding="utf-8"))
+    images = build_images(lessons)
     old_path = here / "chunks.json"
     old = {c["hash"]: c["vec"] for c in json.loads(old_path.read_text(encoding="utf-8"))["chunks"]} if old_path.exists() else {}
     chunks = []
@@ -88,6 +124,7 @@ def main():
                     label=f"{head} · {title}", url=f'{SITE}/{l["dir"]}/{page}#s{n + 1}',  # page builder: cover s1, first ## s2
                     tags=dict(lesson=l["key"], lang=lang, section=n,
                               topic=tags_for(TOPICS, title + "\n" + text), audience=tags_for(AUDIENCE, title + "\n" + text) or ["attendee"]),
+                    images=[dict(key=f'{l["key"]}/{p.split("/")[-1]}', alt=a) for a, p in IMG_RE.findall(text) if f'{l["key"]}/{p.split("/")[-1]}' in images],
                     text=text, hash=hashlib.sha256((MODEL + "\n" + embed_text).encode()).hexdigest()[:16], _embed=embed_text))
     todo = [c for c in chunks if c["hash"] not in old]
     if todo:
