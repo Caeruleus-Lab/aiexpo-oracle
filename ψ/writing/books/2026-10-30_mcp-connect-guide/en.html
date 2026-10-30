@@ -113,6 +113,13 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background
 #navback b,#navnext b{display:inline-flex;width:1.9em;height:1.9em;font-size:1.05em;border-radius:50%;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink)}
 #navback:disabled,#navnext:disabled{display:none}
 @media (hover:none){#navback,#navnext{opacity:.9}}
+/* base64 cover: the big button down into the Matrix wall (Nat, 30 Oct) */
+.enter{display:flex;align-items:center;gap:clamp(14px,1.6vw,28px);width:fit-content;margin-top:clamp(28px,5vh,64px);padding:clamp(18px,2.2vw,34px) clamp(26px,3vw,52px);border-radius:var(--r);background:#010702;border:2px solid #22e06b;color:#22e06b;text-decoration:none;font:700 clamp(24px,2.6vw,52px)/1 var(--mono);letter-spacing:.06em;text-shadow:0 0 12px rgba(34,224,107,.7);box-shadow:0 0 40px rgba(34,224,107,.25),inset 0 0 30px rgba(34,224,107,.12);transition:transform .15s,box-shadow .15s}
+.enter:hover{transform:translateY(3px);box-shadow:0 0 70px rgba(34,224,107,.45),inset 0 0 40px rgba(34,224,107,.2)}
+.enter .rain{font-size:.42em;opacity:.55;writing-mode:vertical-rl;letter-spacing:0}
+.enter i{font-style:normal;animation:drop 1.4s ease-in-out infinite}
+@keyframes drop{50%{transform:translateY(8px)}}
+@media (prefers-reduced-motion:reduce){.enter i{animation:none}}
 </style>
 </head>
 <body>
@@ -122,6 +129,7 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background
   <h1>Connect <em>claude.ai</em><br>and <em>ChatGPT</em><br><span class="nw">to the lessons MCP</span></h1>
   <p>Let the AI in your chat search and read the lessons itself: claude.ai, ChatGPT, Claude Code and Codex</p><p>Every screenshot from the real site · every command really ran · 30 Oct 2026</p>
   <div class="facts"><span>MCP <b>aiexpo.buildwithoracle.com/mcp</b></span><span>tools <b>search · fetch · get_image</b></span><a href="#verify">Signature <b>0xaBF1…5f78</b></a></div>
+  
   <a class="down cover-down" href="#s2" aria-label="next: 1. What this MCP gives you"><b>↓</b> 1. What this MCP gives you</a>
 </div></header>
 <main><section id="s2"><h2>1. What this MCP gives you</h2>

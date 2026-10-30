@@ -84,3 +84,10 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background
 #navback b,#navnext b{display:inline-flex;width:1.9em;height:1.9em;font-size:1.05em;border-radius:50%;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink)}
 #navback:disabled,#navnext:disabled{display:none}
 @media (hover:none){#navback,#navnext{opacity:.9}}
+/* base64 cover: the big button down into the Matrix wall (Nat, 30 Oct) */
+.enter{display:flex;align-items:center;gap:clamp(14px,1.6vw,28px);width:fit-content;margin-top:clamp(28px,5vh,64px);padding:clamp(18px,2.2vw,34px) clamp(26px,3vw,52px);border-radius:var(--r);background:#010702;border:2px solid #22e06b;color:#22e06b;text-decoration:none;font:700 clamp(24px,2.6vw,52px)/1 var(--mono);letter-spacing:.06em;text-shadow:0 0 12px rgba(34,224,107,.7);box-shadow:0 0 40px rgba(34,224,107,.25),inset 0 0 30px rgba(34,224,107,.12);transition:transform .15s,box-shadow .15s}
+.enter:hover{transform:translateY(3px);box-shadow:0 0 70px rgba(34,224,107,.45),inset 0 0 40px rgba(34,224,107,.2)}
+.enter .rain{font-size:.42em;opacity:.55;writing-mode:vertical-rl;letter-spacing:0}
+.enter i{font-style:normal;animation:drop 1.4s ease-in-out infinite}
+@keyframes drop{50%{transform:translateY(8px)}}
+@media (prefers-reduced-motion:reduce){.enter i{animation:none}}

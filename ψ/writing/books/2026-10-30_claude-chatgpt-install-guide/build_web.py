@@ -221,6 +221,7 @@ def page(lang):
   <h1>{c["h1"]}</h1>
   {"".join(f"<p>{x}</p>" for x in c["sub"])}
   <div class="facts">{facts}</div>
+  {'<a class="enter" href="#wall"><span class="rain" aria-hidden="true">01001011 10110</span><b>ENTER THE MATRIX</b><i>↓</i></a>' if lang == "b64" else ""}
   <a class="down cover-down" href="#s2" aria-label="next: {H.escape(titles[0])}"><b>↓</b> {H.escape(titles[0])}</a>
 </div></header>
 <main>{body}</main>
