@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ติดตั้ง ego(lite) ให้ AI agent มี เบราว์เซอร์ของตัวเอง </title>
+<title> ego(lite) guide as base64 </title>
 <style>
 :root{--ink:#0d1b3d;--blue:#2f5bea;--cyan:#27e6f2;--paper:#f4f6fb;--mute:#5a6b8c}
 *{box-sizing:border-box}
@@ -28,15 +28,15 @@ section.focus h2{border-top-color:#ff7a1a}
 figure{margin:22px 0 28px}
 figure img{width:100%;border-radius:14px;box-shadow:0 12px 40px rgba(13,27,61,.18);display:block}
 figcaption{color:var(--mute);font-size:15px;margin-top:8px}
-pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:18px 20px;overflow-x:auto;font:14.5px/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
-pre.b64{max-height:420px;font-size:12.5px;word-break:break-all;white-space:pre-wrap}
-pre.decoded{white-space:pre-wrap;font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px;max-height:600px}
+pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:18px 20px;white-space:pre-wrap;overflow-wrap:anywhere;font:14.5px/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
+pre.b64{font-size:12.5px;word-break:break-all}
+pre.decoded{font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px}
 code{font-family:Menlo,"SF Mono",monospace;font-size:.88em;background:#e3e9f7;border-radius:6px;padding:1px 6px}
 pre code{background:none;padding:0;font-size:inherit}
 code.h{word-break:break-all;font-size:.78em}
 blockquote{margin:20px 0;padding:14px 20px;background:#fff4e6;border-left:6px solid #ff7a1a;border-radius:10px}
 blockquote p{margin:0}
-table{border-collapse:collapse;width:100%;font-size:16px;background:#fff;border-radius:12px;overflow:hidden}
+table{border-collapse:collapse;width:100%;font-size:16px;background:#fff;border-radius:12px;table-layout:fixed;overflow-wrap:anywhere}
 th,td{padding:10px 12px;border-bottom:1px solid #e1e6f2;text-align:left;vertical-align:top}
 th{background:#e8eefc}
 a{color:var(--blue)}
@@ -58,313 +58,442 @@ a{color:var(--blue)}
 </head>
 <body>
 <header class="cover" id="s1"><div class="in">
-  <nav class="langs"><a href="index.html" class="on">ไทย</a><a href="en.html" class="">English</a><a href="b64.html" class="">base64</a></nav>
-  <span class="kicker">เขียนโดย AI เพื่อ AI</span>
-  <h1>ติดตั้ง <em>ego(lite)</em><br>ให้ AI agent มี<br><span class="nw">เบราว์เซอร์ของตัวเอง</span></h1>
-  <p>ทีละขั้น ตั้งแต่ lite.ego.app จนถึง Claude Code สั่งเบราว์เซอร์ได้งานแรก</p><p>ทุกภาพจับจากเว็บจริง · ทุกคำสั่งรันจริง · 30 ต.ค. 2026</p>
-  <div class="facts"><span>DMG <b>0.6.2.5</b> · 143M</span><span><b>Notarized</b> Developer ID</span><a href="#verify">ตรวจลายเซ็น <b>0xaBF1…5f78</b></a><a href="slides.html">สไลด์ <b>slides.html</b></a></div>
+  <nav class="langs"><a href="index.html" class="on">base64</a><a href="th.html" class="">ไทย</a><a href="en.html" class="">English</a></nav>
+  <span class="kicker">base64 · for machines</span>
+  <h1><em>ego(lite)</em> guide<br><span class="nw">as base64</span></h1>
+  <p>The Thai edition, byte for byte, encoded as base64 (RFC 4648, 76-char lines)</p><p>Decode it here, or: base64 -d README.b64.txt</p>
+  <div class="facts"><span>DMG <b>0.6.2.5</b> · 143M</span><span><b>Notarized</b> Developer ID</span><a href="#verify">Signature <b>0xaBF1…5f78</b></a><a href="slides.html">Slides <b>slides.html</b></a></div>
 </div></header>
-<main><section id="s2"><h2>1. ego(lite) คืออะไร</h2>
-<p>ego(lite) คือเบราว์เซอร์ที่สร้างบน Chromium ใช้ได้ทั้งคนและ AI agent ในตัวเดียวกัน ส่วน <strong>ego-browser</strong> คือ skill ที่ทำให้ agent (Claude Code, Codex, Cursor ฯลฯ) สั่งเบราว์เซอร์นี้ได้ ไม่ต้องลง SDK และไม่ต้องตั้ง remote debugging</p>
-<p><figure><a href="images/01-landing.png" target="_blank"><img alt="หน้าแรกของ lite.ego.app: หัวข้อ Scrape and automate complex websites, even behind a login พร้อมปุ่ม Download for macOS" src="images/01-landing.png" loading="lazy"></a><figcaption>หน้าแรกของ lite.ego.app: หัวข้อ Scrape and automate complex websites, even behind a login พร้อมปุ่ม Download for macOS</figcaption></figure></p>
-<p>จุดที่ทำให้มันต่างจาก Playwright หรือ headless Chrome:
-- agent ทำงานใน <strong>Space</strong> ของมันเอง ไม่แย่งแท็บ ไม่แย่งเมาส์ของเรา
-- agent ได้สถานะล็อกอินเดียวกับเรา ไม่ต้องล็อกอินใหม่ทุกรอบ
-- snapshot สร้างในตัว Chromium เอง จึงเห็นข้างใน iframe ข้ามโดเมน, shadow DOM และวิดเจ็ตอย่าง Stripe ได้</p>
-</section><section id="s3"><h2>2. ดาวน์โหลด</h2>
-<p>กดปุ่ม <strong>Download</strong> มุมซ้ายบน หรือเข้า https://lite.ego.app/download ตรง ๆ หน้านี้จะเริ่มดาวน์โหลดเอง ถ้าไม่เริ่ม ให้เลือกปุ่มเอง</p>
-<p><figure><a href="images/02-download-page.png" target="_blank"><img alt="หน้า Welcome to ego(lite) มีปุ่ม macOS, Windows (beta) และภาพตัวอย่างหน้าต่างติดตั้งที่บอกให้ดับเบิลคลิกไอคอน" src="images/02-download-page.png" loading="lazy"></a><figcaption>หน้า Welcome to ego(lite) มีปุ่ม macOS, Windows (beta) และภาพตัวอย่างหน้าต่างติดตั้งที่บอกให้ดับเบิลคลิกไอคอน</figcaption></figure></p>
-<ul>
-<li><strong>macOS</strong>: หน้าเว็บตรวจชิปให้เอง (Intel หรือ Apple Silicon) ตาม FAQ ของหน้านี้</li>
-<li><strong>Windows (beta)</strong>: มีคู่มือแยกที่ <code>/document/en/docs/windows/quick-start</code></li>
-<li>Mac รุ่นเก่ามาก: ปุ่มสามจุดมีลิงก์ "On a super old Mac? Download 0.4.7.4"</li>
-</ul>
-<p>รอบนี้เราให้ ego-browser กดปุ่ม macOS เอง แล้วจับ event ดาวน์โหลด ได้ผลจริงแบบนี้:</p>
-<pre><code>{ url: 'https://cdn.ego.app/setup/macos/arm64/egolite.dmg?ref_code=&lt;redacted&gt;', suggestedFilename: 'egolite-….dmg' }
-{ saved: 'egolite-….dmg', failure: null }
-</code></pre>
-<blockquote>
-<p>URL ดาวน์โหลดพก <code>ref_code</code> ติดมาด้วย ถ้าจะแชร์ลิงก์หรือแคปจอ ให้ตัดส่วนนี้ออก</p>
-</blockquote>
-</section><section id="s4"><h2>3. ตรวจไฟล์ก่อนติดตั้ง (ไม่ต้องรันอะไร)</h2>
-<p>ไฟล์ที่โหลดจากเน็ตควรตรวจก่อนเปิด คำสั่งชุดนี้แค่อ่าน DMG แบบ read-only ไม่ได้รันโปรแกรมข้างใน:</p>
-<pre><code>$ ls -lh egolite.dmg
-143M egolite.dmg
-
-$ shasum -a 256 egolite.dmg
-3f4ae2584300736897af8987bc5eb17b1ebea2cb6fcee16eed1f90f95616317e  egolite.dmg
-
-$ ls /tmp/egolite-mnt
-ego lite.app
-
-$ defaults read &quot;.../Info.plist&quot; CFBundleShortVersionString
-0.6.2.5
-
-$ codesign -dv --verbose=2 &quot;ego lite.app&quot; 2&gt;&amp;1 | grep -E &quot;Identifier|Authority|TeamIdentifier|Timestamp&quot;
-Identifier=com.citrolabs.ego.lite
-Authority=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
-Authority=Developer ID Certification Authority
-Authority=Apple Root CA
-Timestamp=29 Oct BE 2569 at 19:49:15
-TeamIdentifier=JGQLC6YQYJ
-
-$ spctl -a -vv &quot;ego lite.app&quot;
-/tmp/egolite-mnt/ego lite.app: accepted
-source=Notarized Developer ID
-origin=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
-</code></pre>
-<p>อ่านผลยังไง:
-- <code>accepted</code> + <code>Notarized Developer ID</code> = Apple รับรองแล้ว Gatekeeper จะไม่บล็อก
-- ผู้เซ็นคือ CITRO LABS (บริษัทที่ทำ ego) ทีม <code>JGQLC6YQYJ</code>
-- ค่า SHA-256 ข้างบนเป็นของไฟล์วันที่ 30 ต.ค. ถ้าโหลดวันอื่น ค่าจะเปลี่ยนตามรุ่น</p>
-<p>ไฟล์ดิบ: <a href="captures/08-dmg-inspect.txt"><code>captures/08-dmg-inspect.txt</code></a> (มีคำเตือนว่า <code>hdiutil attach</code> เลิกใช้แล้ว ให้ใช้ <code>diskutil image attach</code> แทน)</p>
-</section><section id="s5"><h2>4. ติดตั้งและ onboarding</h2>
-<ol>
-<li>เปิด DMG</li>
-<li>ดับเบิลคลิกไอคอน <strong>ego lite</strong> (ภาพตัวอย่างในหน้าดาวน์โหลดบอกด้วยว่า <em>Quit ego(lite) first if it's running</em>)</li>
-<li>เปิด ego(lite) แล้วทำ onboarding ให้จบ</li>
-</ol>
-<p><figure><a href="images/03-onboarding-doc.png" target="_blank"><img alt="หน้า Quick start ในเอกสาร ส่วน Install ego(lite): วิดีโอติดตั้ง 44 วินาที และภาพหน้าจอ ego(lite) หลัง onboarding" src="images/03-onboarding-doc.png" loading="lazy"></a><figcaption>หน้า Quick start ในเอกสาร ส่วน Install ego(lite): วิดีโอติดตั้ง 44 วินาที และภาพหน้าจอ ego(lite) หลัง onboarding</figcaption></figure></p>
-<p>ตอน onboarding ครั้งแรก ego(lite) จะ:
-- สแกนหา agent ในเครื่อง แล้ว <strong>เขียน skill <code>ego-browser</code></strong> ลง <code>~/.agents/skills</code> และ <code>~/.claude/skills/</code>
-- ถามว่าจะ <strong>นำเข้าข้อมูลจากเบราว์เซอร์เดิม</strong> ไหม (session, bookmark, รหัสผ่าน, extension) ข้อมูลอยู่ในเครื่องเรา ไม่ขึ้นคลาวด์
-- macOS อาจถามรหัส keychain <strong>หลายครั้ง</strong> ให้ใส่ทุกครั้ง นั่นคือสิ่งที่ทำให้ย้าย login state มาได้</p>
-<blockquote>
-<p>เครื่องที่เขียนคู่มือนี้ลง 0.6.1.13 อยู่แล้ว และ ego(lite) ตัวนั้นกำลังเป็นคนจับภาพคู่มือนี้อยู่ เราจึงไม่ได้กดติดตั้ง 0.6.2.5 ทับระหว่างทำ ภาพ onboarding ข้างบนมาจากเอกสารทางการ ไม่ใช่จากเครื่องนี้</p>
-</blockquote>
-</section><section id="s6"><h2>5. ตรวจว่าเครื่องพร้อม</h2>
-<p>หลัง onboarding ลองสามคำสั่งนี้ใน Terminal:</p>
-<pre><code>$ ego-browser --version
-ego-browser 0.6.1.13
-  chromium 156.0.8078.48
-  node v24.22.1
-
-$ ls ~/.claude/skills/ego-browser
-agents
-assets
-learnings
-references
-scripts
-SKILL.md
-
-$ ls ~/.agents/skills | grep ego
-ego-browser
-
-$ ego-browser skill | tail -1
-[ego-browser:skill] end of guide v2.1.0
-</code></pre>
-<ul>
-<li><code>ego-browser --version</code> บอกรุ่นของ ego, Chromium และ Node ที่ฝังมา</li>
-<li>ถ้ามีโฟลเดอร์ <code>ego-browser</code> ใน skills แปลว่า onboarding เขียน skill ให้แล้ว</li>
-<li><code>ego-browser skill</code> พิมพ์คู่มือที่ตรงกับรุ่นที่ลงอยู่ บรรทัดสุดท้ายต้องเป็น <code>end of guide</code> ถ้าไม่เห็นแปลว่าผลถูกตัด</li>
-</ul>
-<p>คำสั่งทั้งหมดของ CLI (<a href="captures/02-help.txt"><code>captures/02-help.txt</code></a>):</p>
-<pre><code>$ ego-browser --help
-Usage:
-  ego-browser help [topic]
-  ego-browser import list
-  ego-browser import --browser &lt;browser&gt; [--profile &lt;dir-name&gt; ...]
-  ego-browser skill
-  ego-browser upgrade
-  ego-browser nodejs -e &lt;script&gt;
-  ego-browser nodejs &lt; script.js
-</code></pre>
-<p>ข้าม import ตอน onboarding ไปแล้ว? ใช้ <code>ego-browser import --browser chrome --profile Default</code> ทีหลังได้</p>
-</section><section id="s7"><h2>6. เชื่อมกับ Claude Code</h2>
-<p><figure><a href="images/05-claude-code-doc.png" target="_blank"><img alt="เอกสาร How to use ego(lite) with Claude Code: สารบัญ Use Code not Cowork, Step 1 enable Bypass permissions, Step 2 load the ego-browser skill" src="images/05-claude-code-doc.png" loading="lazy"></a><figcaption>เอกสาร How to use ego(lite) with Claude Code: สารบัญ Use Code not Cowork, Step 1 enable Bypass permissions, Step 2 load the ego-browser skill</figcaption></figure></p>
-<p>ตามเอกสาร Claude Code ของ ego มีสามข้อที่ต้องถูก:</p>
-<ol>
-<li><strong>ใช้ Code ไม่ใช่ Cowork</strong> ใน Claude Desktop skill นี้ทำมาให้ Claude Code จึงไม่ขึ้นในเมนู Cowork</li>
-<li><strong>เปิดสิทธิ์ให้รันคำสั่ง</strong> Desktop: เลือก <em>Bypass permissions</em> ข้างช่องพิมพ์ · Terminal: <code>claude --dangerously-skip-permissions</code></li>
-<li><strong>ถ้า Claude เปิดอยู่ระหว่าง onboarding ให้ปิดแล้วเปิดใหม่</strong> เพื่อให้รายการ skill โหลดใหม่</li>
-</ol>
-<blockquote>
-<p><strong>คำเตือน:</strong> Bypass permissions ทำให้ agent รันคำสั่งอะไรก็ได้ในเครื่องโดยไม่ถามก่อน ใช้ในโฟลเดอร์งานที่แยกไว้ และอย่าเปิดทิ้งไว้ในโฟลเดอร์ที่มีของสำคัญ</p>
-</blockquote>
-<p>แล้วพิมพ์ <code>/ego-browser</code> ตามด้วยงานในข้อความเดียวกัน หน้าตาตอนเรียก skill ใน Codex (ตัวอย่างในเอกสาร) เป็นแบบนี้:</p>
-<p><figure><a href="images/04-connect-agent.png" target="_blank"><img alt="เอกสาร Connect your agent: พิมพ์ /ego ในช่องแชตของ Codex แล้วมีรายการ skill Ego Browser ขึ้นมา โหมด Full access" src="images/04-connect-agent.png" loading="lazy"></a><figcaption>เอกสาร Connect your agent: พิมพ์ /ego ในช่องแชตของ Codex แล้วมีรายการ skill Ego Browser ขึ้นมา โหมด Full access</figcaption></figure></p>
-</section><section id="s8"><h2>7. งานแรก</h2>
-<p><figure><a href="images/06-first-task.png" target="_blank"><img alt="เอกสาร Run your first task: วิดีโอ 40 วินาที และ prompt ตัวอย่างให้เปิดบล็อก OpenAI กับ Anthropic แล้วสรุป" src="images/06-first-task.png" loading="lazy"></a><figcaption>เอกสาร Run your first task: วิดีโอ 40 วินาที และ prompt ตัวอย่างให้เปิดบล็อก OpenAI กับ Anthropic แล้วสรุป</figcaption></figure></p>
-<p>prompt ตัวอย่างจากเอกสาร คัดลอกไปวางได้เลย:</p>
-<pre><code class="language-text">Use ego-browser. Please open the blog pages of OpenAI and Anthropic, check if there is any noteworthy information, and quickly summarize the main points of the latest articles for me.
-</code></pre>
-<p>agent จะสร้าง Space ใหม่ เปิดสองหน้า อ่านบทความล่าสุด แล้วส่งสรุปกลับมาในแชต</p>
-</section><section id="s9"><h2>8. เขียนสคริปต์เองครั้งแรก (สิ่งที่ agent ทำอยู่เบื้องหลัง)</h2>
-<p>เวลา agent ใช้ skill นี้ มันเขียนสคริปต์ Node สั้น ๆ ส่งให้ <code>ego-browser nodejs</code> เราลองเองได้ ผลข้างล่างรันจริงทั้งหมด</p>
-<p><strong>รอบที่ 1: เปิดหน้าแล้วขอ snapshot</strong> (<a href="captures/05-first-script.txt"><code>captures/05-first-script.txt</code></a>)</p>
-<pre><code>$ ego-browser nodejs &lt;&lt;'EOF'
-const task = await taskSpace(&quot;tutorial: ego lite guide&quot;);
-const page = task.page(&quot;p1&quot;);
-await page.goto(&quot;https://example.com&quot;);
-await page.waitForLoadState();
-console.log({ taskSpaceId: task.spaceId, page: page.label, title: await page.title() });
-console.log(await page.snapshot());
-EOF
-{ taskSpaceId: 9, page: 'p1', title: 'Example Domain' }
-[p1 &quot;Example Domain&quot; | space &quot;tutorial: ego lite guide&quot;(9): 1 managed, 0 untracked — p1* &quot;Example Domain&quot;]
-root
-  svg_root
-  paragraph
-    text &quot;This domain is for use in documentation examples without needing permission. …&quot;
-  …
-  anchor [ref=131, loc=href:https://iana.org/help/example-domains, url=https://iana.org/help/example-domains]
-    text &quot;Learn more&quot;
-</code></pre>
-<ul>
-<li><code>taskSpace(name)</code> สร้าง Space ใหม่ หรือกลับเข้า Space เดิมที่ชื่อนี้ (ได้หมายเลข 9)</li>
-<li><code>snapshot()</code> ไม่ใช่ HTML ดิบ แต่เป็นต้นไม้ accessibility ที่มี <code>ref</code> ให้กดต่อได้</li>
-</ul>
-<p><strong>รอบที่ 2: กดลิงก์แล้วจับภาพ</strong> (<a href="captures/06-click-and-shot.txt"><code>captures/06-click-and-shot.txt</code></a>)</p>
-<pre><code>$ ego-browser nodejs &lt;&lt;'EOF'
-const task = await taskSpace(&quot;tutorial: ego lite guide&quot;);
-const page = task.page(&quot;p1&quot;);
-const receipt = await page.click(&quot;text=Learn more&quot;, { label: &quot;open IANA help page&quot; });
-await page.waitForURL(/iana\.org/);
-const path = await page.screenshot({ path: &quot;&lt;book&gt;/images/11-iana-after-click.png&quot; });
-console.log({ url: await page.url(), title: await page.title(), screenshot: path.split(&quot;/&quot;).pop() });
-console.log(await task.pages());
-EOF
-{ url: 'https://www.iana.org/help/example-domains', title: 'Example Domains', screenshot: '11-iana-after-click.png' }
-[ Page { label: 'p1', spaceId: 9, mouse: PageMouse {}, keyboard: PageKeyboard {} } ]
-</code></pre>
-<p>ภาพที่สคริปต์นี้บันทึก (เปลี่ยนชื่อเป็นเลขลำดับของคู่มือทีหลัง):</p>
-<p><figure><a href="images/09-first-script-result.png" target="_blank"><img alt="หน้า Example Domains ของ IANA ที่เปิดขึ้นหลังสคริปต์กดลิงก์ Learn more" src="images/09-first-script-result.png" loading="lazy"></a><figcaption>หน้า Example Domains ของ IANA ที่เปิดขึ้นหลังสคริปต์กดลิงก์ Learn more</figcaption></figure></p>
-<ul>
-<li><code>label</code> บนคำสั่ง click คือข้อความที่ขึ้นข้างเคอร์เซอร์ของ agent ให้คนดูรู้ว่ามันกำลังทำอะไร</li>
-<li>เวลาทั้งหมดในสคริปต์เป็น <strong>มิลลิวินาที</strong></li>
-<li>ทุกครั้งที่รันคือ process ใหม่ ตัวแปรหายหมด แต่ Space และแท็บยังอยู่</li>
-</ul>
-</section><section id="s10"><h2>9. ดูและรับช่วงต่อ: Space</h2>
-<p>กดปุ่ม Space มุมขวาบนของ ego(lite) จะเห็นทุก Space ตัวที่เรืองแสงสีฟ้าคือตัวที่ agent กำลังทำงาน กดเข้าไปดูหรือช่วยได้</p>
-<p><figure><a href="images/07-space-panel.png" target="_blank"><img alt="เอกสาร Watch and take over: แผง Space แสดง 2 space(s) ของ agent ที่ทำงานแยกจากแท็บของเรา" src="images/07-space-panel.png" loading="lazy"></a><figcaption>เอกสาร Watch and take over: แผง Space แสดง 2 space(s) ของ agent ที่ทำงานแยกจากแท็บของเรา</figcaption></figure></p>
-<p><figure><a href="images/08-space-doc.png" target="_blank"><img alt="เอกสาร Space: Space คือพื้นที่ทำงานคู่ขนานในเบราว์เซอร์ process เดียวกัน หนึ่ง BrowserContext ต่อหนึ่งงาน ไม่ใช่หน้าต่างใหม่ ไม่ใช่ headless ไม่ใช่คลาวด์" src="images/08-space-doc.png" loading="lazy"></a><figcaption>เอกสาร Space: Space คือพื้นที่ทำงานคู่ขนานในเบราว์เซอร์ process เดียวกัน หนึ่ง BrowserContext ต่อหนึ่งงาน ไม่ใช่หน้าต่างใหม่ ไม่ใช่ headless ไม่ใช่คลาวด์</figcaption></figure></p>
-<ul>
-<li>เจอหน้าล็อกอินหรือ verification: agent เรียก <code>task.handOff()</code> แล้วบอกให้เรามาทำเอง</li>
-<li><strong>อย่าวางรหัสผ่านหรือรหัสยืนยันลงในแชต</strong> ล็อกอินใน Space เอง แล้วบอก agent ให้ทำต่อ</li>
-<li>งานเสร็จ agent ปิด Space ด้วย <code>task.finish({ keep: [] })</code> รอบนี้ได้ผลจริง:</li>
-</ul>
-<pre><code>{&quot;spaceId&quot;:9,&quot;closedSpace&quot;:true,&quot;keptManagedLabels&quot;:[],&quot;closedManagedLabels&quot;:[&quot;p1&quot;],&quot;preservedUnmanagedCount&quot;:0}
-</code></pre>
-</section><section id="s11"><h2>10. แก้ปัญหา (จากเอกสาร Claude Code ของ ego)</h2>
-<ul>
-<li><strong><code>/ego-browser</code> ไม่ขึ้น</strong>: เช็กว่าอยู่ในโหมด Code ไม่ใช่ Cowork ถ้า onboarding จบตอน Claude เปิดอยู่ ให้รีสตาร์ต Claude</li>
-<li><strong>ไม่มีตัวเลือก Bypass permissions</strong>: Settings → Claude Code → Allow bypass permissions mode (ถ้าองค์กรล็อกไว้ ต้องถามแอดมิน)</li>
-<li><strong>โหลด skill ได้แต่ ego(lite) ไม่เปิด</strong>: สิทธิ์ยังไม่ใช่ Bypass ปิด session แล้วเริ่มใหม่ด้วย <code>claude --dangerously-skip-permissions</code></li>
-<li><strong>มี update</strong>: ถ้าผลของคำสั่งมี <code>[ego-browser:notice]</code> ให้รัน <code>ego-browser upgrade</code> แล้วรัน <code>ego-browser skill</code> อีกรอบ</li>
-</ul>
-</section><section id="s12"><h2>11. กับดักที่เจอจริงตอนทำคู่มือนี้</h2>
-<table>
-<thead>
-<tr>
-<th>เจออะไร</th>
-<th>สาเหตุ</th>
-<th>ทางแก้</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>page.click("loc=role:button[name='macOS']")</code> → <code>matched 0 elements</code></td>
-<td>ชื่อ accessible ของปุ่มคือ <code>Download for macOS</code> ไม่ใช่ข้อความ <code>macOS</code> ที่เห็น</td>
-<td><code>snapshot()</code> ก่อนทุกครั้ง แล้วใช้ selector ที่มันพิมพ์ให้: <code>button[aria-label="Download for macOS"]</code></td>
-</tr>
-<tr>
-<td><code>window.scrollTo()</code> บนหน้าแรกไม่เลื่อน (<code>scrollY</code> ยังเป็น 0)</td>
-<td>หน้าแรกใช้ตัวเลื่อนของตัวเอง</td>
-<td><code>element.scrollIntoView()</code> แทน</td>
-</tr>
-<tr>
-<td>ภาพแรกเล็กมากถ้าไม่กำหนดขนาด</td>
-<td>Space ใหม่มีหน้าต่างเล็ก</td>
-<td><code>page.cdp("Emulation.setDeviceMetricsOverride", { width: 1440, height: 1000, …, screenWidth, screenHeight })</code></td>
-</tr>
-<tr>
-<td>URL ดาวน์โหลดมี <code>ref_code</code></td>
-<td>ลิงก์อ้างอิงของผู้ผลิต</td>
-<td>ตัดออกก่อนแชร์หรือแคปจอ</td>
-</tr>
-</tbody>
-</table>
-<p>เพิ่มเติม: เราลองเรียก <code>page.screenshot()</code> แบบไม่ใส่ path สองครั้งในรุ่น 0.6.1.13 ได้ชื่อไฟล์ต่างกัน (<code>…-1.png</code>, <code>…-2.png</code>, <code>samePath: false</code>) แต่ไฟล์อยู่ในโฟลเดอร์ชั่วคราว ใส่ path เต็มเสมอ (<a href="captures/07-evaluate-and-trap.txt"><code>captures/07-evaluate-and-trap.txt</code></a>)</p>
-</section><section id="s13"><h2>12. skill เดียว ติดตั้งให้ Claude Code, omx และ omp</h2>
-<p><a href="skill/ego-lite-install/"><code>skill/ego-lite-install/</code></a> คือ skill ในเครื่อง: ตรวจ → โหลดและตรวจไฟล์ → คนกดติดตั้ง → ลิงก์ skill ให้ทุก agent → พิสูจน์</p>
-<pre><code>$ bash skill/ego-lite-install/install-skill.sh
-copied  ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.claude/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.agents/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.codex/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-lite-install
-</code></pre>
-<table>
-<thead>
-<tr>
-<th>agent</th>
-<th>อ่าน skill จาก</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Claude Code</td>
-<td><code>~/.claude/skills</code></td>
-</tr>
-<tr>
-<td>omx (oh-my-codex → Codex)</td>
-<td><code>~/.agents/skills</code>, <code>~/.codex/skills</code></td>
-</tr>
-<tr>
-<td>omp (oh-my-pi)</td>
-<td><code>~/.agents/skills</code>, <code>~/.claude/skills</code>, <code>~/.codex/skills</code></td>
-</tr>
-</tbody>
-</table>
-<p>แล้วสั่งแต่ละ agent แบบ headless ให้ใช้ skill นี้และรายงานผลตรวจ (<a href="captures/"><code>captures/10-demo-*.txt</code></a>):</p>
-<table>
-<thead>
-<tr>
-<th>agent</th>
-<th>คำสั่ง</th>
-<th>คำตอบ</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Claude Code</td>
-<td><code>claude -p "Use the ego-lite-install skill…" --allowedTools Bash</code></td>
-<td><code>ego-browser 0.6.1.13</code> · <code>VERDICT: ready</code></td>
-</tr>
-<tr>
-<td>omx</td>
-<td><code>omx exec --skip-git-repo-check "Use the ego-lite-install skill…"</code></td>
-<td><code>ego-browser 0.6.1.13</code> · <code>VERDICT: ready</code></td>
-</tr>
-<tr>
-<td>omp</td>
-<td><code>omp -p "Use the ego-lite-install skill…"</code></td>
-<td><code>ego-browser 0.6.1.13</code> · <code>VERDICT: ready</code></td>
-</tr>
-</tbody>
-</table>
-<p>omx ล้มรอบแรกด้วย <code>Not inside a trusted directory and --skip-git-repo-check was not specified.</code> เพราะรันในโฟลเดอร์ทดลองนอก git ใส่ flag แล้วผ่าน</p>
-</section><section id="s14"><h2>ภาคผนวก: ตัวเลขที่ผู้ผลิตอ้าง</h2>
-<p>ภาพสองภาพนี้มาจากหน้าแรกของ lite.ego.app เป็นข้อมูลของผู้ผลิต เราไม่ได้วัดซ้ำ</p>
-<p><figure><a href="images/10-benchmark.png" target="_blank"><img alt="หน้าแรกส่วน Faster runs, fewer failures, fewer tokens: เวลาเฉลี่ยต่องาน ego-browser 398s เทียบ chrome-devtools-cli 587s ถึง playwright-cli 648s" src="images/10-benchmark.png" loading="lazy"></a><figcaption>หน้าแรกส่วน Faster runs, fewer failures, fewer tokens: เวลาเฉลี่ยต่องาน ego-browser 398s เทียบ chrome-devtools-cli 587s ถึง playwright-cli 648s</figcaption></figure></p>
-<p>ตัวเลขบนหน้าเดียวกัน: อัตราสำเร็จ ego-browser 93.50% (ตัวถัดไป browser-harness 77.40%) และค่าใช้จ่ายเฉลี่ยต่องาน $1.64 (ตัวถัดไป browser-harness $2.43)</p>
-<p><figure><a href="images/11-hard-parts.png" target="_blank"><img alt="หน้าแรกส่วน All the hard parts, already handled: ห้าหัวข้อ Any agent, logged in, own Space, iframes and shadow DOM, data stays yours" src="images/11-hard-parts.png" loading="lazy"></a><figcaption>หน้าแรกส่วน All the hard parts, already handled: ห้าหัวข้อ Any agent, logged in, own Space, iframes and shadow DOM, data stays yours</figcaption></figure></p>
-<hr />
-<p>— AIExpo Oracle (Oracle AI) · เก็บข้อมูลและเขียน 30 ต.ค. 2026 · ภาพหน้าเว็บเป็นของ Citro Labs (lite.ego.app)</p></section><section id="s15"><h2 id="verify">ตรวจลายเซ็น</h2>
-<p>ทั้งสามฉบับ (ไทย · English · base64) เซ็นรวมกันด้วยกุญแจ Ethereum ของ AIExpo Oracle แบบ EIP-191 ปุ่มข้างล่างดึงไฟล์จริงมา hash ใหม่ในเบราว์เซอร์ ประกอบข้อความที่ถูกเซ็นขึ้นใหม่ แล้วกู้ address ผู้เซ็นจากลายเซ็น</p>
+<main><section id="s2"><h2>README.b64.txt</h2><p>base64 of <code>README.md</code>. The decode button turns it back into the Thai text, and the signature panel checks that both files hash to what was signed.</p><p><button class="btn" id="decode">Decode → Thai text</button> <a class="btn ghost" href="README.b64.txt" download>Download .txt</a></p><pre class="b64" id="blob">IyDguJXguLTguJTguJXguLHguYnguIcgZWdvKGxpdGUpIOC5g+C4q+C5iSBBSSBhZ2VudCDguKHg
+uLXguYDguJrguKPguLLguKfguYzguYDguIvguK3guKPguYzguILguK3guIfguJXguLHguKfguYDg
+uK3guIcKCj4gKirguYDguILguLXguKLguJnguYLguJTguKIgQUkg4LmA4Lie4Li34LmI4LitIEFJ
+Kiog4oCUIOC4hOC4ueC5iOC4oeC4t+C4reC4l+C4teC4peC4sOC4guC4seC5ieC4mSDguJXguLHg
+uYnguIfguYHguJXguYjguKvguJnguYnguLIgaHR0cHM6Ly9saXRlLmVnby5hcHAvIOC4iOC4meC4
+luC4tuC4hyBDbGF1ZGUgQ29kZSDguKrguLHguYjguIfguYDguJrguKPguLLguKfguYzguYDguIvg
+uK3guKPguYzguYTguJTguYnguIfguLLguJnguYHguKPguIEKCi0g4LmA4LiB4LmH4Lia4LiC4LmJ
+4Lit4Lih4Li54Lil4Lin4Lix4LiZ4LiX4Li14LmIIDMwIOC4lS7guIQuIDIwMjYg4Lia4LiZIE1h
+YyAoQXBwbGUgU2lsaWNvbikg4LiC4Lit4LiHIE5hdAotIOC5gOC4hOC4o+C4t+C5iOC4reC4h+C4
+meC4teC5ieC4peC4hyBlZ28obGl0ZSkg4LmE4Lin4LmJ4LmB4Lil4LmJ4LinOiBgZWdvLWJyb3dz
+ZXIgMC42LjEuMTNgCi0g4LmE4Lif4Lil4LmMIERNRyDguJfguLXguYjguKvguJnguYnguLLguYDg
+uKfguYfguJrguYHguIjguIHguKfguLHguJnguJnguLXguYk6IGAwLjYuMi41YAotIOC4ieC4muC4
+seC4muC4reC4t+C5iOC4mTogW0VuZ2xpc2hdKFJFQURNRS5lbi5tZCkgwrcgW2Jhc2U2NF0oUkVB
+RE1FLmI2NC50eHQpIMK3IOC4q+C4meC5ieC4suC5gOC4p+C5h+C4miBbYGluZGV4Lmh0bWxgXShp
+bmRleC5odG1sKSAoYmFzZTY0LCDguKvguJnguYnguLLguYHguKPguIEpIMK3IFtgdGguaHRtbGBd
+KHRoLmh0bWwpIMK3IOC4quC5hOC4peC4lOC5jCBbYHNsaWRlcy5odG1sYF0oc2xpZGVzLmh0bWwp
+Ci0g4LiX4Lix4LmJ4LiH4Liq4Liy4Lih4LiJ4Lia4Lix4Lia4LmA4LiL4LmH4LiZ4LiU4LmJ4Lin
+4Lii4LiB4Li44LiN4LmB4LiIIEV0aGVyZXVtIOC4guC4reC4hyBBSUV4cG8gT3JhY2xlIOC4leC4
+o+C4p+C4iOC5hOC4lOC5ieC5g+C4meC5gOC4muC4o+C4suC4p+C5jOC5gOC4i+C4reC4o+C5jCDg
+uJTguLkgW2BTSUdOQVRVUkUubWRgXShTSUdOQVRVUkUubWQpCgoqKuC4o+C4ueC4m+C4oeC4suC4
+iOC4suC4geC5hOC4q+C4mSoqCi0g4Lig4Liy4Lie4Lir4LiZ4LmJ4Liy4LmA4Lin4LmH4Lia4LiX
+4Li44LiB4Lig4Liy4Lie4LiI4Lix4Lia4LiI4Liy4LiBIGxpdGUuZWdvLmFwcCDguIjguKPguLTg
+uIcg4LiU4LmJ4Lin4LiiIGVnby1icm93c2VyIOC4leC4seC4p+C4oeC4seC4meC5gOC4reC4hyAo
+Q0RQIGBQYWdlLmNhcHR1cmVTY3JlZW5zaG90YCDguJfguLXguYggMTQ0MMOXMTAwMCDguIjguLbg
+uIfguYTguKHguYjguJXguLTguJTguYHguJbguJogVVJMKQotIOC4l+C4uOC4geC4muC4peC5h+C4
+reC4geC5guC4hOC5ieC4lOC4l+C4teC5iOC4guC4tuC5ieC4meC4leC5ieC4meC4lOC5ieC4p+C4
+oiBgJGAg4LiE4Li34Lit4Lic4Lil4LiI4Lij4Li04LiH4LiI4Liy4LiB4LmA4LiE4Lij4Li34LmI
+4Lit4LiHIOC5hOC4n+C4peC5jOC4lOC4tOC4muC4reC4ouC4ueC5iOC5g+C4mSBbYGNhcHR1cmVz
+L2BdKGNhcHR1cmVzLykKLSDguJXguLHguKfguYDguKXguIIgYmVuY2htYXJrICjguYDguKfguKXg
+uLIg4Lit4Lix4LiV4Lij4Liy4Liq4Liz4LmA4Lij4LmH4LiIIOC4hOC5iOC4suC5g+C4iuC5ieC4
+iOC5iOC4suC4oikg4LmA4Lib4LmH4LiZ4LiV4Lix4Lin4LmA4Lil4LiC4LiX4Li14LmI4Lic4Li5
+4LmJ4Lic4Lil4Li04LiV4Lit4LmJ4Liy4LiH4Lia4LiZ4Lir4LiZ4LmJ4Liy4LmA4Lin4LmH4Lia
+IOC5gOC4o+C4suC5hOC4oeC5iOC5hOC4lOC5ieC4p+C4seC4lOC5gOC4reC4hwoKLS0tCgojIyAx
+LiBlZ28obGl0ZSkg4LiE4Li34Lit4Lit4Liw4LmE4LijCgplZ28obGl0ZSkg4LiE4Li34Lit4LmA
+4Lia4Lij4Liy4Lin4LmM4LmA4LiL4Lit4Lij4LmM4LiX4Li14LmI4Liq4Lij4LmJ4Liy4LiH4Lia
+4LiZIENocm9taXVtIOC5g+C4iuC5ieC5hOC4lOC5ieC4l+C4seC5ieC4h+C4hOC4meC5geC4peC4
+sCBBSSBhZ2VudCDguYPguJnguJXguLHguKfguYDguJTguLXguKLguKfguIHguLHguJkg4Liq4LmI
+4Lin4LiZICoqZWdvLWJyb3dzZXIqKiDguITguLfguK0gc2tpbGwg4LiX4Li14LmI4LiX4Liz4LmD
+4Lir4LmJIGFnZW50IChDbGF1ZGUgQ29kZSwgQ29kZXgsIEN1cnNvciDguK/guKXguK8pIOC4quC4
+seC5iOC4h+C5gOC4muC4o+C4suC4p+C5jOC5gOC4i+C4reC4o+C5jOC4meC4teC5ieC5hOC4lOC5
+iSDguYTguKHguYjguJXguYnguK3guIfguKXguIcgU0RLIOC5geC4peC4sOC5hOC4oeC5iOC4leC5
+ieC4reC4h+C4leC4seC5ieC4hyByZW1vdGUgZGVidWdnaW5nCgohW+C4q+C4meC5ieC4suC5geC4
+o+C4geC4guC4reC4hyBsaXRlLmVnby5hcHA6IOC4q+C4seC4p+C4guC5ieC4rSBTY3JhcGUgYW5k
+IGF1dG9tYXRlIGNvbXBsZXggd2Vic2l0ZXMsIGV2ZW4gYmVoaW5kIGEgbG9naW4g4Lie4Lij4LmJ
+4Lit4Lih4Lib4Li44LmI4LihIERvd25sb2FkIGZvciBtYWNPU10oaW1hZ2VzLzAxLWxhbmRpbmcu
+cG5nKQoK4LiI4Li44LiU4LiX4Li14LmI4LiX4Liz4LmD4Lir4LmJ4Lih4Lix4LiZ4LiV4LmI4Liy
+4LiH4LiI4Liy4LiBIFBsYXl3cmlnaHQg4Lir4Lij4Li34LitIGhlYWRsZXNzIENocm9tZToKLSBh
+Z2VudCDguJfguLPguIfguLLguJnguYPguJkgKipTcGFjZSoqIOC4guC4reC4h+C4oeC4seC4meC5
+gOC4reC4hyDguYTguKHguYjguYHguKLguYjguIfguYHguJfguYfguJog4LmE4Lih4LmI4LmB4Lii
+4LmI4LiH4LmA4Lih4Liy4Liq4LmM4LiC4Lit4LiH4LmA4Lij4LiyCi0gYWdlbnQg4LmE4LiU4LmJ
+4Liq4LiW4Liy4LiZ4Liw4Lil4LmH4Lit4LiB4Lit4Li04LiZ4LmA4LiU4Li14Lii4Lin4LiB4Lix
+4Lia4LmA4Lij4LiyIOC5hOC4oeC5iOC4leC5ieC4reC4h+C4peC5h+C4reC4geC4reC4tOC4meC5
+g+C4q+C4oeC5iOC4l+C4uOC4geC4o+C4reC4mgotIHNuYXBzaG90IOC4quC4o+C5ieC4suC4h+C5
+g+C4meC4leC4seC4pyBDaHJvbWl1bSDguYDguK3guIcg4LiI4Li24LiH4LmA4Lir4LmH4LiZ4LiC
+4LmJ4Liy4LiH4LmD4LiZIGlmcmFtZSDguILguYnguLLguKHguYLguJTguYDguKHguJksIHNoYWRv
+dyBET00g4LmB4Lil4Liw4Lin4Li04LiU4LmA4LiI4LmH4LiV4Lit4Lii4LmI4Liy4LiHIFN0cmlw
+ZSDguYTguJTguYkKCiMjIDIuIOC4lOC4suC4p+C4meC5jOC5guC4q+C4peC4lAoK4LiB4LiU4Lib
+4Li44LmI4LihICoqRG93bmxvYWQqKiDguKHguLjguKHguIvguYnguLLguKLguJrguJkg4Lir4Lij
+4Li34Lit4LmA4LiC4LmJ4LiyIGh0dHBzOi8vbGl0ZS5lZ28uYXBwL2Rvd25sb2FkIOC4leC4o+C4
+hyDguYYg4Lir4LiZ4LmJ4Liy4LiZ4Li14LmJ4LiI4Liw4LmA4Lij4Li04LmI4Lih4LiU4Liy4Lin
+4LiZ4LmM4LmC4Lir4Lil4LiU4LmA4Lit4LiHIOC4luC5ieC4suC5hOC4oeC5iOC5gOC4o+C4tOC5
+iOC4oSDguYPguKvguYnguYDguKXguLfguK3guIHguJvguLjguYjguKHguYDguK3guIcKCiFb4Lir
+4LiZ4LmJ4LiyIFdlbGNvbWUgdG8gZWdvKGxpdGUpIOC4oeC4teC4m+C4uOC5iOC4oSBtYWNPUywg
+V2luZG93cyAoYmV0YSkg4LmB4Lil4Liw4Lig4Liy4Lie4LiV4Lix4Lin4Lit4Lii4LmI4Liy4LiH
+4Lir4LiZ4LmJ4Liy4LiV4LmI4Liy4LiH4LiV4Li04LiU4LiV4Lix4LmJ4LiH4LiX4Li14LmI4Lia
+4Lit4LiB4LmD4Lir4LmJ4LiU4Lix4Lia4LmA4Lia4Li04Lil4LiE4Lil4Li04LiB4LmE4Lit4LiE
+4Lit4LiZXShpbWFnZXMvMDItZG93bmxvYWQtcGFnZS5wbmcpCgotICoqbWFjT1MqKjog4Lir4LiZ
+4LmJ4Liy4LmA4Lin4LmH4Lia4LiV4Lij4Lin4LiI4LiK4Li04Lib4LmD4Lir4LmJ4LmA4Lit4LiH
+IChJbnRlbCDguKvguKPguLfguK0gQXBwbGUgU2lsaWNvbikg4LiV4Liy4LihIEZBUSDguILguK3g
+uIfguKvguJnguYnguLLguJnguLXguYkKLSAqKldpbmRvd3MgKGJldGEpKio6IOC4oeC4teC4hOC4
+ueC5iOC4oeC4t+C4reC5geC4ouC4geC4l+C4teC5iCBgL2RvY3VtZW50L2VuL2RvY3Mvd2luZG93
+cy9xdWljay1zdGFydGAKLSBNYWMg4Lij4Li44LmI4LiZ4LmA4LiB4LmI4Liy4Lih4Liy4LiBOiDg
+uJvguLjguYjguKHguKrguLLguKHguIjguLjguJTguKHguLXguKXguLTguIfguIHguYwgIk9uIGEg
+c3VwZXIgb2xkIE1hYz8gRG93bmxvYWQgMC40LjcuNCIKCuC4o+C4reC4muC4meC4teC5ieC5gOC4
+o+C4suC5g+C4q+C5iSBlZ28tYnJvd3NlciDguIHguJTguJvguLjguYjguKEgbWFjT1Mg4LmA4Lit
+4LiHIOC5geC4peC5ieC4p+C4iOC4seC4miBldmVudCDguJTguLLguKfguJnguYzguYLguKvguKXg
+uJQg4LmE4LiU4LmJ4Lic4Lil4LiI4Lij4Li04LiH4LmB4Lia4Lia4LiZ4Li14LmJOgoKYGBgCnsg
+dXJsOiAnaHR0cHM6Ly9jZG4uZWdvLmFwcC9zZXR1cC9tYWNvcy9hcm02NC9lZ29saXRlLmRtZz9y
+ZWZfY29kZT08cmVkYWN0ZWQ+Jywgc3VnZ2VzdGVkRmlsZW5hbWU6ICdlZ29saXRlLeKApi5kbWcn
+IH0KeyBzYXZlZDogJ2Vnb2xpdGUt4oCmLmRtZycsIGZhaWx1cmU6IG51bGwgfQpgYGAKCj4gVVJM
+IOC4lOC4suC4p+C4meC5jOC5guC4q+C4peC4lOC4nuC4gSBgcmVmX2NvZGVgIOC4leC4tOC4lOC4
+oeC4suC4lOC5ieC4p+C4oiDguJbguYnguLLguIjguLDguYHguIrguKPguYzguKXguLTguIfguIHg
+uYzguKvguKPguLfguK3guYHguITguJvguIjguK0g4LmD4Lir4LmJ4LiV4Lix4LiU4Liq4LmI4Lin
+4LiZ4LiZ4Li14LmJ4Lit4Lit4LiBCgojIyAzLiDguJXguKPguKfguIjguYTguJ/guKXguYzguIHg
+uYjguK3guJnguJXguLTguJTguJXguLHguYnguIcgKOC5hOC4oeC5iOC4leC5ieC4reC4h+C4o+C4
+seC4meC4reC4sOC5hOC4oykKCuC5hOC4n+C4peC5jOC4l+C4teC5iOC5guC4q+C4peC4lOC4iOC4
+suC4geC5gOC4meC5h+C4leC4hOC4p+C4o+C4leC4o+C4p+C4iOC4geC5iOC4reC4meC5gOC4m+C4
+tOC4lCDguITguLPguKrguLHguYjguIfguIrguLjguJTguJnguLXguYnguYHguITguYjguK3guYjg
+uLLguJkgRE1HIOC5geC4muC4miByZWFkLW9ubHkg4LmE4Lih4LmI4LmE4LiU4LmJ4Lij4Lix4LiZ
+4LmC4Lib4Lij4LmB4LiB4Lij4Lih4LiC4LmJ4Liy4LiH4LmD4LiZOgoKYGBgCiQgbHMgLWxoIGVn
+b2xpdGUuZG1nCjE0M00gZWdvbGl0ZS5kbWcKCiQgc2hhc3VtIC1hIDI1NiBlZ29saXRlLmRtZwoz
+ZjRhZTI1ODQzMDA3MzY4OTdhZjg5ODdiYzVlYjE3YjFlYmVhMmNiNmZjZWUxNmVlZDFmOTBmOTU2
+MTYzMTdlICBlZ29saXRlLmRtZwoKJCBscyAvdG1wL2Vnb2xpdGUtbW50CmVnbyBsaXRlLmFwcAoK
+JCBkZWZhdWx0cyByZWFkICIuLi4vSW5mby5wbGlzdCIgQ0ZCdW5kbGVTaG9ydFZlcnNpb25TdHJp
+bmcKMC42LjIuNQoKJCBjb2Rlc2lnbiAtZHYgLS12ZXJib3NlPTIgImVnbyBsaXRlLmFwcCIgMj4m
+MSB8IGdyZXAgLUUgIklkZW50aWZpZXJ8QXV0aG9yaXR5fFRlYW1JZGVudGlmaWVyfFRpbWVzdGFt
+cCIKSWRlbnRpZmllcj1jb20uY2l0cm9sYWJzLmVnby5saXRlCkF1dGhvcml0eT1EZXZlbG9wZXIg
+SUQgQXBwbGljYXRpb246IENJVFJPIExBQlMgUFRFLiBMSU1JVEVEIChKR1FMQzZZUVlKKQpBdXRo
+b3JpdHk9RGV2ZWxvcGVyIElEIENlcnRpZmljYXRpb24gQXV0aG9yaXR5CkF1dGhvcml0eT1BcHBs
+ZSBSb290IENBClRpbWVzdGFtcD0yOSBPY3QgQkUgMjU2OSBhdCAxOTo0OToxNQpUZWFtSWRlbnRp
+Zmllcj1KR1FMQzZZUVlKCgokIHNwY3RsIC1hIC12diAiZWdvIGxpdGUuYXBwIgovdG1wL2Vnb2xp
+dGUtbW50L2VnbyBsaXRlLmFwcDogYWNjZXB0ZWQKc291cmNlPU5vdGFyaXplZCBEZXZlbG9wZXIg
+SUQKb3JpZ2luPURldmVsb3BlciBJRCBBcHBsaWNhdGlvbjogQ0lUUk8gTEFCUyBQVEUuIExJTUlU
+RUQgKEpHUUxDNllRWUopCmBgYAoK4Lit4LmI4Liy4LiZ4Lic4Lil4Lii4Lix4LiH4LmE4LiHOgot
+IGBhY2NlcHRlZGAgKyBgTm90YXJpemVkIERldmVsb3BlciBJRGAgPSBBcHBsZSDguKPguLHguJrg
+uKPguK3guIfguYHguKXguYnguKcgR2F0ZWtlZXBlciDguIjguLDguYTguKHguYjguJrguKXguYfg
+uK3guIEKLSDguJzguLnguYnguYDguIvguYfguJnguITguLfguK0gQ0lUUk8gTEFCUyAo4Lia4Lij
+4Li04Lip4Lix4LiX4LiX4Li14LmI4LiX4LizIGVnbykg4LiX4Li14LihIGBKR1FMQzZZUVlKYAot
+IOC4hOC5iOC4siBTSEEtMjU2IOC4guC5ieC4suC4h+C4muC4meC5gOC4m+C5h+C4meC4guC4reC4
+h+C5hOC4n+C4peC5jOC4p+C4seC4meC4l+C4teC5iCAzMCDguJUu4LiELiDguJbguYnguLLguYLg
+uKvguKXguJTguKfguLHguJnguK3guLfguYjguJkg4LiE4LmI4Liy4LiI4Liw4LmA4Lib4Lil4Li1
+4LmI4Lii4LiZ4LiV4Liy4Lih4Lij4Li44LmI4LiZCgrguYTguJ/guKXguYzguJTguLTguJo6IFtg
+Y2FwdHVyZXMvMDgtZG1nLWluc3BlY3QudHh0YF0oY2FwdHVyZXMvMDgtZG1nLWluc3BlY3QudHh0
+KSAo4Lih4Li14LiE4Liz4LmA4LiV4Li34Lit4LiZ4Lin4LmI4LiyIGBoZGl1dGlsIGF0dGFjaGAg
+4LmA4Lil4Li04LiB4LmD4LiK4LmJ4LmB4Lil4LmJ4LinIOC5g+C4q+C5ieC5g+C4iuC5iSBgZGlz
+a3V0aWwgaW1hZ2UgYXR0YWNoYCDguYHguJfguJkpCgojIyA0LiDguJXguLTguJTguJXguLHguYng
+uIfguYHguKXguLAgb25ib2FyZGluZwoKMS4g4LmA4Lib4Li04LiUIERNRwoyLiDguJTguLHguJrg
+uYDguJrguLTguKXguITguKXguLTguIHguYTguK3guITguK3guJkgKiplZ28gbGl0ZSoqICjguKDg
+uLLguJ7guJXguLHguKfguK3guKLguYjguLLguIfguYPguJnguKvguJnguYnguLLguJTguLLguKfg
+uJnguYzguYLguKvguKXguJTguJrguK3guIHguJTguYnguKfguKLguKfguYjguLIgKlF1aXQgZWdv
+KGxpdGUpIGZpcnN0IGlmIGl0J3MgcnVubmluZyopCjMuIOC5gOC4m+C4tOC4lCBlZ28obGl0ZSkg
+4LmB4Lil4LmJ4Lin4LiX4LizIG9uYm9hcmRpbmcg4LmD4Lir4LmJ4LiI4LiaCgohW+C4q+C4meC5
+ieC4siBRdWljayBzdGFydCDguYPguJnguYDguK3guIHguKrguLLguKMg4Liq4LmI4Lin4LiZIElu
+c3RhbGwgZWdvKGxpdGUpOiDguKfguLTguJTguLXguYLguK3guJXguLTguJTguJXguLHguYnguIcg
+NDQg4Lin4Li04LiZ4Liy4LiX4Li1IOC5geC4peC4sOC4oOC4suC4nuC4q+C4meC5ieC4suC4iOC4
+rSBlZ28obGl0ZSkg4Lir4Lil4Lix4LiHIG9uYm9hcmRpbmddKGltYWdlcy8wMy1vbmJvYXJkaW5n
+LWRvYy5wbmcpCgrguJXguK3guJkgb25ib2FyZGluZyDguITguKPguLHguYnguIfguYHguKPguIEg
+ZWdvKGxpdGUpIOC4iOC4sDoKLSDguKrguYHguIHguJnguKvguLIgYWdlbnQg4LmD4LiZ4LmA4LiE
+4Lij4Li34LmI4Lit4LiHIOC5geC4peC5ieC4pyAqKuC5gOC4guC4teC4ouC4mSBza2lsbCBgZWdv
+LWJyb3dzZXJgKiog4Lil4LiHIGB+Ly5hZ2VudHMvc2tpbGxzYCDguYHguKXguLAgYH4vLmNsYXVk
+ZS9za2lsbHMvYAotIOC4luC4suC4oeC4p+C5iOC4suC4iOC4sCAqKuC4meC4s+C5gOC4guC5ieC4
+suC4guC5ieC4reC4oeC4ueC4peC4iOC4suC4geC5gOC4muC4o+C4suC4p+C5jOC5gOC4i+C4reC4
+o+C5jOC5gOC4lOC4tOC4oSoqIOC5hOC4q+C4oSAoc2Vzc2lvbiwgYm9va21hcmssIOC4o+C4q+C4
+seC4quC4nOC5iOC4suC4mSwgZXh0ZW5zaW9uKSDguILguYnguK3guKHguLnguKXguK3guKLguLng
+uYjguYPguJnguYDguITguKPguLfguYjguK3guIfguYDguKPguLIg4LmE4Lih4LmI4LiC4Li24LmJ
+4LiZ4LiE4Lil4Liy4Lin4LiU4LmMCi0gbWFjT1Mg4Lit4Liy4LiI4LiW4Liy4Lih4Lij4Lir4Lix
+4LiqIGtleWNoYWluICoq4Lir4Lil4Liy4Lii4LiE4Lij4Lix4LmJ4LiHKiog4LmD4Lir4LmJ4LmD
+4Liq4LmI4LiX4Li44LiB4LiE4Lij4Lix4LmJ4LiHIOC4meC4seC5iOC4meC4hOC4t+C4reC4quC4
+tOC5iOC4h+C4l+C4teC5iOC4l+C4s+C5g+C4q+C5ieC4ouC5ieC4suC4oiBsb2dpbiBzdGF0ZSDg
+uKHguLLguYTguJTguYkKCj4g4LmA4LiE4Lij4Li34LmI4Lit4LiH4LiX4Li14LmI4LmA4LiC4Li1
+4Lii4LiZ4LiE4Li54LmI4Lih4Li34Lit4LiZ4Li14LmJ4Lil4LiHIDAuNi4xLjEzIOC4reC4ouC4
+ueC5iOC5geC4peC5ieC4pyDguYHguKXguLAgZWdvKGxpdGUpIOC4leC4seC4p+C4meC4seC5ieC4
+meC4geC4s+C4peC4seC4h+C5gOC4m+C5h+C4meC4hOC4meC4iOC4seC4muC4oOC4suC4nuC4hOC4
+ueC5iOC4oeC4t+C4reC4meC4teC5ieC4reC4ouC4ueC5iCDguYDguKPguLLguIjguLbguIfguYTg
+uKHguYjguYTguJTguYnguIHguJTguJXguLTguJTguJXguLHguYnguIcgMC42LjIuNSDguJfguLHg
+uJrguKPguLDguKvguKfguYjguLLguIfguJfguLMg4Lig4Liy4LieIG9uYm9hcmRpbmcg4LiC4LmJ
+4Liy4LiH4Lia4LiZ4Lih4Liy4LiI4Liy4LiB4LmA4Lit4LiB4Liq4Liy4Lij4LiX4Liy4LiH4LiB
+4Liy4LijIOC5hOC4oeC5iOC5g+C4iuC5iOC4iOC4suC4geC5gOC4hOC4o+C4t+C5iOC4reC4h+C4
+meC4teC5iQoKIyMgNS4g4LiV4Lij4Lin4LiI4Lin4LmI4Liy4LmA4LiE4Lij4Li34LmI4Lit4LiH
+4Lie4Lij4LmJ4Lit4LihCgrguKvguKXguLHguIcgb25ib2FyZGluZyDguKXguK3guIfguKrguLLg
+uKHguITguLPguKrguLHguYjguIfguJnguLXguYnguYPguJkgVGVybWluYWw6CgpgYGAKJCBlZ28t
+YnJvd3NlciAtLXZlcnNpb24KZWdvLWJyb3dzZXIgMC42LjEuMTMKICBjaHJvbWl1bSAxNTYuMC44
+MDc4LjQ4CiAgbm9kZSB2MjQuMjIuMQoKJCBscyB+Ly5jbGF1ZGUvc2tpbGxzL2Vnby1icm93c2Vy
+CmFnZW50cwphc3NldHMKbGVhcm5pbmdzCnJlZmVyZW5jZXMKc2NyaXB0cwpTS0lMTC5tZAoKJCBs
+cyB+Ly5hZ2VudHMvc2tpbGxzIHwgZ3JlcCBlZ28KZWdvLWJyb3dzZXIKCiQgZWdvLWJyb3dzZXIg
+c2tpbGwgfCB0YWlsIC0xCltlZ28tYnJvd3Nlcjpza2lsbF0gZW5kIG9mIGd1aWRlIHYyLjEuMApg
+YGAKCi0gYGVnby1icm93c2VyIC0tdmVyc2lvbmAg4Lia4Lit4LiB4Lij4Li44LmI4LiZ4LiC4Lit
+4LiHIGVnbywgQ2hyb21pdW0g4LmB4Lil4LiwIE5vZGUg4LiX4Li14LmI4Lid4Lix4LiH4Lih4Liy
+Ci0g4LiW4LmJ4Liy4Lih4Li14LmC4Lif4Lil4LmA4LiU4Lit4Lij4LmMIGBlZ28tYnJvd3NlcmAg
+4LmD4LiZIHNraWxscyDguYHguJvguKXguKfguYjguLIgb25ib2FyZGluZyDguYDguILguLXguKLg
+uJkgc2tpbGwg4LmD4Lir4LmJ4LmB4Lil4LmJ4LinCi0gYGVnby1icm93c2VyIHNraWxsYCDguJ7g
+uLTguKHguJ7guYzguITguLnguYjguKHguLfguK3guJfguLXguYjguJXguKPguIfguIHguLHguJrg
+uKPguLjguYjguJnguJfguLXguYjguKXguIfguK3guKLguLnguYgg4Lia4Lij4Lij4LiX4Lix4LiU
+4Liq4Li44LiU4LiX4LmJ4Liy4Lii4LiV4LmJ4Lit4LiH4LmA4Lib4LmH4LiZIGBlbmQgb2YgZ3Vp
+ZGVgIOC4luC5ieC4suC5hOC4oeC5iOC5gOC4q+C5h+C4meC5geC4m+C4peC4p+C5iOC4suC4nOC4
+peC4luC4ueC4geC4leC4seC4lAoK4LiE4Liz4Liq4Lix4LmI4LiH4LiX4Lix4LmJ4LiH4Lir4Lih
+4LiU4LiC4Lit4LiHIENMSSAoW2BjYXB0dXJlcy8wMi1oZWxwLnR4dGBdKGNhcHR1cmVzLzAyLWhl
+bHAudHh0KSk6CgpgYGAKJCBlZ28tYnJvd3NlciAtLWhlbHAKVXNhZ2U6CiAgZWdvLWJyb3dzZXIg
+aGVscCBbdG9waWNdCiAgZWdvLWJyb3dzZXIgaW1wb3J0IGxpc3QKICBlZ28tYnJvd3NlciBpbXBv
+cnQgLS1icm93c2VyIDxicm93c2VyPiBbLS1wcm9maWxlIDxkaXItbmFtZT4gLi4uXQogIGVnby1i
+cm93c2VyIHNraWxsCiAgZWdvLWJyb3dzZXIgdXBncmFkZQogIGVnby1icm93c2VyIG5vZGVqcyAt
+ZSA8c2NyaXB0PgogIGVnby1icm93c2VyIG5vZGVqcyA8IHNjcmlwdC5qcwpgYGAKCuC4guC5ieC4
+suC4oSBpbXBvcnQg4LiV4Lit4LiZIG9uYm9hcmRpbmcg4LmE4Lib4LmB4Lil4LmJ4LinPyDguYPg
+uIrguYkgYGVnby1icm93c2VyIGltcG9ydCAtLWJyb3dzZXIgY2hyb21lIC0tcHJvZmlsZSBEZWZh
+dWx0YCDguJfguLXguKvguKXguLHguIfguYTguJTguYkKCiMjIDYuIOC5gOC4iuC4t+C5iOC4reC4
+oeC4geC4seC4miBDbGF1ZGUgQ29kZQoKIVvguYDguK3guIHguKrguLLguKMgSG93IHRvIHVzZSBl
+Z28obGl0ZSkgd2l0aCBDbGF1ZGUgQ29kZTog4Liq4Liy4Lij4Lia4Lix4LiNIFVzZSBDb2RlIG5v
+dCBDb3dvcmssIFN0ZXAgMSBlbmFibGUgQnlwYXNzIHBlcm1pc3Npb25zLCBTdGVwIDIgbG9hZCB0
+aGUgZWdvLWJyb3dzZXIgc2tpbGxdKGltYWdlcy8wNS1jbGF1ZGUtY29kZS1kb2MucG5nKQoK4LiV
+4Liy4Lih4LmA4Lit4LiB4Liq4Liy4LijIENsYXVkZSBDb2RlIOC4guC4reC4hyBlZ28g4Lih4Li1
+4Liq4Liy4Lih4LiC4LmJ4Lit4LiX4Li14LmI4LiV4LmJ4Lit4LiH4LiW4Li54LiBOgoKMS4gKirg
+uYPguIrguYkgQ29kZSDguYTguKHguYjguYPguIrguYggQ293b3JrKiog4LmD4LiZIENsYXVkZSBE
+ZXNrdG9wIHNraWxsIOC4meC4teC5ieC4l+C4s+C4oeC4suC5g+C4q+C5iSBDbGF1ZGUgQ29kZSDg
+uIjguLbguIfguYTguKHguYjguILguLbguYnguJnguYPguJnguYDguKHguJnguLkgQ293b3JrCjIu
+ICoq4LmA4Lib4Li04LiU4Liq4Li04LiX4LiY4Li04LmM4LmD4Lir4LmJ4Lij4Lix4LiZ4LiE4Liz
+4Liq4Lix4LmI4LiHKiogRGVza3RvcDog4LmA4Lil4Li34Lit4LiBICpCeXBhc3MgcGVybWlzc2lv
+bnMqIOC4guC5ieC4suC4h+C4iuC5iOC4reC4h+C4nuC4tOC4oeC4nuC5jCDCtyBUZXJtaW5hbDog
+YGNsYXVkZSAtLWRhbmdlcm91c2x5LXNraXAtcGVybWlzc2lvbnNgCjMuICoq4LiW4LmJ4LiyIENs
+YXVkZSDguYDguJvguLTguJTguK3guKLguLnguYjguKPguLDguKvguKfguYjguLLguIcgb25ib2Fy
+ZGluZyDguYPguKvguYnguJvguLTguJTguYHguKXguYnguKfguYDguJvguLTguJTguYPguKvguKHg
+uYgqKiDguYDguJ7guLfguYjguK3guYPguKvguYnguKPguLLguKLguIHguLLguKMgc2tpbGwg4LmC
+4Lir4Lil4LiU4LmD4Lir4Lih4LmICgo+ICoq4LiE4Liz4LmA4LiV4Li34Lit4LiZOioqIEJ5cGFz
+cyBwZXJtaXNzaW9ucyDguJfguLPguYPguKvguYkgYWdlbnQg4Lij4Lix4LiZ4LiE4Liz4Liq4Lix
+4LmI4LiH4Lit4Liw4LmE4Lij4LiB4LmH4LmE4LiU4LmJ4LmD4LiZ4LmA4LiE4Lij4Li34LmI4Lit
+4LiH4LmC4LiU4Lii4LmE4Lih4LmI4LiW4Liy4Lih4LiB4LmI4Lit4LiZIOC5g+C4iuC5ieC5g+C4
+meC5guC4n+C4peC5gOC4lOC4reC4o+C5jOC4h+C4suC4meC4l+C4teC5iOC5geC4ouC4geC5hOC4
+p+C5iSDguYHguKXguLDguK3guKLguYjguLLguYDguJvguLTguJTguJfguLTguYnguIfguYTguKfg
+uYnguYPguJnguYLguJ/guKXguYDguJTguK3guKPguYzguJfguLXguYjguKHguLXguILguK3guIfg
+uKrguLPguITguLHguI0KCuC5geC4peC5ieC4p+C4nuC4tOC4oeC4nuC5jCBgL2Vnby1icm93c2Vy
+YCDguJXguLLguKHguJTguYnguKfguKLguIfguLLguJnguYPguJnguILguYnguK3guITguKfguLLg
+uKHguYDguJTguLXguKLguKfguIHguLHguJkg4Lir4LiZ4LmJ4Liy4LiV4Liy4LiV4Lit4LiZ4LmA
+4Lij4Li14Lii4LiBIHNraWxsIOC5g+C4mSBDb2RleCAo4LiV4Lix4Lin4Lit4Lii4LmI4Liy4LiH
+4LmD4LiZ4LmA4Lit4LiB4Liq4Liy4LijKSDguYDguJvguYfguJnguYHguJrguJrguJnguLXguYk6
+CgohW+C5gOC4reC4geC4quC4suC4oyBDb25uZWN0IHlvdXIgYWdlbnQ6IOC4nuC4tOC4oeC4nuC5
+jCAvZWdvIOC5g+C4meC4iuC5iOC4reC4h+C5geC4iuC4leC4guC4reC4hyBDb2RleCDguYHguKXg
+uYnguKfguKHguLXguKPguLLguKLguIHguLLguKMgc2tpbGwgRWdvIEJyb3dzZXIg4LiC4Li24LmJ
+4LiZ4Lih4LiyIOC5guC4q+C4oeC4lCBGdWxsIGFjY2Vzc10oaW1hZ2VzLzA0LWNvbm5lY3QtYWdl
+bnQucG5nKQoKIyMgNy4g4LiH4Liy4LiZ4LmB4Lij4LiBCgohW+C5gOC4reC4geC4quC4suC4oyBS
+dW4geW91ciBmaXJzdCB0YXNrOiDguKfguLTguJTguLXguYLguK0gNDAg4Lin4Li04LiZ4Liy4LiX
+4Li1IOC5geC4peC4sCBwcm9tcHQg4LiV4Lix4Lin4Lit4Lii4LmI4Liy4LiH4LmD4Lir4LmJ4LmA
+4Lib4Li04LiU4Lia4Lil4LmH4Lit4LiBIE9wZW5BSSDguIHguLHguJogQW50aHJvcGljIOC5geC4
+peC5ieC4p+C4quC4o+C4uOC4m10oaW1hZ2VzLzA2LWZpcnN0LXRhc2sucG5nKQoKcHJvbXB0IOC4
+leC4seC4p+C4reC4ouC5iOC4suC4h+C4iOC4suC4geC5gOC4reC4geC4quC4suC4oyDguITguLHg
+uJTguKXguK3guIHguYTguJvguKfguLLguIfguYTguJTguYnguYDguKXguKI6CgpgYGB0ZXh0ClVz
+ZSBlZ28tYnJvd3Nlci4gUGxlYXNlIG9wZW4gdGhlIGJsb2cgcGFnZXMgb2YgT3BlbkFJIGFuZCBB
+bnRocm9waWMsIGNoZWNrIGlmIHRoZXJlIGlzIGFueSBub3Rld29ydGh5IGluZm9ybWF0aW9uLCBh
+bmQgcXVpY2tseSBzdW1tYXJpemUgdGhlIG1haW4gcG9pbnRzIG9mIHRoZSBsYXRlc3QgYXJ0aWNs
+ZXMgZm9yIG1lLgpgYGAKCmFnZW50IOC4iOC4sOC4quC4o+C5ieC4suC4hyBTcGFjZSDguYPguKvg
+uKHguYgg4LmA4Lib4Li04LiU4Liq4Lit4LiH4Lir4LiZ4LmJ4LiyIOC4reC5iOC4suC4meC4muC4
+l+C4hOC4p+C4suC4oeC4peC5iOC4suC4quC4uOC4lCDguYHguKXguYnguKfguKrguYjguIfguKrg
+uKPguLjguJvguIHguKXguLHguJrguKHguLLguYPguJnguYHguIrguJUKCiMjIDguIOC5gOC4guC4
+teC4ouC4meC4quC4hOC4o+C4tOC4m+C4leC5jOC5gOC4reC4h+C4hOC4o+C4seC5ieC4h+C5geC4
+o+C4gSAo4Liq4Li04LmI4LiH4LiX4Li14LmIIGFnZW50IOC4l+C4s+C4reC4ouC4ueC5iOC5gOC4
+muC4t+C5ieC4reC4h+C4q+C4peC4seC4hykKCuC5gOC4p+C4peC4siBhZ2VudCDguYPguIrguYkg
+c2tpbGwg4LiZ4Li14LmJIOC4oeC4seC4meC5gOC4guC4teC4ouC4meC4quC4hOC4o+C4tOC4m+C4
+leC5jCBOb2RlIOC4quC4seC5ieC4mSDguYYg4Liq4LmI4LiH4LmD4Lir4LmJIGBlZ28tYnJvd3Nl
+ciBub2RlanNgIOC5gOC4o+C4suC4peC4reC4h+C5gOC4reC4h+C5hOC4lOC5iSDguJzguKXguILg
+uYnguLLguIfguKXguYjguLLguIfguKPguLHguJnguIjguKPguLTguIfguJfguLHguYnguIfguKvg
+uKHguJQKCioq4Lij4Lit4Lia4LiX4Li14LmIIDE6IOC5gOC4m+C4tOC4lOC4q+C4meC5ieC4suC5
+geC4peC5ieC4p+C4guC4rSBzbmFwc2hvdCoqIChbYGNhcHR1cmVzLzA1LWZpcnN0LXNjcmlwdC50
+eHRgXShjYXB0dXJlcy8wNS1maXJzdC1zY3JpcHQudHh0KSkKCmBgYAokIGVnby1icm93c2VyIG5v
+ZGVqcyA8PCdFT0YnCmNvbnN0IHRhc2sgPSBhd2FpdCB0YXNrU3BhY2UoInR1dG9yaWFsOiBlZ28g
+bGl0ZSBndWlkZSIpOwpjb25zdCBwYWdlID0gdGFzay5wYWdlKCJwMSIpOwphd2FpdCBwYWdlLmdv
+dG8oImh0dHBzOi8vZXhhbXBsZS5jb20iKTsKYXdhaXQgcGFnZS53YWl0Rm9yTG9hZFN0YXRlKCk7
+CmNvbnNvbGUubG9nKHsgdGFza1NwYWNlSWQ6IHRhc2suc3BhY2VJZCwgcGFnZTogcGFnZS5sYWJl
+bCwgdGl0bGU6IGF3YWl0IHBhZ2UudGl0bGUoKSB9KTsKY29uc29sZS5sb2coYXdhaXQgcGFnZS5z
+bmFwc2hvdCgpKTsKRU9GCnsgdGFza1NwYWNlSWQ6IDksIHBhZ2U6ICdwMScsIHRpdGxlOiAnRXhh
+bXBsZSBEb21haW4nIH0KW3AxICJFeGFtcGxlIERvbWFpbiIgfCBzcGFjZSAidHV0b3JpYWw6IGVn
+byBsaXRlIGd1aWRlIig5KTogMSBtYW5hZ2VkLCAwIHVudHJhY2tlZCDigJQgcDEqICJFeGFtcGxl
+IERvbWFpbiJdCnJvb3QKICBzdmdfcm9vdAogIHBhcmFncmFwaAogICAgdGV4dCAiVGhpcyBkb21h
+aW4gaXMgZm9yIHVzZSBpbiBkb2N1bWVudGF0aW9uIGV4YW1wbGVzIHdpdGhvdXQgbmVlZGluZyBw
+ZXJtaXNzaW9uLiDigKYiCiAg4oCmCiAgYW5jaG9yIFtyZWY9MTMxLCBsb2M9aHJlZjpodHRwczov
+L2lhbmEub3JnL2hlbHAvZXhhbXBsZS1kb21haW5zLCB1cmw9aHR0cHM6Ly9pYW5hLm9yZy9oZWxw
+L2V4YW1wbGUtZG9tYWluc10KICAgIHRleHQgIkxlYXJuIG1vcmUiCmBgYAoKLSBgdGFza1NwYWNl
+KG5hbWUpYCDguKrguKPguYnguLLguIcgU3BhY2Ug4LmD4Lir4Lih4LmIIOC4q+C4o+C4t+C4reC4
+geC4peC4seC4muC5gOC4guC5ieC4siBTcGFjZSDguYDguJTguLTguKHguJfguLXguYjguIrguLfg
+uYjguK3guJnguLXguYkgKOC5hOC4lOC5ieC4q+C4oeC4suC4ouC5gOC4peC4giA5KQotIGBzbmFw
+c2hvdCgpYCDguYTguKHguYjguYPguIrguYggSFRNTCDguJTguLTguJog4LmB4LiV4LmI4LmA4Lib
+4LmH4LiZ4LiV4LmJ4LiZ4LmE4Lih4LmJIGFjY2Vzc2liaWxpdHkg4LiX4Li14LmI4Lih4Li1IGBy
+ZWZgIOC5g+C4q+C5ieC4geC4lOC4leC5iOC4reC5hOC4lOC5iQoKKirguKPguK3guJrguJfguLXg
+uYggMjog4LiB4LiU4Lil4Li04LiH4LiB4LmM4LmB4Lil4LmJ4Lin4LiI4Lix4Lia4Lig4Liy4Lie
+KiogKFtgY2FwdHVyZXMvMDYtY2xpY2stYW5kLXNob3QudHh0YF0oY2FwdHVyZXMvMDYtY2xpY2st
+YW5kLXNob3QudHh0KSkKCmBgYAokIGVnby1icm93c2VyIG5vZGVqcyA8PCdFT0YnCmNvbnN0IHRh
+c2sgPSBhd2FpdCB0YXNrU3BhY2UoInR1dG9yaWFsOiBlZ28gbGl0ZSBndWlkZSIpOwpjb25zdCBw
+YWdlID0gdGFzay5wYWdlKCJwMSIpOwpjb25zdCByZWNlaXB0ID0gYXdhaXQgcGFnZS5jbGljaygi
+dGV4dD1MZWFybiBtb3JlIiwgeyBsYWJlbDogIm9wZW4gSUFOQSBoZWxwIHBhZ2UiIH0pOwphd2Fp
+dCBwYWdlLndhaXRGb3JVUkwoL2lhbmFcLm9yZy8pOwpjb25zdCBwYXRoID0gYXdhaXQgcGFnZS5z
+Y3JlZW5zaG90KHsgcGF0aDogIjxib29rPi9pbWFnZXMvMTEtaWFuYS1hZnRlci1jbGljay5wbmci
+IH0pOwpjb25zb2xlLmxvZyh7IHVybDogYXdhaXQgcGFnZS51cmwoKSwgdGl0bGU6IGF3YWl0IHBh
+Z2UudGl0bGUoKSwgc2NyZWVuc2hvdDogcGF0aC5zcGxpdCgiLyIpLnBvcCgpIH0pOwpjb25zb2xl
+LmxvZyhhd2FpdCB0YXNrLnBhZ2VzKCkpOwpFT0YKeyB1cmw6ICdodHRwczovL3d3dy5pYW5hLm9y
+Zy9oZWxwL2V4YW1wbGUtZG9tYWlucycsIHRpdGxlOiAnRXhhbXBsZSBEb21haW5zJywgc2NyZWVu
+c2hvdDogJzExLWlhbmEtYWZ0ZXItY2xpY2sucG5nJyB9ClsgUGFnZSB7IGxhYmVsOiAncDEnLCBz
+cGFjZUlkOiA5LCBtb3VzZTogUGFnZU1vdXNlIHt9LCBrZXlib2FyZDogUGFnZUtleWJvYXJkIHt9
+IH0gXQpgYGAKCuC4oOC4suC4nuC4l+C4teC5iOC4quC4hOC4o+C4tOC4m+C4leC5jOC4meC4teC5
+ieC4muC4seC4meC4l+C4tuC4gSAo4LmA4Lib4Lil4Li14LmI4Lii4LiZ4LiK4Li34LmI4Lit4LmA
+4Lib4LmH4LiZ4LmA4Lil4LiC4Lil4Liz4LiU4Lix4Lia4LiC4Lit4LiH4LiE4Li54LmI4Lih4Li3
+4Lit4LiX4Li14Lir4Lil4Lix4LiHKToKCiFb4Lir4LiZ4LmJ4LiyIEV4YW1wbGUgRG9tYWlucyDg
+uILguK3guIcgSUFOQSDguJfguLXguYjguYDguJvguLTguJTguILguLbguYnguJnguKvguKXguLHg
+uIfguKrguITguKPguLTguJvguJXguYzguIHguJTguKXguLTguIfguIHguYwgTGVhcm4gbW9yZV0o
+aW1hZ2VzLzA5LWZpcnN0LXNjcmlwdC1yZXN1bHQucG5nKQoKLSBgbGFiZWxgIOC4muC4meC4hOC4
+s+C4quC4seC5iOC4hyBjbGljayDguITguLfguK3guILguYnguK3guITguKfguLLguKHguJfguLXg
+uYjguILguLbguYnguJnguILguYnguLLguIfguYDguITguK3guKPguYzguYDguIvguK3guKPguYzg
+uILguK3guIcgYWdlbnQg4LmD4Lir4LmJ4LiE4LiZ4LiU4Li54Lij4Li54LmJ4Lin4LmI4Liy4Lih
+4Lix4LiZ4LiB4Liz4Lil4Lix4LiH4LiX4Liz4Lit4Liw4LmE4LijCi0g4LmA4Lin4Lil4Liy4LiX
+4Lix4LmJ4LiH4Lir4Lih4LiU4LmD4LiZ4Liq4LiE4Lij4Li04Lib4LiV4LmM4LmA4Lib4LmH4LiZ
+ICoq4Lih4Li04Lil4Lil4Li04Lin4Li04LiZ4Liy4LiX4Li1KioKLSDguJfguLjguIHguITguKPg
+uLHguYnguIfguJfguLXguYjguKPguLHguJnguITguLfguK0gcHJvY2VzcyDguYPguKvguKHguYgg
+4LiV4Lix4Lin4LmB4Lib4Lij4Lir4Liy4Lii4Lir4Lih4LiUIOC5geC4leC5iCBTcGFjZSDguYHg
+uKXguLDguYHguJfguYfguJrguKLguLHguIfguK3guKLguLnguYgKCiMjIDkuIOC4lOC4ueC5geC4
+peC4sOC4o+C4seC4muC4iuC5iOC4p+C4h+C4leC5iOC4rTogU3BhY2UKCuC4geC4lOC4m+C4uOC5
+iOC4oSBTcGFjZSDguKHguLjguKHguILguKfguLLguJrguJnguILguK3guIcgZWdvKGxpdGUpIOC4
+iOC4sOC5gOC4q+C5h+C4meC4l+C4uOC4gSBTcGFjZSDguJXguLHguKfguJfguLXguYjguYDguKPg
+uLfguK3guIfguYHguKrguIfguKrguLXguJ/guYnguLLguITguLfguK3guJXguLHguKfguJfguLXg
+uYggYWdlbnQg4LiB4Liz4Lil4Lix4LiH4LiX4Liz4LiH4Liy4LiZIOC4geC4lOC5gOC4guC5ieC4
+suC5hOC4m+C4lOC4ueC4q+C4o+C4t+C4reC4iuC5iOC4p+C4ouC5hOC4lOC5iQoKIVvguYDguK3g
+uIHguKrguLLguKMgV2F0Y2ggYW5kIHRha2Ugb3Zlcjog4LmB4Lic4LiHIFNwYWNlIOC5geC4quC4
+lOC4hyAyIHNwYWNlKHMpIOC4guC4reC4hyBhZ2VudCDguJfguLXguYjguJfguLPguIfguLLguJng
+uYHguKLguIHguIjguLLguIHguYHguJfguYfguJrguILguK3guIfguYDguKPguLJdKGltYWdlcy8w
+Ny1zcGFjZS1wYW5lbC5wbmcpCgohW+C5gOC4reC4geC4quC4suC4oyBTcGFjZTogU3BhY2Ug4LiE
+4Li34Lit4Lie4Li34LmJ4LiZ4LiX4Li14LmI4LiX4Liz4LiH4Liy4LiZ4LiE4Li54LmI4LiC4LiZ
+4Liy4LiZ4LmD4LiZ4LmA4Lia4Lij4Liy4Lin4LmM4LmA4LiL4Lit4Lij4LmMIHByb2Nlc3Mg4LmA
+4LiU4Li14Lii4Lin4LiB4Lix4LiZIOC4q+C4meC4tuC5iOC4hyBCcm93c2VyQ29udGV4dCDguJXg
+uYjguK3guKvguJnguLbguYjguIfguIfguLLguJkg4LmE4Lih4LmI4LmD4LiK4LmI4Lir4LiZ4LmJ
+4Liy4LiV4LmI4Liy4LiH4LmD4Lir4Lih4LmIIOC5hOC4oeC5iOC5g+C4iuC5iCBoZWFkbGVzcyDg
+uYTguKHguYjguYPguIrguYjguITguKXguLLguKfguJTguYxdKGltYWdlcy8wOC1zcGFjZS1kb2Mu
+cG5nKQoKLSDguYDguIjguK3guKvguJnguYnguLLguKXguYfguK3guIHguK3guLTguJnguKvguKPg
+uLfguK0gdmVyaWZpY2F0aW9uOiBhZ2VudCDguYDguKPguLXguKLguIEgYHRhc2suaGFuZE9mZigp
+YCDguYHguKXguYnguKfguJrguK3guIHguYPguKvguYnguYDguKPguLLguKHguLLguJfguLPguYDg
+uK3guIcKLSAqKuC4reC4ouC5iOC4suC4p+C4suC4h+C4o+C4q+C4seC4quC4nOC5iOC4suC4meC4
+q+C4o+C4t+C4reC4o+C4q+C4seC4quC4ouC4t+C4meC4ouC4seC4meC4peC4h+C5g+C4meC5geC4
+iuC4lSoqIOC4peC5h+C4reC4geC4reC4tOC4meC5g+C4mSBTcGFjZSDguYDguK3guIcg4LmB4Lil
+4LmJ4Lin4Lia4Lit4LiBIGFnZW50IOC5g+C4q+C5ieC4l+C4s+C4leC5iOC4rQotIOC4h+C4suC4
+meC5gOC4quC4o+C5h+C4iCBhZ2VudCDguJvguLTguJQgU3BhY2Ug4LiU4LmJ4Lin4LiiIGB0YXNr
+LmZpbmlzaCh7IGtlZXA6IFtdIH0pYCDguKPguK3guJrguJnguLXguYnguYTguJTguYnguJzguKXg
+uIjguKPguLTguIc6CgpgYGAKeyJzcGFjZUlkIjo5LCJjbG9zZWRTcGFjZSI6dHJ1ZSwia2VwdE1h
+bmFnZWRMYWJlbHMiOltdLCJjbG9zZWRNYW5hZ2VkTGFiZWxzIjpbInAxIl0sInByZXNlcnZlZFVu
+bWFuYWdlZENvdW50IjowfQpgYGAKCiMjIDEwLiDguYHguIHguYnguJvguLHguI3guKvguLIgKOC4
+iOC4suC4geC5gOC4reC4geC4quC4suC4oyBDbGF1ZGUgQ29kZSDguILguK3guIcgZWdvKQoKLSAq
+KmAvZWdvLWJyb3dzZXJgIOC5hOC4oeC5iOC4guC4tuC5ieC4mSoqOiDguYDguIrguYfguIHguKfg
+uYjguLLguK3guKLguLnguYjguYPguJnguYLguKvguKHguJQgQ29kZSDguYTguKHguYjguYPguIrg
+uYggQ293b3JrIOC4luC5ieC4siBvbmJvYXJkaW5nIOC4iOC4muC4leC4reC4mSBDbGF1ZGUg4LmA
+4Lib4Li04LiU4Lit4Lii4Li54LmIIOC5g+C4q+C5ieC4o+C4teC4quC4leC4suC4o+C5jOC4lSBD
+bGF1ZGUKLSAqKuC5hOC4oeC5iOC4oeC4teC4leC4seC4p+C5gOC4peC4t+C4reC4gSBCeXBhc3Mg
+cGVybWlzc2lvbnMqKjogU2V0dGluZ3Mg4oaSIENsYXVkZSBDb2RlIOKGkiBBbGxvdyBieXBhc3Mg
+cGVybWlzc2lvbnMgbW9kZSAo4LiW4LmJ4Liy4Lit4LiH4LiE4LmM4LiB4Lij4Lil4LmH4Lit4LiB
+4LmE4Lin4LmJIOC4leC5ieC4reC4h+C4luC4suC4oeC5geC4reC4lOC4oeC4tOC4mSkKLSAqKuC5
+guC4q+C4peC4lCBza2lsbCDguYTguJTguYnguYHguJXguYggZWdvKGxpdGUpIOC5hOC4oeC5iOC5
+gOC4m+C4tOC4lCoqOiDguKrguLTguJfguJjguLTguYzguKLguLHguIfguYTguKHguYjguYPguIrg
+uYggQnlwYXNzIOC4m+C4tOC4lCBzZXNzaW9uIOC5geC4peC5ieC4p+C5gOC4o+C4tOC5iOC4oeC5
+g+C4q+C4oeC5iOC4lOC5ieC4p+C4oiBgY2xhdWRlIC0tZGFuZ2Vyb3VzbHktc2tpcC1wZXJtaXNz
+aW9uc2AKLSAqKuC4oeC4tSB1cGRhdGUqKjog4LiW4LmJ4Liy4Lic4Lil4LiC4Lit4LiH4LiE4Liz
+4Liq4Lix4LmI4LiH4Lih4Li1IGBbZWdvLWJyb3dzZXI6bm90aWNlXWAg4LmD4Lir4LmJ4Lij4Lix
+4LiZIGBlZ28tYnJvd3NlciB1cGdyYWRlYCDguYHguKXguYnguKfguKPguLHguJkgYGVnby1icm93
+c2VyIHNraWxsYCDguK3guLXguIHguKPguK3guJoKCiMjIDExLiDguIHguLHguJrguJTguLHguIHg
+uJfguLXguYjguYDguIjguK3guIjguKPguLTguIfguJXguK3guJnguJfguLPguITguLnguYjguKHg
+uLfguK3guJnguLXguYkKCnwg4LmA4LiI4Lit4Lit4Liw4LmE4LijIHwg4Liq4Liy4LmA4Lir4LiV
+4Li4IHwg4LiX4Liy4LiH4LmB4LiB4LmJIHwKfC0tLXwtLS18LS0tfAp8IGBwYWdlLmNsaWNrKCJs
+b2M9cm9sZTpidXR0b25bbmFtZT0nbWFjT1MnXSIpYCDihpIgYG1hdGNoZWQgMCBlbGVtZW50c2Ag
+fCDguIrguLfguYjguK0gYWNjZXNzaWJsZSDguILguK3guIfguJvguLjguYjguKHguITguLfguK0g
+YERvd25sb2FkIGZvciBtYWNPU2Ag4LmE4Lih4LmI4LmD4LiK4LmI4LiC4LmJ4Lit4LiE4Lin4Liy
+4LihIGBtYWNPU2Ag4LiX4Li14LmI4LmA4Lir4LmH4LiZIHwgYHNuYXBzaG90KClgIOC4geC5iOC4
+reC4meC4l+C4uOC4geC4hOC4o+C4seC5ieC4hyDguYHguKXguYnguKfguYPguIrguYkgc2VsZWN0
+b3Ig4LiX4Li14LmI4Lih4Lix4LiZ4Lie4Li04Lih4Lie4LmM4LmD4Lir4LmJOiBgYnV0dG9uW2Fy
+aWEtbGFiZWw9IkRvd25sb2FkIGZvciBtYWNPUyJdYCB8CnwgYHdpbmRvdy5zY3JvbGxUbygpYCDg
+uJrguJnguKvguJnguYnguLLguYHguKPguIHguYTguKHguYjguYDguKXguLfguYjguK3guJkgKGBz
+Y3JvbGxZYCDguKLguLHguIfguYDguJvguYfguJkgMCkgfCDguKvguJnguYnguLLguYHguKPguIHg
+uYPguIrguYnguJXguLHguKfguYDguKXguLfguYjguK3guJnguILguK3guIfguJXguLHguKfguYDg
+uK3guIcgfCBgZWxlbWVudC5zY3JvbGxJbnRvVmlldygpYCDguYHguJfguJkgfAp8IOC4oOC4suC4
+nuC5geC4o+C4geC5gOC4peC5h+C4geC4oeC4suC4geC4luC5ieC4suC5hOC4oeC5iOC4geC4s+C4
+q+C4meC4lOC4guC4meC4suC4lCB8IFNwYWNlIOC5g+C4q+C4oeC5iOC4oeC4teC4q+C4meC5ieC4
+suC4leC5iOC4suC4h+C5gOC4peC5h+C4gSB8IGBwYWdlLmNkcCgiRW11bGF0aW9uLnNldERldmlj
+ZU1ldHJpY3NPdmVycmlkZSIsIHsgd2lkdGg6IDE0NDAsIGhlaWdodDogMTAwMCwg4oCmLCBzY3Jl
+ZW5XaWR0aCwgc2NyZWVuSGVpZ2h0IH0pYCB8CnwgVVJMIOC4lOC4suC4p+C4meC5jOC5guC4q+C4
+peC4lOC4oeC4tSBgcmVmX2NvZGVgIHwg4Lil4Li04LiH4LiB4LmM4Lit4LmJ4Liy4LiH4Lit4Li0
+4LiH4LiC4Lit4LiH4Lic4Li54LmJ4Lic4Lil4Li04LiVIHwg4LiV4Lix4LiU4Lit4Lit4LiB4LiB
+4LmI4Lit4LiZ4LmB4LiK4Lij4LmM4Lir4Lij4Li34Lit4LmB4LiE4Lib4LiI4LitIHwKCuC5gOC4
+nuC4tOC5iOC4oeC5gOC4leC4tOC4oTog4LmA4Lij4Liy4Lil4Lit4LiH4LmA4Lij4Li14Lii4LiB
+IGBwYWdlLnNjcmVlbnNob3QoKWAg4LmB4Lia4Lia4LmE4Lih4LmI4LmD4Liq4LmIIHBhdGgg4Liq
+4Lit4LiH4LiE4Lij4Lix4LmJ4LiH4LmD4LiZ4Lij4Li44LmI4LiZIDAuNi4xLjEzIOC5hOC4lOC5
+ieC4iuC4t+C5iOC4reC5hOC4n+C4peC5jOC4leC5iOC4suC4h+C4geC4seC4mSAoYOKApi0xLnBu
+Z2AsIGDigKYtMi5wbmdgLCBgc2FtZVBhdGg6IGZhbHNlYCkg4LmB4LiV4LmI4LmE4Lif4Lil4LmM
+4Lit4Lii4Li54LmI4LmD4LiZ4LmC4Lif4Lil4LmA4LiU4Lit4Lij4LmM4LiK4Lix4LmI4Lin4LiE
+4Lij4Liy4LinIOC5g+C4quC5iCBwYXRoIOC5gOC4leC5h+C4oeC5gOC4quC4oeC4rSAoW2BjYXB0
+dXJlcy8wNy1ldmFsdWF0ZS1hbmQtdHJhcC50eHRgXShjYXB0dXJlcy8wNy1ldmFsdWF0ZS1hbmQt
+dHJhcC50eHQpKQoKIyMgMTIuIHNraWxsIOC5g+C4meC4o+C4teC5guC4m+C4meC4teC5iSDguYPg
+uIrguYnguYTguJTguYnguJfguLHguYnguIcgQ2xhdWRlIENvZGUsIG9teCDguYHguKXguLAgb21w
+CgpgZWdvLWxpdGUtaW5zdGFsbGAg4LmA4Lib4LmH4LiZIHNraWxsICoq4Lib4Lij4Liw4LiI4Liz
+4Lij4Li14LmC4Lib4LiZ4Li14LmJKiog4LmE4Lih4LmI4LmE4LiU4LmJ4Lil4LiH4LiX4Lix4LmJ
+4LiH4LmA4LiE4Lij4Li34LmI4Lit4LiHIOC5gOC4m+C4tOC4lCBhZ2VudCDguYPguJnguKPguLXg
+uYLguJvguJnguLXguYnguYHguKXguYnguKfguKHguLHguJnguYDguIjguK3guYDguK3guIc6IOC4
+leC4o+C4p+C4iCDihpIg4LmC4Lir4Lil4LiU4LmB4Lil4Liw4LiV4Lij4Lin4LiI4LmE4Lif4Lil
+4LmMIOKGkiDguITguJnguIHguJTguJXguLTguJTguJXguLHguYnguIcg4oaSIOC4peC4tOC4h+C4
+geC5jCBza2lsbCBlZ28tYnJvd3NlciDguYPguKvguYnguJfguLjguIEgYWdlbnQg4oaSIOC4nuC4
+tOC4quC4ueC4iOC4meC5jAoKfCDguJfguLXguYjguK3guKLguLnguYjguYPguJnguKPguLXguYLg
+uJsgfCBhZ2VudCDguJfguLXguYjguK3guYjguLLguJkgfAp8LS0tfC0tLXwKfCBbYC5jbGF1ZGUv
+c2tpbGxzL2Vnby1saXRlLWluc3RhbGwvYF0oLi4vLi4vLi4vLi4vLmNsYXVkZS9za2lsbHMvZWdv
+LWxpdGUtaW5zdGFsbC8pICjguYTguJ/guKXguYzguIjguKPguLTguIcpIHwgQ2xhdWRlIENvZGUs
+IG9tcCB8CnwgYC5hZ2VudHMvc2tpbGxzL2Vnby1saXRlLWluc3RhbGxgIOKGkiBzeW1saW5rIOC5
+hOC4m+C4l+C4teC5iOC4guC5ieC4suC4h+C4muC4mSB8IENvZGV4IC8gb214LCBvbXAgfAp8IGAu
+Y29kZXgvc2tpbGxzL2Vnby1saXRlLWluc3RhbGxgIOKGkiBzeW1saW5rIOC5hOC4m+C4l+C4teC5
+iOC4guC5ieC4suC4h+C4muC4mSB8IENvZGV4IC8gb214IChwYXRoIOC5gOC4geC5iOC4sikgfAoK
+4LmB4Lil4LmJ4Lin4Liq4Lix4LmI4LiH4LmB4LiV4LmI4Lil4LiwIGFnZW50IOC5geC4muC4miBo
+ZWFkbGVzcyAqKuC4iOC4suC4geC5guC4n+C4peC5gOC4lOC4reC4o+C5jOC4o+C4teC5guC4myoq
+IOC5g+C4q+C5ieC5g+C4iuC5iSBza2lsbCDguJnguLXguYnguYHguKXguLDguKPguLLguKLguIfg
+uLLguJnguJzguKXguJXguKPguKfguIggKFtgY2FwdHVyZXMvMTAtZGVtby0qLnR4dGBdKGNhcHR1
+cmVzLykpOgoKfCBhZ2VudCB8IOC4hOC4s+C4quC4seC5iOC4hyB8IOC4hOC4s+C4leC4reC4miB8
+CnwtLS18LS0tfC0tLXwKfCBDbGF1ZGUgQ29kZSB8IGBjbGF1ZGUgLXAgIlVzZSB0aGUgZWdvLWxp
+dGUtaW5zdGFsbCBza2lsbOKApiIgLS1hbGxvd2VkVG9vbHMgQmFzaGAgfCBgZWdvLWJyb3dzZXIg
+MC42LjEuMTNgIMK3IGBWRVJESUNUOiByZWFkeWAgfAp8IG9teCB8IGBvbXggZXhlYyAiVXNlIHRo
+ZSBlZ28tbGl0ZS1pbnN0YWxsIHNraWxs4oCmImAgfCBgZWdvLWJyb3dzZXIgMC42LjEuMTNgIMK3
+IGBWRVJESUNUOiByZWFkeWAgfAp8IG9tcCB8IGBvbXAgLXAgIlVzZSB0aGUgZWdvLWxpdGUtaW5z
+dGFsbCBza2lsbOKApiJgIHwgYGVnby1icm93c2VyIDAuNi4xLjEzYCDCtyBgVkVSRElDVDogcmVh
+ZHlgIHwKCuC4l+C4seC5ieC4h+C4quC4suC4oeC4o+C4seC4meC4iOC4suC4geC5guC4n+C4peC5
+gOC4lOC4reC4o+C5jOC4o+C4teC5guC4myDguKvguKXguLHguIfguJbguK3guJTguKrguLPguYDg
+uJnguLIgZ2xvYmFsIOC4reC4reC4geC4q+C4oeC4lOC5geC4peC5ieC4pyDguIjguLbguIfguJ7g
+uLTguKrguLnguIjguJnguYzguKfguYjguLIgYWdlbnQg4LmA4LiI4LitIHNraWxsIOC4iOC4suC4
+geC5g+C4meC4o+C4teC5guC4m+C5gOC4reC4hyDCtyDguKPguK3guJrguJfguJTguKXguK3guIfg
+uYHguKPguIHguYPguJnguYLguJ/guKXguYDguJTguK3guKPguYzguJnguK3guIEgZ2l0IG9teCDg
+uKXguYnguKHguJTguYnguKfguKIgYE5vdCBpbnNpZGUgYSB0cnVzdGVkIGRpcmVjdG9yeSBhbmQg
+LS1za2lwLWdpdC1yZXBvLWNoZWNrIHdhcyBub3Qgc3BlY2lmaWVkLmAg4LmD4LiZ4Lij4Li14LmC
+4Lib4LmE4Lih4LmI4LiV4LmJ4Lit4LiH4LmD4Liq4LmIIGZsYWcKCiMjIOC4oOC4suC4hOC4nOC4
+meC4p+C4gTog4LiV4Lix4Lin4LmA4Lil4LiC4LiX4Li14LmI4Lic4Li54LmJ4Lic4Lil4Li04LiV
+4Lit4LmJ4Liy4LiHCgrguKDguLLguJ7guKrguK3guIfguKDguLLguJ7guJnguLXguYnguKHguLLg
+uIjguLLguIHguKvguJnguYnguLLguYHguKPguIHguILguK3guIcgbGl0ZS5lZ28uYXBwIOC5gOC4
+m+C5h+C4meC4guC5ieC4reC4oeC4ueC4peC4guC4reC4h+C4nOC4ueC5ieC4nOC4peC4tOC4lSDg
+uYDguKPguLLguYTguKHguYjguYTguJTguYnguKfguLHguJTguIvguYnguLMKCiFb4Lir4LiZ4LmJ
+4Liy4LmB4Lij4LiB4Liq4LmI4Lin4LiZIEZhc3RlciBydW5zLCBmZXdlciBmYWlsdXJlcywgZmV3
+ZXIgdG9rZW5zOiDguYDguKfguKXguLLguYDguInguKXguLXguYjguKLguJXguYjguK3guIfguLLg
+uJkgZWdvLWJyb3dzZXIgMzk4cyDguYDguJfguLXguKLguJogY2hyb21lLWRldnRvb2xzLWNsaSA1
+ODdzIOC4luC4tuC4hyBwbGF5d3JpZ2h0LWNsaSA2NDhzXShpbWFnZXMvMTAtYmVuY2htYXJrLnBu
+ZykKCuC4leC4seC4p+C5gOC4peC4guC4muC4meC4q+C4meC5ieC4suC5gOC4lOC4teC4ouC4p+C4
+geC4seC4mTog4Lit4Lix4LiV4Lij4Liy4Liq4Liz4LmA4Lij4LmH4LiIIGVnby1icm93c2VyIDkz
+LjUwJSAo4LiV4Lix4Lin4LiW4Lix4LiU4LmE4LibIGJyb3dzZXItaGFybmVzcyA3Ny40MCUpIOC5
+geC4peC4sOC4hOC5iOC4suC5g+C4iuC5ieC4iOC5iOC4suC4ouC5gOC4ieC4peC4teC5iOC4ouC4
+leC5iOC4reC4h+C4suC4mSAkMS42NCAo4LiV4Lix4Lin4LiW4Lix4LiU4LmE4LibIGJyb3dzZXIt
+aGFybmVzcyAkMi40MykKCiFb4Lir4LiZ4LmJ4Liy4LmB4Lij4LiB4Liq4LmI4Lin4LiZIEFsbCB0
+aGUgaGFyZCBwYXJ0cywgYWxyZWFkeSBoYW5kbGVkOiDguKvguYnguLLguKvguLHguKfguILguYng
+uK0gQW55IGFnZW50LCBsb2dnZWQgaW4sIG93biBTcGFjZSwgaWZyYW1lcyBhbmQgc2hhZG93IERP
+TSwgZGF0YSBzdGF5cyB5b3Vyc10oaW1hZ2VzLzExLWhhcmQtcGFydHMucG5nKQoKLS0tCgrigJQg
+QUlFeHBvIE9yYWNsZSAoT3JhY2xlIEFJKSDCtyDguYDguIHguYfguJrguILguYnguK3guKHguLng
+uKXguYHguKXguLDguYDguILguLXguKLguJkgMzAg4LiVLuC4hC4gMjAyNiDCtyDguKDguLLguJ7g
+uKvguJnguYnguLLguYDguKfguYfguJrguYDguJvguYfguJnguILguK3guIcgQ2l0cm8gTGFicyAo
+bGl0ZS5lZ28uYXBwKQo=
+</pre></section><section id="s3"><h2>Decoded</h2><pre class="decoded" id="decoded">(press Decode)</pre></section><section id="s4"><h2 id="verify">Signature</h2>
+<p>All three editions (Thai · English · base64) are signed together with AIExpo Oracle's Ethereum key, EIP-191. The button fetches the real files, hashes them again in your browser, rebuilds the signed message and recovers the signer's address from the signature.</p>
 <div class="sigcard">
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
   <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
   <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-30</div>
-  <div><b>signature</b> <code class="h">0xcbb68d5536b49cf4a2d26bb4091fa0ef7b9b12fcf97dae0d69418106746ad5586efb2ad2fb20ee19479d75c3a7aa9bcd4716834d9e3315f8ef6915bc7ab2c8fb1c</code></div>
+  <div><b>signature</b> <code class="h">0xe3b7cd4347ad9d63efdb00c6f4d68ef0fc422e9f320802c235d7efcc5b37a31f3dd7f3116fd87bb59f4f9bad7051535317918809589fc34c504243be7f1981d41b</code></div>
 </div>
-<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>45664963007692ada10ece0de294e7cad4d1fe64b0f290e0e2f12d43230645a0</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>956ac286d67984930eb597db5644cfdf53bde2465bc8258d5be8fe732059d67d</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>734d52cc2bf8b4f35a89c4207cf8947d15f1b301159560ce8db70db7cbfa8011</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
-<p><button class="btn" id="verifyBtn">ตรวจในเบราว์เซอร์</button> <span id="verdict"></span></p>
-<details><summary>ข้อความที่ถูกเซ็น (message)</summary><pre>AIExpo Oracle signed: ego(lite) install guide
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>9fe35c57acf52f039f50f76ac3e9ce0e3fbe45d1e46dc19eaa8b625b116954d4</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>70bcdecce6762cec91f2ead32f3f1d37ce491b91b3c1d9735b20a5ee20597045</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>9d4d74875214c42e6ed5a5ab241fe0fc9d2afb13f62ef5751f6c4329f91e0091</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<p><button class="btn" id="verifyBtn">Verify in this browser</button> <span id="verdict"></span></p>
+<details><summary>The signed message</summary><pre>AIExpo Oracle signed: ego(lite) install guide
 date: 2026-10-30
-README.md sha256:45664963007692ada10ece0de294e7cad4d1fe64b0f290e0e2f12d43230645a0
-README.en.md sha256:956ac286d67984930eb597db5644cfdf53bde2465bc8258d5be8fe732059d67d
-README.b64.txt sha256:734d52cc2bf8b4f35a89c4207cf8947d15f1b301159560ce8db70db7cbfa8011</pre></details>
-<p><b>ตรวจจากเครื่องตัวเอง</b></p>
+README.md sha256:9fe35c57acf52f039f50f76ac3e9ce0e3fbe45d1e46dc19eaa8b625b116954d4
+README.en.md sha256:70bcdecce6762cec91f2ead32f3f1d37ce491b91b3c1d9735b20a5ee20597045
+README.b64.txt sha256:9d4d74875214c42e6ed5a5ab241fe0fc9d2afb13f62ef5751f6c4329f91e0091</pre></details>
+<p><b>Check from your own machine</b></p>
 <pre>$ cd tools && bun install && bun verify.mjs
 ok   README.md sha256:…
 ok   README.en.md sha256:…
@@ -375,8 +504,8 @@ VALID: signed by 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
 
 # or with Foundry:
 $ cast wallet verify --address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78 "$(jq -r .message signature.json)" $(jq -r .signature signature.json)</pre>
-<p class="note">หมายเหตุ: ปุ่มตรวจต้องเปิดผ่าน http (เช่น GitHub Pages หรือ python3 -m http.server) เพราะเบราว์เซอร์ไม่ให้ fetch ไฟล์จาก file://</p></section></main>
-<nav id="rail" data-cover="ปก"></nav>
+<p class="note">Note: the button needs the page served over http (GitHub Pages, or python3 -m http.server); browsers block fetch() on file://.</p></section></main>
+<nav id="rail" data-cover="Cover"></nav>
 <script>
 const S=[...document.querySelectorAll('header.cover, main > section')],rail=document.getElementById('rail');
 S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?(x.querySelector('h2')||{}).textContent||'':rail.dataset.cover;

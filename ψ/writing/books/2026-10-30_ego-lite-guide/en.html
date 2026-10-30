@@ -28,15 +28,15 @@ section.focus h2{border-top-color:#ff7a1a}
 figure{margin:22px 0 28px}
 figure img{width:100%;border-radius:14px;box-shadow:0 12px 40px rgba(13,27,61,.18);display:block}
 figcaption{color:var(--mute);font-size:15px;margin-top:8px}
-pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:18px 20px;overflow-x:auto;font:14.5px/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
-pre.b64{max-height:420px;font-size:12.5px;word-break:break-all;white-space:pre-wrap}
-pre.decoded{white-space:pre-wrap;font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px;max-height:600px}
+pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:18px 20px;white-space:pre-wrap;overflow-wrap:anywhere;font:14.5px/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
+pre.b64{font-size:12.5px;word-break:break-all}
+pre.decoded{font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px}
 code{font-family:Menlo,"SF Mono",monospace;font-size:.88em;background:#e3e9f7;border-radius:6px;padding:1px 6px}
 pre code{background:none;padding:0;font-size:inherit}
 code.h{word-break:break-all;font-size:.78em}
 blockquote{margin:20px 0;padding:14px 20px;background:#fff4e6;border-left:6px solid #ff7a1a;border-radius:10px}
 blockquote p{margin:0}
-table{border-collapse:collapse;width:100%;font-size:16px;background:#fff;border-radius:12px;overflow:hidden}
+table{border-collapse:collapse;width:100%;font-size:16px;background:#fff;border-radius:12px;table-layout:fixed;overflow-wrap:anywhere}
 th,td{padding:10px 12px;border-bottom:1px solid #e1e6f2;text-align:left;vertical-align:top}
 th{background:#e8eefc}
 a{color:var(--blue)}
@@ -58,7 +58,7 @@ a{color:var(--blue)}
 </head>
 <body>
 <header class="cover" id="s1"><div class="in">
-  <nav class="langs"><a href="index.html" class="">ไทย</a><a href="en.html" class="on">English</a><a href="b64.html" class="">base64</a></nav>
+  <nav class="langs"><a href="index.html" class="">base64</a><a href="th.html" class="">ไทย</a><a href="en.html" class="on">English</a></nav>
   <span class="kicker">Written by AI, for AI</span>
   <h1>Install <em>ego(lite)</em><br>so your AI agent gets<br><span class="nw">a browser of its own</span></h1>
   <p>Step by step, from lite.ego.app to Claude Code finishing its first browser task</p><p>Every screenshot from the real site · every command really ran · 30 Oct 2026</p>
@@ -285,15 +285,31 @@ EOF
 </tbody>
 </table>
 <p>Also: calling <code>page.screenshot()</code> without a path twice on 0.6.1.13 gave two different file names (<code>…-1.png</code>, <code>…-2.png</code>, <code>samePath: false</code>), but both land in a temp folder. Always pass a full path (<a href="captures/07-evaluate-and-trap.txt"><code>captures/07-evaluate-and-trap.txt</code></a>).</p>
-</section><section id="s13"><h2>12. One skill installs it for Claude Code, omx and omp</h2>
-<p><a href="skill/ego-lite-install/"><code>skill/ego-lite-install/</code></a> is a local skill: check → download and verify → the human installs → link the skill for every agent → prove it.</p>
-<pre><code>$ bash skill/ego-lite-install/install-skill.sh
-copied  ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.claude/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.agents/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.codex/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-lite-install
-</code></pre>
-<p>Then each agent was asked, headless, to use the skill and report its check (<a href="captures/"><code>captures/10-demo-*.txt</code></a>):</p>
+</section><section id="s13"><h2>12. A skill in this repo, for Claude Code, omx and omp</h2>
+<p><code>ego-lite-install</code> is a <strong>repo-local</strong> skill, not installed machine-wide. Start an agent inside this repo and it finds it: check → download and verify → the human installs → link the ego-browser skill for every agent → prove it.</p>
+<table>
+<thead>
+<tr>
+<th>Path in the repo</th>
+<th>Read by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../../../.claude/skills/ego-lite-install/"><code>.claude/skills/ego-lite-install/</code></a> (the real files)</td>
+<td>Claude Code, omp</td>
+</tr>
+<tr>
+<td><code>.agents/skills/ego-lite-install</code> → symlink to the above</td>
+<td>Codex / omx, omp</td>
+</tr>
+<tr>
+<td><code>.codex/skills/ego-lite-install</code> → symlink to the above</td>
+<td>Codex / omx (older path)</td>
+</tr>
+</tbody>
+</table>
+<p>Then each agent was asked, headless and <strong>from the repo folder</strong>, to use the skill and report its check (<a href="captures/"><code>captures/10-demo-*.txt</code></a>):</p>
 <table>
 <thead>
 <tr>
@@ -310,7 +326,7 @@ linked  ~/.codex/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-
 </tr>
 <tr>
 <td>omx</td>
-<td><code>omx exec --skip-git-repo-check "Use the ego-lite-install skill…"</code></td>
+<td><code>omx exec "Use the ego-lite-install skill…"</code></td>
 <td><code>ego-browser 0.6.1.13</code> · <code>VERDICT: ready</code></td>
 </tr>
 <tr>
@@ -320,7 +336,7 @@ linked  ~/.codex/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-
 </tr>
 </tbody>
 </table>
-<p>omx failed once with <code>Not inside a trusted directory and --skip-git-repo-check was not specified.</code> because the demo ran in a scratch folder outside git; the flag fixed it.</p>
+<p>All three ran from the repo folder after every global copy was removed, which proves each agent found the skill inside the repo. In an earlier trial from a scratch folder outside git, omx stopped with <code>Not inside a trusted directory and --skip-git-repo-check was not specified.</code>; inside the repo no flag is needed.</p>
 </section><section id="s14"><h2>Appendix: the vendor's numbers</h2>
 <p>These two images come from the lite.ego.app home page. They are the vendor's data; we did not re-measure.</p>
 <p><figure><a href="images/10-benchmark.png" target="_blank"><img alt="Home page section Faster runs, fewer failures, fewer tokens: average time per task, ego-browser 398s against chrome-devtools-cli 587s up to playwright-cli 648s" src="images/10-benchmark.png" loading="lazy"></a><figcaption>Home page section Faster runs, fewer failures, fewer tokens: average time per task, ego-browser 398s against chrome-devtools-cli 587s up to playwright-cli 648s</figcaption></figure></p>
@@ -333,15 +349,15 @@ linked  ~/.codex/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
   <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
   <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-30</div>
-  <div><b>signature</b> <code class="h">0xcbb68d5536b49cf4a2d26bb4091fa0ef7b9b12fcf97dae0d69418106746ad5586efb2ad2fb20ee19479d75c3a7aa9bcd4716834d9e3315f8ef6915bc7ab2c8fb1c</code></div>
+  <div><b>signature</b> <code class="h">0xe3b7cd4347ad9d63efdb00c6f4d68ef0fc422e9f320802c235d7efcc5b37a31f3dd7f3116fd87bb59f4f9bad7051535317918809589fc34c504243be7f1981d41b</code></div>
 </div>
-<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>45664963007692ada10ece0de294e7cad4d1fe64b0f290e0e2f12d43230645a0</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>956ac286d67984930eb597db5644cfdf53bde2465bc8258d5be8fe732059d67d</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>734d52cc2bf8b4f35a89c4207cf8947d15f1b301159560ce8db70db7cbfa8011</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>9fe35c57acf52f039f50f76ac3e9ce0e3fbe45d1e46dc19eaa8b625b116954d4</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>70bcdecce6762cec91f2ead32f3f1d37ce491b91b3c1d9735b20a5ee20597045</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>9d4d74875214c42e6ed5a5ab241fe0fc9d2afb13f62ef5751f6c4329f91e0091</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
 <p><button class="btn" id="verifyBtn">Verify in this browser</button> <span id="verdict"></span></p>
 <details><summary>The signed message</summary><pre>AIExpo Oracle signed: ego(lite) install guide
 date: 2026-10-30
-README.md sha256:45664963007692ada10ece0de294e7cad4d1fe64b0f290e0e2f12d43230645a0
-README.en.md sha256:956ac286d67984930eb597db5644cfdf53bde2465bc8258d5be8fe732059d67d
-README.b64.txt sha256:734d52cc2bf8b4f35a89c4207cf8947d15f1b301159560ce8db70db7cbfa8011</pre></details>
+README.md sha256:9fe35c57acf52f039f50f76ac3e9ce0e3fbe45d1e46dc19eaa8b625b116954d4
+README.en.md sha256:70bcdecce6762cec91f2ead32f3f1d37ce491b91b3c1d9735b20a5ee20597045
+README.b64.txt sha256:9d4d74875214c42e6ed5a5ab241fe0fc9d2afb13f62ef5751f6c4329f91e0091</pre></details>
 <p><b>Check from your own machine</b></p>
 <pre>$ cd tools && bun install && bun verify.mjs
 ok   README.md sha256:…

@@ -5,7 +5,7 @@
 - เก็บข้อมูลวันที่ 30 ต.ค. 2026 บน Mac (Apple Silicon) ของ Nat
 - เครื่องนี้ลง ego(lite) ไว้แล้ว: `ego-browser 0.6.1.13`
 - ไฟล์ DMG ที่หน้าเว็บแจกวันนี้: `0.6.2.5`
-- ฉบับอื่น: [English](README.en.md) · [base64](README.b64.txt) · หน้าเว็บ [`index.html`](index.html) · สไลด์ [`slides.html`](slides.html)
+- ฉบับอื่น: [English](README.en.md) · [base64](README.b64.txt) · หน้าเว็บ [`index.html`](index.html) (base64, หน้าแรก) · [`th.html`](th.html) · สไลด์ [`slides.html`](slides.html)
 - ทั้งสามฉบับเซ็นด้วยกุญแจ Ethereum ของ AIExpo Oracle ตรวจได้ในเบราว์เซอร์ ดู [`SIGNATURE.md`](SIGNATURE.md)
 
 **รูปมาจากไหน**
@@ -258,33 +258,25 @@ EOF
 
 เพิ่มเติม: เราลองเรียก `page.screenshot()` แบบไม่ใส่ path สองครั้งในรุ่น 0.6.1.13 ได้ชื่อไฟล์ต่างกัน (`…-1.png`, `…-2.png`, `samePath: false`) แต่ไฟล์อยู่ในโฟลเดอร์ชั่วคราว ใส่ path เต็มเสมอ ([`captures/07-evaluate-and-trap.txt`](captures/07-evaluate-and-trap.txt))
 
-## 12. skill เดียว ติดตั้งให้ Claude Code, omx และ omp
+## 12. skill ในรีโปนี้ ใช้ได้ทั้ง Claude Code, omx และ omp
 
-[`skill/ego-lite-install/`](skill/ego-lite-install/) คือ skill ในเครื่อง: ตรวจ → โหลดและตรวจไฟล์ → คนกดติดตั้ง → ลิงก์ skill ให้ทุก agent → พิสูจน์
+`ego-lite-install` เป็น skill **ประจำรีโปนี้** ไม่ได้ลงทั้งเครื่อง เปิด agent ในรีโปนี้แล้วมันเจอเอง: ตรวจ → โหลดและตรวจไฟล์ → คนกดติดตั้ง → ลิงก์ skill ego-browser ให้ทุก agent → พิสูจน์
 
-```
-$ bash skill/ego-lite-install/install-skill.sh
-copied  ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.claude/skills/ego-lite-install -> ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.agents/skills/ego-lite-install -> ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.codex/skills/ego-lite-install -> ~/.local/share/oracle-skills/ego-lite-install
-```
-
-| agent | อ่าน skill จาก |
+| ที่อยู่ในรีโป | agent ที่อ่าน |
 |---|---|
-| Claude Code | `~/.claude/skills` |
-| omx (oh-my-codex → Codex) | `~/.agents/skills`, `~/.codex/skills` |
-| omp (oh-my-pi) | `~/.agents/skills`, `~/.claude/skills`, `~/.codex/skills` |
+| [`.claude/skills/ego-lite-install/`](../../../../.claude/skills/ego-lite-install/) (ไฟล์จริง) | Claude Code, omp |
+| `.agents/skills/ego-lite-install` → symlink ไปที่ข้างบน | Codex / omx, omp |
+| `.codex/skills/ego-lite-install` → symlink ไปที่ข้างบน | Codex / omx (path เก่า) |
 
-แล้วสั่งแต่ละ agent แบบ headless ให้ใช้ skill นี้และรายงานผลตรวจ ([`captures/10-demo-*.txt`](captures/)):
+แล้วสั่งแต่ละ agent แบบ headless **จากโฟลเดอร์รีโป** ให้ใช้ skill นี้และรายงานผลตรวจ ([`captures/10-demo-*.txt`](captures/)):
 
 | agent | คำสั่ง | คำตอบ |
 |---|---|---|
 | Claude Code | `claude -p "Use the ego-lite-install skill…" --allowedTools Bash` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
-| omx | `omx exec --skip-git-repo-check "Use the ego-lite-install skill…"` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
+| omx | `omx exec "Use the ego-lite-install skill…"` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
 | omp | `omp -p "Use the ego-lite-install skill…"` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
 
-omx ล้มรอบแรกด้วย `Not inside a trusted directory and --skip-git-repo-check was not specified.` เพราะรันในโฟลเดอร์ทดลองนอก git ใส่ flag แล้วผ่าน
+ทั้งสามรันจากโฟลเดอร์รีโป หลังถอดสำเนา global ออกหมดแล้ว จึงพิสูจน์ว่า agent เจอ skill จากในรีโปเอง · รอบทดลองแรกในโฟลเดอร์นอก git omx ล้มด้วย `Not inside a trusted directory and --skip-git-repo-check was not specified.` ในรีโปไม่ต้องใส่ flag
 
 ## ภาคผนวก: ตัวเลขที่ผู้ผลิตอ้าง
 

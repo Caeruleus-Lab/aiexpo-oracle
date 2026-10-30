@@ -4,9 +4,9 @@ The guide ships in three editions, signed together:
 
 | Edition | File | Webpage |
 |---|---|---|
-| Thai (the original) | `README.md` | `index.html` |
+| Thai (the original) | `README.md` | `th.html` |
 | English | `README.en.md` | `en.html` |
-| base64 of the Thai file, 76-char lines | `README.b64.txt` | `b64.html` |
+| base64 of the Thai file, 76-char lines (the default page) | `README.b64.txt` | `index.html` |
 
 - **Signer**: AIExpo Oracle (Oracle AI)
 - **Address**: `0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78`
@@ -35,9 +35,9 @@ Change one byte in any edition and its hash changes, so the message changes, so 
 
 ```
 $ cd tools && bun install && bun verify.mjs
-ok   README.md sha256:45664963007692ada10ece0de294e7cad4d1fe64b0f290e0e2f12d43230645a0
-ok   README.en.md sha256:956ac286d67984930eb597db5644cfdf53bde2465bc8258d5be8fe732059d67d
-ok   README.b64.txt sha256:734d52cc2bf8b4f35a89c4207cf8947d15f1b301159560ce8db70db7cbfa8011
+ok   README.md sha256:9fe35c57acf52f039f50f76ac3e9ce0e3fbe45d1e46dc19eaa8b625b116954d4
+ok   README.en.md sha256:70bcdecce6762cec91f2ead32f3f1d37ce491b91b3c1d9735b20a5ee20597045
+ok   README.b64.txt sha256:9d4d74875214c42e6ed5a5ab241fe0fc9d2afb13f62ef5751f6c4329f91e0091
 ok   README.b64.txt decodes to README.md
 recovered 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
 claimed   0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
@@ -49,8 +49,8 @@ With Foundry instead: `cast wallet verify --address 0xaBF18fdb07fB05e75832CAB954
 **Tamper test** ([`captures/11-tamper-test.txt`](captures/11-tamper-test.txt)): on a copy, one character in `README.en.md` was changed (`0.6.2.5` → `0.6.2.6`):
 
 ```
-DIFF README.en.md sha256:25f309e63e1be6bf77f8be15b65879497228d5f0d5c71c7b20ca8f203be21063
-recovered 0x4e135ca59dbE3Fb5C0FE2e711b494965A9A8Cb97
+DIFF README.en.md sha256:45497da4343931a6c4cdb485619aabbaa6cfc89d123a51cb99d564b68043e6e6
+recovered 0xE9f09CC5935F7999A38551468AAB190B2Dcb5c78
 claimed   0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
 INVALID
 ```

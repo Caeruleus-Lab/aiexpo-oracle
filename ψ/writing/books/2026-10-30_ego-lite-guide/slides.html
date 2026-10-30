@@ -246,15 +246,14 @@ anchor [ref=131, loc=href:…]
 
 <!-- 15 · one skill for three agents -->
 <section class="slide">
-  <div class="k">skill เดียว สามเอเจนต์</div><div class="n">14</div>
-  <h1><em>ego-lite-install</em> ใน Claude Code · omx · omp</h1>
-<pre style="font-size:27px"><span class="c">$ bash skill/ego-lite-install/install-skill.sh</span>
-linked  ~/.claude/skills/ego-lite-install
-linked  ~/.agents/skills/ego-lite-install
-linked  ~/.codex/skills/ego-lite-install
+  <div class="k">skill ประจำรีโป สามเอเจนต์</div><div class="n">14</div>
+  <h1><em>ego-lite-install</em> อยู่ในรีโปนี้</h1>
+<pre style="font-size:27px"><span class="c">.claude/skills/ego-lite-install/      Claude Code · omp
+.agents/skills/ego-lite-install  →    Codex · omx · omp
+.codex/skills/ego-lite-install   →    Codex · omx</span>
 <span class="c">$ claude -p "Use the ego-lite-install skill…"</span>
 ego-browser 0.6.1.13 · <span class="ok">VERDICT: ready</span>
-<span class="c">$ omx exec --skip-git-repo-check "Use the ego-lite-install skill…"</span>
+<span class="c">$ omx exec "Use the ego-lite-install skill…"</span>
 ego-browser 0.6.1.13 · <span class="ok">VERDICT: ready</span>
 <span class="c">$ omp -p "Use the ego-lite-install skill…"</span>
 ego-browser 0.6.1.13 · <span class="ok">VERDICT: ready</span></pre>
@@ -279,7 +278,7 @@ ego-browser 0.6.1.13 · <span class="ok">VERDICT: ready</span></pre>
   <h1>โหลด · ตรวจ · ติดตั้ง ·<br><em>/ego-browser</em></h1>
   <ul class="full" style="top:450px">
     <li>คู่มือเต็ม: README.md · README.en.md · README.b64.txt</li>
-    <li>หน้าเว็บ: index.html · en.html · b64.html</li>
+    <li>หน้าเว็บ: index.html (base64) · th.html · en.html</li>
     <li>ผลคำสั่งดิบ: captures/</li>
   </ul>
   <div class="foot">AIExpo Oracle (Oracle AI) · 30 ต.ค. 2026 · ภาพหน้าเว็บเป็นของ Citro Labs (lite.ego.app)</div>

@@ -1,8 +1,8 @@
 """Build the webpage editions from the signed files, so the pages never drift from what was signed.
 
-  index.html  Thai     (README.md)
+  index.html  base64   (README.b64.txt, the default page; decodes to README.md in the browser)
+  th.html     Thai     (README.md)
   en.html     English  (README.en.md)
-  b64.html    base64   (README.b64.txt, decodes to README.md in the browser)
 
 Each page: one long page, anchor scroll, a numbered rail (click a number to jump), a language switch,
 and a panel that re-hashes the three files and recovers the Ethereum signer in the browser.
@@ -36,8 +36,8 @@ COVER = {
                      "Decode it here, or: base64 -d README.b64.txt"],
                 cover_label="Cover", verify="Signature", slides="Slides"),
 }
-PAGES = {"th": "index.html", "en": "en.html", "b64": "b64.html"}
-LANG_LABEL = {"th": "ไทย", "en": "English", "b64": "base64"}
+PAGES = {"b64": "index.html", "th": "th.html", "en": "en.html"}
+LANG_LABEL = {"b64": "base64", "th": "ไทย", "en": "English"}
 
 
 def md_body(path):
@@ -122,15 +122,15 @@ section.focus h2{border-top-color:#ff7a1a}
 figure{margin:22px 0 28px}
 figure img{width:100%;border-radius:14px;box-shadow:0 12px 40px rgba(13,27,61,.18);display:block}
 figcaption{color:var(--mute);font-size:15px;margin-top:8px}
-pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:18px 20px;overflow-x:auto;font:14.5px/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
-pre.b64{max-height:420px;font-size:12.5px;word-break:break-all;white-space:pre-wrap}
-pre.decoded{white-space:pre-wrap;font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px;max-height:600px}
+pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:18px 20px;white-space:pre-wrap;overflow-wrap:anywhere;font:14.5px/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
+pre.b64{font-size:12.5px;word-break:break-all}
+pre.decoded{font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px}
 code{font-family:Menlo,"SF Mono",monospace;font-size:.88em;background:#e3e9f7;border-radius:6px;padding:1px 6px}
 pre code{background:none;padding:0;font-size:inherit}
 code.h{word-break:break-all;font-size:.78em}
 blockquote{margin:20px 0;padding:14px 20px;background:#fff4e6;border-left:6px solid #ff7a1a;border-radius:10px}
 blockquote p{margin:0}
-table{border-collapse:collapse;width:100%;font-size:16px;background:#fff;border-radius:12px;overflow:hidden}
+table{border-collapse:collapse;width:100%;font-size:16px;background:#fff;border-radius:12px;table-layout:fixed;overflow-wrap:anywhere}
 th,td{padding:10px 12px;border-bottom:1px solid #e1e6f2;text-align:left;vertical-align:top}
 th{background:#e8eefc}
 a{color:var(--blue)}

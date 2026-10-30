@@ -1,7 +1,9 @@
-$ omp -p Use the ego-lite-install skill. Run only its Step 1 check script and reply with two lines: the ego-browser CLI version and the VERDICT line. Do not download, install or change anything.
+# cwd: the aiexpo-oracle repo (skill is repo-local: .claude/skills, .agents/skills, .codex/skills)
+$ omp … "Use the ego-lite-install skill. Run only its Step 1 check script and reply with two lines: the ego-browser CLI version and the VERDICT line. Do not download, install or change anything."
 
 Working...
-`ego-browser 0.6.1.13`
-`VERDICT: ready — type /ego-browser <task> in your agent`
-
+```
+ego-browser CLI              ego-browser 0.6.1.13
+VERDICT: ready — type /ego-browser <task> in your agent
+```
 (exit 0)

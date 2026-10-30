@@ -5,10 +5,20 @@ description: Install ego(lite) from https://lite.ego.app/ and make the ego-brows
 
 # ego-lite-install: lite.ego.app → a browser your agent can drive
 
-Guide with screenshots, captured 2026-10-30: `../../README.md` (Thai) in the book this skill ships with.
+Guide with screenshots, captured 2026-10-30: `ψ/writing/books/2026-10-30_ego-lite-guide/README.md` (Thai, plus `README.en.md`).
 
-Works the same from Claude Code, omx (Codex) and omp: the steps are shell scripts beside this file.
-Run them by absolute path from `<this skill dir>/scripts/`.
+## Where this skill lives (repo-local, not global)
+
+It lives in this repo only. Each agent finds it when started inside the repo:
+
+| Path in the repo | Read by |
+|---|---|
+| `.claude/skills/ego-lite-install/` (the real files) | Claude Code, omp |
+| `.agents/skills/ego-lite-install` → symlink to the above | Codex / omx, omp |
+| `.codex/skills/ego-lite-install` → symlink to the above | Codex / omx (older path) |
+
+The steps are shell scripts beside this file. From the repo root run `.claude/skills/ego-lite-install/scripts/<name>.sh`
+(`<skill-dir>` below means that folder).
 
 ## Step 1: check (read-only, always first)
 

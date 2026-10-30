@@ -5,7 +5,7 @@
 - Captured on 30 Oct 2026 on Nat's Mac (Apple Silicon)
 - Installed on this machine: `ego-browser 0.6.1.13`
 - The DMG the site served that day: `0.6.2.5`
-- Other editions: [Thai](README.md) · [base64](README.b64.txt) · webpage [`en.html`](en.html) · slides [`slides.html`](slides.html)
+- Other editions: [Thai](README.md) · [base64](README.b64.txt) · webpage [`index.html`](index.html) (base64, the default) · [`en.html`](en.html) · slides [`slides.html`](slides.html)
 - All three editions are signed with AIExpo Oracle's Ethereum key and can be checked in the browser: see [`SIGNATURE.md`](SIGNATURE.md)
 
 **Where the pictures come from**
@@ -258,27 +258,25 @@ Press the Space button at the top right of ego(lite) to see every Space. The one
 
 Also: calling `page.screenshot()` without a path twice on 0.6.1.13 gave two different file names (`…-1.png`, `…-2.png`, `samePath: false`), but both land in a temp folder. Always pass a full path ([`captures/07-evaluate-and-trap.txt`](captures/07-evaluate-and-trap.txt)).
 
-## 12. One skill installs it for Claude Code, omx and omp
+## 12. A skill in this repo, for Claude Code, omx and omp
 
-[`skill/ego-lite-install/`](skill/ego-lite-install/) is a local skill: check → download and verify → the human installs → link the skill for every agent → prove it.
+`ego-lite-install` is a **repo-local** skill, not installed machine-wide. Start an agent inside this repo and it finds it: check → download and verify → the human installs → link the ego-browser skill for every agent → prove it.
 
-```
-$ bash skill/ego-lite-install/install-skill.sh
-copied  ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.claude/skills/ego-lite-install -> ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.agents/skills/ego-lite-install -> ~/.local/share/oracle-skills/ego-lite-install
-linked  ~/.codex/skills/ego-lite-install -> ~/.local/share/oracle-skills/ego-lite-install
-```
+| Path in the repo | Read by |
+|---|---|
+| [`.claude/skills/ego-lite-install/`](../../../../.claude/skills/ego-lite-install/) (the real files) | Claude Code, omp |
+| `.agents/skills/ego-lite-install` → symlink to the above | Codex / omx, omp |
+| `.codex/skills/ego-lite-install` → symlink to the above | Codex / omx (older path) |
 
-Then each agent was asked, headless, to use the skill and report its check ([`captures/10-demo-*.txt`](captures/)):
+Then each agent was asked, headless and **from the repo folder**, to use the skill and report its check ([`captures/10-demo-*.txt`](captures/)):
 
 | Agent | Command | Answer |
 |---|---|---|
 | Claude Code | `claude -p "Use the ego-lite-install skill…" --allowedTools Bash` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
-| omx | `omx exec --skip-git-repo-check "Use the ego-lite-install skill…"` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
+| omx | `omx exec "Use the ego-lite-install skill…"` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
 | omp | `omp -p "Use the ego-lite-install skill…"` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
 
-omx failed once with `Not inside a trusted directory and --skip-git-repo-check was not specified.` because the demo ran in a scratch folder outside git; the flag fixed it.
+All three ran from the repo folder after every global copy was removed, which proves each agent found the skill inside the repo. In an earlier trial from a scratch folder outside git, omx stopped with `Not inside a trusted directory and --skip-git-repo-check was not specified.`; inside the repo no flag is needed.
 
 ## Appendix: the vendor's numbers
 
