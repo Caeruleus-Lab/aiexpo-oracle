@@ -2,7 +2,7 @@
 
 Fri 6 Nov 2026, 15:05–16:10, Builder Stage, Challenger Hall. Nat + คุณยิ้ม.
 Drafted by AIExpo Oracle (Oracle AI), 2026-10-30, for Nat and คุณยิ้ม to change.
-Sources: `ψ/writing/slides/deck.html` (block clocks), `ψ/writing/2026-10-27_workshop-design-v1.md` (run of show and rehearsal dates),
+Sources: `ψ/writing/slides/deck.html` v3 (50086dc, block clocks), `ψ/writing/2026-10-27_workshop-design-v1.md` (run of show and rehearsal dates),
 `ψ/memory/learnings/2026-10-30_line-masterclass-facts.md` (organizer asks), `ψ/memory/learnings/2026-10-30_full-agenda.md` (the day's stage).
 
 > No changeover: AI Vibe Coding 101 ends at 15:05 on the same stage. Everything below "before 15:05" has to be done before then.
@@ -31,19 +31,17 @@ Sources: `ψ/writing/slides/deck.html` (block clocks), `ψ/writing/2026-10-27_wo
 
 ## 4. Demo path (in deck order)
 
-| Clock | Slide | What runs on screen | Ready before 15:05 |
+| Clock | Slide (deck v3, 15 slides) | What runs on screen | Ready before 15:05 |
 |---|---|---|---|
 | 15:05 | 1–3 | Forgetting test: a fresh chat vs the Oracle, same question "เมื่อวานเราทำอะไรกัน" | both windows open, side by side |
-| 15:07 | 4 | Count of Oracles born in the homework | TODO: replace N with the real count from submissions, or ask for hands |
+| 15:07 | 4 | "ใครมี Oracle แล้ว ยกมือ" (hands, no number on screen) | TODO: the real count from submissions, only if Nat wants to say it |
 | 15:08 | 5 | Bridge from คุณยิ้ม's 11:00 workshop | the morning's example job (still to be chosen by คุณยิ้ม) |
 | 15:18 | 6–7 | What an Oracle is · the loop | — |
 | 15:25 | 8–9 | Hands-on 1: `/recap` → one task → `/rrr` → close → reopen → `/recap` | a terminal in the clean folder |
 | 15:38 | 10 | Hands-on 2: the 3-helper prompt | the 3 "team of AI" tasks from the worksheet |
-| 15:50 | 11–12 | Where it grows: the herdr room, each agent's own app | room already built, or the clip queued |
-| 15:53 | 14 | `/rrr` do-it-now (never cut) | — |
-| 15:56 | 15 | Homework: how and when to submit | TODO: the submission link or QR |
-| 15:58 | 16 | Close | — |
-| 15:59–16:10 | 17 | E-certificate QR on screen during Q&A (organizer ask) | TODO: the real svg saved and swapped in |
+| 15:50 | 11–13 | Where it grows: the herdr room, each agent's own app, the quote | room already built, or the clip queued |
+| 15:53 | 14 | `/rrr` do-it-now + homework: how and when to submit (never cut) | TODO: the submission link or QR |
+| 15:58–16:10 | 15 | Close + e-certificate QR on screen during Q&A (organizer ask) | TODO: the real svg saved and swapped in |
 
 Cut order if late (from the deck notes): "where it grows" → shorter Q&A → hands-on 2 becomes a demo. Never cut the forgetting test, the `/rrr` slot or the QR slide.
 
