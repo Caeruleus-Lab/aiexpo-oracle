@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "aiexpo": {
+      "type": "http",
+      "url": "https://aiexpo.buildwithoracle.com/mcp"
+    }
+  }
+}

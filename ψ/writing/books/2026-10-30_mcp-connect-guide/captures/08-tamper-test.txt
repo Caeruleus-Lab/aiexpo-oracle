@@ -1,0 +1,9 @@
+# on a copy, one character changed in README.en.md (No authentication -> No authentikation)
+$ bun verify.mjs
+ok   README.md sha256:f52924783bf0d18d72e261805a107fb01f2b64571fa239ed45f9a561604e799d
+DIFF README.en.md sha256:9572c66237118ebba4b031eabbea0f365a14ba34310c8363fc1ea9f45bc22808
+ok   README.b64.txt sha256:40f6d51546ac34b995343b32628bbbb4489a61a1dba25e9b13f4035c5402e3e0
+ok   README.b64.txt decodes to README.md
+recovered 0xaFECDD67279fF5994484aC1DAF8b04B5CE841B84
+claimed   0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+INVALID

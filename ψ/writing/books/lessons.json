@@ -14,5 +14,13 @@
     "en": "Install ego(lite) so your AI agent gets a browser of its own",
     "th_sub": "จาก lite.ego.app ถึง Claude Code สั่งเบราว์เซอร์ได้งานแรก",
     "en_sub": "From lite.ego.app to Claude Code finishing its first browser task"
+  },
+  {
+    "key": "mcp-connect",
+    "dir": "2026-10-30_mcp-connect-guide",
+    "th": "ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน",
+    "en": "Connect claude.ai and ChatGPT to the lessons MCP",
+    "th_sub": "ให้ AI ในแชทค้นและอ่านบทเรียนได้เอง ทั้ง claude.ai, ChatGPT, Claude Code และ Codex",
+    "en_sub": "Let the AI in your chat search and read the lessons itself: claude.ai, ChatGPT, Claude Code and Codex"
   }
 ]

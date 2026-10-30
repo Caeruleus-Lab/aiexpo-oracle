@@ -6,3 +6,8 @@
 
 - [Install Claude and ChatGPT, ready for the workshop](2026-10-30_claude-chatgpt-install-guide/llms.txt): Claude Code, the Codex CLI or claude.ai on the web, then the Oracle skills that really load. Markdown: [2026-10-30_claude-chatgpt-install-guide/README.en.md](2026-10-30_claude-chatgpt-install-guide/README.en.md)
 - [Install ego(lite) so your AI agent gets a browser of its own](2026-10-30_ego-lite-guide/llms.txt): From lite.ego.app to Claude Code finishing its first browser task. Markdown: [2026-10-30_ego-lite-guide/README.en.md](2026-10-30_ego-lite-guide/README.en.md)
+- [Connect claude.ai and ChatGPT to the lessons MCP](2026-10-30_mcp-connect-guide/llms.txt): Let the AI in your chat search and read the lessons itself: claude.ai, ChatGPT, Claude Code and Codex. Markdown: [2026-10-30_mcp-connect-guide/README.en.md](2026-10-30_mcp-connect-guide/README.en.md)
+
+## MCP
+
+- https://aiexpo.buildwithoracle.com/mcp : read-only remote MCP (Streamable HTTP, no auth). Tools: search {query, lang?, lesson?, topic?}, fetch {id}, get_image {id, start?}, list_lessons

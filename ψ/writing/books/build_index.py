@@ -13,7 +13,7 @@ import pathlib
 
 here = pathlib.Path(__file__).resolve().parent
 
-# In workshop order: get an agent first, then give it a browser.
+# In workshop order: get an agent first, give it a browser, then let any chat AI read these lessons over MCP.
 LESSONS = [
     dict(key="claude-chatgpt", dir="2026-10-30_claude-chatgpt-install-guide",
          th="ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop",
@@ -31,6 +31,14 @@ LESSONS = [
          cover="images/02-download-page.png",
          facts_th=["DMG 0.6.2.5 · Notarized", "skill ประจำรีโป 3 agent"],
          facts_en=["DMG 0.6.2.5 · Notarized", "repo skill for 3 agents"]),
+    dict(key="mcp-connect", dir="2026-10-30_mcp-connect-guide",
+         th="ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน",
+         en="Connect claude.ai and ChatGPT to the lessons MCP",
+         th_sub="ให้ AI ในแชทค้นและอ่านบทเรียนได้เอง ทั้ง claude.ai, ChatGPT, Claude Code และ Codex",
+         en_sub="Let the AI in your chat search and read the lessons itself: claude.ai, ChatGPT, Claude Code and Codex",
+         cover="images/03-claude-custom-connector-step2.png",
+         facts_th=["MCP: aiexpo.buildwithoracle.com/mcp", "4 เครื่องมือ · ไม่ต้องล็อกอิน"],
+         facts_en=["MCP: aiexpo.buildwithoracle.com/mcp", "4 tools · no sign-in"]),
 ]
 
 
@@ -99,6 +107,12 @@ main>h2{font-size:clamp(28px,3vw,56px);margin:0 0 clamp(18px,3vh,36px)}
 .chip{display:inline-flex;background:#fff;border:2px solid #c9d3ea;border-radius:999px;padding:4px 14px;text-decoration:none;color:var(--ink);font-size:.88em;font-weight:700}
 .chip:hover{border-color:var(--blue)}
 .note{color:var(--mute);font-size:.85em;margin-top:clamp(24px,4vh,48px)}
+.mcp{margin-top:clamp(28px,5vh,64px);background:#06112e;color:#e6f6ff;border-radius:22px;padding:clamp(18px,2.4vw,44px)}
+.mcp h2{font-size:clamp(24px,2.2vw,44px);margin:0 0 10px;color:#fff}
+.mcp code{background:rgba(39,230,242,.12);color:var(--cyan);border-radius:8px;padding:4px 10px;font:clamp(15px,1vw,22px) Menlo,"SF Mono",monospace;word-break:break-all}
+.mcp ol{margin:14px 0 6px;padding-left:1.3em}.mcp li{margin:6px 0}
+.mcp a{color:var(--cyan)}
+.mcp .copy{margin-left:8px;background:none;border:1px solid rgba(255,255,255,.35);color:#e6f6ff;border-radius:8px;padding:2px 10px;font:600 14px Sarabun,sans-serif;cursor:pointer}
 @media (max-width:820px){.card{grid-template-columns:1fr}.thumb img{min-height:0;max-height:240px}}
 """
 
@@ -137,6 +151,17 @@ def page():
 <div class="list">
 {cards}
 </div>
+<section class="mcp" id="mcp">
+  <h2><span data-l="th">ให้ AI อ่านบทเรียนเองผ่าน MCP</span><span data-l="en">Let your AI read the lessons over MCP</span></h2>
+  <p><code id="mcpurl">https://aiexpo.buildwithoracle.com/mcp</code><button class="copy" type="button" onclick="navigator.clipboard.writeText(document.getElementById('mcpurl').textContent);this.textContent='copied'">copy</button></p>
+  <ol>
+    <li><b>claude.ai</b>: <span data-l="th">Customize → Connectors → Add → Add custom connector · ใส่ URL · เลือก No sign-in</span><span data-l="en">Customize → Connectors → Add → Add custom connector · paste the URL · No sign-in</span></li>
+    <li><b>ChatGPT</b>: <span data-l="th">Settings → Plugins → Browse directory → Add → Add custom MCP server · Authentication: No authentication</span><span data-l="en">Settings → Plugins → Browse directory → Add → Add custom MCP server · Authentication: No authentication</span></li>
+    <li><b>Claude Code</b>: <code>claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp</code></li>
+    <li><b>Codex</b>: <code>codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp</code></li>
+  </ol>
+  <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/th.html" data-href-en="2026-10-30_mcp-connect-guide/en.html"><span data-l="th">บทเรียน 03</span><span data-l="en">lesson 03</span></a></p>
+</section>
 <p class="note"><span data-l="th">แต่ละบทมีสามฉบับ (base64 · ไทย · English) เซ็นรวมกัน กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Each lesson has three editions (base64 · Thai · English) signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
 </main>
 <script>{JS}</script>
@@ -158,7 +183,18 @@ Open [`index.html`](index.html) for the landing page. Agents: [`llms.txt`](llms.
 {rows}
 
 Each lesson ships three editions (base64 · Thai · English) signed together with AIExpo Oracle's key; see the lesson's `SIGNATURE.md`.
-Rebuild this list: `python3 build_index.py`.
+## Ask the lessons from your AI (MCP)
+
+Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: search, fetch, get_image, list_lessons).
+
+- **claude.ai**: Customize → Connectors → Add → Add custom connector, paste the URL, choose No sign-in
+- **ChatGPT**: Settings → Plugins → Browse directory → Add → Add custom MCP server, Authentication: No authentication
+- **Claude Code**: `claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp` (this repo already ships `.mcp.json`)
+- **Codex**: `codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp`
+
+Step by step with screenshots: [lesson 03](2026-10-30_mcp-connect-guide/README.en.md).
+
+Rebuild this list: `python3 build_index.py`; then `uv run --with pillow python build_chunks.py` for the MCP index.
 
 — AIExpo Oracle (Oracle AI)
 """
@@ -174,6 +210,10 @@ def llms():
 ## Lessons
 
 {items}
+
+## MCP
+
+- https://aiexpo.buildwithoracle.com/mcp : read-only remote MCP (Streamable HTTP, no auth). Tools: search {{query, lang?, lesson?, topic?}}, fetch {{id}}, get_image {{id, start?}}, list_lessons
 """
 
 
