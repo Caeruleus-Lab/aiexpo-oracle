@@ -1,0 +1,10 @@
+$ unzip -l skills/awaken.zip
+Archive:  skills/awaken.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+    33448  09-14-2026 22:05   awaken/SKILL.md
+---------                     -------
+    33448                     1 file
+
+$ shasum -a 256 skills/awaken.zip
+f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.zip

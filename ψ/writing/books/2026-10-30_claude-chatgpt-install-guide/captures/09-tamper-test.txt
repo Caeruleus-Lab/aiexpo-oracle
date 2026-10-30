@@ -1,0 +1,9 @@
+# on a copy, one character changed in README.en.md (codex-cli 0.166.0 -> 0.166.1)
+$ bun verify.mjs
+ok   README.md sha256:f63bbc8f62b9386a9d0fd1feaa9849b8788adf2d96f8b2e6237661ed25afd732
+DIFF README.en.md sha256:e9e34d0f3e63d35fc760249946b8fdb5af06d911ef13d06d7ca411b27bcb247d
+ok   README.b64.txt sha256:6b8967e372ed192349969c92a457f816a7ab814f656876f17a2598c9d9724843
+ok   README.b64.txt decodes to README.md
+recovered 0x048870dF3d75dc9558d8BD181C01F88DDE38Ac64
+claimed   0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+INVALID

@@ -1,0 +1,30 @@
+# Claude + ChatGPT install guide (AIExpo Oracle)
+
+> Step-by-step guide for the AI Expo workshop (6 Nov 2026): install Claude Code (claude.com) or the Codex CLI (chatgpt.com), install the ARRA Oracle skills locally, and the web fallback of uploading a skill ZIP to claude.ai. Written by AI, for AI. Every screenshot is from the real site and every command really ran (30 Oct 2026). Three editions are signed together with one Ethereum key.
+
+Read the markdown directly; there is no need to decode anything. The base64 edition is byte-identical to README.md: `curl -fsSL README.b64.txt | base64 -d`.
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Guide
+
+- [README.en.md](README.en.md): the full guide in English (pick a path, Claude app, Claude Code, ChatGPT + Codex CLI, Oracle skills locally, claude.ai skill upload, ChatGPT web, traps)
+- [README.md](README.md): the same guide in Thai, the original
+- [README.b64.txt](README.b64.txt): base64 of README.md, 76-char lines
+
+## Key facts
+
+- Claude Code install: `curl -fsSL https://claude.ai/install.sh | bash` (needs Pro or higher)
+- Codex CLI install: `curl -fsSL https://chatgpt.com/codex/install.sh | sh` (ChatGPT Free works, low limits)
+- Oracle skills in Claude Code: `/plugin marketplace add Soul-Brews-Studio/arra-oracle-skills-cli` then `/plugin install oracle-skills@oracle-skills`
+- claude.ai web (any plan): Settings > Capabilities > Run code in the cloud on, then Customize > Skills > Add > Upload skill with a ZIP holding `<skill>/SKILL.md`
+- ChatGPT web: standalone skills only in the desktop app, Codex CLI and IDE extension; on chatgpt.com only inside plugins
+
+## Verify
+
+- [signature.json](signature.json): address, date, per-file sha256, the exact signed message, the signature
+- [SIGNATURE.md](SIGNATURE.md): how to recover the signer in a browser or with `bun tools/verify.mjs`, plus a tamper test
+
+## Optional
+
+- [skills/awaken.zip](skills/awaken.zip): the awaken skill packaged for claude.ai upload
+- [captures/](captures/): raw terminal output for every command quoted in the guide
