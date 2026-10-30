@@ -71,61 +71,7 @@ def card(i, l):
 </article>'''
 
 
-CSS = """
-:root{--ink:#0d1b3d;--blue:#2f5bea;--cyan:#27e6f2;--paper:#f4f6fb;--mute:#5a6b8c;--pad:clamp(18px,5vw,120px)}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font:clamp(17px,0.55vw + 12px,24px)/1.7 Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif}
-html[lang=th] [data-l=en],html[lang=en] [data-l=th]{display:none}
-.cover{background:radial-gradient(60vw 60vh at 85% 0%,#3b6cf5 0%,#132a6b 55%,#070f2b 100%);color:#fff;padding:0 var(--pad) clamp(36px,6vh,80px)}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(14px,2.2vh,26px) 0}
-.brand{font-weight:800;letter-spacing:.02em;color:#fff;text-decoration:none}.brand em{font-style:normal;color:var(--cyan)}
-.bar .right{display:flex;align-items:center;gap:10px}
-.bar .mcplink{color:#cfe0ff;text-decoration:none;font-weight:700;font-size:15px;border:2px solid rgba(39,230,242,.5);border-radius:999px;padding:4px 14px}
-.hero{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,80px);align-items:center;margin-top:clamp(10px,3vh,40px)}
-.path{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.18);border-radius:22px;padding:clamp(14px,1.6vw,28px);display:grid;gap:10px}
-.path .lbl{font-size:.8em;font-weight:800;letter-spacing:.08em;color:#9fdcff;text-transform:uppercase}
-.path a{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;color:#fff;text-decoration:none;padding:10px 12px;border-radius:14px;transition:background .15s}
-.path a:hover{background:rgba(39,230,242,.12)}
-.path a b{display:inline-flex;width:2.2em;height:2.2em;border-radius:50%;align-items:center;justify-content:center;background:var(--cyan);color:var(--ink);font-weight:800}
-.path a span.t{font-weight:700;line-height:1.35}
-@media (max-width:980px){.hero{grid-template-columns:1fr}}
-.langs{display:flex;gap:8px}
-.langs button{color:#cfe0ff;background:none;border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 14px;font:700 15px Sarabun,sans-serif;cursor:pointer}
-.langs button.on{background:#fff;color:var(--ink);border-color:#fff}
-.kicker{display:inline-block;background:#c2410c;color:#fff;font-weight:800;border-radius:999px;padding:6px 18px}
-.cover h1{font-size:clamp(34px,4.4vw,88px);line-height:1.12;margin:18px 0 12px;font-weight:800}
-.cover h1 em{font-style:normal;color:var(--cyan)}
-.cover p{font-size:clamp(17px,1.2vw,28px);color:#d6e4ff;margin:0 0 6px}
-.down{display:inline-flex;align-items:center;gap:12px;margin-top:clamp(28px,6vh,80px);padding:10px 22px 10px 10px;border-radius:999px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;font-weight:700}
-.down b{display:inline-flex;width:2.1em;height:2.1em;border-radius:50%;align-items:center;justify-content:center;background:var(--cyan);color:var(--ink)}
-main{padding:clamp(26px,5vh,64px) var(--pad) 12vh}
-main>h2{font-size:clamp(28px,3vw,56px);margin:0 0 clamp(18px,3vh,36px)}
-.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:clamp(18px,2vw,36px)}
-.card{display:flex;flex-direction:column;background:#fff;border:2px solid #c9d3ea;border-radius:22px;overflow:hidden;transition:border-color .15s,transform .15s}
-.card:hover{border-color:var(--blue);transform:translateY(-2px)}
-.thumb{display:block;background:#06112e}
-.thumb img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;display:block}
-.body{padding:clamp(18px,2.2vw,40px)}
-.num{font-weight:800;color:var(--blue);font-size:.9em;letter-spacing:.08em}
-.card h2{font-size:clamp(22px,1.6vw,34px);line-height:1.25;margin:4px 0 8px}
-.card h2 a{color:var(--ink);text-decoration:none}
-.card h2 a:hover{color:var(--blue)}
-.card p{color:var(--mute);margin:0 0 14px}
-.facts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.facts>span{background:#e8eefc;border-radius:10px;padding:2px 10px;font-size:.8em;font-weight:700}
-.chips{display:flex;flex-wrap:wrap;gap:10px}
-.chip{display:inline-flex;background:#fff;border:2px solid #c9d3ea;border-radius:999px;padding:4px 14px;text-decoration:none;color:var(--ink);font-size:.88em;font-weight:700}
-.chip:hover{border-color:var(--blue)}
-.note{color:var(--mute);font-size:.85em;margin-top:clamp(24px,4vh,48px)}
-.mcp{margin-top:clamp(28px,5vh,64px);background:#06112e;color:#e6f6ff;border-radius:22px;padding:clamp(18px,2.4vw,44px)}
-.mcp h2{font-size:clamp(24px,2.2vw,44px);margin:0 0 10px;color:#fff}
-.mcp code{background:rgba(39,230,242,.12);color:var(--cyan);border-radius:8px;padding:4px 10px;font:clamp(15px,1vw,22px) Menlo,"SF Mono",monospace;word-break:break-all}
-.mcp ol{margin:14px 0 6px;padding-left:1.3em}.mcp li{margin:6px 0}
-.mcp a{color:var(--cyan)}
-.mcp .copy{margin-left:8px;background:none;border:1px solid rgba(255,255,255,.35);color:#e6f6ff;border-radius:8px;padding:2px 10px;font:600 14px Sarabun,sans-serif;cursor:pointer}
-main>h2{scroll-margin-top:16px}
-"""
+CSS = (here / "tokens.css").read_text(encoding="utf-8") + (here / "landing.css").read_text(encoding="utf-8")  # same palette as the deck v3
 
 JS = """
 const root=document.documentElement;
@@ -148,6 +94,8 @@ def page():
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AIExpo Oracle · บทเรียน / Lessons</title>
 <link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
 <style>{CSS}</style>
 </head>
 <body>

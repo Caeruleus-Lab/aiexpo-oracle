@@ -1,0 +1,86 @@
+/* Lesson pages (built by each lesson's build_web.py). Colours only through tokens.css. */
+:root{--pad:clamp(18px,5vw,120px);--railw:clamp(0px,4vw,64px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--paper);color:var(--ink);font:clamp(17px,0.55vw + 12px,24px)/1.75 var(--body)}
+h1,h2,h3{font-family:var(--display);font-style:normal}
+.cover{background:var(--paper);color:var(--ink);min-height:100vh;display:flex;align-items:center;border-bottom:1px solid var(--rule);padding:clamp(40px,6vh,96px) calc(var(--pad) + var(--railw)) clamp(40px,6vh,96px) var(--pad)}
+.cover .in{width:100%}
+.langs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap}
+.langs a{color:var(--ink-2);text-decoration:none;border:1px solid var(--rule);border-radius:999px;padding:4px 14px;font:700 15px var(--body)}
+.langs a:hover{border-color:var(--accent);color:var(--ink)}
+.langs a.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.langs a.home{border-style:dashed;margin-right:8px}
+.kicker{display:none}
+.cover h1{font-size:clamp(40px,7vw,140px);line-height:1.12;margin:22px 0 14px;font-weight:700}
+.cover h1 em{font-style:normal;color:var(--accent)}
+.nw{white-space:nowrap}
+.cover p{font-size:clamp(18px,1.5vw,34px);color:var(--ink-2);margin:0 0 6px}
+.cover .facts{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+.cover .facts span,.cover .facts a{border:1px solid var(--rule);background:var(--paper-2);border-radius:var(--r);padding:10px 16px;font-weight:700;color:var(--ink);text-decoration:none}
+.cover .facts a:hover{border-color:var(--accent)}
+.cover .facts b{color:var(--accent)}
+main{padding:8px calc(var(--pad) + var(--railw)) 12vh var(--pad)}
+h2{font-size:clamp(28px,3vw,64px);line-height:1.25;margin:clamp(36px,6vh,96px) 0 12px;padding-top:12px;border-top:1px solid var(--rule);font-weight:600}
+section.focus h2{border-top-color:var(--accent)}
+figure{margin:22px 0 28px}
+figure img{width:100%;border-radius:var(--r);border:1px solid var(--rule);display:block}
+figcaption{color:var(--ink-3);font-size:.82em;margin-top:8px}
+pre{background:var(--paper-2);color:var(--ink);border-radius:var(--r);padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:600 clamp(13px,0.45vw + 10px,19px)/1.55 var(--mono);border:1px solid var(--rule)}
+pre.b64{padding-top:48px;font-size:clamp(11px,0.35vw + 8px,16px);white-space:normal;word-break:break-all;line-height:1.5}
+code{font-family:var(--mono);font-size:.88em;background:var(--paper-2);color:var(--accent);border-radius:6px;padding:1px 6px}
+pre code{background:none;padding:0;font-size:inherit;color:inherit}
+code.h{word-break:break-all;font-size:.78em}
+blockquote{margin:20px 0;padding:14px 20px;background:var(--paper-2);border:1px solid var(--accent);border-radius:var(--r)}
+blockquote p{margin:0}
+table{border-collapse:collapse;width:100%;font-size:.9em;background:var(--paper-2);border-radius:var(--r);table-layout:fixed;overflow-wrap:anywhere;border:1px solid var(--rule)}
+th,td{padding:10px 12px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+th{background:var(--paper-3);font-family:var(--display);font-weight:600}
+a{color:var(--accent)}
+strong,b{color:var(--ink)}
+.sigcard{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);padding:16px 20px;display:grid;gap:6px;margin:16px 0;min-width:0}
+.sigcard div{min-width:0;overflow-wrap:anywhere}.sigcard code{word-break:break-all}
+.sigcard b{display:inline-block;min-width:92px;color:var(--ink-3)}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:10px 20px;font:700 16px var(--body);cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+#verdict{font-weight:800;margin-left:10px}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+.note{color:var(--ink-3);font-size:15px}
+.down{display:inline-flex;align-items:center;gap:12px;margin:clamp(20px,3vh,40px) 0 0;padding:10px 22px 10px 10px;border-radius:999px;background:var(--paper-2);border:1px solid var(--rule);color:var(--ink);text-decoration:none;font-weight:700;font-size:.92em;transition:transform .15s,border-color .15s}
+.down b{display:inline-flex;width:2.1em;height:2.1em;border-radius:50%;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink);font-size:1.05em}
+.down:hover{border-color:var(--accent);transform:translateY(3px)}
+.cover-down{margin-top:clamp(28px,6vh,80px)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.chip{display:inline-flex;align-items:baseline;gap:8px;background:var(--paper-2);border:1px solid var(--rule);border-radius:999px;padding:6px 14px;text-decoration:none;color:var(--ink);font-size:.9em}
+.chip:hover{border-color:var(--accent)}
+.chip span{color:var(--ink-3);font-size:.85em}
+.human{background:var(--paper-2);border:1px dashed var(--rule);border-radius:var(--r);padding:10px 16px}
+.human .chip{margin-left:6px}
+.step{font-weight:700;font-family:var(--display);margin:22px 0 6px}
+.step+pre{margin-top:0}
+pre{position:relative}
+pre .copy{position:absolute;top:10px;right:10px;background:var(--paper-3);color:var(--ink);border:1px solid var(--rule);border-radius:var(--r-sm);padding:3px 10px;font:600 13px var(--body);cursor:pointer;opacity:.8}
+pre .copy:hover{opacity:1;border-color:var(--accent)}
+.base{color:var(--accent)}
+/* the base64 code wall keeps its Matrix green: Nat asked for the Matrix look on 30 Oct */
+pre.matrix-block{background:#010702;color:#22e06b;border-color:rgba(61,255,138,.35);text-shadow:0 0 6px rgba(34,224,107,.55);box-shadow:inset 0 0 80px rgba(0,0,0,.9)}
+pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background:rgba(255,255,255,.08)}
+.wall{position:relative}
+.wall pre.matrix-block{color:transparent;text-shadow:none;margin:0}
+.wall pre.matrix-block::selection,.wall pre.matrix-block *::selection{color:#020a04;background:#3dff8a}
+.wall canvas{position:absolute;left:0;top:0;z-index:1;pointer-events:none;border-radius:var(--r)}
+.wall .copy{z-index:2;color:#b9ffd2!important}
+.wallbtn{position:absolute;top:10px;right:74px;z-index:2;background:rgba(255,255,255,.08);color:#b9ffd2;border:1px solid rgba(61,255,138,.5);border-radius:var(--r-sm);padding:3px 10px;font:600 13px var(--body);cursor:pointer}
+#rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:8;display:flex;flex-direction:column;gap:6px}
+#rail a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none;color:var(--ink-3);font:700 13px var(--body)}
+#rail a b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:var(--paper-2);border:1px solid var(--rule);color:var(--ink-2)}
+#rail a span{opacity:0;transition:opacity .15s;background:var(--paper-3);color:var(--ink);border:1px solid var(--rule);border-radius:var(--r-sm);padding:3px 8px;white-space:nowrap}
+#rail a:hover span{opacity:1}
+#rail a.on b{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+@media (max-width:900px){#rail{display:none}}
+#navback,#navnext{position:fixed;left:50%;transform:translateX(-50%);z-index:9;display:inline-flex;align-items:center;border:1px solid var(--rule);background:var(--paper-2);color:var(--ink);border-radius:999px;padding:clamp(10px,1vw,18px) clamp(22px,2vw,40px) clamp(10px,1vw,18px) clamp(12px,1vw,18px);gap:clamp(8px,.8vw,14px);font:700 clamp(18px,1.25vw,28px) var(--body);cursor:pointer;opacity:.6;transition:opacity .2s,border-color .2s}
+#navback{top:clamp(10px,1.5vh,22px)}#navnext{bottom:clamp(12px,2vh,26px)}
+#navback:hover,#navnext:hover,#navback:focus-visible,#navnext:focus-visible{opacity:1;border-color:var(--accent)}
+#navback b,#navnext b{display:inline-flex;width:1.9em;height:1.9em;font-size:1.05em;border-radius:50%;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink)}
+#navback:disabled,#navnext:disabled{display:none}
+@media (hover:none){#navback,#navnext{opacity:.9}}

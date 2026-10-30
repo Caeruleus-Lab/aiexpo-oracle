@@ -1,0 +1,18 @@
+/* Stage tokens, same as the deck v3 (ψ/writing/slides/deck.html): dark stage, one amber lamp, real screens.
+   OKLCH is the source; the hex before it is the fallback. One accent only, no gradients. */
+:root{
+  --paper:#0e1217;--paper:oklch(18% 0.012 260);
+  --paper-2:#191d24;--paper-2:oklch(23% 0.014 260);
+  --paper-3:#242931;--paper-3:oklch(28% 0.016 260);
+  --rule:#383d46;--rule:oklch(36% 0.016 260);
+  --ink:#f3f2ed;--ink:oklch(96% 0.006 90);
+  --ink-2:#acb1ba;--ink-2:oklch(76% 0.014 260);
+  --ink-3:#7b8189;--ink-3:oklch(60% 0.014 260);
+  --accent:#f5ae39;--accent:oklch(80% 0.15 75);
+  --accent-ink:#201608;--accent-ink:oklch(21% 0.03 75);
+  --ok:#7ed39a;--bad:#ff8a80;
+  --display:"Bai Jamjuree",Sarabun,"Noto Sans Thai",system-ui,sans-serif;
+  --body:Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  --r:12px;--r-sm:8px;
+}
