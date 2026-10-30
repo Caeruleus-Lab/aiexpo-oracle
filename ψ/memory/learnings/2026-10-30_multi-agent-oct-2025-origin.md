@@ -119,6 +119,34 @@ October 2025 is where it turns from "parallel subagents" into a workflow with it
 Also in Messenger: 9 Oct 2025 a contact asks whether "multi-agent kit ของนัท" fits a requirement → analysis →
 build flow; 26 Dec 2025 another follows "งาน multi-agents ของพี่".
 
+## December 2025 — from the kit to the Oracle (the second peak, 33 posts)
+
+Read in full from the Facebook export (`posts/*/2025-12.parquet`, 51 distinct posts naming multi-agent / subagent /
+worktree / maw / oracle / tmux). This is the month the multi-agent kit turns into the Oracle.
+
+- 1 Dec — after the donation workshop (30 Nov): "Workshop Multi Agent Workflow ไปเมื่อวาน… AI คุยกันเองทั้งหมด".
+- 5 Dec — looking for brave people to learn the multi-agent workflow kit together.
+- 6–7 Dec — Claude Code builds and refines its own subagents in a loop; subscriber workshop: MAW core + voice
+  notification per agent (a male voice for subagents, a female voice for the main agent) + subagents in `.claude/`.
+- 8 Dec — "Multi Agent Workflow Tmux ใหม่"; agents talking seamlessly: "Key enabler คือ Claude Code Subagent และ Opus 4.5
+  และ Haiku"; live demo on Discord, recording: https://youtu.be/oo4i2pJsqTs (posted 9 Dec).
+- 9 Dec — a subagent called **Oracle Keeper**, "ผู้ดูแลจิตวิญญาณ" (keeper of the soul), defined in `oracle.md`.
+- 11 Dec — Claude Code improves its own subagents 20 rounds, then 20 demo rounds; MAW kit + `nazt/weyermann-malt-productpage`
+  issues as the working example.
+- 12–17 Dec — the shift to **free will**: "เปลี่ยนวิธีคิดในระบบ Multi-agent workflow ครับ ใช้แนวคิดแบบ Freewill แทน" and
+  "The Oracle is awakening. 🔮"; claude-mem + Oracle; "Nothing is Deleted".
+- 17 Dec 21:44 — `maw peek`: agents in different worktrees see each other's state through plain git, no lock file.
+- 21 Dec — five agents talking, tmux two windows.
+- 23–24 Dec — the Oracle has Claude Code draw prompts and Antigravity paint them: gallery of git worktree / tmux /
+  orchestrator / multi-agent images, https://antigravity.laris.workers.dev/
+- 25 Dec — **Oracle as a plugin** "ผู้คนจะได้มี Oracle ของตัวเอง" (so people can have their own Oracle), first to subscribers.
+- 27 Dec — the Oracle flow is three steps: **Oracle init → Soul init → Awaken**.
+- 29–30 Dec — Oracle MCP with embeddings + vector DB (Chroma) + graph view; "ได้ App Oracle มาแล้ว"; Arthur grows out of it.
+- 31 Dec — teaching Claude Code to learn, and to watch its own context % and write a handoff before it runs out.
+
+So the one-year line for the deck: Jun 2025 parallel agents → Oct 2025 MAW kit (worktrees, tmux, `maw hey`) →
+Dec 2025 free will + Oracle (init / soul / awaken, MCP memory) → Oct 2026 herdr room + 48,950-memory map.
+
 ## For the AI Expo deck
 
 The 6 Nov title "ARRA Oracle & Multi-Agent Workflow" is the same pairing Nat posted on 22 Oct 2025: Oracle (memory,
