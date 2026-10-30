@@ -1,0 +1,9 @@
+// The lessons as a static-assets Worker on aiexpo.buildwithoracle.com.
+// Deploy: ./deploy.sh  (copies only committed files into dist/, then wrangler deploy)
+{
+  "name": "aiexpo-lessons",
+  "compatibility_date": "2026-10-01",
+  "account_id": "a5eabdc2b11aae9bd5af46bd6a88179e",
+  "assets": { "directory": "./dist", "html_handling": "auto-trailing-slash" },
+  "routes": [{ "pattern": "aiexpo.buildwithoracle.com", "custom_domain": true }]
+}
