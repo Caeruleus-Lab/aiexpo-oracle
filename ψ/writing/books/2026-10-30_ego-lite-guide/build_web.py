@@ -72,7 +72,7 @@ def size(name):
 def b64_body():
     text = (here / "README.b64.txt").read_text(encoding="utf-8")
     lines = text.rstrip("\n").split("\n")
-    preview, rest = "\n".join(lines[:8]), "\n".join(lines[8:])
+    flat = "".join(lines)  # shown as one flowing block; the .txt file keeps its 76-char lines
     files = ["README.md", "README.en.md", "README.b64.txt", "signature.json", "SIGNATURE.md", "llms.txt"]
     chips = "".join(f'<a class="chip" href="{f}"><b>{f}</b><span>{size(f)}</span></a>' for f in files)
     U = '<span class="base">&lt;this-folder&gt;/</span>'
@@ -92,9 +92,8 @@ cd tools && bun install && bun verify.mjs</pre>
 <p class="note">The sha256 must equal <code>files["README.md"]</code> in signature.json. verify.mjs prints <code>VALID: signed by 0xaBF1…5f78</code>.</p>
 <div class="chips">{chips}</div>''',
         f'''<h2>README.b64.txt</h2>
-<p class="note">{len(lines)} lines · {size("README.b64.txt")} · RFC 4648 base64, 76 characters per line</p>
-<pre class="b64 preview">{H.escape(preview)}</pre>
-<details class="blob"><summary>Show all {len(lines)} lines</summary><pre class="b64">{H.escape(rest)}</pre></details>''',
+<p class="note">The whole file, {len(flat):,} characters ({size("README.b64.txt")}), shown as one block. The copy button copies all of it. <a href="README.b64.txt">README.b64.txt</a> keeps 76-character lines.</p>
+<pre class="b64" id="blob">{H.escape(flat)}</pre>''',
     ]
 
 
@@ -160,7 +159,7 @@ figure{margin:22px 0 28px}
 figure img{width:100%;border-radius:14px;box-shadow:0 12px 40px rgba(13,27,61,.18);display:block}
 figcaption{color:var(--mute);font-size:.82em;margin-top:8px}
 pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:clamp(13px,0.45vw + 10px,19px)/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
-pre.b64{font-size:clamp(11px,0.35vw + 8px,16px);word-break:break-all}
+pre.b64{padding-top:48px;font-size:clamp(11px,0.35vw + 8px,16px);white-space:normal;word-break:break-all;line-height:1.5}
 pre.decoded{font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px}
 code{font-family:Menlo,"SF Mono",monospace;font-size:.88em;background:#e3e9f7;border-radius:6px;padding:1px 6px}
 pre code{background:none;padding:0;font-size:inherit}
