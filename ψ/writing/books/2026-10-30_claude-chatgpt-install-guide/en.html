@@ -173,6 +173,17 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background
 .ai p{margin:0 0 4px;color:var(--ink-3)}
 .ai a{text-decoration:none}.ai a:hover{text-decoration:underline}
 .ai code{margin-top:6px;font-size:12px;word-break:break-all}
+/* Matrix wall full screen (Nat, 30 Oct): click to open, click copies all, drag highlights + copies, Esc closes */
+.wall pre.matrix-block{cursor:zoom-in}
+.wall.full{position:fixed;inset:0;z-index:60;overflow:auto;background:#010702;padding:60px clamp(12px,2vw,32px) 32px}
+.wall.full pre.matrix-block{cursor:copy;min-height:100%;border:0;box-shadow:none;border-radius:0}
+.wall.full canvas{border-radius:0}
+.wall.full .copy,.wall.full .wallbtn{position:fixed;top:16px}
+.wall.full .copy{right:20px}.wall.full .wallbtn{right:84px}
+.wallhint{display:none}
+.wall.full .wallhint{display:block;position:fixed;top:18px;left:clamp(12px,2vw,32px);z-index:3;color:#b9ffd2;font:600 14px var(--mono);text-shadow:0 0 8px rgba(34,224,107,.6)}
+body.wallopen{overflow:hidden}
+body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen .ai{display:none}
 </style>
 </head>
 <body>
@@ -445,7 +456,7 @@ if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('w
   const cs=getComputedStyle(pre);fs=parseFloat(cs.fontSize);lh=parseFloat(cs.lineHeight)||fs*1.5;ctx.font=fs+'px '+cs.fontFamily;cw=ctx.measureText('M').width;
   const padL=parseFloat(cs.paddingLeft),padT=parseFloat(cs.paddingTop),padR=parseFloat(cs.paddingRight);
   W=pre.clientWidth;Hh=pre.clientHeight;cols=Math.max(1,Math.floor((W-padL-padR)/cw));rows=Math.ceil(txt.length/cols);
-  const d=devicePixelRatio||1;cv.width=W*d;cv.height=Hh*d;cv.style.width=W+'px';cv.style.height=Hh+'px';ctx.setTransform(d,0,0,d,0,0);
+  const d=devicePixelRatio||1;cv.width=W*d;cv.height=Hh*d;cv.style.width=W+'px';cv.style.height=Hh+'px';cv.style.left=pre.offsetLeft+'px';cv.style.top=pre.offsetTop+'px';ctx.setTransform(d,0,0,d,0,0);
   wall.dataset.padL=padL;wall.dataset.padT=padT;drops=Array.from({length:cols},()=>({y:Math.random()*rows,v:0.25+Math.random()*0.6,len:6+Math.random()*14}));draw(true)}
  function draw(full){const padL=+wall.dataset.padL,padT=+wall.dataset.padT,r=pre.getBoundingClientRect();
   const r0=Math.max(0,Math.floor((-r.top-padT)/lh)-1),r1=Math.min(rows,Math.ceil((innerHeight-r.top-padT)/lh)+1);
@@ -458,8 +469,19 @@ if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('w
  function setRun(v){run=v;localStorage.setItem('ego-wall',v?'on':'paused');btn.textContent=v?'pause':'play'}
  btn.onclick=()=>setRun(!run);setRun(run);
  document.fonts&&document.fonts.ready.then(layout);layout();addEventListener('resize',layout);addEventListener('scroll',()=>{if(!run)draw()},{passive:true});
- new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(wall);requestAnimationFrame(loop)}
-addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)return;const t=e.target;if(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;
+ // full screen: click the wall to open; inside, click copies everything, a drag-selection copies just that; Esc closes
+ const hint=document.createElement('div');hint.className='wallhint';wall.appendChild(hint);const HINT='click: copy all · drag: highlight + copy · Esc: close';hint.textContent=HINT;
+ function flash(m){hint.textContent=m;clearTimeout(flash.t);flash.t=setTimeout(()=>hint.textContent=HINT,1400)}
+ function setFull(v){wall.classList.toggle('full',v);document.body.classList.toggle('wallopen',v);if(v){wall.scrollTop=0;if(wall.requestFullscreen)wall.requestFullscreen().catch(()=>{})}else{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});getSelection().removeAllRanges();requestAnimationFrame(()=>wall.scrollIntoView({block:'start',behavior:'instant'}))}setTimeout(layout,80)}
+ let down=null;pre.addEventListener('mousedown',e=>{down=[e.clientX,e.clientY]});
+ pre.addEventListener('mouseup',async e=>{const moved=down&&Math.hypot(e.clientX-down[0],e.clientY-down[1])>4;const sel=String(getSelection());
+  if(!wall.classList.contains('full')){if(!moved&&!sel)setFull(true);return}
+  try{if(sel){await navigator.clipboard.writeText(sel.replace(/\s+/g,''));flash('copied selection · '+sel.replace(/\s+/g,'').length+' chars')}else if(!moved){await navigator.clipboard.writeText(txt);getSelection().selectAllChildren(pre);flash('copied all · '+txt.length+' chars')}}catch(err){flash('copy blocked by the browser: select and press Cmd/Ctrl+C')}});
+ addEventListener('keydown',e=>{if(e.key==='Escape'&&wall.classList.contains('full')){e.preventDefault();setFull(false)}});
+ document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&wall.classList.contains('full'))setFull(false)});
+ wall.addEventListener('scroll',()=>draw(),{passive:true});
+ new IntersectionObserver(es=>vis=es[0].isIntersecting||wall.classList.contains('full')).observe(wall);requestAnimationFrame(loop)}
+addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)return;const t=e.target;if(document.body.classList.contains('wallopen'))return;if(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;
  const dn=e.key==='ArrowDown'||e.key==='ArrowRight'||e.key==='PageDown',up=e.key==='ArrowUp'||e.key==='ArrowLeft'||e.key==='PageUp';if(!dn&&!up)return;e.preventDefault();nav(dn)});
 function nav(dn){const y=scrollY,step=innerHeight-56,tops=S.map(x=>x.getBoundingClientRect().top+y-16);
  const nx=Math.min(...tops.filter(v=>v>y+4)),pv=Math.max(...tops.filter(v=>v<y-4),0);const to=dn?(nx-y<=step*1.2?nx:y+step):(y-pv<=step*1.2?pv:y-step);scrollTo({top:to,behavior:'smooth'})}

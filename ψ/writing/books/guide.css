@@ -103,3 +103,14 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background
 .ai p{margin:0 0 4px;color:var(--ink-3)}
 .ai a{text-decoration:none}.ai a:hover{text-decoration:underline}
 .ai code{margin-top:6px;font-size:12px;word-break:break-all}
+/* Matrix wall full screen (Nat, 30 Oct): click to open, click copies all, drag highlights + copies, Esc closes */
+.wall pre.matrix-block{cursor:zoom-in}
+.wall.full{position:fixed;inset:0;z-index:60;overflow:auto;background:#010702;padding:60px clamp(12px,2vw,32px) 32px}
+.wall.full pre.matrix-block{cursor:copy;min-height:100%;border:0;box-shadow:none;border-radius:0}
+.wall.full canvas{border-radius:0}
+.wall.full .copy,.wall.full .wallbtn{position:fixed;top:16px}
+.wall.full .copy{right:20px}.wall.full .wallbtn{right:84px}
+.wallhint{display:none}
+.wall.full .wallhint{display:block;position:fixed;top:18px;left:clamp(12px,2vw,32px);z-index:3;color:#b9ffd2;font:600 14px var(--mono);text-shadow:0 0 8px rgba(34,224,107,.6)}
+body.wallopen{overflow:hidden}
+body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen .ai{display:none}
