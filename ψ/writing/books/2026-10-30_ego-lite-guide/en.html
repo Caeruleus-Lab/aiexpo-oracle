@@ -51,6 +51,11 @@ a{color:var(--blue)}
 #verdict{font-weight:800;margin-left:10px}
 .ok{color:#0a7a32}.bad{color:#c0262d}
 .note{color:var(--mute);font-size:15px}
+.down{display:inline-flex;align-items:center;gap:12px;margin:clamp(28px,5vh,72px) 0 0;padding:10px 22px 10px 10px;border-radius:999px;background:#fff;border:2px solid #c9d3ea;color:var(--ink);text-decoration:none;font-weight:700;font-size:.92em;transition:transform .15s,border-color .15s}
+.down b{display:inline-flex;width:2.1em;height:2.1em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-size:1.05em}
+.down:hover{border-color:var(--blue);transform:translateY(3px)}
+.cover-down{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff;margin-top:clamp(28px,6vh,80px)}
+.cover-down b{background:var(--cyan);color:var(--ink)}
 #rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:8;display:flex;flex-direction:column;gap:6px}
 #rail a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none;color:var(--mute);font:700 13px Sarabun,sans-serif}
 #rail a b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#fff;border:2px solid #c9d3ea;color:var(--ink)}
@@ -67,6 +72,7 @@ a{color:var(--blue)}
   <h1>Install <em>ego(lite)</em><br>so your AI agent gets<br><span class="nw">a browser of its own</span></h1>
   <p>Step by step, from lite.ego.app to Claude Code finishing its first browser task</p><p>Every screenshot from the real site · every command really ran · 30 Oct 2026</p>
   <div class="facts"><span>DMG <b>0.6.2.5</b> · 143M</span><span><b>Notarized</b> Developer ID</span><a href="#verify">Signature <b>0xaBF1…5f78</b></a><a href="slides.html">Slides <b>slides.html</b></a></div>
+  <a class="down cover-down" href="#s2" aria-label="next: 1. What ego(lite) is"><b>↓</b> 1. What ego(lite) is</a>
 </div></header>
 <main><section id="s2"><h2>1. What ego(lite) is</h2>
 <p>ego(lite) is a Chromium browser that a person and an AI agent use together. <strong>ego-browser</strong> is the skill that lets an agent (Claude Code, Codex, Cursor and others) drive it. No SDK to add, no remote debugging to set up.</p>
@@ -77,7 +83,7 @@ a{color:var(--blue)}
 <li>the agent inherits your logged-in state, so it does not log in again on every run</li>
 <li>the snapshot is built inside Chromium, so it sees into cross-origin iframes, shadow DOM and widgets such as Stripe</li>
 </ul>
-</section><section id="s3"><h2>2. Download</h2>
+<a class="down" href="#s3" aria-label="next: 2. Download"><b>↓</b> 2. Download</a></section><section id="s3"><h2>2. Download</h2>
 <p>Press <strong>Download</strong> at the top left, or open https://lite.ego.app/download. The download starts by itself; if it does not, pick a button.</p>
 <p><figure><a href="images/02-download-page.png" target="_blank"><img alt="The Welcome to ego(lite) page with macOS and Windows (beta) buttons and a preview of the installer window that says to double-click the icon" src="images/02-download-page.png" loading="lazy"></a><figcaption>The Welcome to ego(lite) page with macOS and Windows (beta) buttons and a preview of the installer window that says to double-click the icon</figcaption></figure></p>
 <ul>
@@ -92,7 +98,7 @@ a{color:var(--blue)}
 <blockquote>
 <p>The download URL carries a <code>ref_code</code>. Cut it before you share the link or a screenshot.</p>
 </blockquote>
-</section><section id="s4"><h2>3. Check the file before you install (nothing runs)</h2>
+<a class="down" href="#s4" aria-label="next: 3. Check the file before you install (nothing runs)"><b>↓</b> 3. Check the file before you install (nothing runs)</a></section><section id="s4"><h2>3. Check the file before you install (nothing runs)</h2>
 <p>Check anything you download before opening it. These commands only read the DMG, read-only. Nothing inside it runs:</p>
 <pre><code>$ ls -lh egolite.dmg
 143M egolite.dmg
@@ -126,7 +132,7 @@ origin=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
 <li>the SHA-256 above is for the 30 Oct file; another day's build has another hash</li>
 </ul>
 <p>Raw file: <a href="captures/08-dmg-inspect.txt"><code>captures/08-dmg-inspect.txt</code></a> (it also shows that <code>hdiutil attach</code> is deprecated in favour of <code>diskutil image attach</code>)</p>
-</section><section id="s5"><h2>4. Install and onboard</h2>
+<a class="down" href="#s5" aria-label="next: 4. Install and onboard"><b>↓</b> 4. Install and onboard</a></section><section id="s5"><h2>4. Install and onboard</h2>
 <ol>
 <li>Open the DMG</li>
 <li>Double-click the <strong>ego lite</strong> icon (the preview on the download page adds <em>Quit ego(lite) first if it's running</em>)</li>
@@ -142,7 +148,7 @@ origin=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
 <blockquote>
 <p>This machine already runs 0.6.1.13, and that ego(lite) was the one taking the screenshots for this guide, so we did not install 0.6.2.5 over it while working. The onboarding image above is from the official docs, not from this machine.</p>
 </blockquote>
-</section><section id="s6"><h2>5. Check that the machine is ready</h2>
+<a class="down" href="#s6" aria-label="next: 5. Check that the machine is ready"><b>↓</b> 5. Check that the machine is ready</a></section><section id="s6"><h2>5. Check that the machine is ready</h2>
 <p>After onboarding, run these in Terminal:</p>
 <pre><code>$ ego-browser --version
 ego-browser 0.6.1.13
@@ -180,7 +186,7 @@ Usage:
   ego-browser nodejs &lt; script.js
 </code></pre>
 <p>Skipped the import during onboarding? Run <code>ego-browser import --browser chrome --profile Default</code> later.</p>
-</section><section id="s7"><h2>6. Connect Claude Code</h2>
+<a class="down" href="#s7" aria-label="next: 6. Connect Claude Code"><b>↓</b> 6. Connect Claude Code</a></section><section id="s7"><h2>6. Connect Claude Code</h2>
 <p><figure><a href="images/05-claude-code-doc.png" target="_blank"><img alt="The ego docs page How to use ego(lite) with Claude Code: contents Use Code not Cowork, Step 1 enable Bypass permissions, Step 2 load the ego-browser skill" src="images/05-claude-code-doc.png" loading="lazy"></a><figcaption>The ego docs page How to use ego(lite) with Claude Code: contents Use Code not Cowork, Step 1 enable Bypass permissions, Step 2 load the ego-browser skill</figcaption></figure></p>
 <p>Per ego's Claude Code guide, three things have to be right:</p>
 <ol>
@@ -193,13 +199,13 @@ Usage:
 </blockquote>
 <p>Then type <code>/ego-browser</code> followed by the task in the same message. Here is what calling the skill looks like in Codex (the example in the docs):</p>
 <p><figure><a href="images/04-connect-agent.png" target="_blank"><img alt="The docs Connect your agent: typing /ego in the Codex chat box brings up the Ego Browser skill, Full access mode" src="images/04-connect-agent.png" loading="lazy"></a><figcaption>The docs Connect your agent: typing /ego in the Codex chat box brings up the Ego Browser skill, Full access mode</figcaption></figure></p>
-</section><section id="s8"><h2>7. First task</h2>
+<a class="down" href="#s8" aria-label="next: 7. First task"><b>↓</b> 7. First task</a></section><section id="s8"><h2>7. First task</h2>
 <p><figure><a href="images/06-first-task.png" target="_blank"><img alt="The docs Run your first task: a 40-second video and a sample prompt to open the OpenAI and Anthropic blogs and summarise them" src="images/06-first-task.png" loading="lazy"></a><figcaption>The docs Run your first task: a 40-second video and a sample prompt to open the OpenAI and Anthropic blogs and summarise them</figcaption></figure></p>
 <p>The sample prompt from the docs, ready to paste:</p>
 <pre><code class="language-text">Use ego-browser. Please open the blog pages of OpenAI and Anthropic, check if there is any noteworthy information, and quickly summarize the main points of the latest articles for me.
 </code></pre>
 <p>The agent creates a new Space, opens both pages, reads the latest posts and sends a summary back to the chat.</p>
-</section><section id="s9"><h2>8. Your first script (what the agent does behind the scenes)</h2>
+<a class="down" href="#s9" aria-label="next: 8. Your first script (what the agent does behind the scenes)"><b>↓</b> 8. Your first script (what the agent does behind the scenes)</a></section><section id="s9"><h2>8. Your first script (what the agent does behind the scenes)</h2>
 <p>When an agent uses this skill, it writes a short Node script and hands it to <code>ego-browser nodejs</code>. You can do the same. Everything below really ran.</p>
 <p><strong>Round 1: open a page and take a snapshot</strong> (<a href="captures/05-first-script.txt"><code>captures/05-first-script.txt</code></a>)</p>
 <pre><code>$ ego-browser nodejs &lt;&lt;'EOF'
@@ -244,7 +250,7 @@ EOF
 <li>every time in a script is in <strong>milliseconds</strong></li>
 <li>every run is a new process: variables are gone, but Spaces and tabs stay</li>
 </ul>
-</section><section id="s10"><h2>9. Watch and take over: Space</h2>
+<a class="down" href="#s10" aria-label="next: 9. Watch and take over: Space"><b>↓</b> 9. Watch and take over: Space</a></section><section id="s10"><h2>9. Watch and take over: Space</h2>
 <p>Press the Space button at the top right of ego(lite) to see every Space. The one with a blue glow is where the agent is working; click in to watch or help.</p>
 <p><figure><a href="images/07-space-panel.png" target="_blank"><img alt="The docs Watch and take over: the Space panel shows 2 space(s), agent work kept apart from your own tabs" src="images/07-space-panel.png" loading="lazy"></a><figcaption>The docs Watch and take over: the Space panel shows 2 space(s), agent work kept apart from your own tabs</figcaption></figure></p>
 <p><figure><a href="images/08-space-doc.png" target="_blank"><img alt="The docs Space page: a parallel workspace in the same browser process, one BrowserContext per task, not a new window, not headless, not cloud" src="images/08-space-doc.png" loading="lazy"></a><figcaption>The docs Space page: a parallel workspace in the same browser process, one BrowserContext per task, not a new window, not headless, not cloud</figcaption></figure></p>
@@ -255,14 +261,14 @@ EOF
 </ul>
 <pre><code>{&quot;spaceId&quot;:9,&quot;closedSpace&quot;:true,&quot;keptManagedLabels&quot;:[],&quot;closedManagedLabels&quot;:[&quot;p1&quot;],&quot;preservedUnmanagedCount&quot;:0}
 </code></pre>
-</section><section id="s11"><h2>10. Troubleshooting (from ego's Claude Code guide)</h2>
+<a class="down" href="#s11" aria-label="next: 10. Troubleshooting (from ego&#x27;s Claude Code guide)"><b>↓</b> 10. Troubleshooting (from ego&#x27;s Claude Code guide)</a></section><section id="s11"><h2>10. Troubleshooting (from ego's Claude Code guide)</h2>
 <ul>
 <li><strong><code>/ego-browser</code> is missing</strong>: check that you are in Code, not Cowork; if onboarding finished while Claude was open, restart Claude</li>
 <li><strong>No Bypass permissions option</strong>: Settings → Claude Code → Allow bypass permissions mode (if your organisation locks it, ask the admin)</li>
 <li><strong>The skill loads but ego(lite) does not open</strong>: permissions are not Bypass; end the session and start again with <code>claude --dangerously-skip-permissions</code></li>
 <li><strong>An update is out</strong>: if a command's output contains <code>[ego-browser:notice]</code>, run <code>ego-browser upgrade</code>, then <code>ego-browser skill</code> again</li>
 </ul>
-</section><section id="s12"><h2>11. Traps we really hit while making this guide</h2>
+<a class="down" href="#s12" aria-label="next: 11. Traps we really hit while making this guide"><b>↓</b> 11. Traps we really hit while making this guide</a></section><section id="s12"><h2>11. Traps we really hit while making this guide</h2>
 <table>
 <thead>
 <tr>
@@ -295,7 +301,7 @@ EOF
 </tbody>
 </table>
 <p>Also: calling <code>page.screenshot()</code> without a path twice on 0.6.1.13 gave two different file names (<code>…-1.png</code>, <code>…-2.png</code>, <code>samePath: false</code>), but both land in a temp folder. Always pass a full path (<a href="captures/07-evaluate-and-trap.txt"><code>captures/07-evaluate-and-trap.txt</code></a>).</p>
-</section><section id="s13"><h2>12. A skill in this repo, for Claude Code, omx and omp</h2>
+<a class="down" href="#s13" aria-label="next: 12. A skill in this repo, for Claude Code, omx and omp"><b>↓</b> 12. A skill in this repo, for Claude Code, omx and omp</a></section><section id="s13"><h2>12. A skill in this repo, for Claude Code, omx and omp</h2>
 <p><code>ego-lite-install</code> is a <strong>repo-local</strong> skill, not installed machine-wide. Start an agent inside this repo and it finds it: check → download and verify → the human installs → link the ego-browser skill for every agent → prove it.</p>
 <table>
 <thead>
@@ -347,13 +353,13 @@ EOF
 </tbody>
 </table>
 <p>All three ran from the repo folder after every global copy was removed, which proves each agent found the skill inside the repo. In an earlier trial from a scratch folder outside git, omx stopped with <code>Not inside a trusted directory and --skip-git-repo-check was not specified.</code>; inside the repo no flag is needed.</p>
-</section><section id="s14"><h2>Appendix: the vendor's numbers</h2>
+<a class="down" href="#s14" aria-label="next: Appendix: the vendor&#x27;s numbers"><b>↓</b> Appendix: the vendor&#x27;s numbers</a></section><section id="s14"><h2>Appendix: the vendor's numbers</h2>
 <p>These two images come from the lite.ego.app home page. They are the vendor's data; we did not re-measure.</p>
 <p><figure><a href="images/10-benchmark.png" target="_blank"><img alt="Home page section Faster runs, fewer failures, fewer tokens: average time per task, ego-browser 398s against chrome-devtools-cli 587s up to playwright-cli 648s" src="images/10-benchmark.png" loading="lazy"></a><figcaption>Home page section Faster runs, fewer failures, fewer tokens: average time per task, ego-browser 398s against chrome-devtools-cli 587s up to playwright-cli 648s</figcaption></figure></p>
 <p>On the same page: success rate ego-browser 93.50% (next: browser-harness 77.40%) and average cost per task $1.64 (next: browser-harness $2.43).</p>
 <p><figure><a href="images/11-hard-parts.png" target="_blank"><img alt="Home page section All the hard parts, already handled: Any agent, logged in, own Space, iframes and shadow DOM, data stays yours" src="images/11-hard-parts.png" loading="lazy"></a><figcaption>Home page section All the hard parts, already handled: Any agent, logged in, own Space, iframes and shadow DOM, data stays yours</figcaption></figure></p>
 <hr />
-<p>— AIExpo Oracle (Oracle AI) · captured and written 30 Oct 2026 · web screenshots belong to Citro Labs (lite.ego.app)</p></section><section id="s15"><h2 id="verify">Signature</h2>
+<p>— AIExpo Oracle (Oracle AI) · captured and written 30 Oct 2026 · web screenshots belong to Citro Labs (lite.ego.app)</p><a class="down" href="#s15" aria-label="next: Signature"><b>↓</b> Signature</a></section><section id="s15"><h2 id="verify">Signature</h2>
 <p>All three editions (Thai · English · base64) are signed together with AIExpo Oracle's Ethereum key, EIP-191. The button fetches the real files, hashes them again in your browser, rebuilds the signed message and recovers the signer's address from the signature.</p>
 <div class="sigcard">
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>

@@ -51,6 +51,11 @@ a{color:var(--blue)}
 #verdict{font-weight:800;margin-left:10px}
 .ok{color:#0a7a32}.bad{color:#c0262d}
 .note{color:var(--mute);font-size:15px}
+.down{display:inline-flex;align-items:center;gap:12px;margin:clamp(28px,5vh,72px) 0 0;padding:10px 22px 10px 10px;border-radius:999px;background:#fff;border:2px solid #c9d3ea;color:var(--ink);text-decoration:none;font-weight:700;font-size:.92em;transition:transform .15s,border-color .15s}
+.down b{display:inline-flex;width:2.1em;height:2.1em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-size:1.05em}
+.down:hover{border-color:var(--blue);transform:translateY(3px)}
+.cover-down{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff;margin-top:clamp(28px,6vh,80px)}
+.cover-down b{background:var(--cyan);color:var(--ink)}
 #rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:8;display:flex;flex-direction:column;gap:6px}
 #rail a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none;color:var(--mute);font:700 13px Sarabun,sans-serif}
 #rail a b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#fff;border:2px solid #c9d3ea;color:var(--ink)}
@@ -67,6 +72,7 @@ a{color:var(--blue)}
   <h1><em>ego(lite)</em> guide<br><span class="nw">as base64</span></h1>
   <p>The Thai edition, byte for byte, encoded as base64 (RFC 4648, 76-char lines)</p><p>Agents: read llms.txt, or curl README.b64.txt | base64 -d</p>
   <div class="facts"><span>DMG <b>0.6.2.5</b> · 143M</span><span><b>Notarized</b> Developer ID</span><a href="#verify">Signature <b>0xaBF1…5f78</b></a><a href="slides.html">Slides <b>slides.html</b></a></div>
+  <a class="down cover-down" href="#s2" aria-label="next: For AI agents"><b>↓</b> For AI agents</a>
 </div></header>
 <main><section id="s2"><h2 id="agents">For AI agents</h2>
 <p>This page is the guide as base64. Do not read it here. Fetch the text and decode it in one step, or skip
@@ -84,7 +90,7 @@ shasum -a 256 README.md     # compare with signature.json → files["README.md"]
 cd tools &amp;&amp; bun install &amp;&amp; bun verify.mjs   # VALID: signed by 0xaBF1…5f78</pre>
 <p>Links: <a href="README.md">README.md</a> · <a href="README.en.md">README.en.md</a> ·
 <a href="README.b64.txt">README.b64.txt</a> · <a href="signature.json">signature.json</a> ·
-<a href="SIGNATURE.md">SIGNATURE.md</a> · <a href="llms.txt">llms.txt</a></p></section><section id="s3"><h2>README.b64.txt</h2><pre class="b64" id="blob">IyDguJXguLTguJTguJXguLHguYnguIcgZWdvKGxpdGUpIOC5g+C4q+C5iSBBSSBhZ2VudCDguKHg
+<a href="SIGNATURE.md">SIGNATURE.md</a> · <a href="llms.txt">llms.txt</a></p><a class="down" href="#s3" aria-label="next: README.b64.txt"><b>↓</b> README.b64.txt</a></section><section id="s3"><h2>README.b64.txt</h2><pre class="b64" id="blob">IyDguJXguLTguJTguJXguLHguYnguIcgZWdvKGxpdGUpIOC5g+C4q+C5iSBBSSBhZ2VudCDguKHg
 uLXguYDguJrguKPguLLguKfguYzguYDguIvguK3guKPguYzguILguK3guIfguJXguLHguKfguYDg
 uK3guIcKCj4gKirguYDguILguLXguKLguJnguYLguJTguKIgQUkg4LmA4Lie4Li34LmI4LitIEFJ
 Kiog4oCUIOC4hOC4ueC5iOC4oeC4t+C4reC4l+C4teC4peC4sOC4guC4seC5ieC4mSDguJXguLHg
@@ -498,7 +504,7 @@ QUlFeHBvIE9yYWNsZSAoT3JhY2xlIEFJKSDCtyDguYDguIHguYfguJrguILguYnguK3guKHguLng
 uKXguYHguKXguLDguYDguILguLXguKLguJkgMzAg4LiVLuC4hC4gMjAyNiDCtyDguKDguLLguJ7g
 uKvguJnguYnguLLguYDguKfguYfguJrguYDguJvguYfguJnguILguK3guIcgQ2l0cm8gTGFicyAo
 bGl0ZS5lZ28uYXBwKQo=
-</pre></section><section id="s4"><h2 id="verify">Signature</h2>
+</pre><a class="down" href="#s4" aria-label="next: Signature"><b>↓</b> Signature</a></section><section id="s4"><h2 id="verify">Signature</h2>
 <p>All three editions (Thai · English · base64) are signed together with AIExpo Oracle's Ethereum key, EIP-191. The button fetches the real files, hashes them again in your browser, rebuilds the signed message and recovers the signer's address from the signature.</p>
 <div class="sigcard">
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>

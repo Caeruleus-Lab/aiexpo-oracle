@@ -169,6 +169,11 @@ a{color:var(--blue)}
 #verdict{font-weight:800;margin-left:10px}
 .ok{color:#0a7a32}.bad{color:#c0262d}
 .note{color:var(--mute);font-size:15px}
+.down{display:inline-flex;align-items:center;gap:12px;margin:clamp(28px,5vh,72px) 0 0;padding:10px 22px 10px 10px;border-radius:999px;background:#fff;border:2px solid #c9d3ea;color:var(--ink);text-decoration:none;font-weight:700;font-size:.92em;transition:transform .15s,border-color .15s}
+.down b{display:inline-flex;width:2.1em;height:2.1em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-size:1.05em}
+.down:hover{border-color:var(--blue);transform:translateY(3px)}
+.cover-down{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff;margin-top:clamp(28px,6vh,80px)}
+.cover-down b{background:var(--cyan);color:var(--ink)}
 #rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:8;display:flex;flex-direction:column;gap:6px}
 #rail a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none;color:var(--mute);font:700 13px Sarabun,sans-serif}
 #rail a b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#fff;border:2px solid #c9d3ea;color:var(--ink)}
@@ -202,7 +207,10 @@ def page(lang):
     c = COVER[lang]
     sections = md_body({"th": "README.md", "en": "README.en.md"}[lang]) if lang != "b64" else b64_body()
     sections.append(verify_section(lang))
-    body = "".join(f'<section id="s{i + 2}">{s}</section>' for i, s in enumerate(sections))
+    titles = [re.sub("<[^>]+>", "", (re.search(r"<h2[^>]*>(.*?)</h2>", x, re.S) or [None, ""])[1]).strip() for x in sections]
+    def down(i):  # i = index of the section the button jumps to
+        return f'<a class="down" href="#s{i + 2}" aria-label="next: {H.escape(titles[i])}"><b>↓</b> {H.escape(titles[i])}</a>'
+    body = "".join(f'<section id="s{i + 2}">{x}{down(i + 1) if i + 1 < len(sections) else ""}</section>' for i, x in enumerate(sections))
     langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}">{LANG_LABEL[k]}</a>' for k in PAGES)
     facts = (f'<span>DMG <b>0.6.2.5</b> · 143M</span><span><b>Notarized</b> Developer ID</span>'
              f'<a href="#verify">{c["verify"]} <b>{sig["address"][:6]}…{sig["address"][-4:]}</b></a>' if sig else "")
@@ -226,6 +234,7 @@ def page(lang):
   <h1>{c["h1"]}</h1>
   {"".join(f"<p>{x}</p>" for x in c["sub"])}
   <div class="facts">{facts}</div>
+  <a class="down cover-down" href="#s2" aria-label="next: {H.escape(titles[0])}"><b>↓</b> {H.escape(titles[0])}</a>
 </div></header>
 <main>{body}</main>
 <nav id="rail" data-cover="{c["cover_label"]}"></nav>
