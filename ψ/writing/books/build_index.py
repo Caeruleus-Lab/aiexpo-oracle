@@ -11,6 +11,8 @@ import html as H
 import json
 import pathlib
 
+from og_meta import og_tags  # shared OG / Twitter / canonical tags
+
 here = pathlib.Path(__file__).resolve().parent
 
 # In workshop order: get an agent first, give it a browser, then let any chat AI read these lessons over MCP.
@@ -85,6 +87,9 @@ setLang(localStorage.getItem('books-lang')||'th');
 
 
 def page():
+    OG_TAGS = og_tags(title="บทเรียน workshop ARRA Oracle · AIExpo Oracle",
+                      description=f"คู่มือทีละขั้น {len(LESSONS)} บท สำหรับ workshop ARRA Oracle & Multi-Agent Workflow ที่งาน AI Expo วันศุกร์ 6 พ.ย. 2026",
+                      path="", image="index.png", image_alt="บทเรียน workshop ARRA Oracle", lang="th", kind="website")
     cards = "\n".join(card(i + 1, l) for i, l in enumerate(LESSONS))
     path = "\n".join(f'      <a href="{l["dir"]}/"><b>{i + 1:02d}</b><span class="t"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></span></a>'
                       for i, l in enumerate(LESSONS))
@@ -98,7 +103,8 @@ def page():
 <link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
-{THEME_HEAD}<style>{CSS}</style>
+{THEME_HEAD}{OG_TAGS}
+<style>{CSS}</style>
 </head>
 <body>
 <header class="cover">
@@ -194,6 +200,6 @@ def llms():
 (here / "index.html").write_text(page(), encoding="utf-8")
 (here / "README.md").write_text(readme(), encoding="utf-8")
 (here / "llms.txt").write_text(llms(), encoding="utf-8")
-(here / "lessons.json").write_text(json.dumps([dict(key=l["key"], dir=l["dir"], th=l["th"], en=l["en"], th_sub=l["th_sub"], en_sub=l["en_sub"])
+(here / "lessons.json").write_text(json.dumps([dict(key=l["key"], dir=l["dir"], th=l["th"], en=l["en"], th_sub=l["th_sub"], en_sub=l["en_sub"], cover=l["cover"])
                                               for l in LESSONS], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 print("wrote index.html README.md llms.txt lessons.json,", len(LESSONS), "lessons")

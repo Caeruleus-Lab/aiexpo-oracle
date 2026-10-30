@@ -16,6 +16,10 @@ import re
 
 import markdown
 
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+from og_meta import og_tags  # noqa: E402  shared OG / Twitter / canonical tags
+
 here = pathlib.Path(__file__).resolve().parent
 sig = json.loads((here / "signature.json").read_text(encoding="utf-8")) if (here / "signature.json").exists() else None
 
@@ -37,6 +41,16 @@ COVER = {
                 cover_label="Cover", verify="Signature", slides="Slides"),
 }
 AI_NOTE = {"th": "ไฟล์ต้นฉบับ และ MCP", "en": "Source files and the MCP", "b64": "Source files and the MCP"}
+def og(lang):
+    """Share tags for this edition: Thai text on the Thai and base64 pages, English on the English page."""
+    l = next(x for x in json.loads((here.parent / "lessons.json").read_text(encoding="utf-8")) if x["dir"] == here.name)
+    en = lang == "en"
+    path = here.name + "/" + {"b64": "", "th": "th", "en": "en"}[lang]
+    title = (l["en"] if en else l["th"]) + (" (base64)" if lang == "b64" else "")
+    return og_tags(title=title, description=l["en_sub"] if en else l["th_sub"], path=path, image=f'{l["key"]}.png',
+                   image_alt=l["en"] if en else l["th"], lang="en" if en else "th", kind="article")
+
+
 PAGES = {"b64": "index.html", "th": "th.html", "en": "en.html"}
 LANG_LABEL = {"b64": "base64", "th": "ไทย", "en": "English"}
 
@@ -198,7 +212,8 @@ def page(lang):
 <link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
-{THEME_HEAD}<style>{CSS}</style>
+{THEME_HEAD}{og(lang)}
+<style>{CSS}</style>
 </head>
 <body>
 <header class="cover" id="s1"><div class="in">
