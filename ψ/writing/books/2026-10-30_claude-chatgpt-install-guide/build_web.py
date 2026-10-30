@@ -214,13 +214,12 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5)}
 #rail a:hover span{opacity:1}
 #rail a.on b{background:var(--blue);border-color:var(--blue);color:#fff}
 @media (max-width:900px){#rail{display:none}}
-#navpad{position:fixed;right:14px;bottom:18px;z-index:9;display:flex;gap:8px;opacity:.28;transition:opacity .2s}
-#navpad:hover,#navpad:focus-within{opacity:1}
-#navpad button{display:inline-flex;align-items:center;gap:6px;border:2px solid #c9d3ea;background:#fff;color:var(--ink);border-radius:999px;padding:8px 16px;font:700 15px Sarabun,sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(13,27,61,.15)}
-#navpad button b{display:inline-flex;width:1.6em;height:1.6em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff}
-#navpad button:hover{border-color:var(--blue)}
-#navpad button:disabled{opacity:.35;cursor:default}
-@media (hover:none){#navpad{opacity:.85}}
+#navback,#navnext{position:fixed;left:50%;transform:translateX(-50%);z-index:9;display:inline-flex;align-items:center;gap:6px;border:2px solid #c9d3ea;background:#fff;color:var(--ink);border-radius:999px;padding:8px 18px;font:700 15px Sarabun,sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(13,27,61,.15);opacity:.28;transition:opacity .2s,border-color .2s}
+#navback{top:12px}#navnext{bottom:14px}
+#navback:hover,#navnext:hover,#navback:focus-visible,#navnext:focus-visible{opacity:1;border-color:var(--blue)}
+#navback b,#navnext b{display:inline-flex;width:1.6em;height:1.6em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff}
+#navback:disabled,#navnext:disabled{display:none}
+@media (hover:none){#navback,#navnext{opacity:.85}}
 """
 
 JS = """
@@ -308,7 +307,8 @@ def page(lang):
 </div></header>
 <main>{body}</main>
 <nav id="rail" data-cover="{c["cover_label"]}"></nav>
-<div id="navpad"><button id="navback" type="button" aria-label="{c["back"]}"><b>↑</b> {c["back"]}</button><button id="navnext" type="button" aria-label="{c["next"]}"><b>↓</b> {c["next"]}</button></div>
+<button id="navback" type="button" aria-label="{c["back"]}"><b>↑</b> {c["back"]}</button>
+<button id="navnext" type="button" aria-label="{c["next"]}"><b>↓</b> {c["next"]}</button>
 <script>{JS}</script>
 </body>
 </html>
