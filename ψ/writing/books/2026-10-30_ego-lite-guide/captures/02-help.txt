@@ -1,0 +1,31 @@
+$ ego-browser --help
+ego-browser
+
+Usage:
+  ego-browser help [topic]
+  ego-browser import list
+  ego-browser import --browser <browser> [--profile <dir-name> ...]
+  ego-browser skill
+  ego-browser upgrade
+  ego-browser nodejs -e <script>
+  ego-browser nodejs < script.js
+
+Topics:
+  import                     Import browser profiles and related data
+  skill                      Print the usage guide for this ego lite version
+  upgrade                    Update ego lite to the latest version
+  nodejs -e/--eval           Embedded Node runtime usage
+
+Eval Options:
+  -e, --eval <script>        Execute JavaScript with the embedded Node runtime
+
+Global Options:
+  --help, -h                 Show general or topic help
+  --version, -v              Show version
+  --ego-server-name=<name>   Connect to the matching named browser service
+                             Up to 64 ASCII letters, digits, '-', '_', or '.'
+
+Examples:
+  ego-browser import list
+  ego-browser import --browser chrome --profile Default
+  ego-browser import --browser edge --profile Default

@@ -1,0 +1,10 @@
+$ ls ~/.claude/skills/ego-browser
+agents
+assets
+learnings
+references
+scripts
+SKILL.md
+
+$ ls ~/.agents/skills | grep ego
+ego-browser

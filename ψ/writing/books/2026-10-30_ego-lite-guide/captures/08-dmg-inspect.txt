@@ -1,0 +1,32 @@
+$ ls -lh egolite.dmg
+143M egolite.dmg
+
+$ shasum -a 256 egolite.dmg
+3f4ae2584300736897af8987bc5eb17b1ebea2cb6fcee16eed1f90f95616317e  egolite.dmg
+
+$ hdiutil attach -nobrowse -readonly -mountpoint /tmp/egolite-mnt egolite.dmg
+hdiutil: WARNING: 'hdiutil attach -nobrowse -readonly -mountpoint ...' is deprecated. Please use 'diskutil image attach --mountOptions nobrowse --readOnly --mountPoint ...' instead.
+/dev/disk18s2       	Apple_HFS                      	/private/tmp/egolite-mnt
+
+$ ls /tmp/egolite-mnt
+ego lite.app
+
+$ defaults read ".../Info.plist" CFBundleShortVersionString
+0.6.2.5
+
+$ codesign -dv --verbose=2 "ego lite.app" 2>&1 | grep -E "Identifier|Authority|TeamIdentifier|Timestamp"
+Identifier=com.citrolabs.ego.lite
+Authority=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=29 Oct BE 2569 at 19:49:15
+TeamIdentifier=JGQLC6YQYJ
+
+$ spctl -a -vv "ego lite.app"
+/tmp/egolite-mnt/ego lite.app: accepted
+source=Notarized Developer ID
+origin=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
+
+$ hdiutil detach /tmp/egolite-mnt
+hdiutil: WARNING: 'hdiutil detach ...' is deprecated. Please use 'diskutil eject ...' instead.
+"disk18" ejected.

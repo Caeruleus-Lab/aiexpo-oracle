@@ -1,0 +1,16 @@
+$ ego-browser skill | head -12
+[ego-browser:skill] ego-browser usage guide v2.1.0
+
+# ego-browser
+
+Call `help()` or `help("page.click")` to print signatures and uncommon options
+of APIs named below; it prints by itself, so do not wrap it in `console.log`.
+For installation or connection problems, read `references/install.md` in the
+ego-browser Skill directory.
+
+## Run browser scripts
+
+Pass the script to `ego-browser nodejs`. The form depends on the shell that runs
+…
+$ ego-browser skill | tail -1
+[ego-browser:skill] end of guide v2.1.0
