@@ -1,0 +1,105 @@
+"""Build chunks.json: every lesson split into sections (Thai and English separately), tagged, with a prebuilt vector.
+
+The MCP Worker (worker.js) searches these chunks: keyword match plus cosine against the query's vector.
+Both sides use the SAME model, Workers AI @cf/baai/bge-m3 (multilingual, Thai OK, 1024 dims):
+the chunks here at build time, the query in the Worker at request time.
+
+A chunk is re-embedded only when its text hash changes, so rebuilding is cheap.
+Needs the wrangler login on this machine (its OAuth token calls the Workers AI REST API); the token is never printed.
+
+Usage: python3 build_index.py && python3 build_chunks.py   (then ./deploy.sh after committing)
+"""
+import hashlib
+import json
+import os
+import pathlib
+import re
+import subprocess
+import tomllib
+import urllib.request
+
+here = pathlib.Path(__file__).resolve().parent
+SITE = "https://aiexpo.buildwithoracle.com"
+ACCOUNT = "a5eabdc2b11aae9bd5af46bd6a88179e"
+MODEL = "@cf/baai/bge-m3"
+LANGS = {"en": ("README.en.md", "en"), "th": ("README.md", "th")}
+
+# topic and audience tags: a rule matches when any of its words is in the section title or text (lowercased)
+TOPICS = {
+    "install": ["install", "ติดตั้ง", "download", "ดาวน์โหลด", "dmg", "install.sh", "brew", "winget"],
+    "account": ["account", "บัญชี", "login", "ล็อกอิน", "sign in", "pro ", "free", "ฟรี", "plan", "แผน"],
+    "skill": ["skill", "สกิล", "plugin", "skill.md", "/awaken", "awaken"],
+    "browser": ["browser", "เบราว์เซอร์", "ego-browser", "ego(lite)", "chromium", "space"],
+    "memory": ["memory", "ความจำ", "ψ/", "/rrr", "/recap", "sandbox"],
+    "web": ["claude.ai", "chatgpt.com", "บนเว็บ", "on the web", "web "],
+    "verify": ["signature", "ลายเซ็น", "sha256", "codesign", "spctl", "notarized", "verify", "ตรวจ"],
+    "troubleshooting": ["trap", "กับดัก", "troubleshoot", "แก้ปัญหา", "error", "not found", "ไม่ขึ้น", "symptom", "อาการ"],
+}
+AUDIENCE = {
+    "attendee": ["workshop", "install", "ติดตั้ง", "download", "ดาวน์โหลด"],
+    "agent": ["agent", "llms.txt", "skill.md", "base64", "codex exec", "claude -p"],
+    "presenter": ["ในห้อง", "in the room", "on screen", "บนจอ", "fallback", "ทางสำรอง"],
+}
+
+
+def split(md):
+    body = md.split("\n---\n", 1)[1] if "\n---\n" in md else md
+    parts = [p.strip() for p in re.split(r"\n(?=## )", body)]
+    return [(p.split("\n", 1)[0][3:].strip(), p) for p in parts if p.startswith("## ")]
+
+
+def tags_for(rules, text):
+    t = text.lower()
+    return [k for k, words in rules.items() if any(w in t for w in words)]
+
+
+def token():
+    subprocess.run(["npx", "-y", "wrangler@4", "whoami"], capture_output=True)  # refreshes the OAuth token if it expired
+    cfg = pathlib.Path(os.path.expanduser("~/Library/Preferences/.wrangler/config/default.toml"))
+    return tomllib.loads(cfg.read_text())["oauth_token"]
+
+
+def embed(texts, tok):
+    out = []
+    for i in range(0, len(texts), 16):
+        req = urllib.request.Request(
+            f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT}/ai/run/{MODEL}",
+            data=json.dumps({"text": texts[i:i + 16]}).encode(),
+            headers={"Authorization": "Bearer " + tok, "content-type": "application/json"})
+        res = json.load(urllib.request.urlopen(req))
+        if not res.get("success"):
+            raise SystemExit(f"embedding failed: {res.get('errors')}")
+        out += res["result"]["data"]
+    return out
+
+
+def main():
+    lessons = json.loads((here / "lessons.json").read_text(encoding="utf-8"))
+    old_path = here / "chunks.json"
+    old = {c["hash"]: c["vec"] for c in json.loads(old_path.read_text(encoding="utf-8"))["chunks"]} if old_path.exists() else {}
+    chunks = []
+    for l in lessons:
+        for lang, (file, page) in LANGS.items():
+            for n, (title, text) in enumerate(split((here / l["dir"] / file).read_text(encoding="utf-8")), 1):
+                head = l["th"] if lang == "th" else l["en"]
+                embed_text = f"{head}\n{title}\n\n{text}"[:6000]
+                chunks.append(dict(
+                    id=f'{l["key"]}/{lang}/{n}', lesson=l["key"], lang=lang, section=n, title=title,
+                    label=f"{head} · {title}", url=f'{SITE}/{l["dir"]}/{page}#s{n + 1}',  # page builder: cover s1, first ## s2
+                    tags=dict(lesson=l["key"], lang=lang, section=n,
+                              topic=tags_for(TOPICS, title + "\n" + text), audience=tags_for(AUDIENCE, title + "\n" + text) or ["attendee"]),
+                    text=text, hash=hashlib.sha256((MODEL + "\n" + embed_text).encode()).hexdigest()[:16], _embed=embed_text))
+    todo = [c for c in chunks if c["hash"] not in old]
+    if todo:
+        vecs = embed([c["_embed"] for c in todo], token())
+        for c, v in zip(todo, vecs):
+            old[c["hash"]] = [round(x, 5) for x in v]
+    for c in chunks:
+        c["vec"] = old[c["hash"]]
+        del c["_embed"]
+    out = dict(model=MODEL, dims=len(chunks[0]["vec"]), count=len(chunks), chunks=chunks)
+    old_path.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    print(f"chunks.json: {len(chunks)} chunks, {out['dims']} dims, {len(todo)} embedded now, {len(chunks) - len(todo)} reused")
+
+
+main()

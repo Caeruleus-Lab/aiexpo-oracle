@@ -1,25 +1,37 @@
 // aiexpo-lessons: the static lessons plus a read-only MCP endpoint at /mcp.
 //
 // Remote MCP over Streamable HTTP, stateless, no auth (every lesson is already public).
-// Tools: search + fetch (the exact names and shapes ChatGPT connectors and deep research require),
-// and list_lessons. Text comes from each lesson's README.md (Thai) and README.en.md (English),
-// read from the same static assets the website serves; base64, vendor/ and tools/ are never read.
+// Tools: search + fetch (the exact names and shapes ChatGPT connectors and deep research require), and list_lessons.
+//
+// Search runs over chunks.json (build_chunks.py): one chunk per section of each lesson, Thai and English separately,
+// each with tags and a vector prebuilt with Workers AI @cf/baai/bge-m3. The query is embedded here with the SAME model,
+// then ranked by cosine plus a keyword score (Thai split into words with Intl.Segmenter). If Workers AI fails,
+// search falls back to keywords alone and says so in the result.
 
 const SITE = "https://aiexpo.buildwithoracle.com";
-const SERVER = { name: "aiexpo-lessons", title: "AIExpo Oracle lessons", version: "2026.10.30" };
+const SERVER = { name: "aiexpo-lessons", title: "AIExpo Oracle lessons", version: "2026.10.30-2" };
 const PROTOCOLS = ["2025-06-18", "2025-03-26", "2024-11-05"];
-const LANGS = { en: { file: "README.en.md", page: "en" }, th: { file: "README.md", page: "th" } };
+const LANG_FILE = { en: "README.en.md", th: "README.md" };
+const LANG_PAGE = { en: "en", th: "th" };
+const TOPICS = ["install", "account", "skill", "browser", "memory", "web", "verify", "troubleshooting"];
+const W_VEC = 0.65; // share of the vector score in the hybrid rank; the rest is keywords
+
+const filterProps = {
+  lang: { type: "string", enum: ["th", "en"], description: "Only this language edition" },
+  lesson: { type: "string", description: "Only this lesson id (see list_lessons), e.g. claude-chatgpt or ego-lite" },
+  topic: { type: "string", enum: TOPICS, description: "Only chunks tagged with this topic" },
+};
 
 const TOOLS = [
   {
     name: "search",
     title: "Search the lessons",
     description:
-      "Search the AIExpo Oracle workshop lessons (Thai and English): installing Claude Code, the Codex CLI, " +
-      "claude.ai skills, ego(lite) and the ARRA Oracle skills. Returns matching sections; pass an id to fetch for the full text.",
+      "Search the AIExpo Oracle workshop lessons (Thai and English): installing Claude Code, the Codex CLI, claude.ai skills, " +
+      "ego(lite) and the ARRA Oracle skills. Hybrid search: meaning (bge-m3 vectors) plus keywords. Returns sections; pass an id to fetch.",
     inputSchema: {
       type: "object",
-      properties: { query: { type: "string", description: "Words to look for, in Thai or English" } },
+      properties: { query: { type: "string", description: "What to look for, in Thai or English" }, ...filterProps },
       required: ["query"],
     },
     annotations: { readOnlyHint: true, openWorldHint: false },
@@ -28,19 +40,15 @@ const TOOLS = [
     name: "fetch",
     title: "Read a lesson section",
     description:
-      "Read the full text of a search result. id is '<lesson>/<lang>/<section>' (a section) or '<lesson>/<lang>' (the whole lesson), " +
-      "for example 'claude-chatgpt/en/6' or 'ego-lite/th'.",
-    inputSchema: {
-      type: "object",
-      properties: { id: { type: "string", description: "An id from search or list_lessons" } },
-      required: ["id"],
-    },
+      "Read the full text of a search result. id '<lesson>/<lang>/<section>' is one section, '<lesson>/<lang>' the whole lesson, " +
+      "for example 'claude-chatgpt/en/6' or 'ego-lite/th'. metadata carries the section's tags.",
+    inputSchema: { type: "object", properties: { id: { type: "string", description: "An id from search or list_lessons" } }, required: ["id"] },
     annotations: { readOnlyHint: true, openWorldHint: false },
   },
   {
     name: "list_lessons",
     title: "List the lessons",
-    description: "List every lesson in workshop order, with its page URLs, language editions and section titles.",
+    description: "List every lesson in workshop order, with page URLs, language editions, and each section's id, title and topic tags.",
     inputSchema: { type: "object", properties: {} },
     annotations: { readOnlyHint: true, openWorldHint: false },
   },
@@ -100,7 +108,8 @@ async function handle(msg, env) {
           serverInfo: SERVER,
           instructions:
             "Read-only access to the AIExpo Oracle workshop lessons (AI Expo Thailand, 6 Nov 2026). " +
-            "Use search, then fetch an id for the full text. Lessons exist in Thai (th, the original) and English (en).",
+            "Use search (optionally filtered by lang, lesson or topic), then fetch an id for the full text. " +
+            "Lessons exist in Thai (th, the original) and English (en).",
         });
       }
       case "ping":
@@ -121,111 +130,118 @@ async function handle(msg, env) {
   }
 }
 
+let cache = null; // per isolate: { lessons, chunks, model }
+
+async function load(env) {
+  if (cache) return cache;
+  const [lessons, index] = await Promise.all([
+    env.ASSETS.fetch(`${SITE}/lessons.json`).then((r) => r.json()),
+    env.ASSETS.fetch(`${SITE}/chunks.json`).then((r) => r.json()),
+  ]);
+  for (const c of index.chunks) {
+    c.norm = Math.hypot(...c.vec);
+    c.words = new Set(words(`${c.title}\n${c.text}`));
+    c.titleWords = new Set(words(c.title));
+  }
+  cache = { lessons, chunks: index.chunks, model: index.model };
+  return cache;
+}
+
 async function callTool(name, args, env) {
-  const lessons = await loadLessons(env);
+  const { lessons, chunks, model } = await load(env);
   if (name === "list_lessons") {
-    const list = lessons.map((l, i) => ({
-      order: i + 1,
-      id: l.key,
-      title: { th: l.th, en: l.en },
-      summary: { th: l.th_sub, en: l.en_sub },
-      urls: { th: `${SITE}/${l.dir}/th`, en: `${SITE}/${l.dir}/en`, base64: `${SITE}/${l.dir}/`, llms: `${SITE}/${l.dir}/llms.txt` },
-      editions: Object.keys(LANGS).map((lang) => ({ lang, id: `${l.key}/${lang}`, markdown: `${SITE}/${l.dir}/${LANGS[lang].file}` })),
-      sections: l.sections.en.map((s) => ({ id: s.id, title: s.title })),
-    }));
-    return result({ lessons: list });
+    return result({
+      lessons: lessons.map((l, i) => ({
+        order: i + 1,
+        id: l.key,
+        title: { th: l.th, en: l.en },
+        summary: { th: l.th_sub, en: l.en_sub },
+        urls: { th: `${SITE}/${l.dir}/th`, en: `${SITE}/${l.dir}/en`, base64: `${SITE}/${l.dir}/`, llms: `${SITE}/${l.dir}/llms.txt` },
+        editions: Object.keys(LANG_FILE).map((lang) => ({ lang, id: `${l.key}/${lang}`, markdown: `${SITE}/${l.dir}/${LANG_FILE[lang]}` })),
+        sections: chunks.filter((c) => c.lesson === l.key && c.lang === "en").map((c) => ({ id: c.id, title: c.title, topic: c.tags.topic })),
+      })),
+    });
   }
   if (name === "search") {
     const q = String(args.query || "").trim();
     if (!q) return result({ results: [] });
-    return result({ results: search(lessons, q).slice(0, 10).map(({ s }) => ({ id: s.id, title: s.label, url: s.url })) });
+    const pool = chunks.filter((c) => (!args.lang || c.lang === args.lang) && (!args.lesson || c.lesson === args.lesson) && (!args.topic || c.tags.topic.includes(args.topic)));
+    const { ranked, mode } = await rank(pool, q, env, model);
+    return result({
+      results: ranked.slice(0, 10).map(({ c }) => ({ id: c.id, title: c.label, url: c.url })),
+      // extra fields after results are ignored by clients that only read results
+      mode,
+      matches: ranked.slice(0, 10).map(({ c, score, vec, kw }) => ({ id: c.id, score: +score.toFixed(3), vector: +vec.toFixed(3), keyword: +kw.toFixed(3), tags: c.tags })),
+    });
   }
   if (name === "fetch") {
-    const doc = find(lessons, String(args.id || ""));
+    const doc = await find(lessons, chunks, String(args.id || ""), env);
     if (!doc) return { content: [{ type: "text", text: `No lesson or section with id '${args.id}'. Use search or list_lessons for valid ids.` }], isError: true };
     return result(doc);
   }
   return { content: [{ type: "text", text: `Unknown tool: ${name}` }], isError: true };
 }
 
+async function rank(pool, q, env, model) {
+  const qWords = [...new Set(words(q))];
+  let qv = null;
+  let mode = "hybrid";
+  try {
+    const out = await env.AI.run(model, { text: [q] });
+    qv = out.data[0];
+  } catch {
+    mode = "keyword (vector search unavailable)";
+  }
+  const qn = qv ? Math.hypot(...qv) : 1;
+  const rows = pool.map((c) => {
+    const vec = qv ? dot(qv, c.vec) / (qn * c.norm) : 0;
+    let kw = 0;
+    for (const w of qWords) kw += c.titleWords.has(w) ? 2 : c.words.has(w) ? 1 : 0;
+    return { c, vec, kw: qWords.length ? kw / (2 * qWords.length) : 0 };
+  });
+  for (const r of rows) r.score = qv ? W_VEC * r.vec + (1 - W_VEC) * r.kw : r.kw;
+  return { ranked: rows.filter((r) => r.score > 0).sort((a, b) => b.score - a.score), mode };
+}
+
+// Words for keyword matching: Intl.Segmenter splits Thai (no spaces between words) and English alike.
+const seg = new Intl.Segmenter("th", { granularity: "word" });
+function words(s) {
+  const out = [];
+  for (const { segment, isWordLike } of seg.segment(s.toLowerCase())) if (isWordLike && (segment.length > 1 || /[฀-๿]/.test(segment))) out.push(segment);
+  return out;
+}
+
+function dot(a, b) {
+  let s = 0;
+  for (let i = 0; i < a.length; i++) s += a[i] * b[i];
+  return s;
+}
+
+async function find(lessons, chunks, id, env) {
+  const c = chunks.find((x) => x.id === id);
+  if (c) {
+    return {
+      id: c.id, title: c.label, text: c.text, url: c.url,
+      metadata: { ...c.tags, title: c.title, source: `${SITE}/${lessonDir(lessons, c.lesson)}/${LANG_FILE[c.lang]}`, signed_by: SIGNER },
+    };
+  }
+  const [key, lang] = id.split("/");
+  const l = lessons.find((x) => x.key === key);
+  if (!l || !LANG_FILE[lang] || id.split("/").length !== 2) return null;
+  const text = await (await env.ASSETS.fetch(`${SITE}/${l.dir}/${LANG_FILE[lang]}`)).text();
+  return {
+    id, title: lang === "th" ? l.th : l.en, text, url: `${SITE}/${l.dir}/${LANG_PAGE[lang]}`,
+    metadata: { lesson: l.key, lang, sections: chunks.filter((x) => x.lesson === l.key && x.lang === lang).length, source: `${SITE}/${l.dir}/${LANG_FILE[lang]}`, signed_by: SIGNER },
+  };
+}
+
+const SIGNER = "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78";
+const lessonDir = (lessons, key) => lessons.find((l) => l.key === key).dir;
+
 // One JSON text block (what ChatGPT's search/fetch contract expects) plus the same object as structuredContent.
 function result(obj) {
   return { content: [{ type: "text", text: JSON.stringify(obj) }], structuredContent: obj };
 }
-
-async function loadLessons(env) {
-  const index = await (await env.ASSETS.fetch(`${SITE}/lessons.json`)).json();
-  return Promise.all(
-    index.map(async (l) => {
-      const sections = {};
-      const full = {};
-      for (const [lang, { file, page }] of Object.entries(LANGS)) {
-        const md = await (await env.ASSETS.fetch(`${SITE}/${l.dir}/${file}`)).text();
-        full[lang] = md;
-        sections[lang] = split(md).map((s, n) => ({
-          id: `${l.key}/${lang}/${n + 1}`,
-          lesson: l.key,
-          lang,
-          title: s.title,
-          label: `${lang === "th" ? l.th : l.en} · ${s.title}`,
-          url: `${SITE}/${l.dir}/${page}#s${n + 2}`, // the page builder numbers the cover s1, the first ## s2
-          text: s.text,
-        }));
-      }
-      return { ...l, sections, full };
-    }),
-  );
-}
-
-// "## " headings after the front matter (the part before the first "\n---\n") become sections.
-function split(md) {
-  const body = md.includes("\n---\n") ? md.split("\n---\n").slice(1).join("\n---\n") : md;
-  return body
-    .split(/\n(?=## )/)
-    .map((part) => part.trim())
-    .filter((part) => part.startsWith("## "))
-    .map((part) => ({ title: part.split("\n")[0].replace(/^##\s+/, "").trim(), text: part }));
-}
-
-function terms(q) {
-  return q
-    .toLowerCase()
-    .split(/[\s,.;:!?()"'`]+/)
-    .filter((t) => t.length > 1 || /[฀-๿]/.test(t));
-}
-
-function search(lessons, q) {
-  const ts = terms(q);
-  const whole = q.toLowerCase();
-  const hits = [];
-  for (const l of lessons)
-    for (const lang of Object.keys(LANGS))
-      for (const s of l.sections[lang]) {
-        const title = s.title.toLowerCase();
-        const text = s.text.toLowerCase();
-        let score = text.includes(whole) ? 5 : 0;
-        for (const t of ts) {
-          if (title.includes(t)) score += 3;
-          const n = text.split(t).length - 1;
-          if (n) score += 1 + Math.min(n, 5) * 0.2;
-        }
-        if (score > 0) hits.push({ s, score });
-      }
-  return hits.sort((a, b) => b.score - a.score);
-}
-
-function find(lessons, id) {
-  const [key, lang = "en", n] = id.split("/");
-  const l = lessons.find((x) => x.key === key);
-  if (!l || !LANGS[lang]) return null;
-  const meta = { lesson: l.key, lang, signed_by: "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78", source: `${SITE}/${l.dir}/${LANGS[lang].file}` };
-  if (n === undefined)
-    return { id: `${l.key}/${lang}`, title: lang === "th" ? l.th : l.en, text: l.full[lang], url: `${SITE}/${l.dir}/${LANGS[lang].page}`, metadata: meta };
-  const s = l.sections[lang][Number(n) - 1];
-  if (!s) return null;
-  return { id: s.id, title: s.label, text: s.text, url: s.url, metadata: { ...meta, section: s.title } };
-}
-
 function ok(id, result) {
   return { jsonrpc: "2.0", id, result };
 }
