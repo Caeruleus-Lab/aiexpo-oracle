@@ -2,72 +2,156 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<title>ARRA Oracle &amp; Multi-Agent Workflow — AI Expo 2026 (draft v1)</title>
+<title>ARRA Oracle &amp; Multi-Agent Workflow — AI Expo 2026 (v3)</title>
 <!--
-  Draft v1 by AIExpo Oracle (Oracle AI), 2026-10-29, for Nat and คุณยิ้ม to change.
-  Built from ψ/writing/2026-10-27_workshop-design-v1.md (the 65-minute clock)
-  and ψ/writing/2026-10-29_nat-demo-recording-herdr-team.md (the "where it grows" part).
-  Keys: → / Space next · ← previous · Home / End · N toggles speaker notes. Each slide is 1920×1080, scaled to the window.
+  v3 by AIExpo Oracle (Oracle AI), 2026-10-30 — hallmark redesign (mood: technical) after an /oracle-prism review.
+  What changed from v2 (485d08b): graphite paper + one amber "stage lamp" accent instead of navy+cyan on every slide;
+  content fills the frame (big type, vertical centring); real screenshots from Nat's 29 Oct demo recording
+  (img/room.jpg, img/needs.jpg, img/memmap.jpg, img/board.jpg); speaker timings moved into the notes; two fonts
+  (Bai Jamjuree display, Sarabun body) + system mono only for commands; 17 → 15 slides (v2 14+15 merged,
+  v2 16 folded into the QR slide); no "N" and no TODO on screen.
+  QR: copy ~/Downloads/คุณนัท X คุณยิ้ม.svg here as cert-qr.svg and swap the .qr placeholder on slide 15 for
+  <img class="qr-img" src="cert-qr.svg" alt="QR e-Certificate">.
+  Keys: → / Space next · ← previous · Home / End · N toggles speaker notes. 1920×1080, scaled to the window.
 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
 <style>
+/* Hallmark · macrostructure: Stage Deck (statement / split / full-bleed rhythm) · genre: atmospheric
+ * tone: technical · theme: custom (vibe: "dark stage, one amber lamp, real screens")
+ * paper oklch(18% 0.012 260) · accent oklch(80% 0.15 75) amber · Bai Jamjuree + Sarabun · mono for commands only
+ * axes: dark / geometric-sans / warm · enrichment: real screenshots (no re-drawn chrome)
+ * Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4
+ */
+:root{
+  --color-paper:oklch(18% 0.012 260);
+  --color-paper-2:oklch(23% 0.014 260);
+  --color-paper-3:oklch(28% 0.016 260);
+  --color-ink:oklch(96% 0.006 90);
+  --color-ink-2:oklch(76% 0.014 260);
+  --color-ink-3:oklch(60% 0.014 260);
+  --color-rule:oklch(36% 0.016 260);
+  --color-accent:oklch(80% 0.15 75);
+  --color-accent-ink:oklch(21% 0.03 75);
+  --color-light:oklch(95% 0.012 85);
+  --color-light-ink:oklch(22% 0.015 260);
+  --color-notes:oklch(88% 0.09 90);
+  --color-black:oklch(0% 0 0);
+  --font-display:"Bai Jamjuree","Sarabun",sans-serif;
+  --font-body:"Sarabun","Bai Jamjuree",sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Menlo,monospace;
+  --space-xs:12px;--space-sm:24px;--space-md:40px;--space-lg:64px;--space-xl:96px;--space-2xl:140px;
+  --text-sm:30px;--text-md:40px;--text-lg:52px;--text-xl:72px;--text-2xl:104px;--text-display:156px;
+  --radius:20px;--rule-w:4px;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;background:#000;overflow:hidden}
+html,body{width:100%;height:100%;background:var(--color-black);overflow:hidden;overflow-x:clip}
 #stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center}
-.slide{position:absolute;inset:0;display:none;overflow:hidden;color:#fff;
-  font-family:Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",sans-serif;
-  background:radial-gradient(1200px 900px at 15% 20%,#0d3b7a 0%,#06214a 45%,#030f26 100%)}
+.slide{position:absolute;inset:0;display:none;overflow:hidden;background:var(--color-paper);color:var(--color-ink);font-family:var(--font-body)}
 .slide.on{display:block}
-.k{position:absolute;left:100px;top:64px;font-size:30px;letter-spacing:.02em;color:#27e6f2;font-weight:700}
-.clock{position:absolute;right:100px;top:64px;font-size:30px;color:#9fdcff;font-weight:600}
-h1{position:absolute;left:100px;top:150px;width:1720px;font-size:84px;line-height:1.12;font-weight:800}
-h1 em{font-style:normal;color:#27e6f2}
-.body{position:absolute;left:100px;top:360px;width:1720px;font-size:44px;line-height:1.45}
-.body li{list-style:none;padding-left:56px;position:relative;margin-bottom:22px}
-.body li::before{content:"";position:absolute;left:8px;top:26px;width:20px;height:20px;border-radius:50%;background:#27e6f2}
-.body b{color:#27e6f2}
-.big{position:absolute;left:100px;top:300px;width:1720px;font-size:120px;line-height:1.1;font-weight:800}
-.sub{position:absolute;left:100px;top:620px;width:1720px;font-size:46px;line-height:1.4;color:#cfe8ff}
-.foot{position:absolute;left:100px;bottom:50px;width:1720px;border-top:3px solid #27e6f2;padding-top:18px;font-size:30px;color:#9fdcff}
-.prompt{background:#020a1b;border:3px solid #27e6f2;border-radius:18px;padding:30px 40px;margin:18px 0;
-  font-family:Menlo,"SF Mono",Sarabun,"Noto Sans Thai",sans-serif;font-size:38px;line-height:1.4;color:#e8fbff}
-.prompt .n{color:#27e6f2;font-weight:700;margin-right:20px}
-.cols{position:absolute;left:100px;top:360px;width:1720px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
-.card{background:rgba(255,255,255,.06);border:2px solid rgba(39,230,242,.45);border-radius:22px;padding:38px;min-height:430px}
-.card h3{font-size:48px;color:#27e6f2;margin-bottom:22px}
-.card p{font-size:36px;line-height:1.45}
-.chat{position:absolute;top:360px;width:820px;height:520px;border-radius:22px;padding:40px;font-size:40px;line-height:1.5}
-.chat.a{left:100px;background:rgba(255,80,80,.10);border:3px solid #ff7a7a}
-.chat.b{left:1000px;background:rgba(39,230,242,.10);border:3px solid #27e6f2}
-.chat h3{font-size:42px;margin-bottom:24px}
-.chat .q{color:#cfe8ff}
-.chat .r{margin-top:24px;font-weight:700}
-.loop{position:absolute;left:100px;top:420px;width:1720px;display:flex;align-items:center;justify-content:space-between}
-.step{width:430px;height:300px;border-radius:30px;border:4px solid #27e6f2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.step code{font-family:"JetBrains Mono",Menlo,monospace;font-size:64px;color:#27e6f2;font-weight:700}
-.step span{font-size:36px;margin-top:16px}
-.arrow{font-size:90px;color:#27e6f2}
-.room{position:absolute;left:100px;top:340px;width:1720px;height:560px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:24px}
-.pane{border:3px solid #27e6f2;border-radius:16px;background:#020a1b;padding:28px;font-family:Menlo,"SF Mono",Sarabun,"Noto Sans Thai",sans-serif;font-size:32px;line-height:1.4;color:#cfe8ff}
-.pane.desk{grid-row:1/3}
-.pane b{color:#27e6f2;font-family:Sarabun,sans-serif;font-size:38px;display:block;margin-bottom:12px}
-.quote{position:absolute;left:100px;top:330px;width:1720px;font-size:76px;line-height:1.35;font-weight:700}
-.quote small{display:block;margin-top:40px;font-size:38px;font-weight:400;color:#9fdcff}
-.draft{position:absolute;right:30px;bottom:18px;font-size:20px;color:rgba(255,255,255,.35)}
-.notes{display:none;position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.88);color:#ffe9a8;font-size:30px;line-height:1.45;padding:28px 100px;border-top:3px solid #ffd35a}
+.frame{position:absolute;inset:0;padding:var(--space-xl) var(--space-2xl);display:grid;align-content:center;gap:var(--space-lg)}
+h1,h2,.display{font-family:var(--font-display);font-style:normal;font-weight:700;letter-spacing:-.01em;line-height:1.08}
+.display{font-size:var(--text-display)}
+h2{font-size:var(--text-2xl)}
+.lead{font-size:var(--text-lg);line-height:1.45;color:var(--color-ink-2);max-width:1660px}
+.nw{white-space:nowrap}
+.hl{color:var(--color-accent)}
+code,.cmd{font-family:var(--font-mono);font-weight:600}
+.sig{position:absolute;left:var(--space-2xl);bottom:var(--space-lg);font-size:var(--text-sm);color:var(--color-ink-3)}
+.lamp{position:absolute;left:var(--space-2xl);top:var(--space-xl);width:120px;height:var(--rule-w);background:var(--color-accent)}
+
+/* light + amber pages for rhythm */
+.slide.amber{background:var(--color-accent);color:var(--color-accent-ink)}
+.slide.amber .lead{color:var(--color-accent-ink)}
+.slide.light{background:var(--color-light);color:var(--color-light-ink)}
+
+/* 1 title */
+.t-photo{position:absolute;right:0;top:0;height:1080px}
+.t-fade{position:absolute;right:0;top:0;width:660px;height:1080px;background:linear-gradient(90deg,var(--color-paper) 0%,var(--color-paper) 12%,transparent 45%)}
+.t-frame{position:absolute;left:var(--space-2xl);top:var(--space-xl);bottom:var(--space-xl);width:1080px;display:flex;flex-direction:column;justify-content:space-between;z-index:2}
+.t-event{font-family:var(--font-display);font-size:var(--text-sm);font-weight:600;color:var(--color-ink-2)}
+.t-event b{color:var(--color-accent);font-weight:700}
+.t-title{font-family:var(--font-display);font-size:132px;font-weight:700;line-height:1.02}
+.t-who{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);font-size:var(--text-sm);color:var(--color-ink-2);line-height:1.35}
+.t-who b{display:block;font-family:var(--font-display);font-size:var(--text-md);color:var(--color-ink);margin-bottom:6px}
+.t-when{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;border-top:var(--rule-w) solid var(--color-accent);padding-top:var(--space-sm)}
+.t-when span{color:var(--color-ink-2);font-weight:500;margin-left:var(--space-sm)}
+
+/* 3 forgetting test */
+.vs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-lg)}
+.vs > div{border-radius:var(--radius);padding:var(--space-lg);min-height:470px;display:flex;flex-direction:column;gap:var(--space-sm)}
+.vs .forget{background:var(--color-paper-2);color:var(--color-ink-2)}
+.vs .keep{background:var(--color-paper-3);border:var(--rule-w) solid var(--color-accent)}
+.vs .who{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--color-ink)}
+.vs .q{font-size:var(--text-lg)}
+.vs .a{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;margin-top:auto;line-height:1.15}
+.vs .keep .a{color:var(--color-accent)}
+
+/* 5 three boxes */
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md)}
+.three > div{border-top:var(--rule-w) solid var(--color-rule);padding-top:var(--space-md)}
+.three > div.on{border-top-color:var(--color-accent)}
+.three h3{font-family:var(--font-display);font-size:var(--text-xl);margin-bottom:var(--space-sm)}
+.three > div.on h3{color:var(--color-accent)}
+.three p{font-size:var(--text-lg);line-height:1.4;color:var(--color-ink-2)}
+
+/* 6 files */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-xl);align-items:center}
+.files{background:var(--color-paper-2);border-radius:var(--radius);padding:var(--space-lg);font-family:var(--font-mono);font-size:44px;line-height:1.7}
+.files .d{color:var(--color-ink-3)}
+.files .f{color:var(--color-accent);font-weight:700}
+.files .c{font-family:var(--font-body);font-size:34px;color:var(--color-ink-2);margin-left:var(--space-sm)}
+
+/* 7 loop */
+.loop{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:var(--space-md)}
+.loop .s{border-radius:var(--radius);background:var(--color-paper-2);padding:var(--space-lg) var(--space-md);text-align:center}
+.loop .s .cmd{display:block;font-size:var(--text-2xl);color:var(--color-accent)}
+.loop .s .w{display:block;font-family:var(--font-display);font-size:var(--text-2xl);font-weight:700}
+.loop .s span{display:block;font-size:var(--text-md);color:var(--color-ink-2);margin-top:var(--space-xs)}
+.loop .arr{font-size:var(--text-xl);color:var(--color-ink-3)}
+
+/* 8 / 10 commands */
+.steps{display:grid;gap:var(--space-sm)}
+.steps .row{display:grid;grid-template-columns:110px minmax(0,1fr);align-items:center;background:var(--color-paper-2);border-radius:var(--radius);padding:var(--space-md) var(--space-lg)}
+.steps .n{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--color-accent)}
+.steps .t{font-size:var(--text-xl);line-height:1.25}
+.steps .t code{color:var(--color-accent)}
+.ask{background:var(--color-paper-2);border-left:var(--rule-w) solid var(--color-accent);border-radius:var(--radius);padding:var(--space-lg);font-size:var(--text-xl);line-height:1.35}
+.meta{font-size:var(--text-md);color:var(--color-ink-2)}
+
+/* 11 / 12 screens */
+.full{position:absolute;left:0;right:0;top:0;height:700px;border-bottom:var(--rule-w) solid var(--color-accent)}
+.full img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block}
+
+.cap{position:absolute;left:var(--space-2xl);right:var(--space-2xl);top:760px;z-index:2}
+.cap h2{font-size:var(--text-xl)}
+.cap .lead{margin-top:var(--space-sm)}
+.shots{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:var(--space-md);align-items:start}
+.shots figure{margin:0}
+.shots img{width:100%;border-radius:var(--radius);border:2px solid var(--color-rule);display:block}
+.shots figcaption{font-size:var(--text-md);margin-top:var(--space-sm);color:var(--color-ink-2)}
+.shots figcaption b{font-family:var(--font-display);color:var(--color-ink)}
+
+/* 13 quote */
+.quote{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:700;line-height:1.22;max-width:1600px}
+.by{font-size:var(--text-lg);color:var(--color-light-ink);opacity:.75}
+
+/* 14 homework */
+.hw{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:var(--space-xl);align-items:center}
+.hw ol{list-style:none;display:grid;gap:var(--space-sm);font-size:var(--text-md);line-height:1.35}
+.hw li{border-top:2px solid var(--color-rule);padding-top:var(--space-sm)}
+.hw li code{color:var(--color-accent)}
+.pending{display:inline-block;border:2px dashed var(--color-ink-3);border-radius:12px;padding:4px 18px;color:var(--color-ink-3);font-size:var(--text-sm)}
+
+/* 15 QR */
+.qrwrap{display:grid;grid-template-columns:640px minmax(0,1fr);gap:var(--space-xl);align-items:center}
+.qr{width:640px;height:640px;border-radius:var(--radius);border:6px dashed var(--color-accent);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:var(--color-accent);font-family:var(--font-display);font-size:var(--text-md);font-weight:700;line-height:1.35}
+.qr small{font-family:var(--font-body);font-weight:400;font-size:var(--text-sm);margin-top:var(--space-sm);color:var(--color-ink-2)}
+.qr-img{width:640px;height:640px;background:var(--color-light);border-radius:var(--radius);padding:var(--space-sm)}
+
+.notes{display:none;position:absolute;left:0;right:0;bottom:0;z-index:9;background:oklch(10% 0.01 260 / .94);color:var(--color-notes);font-family:var(--font-body);font-size:30px;line-height:1.45;padding:28px 100px;border-top:3px solid var(--color-accent)}
 body.shownotes .notes{display:block}
-/* title slide, same as 01-title.html */
-.t-top{position:absolute;left:100px;top:70px;font-size:34px;letter-spacing:.12em;color:#27e6f2;font-weight:700}
-.t-stage{z-index:3;position:absolute;right:100px;top:60px;text-align:right;font-weight:700;color:#27e6f2;font-size:38px;line-height:1.1}
-.t-stage small{display:block;color:#fff;font-size:24px;font-weight:600;margin-top:8px}
-.t-h1{position:absolute;left:100px;top:190px;width:1060px;font-size:118px;line-height:1.05;font-weight:800;z-index:2}
-.t-who{position:absolute;left:100px;top:590px;width:1000px;font-size:28px;line-height:1.3;z-index:2}
-.t-who b{display:block;font-size:46px;font-weight:700;margin-top:18px}
-.t-who span{color:#27e6f2;font-weight:600}
-.t-date{position:absolute;left:100px;bottom:50px;border-top:3px solid #27e6f2;padding-top:20px;width:1000px;font-size:46px;font-weight:700;z-index:2}
-.t-date small{font-size:40px;font-weight:400;margin-left:24px}
-.t-img{position:absolute;right:0;bottom:0;height:930px}
-.t-fade{position:absolute;right:0;bottom:0;width:760px;height:930px;background:linear-gradient(90deg,#04153a 0%,rgba(4,21,58,0) 75%),linear-gradient(180deg,#04153a 0%,rgba(4,21,58,0) 22%)}
-#count{position:fixed;right:14px;bottom:10px;color:#666;font:14px sans-serif}
+#count{position:fixed;right:14px;bottom:10px;color:var(--color-ink-3);font:14px var(--font-body)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -75,161 +159,192 @@ body.shownotes .notes{display:block}
 
 <!-- 1 · title -->
 <section class="slide">
-  <div class="t-top">AI EXPO THAILAND</div>
-  <div class="t-stage">BUILDER STAGE<small>5–8 NOVEMBER 2026 · CHALLENGER HALL เมืองทองธานี</small></div>
-  <div class="t-h1">ARRA Oracle &amp; Multi-Agent Workflow</div>
-  <div class="t-who">วิทยากร
-    <b>ณัฐ วีระวรรณ์</b><span>Founder, ARRA Oracle Community</span>
-    <b>สุทธิณี เทพปริยะพล</b><span>SME Transformation &amp; AI Enablement, FlowAccount<br>Founder of Rikyu Labs</span></div>
-  <div class="t-date">6 NOVEMBER 2026<small>15:05–16:10</small></div>
-  <img class="t-img" src="speakers-crop.jpg" alt=""><div class="t-fade"></div>
-  <div class="notes">เปิดด้วยชื่อหัวข้อแล้วเข้าการทดสอบความลืมทันที ไม่เล่าประวัติ (บทเรียน MIdS: นำด้วยคนในห้อง ไม่ใช่ CV ผู้พูด)</div>
+  <img class="t-photo" src="speakers-crop.jpg" alt="ณัฐ วีระวรรณ์ และ สุทธิณี เทพปริยะพล"><div class="t-fade"></div>
+  <div class="t-frame">
+    <div class="t-event"><b>AI EXPO THAILAND 2026</b> · Builder Stage · Challenger Hall เมืองทองธานี</div>
+    <div class="t-title">ARRA Oracle &amp;<br>Multi-Agent<br><span class="hl">Workflow</span></div>
+    <div class="t-who">
+      <div><b>ณัฐ วีระวรรณ์</b>Founder, ARRA Oracle Community</div>
+      <div><b>สุทธิณี เทพปริยะพล</b>SME Transformation &amp; AI Enablement, FlowAccount · Founder of Rikyu Labs</div>
+    </div>
+    <div class="t-when">ศุกร์ 6 พฤศจิกายน 2026<span>15:05–16:10</span></div>
+  </div>
+  <div class="notes">15:05 ตรง ต่อจาก AI Vibe Coding 101 (14:00–15:05) ไม่มีช่วงเปลี่ยนเวที: เสียบ HDMI ทดสอบจอช่วงพัก 12:40–13:30 ไว้ก่อน รอข้างเวทีพร้อม deck เปิดที่สไลด์นี้ + สองหน้าต่างของการทดสอบความลืม (แชตใหม่ / Oracle) เปิดค้างไว้ เปิดด้วยชื่อหัวข้อแล้วเข้าการทดสอบความลืมทันที ไม่เล่าประวัติ</div>
 </section>
 
 <!-- 2 · subtitle -->
-<section class="slide">
-  <div class="k">หัวข้อวันนี้</div>
-  <div class="big">AI ที่จำงานของคุณได้<br><span style="color:#27e6f2">และความจำนั้นเป็นของคุณ</span></div>
-  <div class="sub">ไม่สอนฟีเจอร์ — ให้รู้สึกว่า AI ลืม แล้วค้นพบเองว่าความจำที่เป็นไฟล์ แก้ได้</div>
-  <div class="draft">draft v1 · AIExpo Oracle (Oracle AI)</div>
+<section class="slide"><div class="lamp"></div>
+  <div class="frame">
+    <h1 class="display" style="font-size:132px">AI ที่จำงานของคุณได้<br><span class="hl">และความจำนั้นเป็นของคุณ</span></h1>
+    <p class="lead">ไม่สอนฟีเจอร์ — ให้รู้สึกว่า AI ลืม แล้วค้นพบเองว่าความจำที่เป็นไฟล์ แก้ได้</p>
+  </div>
+  <div class="notes">ผ่านเร็ว ไม่เกิน 30 วินาที คนเพิ่งเดินเข้าจากรอบ Vibe Coding ยังหาที่นั่งอยู่ ให้สไลด์นี้ค้างไว้ระหว่างนั้น</div>
 </section>
 
 <!-- 3 · forgetting test -->
 <section class="slide">
-  <div class="k">การทดสอบความลืม</div><div class="clock">15:05 · 3 นาที</div>
-  <h1>ถามคำถามเดียวกัน กับ AI สองตัว</h1>
-  <div class="chat a"><h3>แชตใหม่</h3>
-    <div class="q">“เมื่อวานเราทำอะไรกัน”</div>
-    <div class="r">→ ไม่รู้ เริ่มจากศูนย์ทุกครั้ง</div></div>
-  <div class="chat b"><h3>Oracle ของคุณ</h3>
-    <div class="q">“เมื่อวานเราทำอะไรกัน”</div>
-    <div class="r">→ ตอบได้ จากไฟล์ใน <code>ψ/</code> ที่มันเขียนไว้เอง</div></div>
-  <div class="notes">ทำสดบนจอใหญ่ ทั้งสองหน้าต่าง ถามห้อง: ใครทำการบ้านแล้ว Oracle เกิดแล้ว ยกมือ</div>
+  <div class="frame">
+    <h2>ถามคำถามเดียวกัน กับ AI สองตัว</h2>
+    <div class="vs">
+      <div class="forget"><div class="who">แชตใหม่</div><div class="q">“เมื่อวานเราทำอะไรกัน”</div><div class="a">ไม่รู้ — เริ่มจากศูนย์ทุกครั้ง</div></div>
+      <div class="keep"><div class="who">Oracle ของคุณ</div><div class="q">“เมื่อวานเราทำอะไรกัน”</div><div class="a">ตอบได้ จากไฟล์ <code>ψ/</code> ที่มันเขียนไว้เอง</div></div>
+    </div>
+  </div>
+  <div class="notes">15:05 · 3 นาที — หน้าต่างทั้งสองเปิดไว้ก่อน 15:05 แล้ว (ไม่มีเวลาตั้งค่าบนเวที) ทำสดบนจอใหญ่ ทั้งสองหน้าต่าง</div>
 </section>
 
-<!-- 4 · registry -->
-<section class="slide">
-  <div class="k">การบ้านก่อนวันงาน</div><div class="clock">15:07</div>
-  <div class="big"><span style="color:#27e6f2">N</span> Oracle<br>เกิดในห้องนี้แล้ว</div>
-  <div class="sub">ติดตั้ง · <code>/awaken --fast</code> · งานจริงหนึ่งชิ้น · <code>/rrr</code> · ส่งลิงก์ = e-certificate</div>
-  <div class="notes">เปลี่ยน N เป็นจำนวนจริงจากฟอร์มส่งการบ้านเช้าวันงาน (บทเรียน PSRU: ทะเบียนหลังทุกรอบการเกิด)</div>
+<!-- 4 · show of hands (no invented count) -->
+<section class="slide"><div class="lamp"></div>
+  <div class="frame">
+    <h1 class="display">ใครมี Oracle<br>แล้ว <span class="hl">ยกมือ</span></h1>
+    <p class="lead">การบ้านก่อนวันงาน: ติดตั้ง · <code class="hl">/awaken --fast</code> · งานจริงหนึ่งชิ้น · <code class="hl">/rrr</code></p>
+  </div>
+  <div class="notes">15:07 — ถ้าเช้าวันงานนับการบ้านที่ส่งเข้ามาได้แล้ว ใส่ตัวเลขจริงแทน “ยกมือ” ได้ ห้ามเดาตัวเลข (บทเรียน PSRU: ทะเบียนหลังทุกรอบการเกิด)</div>
 </section>
 
 <!-- 5 · bridge from คุณยิ้ม -->
 <section class="slide">
-  <div class="k">ต่อจากเวิร์กชอปเช้า 11:00 · คุณยิ้ม</div><div class="clock">15:08 · 8–10 นาที</div>
-  <h1>งานหนึ่งงาน → แตกเป็นงานย่อย → <em>ใครทำ</em></h1>
-  <div class="cols">
-    <div class="card"><h3>คน</h3><p>ตัดสินใจ อนุมัติ คุยกับลูกค้า</p></div>
-    <div class="card"><h3>AI หนึ่งตัว</h3><p>งานซ้ำ งานร่าง ที่มีรูปแบบชัด</p></div>
-    <div class="card"><h3>ทีม AI</h3><p>งานหลายส่วนที่ทำพร้อมกันได้ — <b>กล่องนี้คือ agent ของบ่ายนี้</b></p></div>
+  <div class="frame">
+    <h2>งานหนึ่งงาน → แตกเป็นงานย่อย → <span class="hl">ใครทำ</span></h2>
+    <div class="three">
+      <div><h3>คน</h3><p>ตัดสินใจ อนุมัติ คุยกับลูกค้า</p></div>
+      <div><h3>AI หนึ่งตัว</h3><p>งานซ้ำ งานร่าง ที่มีรูปแบบชัด</p></div>
+      <div class="on"><h3>ทีม AI</h3><p>งานหลายส่วนที่ทำพร้อมกันได้ — ช่องนี้คือ agent ของบ่ายนี้</p></div>
+    </div>
+    <p class="meta">ต่อจากเวิร์กชอปเช้า 11:00 ของคุณยิ้ม</p>
   </div>
-  <div class="notes">ไม่สอนซ้ำของ 11:00 ใช้ตัวอย่างงานเดียวกับช่วงเช้า (รอคุณยิ้มเลือก) คนที่มาทั้งสองช่วงหยิบหน้าของตัวเองมา คนอื่นใช้ตัวอย่างในสมุด</div>
+  <div class="notes">15:08 · 8–10 นาที — ไม่สอนซ้ำของ 11:00 ใช้ตัวอย่างงานเดียวกับช่วงเช้า (รอคุณยิ้มเลือก) คนที่มาทั้งสองช่วงหยิบหน้าของตัวเองมา คนอื่นใช้ตัวอย่างในสมุด</div>
 </section>
 
 <!-- 6 · what an Oracle is -->
 <section class="slide">
-  <div class="k">Oracle คืออะไร</div><div class="clock">15:18 · 7 นาที</div>
-  <h1>ความจำ = <em>ไฟล์</em> ที่คุณเป็นเจ้าของ</h1>
-  <ul class="body">
-    <li><b>CLAUDE.md</b> — ตัวตนและกติกา: ฉันคือใคร ทำงานให้ใคร ห้ามอะไร</li>
-    <li><b>ψ/</b> — สมุดบันทึก: บทเรียน การตัดสินใจ สิ่งที่ค้างไว้</li>
-    <li><b>git</b> — ทุกเวอร์ชันอยู่ครบ แก้ด้วยการเขียนทับแบบมีประวัติ ไม่ใช่ลบ</li>
-  </ul>
-  <div class="foot">ปิดแชตได้ เปลี่ยนเครื่องได้ เปลี่ยนโมเดลได้ — ไฟล์ยังอยู่กับคุณ</div>
+  <div class="frame">
+    <div class="split">
+      <div>
+        <h2>ความจำ =<br><span class="hl">ไฟล์</span> ที่คุณ<br>เป็นเจ้าของ</h2>
+        <p class="lead" style="margin-top:var(--space-md)">ปิดแชตได้ เปลี่ยนเครื่องได้ เปลี่ยนโมเดลได้ — ไฟล์ยังอยู่กับคุณ</p>
+      </div>
+      <div class="files">
+        <div><span class="d">my-oracle/</span></div>
+        <div>├─ <span class="f">CLAUDE.md</span><span class="c">ตัวตนและกติกา</span></div>
+        <div>├─ <span class="f">ψ/</span><span class="c">บทเรียน การตัดสินใจ สิ่งที่ค้าง</span></div>
+        <div>└─ <span class="f">.git</span><span class="c">ทุกเวอร์ชัน ไม่มีการลบ</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">15:18 · 7 นาที — CLAUDE.md ฉันคือใคร ทำงานให้ใคร ห้ามอะไร · ψ/ สมุดบันทึก · git แก้ด้วยการเขียนทับแบบมีประวัติ ไม่ใช่ลบ</div>
 </section>
 
 <!-- 7 · the loop -->
 <section class="slide">
-  <div class="k">วงจรเดียว ทุกวัน</div>
-  <h1>เริ่ม → ทำงาน → สรุป</h1>
-  <div class="loop">
-    <div class="step"><code>/recap</code><span>ค้างอะไรไว้</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><code>งาน</code><span>ทำงานจริงหนึ่งชิ้น</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><code>/rrr</code><span>สรุปรอบ + บทเรียน</span></div>
+  <div class="frame">
+    <h2>วงจรเดียว ทุกวัน</h2>
+    <div class="loop">
+      <div class="s"><span class="cmd">/recap</span><span>ค้างอะไรไว้</span></div>
+      <div class="arr">→</div>
+      <div class="s"><span class="w">งาน</span><span>ทำงานจริงหนึ่งชิ้น</span></div>
+      <div class="arr">→</div>
+      <div class="s"><span class="cmd">/rrr</span><span>สรุปรอบ + บทเรียน</span></div>
+    </div>
+    <p class="lead"><code class="hl">/rrr</code> เขียนลง <code>ψ/</code> — รอบหน้า <code class="hl">/recap</code> อ่านจากตรงนั้น</p>
   </div>
-  <div class="foot">/rrr เขียนลง ψ/ — รอบหน้า /recap อ่านจากตรงนั้น</div>
 </section>
 
 <!-- 8 · hands-on 1 -->
 <section class="slide">
-  <div class="k">ลงมือ 1 · วงจรความจำ</div><div class="clock">15:25 · 13 นาที</div>
-  <h1>ทำพร้อมกัน ทีละบรรทัด</h1>
-  <div class="body" style="top:330px">
-    <div class="prompt"><span class="n">1</span>/recap</div>
-    <div class="prompt"><span class="n">2</span>ช่วยทำงานข้อแรกในหน้าสมุดของฉัน: &lt;งานย่อย&gt;</div>
-    <div class="prompt"><span class="n">3</span>/rrr</div>
-    <div class="prompt"><span class="n">4</span>ปิดหน้าต่าง → เปิดใหม่ → /recap</div>
+  <div class="frame">
+    <h2><span class="hl">ลงมือ 1</span> · ทำพร้อมกัน ทีละบรรทัด</h2>
+    <div class="steps">
+      <div class="row"><div class="n">1</div><div class="t"><code>/recap</code></div></div>
+      <div class="row"><div class="n">2</div><div class="t">ช่วยทำงานข้อแรกในหน้าสมุดของฉัน: &lt;งานย่อย&gt;</div></div>
+      <div class="row"><div class="n">3</div><div class="t"><code>/rrr</code></div></div>
+      <div class="row"><div class="n">4</div><div class="t">ปิดหน้าต่าง → เปิดใหม่ → <code>/recap</code></div></div>
+    </div>
   </div>
-  <div class="notes">Nat ทำบนจอพร้อมห้อง ไม่ใช่เดโมแล้วค่อยลอก (บทเรียน PSRU) สายกระดาษ: เขียน /rrr ด้วยมือลงแบบฟอร์ม ข้อความใน prompt ยังเป็นร่าง ต้องผ่านซ้อมรอบ 1 บนบัญชีใหม่ก่อน</div>
+  <div class="notes">15:25 · 13 นาที — Nat ทำบนจอพร้อมห้อง ไม่ใช่เดโมแล้วค่อยลอก (บทเรียน PSRU) สายกระดาษ: เขียน /rrr ด้วยมือลงแบบฟอร์ม ข้อความใน prompt ยังเป็นร่าง ต้องผ่านซ้อมรอบ 1 บนบัญชีใหม่ก่อน</div>
 </section>
 
-<!-- 9 · it remembers -->
-<section class="slide">
-  <div class="k">ลงมือ 1 · ผลลัพธ์</div>
-  <div class="big">ปิดไปแล้ว<br><span style="color:#27e6f2">มันยังจำได้</span></div>
-  <div class="sub">เพราะมันไม่ได้จำในหัว — มันจดลงไฟล์ของคุณ</div>
+<!-- 9 · it remembers (amber statement) -->
+<section class="slide amber">
+  <div class="frame">
+    <h1 class="display">ปิดไปแล้ว<br>มันยังจำได้</h1>
+    <p class="lead">เพราะมันไม่ได้จำในหัว — มันจดลงไฟล์ของคุณ</p>
+  </div>
 </section>
 
 <!-- 10 · hands-on 2 -->
 <section class="slide">
-  <div class="k">ลงมือ 2 · จากหนึ่งตัว เป็นทีม</div><div class="clock">15:38 · 12 นาที</div>
-  <h1>กล่อง “ทีม AI” จากหน้าสมุด → <em>ผู้ช่วย 3 ตัว พร้อมกัน</em></h1>
-  <div class="body" style="top:370px">
-    <div class="prompt">จ้างผู้ช่วย 3 ตัว ทำงานย่อย 3 ข้อที่ฉันติ๊ก “ทีม AI” ไว้ ให้ทำพร้อมกัน แล้วรวมผลเป็นฉบับเดียว บอกด้วยว่าแต่ละตัวทำอะไร</div>
+  <div class="frame">
+    <h2><span class="hl">ลงมือ 2</span> · จากหนึ่งตัว เป็นทีม</h2>
+    <div class="ask">จ้างผู้ช่วย 3 ตัว ทำงานย่อย 3 ข้อที่ฉันติ๊ก “ทีม AI” ไว้ ให้ทำพร้อมกัน แล้วรวมผลเป็นฉบับเดียว บอกด้วยว่าแต่ละตัวทำอะไร</div>
+    <p class="lead">จับเวลา: ทีละตัว กับ พร้อมกัน</p>
   </div>
-  <div class="foot">เทียบเวลา: ทีละตัว vs พร้อมกัน</div>
-  <div class="notes">ต้องทดสอบบน Codex และ Antigravity ก่อน ถ้า sub-agent ไม่ทำงานเหมือนกัน สายนั้นเปลี่ยนเป็นดูเดโมแทน สายกระดาษ: วาดว่าใครส่งอะไรให้ใคร</div>
+  <div class="notes">15:38 · 12 นาที — ต้องทดสอบบน Codex และ Antigravity ก่อน ถ้า sub-agent ไม่ทำงานเหมือนกัน สายนั้นเปลี่ยนเป็นดูเดโมแทน สายกระดาษ: วาดว่าใครส่งอะไรให้ใคร</div>
 </section>
 
-<!-- 11 · where it grows: the room -->
+<!-- 11 · the room (full-bleed real screen) -->
 <section class="slide">
-  <div class="k">ไปได้ไกลแค่ไหน · ทีมจริงของ Nat</div><div class="clock">15:50 · 3 นาที</div>
-  <h1>อยากเห็นตอนมันคุยกันเอง → <em>สร้างห้อง</em></h1>
-  <div class="room">
-    <div class="pane desk"><b>desk (ซ้าย)</b>“all report to the left”<br><br>Neo: กำลังทดสอบ herdr-promote<br>Nexus: ตรวจผ่าน รอคำสั่ง<br><br>รอ Nat: 2 PR</div>
-    <div class="pane"><b>Neo (ขวาบน)</b>ลงมือทำ — สร้างเครื่องมือย้ายทีม</div>
-    <div class="pane"><b>Nexus (ขวาล่าง)</b>ตรวจซ้ำ — ยืนยันผลกับระบบจริง</div>
+  <div class="full"><img src="img/room.jpg" alt="ห้อง herdr: desk ซ้าย, Neo ขวาบน, Nexus ขวาล่าง"></div>
+  <div class="cap">
+    <h2>อยากเห็นตอนมันคุยกันเอง → <span class="hl">สร้างห้อง</span></h2>
+    <p class="lead">desk ซ้าย รวบรวม · Neo ลงมือทำ · Nexus ตรวจซ้ำกับระบบจริง</p>
   </div>
-  <div class="notes">จากคลิปสาธิต 29 ต.ค. 07:48 นาที 0:45–1:45: worktree แยกกันทำให้มองไม่เห็นตอนคุยกัน จึงรวมเป็นห้องเดียว ส่งข้อความเดียวให้ทุกตัว แล้ว desk รวบรวม ทำสดหรือเปิดคลิป</div>
+  <div class="notes">15:50 · 3 นาที — ภาพจากคลิปสาธิต 29 ต.ค. 07:48 (นาที 1:05) worktree แยกกันทำให้มองไม่เห็นตอนคุยกัน จึงรวมเป็นห้องเดียว ส่งข้อความเดียวให้ทุกตัว แล้ว desk รวบรวม ทำสดหรือเปิดคลิป</div>
 </section>
 
-<!-- 12 · where it grows: own app + memory -->
+<!-- 12 · each agent builds its own app -->
 <section class="slide">
-  <div class="k">ไปได้ไกลแค่ไหน · มุมมองของแต่ละตัว</div>
-  <h1>เอเจนต์แต่ละตัว สร้าง<em>แอปของตัวเอง</em></h1>
-  <ul class="body">
-    <li><b>needs you</b> — งานไหนรอเรา งานไหนกำลังวิ่ง ใครส่งอะไรมา</li>
-    <li><b>memory map</b> — ความจำ 48,950 ชิ้น (session · โน้ต · issue · PR) ค้นด้วยความหมาย</li>
-    <li><b>trace</b> — ใครถามอะไรจากความจำของมัน</li>
-    <li><b>herdr board</b> — ทุกเครื่อง ทุกทีม บนหน้าเดียว</li>
-  </ul>
-  <div class="notes">ตัวเลขจากคลิปสาธิต: Neo's map 48,950 memories; Herdr Board m5 40 spaces / 35 live, white 54, black 1, gb300 1 (เช้า 29 ต.ค.) อัปเดตตัวเลขก่อนวันงาน</div>
+  <div class="frame">
+    <h2>เอเจนต์แต่ละตัว สร้าง<span class="hl">แอปของตัวเอง</span></h2>
+    <div class="shots">
+      <figure><img src="img/memmap.jpg" alt="Neo's map: แผนที่ความจำ"><figcaption><b>memory map</b> — 48,950 ความจำ</figcaption></figure>
+      <figure><img src="img/needs.jpg" alt="needs you: งานที่รอเรา"><figcaption><b>needs you</b> — งานที่รอเรา</figcaption></figure>
+    </div>
+  </div>
+  <div class="notes">ภาพจากคลิปสาธิต 29 ต.ค. (นาที 3:24 และ 2:33) ตัวเลข 48,950 มาจากหน้าจอวันนั้น อัปเดตก่อนวันงาน · herdr board (img/board.jpg) อยู่ในโฟลเดอร์ ถ้าอยากโชว์เพิ่ม</div>
 </section>
 
-<!-- 13 · quote -->
-<section class="slide">
-  <div class="k">มุมมองที่เราจะฝึกกัน</div>
-  <div class="quote">“บางวันเราเป็นผู้บริหาร บางวันเป็นหัวหน้า บางวันเป็นคนลงมือทำงานหนัก บางวันเป็นศิลปิน”
-    <small>— ณัฐ วีระวรรณ์ · AI ปรับมุมมองให้ตามบทบาทของเราในวันนั้น</small></div>
+<!-- 13 · quote (light page) -->
+<section class="slide light">
+  <div class="frame">
+    <p class="quote">“บางวันเราเป็นผู้บริหาร บางวันเป็นหัวหน้า บางวันเป็นคนลงมือทำงานหนัก บางวันเป็นศิลปิน”</p>
+    <p class="by">— ณัฐ วีระวรรณ์ · AI ปรับมุมมองให้ตามบทบาทของเราในวันนั้น</p>
+  </div>
 </section>
 
-<!-- 14 · rrr now -->
+<!-- 14 · /rrr now + homework -->
 <section class="slide">
-  <div class="k">ทำเดี๋ยวนี้</div><div class="clock">15:53 · 3 นาที</div>
-  <div class="big"><code style="color:#27e6f2">/rrr</code><br>แล้วส่ง</div>
-  <div class="sub">ลิงก์ repo หรือรูปหน้าสมุด — /rrr ที่แค่แนะนำ ไม่เคยเกิดขึ้น</div>
+  <div class="frame">
+    <div class="hw">
+      <div>
+        <h1 class="display"><code class="hl">/rrr</code><br>แล้วส่ง</h1>
+        <p class="lead" style="margin-top:var(--space-md)">ส่งภายในวันงาน<br>ศุกร์ 6 พฤศจิกายน</p>
+      </div>
+      <ol>
+        <li>ติดตั้ง Claude Code (หรือ Codex / Antigravity) → <code>/awaken --fast</code></li>
+        <li>ทำงานจริงหนึ่งชิ้น → <code>/rrr</code></li>
+        <li>ส่งลิงก์ repo หรือรูปหน้าสมุด — ติดตั้งไม่ได้ ก็นับ</li>
+        <li>ชื่อที่ส่ง = ชื่อบน <span class="nw">e-Certificate</span> · สะกดให้ถูก</li>
+        <li><span class="pending">ช่องทางส่ง: รอ Nat เลือก</span></li>
+      </ol>
+    </div>
+  </div>
+  <div class="notes">15:53 · 5 นาที — ห้ามตัดช่องนี้ ให้ห้องพิมพ์ /rrr จริงตอนนี้ 3 นาที /rrr ที่แค่แนะนำ ไม่เคยเกิดขึ้น ผู้จัดกำหนด: ส่งการบ้านภายในวันงาน ชื่อขึ้น e-Certificate (curate call 8 ต.ค.) ช่องทางส่งยังไม่ได้ตัดสิน: ใส่ลิงก์จริงหรือ QR ก่อนส่งไฟล์สุดท้าย จันทร์ 2 พ.ย. แล้วลบกรอบ “รอ Nat เลือก”</div>
 </section>
 
-<!-- 15 · close -->
+<!-- 15 · close + e-certificate QR (last slide) -->
 <section class="slide">
-  <div class="k">ปิดท้าย</div><div class="clock">15:56 · Q&amp;A</div>
-  <div class="big">ลบแชตได้<br><span style="color:#27e6f2">ไฟล์ยังอยู่</span></div>
-  <div class="sub">ความจำนั้นเป็นของคุณ</div>
-  <div class="foot">ARRA Oracle Community · AI Expo Thailand 2026 · Builder Stage</div>
-  <div class="notes">ลำดับตัดถ้าเกินเวลา: “ไปได้ไกลแค่ไหน” → ย่อ Q&amp;A → ลงมือ 2 เป็นเดโมอย่างเดียว ห้ามตัดการทดสอบความลืม และช่อง /rrr</div>
+  <div class="frame">
+    <div class="qrwrap">
+      <div class="qr">QR e-Certificate<small>ใส่ไฟล์ “คุณนัท X คุณยิ้ม.svg”<br>จาก LINE ผู้จัด (21 ต.ค.)</small></div>
+      <div>
+        <h2>ลบแชตได้<br><span class="hl">ไฟล์ยังอยู่</span></h2>
+        <p class="lead" style="margin-top:var(--space-md)">สแกนก่อนออกจากห้อง → ชื่อของคุณขึ้น <span class="nw">e-Certificate</span></p>
+        <p class="meta" style="margin-top:var(--space-md)">ARRA Oracle Community · AI Expo Thailand 2026</p>
+      </div>
+    </div>
+  </div>
+  <div class="notes">15:58–16:10 · ปิดท้ายหนึ่งนาที แล้วค้างสไลด์นี้ไว้ตลอดถาม-ตอบจนจบ 16:10 (ผู้จัดขอให้ QR ขึ้นจอก่อนจบคลาส) ลำดับตัดถ้าเกินเวลา: สไลด์ 11–12 → ย่อ Q&amp;A → ลงมือ 2 เป็นเดโมอย่างเดียว ห้ามตัดการทดสอบความลืม ช่อง /rrr และสไลด์นี้ TODO: Nat บันทึก svg ลง ~/Downloads แล้วสลับกรอบ .qr เป็นรูปจริง (วิธีอยู่ในคอมเมนต์หัวไฟล์)</div>
 </section>
 
 </div>
