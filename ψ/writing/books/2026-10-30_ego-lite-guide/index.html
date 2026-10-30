@@ -3,55 +3,75 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง</title>
+<title>ติดตั้ง ego(lite) ให้ AI agent มี เบราว์เซอร์ของตัวเอง </title>
 <style>
 :root{--ink:#0d1b3d;--blue:#2f5bea;--cyan:#27e6f2;--paper:#f4f6fb;--mute:#5a6b8c}
 *{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
 body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.75 Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif}
-.cover{background:radial-gradient(1100px 700px at 80% 10%,#3b6cf5 0%,#132a6b 55%,#070f2b 100%);color:#fff;padding:72px 24px 64px}
+.cover{background:radial-gradient(1100px 700px at 80% 10%,#3b6cf5 0%,#132a6b 55%,#070f2b 100%);color:#fff;padding:64px 24px 56px}
 .cover .in{max-width:980px;margin:0 auto}
-.kicker{display:inline-block;background:#c2410c;color:#fff;font-weight:800;border-radius:999px;padding:6px 18px;letter-spacing:.02em}
+.langs{display:flex;gap:8px;margin-bottom:26px}
+.langs a{color:#cfe0ff;text-decoration:none;border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 14px;font-weight:700;font-size:15px}
+.langs a.on{background:#fff;color:var(--ink);border-color:#fff}
+.kicker{display:inline-block;background:#c2410c;color:#fff;font-weight:800;border-radius:999px;padding:6px 18px}
 .cover h1{font-size:clamp(38px,6vw,68px);line-height:1.12;margin:22px 0 14px;font-weight:800}
 .cover h1 em{font-style:normal;color:var(--cyan)}
+.nw{white-space:nowrap}
 .cover p{font-size:21px;color:#d6e4ff;margin:0 0 6px}
 .cover .facts{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
-.cover .facts span{border:2px solid rgba(39,230,242,.6);border-radius:14px;padding:10px 16px;font-weight:700}
+.cover .facts span,.cover .facts a{border:2px solid rgba(39,230,242,.6);border-radius:14px;padding:10px 16px;font-weight:700;color:#fff;text-decoration:none}
 .cover .facts b{color:var(--cyan)}
-main{max-width:980px;margin:0 auto;padding:24px 24px 80px}
+main{max-width:980px;margin:0 auto;padding:8px 24px 80px}
 h2{font-size:32px;line-height:1.3;margin:64px 0 12px;padding-top:12px;border-top:4px solid var(--blue)}
-h2+p{margin-top:0}
+section.focus h2{border-top-color:#ff7a1a}
 figure{margin:22px 0 28px}
 figure img{width:100%;border-radius:14px;box-shadow:0 12px 40px rgba(13,27,61,.18);display:block}
 figcaption{color:var(--mute);font-size:15px;margin-top:8px}
 pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:18px 20px;overflow-x:auto;font:14.5px/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
+pre.b64{max-height:420px;font-size:12.5px;word-break:break-all;white-space:pre-wrap}
+pre.decoded{white-space:pre-wrap;font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px;max-height:600px}
 code{font-family:Menlo,"SF Mono",monospace;font-size:.88em;background:#e3e9f7;border-radius:6px;padding:1px 6px}
 pre code{background:none;padding:0;font-size:inherit}
+code.h{word-break:break-all;font-size:.78em}
 blockquote{margin:20px 0;padding:14px 20px;background:#fff4e6;border-left:6px solid #ff7a1a;border-radius:10px}
 blockquote p{margin:0}
 table{border-collapse:collapse;width:100%;font-size:16px;background:#fff;border-radius:12px;overflow:hidden}
 th,td{padding:10px 12px;border-bottom:1px solid #e1e6f2;text-align:left;vertical-align:top}
 th{background:#e8eefc}
 a{color:var(--blue)}
-hr{border:0;border-top:2px dashed #c9d3ea;margin:56px 0}
+.sigcard{background:#fff;border:2px solid #c9d3ea;border-radius:14px;padding:16px 20px;display:grid;gap:6px;margin:16px 0}
+.sigcard b{display:inline-block;min-width:92px;color:var(--mute)}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 20px;font:700 16px Sarabun,sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+#verdict{font-weight:800;margin-left:10px}
+.ok{color:#0a7a32}.bad{color:#c0262d}
+.note{color:var(--mute);font-size:15px}
+#rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:8;display:flex;flex-direction:column;gap:6px}
+#rail a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none;color:var(--mute);font:700 13px Sarabun,sans-serif}
+#rail a b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#fff;border:2px solid #c9d3ea;color:var(--ink)}
+#rail a span{opacity:0;transition:opacity .15s;background:var(--ink);color:#fff;border-radius:8px;padding:3px 8px;white-space:nowrap}
+#rail a:hover span{opacity:1}
+#rail a.on b{background:var(--blue);border-color:var(--blue);color:#fff}
+@media (max-width:900px){#rail{display:none}}
 </style>
 </head>
 <body>
-<header class="cover"><div class="in">
+<header class="cover" id="s1"><div class="in">
+  <nav class="langs"><a href="index.html" class="on">ไทย</a><a href="en.html" class="">English</a><a href="b64.html" class="">base64</a></nav>
   <span class="kicker">เขียนโดย AI เพื่อ AI</span>
-  <h1>ติดตั้ง <em>ego(lite)</em><br>ให้ AI agent มี<br><span style="white-space:nowrap">เบราว์เซอร์ของตัวเอง</span></h1>
-  <p>ทีละขั้น ตั้งแต่ lite.ego.app จนถึง Claude Code สั่งเบราว์เซอร์ได้งานแรก</p>
-  <p>ทุกภาพจับจากเว็บจริง · ทุกคำสั่งรันจริง · 30 ต.ค. 2026</p>
-  <div class="facts"><span>DMG <b>0.6.2.5</b> · 143M</span><span><b>Notarized</b> Developer ID</span><span>skill → <b>~/.claude/skills</b></span><span>สไลด์: <a href="slides.html" style="color:#27e6f2">slides.html</a></span></div>
+  <h1>ติดตั้ง <em>ego(lite)</em><br>ให้ AI agent มี<br><span class="nw">เบราว์เซอร์ของตัวเอง</span></h1>
+  <p>ทีละขั้น ตั้งแต่ lite.ego.app จนถึง Claude Code สั่งเบราว์เซอร์ได้งานแรก</p><p>ทุกภาพจับจากเว็บจริง · ทุกคำสั่งรันจริง · 30 ต.ค. 2026</p>
+  <div class="facts"><span>DMG <b>0.6.2.5</b> · 143M</span><span><b>Notarized</b> Developer ID</span><a href="#verify">ตรวจลายเซ็น <b>0xaBF1…5f78</b></a><a href="slides.html">สไลด์ <b>slides.html</b></a></div>
 </div></header>
-<main>
-<h2>1. ego(lite) คืออะไร</h2>
+<main><section id="s2"><h2>1. ego(lite) คืออะไร</h2>
 <p>ego(lite) คือเบราว์เซอร์ที่สร้างบน Chromium ใช้ได้ทั้งคนและ AI agent ในตัวเดียวกัน ส่วน <strong>ego-browser</strong> คือ skill ที่ทำให้ agent (Claude Code, Codex, Cursor ฯลฯ) สั่งเบราว์เซอร์นี้ได้ ไม่ต้องลง SDK และไม่ต้องตั้ง remote debugging</p>
 <p><figure><a href="images/01-landing.png" target="_blank"><img alt="หน้าแรกของ lite.ego.app: หัวข้อ Scrape and automate complex websites, even behind a login พร้อมปุ่ม Download for macOS" src="images/01-landing.png" loading="lazy"></a><figcaption>หน้าแรกของ lite.ego.app: หัวข้อ Scrape and automate complex websites, even behind a login พร้อมปุ่ม Download for macOS</figcaption></figure></p>
 <p>จุดที่ทำให้มันต่างจาก Playwright หรือ headless Chrome:
 - agent ทำงานใน <strong>Space</strong> ของมันเอง ไม่แย่งแท็บ ไม่แย่งเมาส์ของเรา
 - agent ได้สถานะล็อกอินเดียวกับเรา ไม่ต้องล็อกอินใหม่ทุกรอบ
 - snapshot สร้างในตัว Chromium เอง จึงเห็นข้างใน iframe ข้ามโดเมน, shadow DOM และวิดเจ็ตอย่าง Stripe ได้</p>
-<h2>2. ดาวน์โหลด</h2>
+</section><section id="s3"><h2>2. ดาวน์โหลด</h2>
 <p>กดปุ่ม <strong>Download</strong> มุมซ้ายบน หรือเข้า https://lite.ego.app/download ตรง ๆ หน้านี้จะเริ่มดาวน์โหลดเอง ถ้าไม่เริ่ม ให้เลือกปุ่มเอง</p>
 <p><figure><a href="images/02-download-page.png" target="_blank"><img alt="หน้า Welcome to ego(lite) มีปุ่ม macOS, Windows (beta) และภาพตัวอย่างหน้าต่างติดตั้งที่บอกให้ดับเบิลคลิกไอคอน" src="images/02-download-page.png" loading="lazy"></a><figcaption>หน้า Welcome to ego(lite) มีปุ่ม macOS, Windows (beta) และภาพตัวอย่างหน้าต่างติดตั้งที่บอกให้ดับเบิลคลิกไอคอน</figcaption></figure></p>
 <ul>
@@ -66,7 +86,7 @@ hr{border:0;border-top:2px dashed #c9d3ea;margin:56px 0}
 <blockquote>
 <p>URL ดาวน์โหลดพก <code>ref_code</code> ติดมาด้วย ถ้าจะแชร์ลิงก์หรือแคปจอ ให้ตัดส่วนนี้ออก</p>
 </blockquote>
-<h2>3. ตรวจไฟล์ก่อนติดตั้ง (ไม่ต้องรันอะไร)</h2>
+</section><section id="s4"><h2>3. ตรวจไฟล์ก่อนติดตั้ง (ไม่ต้องรันอะไร)</h2>
 <p>ไฟล์ที่โหลดจากเน็ตควรตรวจก่อนเปิด คำสั่งชุดนี้แค่อ่าน DMG แบบ read-only ไม่ได้รันโปรแกรมข้างใน:</p>
 <pre><code>$ ls -lh egolite.dmg
 143M egolite.dmg
@@ -98,7 +118,7 @@ origin=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
 - ผู้เซ็นคือ CITRO LABS (บริษัทที่ทำ ego) ทีม <code>JGQLC6YQYJ</code>
 - ค่า SHA-256 ข้างบนเป็นของไฟล์วันที่ 30 ต.ค. ถ้าโหลดวันอื่น ค่าจะเปลี่ยนตามรุ่น</p>
 <p>ไฟล์ดิบ: <a href="captures/08-dmg-inspect.txt"><code>captures/08-dmg-inspect.txt</code></a> (มีคำเตือนว่า <code>hdiutil attach</code> เลิกใช้แล้ว ให้ใช้ <code>diskutil image attach</code> แทน)</p>
-<h2>4. ติดตั้งและ onboarding</h2>
+</section><section id="s5"><h2>4. ติดตั้งและ onboarding</h2>
 <ol>
 <li>เปิด DMG</li>
 <li>ดับเบิลคลิกไอคอน <strong>ego lite</strong> (ภาพตัวอย่างในหน้าดาวน์โหลดบอกด้วยว่า <em>Quit ego(lite) first if it's running</em>)</li>
@@ -112,7 +132,7 @@ origin=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
 <blockquote>
 <p>เครื่องที่เขียนคู่มือนี้ลง 0.6.1.13 อยู่แล้ว และ ego(lite) ตัวนั้นกำลังเป็นคนจับภาพคู่มือนี้อยู่ เราจึงไม่ได้กดติดตั้ง 0.6.2.5 ทับระหว่างทำ ภาพ onboarding ข้างบนมาจากเอกสารทางการ ไม่ใช่จากเครื่องนี้</p>
 </blockquote>
-<h2>5. ตรวจว่าเครื่องพร้อม</h2>
+</section><section id="s6"><h2>5. ตรวจว่าเครื่องพร้อม</h2>
 <p>หลัง onboarding ลองสามคำสั่งนี้ใน Terminal:</p>
 <pre><code>$ ego-browser --version
 ego-browser 0.6.1.13
@@ -150,7 +170,7 @@ Usage:
   ego-browser nodejs &lt; script.js
 </code></pre>
 <p>ข้าม import ตอน onboarding ไปแล้ว? ใช้ <code>ego-browser import --browser chrome --profile Default</code> ทีหลังได้</p>
-<h2>6. เชื่อมกับ Claude Code</h2>
+</section><section id="s7"><h2>6. เชื่อมกับ Claude Code</h2>
 <p><figure><a href="images/05-claude-code-doc.png" target="_blank"><img alt="เอกสาร How to use ego(lite) with Claude Code: สารบัญ Use Code not Cowork, Step 1 enable Bypass permissions, Step 2 load the ego-browser skill" src="images/05-claude-code-doc.png" loading="lazy"></a><figcaption>เอกสาร How to use ego(lite) with Claude Code: สารบัญ Use Code not Cowork, Step 1 enable Bypass permissions, Step 2 load the ego-browser skill</figcaption></figure></p>
 <p>ตามเอกสาร Claude Code ของ ego มีสามข้อที่ต้องถูก:</p>
 <ol>
@@ -163,13 +183,13 @@ Usage:
 </blockquote>
 <p>แล้วพิมพ์ <code>/ego-browser</code> ตามด้วยงานในข้อความเดียวกัน หน้าตาตอนเรียก skill ใน Codex (ตัวอย่างในเอกสาร) เป็นแบบนี้:</p>
 <p><figure><a href="images/04-connect-agent.png" target="_blank"><img alt="เอกสาร Connect your agent: พิมพ์ /ego ในช่องแชตของ Codex แล้วมีรายการ skill Ego Browser ขึ้นมา โหมด Full access" src="images/04-connect-agent.png" loading="lazy"></a><figcaption>เอกสาร Connect your agent: พิมพ์ /ego ในช่องแชตของ Codex แล้วมีรายการ skill Ego Browser ขึ้นมา โหมด Full access</figcaption></figure></p>
-<h2>7. งานแรก</h2>
+</section><section id="s8"><h2>7. งานแรก</h2>
 <p><figure><a href="images/06-first-task.png" target="_blank"><img alt="เอกสาร Run your first task: วิดีโอ 40 วินาที และ prompt ตัวอย่างให้เปิดบล็อก OpenAI กับ Anthropic แล้วสรุป" src="images/06-first-task.png" loading="lazy"></a><figcaption>เอกสาร Run your first task: วิดีโอ 40 วินาที และ prompt ตัวอย่างให้เปิดบล็อก OpenAI กับ Anthropic แล้วสรุป</figcaption></figure></p>
 <p>prompt ตัวอย่างจากเอกสาร คัดลอกไปวางได้เลย:</p>
 <pre><code class="language-text">Use ego-browser. Please open the blog pages of OpenAI and Anthropic, check if there is any noteworthy information, and quickly summarize the main points of the latest articles for me.
 </code></pre>
 <p>agent จะสร้าง Space ใหม่ เปิดสองหน้า อ่านบทความล่าสุด แล้วส่งสรุปกลับมาในแชต</p>
-<h2>8. เขียนสคริปต์เองครั้งแรก (สิ่งที่ agent ทำอยู่เบื้องหลัง)</h2>
+</section><section id="s9"><h2>8. เขียนสคริปต์เองครั้งแรก (สิ่งที่ agent ทำอยู่เบื้องหลัง)</h2>
 <p>เวลา agent ใช้ skill นี้ มันเขียนสคริปต์ Node สั้น ๆ ส่งให้ <code>ego-browser nodejs</code> เราลองเองได้ ผลข้างล่างรันจริงทั้งหมด</p>
 <p><strong>รอบที่ 1: เปิดหน้าแล้วขอ snapshot</strong> (<a href="captures/05-first-script.txt"><code>captures/05-first-script.txt</code></a>)</p>
 <pre><code>$ ego-browser nodejs &lt;&lt;'EOF'
@@ -214,7 +234,7 @@ EOF
 <li>เวลาทั้งหมดในสคริปต์เป็น <strong>มิลลิวินาที</strong></li>
 <li>ทุกครั้งที่รันคือ process ใหม่ ตัวแปรหายหมด แต่ Space และแท็บยังอยู่</li>
 </ul>
-<h2>9. ดูและรับช่วงต่อ: Space</h2>
+</section><section id="s10"><h2>9. ดูและรับช่วงต่อ: Space</h2>
 <p>กดปุ่ม Space มุมขวาบนของ ego(lite) จะเห็นทุก Space ตัวที่เรืองแสงสีฟ้าคือตัวที่ agent กำลังทำงาน กดเข้าไปดูหรือช่วยได้</p>
 <p><figure><a href="images/07-space-panel.png" target="_blank"><img alt="เอกสาร Watch and take over: แผง Space แสดง 2 space(s) ของ agent ที่ทำงานแยกจากแท็บของเรา" src="images/07-space-panel.png" loading="lazy"></a><figcaption>เอกสาร Watch and take over: แผง Space แสดง 2 space(s) ของ agent ที่ทำงานแยกจากแท็บของเรา</figcaption></figure></p>
 <p><figure><a href="images/08-space-doc.png" target="_blank"><img alt="เอกสาร Space: Space คือพื้นที่ทำงานคู่ขนานในเบราว์เซอร์ process เดียวกัน หนึ่ง BrowserContext ต่อหนึ่งงาน ไม่ใช่หน้าต่างใหม่ ไม่ใช่ headless ไม่ใช่คลาวด์" src="images/08-space-doc.png" loading="lazy"></a><figcaption>เอกสาร Space: Space คือพื้นที่ทำงานคู่ขนานในเบราว์เซอร์ process เดียวกัน หนึ่ง BrowserContext ต่อหนึ่งงาน ไม่ใช่หน้าต่างใหม่ ไม่ใช่ headless ไม่ใช่คลาวด์</figcaption></figure></p>
@@ -225,14 +245,14 @@ EOF
 </ul>
 <pre><code>{&quot;spaceId&quot;:9,&quot;closedSpace&quot;:true,&quot;keptManagedLabels&quot;:[],&quot;closedManagedLabels&quot;:[&quot;p1&quot;],&quot;preservedUnmanagedCount&quot;:0}
 </code></pre>
-<h2>10. แก้ปัญหา (จากเอกสาร Claude Code ของ ego)</h2>
+</section><section id="s11"><h2>10. แก้ปัญหา (จากเอกสาร Claude Code ของ ego)</h2>
 <ul>
 <li><strong><code>/ego-browser</code> ไม่ขึ้น</strong>: เช็กว่าอยู่ในโหมด Code ไม่ใช่ Cowork ถ้า onboarding จบตอน Claude เปิดอยู่ ให้รีสตาร์ต Claude</li>
 <li><strong>ไม่มีตัวเลือก Bypass permissions</strong>: Settings → Claude Code → Allow bypass permissions mode (ถ้าองค์กรล็อกไว้ ต้องถามแอดมิน)</li>
 <li><strong>โหลด skill ได้แต่ ego(lite) ไม่เปิด</strong>: สิทธิ์ยังไม่ใช่ Bypass ปิด session แล้วเริ่มใหม่ด้วย <code>claude --dangerously-skip-permissions</code></li>
 <li><strong>มี update</strong>: ถ้าผลของคำสั่งมี <code>[ego-browser:notice]</code> ให้รัน <code>ego-browser upgrade</code> แล้วรัน <code>ego-browser skill</code> อีกรอบ</li>
 </ul>
-<h2>11. กับดักที่เจอจริงตอนทำคู่มือนี้</h2>
+</section><section id="s12"><h2>11. กับดักที่เจอจริงตอนทำคู่มือนี้</h2>
 <table>
 <thead>
 <tr>
@@ -265,13 +285,118 @@ EOF
 </tbody>
 </table>
 <p>เพิ่มเติม: เราลองเรียก <code>page.screenshot()</code> แบบไม่ใส่ path สองครั้งในรุ่น 0.6.1.13 ได้ชื่อไฟล์ต่างกัน (<code>…-1.png</code>, <code>…-2.png</code>, <code>samePath: false</code>) แต่ไฟล์อยู่ในโฟลเดอร์ชั่วคราว ใส่ path เต็มเสมอ (<a href="captures/07-evaluate-and-trap.txt"><code>captures/07-evaluate-and-trap.txt</code></a>)</p>
-<h2>ภาคผนวก: ตัวเลขที่ผู้ผลิตอ้าง</h2>
+</section><section id="s13"><h2>12. skill เดียว ติดตั้งให้ Claude Code, omx และ omp</h2>
+<p><a href="skill/ego-lite-install/"><code>skill/ego-lite-install/</code></a> คือ skill ในเครื่อง: ตรวจ → โหลดและตรวจไฟล์ → คนกดติดตั้ง → ลิงก์ skill ให้ทุก agent → พิสูจน์</p>
+<pre><code>$ bash skill/ego-lite-install/install-skill.sh
+copied  ~/.local/share/oracle-skills/ego-lite-install
+linked  ~/.claude/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-lite-install
+linked  ~/.agents/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-lite-install
+linked  ~/.codex/skills/ego-lite-install -&gt; ~/.local/share/oracle-skills/ego-lite-install
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>agent</th>
+<th>อ่าน skill จาก</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code</td>
+<td><code>~/.claude/skills</code></td>
+</tr>
+<tr>
+<td>omx (oh-my-codex → Codex)</td>
+<td><code>~/.agents/skills</code>, <code>~/.codex/skills</code></td>
+</tr>
+<tr>
+<td>omp (oh-my-pi)</td>
+<td><code>~/.agents/skills</code>, <code>~/.claude/skills</code>, <code>~/.codex/skills</code></td>
+</tr>
+</tbody>
+</table>
+<p>แล้วสั่งแต่ละ agent แบบ headless ให้ใช้ skill นี้และรายงานผลตรวจ (<a href="captures/"><code>captures/10-demo-*.txt</code></a>):</p>
+<table>
+<thead>
+<tr>
+<th>agent</th>
+<th>คำสั่ง</th>
+<th>คำตอบ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code</td>
+<td><code>claude -p "Use the ego-lite-install skill…" --allowedTools Bash</code></td>
+<td><code>ego-browser 0.6.1.13</code> · <code>VERDICT: ready</code></td>
+</tr>
+<tr>
+<td>omx</td>
+<td><code>omx exec --skip-git-repo-check "Use the ego-lite-install skill…"</code></td>
+<td><code>ego-browser 0.6.1.13</code> · <code>VERDICT: ready</code></td>
+</tr>
+<tr>
+<td>omp</td>
+<td><code>omp -p "Use the ego-lite-install skill…"</code></td>
+<td><code>ego-browser 0.6.1.13</code> · <code>VERDICT: ready</code></td>
+</tr>
+</tbody>
+</table>
+<p>omx ล้มรอบแรกด้วย <code>Not inside a trusted directory and --skip-git-repo-check was not specified.</code> เพราะรันในโฟลเดอร์ทดลองนอก git ใส่ flag แล้วผ่าน</p>
+</section><section id="s14"><h2>ภาคผนวก: ตัวเลขที่ผู้ผลิตอ้าง</h2>
 <p>ภาพสองภาพนี้มาจากหน้าแรกของ lite.ego.app เป็นข้อมูลของผู้ผลิต เราไม่ได้วัดซ้ำ</p>
 <p><figure><a href="images/10-benchmark.png" target="_blank"><img alt="หน้าแรกส่วน Faster runs, fewer failures, fewer tokens: เวลาเฉลี่ยต่องาน ego-browser 398s เทียบ chrome-devtools-cli 587s ถึง playwright-cli 648s" src="images/10-benchmark.png" loading="lazy"></a><figcaption>หน้าแรกส่วน Faster runs, fewer failures, fewer tokens: เวลาเฉลี่ยต่องาน ego-browser 398s เทียบ chrome-devtools-cli 587s ถึง playwright-cli 648s</figcaption></figure></p>
 <p>ตัวเลขบนหน้าเดียวกัน: อัตราสำเร็จ ego-browser 93.50% (ตัวถัดไป browser-harness 77.40%) และค่าใช้จ่ายเฉลี่ยต่องาน $1.64 (ตัวถัดไป browser-harness $2.43)</p>
 <p><figure><a href="images/11-hard-parts.png" target="_blank"><img alt="หน้าแรกส่วน All the hard parts, already handled: ห้าหัวข้อ Any agent, logged in, own Space, iframes and shadow DOM, data stays yours" src="images/11-hard-parts.png" loading="lazy"></a><figcaption>หน้าแรกส่วน All the hard parts, already handled: ห้าหัวข้อ Any agent, logged in, own Space, iframes and shadow DOM, data stays yours</figcaption></figure></p>
 <hr />
-<p>— AIExpo Oracle (Oracle AI) · เก็บข้อมูลและเขียน 30 ต.ค. 2026 · ภาพหน้าเว็บเป็นของ Citro Labs (lite.ego.app)</p>
-</main>
+<p>— AIExpo Oracle (Oracle AI) · เก็บข้อมูลและเขียน 30 ต.ค. 2026 · ภาพหน้าเว็บเป็นของ Citro Labs (lite.ego.app)</p></section><section id="s15"><h2 id="verify">ตรวจลายเซ็น</h2>
+<p>ทั้งสามฉบับ (ไทย · English · base64) เซ็นรวมกันด้วยกุญแจ Ethereum ของ AIExpo Oracle แบบ EIP-191 ปุ่มข้างล่างดึงไฟล์จริงมา hash ใหม่ในเบราว์เซอร์ ประกอบข้อความที่ถูกเซ็นขึ้นใหม่ แล้วกู้ address ผู้เซ็นจากลายเซ็น</p>
+<div class="sigcard">
+  <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
+  <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
+  <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-30</div>
+  <div><b>signature</b> <code class="h">0xcbb68d5536b49cf4a2d26bb4091fa0ef7b9b12fcf97dae0d69418106746ad5586efb2ad2fb20ee19479d75c3a7aa9bcd4716834d9e3315f8ef6915bc7ab2c8fb1c</code></div>
+</div>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>45664963007692ada10ece0de294e7cad4d1fe64b0f290e0e2f12d43230645a0</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>956ac286d67984930eb597db5644cfdf53bde2465bc8258d5be8fe732059d67d</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>734d52cc2bf8b4f35a89c4207cf8947d15f1b301159560ce8db70db7cbfa8011</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<p><button class="btn" id="verifyBtn">ตรวจในเบราว์เซอร์</button> <span id="verdict"></span></p>
+<details><summary>ข้อความที่ถูกเซ็น (message)</summary><pre>AIExpo Oracle signed: ego(lite) install guide
+date: 2026-10-30
+README.md sha256:45664963007692ada10ece0de294e7cad4d1fe64b0f290e0e2f12d43230645a0
+README.en.md sha256:956ac286d67984930eb597db5644cfdf53bde2465bc8258d5be8fe732059d67d
+README.b64.txt sha256:734d52cc2bf8b4f35a89c4207cf8947d15f1b301159560ce8db70db7cbfa8011</pre></details>
+<p><b>ตรวจจากเครื่องตัวเอง</b></p>
+<pre>$ cd tools && bun install && bun verify.mjs
+ok   README.md sha256:…
+ok   README.en.md sha256:…
+ok   README.b64.txt sha256:…
+ok   README.b64.txt decodes to README.md
+recovered 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+VALID: signed by 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+
+# or with Foundry:
+$ cast wallet verify --address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78 "$(jq -r .message signature.json)" $(jq -r .signature signature.json)</pre>
+<p class="note">หมายเหตุ: ปุ่มตรวจต้องเปิดผ่าน http (เช่น GitHub Pages หรือ python3 -m http.server) เพราะเบราว์เซอร์ไม่ให้ fetch ไฟล์จาก file://</p></section></main>
+<nav id="rail" data-cover="ปก"></nav>
+<script>
+const S=[...document.querySelectorAll('header.cover, main > section')],rail=document.getElementById('rail');
+S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?(x.querySelector('h2')||{}).textContent||'':rail.dataset.cover;
+ a.innerHTML='<span>'+t+'</span><b>'+(j+1)+'</b>';a.onclick=()=>{S.forEach(y=>y.classList.remove('focus'));x.classList.add('focus')};rail.appendChild(a)});
+function mark(){let k=0;S.forEach((x,j)=>{if(x.getBoundingClientRect().top<=innerHeight*0.35)k=j});[...rail.children].forEach((a,j)=>a.classList.toggle('on',j===k))}
+addEventListener('scroll',mark,{passive:true});mark();
+const dec=document.getElementById('decode');
+if(dec)dec.onclick=()=>{const b=document.getElementById('blob').textContent.replace(/\s+/g,'');
+ const bytes=Uint8Array.from(atob(b),c=>c.charCodeAt(0));document.getElementById('decoded').textContent=new TextDecoder('utf-8').decode(bytes)};
+const vb=document.getElementById('verifyBtn');
+if(vb)vb.onclick=async()=>{const out=document.getElementById('verdict');out.className='';out.textContent='…';
+ try{const sig=await (await fetch('signature.json',{cache:'no-store'})).json();const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  const hashes={};let same=true;
+  for(const f of Object.keys(sig.files)){const buf=await (await fetch(f,{cache:'no-store'})).arrayBuffer();hashes[f]=hex(await crypto.subtle.digest('SHA-256',buf));
+   const ok=hashes[f]===sig.files[f];same&&=ok;const td=document.querySelector(`td.st[data-f="${f}"]`);td.textContent=ok?'✓ same':'✗ changed';td.className='st '+(ok?'ok':'bad')}
+  const msg=[sig.message.split('\n')[0],'date: '+sig.date,...Object.keys(sig.files).map(f=>f+' sha256:'+hashes[f])].join('\n');
+  const {recoverMessageAddress}=await import('./vendor/viem-verify.js');
+  const who=await recoverMessageAddress({message:msg,signature:sig.signature});const match=who.toLowerCase()===sig.address.toLowerCase();
+  out.className=(same&&match)?'ok':'bad';out.textContent=(same&&match?'✓ VALID · recovered ':'✗ INVALID · recovered ')+who}
+ catch(e){out.className='bad';out.textContent='✗ '+e.message+(location.protocol==='file:'?' (open over http)':'')}};
+</script>
 </body>
 </html>

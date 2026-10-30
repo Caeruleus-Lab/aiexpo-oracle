@@ -5,7 +5,8 @@
 - เก็บข้อมูลวันที่ 30 ต.ค. 2026 บน Mac (Apple Silicon) ของ Nat
 - เครื่องนี้ลง ego(lite) ไว้แล้ว: `ego-browser 0.6.1.13`
 - ไฟล์ DMG ที่หน้าเว็บแจกวันนี้: `0.6.2.5`
-- อ่านแบบหน้าเว็บ: [`index.html`](index.html) · อ่านแบบสไลด์: [`slides.html`](slides.html) (ลูกศร / Space เปลี่ยนหน้า)
+- ฉบับอื่น: [English](README.en.md) · [base64](README.b64.txt) · หน้าเว็บ [`index.html`](index.html) · สไลด์ [`slides.html`](slides.html)
+- ทั้งสามฉบับเซ็นด้วยกุญแจ Ethereum ของ AIExpo Oracle ตรวจได้ในเบราว์เซอร์ ดู [`SIGNATURE.md`](SIGNATURE.md)
 
 **รูปมาจากไหน**
 - ภาพหน้าเว็บทุกภาพจับจาก lite.ego.app จริง ด้วย ego-browser ตัวมันเอง (CDP `Page.captureScreenshot` ที่ 1440×1000 จึงไม่ติดแถบ URL)
@@ -256,6 +257,34 @@ EOF
 | URL ดาวน์โหลดมี `ref_code` | ลิงก์อ้างอิงของผู้ผลิต | ตัดออกก่อนแชร์หรือแคปจอ |
 
 เพิ่มเติม: เราลองเรียก `page.screenshot()` แบบไม่ใส่ path สองครั้งในรุ่น 0.6.1.13 ได้ชื่อไฟล์ต่างกัน (`…-1.png`, `…-2.png`, `samePath: false`) แต่ไฟล์อยู่ในโฟลเดอร์ชั่วคราว ใส่ path เต็มเสมอ ([`captures/07-evaluate-and-trap.txt`](captures/07-evaluate-and-trap.txt))
+
+## 12. skill เดียว ติดตั้งให้ Claude Code, omx และ omp
+
+[`skill/ego-lite-install/`](skill/ego-lite-install/) คือ skill ในเครื่อง: ตรวจ → โหลดและตรวจไฟล์ → คนกดติดตั้ง → ลิงก์ skill ให้ทุก agent → พิสูจน์
+
+```
+$ bash skill/ego-lite-install/install-skill.sh
+copied  ~/.local/share/oracle-skills/ego-lite-install
+linked  ~/.claude/skills/ego-lite-install -> ~/.local/share/oracle-skills/ego-lite-install
+linked  ~/.agents/skills/ego-lite-install -> ~/.local/share/oracle-skills/ego-lite-install
+linked  ~/.codex/skills/ego-lite-install -> ~/.local/share/oracle-skills/ego-lite-install
+```
+
+| agent | อ่าน skill จาก |
+|---|---|
+| Claude Code | `~/.claude/skills` |
+| omx (oh-my-codex → Codex) | `~/.agents/skills`, `~/.codex/skills` |
+| omp (oh-my-pi) | `~/.agents/skills`, `~/.claude/skills`, `~/.codex/skills` |
+
+แล้วสั่งแต่ละ agent แบบ headless ให้ใช้ skill นี้และรายงานผลตรวจ ([`captures/10-demo-*.txt`](captures/)):
+
+| agent | คำสั่ง | คำตอบ |
+|---|---|---|
+| Claude Code | `claude -p "Use the ego-lite-install skill…" --allowedTools Bash` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
+| omx | `omx exec --skip-git-repo-check "Use the ego-lite-install skill…"` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
+| omp | `omp -p "Use the ego-lite-install skill…"` | `ego-browser 0.6.1.13` · `VERDICT: ready` |
+
+omx ล้มรอบแรกด้วย `Not inside a trusted directory and --skip-git-repo-check was not specified.` เพราะรันในโฟลเดอร์ทดลองนอก git ใส่ flag แล้วผ่าน
 
 ## ภาคผนวก: ตัวเลขที่ผู้ผลิตอ้าง
 

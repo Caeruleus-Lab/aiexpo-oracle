@@ -1,0 +1,10 @@
+# tamper test: one character changed in README.en.md (0.6.2.5 -> 0.6.2.6) on a copy
+$ bun verify.mjs
+ok   README.md sha256:45664963007692ada10ece0de294e7cad4d1fe64b0f290e0e2f12d43230645a0
+DIFF README.en.md sha256:25f309e63e1be6bf77f8be15b65879497228d5f0d5c71c7b20ca8f203be21063
+ok   README.b64.txt sha256:734d52cc2bf8b4f35a89c4207cf8947d15f1b301159560ce8db70db7cbfa8011
+ok   README.b64.txt decodes to README.md
+recovered 0x4e135ca59dbE3Fb5C0FE2e711b494965A9A8Cb97
+claimed   0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+INVALID
+(exit 1)
