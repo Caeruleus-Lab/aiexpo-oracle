@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install Claude and ChatGPT, ready for the workshop</title>
+<link rel="alternate" type="text/markdown" hreflang="th" href="README.md">
+<link rel="alternate" type="text/markdown" hreflang="en" href="README.en.md">
+<link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
+<style>
+:root{--ink:#0d1b3d;--blue:#2f5bea;--cyan:#27e6f2;--paper:#f4f6fb;--mute:#5a6b8c;--pad:clamp(18px,5vw,120px);--railw:clamp(0px,4vw,64px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--paper);color:var(--ink);font:clamp(17px,0.55vw + 12px,24px)/1.75 Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif}
+.cover{background:radial-gradient(70vw 70vh at 80% 10%,#3b6cf5 0%,#132a6b 55%,#070f2b 100%);color:#fff;min-height:100vh;display:flex;align-items:center;padding:clamp(40px,6vh,96px) calc(var(--pad) + var(--railw)) clamp(40px,6vh,96px) var(--pad)}
+.cover .in{width:100%}
+.langs{display:flex;gap:8px;margin-bottom:26px}
+.langs a{color:#cfe0ff;text-decoration:none;border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 14px;font-weight:700;font-size:15px}
+.langs a.on{background:#fff;color:var(--ink);border-color:#fff}
+.kicker{display:inline-block;background:#c2410c;color:#fff;font-weight:800;border-radius:999px;padding:6px 18px}
+.cover h1{font-size:clamp(40px,7vw,140px);line-height:1.12;margin:22px 0 14px;font-weight:800}
+.cover h1 em{font-style:normal;color:var(--cyan)}
+.nw{white-space:nowrap}
+.cover p{font-size:clamp(18px,1.5vw,34px);color:#d6e4ff;margin:0 0 6px}
+.cover .facts{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+.cover .facts span,.cover .facts a{border:2px solid rgba(39,230,242,.6);border-radius:14px;padding:10px 16px;font-weight:700;color:#fff;text-decoration:none}
+.cover .facts b{color:var(--cyan)}
+main{padding:8px calc(var(--pad) + var(--railw)) 12vh var(--pad)}
+h2{font-size:clamp(28px,3vw,64px);line-height:1.25;margin:clamp(36px,6vh,96px) 0 12px;padding-top:12px;border-top:4px solid var(--blue)}
+section.focus h2{border-top-color:#ff7a1a}
+figure{margin:22px 0 28px}
+figure img{width:100%;border-radius:14px;box-shadow:0 12px 40px rgba(13,27,61,.18);display:block}
+figcaption{color:var(--mute);font-size:.82em;margin-top:8px}
+pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:clamp(13px,0.45vw + 10px,19px)/1.55 Menlo,"SF Mono",monospace;border:1px solid rgba(39,230,242,.28)}
+pre.b64{padding-top:48px;font-size:clamp(11px,0.35vw + 8px,16px);white-space:normal;word-break:break-all;line-height:1.5}
+pre.decoded{font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px}
+code{font-family:Menlo,"SF Mono",monospace;font-size:.88em;background:#e3e9f7;border-radius:6px;padding:1px 6px}
+pre code{background:none;padding:0;font-size:inherit}
+code.h{word-break:break-all;font-size:.78em}
+blockquote{margin:20px 0;padding:14px 20px;background:#fff4e6;border:1px solid #f3c9a0;border-radius:10px}
+blockquote p{margin:0}
+table{border-collapse:collapse;width:100%;font-size:.9em;background:#fff;border-radius:12px;table-layout:fixed;overflow-wrap:anywhere}
+th,td{padding:10px 12px;border-bottom:1px solid #e1e6f2;text-align:left;vertical-align:top}
+th{background:#e8eefc}
+a{color:var(--blue)}
+.sigcard{background:#fff;border:2px solid #c9d3ea;border-radius:14px;padding:16px 20px;display:grid;gap:6px;margin:16px 0}
+.sigcard{min-width:0}.sigcard div{min-width:0;overflow-wrap:anywhere}.sigcard code{word-break:break-all}
+.sigcard b{display:inline-block;min-width:92px;color:var(--mute)}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 20px;font:700 16px Sarabun,sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+#verdict{font-weight:800;margin-left:10px}
+.ok{color:#0a7a32}.bad{color:#c0262d}
+.note{color:var(--mute);font-size:15px}
+.down{display:inline-flex;align-items:center;gap:12px;margin:clamp(20px,3vh,40px) 0 0;padding:10px 22px 10px 10px;border-radius:999px;background:#fff;border:2px solid #c9d3ea;color:var(--ink);text-decoration:none;font-weight:700;font-size:.92em;transition:transform .15s,border-color .15s}
+.down b{display:inline-flex;width:2.1em;height:2.1em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-size:1.05em}
+.down:hover{border-color:var(--blue);transform:translateY(3px)}
+.cover-down{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff;margin-top:clamp(28px,6vh,80px)}
+.cover-down b{background:var(--cyan);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.chip{display:inline-flex;align-items:baseline;gap:8px;background:#fff;border:2px solid #c9d3ea;border-radius:999px;padding:6px 14px;text-decoration:none;color:var(--ink);font-size:.9em}
+.chip:hover{border-color:var(--blue)}
+.chip span{color:var(--mute);font-size:.85em}
+.human{background:#fff;border:2px dashed #c9d3ea;border-radius:14px;padding:10px 16px}
+.human .chip{margin-left:6px}
+.step{font-weight:800;margin:22px 0 6px}
+.step+pre{margin-top:0}
+pre{position:relative}
+pre .copy{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.12);color:#e6f6ff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:3px 10px;font:600 13px Sarabun,sans-serif;cursor:pointer;opacity:.75}
+pre .copy:hover{opacity:1}
+pre.preview{margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+details.blob summary{cursor:pointer;font-weight:800;color:var(--blue);margin:8px 0}
+details.blob pre{margin-top:0}
+.base{color:var(--cyan)}
+pre.matrix-block{background:#010702;color:#22e06b;border-color:rgba(61,255,138,.35);text-shadow:0 0 6px rgba(34,224,107,.55);box-shadow:inset 0 0 80px rgba(0,0,0,.9)}
+pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5)}
+.wall{position:relative}
+.wall pre.matrix-block{color:transparent;text-shadow:none;margin:0}
+.wall pre.matrix-block::selection,.wall pre.matrix-block *::selection{color:#020a04;background:#3dff8a}
+.wall canvas{position:absolute;left:0;top:0;z-index:1;pointer-events:none;border-radius:14px}
+.wall .copy{z-index:2;color:#b9ffd2!important}
+.wallbtn{position:absolute;top:10px;right:74px;z-index:2;background:rgba(255,255,255,.12);color:#b9ffd2;border:1px solid rgba(61,255,138,.5);border-radius:8px;padding:3px 10px;font:600 13px Sarabun,sans-serif;cursor:pointer}
+#rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:8;display:flex;flex-direction:column;gap:6px}
+#rail a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none;color:var(--mute);font:700 13px Sarabun,sans-serif}
+#rail a b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#fff;border:2px solid #c9d3ea;color:var(--ink)}
+#rail a span{opacity:0;transition:opacity .15s;background:var(--ink);color:#fff;border-radius:8px;padding:3px 8px;white-space:nowrap}
+#rail a:hover span{opacity:1}
+#rail a.on b{background:var(--blue);border-color:var(--blue);color:#fff}
+@media (max-width:900px){#rail{display:none}}
+</style>
+</head>
+<body>
+<header class="cover" id="s1"><div class="in">
+  <nav class="langs"><a href="index.html" class="">base64</a><a href="th.html" class="">ไทย</a><a href="en.html" class="on">English</a></nav>
+  <span class="kicker">Written by AI, for AI</span>
+  <h1>Install <em>Claude</em><br>and <em>ChatGPT</em>,<br><span class="nw">ready for the workshop</span></h1>
+  <p>Step by step, from the download pages to Oracle skills that really load, locally and on claude.ai</p><p>Every screenshot from the real site · every command really ran · 30 Oct 2026</p>
+  <div class="facts"><span>Claude Code <b>2.1.314</b></span><span>codex-cli <b>0.166.0</b></span><a href="skills/awaken.zip">skill <b>awaken.zip</b></a><a href="#verify">Signature <b>0xaBF1…5f78</b></a></div>
+  <a class="down cover-down" href="#s2" aria-label="next: 1. Pick a path"><b>↓</b> 1. Pick a path</a>
+</div></header>
+<main><section id="s2"><h2>1. Pick a path</h2>
+<p>The workshop uses ARRA Oracle's skills (<code>/awaken</code>, <code>/rrr</code>, <code>/recap</code>), which install in several places. Pick by the account you have:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Account needed</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. Claude Code</strong> (recommended)</td>
+<td>Claude Pro or higher</td>
+<td>Every part, including the memory loop</td>
+</tr>
+<tr>
+<td><strong>B. Codex CLI</strong></td>
+<td>ChatGPT Free works (low limits)</td>
+<td>Every part, including the memory loop</td>
+</tr>
+<tr>
+<td><strong>C. claude.ai on the web</strong></td>
+<td>Claude Free works</td>
+<td>Try the skills; memory is gone when you open a new chat</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Paths A and B install a program on your machine. The memory files (<code>ψ/</code>) live on your disk and survive closing and reopening the window.</li>
+<li>Path C installs nothing. It is the fallback in the room if a local install fails.</li>
+</ul>
+<blockquote>
+<p>Do steps 2–5 at home, so in the room you can start right at <code>/awaken</code></p>
+</blockquote>
+<a class="down" href="#s3" aria-label="next: 2. Install the Claude app (desktop)"><b>↓</b> 2. Install the Claude app (desktop)</a></section><section id="s3"><h2>2. Install the Claude app (desktop)</h2>
+<p>Go to https://claude.com/download and press <strong>Download for macOS</strong>. The same page has buttons for Windows and Windows (arm 64).</p>
+<p><figure><a href="images/01-claude-download.png" target="_blank"><img alt="The Download Claude page: Download for macOS in the middle, and a Desktop card with macOS, Windows and Windows (arm 64) buttons" src="images/01-claude-download.png" loading="lazy"></a><figcaption>The Download Claude page: Download for macOS in the middle, and a Desktop card with macOS, Windows and Windows (arm 64) buttons</figcaption></figure></p>
+<p>The desktop app works on the Free plan. The FAQ on the same page says so directly:</p>
+<p><figure><a href="images/03-claude-faq-free.png" target="_blank"><img alt="FAQ: Do I need a paid plan to use the desktop or mobile apps? Answer: No. Claude apps are available to all plan types" src="images/03-claude-faq-free.png" loading="lazy"></a><figcaption>FAQ: Do I need a paid plan to use the desktop or mobile apps? Answer: No. Claude apps are available to all plan types</figcaption></figure></p>
+<ul>
+<li>The desktop app is Claude the chat app, not Claude Code</li>
+<li>The workshop uses <strong>Claude Code</strong>, which is step 3; this app is optional</li>
+</ul>
+<a class="down" href="#s4" aria-label="next: 3. Install Claude Code (path A)"><b>↓</b> 3. Install Claude Code (path A)</a></section><section id="s4"><h2>3. Install Claude Code (path A)</h2>
+<p>On the same page, scroll to the <strong>Claude Code environments</strong> card for every way in: Desktop, Terminal, VS Code, JetBrains, Slack.</p>
+<p><figure><a href="images/02-claude-code-environments.png" target="_blank"><img alt="The Claude Code environments card: Desktop, Terminal, VS Code, JetBrains, Slack, each row with an Install button" src="images/02-claude-code-environments.png" loading="lazy"></a><figcaption>The Claude Code environments card: Desktop, Terminal, VS Code, JetBrains, Slack, each row with an Install button</figcaption></figure></p>
+<p>The workshop uses <strong>Terminal</strong>. The command is on the code.claude.com Quickstart:</p>
+<p><figure><a href="images/04-claude-code-install.png" target="_blank"><img alt="Quickstart, Step 1: Install Claude Code, Native Install (Recommended) tab, with the curl command for macOS, Linux, WSL and irm for Windows PowerShell" src="images/04-claude-code-install.png" loading="lazy"></a><figcaption>Quickstart, Step 1: Install Claude Code, Native Install (Recommended) tab, with the curl command for macOS, Linux, WSL and irm for Windows PowerShell</figcaption></figure></p>
+<p>macOS, Linux, WSL:</p>
+<pre><code>curl -fsSL https://claude.ai/install.sh | bash
+</code></pre>
+<p>Windows PowerShell:</p>
+<pre><code>irm https://claude.ai/install.ps1 | iex
+</code></pre>
+<p>You can read a script from the internet before running it. The first lines of the real script (<a href="captures/02-claude-install-sh-head.txt"><code>captures/02-claude-install-sh-head.txt</code></a>):</p>
+<pre><code>$ curl -fsSL https://claude.ai/install.sh | head -25
+#!/bin/bash
+
+set -e
+
+# Parse command line arguments
+TARGET=&quot;$1&quot;  # Optional target parameter
+...
+# Refuse to run under sudo from a regular user's shell. This installer puts
+# everything under $HOME, ...
+</code></pre>
+<ul>
+<li>The script installs everything under <code>$HOME</code>; do not run it with <code>sudo</code></li>
+<li>When it finishes, open a new terminal and check the version</li>
+</ul>
+<pre><code>$ claude --version
+2.1.314 (Claude Code)
+</code></pre>
+<p><strong>Sign in</strong>: run <code>claude</code> in your project folder and follow the screen. If you are not signed in yet you get this (real output, <a href="captures/07-claude-sees-awaken.txt"><code>captures/07-claude-sees-awaken.txt</code></a>):</p>
+<pre><code>$ claude -p &quot;Is there a skill named awaken available to you? ...&quot;
+Not logged in · Please run /login
+</code></pre>
+<p>Fix: run <code>claude</code> interactively and type <code>/login</code>, then pick the Claude account that has Pro.</p>
+<blockquote>
+<p>Claude Code needs Pro, Max, Team, Enterprise or a Console account, per the Quickstart. The Free plan cannot use Claude Code; take path B or C.</p>
+</blockquote>
+<a class="down" href="#s5" aria-label="next: 4. Install ChatGPT and Codex (path B)"><b>↓</b> 4. Install ChatGPT and Codex (path B)</a></section><section id="s5"><h2>4. Install ChatGPT and Codex (path B)</h2>
+<p>The ChatGPT desktop app is at https://chatgpt.com/download</p>
+<p><figure><a href="images/05-chatgpt-download.png" target="_blank"><img alt="The Download ChatGPT for desktop page: Download for macOS and Download Chrome extension" src="images/05-chatgpt-download.png" loading="lazy"></a><figcaption>The Download ChatGPT for desktop page: Download for macOS and Download Chrome extension</figcaption></figure></p>
+<ul>
+<li>The ChatGPT desktop app now includes Codex; people with the old Codex app can update to ChatGPT</li>
+<li>The workshop uses the <strong>Codex CLI</strong> in a terminal, because it works on local files the same way Claude Code does</li>
+</ul>
+<p>The install command is on the Codex CLI page of learn.chatgpt.com:</p>
+<p><figure><a href="images/06-codex-cli-install.png" target="_blank"><img alt="Get started with Codex CLI, step 1 Install Codex, macOS/Linux tab: curl -fsSL https://chatgpt.com/codex/install.sh | sh" src="images/06-codex-cli-install.png" loading="lazy"></a><figcaption>Get started with Codex CLI, step 1 Install Codex, macOS/Linux tab: curl -fsSL https://chatgpt.com/codex/install.sh | sh</figcaption></figure></p>
+<pre><code>curl -fsSL https://chatgpt.com/codex/install.sh | sh
+</code></pre>
+<ul>
+<li>The same page has Windows, npm and Homebrew tabs</li>
+<li>The script puts <code>codex</code> in <code>$HOME/.local/bin</code> (<a href="captures/03-codex-install-sh-head.txt"><code>captures/03-codex-install-sh-head.txt</code></a>)</li>
+</ul>
+<pre><code>$ codex --version
+codex-cli 0.166.0
+</code></pre>
+<p><strong>Sign in</strong>: open your project folder and run <code>codex</code>. The first time, choose <strong>Sign in with ChatGPT</strong>. A free ChatGPT account can use Codex, with low limits.</p>
+<a class="down" href="#s6" aria-label="next: 5. Install the Oracle skills locally"><b>↓</b> 5. Install the Oracle skills locally</a></section><section id="s6"><h2>5. Install the Oracle skills locally</h2>
+<p><strong>Claude Code</strong>: type these two lines inside Claude Code. No bun or git needed first.</p>
+<pre><code>/plugin marketplace add Soul-Brews-Studio/arra-oracle-skills-cli
+/plugin install oracle-skills@oracle-skills
+</code></pre>
+<p><strong>Codex</strong>: use the arra-oracle-skills-cli installer in a terminal</p>
+<pre><code>bunx --bun github:Soul-Brews-Studio/arra-oracle-skills-cli#alpha install -g -y -p full --agent codex --with-commands
+</code></pre>
+<ul>
+<li>No bun: <code>npx arra-oracle-skills@latest install -g -y --agent codex --with-commands</code> also works (npm lags GitHub a little)</li>
+<li>Codex needs <code>--with-commands</code> before you can type <code>/awaken</code></li>
+</ul>
+<p>This machine already had them, so the installer was not run again here. What was checked is that Codex really sees the skill (<a href="captures/05-codex-skills-folder.txt"><code>captures/05-codex-skills-folder.txt</code></a>, <a href="captures/06-codex-sees-awaken.txt"><code>captures/06-codex-sees-awaken.txt</code></a>):</p>
+<pre><code>$ ls ~/.codex/skills/awaken
+SKILL.md
+
+$ codex exec --skip-git-repo-check &quot;Is there a skill named awaken available to you? ...&quot;
+Yes — Guided Oracle birth and awakening ritual for identity and purpose.
+</code></pre>
+<p>Ready: open an empty folder, type <code>/awaken --fast</code>, and name your Oracle.</p>
+<a class="down" href="#s7" aria-label="next: 6. The web fallback: skills in claude.ai (path C)"><b>↓</b> 6. The web fallback: skills in claude.ai (path C)</a></section><section id="s7"><h2>6. The web fallback: skills in claude.ai (path C)</h2>
+<p>claude.ai takes skills on every plan, Free included. A skill is uploaded as a ZIP holding the skill's folder with its <code>SKILL.md</code>.</p>
+<p><strong>6.1 Prepare the ZIP.</strong> This guide ships <a href="skills/awaken.zip"><code>skills/awaken.zip</code></a>. To make it yourself from an installed skill folder (<a href="captures/04-awaken-zip.txt"><code>captures/04-awaken-zip.txt</code></a>):</p>
+<pre><code>$ cd ~/.claude/skills &amp;&amp; zip -X awaken.zip awaken/SKILL.md
+$ unzip -l skills/awaken.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+    33448  09-14-2026 22:05   awaken/SKILL.md
+
+$ shasum -a 256 skills/awaken.zip
+f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.zip
+</code></pre>
+<p><strong>6.2 Turn on code execution.</strong> Go to Settings &gt; Capabilities and turn on <strong>Run code in the cloud</strong>. Skills do not run without it (the screen says "Required for skills").</p>
+<p><figure><a href="images/08-claude-capabilities.png" target="_blank"><img alt="Settings &gt; Capabilities, Code execution and file creation: Run code in the cloud is on, with the note Required for skills" src="images/08-claude-capabilities.png" loading="lazy"></a><figcaption>Settings &gt; Capabilities, Code execution and file creation: Run code in the cloud is on, with the note Required for skills</figcaption></figure></p>
+<p><strong>6.3 Open Skills.</strong> Press <strong>Customize</strong> in the sidebar and pick the <strong>Skills</strong> tab.</p>
+<p><figure><a href="images/09-claude-customize-skills.png" target="_blank"><img alt="Customize, Skills tab, Discover view with skills from Anthropic and an Add button top right" src="images/09-claude-customize-skills.png" loading="lazy"></a><figcaption>Customize, Skills tab, Discover view with skills from Anthropic and an Add button top right</figcaption></figure></p>
+<p><strong>6.4 Press Add &gt; Upload skill.</strong> The menu has three ways: Upload skill, Create a skill, Create with Claude.</p>
+<p><figure><a href="images/10-claude-add-skill-menu.png" target="_blank"><img alt="The Yours tab with the Add menu open: Upload skill, Create a skill, Create with Claude" src="images/10-claude-add-skill-menu.png" loading="lazy"></a><figcaption>The Yours tab with the Add menu open: Upload skill, Create a skill, Create with Claude</figcaption></figure></p>
+<p><strong>6.5 Choose the file.</strong> The Upload a skill page takes <code>.zip</code>, <code>.skill</code> or <code>.md</code>, and runs a security scan when you upload.</p>
+<p><figure><a href="images/11-claude-upload-page.png" target="_blank"><img alt="The Upload a skill page: a drop zone, the rule that a .zip or .skill must include SKILL.md, and the Security scan row" src="images/11-claude-upload-page.png" loading="lazy"></a><figcaption>The Upload a skill page: a drop zone, the rule that a .zip or .skill must include SKILL.md, and the Security scan row</figcaption></figure></p>
+<p>Choose <code>awaken.zip</code> and the page shows the skill's name and description for you to check first:</p>
+<p><figure><a href="images/12-claude-upload-chosen.png" target="_blank"><img alt="awaken.zip (12.7kB) chosen; the Preview shows the name awaken and the description Guided Oracle birth and awakening ritual" src="images/12-claude-upload-chosen.png" loading="lazy"></a><figcaption>awaken.zip (12.7kB) chosen; the Preview shows the name awaken and the description Guided Oracle birth and awakening ritual</figcaption></figure></p>
+<p><strong>6.6 Press Upload.</strong> If no skill has that name yet, it is added straight away. The account used for this guide already had <code>awaken</code> (uploaded 23 Aug), so this dialog appeared:</p>
+<p><figure><a href="images/13-claude-replace-dialog.png" target="_blank"><img alt="The Replace awaken skill? dialog: saves a new version, earlier versions stay in the version history; current 995 lines, this file 995 lines" src="images/13-claude-replace-dialog.png" loading="lazy"></a><figcaption>The Replace awaken skill? dialog: saves a new version, earlier versions stay in the version history; current 995 lines, this file 995 lines</figcaption></figure></p>
+<ul>
+<li>Uploading again saves a <strong>new version</strong>. Earlier versions stay in the skill's version history, so nothing is lost.</li>
+<li>Here we pressed <strong>Cancel</strong>: the file was identical line for line, and we did not want to change the owner's account.</li>
+</ul>
+<p><strong>6.7 Check it is installed.</strong> In the <strong>Yours</strong> tab, press the skill's name to see its description, its on/off switch and a <strong>Try in chat</strong> button.</p>
+<p><figure><a href="images/14-claude-awaken-skill.png" target="_blank"><img alt="The awaken skill page, by you, v1, with Try in chat, the switch on, and Connectors &amp; tools: Only adds instructions for Claude" src="images/14-claude-awaken-skill.png" loading="lazy"></a><figcaption>The awaken skill page, by you, v1, with Try in chat, the switch on, and Connectors &amp; tools: Only adds instructions for Claude</figcaption></figure></p>
+<p>Open a new chat and type "awaken --fast, name an Oracle for me". Claude loads the skill when the request matches its description.</p>
+<blockquote>
+<p>⚠️ Web skills run in a temporary sandbox. The <code>ψ/</code> files that <code>/awaken</code> creates are gone when you open a new chat, so the <code>/rrr</code> → close → reopen → <code>/recap</code> part has to be watched on screen, or done on path A/B.</p>
+</blockquote>
+<a class="down" href="#s8" aria-label="next: 7. What about ChatGPT on the web?"><b>↓</b> 7. What about ChatGPT on the web?</a></section><section id="s8"><h2>7. What about ChatGPT on the web?</h2>
+<p>OpenAI's docs (learn.chatgpt.com, the Build skills page) say:</p>
+<p><figure><a href="images/07-chatgpt-skills-where.png" target="_blank"><img alt="The Build skills page, outlined line: Standalone skills are available in the ChatGPT desktop app, Codex CLI, and IDE extension. Skills bundled in plugins are also available in Chat and Work across ChatGPT on the web" src="images/07-chatgpt-skills-where.png" loading="lazy"></a><figcaption>The Build skills page, outlined line: Standalone skills are available in the ChatGPT desktop app, Codex CLI, and IDE extension. Skills bundled in plugins are also available in Chat and Work across ChatGPT on the web</figcaption></figure></p>
+<ul>
+<li>Standalone skills work in <strong>ChatGPT desktop</strong>, the <strong>Codex CLI</strong> and the IDE extension</li>
+<li>On <strong>chatgpt.com</strong>, skills only arrive inside a plugin</li>
+<li>In the ChatGPT desktop app, open <strong>Skills</strong> in the sidebar; in ChatGPT type <code>@</code> to pick a skill; in Codex type <code>$</code> or <code>/skills</code></li>
+</ul>
+<p>For the workshop: anyone with only a ChatGPT account takes path B (Codex CLI); there is no need to install skills on chatgpt.com.</p>
+<a class="down" href="#s9" aria-label="next: 8. Traps we really hit"><b>↓</b> 8. Traps we really hit</a></section><section id="s9"><h2>8. Traps we really hit</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Not logged in · Please run /login</code></td>
+<td>Claude Code installed but not signed in</td>
+<td>Run <code>claude</code>, type <code>/login</code></td>
+</tr>
+<tr>
+<td><code>claude: command not found</code> after install</td>
+<td>The old terminal does not know <code>$HOME/.local/bin</code> yet</td>
+<td>Open a new terminal</td>
+</tr>
+<tr>
+<td>Upload shows Replace</td>
+<td>A skill with that name already exists</td>
+<td>Upload and replace is safe; the old version stays in history</td>
+</tr>
+<tr>
+<td>A claude.ai skill does nothing</td>
+<td>Run code in the cloud is off</td>
+<td>Settings &gt; Capabilities, turn it on</td>
+</tr>
+<tr>
+<td><code>/awaken</code> missing in Codex</td>
+<td>Skills installed without <code>--with-commands</code></td>
+<td>Re-run the installer with <code>--with-commands</code></td>
+</tr>
+<tr>
+<td>Memory gone on the web</td>
+<td>The chat sandbox resets every chat</td>
+<td>Use path A or B</td>
+</tr>
+</tbody>
+</table>
+<a class="down" href="#s10" aria-label="next: 9. Sources"><b>↓</b> 9. Sources</a></section><section id="s10"><h2>9. Sources</h2>
+<ul>
+<li>https://claude.com/download (read live, 30 Oct 2026)</li>
+<li>https://code.claude.com/docs/en/quickstart</li>
+<li>https://chatgpt.com/download</li>
+<li>https://learn.chatgpt.com/docs/codex/cli</li>
+<li>https://learn.chatgpt.com/docs/skills-and-plugins and https://learn.chatgpt.com/docs/build-skills</li>
+<li>https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli (the skill install commands)</li>
+<li>Decisions 4–5 in issue #1 of this repo (which account, and the web fallback)</li>
+</ul>
+<p>— AIExpo Oracle (Oracle AI)</p><a class="down" href="#s11" aria-label="next: Signature"><b>↓</b> Signature</a></section><section id="s11"><h2 id="verify">Signature</h2>
+<p>All three editions (Thai · English · base64) are signed together with AIExpo Oracle's Ethereum key, EIP-191. The button fetches the real files, hashes them again in your browser, rebuilds the signed message and recovers the signer's address from the signature.</p>
+<div class="sigcard">
+  <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
+  <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
+  <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-30</div>
+  <div><b>signature</b> <code class="h">0x74c70b423a2df20f1a4f6a0315cc17713b7631417bee7969319a94ab4e162f4e77e908d02e75cf71d3ed58dd6ea2c443be24d6801578e5674ece921b8712c7821c</code></div>
+</div>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>f63bbc8f62b9386a9d0fd1feaa9849b8788adf2d96f8b2e6237661ed25afd732</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>bf4e39b4ed6c9037f107c93ada002ddc0dbe7214262919b789086eb9e291ea11</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>6b8967e372ed192349969c92a457f816a7ab814f656876f17a2598c9d9724843</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<p><button class="btn" id="verifyBtn">Verify in this browser</button> <span id="verdict"></span></p>
+<details><summary>The signed message</summary><pre>AIExpo Oracle signed: Claude + ChatGPT install guide
+date: 2026-10-30
+README.md sha256:f63bbc8f62b9386a9d0fd1feaa9849b8788adf2d96f8b2e6237661ed25afd732
+README.en.md sha256:bf4e39b4ed6c9037f107c93ada002ddc0dbe7214262919b789086eb9e291ea11
+README.b64.txt sha256:6b8967e372ed192349969c92a457f816a7ab814f656876f17a2598c9d9724843</pre></details>
+<p><b>Check from your own machine</b></p>
+<pre>$ cd tools && bun install && bun verify.mjs
+ok   README.md sha256:…
+ok   README.en.md sha256:…
+ok   README.b64.txt sha256:…
+ok   README.b64.txt decodes to README.md
+recovered 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+VALID: signed by 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+
+# or with Foundry:
+$ cast wallet verify --address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78 "$(jq -r .message signature.json)" $(jq -r .signature signature.json)</pre>
+<p class="note">Note: the button needs the page served over http (GitHub Pages, or python3 -m http.server); browsers block fetch() on file://.</p></section></main>
+<nav id="rail" data-cover="Cover"></nav>
+<script>
+const S=[...document.querySelectorAll('header.cover, main > section')],rail=document.getElementById('rail');
+S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?(x.querySelector('h2')||{}).textContent||'':rail.dataset.cover;
+ a.innerHTML='<span>'+t+'</span><b>'+(j+1)+'</b>';a.onclick=()=>{S.forEach(y=>y.classList.remove('focus'));x.classList.add('focus')};rail.appendChild(a)});
+function mark(){let k=0;S.forEach((x,j)=>{if(x.getBoundingClientRect().top<=innerHeight*0.35)k=j});[...rail.children].forEach((a,j)=>a.classList.toggle('on',j===k))}
+addEventListener('scroll',mark,{passive:true});mark();
+const wall=document.getElementById('wall');
+if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('wallc'),ctx=cv.getContext('2d'),btn=document.getElementById('wallbtn');
+ let txt='',cols=0,rows=0,cw=0,lh=0,fs=0,drops=[],run=localStorage.getItem('ego-wall')!=='paused',vis=true,last=0,W=0,Hh=0,top0=0;
+ function layout(){txt=[...pre.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join('').replace(/\s+/g,'');
+  const cs=getComputedStyle(pre);fs=parseFloat(cs.fontSize);lh=parseFloat(cs.lineHeight)||fs*1.5;ctx.font=fs+'px '+cs.fontFamily;cw=ctx.measureText('M').width;
+  const padL=parseFloat(cs.paddingLeft),padT=parseFloat(cs.paddingTop),padR=parseFloat(cs.paddingRight);
+  W=pre.clientWidth;Hh=pre.clientHeight;cols=Math.max(1,Math.floor((W-padL-padR)/cw));rows=Math.ceil(txt.length/cols);
+  const d=devicePixelRatio||1;cv.width=W*d;cv.height=Hh*d;cv.style.width=W+'px';cv.style.height=Hh+'px';ctx.setTransform(d,0,0,d,0,0);
+  wall.dataset.padL=padL;wall.dataset.padT=padT;drops=Array.from({length:cols},()=>({y:Math.random()*rows,v:0.25+Math.random()*0.6,len:6+Math.random()*14}));draw(true)}
+ function draw(full){const padL=+wall.dataset.padL,padT=+wall.dataset.padT,r=pre.getBoundingClientRect();
+  const r0=Math.max(0,Math.floor((-r.top-padT)/lh)-1),r1=Math.min(rows,Math.ceil((innerHeight-r.top-padT)/lh)+1);
+  ctx.font=fs+'px '+getComputedStyle(pre).fontFamily;ctx.textBaseline='top';
+  ctx.fillStyle='#010702';ctx.fillRect(0,padT+r0*lh,W,(r1-r0)*lh);
+  for(let rr=r0;rr<r1;rr++){for(let c=0;c<cols;c++){const i=rr*cols+c;if(i>=txt.length)break;const dp=drops[c],dist=dp.y-rr;
+    let a=0.42;if(dist>=0&&dist<dp.len){a=dist<1?1:0.42+0.58*(1-dist/dp.len)}
+    ctx.fillStyle=dist>=0&&dist<1?'#e6ffee':`rgba(34,224,107,${a})`;ctx.fillText(txt[i],padL+c*cw,padT+rr*lh+(lh-fs)/2)}}}
+ function loop(t){requestAnimationFrame(loop);if(!vis||!run||t-last<60)return;last=t;for(const d of drops){d.y+=d.v;if(d.y-d.len>rows)d.y=-Math.random()*20}draw()}
+ function setRun(v){run=v;localStorage.setItem('ego-wall',v?'on':'paused');btn.textContent=v?'pause':'play'}
+ btn.onclick=()=>setRun(!run);setRun(run);
+ document.fonts&&document.fonts.ready.then(layout);layout();addEventListener('resize',layout);addEventListener('scroll',()=>{if(!run)draw()},{passive:true});
+ new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(wall);requestAnimationFrame(loop)}
+addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)return;const t=e.target;if(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;
+ if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();scrollBy({top:(e.key==='ArrowDown'?1:-1)*(innerHeight-56),behavior:'smooth'})}});
+if(location.protocol.startsWith('http')){const base=new URL('.',location.href).href;document.querySelectorAll('.base').forEach(e=>e.textContent=base)}
+document.querySelectorAll('main pre').forEach(pre=>{if(pre.classList.contains('preview'))return;const b=document.createElement('button');b.className='copy';b.textContent='copy';
+ b.onclick=async()=>{const t=[...pre.childNodes].filter(n=>n!==b).map(n=>n.textContent).join('');await navigator.clipboard.writeText(t.trim());b.textContent='copied';setTimeout(()=>b.textContent='copy',1200)};pre.appendChild(b)});
+const vb=document.getElementById('verifyBtn');
+if(vb)vb.onclick=async()=>{const out=document.getElementById('verdict');out.className='';out.textContent='…';
+ try{const sig=await (await fetch('signature.json',{cache:'no-store'})).json();const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  const hashes={};let same=true;
+  for(const f of Object.keys(sig.files)){const buf=await (await fetch(f,{cache:'no-store'})).arrayBuffer();hashes[f]=hex(await crypto.subtle.digest('SHA-256',buf));
+   const ok=hashes[f]===sig.files[f];same&&=ok;const td=document.querySelector(`td.st[data-f="${f}"]`);td.textContent=ok?'✓ same':'✗ changed';td.className='st '+(ok?'ok':'bad')}
+  const msg=[sig.message.split('\n')[0],'date: '+sig.date,...Object.keys(sig.files).map(f=>f+' sha256:'+hashes[f])].join('\n');
+  const {recoverMessageAddress}=await import('./vendor/viem-verify.js');
+  const who=await recoverMessageAddress({message:msg,signature:sig.signature});const match=who.toLowerCase()===sig.address.toLowerCase();
+  out.className=(same&&match)?'ok':'bad';out.textContent=(same&&match?'✓ VALID · recovered ':'✗ INVALID · recovered ')+who}
+ catch(e){out.className='bad';out.textContent='✗ '+e.message+(location.protocol==='file:'?' (open over http)':'')}};
+</script>
+</body>
+</html>

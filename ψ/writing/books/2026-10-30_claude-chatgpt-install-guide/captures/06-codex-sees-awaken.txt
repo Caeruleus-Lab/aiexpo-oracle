@@ -1,0 +1,2 @@
+$ codex exec --skip-git-repo-check "Is there a skill named awaken available to you? Answer in one line: yes or no, then its description in 10 words."
+Yes — Guided Oracle birth and awakening ritual for identity and purpose.

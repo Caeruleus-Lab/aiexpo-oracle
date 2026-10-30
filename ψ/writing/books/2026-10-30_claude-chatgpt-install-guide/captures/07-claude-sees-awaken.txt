@@ -1,0 +1,2 @@
+$ claude -p "Is there a skill named awaken available to you? Answer in one line: yes or no, then its description in 10 words."
+Not logged in · Please run /login
