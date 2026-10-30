@@ -168,12 +168,25 @@ if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('w
  document.fonts&&document.fonts.ready.then(layout);layout();addEventListener('resize',layout);addEventListener('scroll',()=>{if(!run)draw()},{passive:true});
  // full screen: click the wall to open; inside, click copies everything, a drag-selection copies just that; Esc closes
  const hint=document.createElement('div');hint.className='wallhint';wall.appendChild(hint);const HINT='click: copy all · drag: highlight + copy · Esc: close';hint.textContent=HINT;
+ // the copy blast: base64 glyphs explode from the click, a shockwave ring, a white flash, a glitching COPIED, the wall shakes
+ const bc=document.createElement('canvas');bc.id='boomc';wall.appendChild(bc);const bx=bc.getContext('2d');const GL='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+ function boom(x,y,label){const d=devicePixelRatio||1,w=innerWidth,h=innerHeight;bc.width=w*d;bc.height=h*d;bc.style.width=w+'px';bc.style.height=h+'px';bx.setTransform(d,0,0,d,0,0);
+  const ps=[];for(let i=0;i<280;i++){const a=Math.random()*Math.PI*2,v=4+Math.random()*17;ps.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-3,c:GL[Math.random()*GL.length|0],s:12+Math.random()*24})}
+  wall.classList.remove('shake');void wall.offsetWidth;wall.classList.add('shake');bc.classList.add('on');const t0=performance.now();
+  (function f(t){const k=Math.min(1,(t-t0)/1400);bx.clearRect(0,0,w,h);
+   if(k<.16){bx.fillStyle='rgba(210,255,225,'+(.4*(1-k/.16))+')';bx.fillRect(0,0,w,h)}
+   bx.strokeStyle='rgba(61,255,138,'+(1-k)+')';bx.lineWidth=8*(1-k)+1;bx.beginPath();bx.arc(x,y,k*Math.hypot(w,h)*.75,0,7);bx.stroke();
+   for(const p of ps){p.x+=p.vx;p.y+=p.vy;p.vy+=.36;p.vx*=.985;bx.font='700 '+p.s+'px ui-monospace,Menlo,monospace';bx.fillStyle=k<.22?'rgba(235,255,240,'+(1-k)+')':'rgba(34,224,107,'+(1-k)+')';bx.fillText(p.c,p.x,p.y)}
+   const j=(Math.random()-.5)*14*(1-k),fs=Math.min(w/7,150);bx.textAlign='center';bx.font='800 '+fs+'px ui-monospace,Menlo,monospace';
+   bx.fillStyle='rgba(255,40,90,'+.5*(1-k)+')';bx.fillText(label,w/2+j+4,h/2);bx.fillStyle='rgba(40,200,255,'+.5*(1-k)+')';bx.fillText(label,w/2-j-4,h/2);
+   bx.shadowColor='#3dff8a';bx.shadowBlur=36;bx.fillStyle='rgba(235,255,240,'+(1-k*k)+')';bx.fillText(label,w/2+j,h/2);bx.shadowBlur=0;bx.textAlign='start';
+   if(k<1)requestAnimationFrame(f);else{bx.clearRect(0,0,w,h);bc.classList.remove('on')}})(t0)}
  function flash(m){hint.textContent=m;clearTimeout(flash.t);flash.t=setTimeout(()=>hint.textContent=HINT,1400)}
  function setFull(v){wall.classList.toggle('full',v);document.body.classList.toggle('wallopen',v);if(v){wall.scrollTop=0;if(wall.requestFullscreen)wall.requestFullscreen().catch(()=>{})}else{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});getSelection().removeAllRanges();requestAnimationFrame(()=>wall.scrollIntoView({block:'start',behavior:'instant'}))}setTimeout(layout,80)}
  let down=null;pre.addEventListener('mousedown',e=>{down=[e.clientX,e.clientY]});
  pre.addEventListener('mouseup',async e=>{const moved=down&&Math.hypot(e.clientX-down[0],e.clientY-down[1])>4;const sel=String(getSelection());
   if(!wall.classList.contains('full')){if(!moved&&!sel)setFull(true);return}
-  try{if(sel){await navigator.clipboard.writeText(sel.replace(/\\s+/g,''));flash('copied selection · '+sel.replace(/\\s+/g,'').length+' chars')}else if(!moved){await navigator.clipboard.writeText(txt);getSelection().selectAllChildren(pre);flash('copied all · '+txt.length+' chars')}}catch(err){flash('copy blocked by the browser: select and press Cmd/Ctrl+C')}});
+  try{if(sel){await navigator.clipboard.writeText(sel.replace(/\\s+/g,''));boom(e.clientX,e.clientY,'COPIED');flash('copied selection · '+sel.replace(/\\s+/g,'').length+' chars')}else if(!moved){await navigator.clipboard.writeText(txt);getSelection().selectAllChildren(pre);boom(e.clientX,e.clientY,'COPIED');flash('copied all · '+txt.length+' chars')}}catch(err){flash('copy blocked by the browser: select and press Cmd/Ctrl+C')}});
  addEventListener('keydown',e=>{if(e.key==='Escape'&&wall.classList.contains('full')){e.preventDefault();setFull(false)}});
  document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&wall.classList.contains('full'))setFull(false)});
  wall.addEventListener('scroll',()=>draw(),{passive:true});
