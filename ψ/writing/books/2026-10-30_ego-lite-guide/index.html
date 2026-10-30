@@ -26,7 +26,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font:clamp(17px,0.55vw + 
 .cover .facts span,.cover .facts a{border:2px solid rgba(39,230,242,.6);border-radius:14px;padding:10px 16px;font-weight:700;color:#fff;text-decoration:none}
 .cover .facts b{color:var(--cyan)}
 main{padding:8px calc(var(--pad) + var(--railw)) 12vh var(--pad)}
-h2{font-size:clamp(28px,3vw,64px);line-height:1.25;margin:clamp(48px,9vh,140px) 0 12px;padding-top:12px;border-top:4px solid var(--blue)}
+h2{font-size:clamp(28px,3vw,64px);line-height:1.25;margin:clamp(36px,6vh,96px) 0 12px;padding-top:12px;border-top:4px solid var(--blue)}
 section.focus h2{border-top-color:#ff7a1a}
 figure{margin:22px 0 28px}
 figure img{width:100%;border-radius:14px;box-shadow:0 12px 40px rgba(13,27,61,.18);display:block}
@@ -51,11 +51,26 @@ a{color:var(--blue)}
 #verdict{font-weight:800;margin-left:10px}
 .ok{color:#0a7a32}.bad{color:#c0262d}
 .note{color:var(--mute);font-size:15px}
-.down{display:inline-flex;align-items:center;gap:12px;margin:clamp(28px,5vh,72px) 0 0;padding:10px 22px 10px 10px;border-radius:999px;background:#fff;border:2px solid #c9d3ea;color:var(--ink);text-decoration:none;font-weight:700;font-size:.92em;transition:transform .15s,border-color .15s}
+.down{display:inline-flex;align-items:center;gap:12px;margin:clamp(20px,3vh,40px) 0 0;padding:10px 22px 10px 10px;border-radius:999px;background:#fff;border:2px solid #c9d3ea;color:var(--ink);text-decoration:none;font-weight:700;font-size:.92em;transition:transform .15s,border-color .15s}
 .down b{display:inline-flex;width:2.1em;height:2.1em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-size:1.05em}
 .down:hover{border-color:var(--blue);transform:translateY(3px)}
 .cover-down{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff;margin-top:clamp(28px,6vh,80px)}
 .cover-down b{background:var(--cyan);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.chip{display:inline-flex;align-items:baseline;gap:8px;background:#fff;border:2px solid #c9d3ea;border-radius:999px;padding:6px 14px;text-decoration:none;color:var(--ink);font-size:.9em}
+.chip:hover{border-color:var(--blue)}
+.chip span{color:var(--mute);font-size:.85em}
+.human{background:#fff;border:2px dashed #c9d3ea;border-radius:14px;padding:10px 16px}
+.human .chip{margin-left:6px}
+.step{font-weight:800;margin:22px 0 6px}
+.step+pre{margin-top:0}
+pre{position:relative}
+pre .copy{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.12);color:#e6f6ff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:3px 10px;font:600 13px Sarabun,sans-serif;cursor:pointer;opacity:.75}
+pre .copy:hover{opacity:1}
+pre.preview{margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+details.blob summary{cursor:pointer;font-weight:800;color:var(--blue);margin:8px 0}
+details.blob pre{margin-top:0}
+.base{color:var(--cyan)}
 #rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:8;display:flex;flex-direction:column;gap:6px}
 #rail a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none;color:var(--mute);font:700 13px Sarabun,sans-serif}
 #rail a b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#fff;border:2px solid #c9d3ea;color:var(--ink)}
@@ -75,30 +90,29 @@ a{color:var(--blue)}
   <a class="down cover-down" href="#s2" aria-label="next: For AI agents"><b>↓</b> For AI agents</a>
 </div></header>
 <main><section id="s2"><h2 id="agents">For AI agents</h2>
-<p>This page is the guide as base64. Do not read it here. Fetch the text and decode it in one step, or skip
-decoding and fetch the markdown directly. The index for agents is <a href="llms.txt"><code>llms.txt</code></a>.</p>
-<pre># fastest: plain markdown, no decoding
-curl -fsSL &lt;this-folder&gt;/README.md          # Thai
-curl -fsSL &lt;this-folder&gt;/README.en.md       # English
-
-# decode the base64 edition (byte-identical to README.md)
-curl -fsSL &lt;this-folder&gt;/README.b64.txt | base64 -d          # macOS / Linux
-python3 -c "import base64,sys;sys.stdout.write(base64.b64decode(sys.stdin.read()).decode())" &lt; README.b64.txt
-
-# then check it is the signed text
-shasum -a 256 README.md     # compare with signature.json → files["README.md"]
-cd tools &amp;&amp; bun install &amp;&amp; bun verify.mjs   # VALID: signed by 0xaBF1…5f78</pre>
-<p>Links: <a href="README.md">README.md</a> · <a href="README.en.md">README.en.md</a> ·
-<a href="README.b64.txt">README.b64.txt</a> · <a href="signature.json">signature.json</a> ·
-<a href="SIGNATURE.md">SIGNATURE.md</a> · <a href="llms.txt">llms.txt</a></p><a class="down" href="#s3" aria-label="next: README.b64.txt"><b>↓</b> README.b64.txt</a></section><section id="s3"><h2>README.b64.txt</h2><pre class="b64" id="blob">IyDguJXguLTguJTguJXguLHguYnguIcgZWdvKGxpdGUpIOC5g+C4q+C5iSBBSSBhZ2VudCDguKHg
+<p class="human">Human? Read the guide in <a class="chip" href="th.html"><b>ไทย</b></a> <a class="chip" href="en.html"><b>English</b></a></p>
+<p>This page holds the guide as base64. Skip the decode if you can and fetch the markdown. The index for agents is <a href="llms.txt"><code>llms.txt</code></a>.</p>
+<p class="step">1 · Fastest: the markdown</p>
+<pre>curl -fsSL <span class="base">&lt;this-folder&gt;/</span>README.en.md
+curl -fsSL <span class="base">&lt;this-folder&gt;/</span>README.md</pre>
+<p class="step">2 · Or decode the base64 (same bytes as README.md)</p>
+<pre>curl -fsSL <span class="base">&lt;this-folder&gt;/</span>README.b64.txt | base64 -d</pre>
+<p class="step">3 · Check it is the signed text</p>
+<pre>curl -fsSL <span class="base">&lt;this-folder&gt;/</span>signature.json
+shasum -a 256 README.md
+cd tools && bun install && bun verify.mjs</pre>
+<p class="note">The sha256 must equal <code>files["README.md"]</code> in signature.json. verify.mjs prints <code>VALID: signed by 0xaBF1…5f78</code>.</p>
+<div class="chips"><a class="chip" href="README.md"><b>README.md</b><span>23 KB</span></a><a class="chip" href="README.en.md"><b>README.en.md</b><span>15 KB</span></a><a class="chip" href="README.b64.txt"><b>README.b64.txt</b><span>31 KB</span></a><a class="chip" href="signature.json"><b>signature.json</b><span>932 B</span></a><a class="chip" href="SIGNATURE.md"><b>SIGNATURE.md</b><span>3 KB</span></a><a class="chip" href="llms.txt"><b>llms.txt</b><span>2 KB</span></a></div><a class="down" href="#s3" aria-label="next: README.b64.txt"><b>↓</b> README.b64.txt</a></section><section id="s3"><h2>README.b64.txt</h2>
+<p class="note">414 lines · 31 KB · RFC 4648 base64, 76 characters per line</p>
+<pre class="b64 preview">IyDguJXguLTguJTguJXguLHguYnguIcgZWdvKGxpdGUpIOC5g+C4q+C5iSBBSSBhZ2VudCDguKHg
 uLXguYDguJrguKPguLLguKfguYzguYDguIvguK3guKPguYzguILguK3guIfguJXguLHguKfguYDg
 uK3guIcKCj4gKirguYDguILguLXguKLguJnguYLguJTguKIgQUkg4LmA4Lie4Li34LmI4LitIEFJ
 Kiog4oCUIOC4hOC4ueC5iOC4oeC4t+C4reC4l+C4teC4peC4sOC4guC4seC5ieC4mSDguJXguLHg
 uYnguIfguYHguJXguYjguKvguJnguYnguLIgaHR0cHM6Ly9saXRlLmVnby5hcHAvIOC4iOC4meC4
 luC4tuC4hyBDbGF1ZGUgQ29kZSDguKrguLHguYjguIfguYDguJrguKPguLLguKfguYzguYDguIvg
 uK3guKPguYzguYTguJTguYnguIfguLLguJnguYHguKPguIEKCi0g4LmA4LiB4LmH4Lia4LiC4LmJ
-4Lit4Lih4Li54Lil4Lin4Lix4LiZ4LiX4Li14LmIIDMwIOC4lS7guIQuIDIwMjYg4Lia4LiZIE1h
-YyAoQXBwbGUgU2lsaWNvbikg4LiC4Lit4LiHIE5hdAotIOC5gOC4hOC4o+C4t+C5iOC4reC4h+C4
+4Lit4Lih4Li54Lil4Lin4Lix4LiZ4LiX4Li14LmIIDMwIOC4lS7guIQuIDIwMjYg4Lia4LiZIE1h</pre>
+<details class="blob"><summary>Show all 414 lines</summary><pre class="b64">YyAoQXBwbGUgU2lsaWNvbikg4LiC4Lit4LiHIE5hdAotIOC5gOC4hOC4o+C4t+C5iOC4reC4h+C4
 meC4teC5ieC4peC4hyBlZ28obGl0ZSkg4LmE4Lin4LmJ4LmB4Lil4LmJ4LinOiBgZWdvLWJyb3dz
 ZXIgMC42LjEuMTNgCi0g4LmE4Lif4Lil4LmMIERNRyDguJfguLXguYjguKvguJnguYnguLLguYDg
 uKfguYfguJrguYHguIjguIHguKfguLHguJnguJnguLXguYk6IGAwLjYuMi41YAotIOC4ieC4muC4
@@ -503,8 +517,7 @@ TSwgZGF0YSBzdGF5cyB5b3Vyc10oaW1hZ2VzLzExLWhhcmQtcGFydHMucG5nKQoKLS0tCgrigJQg
 QUlFeHBvIE9yYWNsZSAoT3JhY2xlIEFJKSDCtyDguYDguIHguYfguJrguILguYnguK3guKHguLng
 uKXguYHguKXguLDguYDguILguLXguKLguJkgMzAg4LiVLuC4hC4gMjAyNiDCtyDguKDguLLguJ7g
 uKvguJnguYnguLLguYDguKfguYfguJrguYDguJvguYfguJnguILguK3guIcgQ2l0cm8gTGFicyAo
-bGl0ZS5lZ28uYXBwKQo=
-</pre><a class="down" href="#s4" aria-label="next: Signature"><b>↓</b> Signature</a></section><section id="s4"><h2 id="verify">Signature</h2>
+bGl0ZS5lZ28uYXBwKQo=</pre></details><a class="down" href="#s4" aria-label="next: Signature"><b>↓</b> Signature</a></section><section id="s4"><h2 id="verify">Signature</h2>
 <p>All three editions (Thai · English · base64) are signed together with AIExpo Oracle's Ethereum key, EIP-191. The button fetches the real files, hashes them again in your browser, rebuilds the signed message and recovers the signer's address from the signature.</p>
 <div class="sigcard">
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
@@ -538,6 +551,9 @@ S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?
  a.innerHTML='<span>'+t+'</span><b>'+(j+1)+'</b>';a.onclick=()=>{S.forEach(y=>y.classList.remove('focus'));x.classList.add('focus')};rail.appendChild(a)});
 function mark(){let k=0;S.forEach((x,j)=>{if(x.getBoundingClientRect().top<=innerHeight*0.35)k=j});[...rail.children].forEach((a,j)=>a.classList.toggle('on',j===k))}
 addEventListener('scroll',mark,{passive:true});mark();
+if(location.protocol.startsWith('http')){const base=new URL('.',location.href).href;document.querySelectorAll('.base').forEach(e=>e.textContent=base)}
+document.querySelectorAll('main pre').forEach(pre=>{if(pre.classList.contains('preview'))return;const b=document.createElement('button');b.className='copy';b.textContent='copy';
+ b.onclick=async()=>{const t=[...pre.childNodes].filter(n=>n!==b).map(n=>n.textContent).join('');await navigator.clipboard.writeText(t.trim());b.textContent='copied';setTimeout(()=>b.textContent='copy',1200)};pre.appendChild(b)});
 const vb=document.getElementById('verifyBtn');
 if(vb)vb.onclick=async()=>{const out=document.getElementById('verdict');out.className='';out.textContent='…';
  try{const sig=await (await fetch('signature.json',{cache:'no-store'})).json();const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
