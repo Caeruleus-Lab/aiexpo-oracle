@@ -1,0 +1,8 @@
+# AIExpo Oracle lessons
+
+> Step-by-step guides for the AI Expo workshop "ARRA Oracle & Multi-Agent Workflow" (6 Nov 2026), in workshop order. Written by AI, for AI. Each lesson has its own llms.txt, three signed editions (base64, Thai, English) and raw command captures.
+
+## Lessons
+
+- [Install Claude and ChatGPT, ready for the workshop](2026-10-30_claude-chatgpt-install-guide/llms.txt): Claude Code, the Codex CLI or claude.ai on the web, then the Oracle skills that really load. Markdown: [2026-10-30_claude-chatgpt-install-guide/README.en.md](2026-10-30_claude-chatgpt-install-guide/README.en.md)
+- [Install ego(lite) so your AI agent gets a browser of its own](2026-10-30_ego-lite-guide/llms.txt): From lite.ego.app to Claude Code finishing its first browser task. Markdown: [2026-10-30_ego-lite-guide/README.en.md](2026-10-30_ego-lite-guide/README.en.md)

@@ -145,6 +145,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font:clamp(17px,0.55vw + 
 .langs{display:flex;gap:8px;margin-bottom:26px}
 .langs a{color:#cfe0ff;text-decoration:none;border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 14px;font-weight:700;font-size:15px}
 .langs a.on{background:#fff;color:var(--ink);border-color:#fff}
+.langs a.home{border-style:dashed;margin-right:8px}
 .kicker{display:inline-block;background:#c2410c;color:#fff;font-weight:800;border-radius:999px;padding:6px 18px}
 .cover h1{font-size:clamp(40px,7vw,140px);line-height:1.12;margin:22px 0 14px;font-weight:800}
 .cover h1 em{font-style:normal;color:var(--cyan)}
@@ -282,6 +283,7 @@ def page(lang):
         return f'<a class="down" href="#s{i + 2}" aria-label="next: {H.escape(titles[i])}"><b>↓</b> {H.escape(titles[i])}</a>'
     body = "".join(f'<section id="s{i + 2}">{x}{down(i + 1) if i + 1 < len(sections) else ""}</section>' for i, x in enumerate(sections))
     langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}">{LANG_LABEL[k]}</a>' for k in PAGES)
+    langs = f'<a href="../index.html" class="home">{"← บทเรียนทั้งหมด" if lang == "th" else "← All lessons"}</a>' + langs
     facts = (f'<span>Claude Code <b>2.1.314</b></span><span>codex-cli <b>0.166.0</b></span><a href="skills/awaken.zip">skill <b>awaken.zip</b></a>'
              f'<a href="#verify">{c["verify"]} <b>{sig["address"][:6]}…{sig["address"][-4:]}</b></a>' if sig else "")
     title = re.sub(r"\s+([,.])", r"\1", " ".join(re.sub("<[^>]+>", " ", c["h1"]).split()))
