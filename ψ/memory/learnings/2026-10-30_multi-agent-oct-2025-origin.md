@@ -33,6 +33,11 @@ own worktree; use `git -C <path>` for other worktrees; each `agents/N` branch �
 (`gh pr create --base main --head agents/2`). Later issues #38–#41 (22 Oct) hold the "Nat's shadow" session
 reports and the official bootstrap command.
 
+**Strict repeat check (same query, same answer, 5 times):** relic5 `multi-agent workflow kit` (git, Oct 2025, top 1)
+returned uid `585109c0…` — kit commit `a97f9d5` "feat: bootstrap multi-agent workflow toolkit", 4 Oct 2025 — on all 5
+runs (traces 6b6332370f, b7399b6415, f3ff4d4a26, 6469a4a81f, 1e01d85529). The Facebook query "first Oct 2025 post
+containing multi-agent-workflow-kit" returned the same post on all 5 runs: 6 Oct 2025 11:49, sha1 `805c1619c3e9`.
+
 Facebook side, the same check: five Oct 2025 post searches ('maw' 11 posts, 'worktree' 28, 'multi-agent-workflow-kit'
 7, 'multi agent workflow' 13, 'tmux' 6) each return posts that name the kit (11, 10, 7, 7 and 3 of them); the
 earliest is 6 Oct 11:49 "สอนภรรยาเรื่อง multi-agent-workflow-kit… ใช้ github worktree".
