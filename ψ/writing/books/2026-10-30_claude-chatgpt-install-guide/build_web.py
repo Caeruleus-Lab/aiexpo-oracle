@@ -24,17 +24,17 @@ COVER = {
                h1='ติดตั้ง <em>Claude</em><br>และ <em>ChatGPT</em><br><span class="nw">ให้พร้อมเข้า workshop</span>',
                sub=["ทีละขั้น ตั้งแต่หน้าดาวน์โหลด จนถึงลงสกิล Oracle ได้จริง ทั้งในเครื่องและบน claude.ai",
                     "ทุกภาพจับจากเว็บจริง · ทุกคำสั่งรันจริง · 30 ต.ค. 2026"],
-               cover_label="ปก", verify="ตรวจลายเซ็น", slides="สไลด์"),
+               cover_label="ปก", verify="ตรวจลายเซ็น", slides="สไลด์", back="ย้อน", next="ถัดไป"),
     "en": dict(kicker="Written by AI, for AI",
                h1='Install <em>Claude</em><br>and <em>ChatGPT</em>,<br><span class="nw">ready for the workshop</span>',
                sub=["Step by step, from the download pages to Oracle skills that really load, locally and on claude.ai",
                     "Every screenshot from the real site · every command really ran · 30 Oct 2026"],
-               cover_label="Cover", verify="Signature", slides="Slides"),
+               cover_label="Cover", verify="Signature", slides="Slides", back="Back", next="Next"),
     "b64": dict(kicker="base64 · for machines",
                 h1='<em>Claude + ChatGPT</em> guide<br><span class="nw">as base64</span>',
                 sub=["The Thai edition, byte for byte, encoded as base64 (RFC 4648, 76-char lines)",
                      "Agents: read llms.txt, or curl README.b64.txt | base64 -d"],
-                cover_label="Cover", verify="Signature", slides="Slides"),
+                cover_label="Cover", verify="Signature", slides="Slides", back="Back", next="Next"),
 }
 PAGES = {"b64": "index.html", "th": "th.html", "en": "en.html"}
 LANG_LABEL = {"b64": "base64", "th": "ไทย", "en": "English"}
@@ -214,6 +214,13 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5)}
 #rail a:hover span{opacity:1}
 #rail a.on b{background:var(--blue);border-color:var(--blue);color:#fff}
 @media (max-width:900px){#rail{display:none}}
+#navpad{position:fixed;right:14px;bottom:18px;z-index:9;display:flex;gap:8px;opacity:.28;transition:opacity .2s}
+#navpad:hover,#navpad:focus-within{opacity:1}
+#navpad button{display:inline-flex;align-items:center;gap:6px;border:2px solid #c9d3ea;background:#fff;color:var(--ink);border-radius:999px;padding:8px 16px;font:700 15px Sarabun,sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(13,27,61,.15)}
+#navpad button b{display:inline-flex;width:1.6em;height:1.6em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff}
+#navpad button:hover{border-color:var(--blue)}
+#navpad button:disabled{opacity:.35;cursor:default}
+@media (hover:none){#navpad{opacity:.85}}
 """
 
 JS = """
@@ -244,9 +251,12 @@ if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('w
  document.fonts&&document.fonts.ready.then(layout);layout();addEventListener('resize',layout);addEventListener('scroll',()=>{if(!run)draw()},{passive:true});
  new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(wall);requestAnimationFrame(loop)}
 addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)return;const t=e.target;if(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;
- const dn=e.key==='ArrowDown'||e.key==='ArrowRight'||e.key==='PageDown',up=e.key==='ArrowUp'||e.key==='ArrowLeft'||e.key==='PageUp';if(!dn&&!up)return;e.preventDefault();
- const y=scrollY,step=innerHeight-56,tops=S.map(x=>x.getBoundingClientRect().top+y-16);
- const nx=Math.min(...tops.filter(v=>v>y+4)),pv=Math.max(...tops.filter(v=>v<y-4),0);const to=dn?(nx-y<=step*1.2?nx:y+step):(y-pv<=step*1.2?pv:y-step);scrollTo({top:to,behavior:'smooth'})});
+ const dn=e.key==='ArrowDown'||e.key==='ArrowRight'||e.key==='PageDown',up=e.key==='ArrowUp'||e.key==='ArrowLeft'||e.key==='PageUp';if(!dn&&!up)return;e.preventDefault();nav(dn)});
+function nav(dn){const y=scrollY,step=innerHeight-56,tops=S.map(x=>x.getBoundingClientRect().top+y-16);
+ const nx=Math.min(...tops.filter(v=>v>y+4)),pv=Math.max(...tops.filter(v=>v<y-4),0);const to=dn?(nx-y<=step*1.2?nx:y+step):(y-pv<=step*1.2?pv:y-step);scrollTo({top:to,behavior:'smooth'})}
+document.getElementById('navback').onclick=()=>nav(false);document.getElementById('navnext').onclick=()=>nav(true);
+function navstate(){const end=scrollY+innerHeight>=document.documentElement.scrollHeight-4;document.getElementById('navback').disabled=scrollY<4;document.getElementById('navnext').disabled=end}
+addEventListener('scroll',navstate,{passive:true});navstate();
 if(location.protocol.startsWith('http')){const base=new URL('.',location.href).href;document.querySelectorAll('.base').forEach(e=>e.textContent=base)}
 document.querySelectorAll('main pre').forEach(pre=>{if(pre.classList.contains('preview'))return;const b=document.createElement('button');b.className='copy';b.textContent='copy';
  b.onclick=async()=>{const t=[...pre.childNodes].filter(n=>n!==b).map(n=>n.textContent).join('');await navigator.clipboard.writeText(t.trim());b.textContent='copied';setTimeout(()=>b.textContent='copy',1200)};pre.appendChild(b)});
@@ -298,6 +308,7 @@ def page(lang):
 </div></header>
 <main>{body}</main>
 <nav id="rail" data-cover="{c["cover_label"]}"></nav>
+<div id="navpad"><button id="navback" type="button" aria-label="{c["back"]}"><b>↑</b> {c["back"]}</button><button id="navnext" type="button" aria-label="{c["next"]}"><b>↓</b> {c["next"]}</button></div>
 <script>{JS}</script>
 </body>
 </html>
