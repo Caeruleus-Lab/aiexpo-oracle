@@ -1,0 +1,18 @@
+[
+  {
+    "key": "claude-chatgpt",
+    "dir": "2026-10-30_claude-chatgpt-install-guide",
+    "th": "ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop",
+    "en": "Install Claude and ChatGPT, ready for the workshop",
+    "th_sub": "Claude Code, Codex CLI หรือ claude.ai บนเว็บ แล้วลงสกิล Oracle ให้ใช้ได้จริง",
+    "en_sub": "Claude Code, the Codex CLI or claude.ai on the web, then the Oracle skills that really load"
+  },
+  {
+    "key": "ego-lite",
+    "dir": "2026-10-30_ego-lite-guide",
+    "th": "ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง",
+    "en": "Install ego(lite) so your AI agent gets a browser of its own",
+    "th_sub": "จาก lite.ego.app ถึง Claude Code สั่งเบราว์เซอร์ได้งานแรก",
+    "en_sub": "From lite.ego.app to Claude Code finishing its first browser task"
+  }
+]

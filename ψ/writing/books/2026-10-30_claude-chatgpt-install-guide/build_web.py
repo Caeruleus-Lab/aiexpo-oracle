@@ -24,17 +24,17 @@ COVER = {
                h1='ติดตั้ง <em>Claude</em><br>และ <em>ChatGPT</em><br><span class="nw">ให้พร้อมเข้า workshop</span>',
                sub=["ทีละขั้น ตั้งแต่หน้าดาวน์โหลด จนถึงลงสกิล Oracle ได้จริง ทั้งในเครื่องและบน claude.ai",
                     "ทุกภาพจับจากเว็บจริง · ทุกคำสั่งรันจริง · 30 ต.ค. 2026"],
-               cover_label="ปก", verify="ตรวจลายเซ็น", slides="สไลด์"),
+               cover_label="ปก", verify="ตรวจลายเซ็น", slides="สไลด์", back="ย้อน", next="ถัดไป"),
     "en": dict(kicker="Written by AI, for AI",
                h1='Install <em>Claude</em><br>and <em>ChatGPT</em>,<br><span class="nw">ready for the workshop</span>',
                sub=["Step by step, from the download pages to Oracle skills that really load, locally and on claude.ai",
                     "Every screenshot from the real site · every command really ran · 30 Oct 2026"],
-               cover_label="Cover", verify="Signature", slides="Slides"),
+               cover_label="Cover", verify="Signature", slides="Slides", back="Back", next="Next"),
     "b64": dict(kicker="base64 · for machines",
                 h1='<em>Claude + ChatGPT</em> guide<br><span class="nw">as base64</span>',
                 sub=["The Thai edition, byte for byte, encoded as base64 (RFC 4648, 76-char lines)",
                      "Agents: read llms.txt, or curl README.b64.txt | base64 -d"],
-                cover_label="Cover", verify="Signature", slides="Slides"),
+                cover_label="Cover", verify="Signature", slides="Slides", back="Back", next="Next"),
 }
 PAGES = {"b64": "index.html", "th": "th.html", "en": "en.html"}
 LANG_LABEL = {"b64": "base64", "th": "ไทย", "en": "English"}
@@ -145,6 +145,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font:clamp(17px,0.55vw + 
 .langs{display:flex;gap:8px;margin-bottom:26px}
 .langs a{color:#cfe0ff;text-decoration:none;border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 14px;font-weight:700;font-size:15px}
 .langs a.on{background:#fff;color:var(--ink);border-color:#fff}
+.langs a.home{border-style:dashed;margin-right:8px}
 .kicker{display:inline-block;background:#c2410c;color:#fff;font-weight:800;border-radius:999px;padding:6px 18px}
 .cover h1{font-size:clamp(40px,7vw,140px);line-height:1.12;margin:22px 0 14px;font-weight:800}
 .cover h1 em{font-style:normal;color:var(--cyan)}
@@ -214,6 +215,12 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5)}
 #rail a:hover span{opacity:1}
 #rail a.on b{background:var(--blue);border-color:var(--blue);color:#fff}
 @media (max-width:900px){#rail{display:none}}
+#navback,#navnext{position:fixed;left:50%;transform:translateX(-50%);z-index:9;display:inline-flex;align-items:center;gap:6px;border:2px solid #c9d3ea;background:#fff;color:var(--ink);border-radius:999px;padding:clamp(10px,1vw,18px) clamp(22px,2vw,40px) clamp(10px,1vw,18px) clamp(12px,1vw,18px);gap:clamp(8px,.8vw,14px);font:800 clamp(18px,1.25vw,28px) Sarabun,sans-serif;cursor:pointer;box-shadow:0 10px 30px rgba(13,27,61,.22);opacity:.5;transition:opacity .2s,border-color .2s}
+#navback{top:clamp(10px,1.5vh,22px)}#navnext{bottom:clamp(12px,2vh,26px)}
+#navback:hover,#navnext:hover,#navback:focus-visible,#navnext:focus-visible{opacity:1;border-color:var(--blue)}
+#navback b,#navnext b{display:inline-flex;width:1.9em;height:1.9em;font-size:1.05em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff}
+#navback:disabled,#navnext:disabled{display:none}
+@media (hover:none){#navback,#navnext{opacity:.85}}
 """
 
 JS = """
@@ -244,7 +251,12 @@ if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('w
  document.fonts&&document.fonts.ready.then(layout);layout();addEventListener('resize',layout);addEventListener('scroll',()=>{if(!run)draw()},{passive:true});
  new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(wall);requestAnimationFrame(loop)}
 addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)return;const t=e.target;if(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;
- if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();scrollBy({top:(e.key==='ArrowDown'?1:-1)*(innerHeight-56),behavior:'smooth'})}});
+ const dn=e.key==='ArrowDown'||e.key==='ArrowRight'||e.key==='PageDown',up=e.key==='ArrowUp'||e.key==='ArrowLeft'||e.key==='PageUp';if(!dn&&!up)return;e.preventDefault();nav(dn)});
+function nav(dn){const y=scrollY,step=innerHeight-56,tops=S.map(x=>x.getBoundingClientRect().top+y-16);
+ const nx=Math.min(...tops.filter(v=>v>y+4)),pv=Math.max(...tops.filter(v=>v<y-4),0);const to=dn?(nx-y<=step*1.2?nx:y+step):(y-pv<=step*1.2?pv:y-step);scrollTo({top:to,behavior:'smooth'})}
+document.getElementById('navback').onclick=()=>nav(false);document.getElementById('navnext').onclick=()=>nav(true);
+function navstate(){const end=scrollY+innerHeight>=document.documentElement.scrollHeight-4;document.getElementById('navback').disabled=scrollY<4;document.getElementById('navnext').disabled=end}
+addEventListener('scroll',navstate,{passive:true});navstate();
 if(location.protocol.startsWith('http')){const base=new URL('.',location.href).href;document.querySelectorAll('.base').forEach(e=>e.textContent=base)}
 document.querySelectorAll('main pre').forEach(pre=>{if(pre.classList.contains('preview'))return;const b=document.createElement('button');b.className='copy';b.textContent='copy';
  b.onclick=async()=>{const t=[...pre.childNodes].filter(n=>n!==b).map(n=>n.textContent).join('');await navigator.clipboard.writeText(t.trim());b.textContent='copied';setTimeout(()=>b.textContent='copy',1200)};pre.appendChild(b)});
@@ -271,6 +283,7 @@ def page(lang):
         return f'<a class="down" href="#s{i + 2}" aria-label="next: {H.escape(titles[i])}"><b>↓</b> {H.escape(titles[i])}</a>'
     body = "".join(f'<section id="s{i + 2}">{x}{down(i + 1) if i + 1 < len(sections) else ""}</section>' for i, x in enumerate(sections))
     langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}">{LANG_LABEL[k]}</a>' for k in PAGES)
+    langs = f'<a href="../index.html" class="home">{"← บทเรียนทั้งหมด" if lang == "th" else "← All lessons"}</a>' + langs
     facts = (f'<span>Claude Code <b>2.1.314</b></span><span>codex-cli <b>0.166.0</b></span><a href="skills/awaken.zip">skill <b>awaken.zip</b></a>'
              f'<a href="#verify">{c["verify"]} <b>{sig["address"][:6]}…{sig["address"][-4:]}</b></a>' if sig else "")
     title = re.sub(r"\s+([,.])", r"\1", " ".join(re.sub("<[^>]+>", " ", c["h1"]).split()))
@@ -296,6 +309,8 @@ def page(lang):
 </div></header>
 <main>{body}</main>
 <nav id="rail" data-cover="{c["cover_label"]}"></nav>
+<button id="navback" type="button" aria-label="{c["back"]}"><b>↑</b> {c["back"]}</button>
+<button id="navnext" type="button" aria-label="{c["next"]}"><b>↓</b> {c["next"]}</button>
 <script>{JS}</script>
 </body>
 </html>

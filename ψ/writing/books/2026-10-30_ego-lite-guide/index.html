@@ -17,6 +17,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font:clamp(17px,0.55vw + 
 .langs{display:flex;gap:8px;margin-bottom:26px}
 .langs a{color:#cfe0ff;text-decoration:none;border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 14px;font-weight:700;font-size:15px}
 .langs a.on{background:#fff;color:var(--ink);border-color:#fff}
+.langs a.home{border-style:dashed;margin-right:8px}
 .kicker{display:inline-block;background:#c2410c;color:#fff;font-weight:800;border-radius:999px;padding:6px 18px}
 .cover h1{font-size:clamp(40px,7vw,140px);line-height:1.12;margin:22px 0 14px;font-weight:800}
 .cover h1 em{font-style:normal;color:var(--cyan)}
@@ -90,7 +91,7 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5)}
 </head>
 <body>
 <header class="cover" id="s1"><div class="in">
-  <nav class="langs"><a href="index.html" class="on">base64</a><a href="th.html" class="">ไทย</a><a href="en.html" class="">English</a></nav>
+  <nav class="langs"><a href="../index.html" class="home">← All lessons</a><a href="index.html" class="on">base64</a><a href="th.html" class="">ไทย</a><a href="en.html" class="">English</a></nav>
   <span class="kicker">base64 · for machines</span>
   <h1><em>ego(lite)</em> guide<br><span class="nw">as base64</span></h1>
   <p>The Thai edition, byte for byte, encoded as base64 (RFC 4648, 76-char lines)</p><p>Agents: read llms.txt, or curl README.b64.txt | base64 -d</p>
