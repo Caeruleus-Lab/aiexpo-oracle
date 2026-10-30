@@ -92,8 +92,8 @@ cd tools && bun install && bun verify.mjs</pre>
 <p class="note">The sha256 must equal <code>files["README.md"]</code> in signature.json. verify.mjs prints <code>VALID: signed by 0xaBF1…5f78</code>.</p>
 <div class="chips">{chips}</div>''',
         f'''<h2>README.b64.txt</h2>
-<p class="note">The whole file, {len(flat):,} characters ({size("README.b64.txt")}), shown as one block. The copy button copies all of it. <a href="README.b64.txt">README.b64.txt</a> keeps 76-character lines.</p>
-<pre class="b64" id="blob">{H.escape(flat)}</pre>''',
+<p class="note">The whole file, {len(flat):,} characters ({size("README.b64.txt")}), drawn for people. Agents: read <a href="README.b64.txt">README.b64.txt</a> directly; the copy button also copies all of it.</p>
+<pre class="b64 matrix-block" id="blob">{H.escape(flat)}</pre>''',
     ]
 
 
@@ -198,6 +198,19 @@ pre.preview{margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radi
 details.blob summary{cursor:pointer;font-weight:800;color:var(--blue);margin:8px 0}
 details.blob pre{margin-top:0}
 .base{color:var(--cyan)}
+.cover.matrix{position:relative;overflow:hidden;background:#020a04}
+.cover.matrix #rain{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cover.matrix .in{position:relative;z-index:1;text-shadow:0 0 18px #000,0 0 4px #000}
+.cover.matrix h1 em{color:#3dff8a}
+.cover.matrix .kicker{background:#0b3d1d;color:#b9ffd2;border:1px solid #3dff8a}
+.cover.matrix .facts span,.cover.matrix .facts a{background:rgba(2,10,4,.72);border-color:rgba(61,255,138,.55)}
+.cover.matrix .facts b{color:#3dff8a}
+.cover.matrix .langs a{background:rgba(2,10,4,.6)}
+.cover.matrix .langs a.on{background:#3dff8a;color:#020a04;border-color:#3dff8a}
+.cover.matrix .cover-down{background:rgba(2,10,4,.7);border-color:rgba(61,255,138,.5)}
+.cover.matrix .cover-down b{background:#3dff8a}
+pre.matrix-block{background:#010702;color:#22e06b;border-left-color:#3dff8a;text-shadow:0 0 6px rgba(34,224,107,.55);box-shadow:inset 0 0 80px rgba(0,0,0,.9)}
+pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5)}
 #rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:8;display:flex;flex-direction:column;gap:6px}
 #rail a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none;color:var(--mute);font:700 13px Sarabun,sans-serif}
 #rail a b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#fff;border:2px solid #c9d3ea;color:var(--ink)}
@@ -213,6 +226,19 @@ S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?
  a.innerHTML='<span>'+t+'</span><b>'+(j+1)+'</b>';a.onclick=()=>{S.forEach(y=>y.classList.remove('focus'));x.classList.add('focus')};rail.appendChild(a)});
 function mark(){let k=0;S.forEach((x,j)=>{if(x.getBoundingClientRect().top<=innerHeight*0.35)k=j});[...rail.children].forEach((a,j)=>a.classList.toggle('on',j===k))}
 addEventListener('scroll',mark,{passive:true});mark();
+const rain=document.getElementById('rain');
+if(rain){const ctx=rain.getContext('2d'),src=(document.getElementById('blob')||{}).textContent.replace(/[\\n\\t ]+/g,'').replace(/copy$/,'')||'QUJD';
+ const fs=16;let cols=0,drops=[],ptr=[],w=0,h=0,run=true,last=0;
+ function size(){const r=rain.getBoundingClientRect(),d=devicePixelRatio||1;w=r.width;h=r.height;rain.width=w*d;rain.height=h*d;ctx.setTransform(d,0,0,d,0,0);
+  cols=Math.ceil(w/fs);drops=Array.from({length:cols},()=>Math.random()*-h/fs);ptr=Array.from({length:cols},(_,i)=>(i*997)%src.length);ctx.fillStyle='#020a04';ctx.fillRect(0,0,w,h)}
+ function frame(t){if(!run)return;requestAnimationFrame(frame);if(t-last<55)return;last=t;
+  ctx.fillStyle='rgba(2,10,4,0.10)';ctx.fillRect(0,0,w,h);ctx.font=fs+'px Menlo,"SF Mono",monospace';
+  for(let i=0;i<cols;i++){const y=drops[i]*fs;if(y>0){const c=src[ptr[i]];ptr[i]=(ptr[i]+1)%src.length;
+    ctx.fillStyle='#d6ffe4';ctx.fillText(c,i*fs,y);ctx.fillStyle='rgba(34,224,107,0.85)';ctx.fillText(src[(ptr[i]+7)%src.length],i*fs,y-fs)}
+   drops[i]+=1;if(y>h&&Math.random()>0.975)drops[i]=Math.random()*-20}}
+ size();addEventListener('resize',size);
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches){for(let k=0;k<60;k++)frame(last+60*(k+1));run=false}
+ else{new IntersectionObserver(es=>{const v=es[0].isIntersecting;if(v&&!run){run=true;requestAnimationFrame(frame)}run=v}).observe(rain);requestAnimationFrame(frame)}}
 addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)return;const t=e.target;if(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;
  if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();scrollBy({top:(e.key==='ArrowDown'?1:-1)*(innerHeight-56),behavior:'smooth'})}});
 if(location.protocol.startsWith('http')){const base=new URL('.',location.href).href;document.querySelectorAll('.base').forEach(e=>e.textContent=base)}
@@ -257,7 +283,7 @@ def page(lang):
 <style>{CSS}</style>
 </head>
 <body>
-<header class="cover" id="s1"><div class="in">
+<header class="cover{" matrix" if lang == "b64" else ""}" id="s1">{"<canvas id=rain aria-hidden=true></canvas>" if lang == "b64" else ""}<div class="in">
   <nav class="langs">{langs}</nav>
   <span class="kicker">{c["kicker"]}</span>
   <h1>{c["h1"]}</h1>
