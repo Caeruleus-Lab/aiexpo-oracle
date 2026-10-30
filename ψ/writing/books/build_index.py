@@ -71,11 +71,13 @@ def card(i, l):
 </article>'''
 
 
+THEME_HEAD = (here / "theme_head.html").read_text(encoding="utf-8")
+THEME_JS = (here / "theme.js").read_text(encoding="utf-8")
 CSS = (here / "tokens.css").read_text(encoding="utf-8") + (here / "landing.css").read_text(encoding="utf-8")  # same palette as the deck v3
 
 JS = """
 const root=document.documentElement;
-function setLang(l){root.lang=l;localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
+function setLang(l){root.lang=l;if(window.aiexpoThemeLabel)aiexpoThemeLabel();localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
  document.querySelectorAll('[data-href-en]').forEach(a=>{a.dataset.hrefTh=a.dataset.hrefTh||a.getAttribute('href');a.setAttribute('href',l==='en'?a.dataset.hrefEn:a.dataset.hrefTh)})}
 document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.set));
 setLang(localStorage.getItem('books-lang')||'th');
@@ -96,13 +98,13 @@ def page():
 <link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
-<style>{CSS}</style>
+{THEME_HEAD}<style>{CSS}</style>
 </head>
 <body>
 <header class="cover">
   <div class="bar">
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
-    <div class="right"><a class="mcplink" href="#mcp">MCP</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button></nav></div>
+    <div class="right"><a class="mcplink" href="#mcp">MCP</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
   <div class="hero">
     <div>
@@ -136,6 +138,7 @@ def page():
 <p class="note"><span data-l="th">แต่ละบทมีสามฉบับ (base64 · ไทย · English) เซ็นรวมกัน กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Each lesson has three editions (base64 · Thai · English) signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
 </main>
 <script>{JS}</script>
+<script>{THEME_JS}</script>
 </body>
 </html>
 """

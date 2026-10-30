@@ -10,9 +10,26 @@
   --ink-3:#7b8189;--ink-3:oklch(60% 0.014 260);
   --accent:#f5ae39;--accent:oklch(80% 0.15 75);
   --accent-ink:#201608;--accent-ink:oklch(21% 0.03 75);
+  --accent-text:var(--accent); /* amber as text; on light paper it darkens */
   --ok:#7ed39a;--bad:#ff8a80;
   --display:"Bai Jamjuree",Sarabun,"Noto Sans Thai",system-ui,sans-serif;
   --body:Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,monospace;
   --r:12px;--r-sm:8px;
+  color-scheme:dark;
 }
+/* Light mode (set by the head script from localStorage or prefers-color-scheme). Contrast on paper:
+   ink 15.9:1, ink-2 8.4:1, ink-3 5.5:1, accent-text 5.2:1; amber stays a fill, with accent-ink text on it (9.3:1). */
+[data-theme=light]{
+  --paper:#f8f5ef;--paper:oklch(97% 0.008 85);
+  --paper-2:#ece9e2;--paper-2:oklch(93.5% 0.01 85);
+  --paper-3:#e2ded5;--paper-3:oklch(90% 0.012 85);
+  --rule:#c6cbd3;--rule:oklch(84% 0.012 260);
+  --ink:#171b22;--ink:oklch(22% 0.015 260);
+  --ink-2:#434851;--ink-2:oklch(40% 0.016 260);
+  --ink-3:#5f646b;--ink-3:oklch(50% 0.014 260);
+  --accent-text:#9a5505;--accent-text:oklch(52% 0.12 60);
+  --ok:#1d7a3a;--bad:#b3261e;
+  color-scheme:light;
+}
+

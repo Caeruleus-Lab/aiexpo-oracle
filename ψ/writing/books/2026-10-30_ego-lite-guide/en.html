@@ -9,6 +9,10 @@
 <link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0e1217">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f5ef">
+<script>(function(){var t;try{t=localStorage.getItem('aiexpo-theme')}catch(e){}document.documentElement.dataset.theme=t||(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')})()</script>
 <style>/* Stage tokens, same as the deck v3 (ψ/writing/slides/deck.html): dark stage, one amber lamp, real screens.
    OKLCH is the source; the hex before it is the fallback. One accent only, no gradients. */
 :root{
@@ -21,12 +25,29 @@
   --ink-3:#7b8189;--ink-3:oklch(60% 0.014 260);
   --accent:#f5ae39;--accent:oklch(80% 0.15 75);
   --accent-ink:#201608;--accent-ink:oklch(21% 0.03 75);
+  --accent-text:var(--accent); /* amber as text; on light paper it darkens */
   --ok:#7ed39a;--bad:#ff8a80;
   --display:"Bai Jamjuree",Sarabun,"Noto Sans Thai",system-ui,sans-serif;
   --body:Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,monospace;
   --r:12px;--r-sm:8px;
+  color-scheme:dark;
 }
+/* Light mode (set by the head script from localStorage or prefers-color-scheme). Contrast on paper:
+   ink 15.9:1, ink-2 8.4:1, ink-3 5.5:1, accent-text 5.2:1; amber stays a fill, with accent-ink text on it (9.3:1). */
+[data-theme=light]{
+  --paper:#f8f5ef;--paper:oklch(97% 0.008 85);
+  --paper-2:#ece9e2;--paper-2:oklch(93.5% 0.01 85);
+  --paper-3:#e2ded5;--paper-3:oklch(90% 0.012 85);
+  --rule:#c6cbd3;--rule:oklch(84% 0.012 260);
+  --ink:#171b22;--ink:oklch(22% 0.015 260);
+  --ink-2:#434851;--ink-2:oklch(40% 0.016 260);
+  --ink-3:#5f646b;--ink-3:oklch(50% 0.014 260);
+  --accent-text:#9a5505;--accent-text:oklch(52% 0.12 60);
+  --ok:#1d7a3a;--bad:#b3261e;
+  color-scheme:light;
+}
+
 /* Lesson pages (built by each lesson's build_web.py). Colours only through tokens.css. */
 :root{--pad:clamp(18px,5vw,120px);--railw:clamp(0px,4vw,64px)}
 *{box-sizing:border-box}
@@ -40,15 +61,17 @@ h1,h2,h3{font-family:var(--display);font-style:normal}
 .langs a:hover{border-color:var(--accent);color:var(--ink)}
 .langs a.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .langs a.home{border-style:dashed;margin-right:8px}
+.theme{color:var(--ink-2);background:none;border:1px solid var(--rule);border-radius:999px;padding:4px 14px;font:700 15px var(--body);cursor:pointer}
+.theme:hover{border-color:var(--accent);color:var(--ink)}
 .kicker{display:none}
 .cover h1{font-size:clamp(40px,7vw,140px);line-height:1.12;margin:22px 0 14px;font-weight:700}
-.cover h1 em{font-style:normal;color:var(--accent)}
+.cover h1 em{font-style:normal;color:var(--accent-text)}
 .nw{white-space:nowrap}
 .cover p{font-size:clamp(18px,1.5vw,34px);color:var(--ink-2);margin:0 0 6px}
 .cover .facts{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
 .cover .facts span,.cover .facts a{border:1px solid var(--rule);background:var(--paper-2);border-radius:var(--r);padding:10px 16px;font-weight:700;color:var(--ink);text-decoration:none}
 .cover .facts a:hover{border-color:var(--accent)}
-.cover .facts b{color:var(--accent)}
+.cover .facts b{color:var(--accent-text)}
 main{padding:8px calc(var(--pad) + var(--railw)) 12vh var(--pad)}
 h2{font-size:clamp(28px,3vw,64px);line-height:1.25;margin:clamp(36px,6vh,96px) 0 12px;padding-top:12px;border-top:1px solid var(--rule);font-weight:600}
 section.focus h2{border-top-color:var(--accent)}
@@ -57,7 +80,7 @@ figure img{width:100%;border-radius:var(--r);border:1px solid var(--rule);displa
 figcaption{color:var(--ink-3);font-size:.82em;margin-top:8px}
 pre{background:var(--paper-2);color:var(--ink);border-radius:var(--r);padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:600 clamp(13px,0.45vw + 10px,19px)/1.55 var(--mono);border:1px solid var(--rule)}
 pre.b64{padding-top:48px;font-size:clamp(11px,0.35vw + 8px,16px);white-space:normal;word-break:break-all;line-height:1.5}
-code{font-family:var(--mono);font-size:.88em;background:var(--paper-2);color:var(--accent);border-radius:6px;padding:1px 6px}
+code{font-family:var(--mono);font-size:.88em;background:var(--paper-2);color:var(--accent-text);border-radius:6px;padding:1px 6px}
 pre code{background:none;padding:0;font-size:inherit;color:inherit}
 code.h{word-break:break-all;font-size:.78em}
 blockquote{margin:20px 0;padding:14px 20px;background:var(--paper-2);border:1px solid var(--accent);border-radius:var(--r)}
@@ -65,7 +88,7 @@ blockquote p{margin:0}
 table{border-collapse:collapse;width:100%;font-size:.9em;background:var(--paper-2);border-radius:var(--r);table-layout:fixed;overflow-wrap:anywhere;border:1px solid var(--rule)}
 th,td{padding:10px 12px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
 th{background:var(--paper-3);font-family:var(--display);font-weight:600}
-a{color:var(--accent)}
+a{color:var(--accent-text)}
 strong,b{color:var(--ink)}
 .sigcard{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);padding:16px 20px;display:grid;gap:6px;margin:16px 0;min-width:0}
 .sigcard div{min-width:0;overflow-wrap:anywhere}.sigcard code{word-break:break-all}
@@ -90,7 +113,7 @@ strong,b{color:var(--ink)}
 pre{position:relative}
 pre .copy{position:absolute;top:10px;right:10px;background:var(--paper-3);color:var(--ink);border:1px solid var(--rule);border-radius:var(--r-sm);padding:3px 10px;font:600 13px var(--body);cursor:pointer;opacity:.8}
 pre .copy:hover{opacity:1;border-color:var(--accent)}
-.base{color:var(--accent)}
+.base{color:var(--accent-text)}
 /* the base64 code wall keeps its Matrix green: Nat asked for the Matrix look on 30 Oct */
 pre.matrix-block{background:#010702;color:#22e06b;border-color:rgba(61,255,138,.35);text-shadow:0 0 6px rgba(34,224,107,.55);box-shadow:inset 0 0 80px rgba(0,0,0,.9)}
 pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background:rgba(255,255,255,.08)}
@@ -107,7 +130,7 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background
 #rail a:hover span{opacity:1}
 #rail a.on b{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 @media (max-width:900px){#rail{display:none}}
-#navback,#navnext{position:fixed;left:50%;transform:translateX(-50%);z-index:9;display:inline-flex;align-items:center;border:1px solid var(--rule);background:var(--paper-2);color:var(--ink);border-radius:999px;padding:clamp(10px,1vw,18px) clamp(22px,2vw,40px) clamp(10px,1vw,18px) clamp(12px,1vw,18px);gap:clamp(8px,.8vw,14px);font:700 clamp(18px,1.25vw,28px) var(--body);cursor:pointer;opacity:.6;transition:opacity .2s,border-color .2s}
+#navback,#navnext{position:fixed;right:clamp(10px,1.2vw,22px);z-index:9;display:inline-flex;align-items:center;border:1px solid var(--rule);background:var(--paper-2);color:var(--ink);border-radius:999px;padding:clamp(10px,1vw,18px) clamp(22px,2vw,40px) clamp(10px,1vw,18px) clamp(12px,1vw,18px);gap:clamp(8px,.8vw,14px);font:700 clamp(18px,1.25vw,28px) var(--body);cursor:pointer;opacity:.6;transition:opacity .2s,border-color .2s}
 #navback{top:clamp(10px,1.5vh,22px)}#navnext{bottom:clamp(12px,2vh,26px)}
 #navback:hover,#navnext:hover,#navback:focus-visible,#navnext:focus-visible{opacity:1;border-color:var(--accent)}
 #navback b,#navnext b{display:inline-flex;width:1.9em;height:1.9em;font-size:1.05em;border-radius:50%;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink)}
@@ -117,14 +140,24 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background
 .enter{display:flex;align-items:center;gap:clamp(14px,1.6vw,28px);width:fit-content;margin-top:clamp(28px,5vh,64px);padding:clamp(18px,2.2vw,34px) clamp(26px,3vw,52px);border-radius:var(--r);background:#010702;border:2px solid #22e06b;color:#22e06b;text-decoration:none;font:700 clamp(24px,2.6vw,52px)/1 var(--mono);letter-spacing:.06em;text-shadow:0 0 12px rgba(34,224,107,.7);box-shadow:0 0 40px rgba(34,224,107,.25),inset 0 0 30px rgba(34,224,107,.12);transition:transform .15s,box-shadow .15s}
 .enter:hover{transform:translateY(3px);box-shadow:0 0 70px rgba(34,224,107,.45),inset 0 0 40px rgba(34,224,107,.2)}
 .enter .rain{font-size:.42em;opacity:.55;writing-mode:vertical-rl;letter-spacing:0}
+.enter b{color:inherit}
 .enter i{font-style:normal;animation:drop 1.4s ease-in-out infinite}
 @keyframes drop{50%{transform:translateY(8px)}}
 @media (prefers-reduced-motion:reduce){.enter i{animation:none}}
+/* the small floating box for AI readers: source files and the MCP, nothing more */
+.ai{position:fixed;left:14px;bottom:18px;z-index:9;font:600 14px var(--body)}
+.ai summary{list-style:none;cursor:pointer;background:var(--paper-2);color:var(--ink-2);border:1px solid var(--rule);border-radius:999px;padding:6px 14px;opacity:.75}
+.ai summary::-webkit-details-marker{display:none}
+.ai summary:hover,.ai[open] summary{opacity:1;border-color:var(--accent);color:var(--ink)}
+.ai>div{position:absolute;left:0;bottom:calc(100% + 8px);display:grid;gap:4px;min-width:260px;background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);padding:12px 14px}
+.ai p{margin:0 0 4px;color:var(--ink-3)}
+.ai a{text-decoration:none}.ai a:hover{text-decoration:underline}
+.ai code{margin-top:6px;font-size:12px;word-break:break-all}
 </style>
 </head>
 <body>
 <header class="cover" id="s1"><div class="in">
-  <nav class="langs"><a href="../index.html" class="home">← All lessons</a><a href="index.html" class="">base64</a><a href="th.html" class="">ไทย</a><a href="en.html" class="on">English</a></nav>
+  <nav class="langs"><a href="../index.html" class="home">← All lessons</a><a href="index.html" class="">base64</a><a href="th.html" class="">ไทย</a><a href="en.html" class="on">English</a><button class="theme" id="themebtn" type="button">☀ Light</button></nav>
   <span class="kicker">Written by AI, for AI</span>
   <h1>Install <em>ego(lite)</em><br>so your AI agent gets<br><span class="nw">a browser of its own</span></h1>
   <p>Step by step, from lite.ego.app to Claude Code finishing its first browser task</p><p>Every screenshot from the real site · every command really ran · 30 Oct 2026</p>
@@ -444,6 +477,7 @@ VALID: signed by 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
 # or with Foundry:
 $ cast wallet verify --address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78 "$(jq -r .message signature.json)" $(jq -r .signature signature.json)</pre>
 <p class="note">Note: the button needs the page served over http (GitHub Pages, or python3 -m http.server); browsers block fetch() on file://.</p></section></main>
+<details class="ai"><summary>AI</summary><div><p>Source files and the MCP</p><a href="llms.txt">llms.txt</a><a href="README.en.md">README.en.md</a><a href="README.md">README.md</a><a href="README.b64.txt">README.b64.txt</a><a href="signature.json">signature.json</a><code>https://aiexpo.buildwithoracle.com/mcp</code></div></details>
 <nav id="rail" data-cover="Cover"></nav>
 <script>
 const S=[...document.querySelectorAll('header.cover, main > section')],rail=document.getElementById('rail');
@@ -488,6 +522,14 @@ if(vb)vb.onclick=async()=>{const out=document.getElementById('verdict');out.clas
   const who=await recoverMessageAddress({message:msg,signature:sig.signature});const match=who.toLowerCase()===sig.address.toLowerCase();
   out.className=(same&&match)?'ok':'bad';out.textContent=(same&&match?'✓ VALID · recovered ':'✗ INVALID · recovered ')+who}
  catch(e){out.className='bad';out.textContent='✗ '+e.message+(location.protocol==='file:'?' (open over http)':'')}};
+</script>
+<script>// Dark / light toggle shared by every page. The head snippet (theme_head in the builders) sets data-theme
+// before the CSS paints; this wires the button and keeps its label in step.
+(function(){var r=document.documentElement,b=document.getElementById('themebtn');if(!b)return;
+ function label(){var l=r.dataset.theme==='light';var th=(r.lang||'').indexOf('th')===0;
+  b.textContent=l?(th?'☾ โหมดมืด':'☾ Dark'):(th?'☀ โหมดสว่าง':'☀ Light');b.setAttribute('aria-pressed',String(l))}
+ b.onclick=function(){r.dataset.theme=r.dataset.theme==='light'?'dark':'light';try{localStorage.setItem('aiexpo-theme',r.dataset.theme)}catch(e){}label()};
+ window.aiexpoThemeLabel=label;label();if(window.matchMedia)matchMedia('(prefers-color-scheme: light)').addEventListener('change',function(e){if(!localStorage.getItem('aiexpo-theme')){r.dataset.theme=e.matches?'light':'dark';label()}})})();
 </script>
 </body>
 </html>

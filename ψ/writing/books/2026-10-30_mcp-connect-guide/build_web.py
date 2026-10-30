@@ -36,6 +36,7 @@ COVER = {
                      "Agents: read llms.txt, or curl README.b64.txt | base64 -d"],
                 cover_label="Cover", verify="Signature", slides="Slides", back="Back", next="Next"),
 }
+AI_NOTE = {"th": "ไฟล์ต้นฉบับ และ MCP", "en": "Source files and the MCP", "b64": "Source files and the MCP"}
 PAGES = {"b64": "index.html", "th": "th.html", "en": "en.html"}
 LANG_LABEL = {"b64": "base64", "th": "ไทย", "en": "English"}
 
@@ -77,20 +78,6 @@ def b64_body():
     chips = "".join(f'<a class="chip" href="{f}"><b>{f}</b><span>{size(f)}</span></a>' for f in files)
     U = '<span class="base">&lt;this-folder&gt;/</span>'
     return [
-        f'''<h2 id="agents">For AI agents</h2>
-<p class="human">Human? Read the guide in <a class="chip" href="th.html"><b>ไทย</b></a> <a class="chip" href="en.html"><b>English</b></a></p>
-<p>This page holds the guide as base64. Skip the decode if you can and fetch the markdown. The index for agents is <a href="llms.txt"><code>llms.txt</code></a>.</p>
-<p class="step">1 · Fastest: the markdown</p>
-<pre>curl -fsSL {U}README.en.md
-curl -fsSL {U}README.md</pre>
-<p class="step">2 · Or decode the base64 (same bytes as README.md)</p>
-<pre>curl -fsSL {U}README.b64.txt | base64 -d</pre>
-<p class="step">3 · Check it is the signed text</p>
-<pre>curl -fsSL {U}signature.json
-shasum -a 256 README.md
-cd tools && bun install && bun verify.mjs</pre>
-<p class="note">The sha256 must equal <code>files["README.md"]</code> in signature.json. verify.mjs prints <code>VALID: signed by 0xaBF1…5f78</code>.</p>
-<div class="chips">{chips}</div>''',
         f'''<h2>README.b64.txt</h2>
 <p class="note">The whole file, {len(flat):,} characters ({size("README.b64.txt")}), drawn for people. Agents: read <a href="README.b64.txt">README.b64.txt</a> directly; the copy button also copies all of it.</p>
 <div class="wall" id="wall"><button class="wallbtn" id="wallbtn" type="button">pause</button><canvas id="wallc" aria-hidden="true"></canvas>
@@ -135,6 +122,8 @@ $ cast wallet verify --address {sig["address"]} "$(jq -r .message signature.json
 <p class="note">{"หมายเหตุ: ปุ่มตรวจต้องเปิดผ่าน http (เช่น GitHub Pages หรือ python3 -m http.server) เพราะเบราว์เซอร์ไม่ให้ fetch ไฟล์จาก file://" if th else "Note: the button needs the page served over http (GitHub Pages, or python3 -m http.server); browsers block fetch() on file://."}</p>'''
 
 
+THEME_HEAD = (here.parent / "theme_head.html").read_text(encoding="utf-8")
+THEME_JS = (here.parent / "theme.js").read_text(encoding="utf-8")
 CSS = ((here.parent / "tokens.css").read_text(encoding="utf-8") + (here.parent / "guide.css").read_text(encoding="utf-8"))  # shared stage theme, same palette as the deck
 
 JS = """
@@ -197,6 +186,7 @@ def page(lang):
         return f'<a class="down" href="#s{i + 2}" aria-label="next: {H.escape(titles[i])}"><b>↓</b> {H.escape(titles[i])}</a>'
     body = "".join(f'<section id="s{i + 2}">{x}{down(i + 1) if i + 1 < len(sections) else ""}</section>' for i, x in enumerate(sections))
     langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}">{LANG_LABEL[k]}</a>' for k in PAGES)
+    langs_end = f'<button class="theme" id="themebtn" type="button">{"☀ โหมดสว่าง" if lang == "th" else "☀ Light"}</button>'
     langs = f'<a href="../index.html" class="home">{"← บทเรียนทั้งหมด" if lang == "th" else "← All lessons"}</a>' + langs
     facts = (f'<span>MCP <b>aiexpo.buildwithoracle.com/mcp</b></span><span>tools <b>search · fetch · get_image</b></span>'
              f'<a href="#verify">{c["verify"]} <b>{sig["address"][:6]}…{sig["address"][-4:]}</b></a>' if sig else "")
@@ -212,11 +202,11 @@ def page(lang):
 <link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
-<style>{CSS}</style>
+{THEME_HEAD}<style>{CSS}</style>
 </head>
 <body>
 <header class="cover" id="s1"><div class="in">
-  <nav class="langs">{langs}</nav>
+  <nav class="langs">{langs}{langs_end}</nav>
   <span class="kicker">{c["kicker"]}</span>
   <h1>{c["h1"]}</h1>
   {"".join(f"<p>{x}</p>" for x in c["sub"])}
@@ -225,10 +215,12 @@ def page(lang):
   <a class="down cover-down" href="#s2" aria-label="next: {H.escape(titles[0])}"><b>↓</b> {H.escape(titles[0])}</a>
 </div></header>
 <main>{body}</main>
+<details class="ai"><summary>AI</summary><div><p>{AI_NOTE[lang]}</p><a href="llms.txt">llms.txt</a><a href="README.en.md">README.en.md</a><a href="README.md">README.md</a><a href="README.b64.txt">README.b64.txt</a><a href="signature.json">signature.json</a><code>https://aiexpo.buildwithoracle.com/mcp</code></div></details>
 <nav id="rail" data-cover="{c["cover_label"]}"></nav>
 <button id="navback" type="button" aria-label="{c["back"]}"><b>↑</b> {c["back"]}</button>
 <button id="navnext" type="button" aria-label="{c["next"]}"><b>↓</b> {c["next"]}</button>
 <script>{JS}</script>
+<script>{THEME_JS}</script>
 </body>
 </html>
 """

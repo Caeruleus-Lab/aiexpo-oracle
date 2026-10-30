@@ -7,17 +7,19 @@ h1,h2,h3{font-family:var(--display);font-style:normal}
 html[lang=th] [data-l=en],html[lang=en] [data-l=th]{display:none}
 .cover{background:var(--paper);color:var(--ink);padding:0 var(--pad) clamp(36px,6vh,80px);border-bottom:1px solid var(--rule)}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(14px,2.2vh,26px) 0}
-.brand{font-family:var(--display);font-weight:700;color:var(--ink);text-decoration:none}.brand em{font-style:normal;color:var(--accent)}
+.brand{font-family:var(--display);font-weight:700;color:var(--ink);text-decoration:none}.brand em{font-style:normal;color:var(--accent-text)}
 .bar .right{display:flex;align-items:center;gap:10px}
 .bar .mcplink{color:var(--ink-2);text-decoration:none;font-weight:700;font-size:15px;border:1px solid var(--rule);border-radius:999px;padding:4px 14px}
 .bar .mcplink:hover{border-color:var(--accent);color:var(--ink)}
 .langs{display:flex;gap:8px}
 .langs button{color:var(--ink-2);background:none;border:1px solid var(--rule);border-radius:999px;padding:4px 14px;font:700 15px var(--body);cursor:pointer}
+.theme{color:var(--ink-2);background:none;border:1px solid var(--rule);border-radius:999px;padding:4px 14px;font:700 15px var(--body);cursor:pointer}
+.theme:hover{border-color:var(--accent);color:var(--ink)}
 .langs button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .kicker{display:none}
 .hero{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,80px);align-items:center;margin-top:clamp(10px,3vh,40px)}
 .cover h1{font-size:clamp(34px,4.4vw,88px);line-height:1.12;margin:0 0 12px;font-weight:700}
-.cover h1 em{font-style:normal;color:var(--accent)}
+.cover h1 em{font-style:normal;color:var(--accent-text)}
 .cover p{font-size:clamp(17px,1.2vw,28px);color:var(--ink-2);margin:0 0 6px}
 .path{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);padding:clamp(10px,1.2vw,22px);display:grid;gap:6px}
 .path .lbl{display:none}
@@ -34,21 +36,21 @@ main>h2{font-size:clamp(28px,3vw,56px);margin:0 0 clamp(18px,3vh,36px);font-weig
 .thumb{display:block;background:var(--paper);border-bottom:1px solid var(--rule)}
 .thumb img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;display:block}
 .body{padding:clamp(18px,2.2vw,40px)}
-.num{font-family:var(--display);font-weight:700;color:var(--accent);font-size:.95em}
+.num{font-family:var(--display);font-weight:700;color:var(--accent-text);font-size:.95em}
 .card h2{font-size:clamp(22px,1.6vw,34px);line-height:1.25;margin:4px 0 8px;font-weight:600}
 .card h2 a{color:var(--ink);text-decoration:none}
-.card h2 a:hover{color:var(--accent)}
+.card h2 a:hover{color:var(--accent-text)}
 .card p{color:var(--ink-2);margin:0 0 14px}
 .facts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .facts>span{background:var(--paper-3);color:var(--ink-2);border-radius:var(--r-sm);padding:2px 10px;font-size:.8em;font-weight:700}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
 .chip{display:inline-flex;background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 14px;text-decoration:none;color:var(--ink);font-size:.88em;font-weight:700}
 .chip:hover{border-color:var(--accent)}
-a{color:var(--accent)}
+a{color:var(--accent-text)}
 .note{color:var(--ink-3);font-size:.85em;margin-top:clamp(24px,4vh,48px)}
 .mcp{margin-top:clamp(28px,5vh,64px);background:var(--paper-2);border:1px solid var(--rule);color:var(--ink);border-radius:var(--r);padding:clamp(18px,2.4vw,44px)}
 .mcp h2{font-size:clamp(24px,2.2vw,44px);margin:0 0 10px;font-weight:600}
-.mcp code{background:var(--paper);color:var(--accent);border:1px solid var(--rule);border-radius:var(--r-sm);padding:4px 10px;font:600 clamp(15px,1vw,22px) var(--mono);word-break:break-all}
+.mcp code{background:var(--paper);color:var(--accent-text);border:1px solid var(--rule);border-radius:var(--r-sm);padding:4px 10px;font:600 clamp(15px,1vw,22px) var(--mono);word-break:break-all}
 .mcp ol{margin:14px 0 6px;padding-left:1.3em}.mcp li{margin:6px 0}
 .mcp li b{font-family:var(--display)}
 .mcp .copy{margin-left:8px;background:var(--paper-3);border:1px solid var(--rule);color:var(--ink);border-radius:var(--r-sm);padding:2px 10px;font:600 14px var(--body);cursor:pointer}

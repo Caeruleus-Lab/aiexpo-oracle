@@ -7,6 +7,10 @@
 <link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0e1217">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f5ef">
+<script>(function(){var t;try{t=localStorage.getItem('aiexpo-theme')}catch(e){}document.documentElement.dataset.theme=t||(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')})()</script>
 <style>/* Stage tokens, same as the deck v3 (ψ/writing/slides/deck.html): dark stage, one amber lamp, real screens.
    OKLCH is the source; the hex before it is the fallback. One accent only, no gradients. */
 :root{
@@ -19,12 +23,29 @@
   --ink-3:#7b8189;--ink-3:oklch(60% 0.014 260);
   --accent:#f5ae39;--accent:oklch(80% 0.15 75);
   --accent-ink:#201608;--accent-ink:oklch(21% 0.03 75);
+  --accent-text:var(--accent); /* amber as text; on light paper it darkens */
   --ok:#7ed39a;--bad:#ff8a80;
   --display:"Bai Jamjuree",Sarabun,"Noto Sans Thai",system-ui,sans-serif;
   --body:Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,monospace;
   --r:12px;--r-sm:8px;
+  color-scheme:dark;
 }
+/* Light mode (set by the head script from localStorage or prefers-color-scheme). Contrast on paper:
+   ink 15.9:1, ink-2 8.4:1, ink-3 5.5:1, accent-text 5.2:1; amber stays a fill, with accent-ink text on it (9.3:1). */
+[data-theme=light]{
+  --paper:#f8f5ef;--paper:oklch(97% 0.008 85);
+  --paper-2:#ece9e2;--paper-2:oklch(93.5% 0.01 85);
+  --paper-3:#e2ded5;--paper-3:oklch(90% 0.012 85);
+  --rule:#c6cbd3;--rule:oklch(84% 0.012 260);
+  --ink:#171b22;--ink:oklch(22% 0.015 260);
+  --ink-2:#434851;--ink-2:oklch(40% 0.016 260);
+  --ink-3:#5f646b;--ink-3:oklch(50% 0.014 260);
+  --accent-text:#9a5505;--accent-text:oklch(52% 0.12 60);
+  --ok:#1d7a3a;--bad:#b3261e;
+  color-scheme:light;
+}
+
 /* Landing page (built by build_index.py). Colours only through tokens.css. */
 :root{--pad:clamp(18px,5vw,120px)}
 *{box-sizing:border-box}
@@ -34,17 +55,19 @@ h1,h2,h3{font-family:var(--display);font-style:normal}
 html[lang=th] [data-l=en],html[lang=en] [data-l=th]{display:none}
 .cover{background:var(--paper);color:var(--ink);padding:0 var(--pad) clamp(36px,6vh,80px);border-bottom:1px solid var(--rule)}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(14px,2.2vh,26px) 0}
-.brand{font-family:var(--display);font-weight:700;color:var(--ink);text-decoration:none}.brand em{font-style:normal;color:var(--accent)}
+.brand{font-family:var(--display);font-weight:700;color:var(--ink);text-decoration:none}.brand em{font-style:normal;color:var(--accent-text)}
 .bar .right{display:flex;align-items:center;gap:10px}
 .bar .mcplink{color:var(--ink-2);text-decoration:none;font-weight:700;font-size:15px;border:1px solid var(--rule);border-radius:999px;padding:4px 14px}
 .bar .mcplink:hover{border-color:var(--accent);color:var(--ink)}
 .langs{display:flex;gap:8px}
 .langs button{color:var(--ink-2);background:none;border:1px solid var(--rule);border-radius:999px;padding:4px 14px;font:700 15px var(--body);cursor:pointer}
+.theme{color:var(--ink-2);background:none;border:1px solid var(--rule);border-radius:999px;padding:4px 14px;font:700 15px var(--body);cursor:pointer}
+.theme:hover{border-color:var(--accent);color:var(--ink)}
 .langs button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .kicker{display:none}
 .hero{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,80px);align-items:center;margin-top:clamp(10px,3vh,40px)}
 .cover h1{font-size:clamp(34px,4.4vw,88px);line-height:1.12;margin:0 0 12px;font-weight:700}
-.cover h1 em{font-style:normal;color:var(--accent)}
+.cover h1 em{font-style:normal;color:var(--accent-text)}
 .cover p{font-size:clamp(17px,1.2vw,28px);color:var(--ink-2);margin:0 0 6px}
 .path{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);padding:clamp(10px,1.2vw,22px);display:grid;gap:6px}
 .path .lbl{display:none}
@@ -61,21 +84,21 @@ main>h2{font-size:clamp(28px,3vw,56px);margin:0 0 clamp(18px,3vh,36px);font-weig
 .thumb{display:block;background:var(--paper);border-bottom:1px solid var(--rule)}
 .thumb img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;display:block}
 .body{padding:clamp(18px,2.2vw,40px)}
-.num{font-family:var(--display);font-weight:700;color:var(--accent);font-size:.95em}
+.num{font-family:var(--display);font-weight:700;color:var(--accent-text);font-size:.95em}
 .card h2{font-size:clamp(22px,1.6vw,34px);line-height:1.25;margin:4px 0 8px;font-weight:600}
 .card h2 a{color:var(--ink);text-decoration:none}
-.card h2 a:hover{color:var(--accent)}
+.card h2 a:hover{color:var(--accent-text)}
 .card p{color:var(--ink-2);margin:0 0 14px}
 .facts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .facts>span{background:var(--paper-3);color:var(--ink-2);border-radius:var(--r-sm);padding:2px 10px;font-size:.8em;font-weight:700}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
 .chip{display:inline-flex;background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 14px;text-decoration:none;color:var(--ink);font-size:.88em;font-weight:700}
 .chip:hover{border-color:var(--accent)}
-a{color:var(--accent)}
+a{color:var(--accent-text)}
 .note{color:var(--ink-3);font-size:.85em;margin-top:clamp(24px,4vh,48px)}
 .mcp{margin-top:clamp(28px,5vh,64px);background:var(--paper-2);border:1px solid var(--rule);color:var(--ink);border-radius:var(--r);padding:clamp(18px,2.4vw,44px)}
 .mcp h2{font-size:clamp(24px,2.2vw,44px);margin:0 0 10px;font-weight:600}
-.mcp code{background:var(--paper);color:var(--accent);border:1px solid var(--rule);border-radius:var(--r-sm);padding:4px 10px;font:600 clamp(15px,1vw,22px) var(--mono);word-break:break-all}
+.mcp code{background:var(--paper);color:var(--accent-text);border:1px solid var(--rule);border-radius:var(--r-sm);padding:4px 10px;font:600 clamp(15px,1vw,22px) var(--mono);word-break:break-all}
 .mcp ol{margin:14px 0 6px;padding-left:1.3em}.mcp li{margin:6px 0}
 .mcp li b{font-family:var(--display)}
 .mcp .copy{margin-left:8px;background:var(--paper-3);border:1px solid var(--rule);color:var(--ink);border-radius:var(--r-sm);padding:2px 10px;font:600 14px var(--body);cursor:pointer}
@@ -87,7 +110,7 @@ main>h2{scroll-margin-top:16px}
 <header class="cover">
   <div class="bar">
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
-    <div class="right"><a class="mcplink" href="#mcp">MCP</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button></nav></div>
+    <div class="right"><a class="mcplink" href="#mcp">MCP</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
   <div class="hero">
     <div>
@@ -153,10 +176,18 @@ main>h2{scroll-margin-top:16px}
 </main>
 <script>
 const root=document.documentElement;
-function setLang(l){root.lang=l;localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
+function setLang(l){root.lang=l;if(window.aiexpoThemeLabel)aiexpoThemeLabel();localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
  document.querySelectorAll('[data-href-en]').forEach(a=>{a.dataset.hrefTh=a.dataset.hrefTh||a.getAttribute('href');a.setAttribute('href',l==='en'?a.dataset.hrefEn:a.dataset.hrefTh)})}
 document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.set));
 setLang(localStorage.getItem('books-lang')||'th');
+</script>
+<script>// Dark / light toggle shared by every page. The head snippet (theme_head in the builders) sets data-theme
+// before the CSS paints; this wires the button and keeps its label in step.
+(function(){var r=document.documentElement,b=document.getElementById('themebtn');if(!b)return;
+ function label(){var l=r.dataset.theme==='light';var th=(r.lang||'').indexOf('th')===0;
+  b.textContent=l?(th?'☾ โหมดมืด':'☾ Dark'):(th?'☀ โหมดสว่าง':'☀ Light');b.setAttribute('aria-pressed',String(l))}
+ b.onclick=function(){r.dataset.theme=r.dataset.theme==='light'?'dark':'light';try{localStorage.setItem('aiexpo-theme',r.dataset.theme)}catch(e){}label()};
+ window.aiexpoThemeLabel=label;label();if(window.matchMedia)matchMedia('(prefers-color-scheme: light)').addEventListener('change',function(e){if(!localStorage.getItem('aiexpo-theme')){r.dataset.theme=e.matches?'light':'dark';label()}})})();
 </script>
 </body>
 </html>
