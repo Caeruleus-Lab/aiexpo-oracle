@@ -33,6 +33,22 @@ own worktree; use `git -C <path>` for other worktrees; each `agents/N` branch �
 (`gh pr create --base main --head agents/2`). Later issues #38–#41 (22 Oct) hold the "Nat's shadow" session
 reports and the official bootstrap command.
 
+Facebook side, the same check: five Oct 2025 post searches ('maw' 11 posts, 'worktree' 28, 'multi-agent-workflow-kit'
+7, 'multi agent workflow' 13, 'tmux' 6) each return posts that name the kit (11, 10, 7, 7 and 3 of them); the
+earliest is 6 Oct 11:49 "สอนภรรยาเรื่อง multi-agent-workflow-kit… ใช้ github worktree".
+
+## The code itself, at tag v0.5.1 (0c0e6bf, 10 Oct 2025)
+
+- Python package `src/multi_agent_kit/`: `cli.py` (331 lines), `install.py`, `__init__.py`. `multi-agent-kit init`
+  (`handle_init`) checks binaries and the git repo, installs the assets, offers to commit them, makes an initial
+  commit if the repo is empty, runs `.agents/scripts/setup.sh` (worktrees from `agents.yaml`), then
+  `start-agents.sh <profile> --detach` → tmux session `ai-<repo>`, and prints the `maw` commands: attach, agents, hey,
+  kill, remove, send, sync, uninstall, warp.
+- `agents.yaml`: agents `1`, `2`, `3`, each `branch: agents/N`, `worktree_path: agents/N`, `model: default`; names can
+  be descriptive (`backend-api`).
+- `hey.sh <agent> <message>`: tmux send-keys to one agent's pane; targets `root` (the main worktree) and `all`;
+  `--list`, `--map`. The message and Enter are sent as separate commands (fix of 9 Oct).
+
 ## Earlier than October: the first parallel agents (Jun–Sep 2025)
 
 - **13 Jun 2025** — first post (20:02): "Parallel AI… told Claude Code to create 5 agents with different expertise to
