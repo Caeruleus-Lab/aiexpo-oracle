@@ -4,43 +4,47 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Install ego(lite) so your AI agent gets a browser of its own </title>
+<link rel="alternate" type="text/markdown" hreflang="th" href="README.md">
+<link rel="alternate" type="text/markdown" hreflang="en" href="README.en.md">
+<link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
 <style>
-:root{--ink:#0d1b3d;--blue:#2f5bea;--cyan:#27e6f2;--paper:#f4f6fb;--mute:#5a6b8c}
+:root{--ink:#0d1b3d;--blue:#2f5bea;--cyan:#27e6f2;--paper:#f4f6fb;--mute:#5a6b8c;--pad:clamp(18px,5vw,120px);--railw:clamp(0px,4vw,64px)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:16px}
-body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.75 Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif}
-.cover{background:radial-gradient(1100px 700px at 80% 10%,#3b6cf5 0%,#132a6b 55%,#070f2b 100%);color:#fff;padding:64px 24px 56px}
-.cover .in{max-width:980px;margin:0 auto}
+body{margin:0;background:var(--paper);color:var(--ink);font:clamp(17px,0.55vw + 12px,24px)/1.75 Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif}
+.cover{background:radial-gradient(70vw 70vh at 80% 10%,#3b6cf5 0%,#132a6b 55%,#070f2b 100%);color:#fff;min-height:100vh;display:flex;align-items:center;padding:clamp(40px,6vh,96px) calc(var(--pad) + var(--railw)) clamp(40px,6vh,96px) var(--pad)}
+.cover .in{width:100%}
 .langs{display:flex;gap:8px;margin-bottom:26px}
 .langs a{color:#cfe0ff;text-decoration:none;border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 14px;font-weight:700;font-size:15px}
 .langs a.on{background:#fff;color:var(--ink);border-color:#fff}
 .kicker{display:inline-block;background:#c2410c;color:#fff;font-weight:800;border-radius:999px;padding:6px 18px}
-.cover h1{font-size:clamp(38px,6vw,68px);line-height:1.12;margin:22px 0 14px;font-weight:800}
+.cover h1{font-size:clamp(40px,7vw,140px);line-height:1.12;margin:22px 0 14px;font-weight:800}
 .cover h1 em{font-style:normal;color:var(--cyan)}
 .nw{white-space:nowrap}
-.cover p{font-size:21px;color:#d6e4ff;margin:0 0 6px}
+.cover p{font-size:clamp(18px,1.5vw,34px);color:#d6e4ff;margin:0 0 6px}
 .cover .facts{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
 .cover .facts span,.cover .facts a{border:2px solid rgba(39,230,242,.6);border-radius:14px;padding:10px 16px;font-weight:700;color:#fff;text-decoration:none}
 .cover .facts b{color:var(--cyan)}
-main{max-width:980px;margin:0 auto;padding:8px 24px 80px}
-h2{font-size:32px;line-height:1.3;margin:64px 0 12px;padding-top:12px;border-top:4px solid var(--blue)}
+main{padding:8px calc(var(--pad) + var(--railw)) 12vh var(--pad)}
+h2{font-size:clamp(28px,3vw,64px);line-height:1.25;margin:clamp(48px,9vh,140px) 0 12px;padding-top:12px;border-top:4px solid var(--blue)}
 section.focus h2{border-top-color:#ff7a1a}
 figure{margin:22px 0 28px}
 figure img{width:100%;border-radius:14px;box-shadow:0 12px 40px rgba(13,27,61,.18);display:block}
-figcaption{color:var(--mute);font-size:15px;margin-top:8px}
-pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:18px 20px;white-space:pre-wrap;overflow-wrap:anywhere;font:14.5px/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
-pre.b64{font-size:12.5px;word-break:break-all}
+figcaption{color:var(--mute);font-size:.82em;margin-top:8px}
+pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:clamp(13px,0.45vw + 10px,19px)/1.55 Menlo,"SF Mono",monospace;border-left:6px solid var(--cyan)}
+pre.b64{font-size:clamp(11px,0.35vw + 8px,16px);word-break:break-all}
 pre.decoded{font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px}
 code{font-family:Menlo,"SF Mono",monospace;font-size:.88em;background:#e3e9f7;border-radius:6px;padding:1px 6px}
 pre code{background:none;padding:0;font-size:inherit}
 code.h{word-break:break-all;font-size:.78em}
 blockquote{margin:20px 0;padding:14px 20px;background:#fff4e6;border-left:6px solid #ff7a1a;border-radius:10px}
 blockquote p{margin:0}
-table{border-collapse:collapse;width:100%;font-size:16px;background:#fff;border-radius:12px;table-layout:fixed;overflow-wrap:anywhere}
+table{border-collapse:collapse;width:100%;font-size:.9em;background:#fff;border-radius:12px;table-layout:fixed;overflow-wrap:anywhere}
 th,td{padding:10px 12px;border-bottom:1px solid #e1e6f2;text-align:left;vertical-align:top}
 th{background:#e8eefc}
 a{color:var(--blue)}
 .sigcard{background:#fff;border:2px solid #c9d3ea;border-radius:14px;padding:16px 20px;display:grid;gap:6px;margin:16px 0}
+.sigcard{min-width:0}.sigcard div{min-width:0;overflow-wrap:anywhere}.sigcard code{word-break:break-all}
 .sigcard b{display:inline-block;min-width:92px;color:var(--mute)}
 .btn{background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 20px;font:700 16px Sarabun,sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
 .btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--ink)}
@@ -67,10 +71,12 @@ a{color:var(--blue)}
 <main><section id="s2"><h2>1. What ego(lite) is</h2>
 <p>ego(lite) is a Chromium browser that a person and an AI agent use together. <strong>ego-browser</strong> is the skill that lets an agent (Claude Code, Codex, Cursor and others) drive it. No SDK to add, no remote debugging to set up.</p>
 <p><figure><a href="images/01-landing.png" target="_blank"><img alt="The lite.ego.app home page: the headline Scrape and automate complex websites, even behind a login, and a Download for macOS button" src="images/01-landing.png" loading="lazy"></a><figcaption>The lite.ego.app home page: the headline Scrape and automate complex websites, even behind a login, and a Download for macOS button</figcaption></figure></p>
-<p>What sets it apart from Playwright or headless Chrome:
-- the agent works in its own <strong>Space</strong>, so it never takes your tabs or your mouse
-- the agent inherits your logged-in state, so it does not log in again on every run
-- the snapshot is built inside Chromium, so it sees into cross-origin iframes, shadow DOM and widgets such as Stripe</p>
+<p>What sets it apart from Playwright or headless Chrome:</p>
+<ul>
+<li>the agent works in its own <strong>Space</strong>, so it never takes your tabs or your mouse</li>
+<li>the agent inherits your logged-in state, so it does not log in again on every run</li>
+<li>the snapshot is built inside Chromium, so it sees into cross-origin iframes, shadow DOM and widgets such as Stripe</li>
+</ul>
 </section><section id="s3"><h2>2. Download</h2>
 <p>Press <strong>Download</strong> at the top left, or open https://lite.ego.app/download. The download starts by itself; if it does not, pick a button.</p>
 <p><figure><a href="images/02-download-page.png" target="_blank"><img alt="The Welcome to ego(lite) page with macOS and Windows (beta) buttons and a preview of the installer window that says to double-click the icon" src="images/02-download-page.png" loading="lazy"></a><figcaption>The Welcome to ego(lite) page with macOS and Windows (beta) buttons and a preview of the installer window that says to double-click the icon</figcaption></figure></p>
@@ -113,10 +119,12 @@ $ spctl -a -vv &quot;ego lite.app&quot;
 source=Notarized Developer ID
 origin=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
 </code></pre>
-<p>How to read it:
-- <code>accepted</code> + <code>Notarized Developer ID</code>: Apple has notarized it, Gatekeeper will not block it
-- the signer is CITRO LABS (the company behind ego), team <code>JGQLC6YQYJ</code>
-- the SHA-256 above is for the 30 Oct file; another day's build has another hash</p>
+<p>How to read it:</p>
+<ul>
+<li><code>accepted</code> + <code>Notarized Developer ID</code>: Apple has notarized it, Gatekeeper will not block it</li>
+<li>the signer is CITRO LABS (the company behind ego), team <code>JGQLC6YQYJ</code></li>
+<li>the SHA-256 above is for the 30 Oct file; another day's build has another hash</li>
+</ul>
 <p>Raw file: <a href="captures/08-dmg-inspect.txt"><code>captures/08-dmg-inspect.txt</code></a> (it also shows that <code>hdiutil attach</code> is deprecated in favour of <code>diskutil image attach</code>)</p>
 </section><section id="s5"><h2>4. Install and onboard</h2>
 <ol>
@@ -125,10 +133,12 @@ origin=Developer ID Application: CITRO LABS PTE. LIMITED (JGQLC6YQYJ)
 <li>Open ego(lite) and finish onboarding</li>
 </ol>
 <p><figure><a href="images/03-onboarding-doc.png" target="_blank"><img alt="The Quick start docs, Install ego(lite) section: a 44-second install video and a screenshot of ego(lite) after onboarding" src="images/03-onboarding-doc.png" loading="lazy"></a><figcaption>The Quick start docs, Install ego(lite) section: a 44-second install video and a screenshot of ego(lite) after onboarding</figcaption></figure></p>
-<p>On first launch, ego(lite):
-- scans for agents on the machine and <strong>writes the <code>ego-browser</code> skill</strong> into <code>~/.agents/skills</code> and <code>~/.claude/skills/</code>
-- asks whether to <strong>import from your old browser</strong> (sessions, bookmarks, passwords, extensions); the data stays on your machine
-- macOS may ask for your keychain password <strong>more than once</strong>; enter it each time, that is what carries your login state over</p>
+<p>On first launch, ego(lite):</p>
+<ul>
+<li>scans for agents on the machine and <strong>writes the <code>ego-browser</code> skill</strong> into <code>~/.agents/skills</code> and <code>~/.claude/skills/</code></li>
+<li>asks whether to <strong>import from your old browser</strong> (sessions, bookmarks, passwords, extensions); the data stays on your machine</li>
+<li>macOS may ask for your keychain password <strong>more than once</strong>; enter it each time, that is what carries your login state over</li>
+</ul>
 <blockquote>
 <p>This machine already runs 0.6.1.13, and that ego(lite) was the one taking the screenshots for this guide, so we did not install 0.6.2.5 over it while working. The onboarding image above is from the official docs, not from this machine.</p>
 </blockquote>
@@ -377,9 +387,6 @@ S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?
  a.innerHTML='<span>'+t+'</span><b>'+(j+1)+'</b>';a.onclick=()=>{S.forEach(y=>y.classList.remove('focus'));x.classList.add('focus')};rail.appendChild(a)});
 function mark(){let k=0;S.forEach((x,j)=>{if(x.getBoundingClientRect().top<=innerHeight*0.35)k=j});[...rail.children].forEach((a,j)=>a.classList.toggle('on',j===k))}
 addEventListener('scroll',mark,{passive:true});mark();
-const dec=document.getElementById('decode');
-if(dec)dec.onclick=()=>{const b=document.getElementById('blob').textContent.replace(/\s+/g,'');
- const bytes=Uint8Array.from(atob(b),c=>c.charCodeAt(0));document.getElementById('decoded').textContent=new TextDecoder('utf-8').decode(bytes)};
 const vb=document.getElementById('verifyBtn');
 if(vb)vb.onclick=async()=>{const out=document.getElementById('verdict');out.className='';out.textContent='…';
  try{const sig=await (await fetch('signature.json',{cache:'no-store'})).json();const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');

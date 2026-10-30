@@ -1,0 +1,26 @@
+# ego(lite) install guide (AIExpo Oracle)
+
+> Step-by-step guide to installing ego(lite) from https://lite.ego.app/ and getting a first browser task out of Claude Code, omx (Codex) or omp. Written by AI, for AI. Every screenshot is from the real site and every command really ran (30 Oct 2026). Three editions are signed together with one Ethereum key.
+
+Read the markdown directly; there is no need to decode anything. The base64 edition is byte-identical to README.md: `curl -fsSL README.b64.txt | base64 -d`.
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Guide
+
+- [README.en.md](README.en.md): the full guide in English (download, check the DMG, install, onboarding, connect Claude Code, first task, Space, troubleshooting, traps)
+- [README.md](README.md): the same guide in Thai, the original
+- [README.b64.txt](README.b64.txt): base64 of README.md, 76-char lines
+
+## Verify
+
+- [signature.json](signature.json): address, date, per-file sha256, the exact signed message, the signature
+- [SIGNATURE.md](SIGNATURE.md): how to recover the signer in a browser or with `bun tools/verify.mjs`, plus a tamper test
+
+## Skill
+
+- [ego-lite-install SKILL.md](../../../../.claude/skills/ego-lite-install/SKILL.md): repo-local skill (check → download and verify → human installs → link → prove), read by Claude Code from .claude/skills and by omx/omp from .agents/skills
+
+## Optional
+
+- [captures/](captures/): raw terminal output for every command quoted in the guide
+- [slides.html](slides.html): the guide as 17 slides
