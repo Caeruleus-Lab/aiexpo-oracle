@@ -15,7 +15,7 @@ here = pathlib.Path(__file__).resolve().parent
 
 # In workshop order: get an agent first, then give it a browser.
 LESSONS = [
-    dict(dir="2026-10-30_claude-chatgpt-install-guide",
+    dict(key="claude-chatgpt", dir="2026-10-30_claude-chatgpt-install-guide",
          th="ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop",
          en="Install Claude and ChatGPT, ready for the workshop",
          th_sub="Claude Code, Codex CLI หรือ claude.ai บนเว็บ แล้วลงสกิล Oracle ให้ใช้ได้จริง",
@@ -23,7 +23,7 @@ LESSONS = [
          cover="images/01-claude-download.png",
          facts_th=["3 ทาง: Claude Code · Codex · claude.ai", "ภาพจริง 14 ภาพ"],
          facts_en=["3 paths: Claude Code · Codex · claude.ai", "14 real screenshots"]),
-    dict(dir="2026-10-30_ego-lite-guide",
+    dict(key="ego-lite", dir="2026-10-30_ego-lite-guide",
          th="ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง",
          en="Install ego(lite) so your AI agent gets a browser of its own",
          th_sub="จาก lite.ego.app ถึง Claude Code สั่งเบราว์เซอร์ได้งานแรก",
@@ -180,4 +180,6 @@ def llms():
 (here / "index.html").write_text(page(), encoding="utf-8")
 (here / "README.md").write_text(readme(), encoding="utf-8")
 (here / "llms.txt").write_text(llms(), encoding="utf-8")
-print("wrote index.html README.md llms.txt,", len(LESSONS), "lessons")
+(here / "lessons.json").write_text(json.dumps([dict(key=l["key"], dir=l["dir"], th=l["th"], en=l["en"], th_sub=l["th_sub"], en_sub=l["en_sub"])
+                                              for l in LESSONS], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+print("wrote index.html README.md llms.txt lessons.json,", len(LESSONS), "lessons")
