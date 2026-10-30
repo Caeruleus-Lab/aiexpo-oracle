@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน</title>
+<link rel="alternate" type="text/markdown" hreflang="th" href="README.md">
+<link rel="alternate" type="text/markdown" hreflang="en" href="README.en.md">
+<link rel="help" type="text/plain" href="llms.txt" title="llms.txt">
+<style>
+:root{--ink:#0d1b3d;--blue:#2f5bea;--cyan:#27e6f2;--paper:#f4f6fb;--mute:#5a6b8c;--pad:clamp(18px,5vw,120px);--railw:clamp(0px,4vw,64px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--paper);color:var(--ink);font:clamp(17px,0.55vw + 12px,24px)/1.75 Sarabun,"Noto Sans Thai","IBM Plex Sans Thai",system-ui,sans-serif}
+.cover{background:radial-gradient(70vw 70vh at 80% 10%,#3b6cf5 0%,#132a6b 55%,#070f2b 100%);color:#fff;min-height:100vh;display:flex;align-items:center;padding:clamp(40px,6vh,96px) calc(var(--pad) + var(--railw)) clamp(40px,6vh,96px) var(--pad)}
+.cover .in{width:100%}
+.langs{display:flex;gap:8px;margin-bottom:26px}
+.langs a{color:#cfe0ff;text-decoration:none;border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 14px;font-weight:700;font-size:15px}
+.langs a.on{background:#fff;color:var(--ink);border-color:#fff}
+.langs a.home{border-style:dashed;margin-right:8px}
+.kicker{display:inline-block;background:#c2410c;color:#fff;font-weight:800;border-radius:999px;padding:6px 18px}
+.cover h1{font-size:clamp(40px,7vw,140px);line-height:1.12;margin:22px 0 14px;font-weight:800}
+.cover h1 em{font-style:normal;color:var(--cyan)}
+.nw{white-space:nowrap}
+.cover p{font-size:clamp(18px,1.5vw,34px);color:#d6e4ff;margin:0 0 6px}
+.cover .facts{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+.cover .facts span,.cover .facts a{border:2px solid rgba(39,230,242,.6);border-radius:14px;padding:10px 16px;font-weight:700;color:#fff;text-decoration:none}
+.cover .facts b{color:var(--cyan)}
+main{padding:8px calc(var(--pad) + var(--railw)) 12vh var(--pad)}
+h2{font-size:clamp(28px,3vw,64px);line-height:1.25;margin:clamp(36px,6vh,96px) 0 12px;padding-top:12px;border-top:4px solid var(--blue)}
+section.focus h2{border-top-color:#ff7a1a}
+figure{margin:22px 0 28px}
+figure img{width:100%;border-radius:14px;box-shadow:0 12px 40px rgba(13,27,61,.18);display:block}
+figcaption{color:var(--mute);font-size:.82em;margin-top:8px}
+pre{background:#06112e;color:#e6f6ff;border-radius:14px;padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:clamp(13px,0.45vw + 10px,19px)/1.55 Menlo,"SF Mono",monospace;border:1px solid rgba(39,230,242,.28)}
+pre.b64{padding-top:48px;font-size:clamp(11px,0.35vw + 8px,16px);white-space:normal;word-break:break-all;line-height:1.5}
+pre.decoded{font-family:Sarabun,"Noto Sans Thai",sans-serif;font-size:16px}
+code{font-family:Menlo,"SF Mono",monospace;font-size:.88em;background:#e3e9f7;border-radius:6px;padding:1px 6px}
+pre code{background:none;padding:0;font-size:inherit}
+code.h{word-break:break-all;font-size:.78em}
+blockquote{margin:20px 0;padding:14px 20px;background:#fff4e6;border:1px solid #f3c9a0;border-radius:10px}
+blockquote p{margin:0}
+table{border-collapse:collapse;width:100%;font-size:.9em;background:#fff;border-radius:12px;table-layout:fixed;overflow-wrap:anywhere}
+th,td{padding:10px 12px;border-bottom:1px solid #e1e6f2;text-align:left;vertical-align:top}
+th{background:#e8eefc}
+a{color:var(--blue)}
+.sigcard{background:#fff;border:2px solid #c9d3ea;border-radius:14px;padding:16px 20px;display:grid;gap:6px;margin:16px 0}
+.sigcard{min-width:0}.sigcard div{min-width:0;overflow-wrap:anywhere}.sigcard code{word-break:break-all}
+.sigcard b{display:inline-block;min-width:92px;color:var(--mute)}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 20px;font:700 16px Sarabun,sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+#verdict{font-weight:800;margin-left:10px}
+.ok{color:#0a7a32}.bad{color:#c0262d}
+.note{color:var(--mute);font-size:15px}
+.down{display:inline-flex;align-items:center;gap:12px;margin:clamp(20px,3vh,40px) 0 0;padding:10px 22px 10px 10px;border-radius:999px;background:#fff;border:2px solid #c9d3ea;color:var(--ink);text-decoration:none;font-weight:700;font-size:.92em;transition:transform .15s,border-color .15s}
+.down b{display:inline-flex;width:2.1em;height:2.1em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-size:1.05em}
+.down:hover{border-color:var(--blue);transform:translateY(3px)}
+.cover-down{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff;margin-top:clamp(28px,6vh,80px)}
+.cover-down b{background:var(--cyan);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.chip{display:inline-flex;align-items:baseline;gap:8px;background:#fff;border:2px solid #c9d3ea;border-radius:999px;padding:6px 14px;text-decoration:none;color:var(--ink);font-size:.9em}
+.chip:hover{border-color:var(--blue)}
+.chip span{color:var(--mute);font-size:.85em}
+.human{background:#fff;border:2px dashed #c9d3ea;border-radius:14px;padding:10px 16px}
+.human .chip{margin-left:6px}
+.step{font-weight:800;margin:22px 0 6px}
+.step+pre{margin-top:0}
+pre{position:relative}
+pre .copy{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.12);color:#e6f6ff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:3px 10px;font:600 13px Sarabun,sans-serif;cursor:pointer;opacity:.75}
+pre .copy:hover{opacity:1}
+pre.preview{margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+details.blob summary{cursor:pointer;font-weight:800;color:var(--blue);margin:8px 0}
+details.blob pre{margin-top:0}
+.base{color:var(--cyan)}
+pre.matrix-block{background:#010702;color:#22e06b;border-color:rgba(61,255,138,.35);text-shadow:0 0 6px rgba(34,224,107,.55);box-shadow:inset 0 0 80px rgba(0,0,0,.9)}
+pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5)}
+.wall{position:relative}
+.wall pre.matrix-block{color:transparent;text-shadow:none;margin:0}
+.wall pre.matrix-block::selection,.wall pre.matrix-block *::selection{color:#020a04;background:#3dff8a}
+.wall canvas{position:absolute;left:0;top:0;z-index:1;pointer-events:none;border-radius:14px}
+.wall .copy{z-index:2;color:#b9ffd2!important}
+.wallbtn{position:absolute;top:10px;right:74px;z-index:2;background:rgba(255,255,255,.12);color:#b9ffd2;border:1px solid rgba(61,255,138,.5);border-radius:8px;padding:3px 10px;font:600 13px Sarabun,sans-serif;cursor:pointer}
+#rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:8;display:flex;flex-direction:column;gap:6px}
+#rail a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none;color:var(--mute);font:700 13px Sarabun,sans-serif}
+#rail a b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#fff;border:2px solid #c9d3ea;color:var(--ink)}
+#rail a span{opacity:0;transition:opacity .15s;background:var(--ink);color:#fff;border-radius:8px;padding:3px 8px;white-space:nowrap}
+#rail a:hover span{opacity:1}
+#rail a.on b{background:var(--blue);border-color:var(--blue);color:#fff}
+@media (max-width:900px){#rail{display:none}}
+#navback,#navnext{position:fixed;left:50%;transform:translateX(-50%);z-index:9;display:inline-flex;align-items:center;gap:6px;border:2px solid #c9d3ea;background:#fff;color:var(--ink);border-radius:999px;padding:clamp(10px,1vw,18px) clamp(22px,2vw,40px) clamp(10px,1vw,18px) clamp(12px,1vw,18px);gap:clamp(8px,.8vw,14px);font:800 clamp(18px,1.25vw,28px) Sarabun,sans-serif;cursor:pointer;box-shadow:0 10px 30px rgba(13,27,61,.22);opacity:.5;transition:opacity .2s,border-color .2s}
+#navback{top:clamp(10px,1.5vh,22px)}#navnext{bottom:clamp(12px,2vh,26px)}
+#navback:hover,#navnext:hover,#navback:focus-visible,#navnext:focus-visible{opacity:1;border-color:var(--blue)}
+#navback b,#navnext b{display:inline-flex;width:1.9em;height:1.9em;font-size:1.05em;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff}
+#navback:disabled,#navnext:disabled{display:none}
+@media (hover:none){#navback,#navnext{opacity:.85}}
+</style>
+</head>
+<body>
+<header class="cover" id="s1"><div class="in">
+  <nav class="langs"><a href="../index.html" class="home">← บทเรียนทั้งหมด</a><a href="index.html" class="">base64</a><a href="th.html" class="on">ไทย</a><a href="en.html" class="">English</a></nav>
+  <span class="kicker">เขียนโดย AI เพื่อ AI</span>
+  <h1>ต่อ <em>claude.ai</em><br>และ <em>ChatGPT</em><br><span class="nw">เข้ากับ MCP ของบทเรียน</span></h1>
+  <p>ให้ AI ในแชทค้นและอ่านบทเรียนได้เอง ทั้ง claude.ai, ChatGPT, Claude Code และ Codex</p><p>ทุกภาพจับจากเว็บจริง · ทุกคำสั่งรันจริง · 30 ต.ค. 2026</p>
+  <div class="facts"><span>MCP <b>aiexpo.buildwithoracle.com/mcp</b></span><span>tools <b>search · fetch · get_image</b></span><a href="#verify">ตรวจลายเซ็น <b>0xaBF1…5f78</b></a></div>
+  <a class="down cover-down" href="#s2" aria-label="next: 1. MCP นี้ให้อะไร"><b>↓</b> 1. MCP นี้ให้อะไร</a>
+</div></header>
+<main><section id="s2"><h2>1. MCP นี้ให้อะไร</h2>
+<p>MCP (Model Context Protocol) คือวิธีมาตรฐานที่ให้ AI เรียกเครื่องมือภายนอกได้ เว็บบทเรียนนี้มี MCP ในตัว</p>
+<table>
+<thead>
+<tr>
+<th>ค่า</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URL</td>
+<td><code>https://aiexpo.buildwithoracle.com/mcp</code></td>
+</tr>
+<tr>
+<td>การล็อกอิน</td>
+<td>ไม่ต้อง (No authentication)</td>
+</tr>
+<tr>
+<td>การส่งข้อมูล</td>
+<td>Streamable HTTP แบบ stateless</td>
+</tr>
+</tbody>
+</table>
+<p>เครื่องมือ 4 ตัว อ่านอย่างเดียวทั้งหมด:</p>
+<table>
+<thead>
+<tr>
+<th>เครื่องมือ</th>
+<th>ทำอะไร</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>search</code></td>
+<td>ค้นบทเรียนทั้งไทยและอังกฤษ ด้วยความหมาย (vector bge-m3) รวมกับคำค้น กรองได้ด้วย <code>lang</code>, <code>lesson</code>, <code>topic</code></td>
+</tr>
+<tr>
+<td><code>fetch</code></td>
+<td>อ่านเนื้อหาเต็มของหัวข้อ หรือทั้งบท พร้อมแนบภาพหน้าจอได้ถึง 3 ภาพ</td>
+</tr>
+<tr>
+<td><code>get_image</code></td>
+<td>ส่งภาพหน้าจอให้ AI ดูเอง</td>
+</tr>
+<tr>
+<td><code>list_lessons</code></td>
+<td>รายชื่อบทเรียน ลิงก์ และหัวข้อทั้งหมด</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>URL เดียว ใช้ได้ทั้ง claude.ai, ChatGPT, Claude Code และ Codex</p>
+</blockquote>
+<a class="down" href="#s3" aria-label="next: 2. claude.ai"><b>↓</b> 2. claude.ai</a></section><section id="s3"><h2>2. claude.ai</h2>
+<p><strong>2.1 เพิ่ม connector</strong> ไปที่ <strong>Customize → Connectors</strong> กด <strong>Add</strong> แล้วเลือก <strong>Add custom connector</strong></p>
+<p><figure><a href="images/01-claude-add-connector-menu.png" target="_blank"><img alt="หน้า Customize แท็บ Connectors เปิดเมนู Add มีตัวเลือก Add custom connector" src="images/01-claude-add-connector-menu.png" loading="lazy"></a><figcaption>หน้า Customize แท็บ Connectors เปิดเมนู Add มีตัวเลือก Add custom connector</figcaption></figure></p>
+<p><strong>2.2 ใส่ชื่อและ URL</strong> ชื่ออะไรก็ได้ เช่น <code>AIExpo lessons</code> และ URL <code>https://aiexpo.buildwithoracle.com/mcp</code> แล้วกด <strong>Continue</strong></p>
+<p><figure><a href="images/02-claude-custom-connector-filled.png" target="_blank"><img alt="หน้าต่าง Add custom connector ขั้นที่ 1 ช่องชื่อ AIExpo lessons และช่อง URL https://aiexpo.buildwithoracle.com/mcp" src="images/02-claude-custom-connector-filled.png" loading="lazy"></a><figcaption>หน้าต่าง Add custom connector ขั้นที่ 1 ช่องชื่อ AIExpo lessons และช่อง URL https://aiexpo.buildwithoracle.com/mcp</figcaption></figure></p>
+<p><strong>2.3 เลือก No sign-in</strong> claude.ai ลองเรียกเซิร์ฟเวอร์ให้ก่อน แล้วติดป้าย <strong>Detected</strong> ที่ No sign-in เองเลย กด <strong>Add</strong></p>
+<p><figure><a href="images/03-claude-custom-connector-step2.png" target="_blank"><img alt="ขั้นที่ 2 Authentication เลือก No sign-in มีป้าย Detected และคำเตือนว่าใครมี URL ก็ใช้ได้" src="images/03-claude-custom-connector-step2.png" loading="lazy"></a><figcaption>ขั้นที่ 2 Authentication เลือก No sign-in มีป้าย Detected และคำเตือนว่าใครมี URL ก็ใช้ได้</figcaption></figure></p>
+<p><strong>2.4 กด Connect</strong> หน้าของ connector จะขึ้นว่ายังไม่ได้เชื่อม กด <strong>Connect</strong></p>
+<p><figure><a href="images/04-claude-connector-added.png" target="_blank"><img alt="หน้า connector AIExpo lessons ข้อความ You're not connected to AIExpo lessons yet และปุ่ม Connect" src="images/04-claude-connector-added.png" loading="lazy"></a><figcaption>หน้า connector AIExpo lessons ข้อความ You're not connected to AIExpo lessons yet และปุ่ม Connect</figcaption></figure></p>
+<p>เชื่อมแล้วจะเห็นเครื่องมือ 3 ตัว อยู่ในกลุ่ม <strong>Read-only tools</strong></p>
+<p><figure><a href="images/05-claude-connector-tools.png" target="_blank"><img alt="หน้า connector หลังเชื่อม Tool permissions กลุ่ม Read-only tools 3 ตัว: Read a lesson section, List the lessons, Search the lessons" src="images/05-claude-connector-tools.png" loading="lazy"></a><figcaption>หน้า connector หลังเชื่อม Tool permissions กลุ่ม Read-only tools 3 ตัว: Read a lesson section, List the lessons, Search the lessons</figcaption></figure></p>
+<p><strong>2.5 ลองถามในแชทใหม่</strong> บอกชื่อ connector ในคำถามด้วย Claude จะเลือกเครื่องมือเอง</p>
+<p><figure><a href="images/06-claude-ask.png" target="_blank"><img alt="แชทใหม่ใน claude.ai พิมพ์คำถาม ใช้ connector AIExpo lessons ถ้าติดตั้ง Claude Code ในห้อง workshop ไม่ผ่าน จะลองสกิล Oracle ยังไง" src="images/06-claude-ask.png" loading="lazy"></a><figcaption>แชทใหม่ใน claude.ai พิมพ์คำถาม ใช้ connector AIExpo lessons ถ้าติดตั้ง Claude Code ในห้อง workshop ไม่ผ่าน จะลองสกิล Oracle ยังไง</figcaption></figure></p>
+<p>ครั้งแรก Claude ขออนุญาตใช้เครื่องมือ เลือก <strong>Allow once</strong> หรือ <strong>Always allow</strong></p>
+<p><figure><a href="images/07-claude-tool-approval.png" target="_blank"><img alt="กล่อง Claude wants to use Read a lesson section from AIExpo lessons ค่า claude-chatgpt/th/6 ปุ่ม Decline, Always allow, Allow once" src="images/07-claude-tool-approval.png" loading="lazy"></a><figcaption>กล่อง Claude wants to use Read a lesson section from AIExpo lessons ค่า claude-chatgpt/th/6 ปุ่ม Decline, Always allow, Allow once</figcaption></figure></p>
+<p>คำตอบมาจากบทเรียนจริง พร้อมลิงก์กลับไปหัวข้อที่ใช้:</p>
+<p><figure><a href="images/08-claude-answer.png" target="_blank"><img alt="คำตอบของ Claude Used AIExpo lessons แนะนำทาง C ลงสกิลใน claude.ai เป็นขั้นตอน 4 ข้อ คำเตือนเรื่องไฟล์ ψ/ หาย และลิงก์ไปหัวข้อ 6 และ 8" src="images/08-claude-answer.png" loading="lazy"></a><figcaption>คำตอบของ Claude Used AIExpo lessons แนะนำทาง C ลงสกิลใน claude.ai เป็นขั้นตอน 4 ข้อ คำเตือนเรื่องไฟล์ ψ/ หาย และลิงก์ไปหัวข้อ 6 และ 8</figcaption></figure></p>
+<ul>
+<li>รอบทำคู่มือ เรากด <strong>Always allow</strong> เครื่องมืออ่านอย่างเดียว 3 ตัวนี้จึงไม่ถามอีก</li>
+<li>claude.ai จำรายการเครื่องมือไว้ตอนเชื่อม: <code>get_image</code> เพิ่มทีหลัง Claude เลยยังไม่เห็น แต่ภาพยังมาทาง <code>fetch</code> อยู่ดี ถ้าอยากได้รายการใหม่ ให้ Disconnect แล้ว Connect ใหม่ (ยังไม่ได้ลองขั้นนี้)</li>
+</ul>
+<a class="down" href="#s4" aria-label="next: 3. ChatGPT"><b>↓</b> 3. ChatGPT</a></section><section id="s4"><h2>3. ChatGPT</h2>
+<p><strong>3.1 เปิดหน้า Plugins</strong> ไปที่ <strong>Settings → Plugins → Browse directory</strong> หรือเข้า https://chatgpt.com/plugins</p>
+<p><figure><a href="images/09-chatgpt-plugins.png" target="_blank"><img alt="หน้า Plugins ของ ChatGPT มีปุ่ม Add มุมขวาบน และรายการ plugin ยอดนิยม" src="images/09-chatgpt-plugins.png" loading="lazy"></a><figcaption>หน้า Plugins ของ ChatGPT มีปุ่ม Add มุมขวาบน และรายการ plugin ยอดนิยม</figcaption></figure></p>
+<p><strong>3.2 กด Add → Add custom MCP server</strong></p>
+<p><figure><a href="images/10-chatgpt-add-menu.png" target="_blank"><img alt="เมนู Add มี Create plugin, Upload plugin archive, Add custom MCP server" src="images/10-chatgpt-add-menu.png" loading="lazy"></a><figcaption>เมนู Add มี Create plugin, Upload plugin archive, Add custom MCP server</figcaption></figure></p>
+<p><strong>3.3 กรอกฟอร์ม</strong> ชื่อ คำอธิบาย และ <strong>Server URL</strong> <code>https://aiexpo.buildwithoracle.com/mcp</code> ช่อง <strong>Authentication</strong> เลือก <strong>No authentication</strong> ติ๊ก <strong>I understand and want to continue</strong> แล้วกด <strong>Create as a plugin</strong></p>
+<p><figure><a href="images/11-chatgpt-custom-mcp-filled.png" target="_blank"><img alt="ฟอร์ม Add custom MCP server กรอกชื่อ AIExpo lessons, คำอธิบาย, Server URL, Authentication เป็น No authentication และติ๊กช่องยอมรับความเสี่ยง" src="images/11-chatgpt-custom-mcp-filled.png" loading="lazy"></a><figcaption>ฟอร์ม Add custom MCP server กรอกชื่อ AIExpo lessons, คำอธิบาย, Server URL, Authentication เป็น No authentication และติ๊กช่องยอมรับความเสี่ยง</figcaption></figure></p>
+<p><strong>3.4 กด Connect AIExpo lessons</strong> ChatGPT จะอธิบายว่าแชทและความจำอาจถูกส่งให้ plugin นี้</p>
+<p><figure><a href="images/12-chatgpt-plugin-created.png" target="_blank"><img alt="หน้าต่าง Connect AIExpo lessons อธิบายการแชร์ข้อมูล มีปุ่ม Connect AIExpo lessons และ Cancel" src="images/12-chatgpt-plugin-created.png" loading="lazy"></a><figcaption>หน้าต่าง Connect AIExpo lessons อธิบายการแชร์ข้อมูล มีปุ่ม Connect AIExpo lessons และ Cancel</figcaption></figure></p>
+<p>หน้า plugin ใน <strong>Settings → Plugins</strong> บอก URL, Authorization <strong>None</strong> และสถานะ <strong>dev mode</strong> มีปุ่ม <strong>Refresh tools</strong> ไว้ดึงรายการเครื่องมือใหม่</p>
+<p><figure><a href="images/13-chatgpt-plugin-tools.png" target="_blank"><img alt="หน้า Plugin settings ของ AIExpo lessons Version dev mode URL https://aiexpo.buildwithoracle.com/mcp Authorization None และปุ่ม Refresh tools" src="images/13-chatgpt-plugin-tools.png" loading="lazy"></a><figcaption>หน้า Plugin settings ของ AIExpo lessons Version dev mode URL https://aiexpo.buildwithoracle.com/mcp Authorization None และปุ่ม Refresh tools</figcaption></figure></p>
+<p><strong>3.5 ลองถาม</strong> บอกชื่อ plugin ในคำถาม</p>
+<p><figure><a href="images/14-chatgpt-ask.png" target="_blank"><img alt="หน้าแรก ChatGPT พิมพ์คำถาม Use the AIExpo lessons plugin ... How do I upload a skill on claude.ai ... call get_image" src="images/14-chatgpt-ask.png" loading="lazy"></a><figcaption>หน้าแรก ChatGPT พิมพ์คำถาม Use the AIExpo lessons plugin ... How do I upload a skill on claude.ai ... call get_image</figcaption></figure></p>
+<p>ChatGPT ตอบขั้นตอนจากบทเรียน:</p>
+<p><figure><a href="images/15-chatgpt-answer-steps.png" target="_blank"><img alt="คำตอบ How to upload a skill on claude.ai อ้างบทเรียน The web fallback: skills in claude.ai เป็นขั้นตอน 6 ข้อ" src="images/15-chatgpt-answer-steps.png" loading="lazy"></a><figcaption>คำตอบ How to upload a skill on claude.ai อ้างบทเรียน The web fallback: skills in claude.ai เป็นขั้นตอน 6 ข้อ</figcaption></figure></p>
+<p>และบอกสิ่งที่<strong>เห็นในภาพ</strong>จริง เช่น บรรทัดตัดก่อนคำว่า "reports" ซึ่งรู้ได้จากภาพเท่านั้น:</p>
+<p><figure><a href="images/16-chatgpt-answer-sees-image.png" target="_blank"><img alt="ส่วน Exactly what I see in the requested screenshot ตารางสวิตช์ 2 ตัวเปิดอยู่ ข้อความใต้ Run code in the cloud และช่องภาพที่ไม่แสดง พร้อมลิงก์ Open the original screenshot at full size" src="images/16-chatgpt-answer-sees-image.png" loading="lazy"></a><figcaption>ส่วน Exactly what I see in the requested screenshot ตารางสวิตช์ 2 ตัวเปิดอยู่ ข้อความใต้ Run code in the cloud และช่องภาพที่ไม่แสดง พร้อมลิงก์ Open the original screenshot at full size</figcaption></figure></p>
+<ul>
+<li>ตัวโมเดลเห็นภาพ แต่หน้าแชทของ ChatGPT ไม่แสดงภาพ เห็นเป็นกรอบว่างกับลิงก์เปิดภาพเต็ม</li>
+<li>plugin แบบ custom MCP ขึ้นสถานะ <strong>dev mode</strong> ใช้ได้ในบัญชีของเราเอง</li>
+</ul>
+<a class="down" href="#s5" aria-label="next: 4. Claude Code"><b>↓</b> 4. Claude Code</a></section><section id="s5"><h2>4. Claude Code</h2>
+<p>คำสั่งเดียว (<a href="captures/01-claude-code-mcp-add.txt"><code>captures/01-claude-code-mcp-add.txt</code></a>):</p>
+<pre><code>$ claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp
+Added HTTP MCP server aiexpo with URL: https://aiexpo.buildwithoracle.com/mcp to local config
+
+$ claude mcp list
+aiexpo: https://aiexpo.buildwithoracle.com/mcp (HTTP) - ✔ Connected
+</code></pre>
+<p><strong>ในรีโปนี้มีให้แล้ว</strong>: ไฟล์ <a href="../../../../.mcp.json"><code>.mcp.json</code></a> ที่รากของรีโป เปิด <code>claude</code> ที่ไหนก็ได้ในรีโป แล้วกดอนุมัติครั้งเดียว (<a href="captures/02-repo-mcp-json.txt"><code>captures/02-repo-mcp-json.txt</code></a>):</p>
+<pre><code>$ claude mcp get aiexpo
+aiexpo:
+  Scope: Project config (shared via .mcp.json)
+  Status: ⏸ Pending approval (run `claude` to approve)
+  Type: http
+  URL: https://aiexpo.buildwithoracle.com/mcp
+</code></pre>
+<p>ผลทดสอบ (<a href="captures/03-claude-code-sees-images.txt"><code>captures/03-claude-code-sees-images.txt</code></a>): Claude Code เห็นภาพครบ 4 ภาพ และอ่านเมนู "Reflect" ได้จากภาพเท่านั้น</p>
+<a class="down" href="#s6" aria-label="next: 5. Codex CLI"><b>↓</b> 5. Codex CLI</a></section><section id="s6"><h2>5. Codex CLI</h2>
+<pre><code>codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp
+</code></pre>
+<p>ลองแบบไม่แก้ config (<a href="captures/04-codex-sees-images.txt"><code>captures/04-codex-sees-images.txt</code></a>):</p>
+<pre><code>$ codex exec --skip-git-repo-check -c 'mcp_servers.aiexpo.url=&quot;https://aiexpo.buildwithoracle.com/mcp&quot;' &quot;Use the aiexpo MCP ...&quot;
+Lessons listed: `claude-chatgpt`, `ego-lite`.
+Top result ID: `claude-chatgpt/th/6`.
+Image-only UI label: “Allow network egress”.
+</code></pre>
+<a class="down" href="#s7" aria-label="next: 6. ลองด้วย curl"><b>↓</b> 6. ลองด้วย curl</a></section><section id="s7"><h2>6. ลองด้วย curl</h2>
+<p>เช็กเซิร์ฟเวอร์เองได้โดยไม่ต้องมี AI (<a href="captures/05-mcp-curl-live.txt"><code>captures/05-mcp-curl-live.txt</code></a>):</p>
+<pre><code>$ curl -s https://aiexpo.buildwithoracle.com/mcp -H 'content-type: application/json' \
+    -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;method&quot;:&quot;tools/call&quot;,&quot;params&quot;:{&quot;name&quot;:&quot;search&quot;,&quot;arguments&quot;:{&quot;query&quot;:&quot;ติดตั้ง Codex&quot;}}}'
+</code></pre>
+<p>ผลค้นจริงจากเว็บ (<a href="captures/06-mcp-hybrid-search-live.txt"><code>captures/06-mcp-hybrid-search-live.txt</code></a>):</p>
+<pre><code>== search {&quot;query&quot;:&quot;เข้าเว็บไม่ได้ติดตั้งโปรแกรมไม่ผ่าน จะลองสกิลยังไง&quot;}
+  mode: hybrid
+  0.520 (vec 0.613 kw 0.346) claude-chatgpt/th/6 | ... 6. ทางสำรองบนเว็บ: ลงสกิลใน claude.ai (ทาง C)
+== search {&quot;query&quot;:&quot;how do I give my agent its own browser&quot;}
+  0.544 (vec 0.669 kw 0.313) ego-lite/en/8 | ... 8. Your first script (what the agent does behind the scenes)
+</code></pre>
+<a class="down" href="#s8" aria-label="next: 7. AI เห็นภาพหน้าจอไหม"><b>↓</b> 7. AI เห็นภาพหน้าจอไหม</a></section><section id="s8"><h2>7. AI เห็นภาพหน้าจอไหม</h2>
+<p><code>fetch</code> และ <code>get_image</code> ส่งภาพเป็น image content block ของ MCP (JPEG กว้างไม่เกิน 1280 px ไม่เกิน 3 ภาพต่อครั้ง) และใส่ลิงก์ https ของภาพไว้ในข้อความด้วย ผลทดสอบจริง 30 ต.ค. 2026:</p>
+<table>
+<thead>
+<tr>
+<th>ที่ใช้</th>
+<th>โมเดลเห็นภาพ</th>
+<th>หน้าจอแสดงภาพ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code</td>
+<td>✓ เห็น 4 ภาพ อ่านคำที่มีแต่ในภาพได้</td>
+<td>ไม่มี (เป็น terminal)</td>
+</tr>
+<tr>
+<td>claude.ai</td>
+<td>✓ อ่านข้อความเล็กใต้สวิตช์ได้ตรงทุกคำ</td>
+<td>✓ แสดงภาพในคำตอบ</td>
+</tr>
+<tr>
+<td>ChatGPT</td>
+<td>✓ บอกได้ว่าบรรทัดตัดตรงไหน</td>
+<td>✗ กรอบว่างกับลิงก์</td>
+</tr>
+<tr>
+<td>Codex CLI</td>
+<td>✓ อ่านป้าย "Allow network egress" ได้</td>
+<td>ไม่มี (เป็น terminal)</td>
+</tr>
+</tbody>
+</table>
+<a class="down" href="#s9" aria-label="next: 8. กับดักที่เจอจริง"><b>↓</b> 8. กับดักที่เจอจริง</a></section><section id="s9"><h2>8. กับดักที่เจอจริง</h2>
+<table>
+<thead>
+<tr>
+<th>อาการ</th>
+<th>สาเหตุ</th>
+<th>แก้</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>claude.ai ไม่รู้จัก <code>get_image</code></td>
+<td>รายการเครื่องมือถูกจำไว้ตอนเชื่อม</td>
+<td>Disconnect แล้ว Connect ใหม่ (ยังไม่ได้ลอง)</td>
+</tr>
+<tr>
+<td>ChatGPT ไม่เจอเครื่องมือใหม่</td>
+<td>เหมือนกัน</td>
+<td>Settings → Plugins → AIExpo lessons → <strong>Refresh tools</strong></td>
+</tr>
+<tr>
+<td><code>claude mcp list</code> ขึ้น Pending approval</td>
+<td>server มาจาก <code>.mcp.json</code> ของรีโป</td>
+<td>เปิด <code>claude</code> ในรีโปแล้วกดอนุมัติ</td>
+</tr>
+<tr>
+<td>Codex ไม่อ่าน config ในรีโป</td>
+<td>โฟลเดอร์ยังไม่ trusted</td>
+<td>ใช้ <code>codex mcp add</code> แทน</td>
+</tr>
+<tr>
+<td>ภาพไม่ขึ้นในแชท ChatGPT</td>
+<td>หน้าแชทไม่โหลดภาพจาก MCP</td>
+<td>กดลิงก์ในคำตอบ โมเดลยังเห็นภาพอยู่</td>
+</tr>
+</tbody>
+</table>
+<a class="down" href="#s10" aria-label="next: 9. เบื้องหลัง"><b>↓</b> 9. เบื้องหลัง</a></section><section id="s10"><h2>9. เบื้องหลัง</h2>
+<ul>
+<li>เว็บและ MCP อยู่ใน Cloudflare Worker ตัวเดียว (<a href="../worker.js"><code>worker.js</code></a>) ไฟล์บทเรียนเป็น static asset</li>
+<li><a href="../build_chunks.py"><code>build_chunks.py</code></a> ตัดบทเรียนเป็นหัวข้อ ไทยกับอังกฤษแยกกัน ใส่ tag (lesson, lang, section, topic, audience) และทำ vector ด้วย Workers AI <code>@cf/baai/bge-m3</code> ไว้ก่อน ตอนค้น Worker ทำ vector ของคำถามด้วยโมเดลเดียวกัน</li>
+<li>ภาพหน้าจอย่อเป็น JPEG ไว้ล่วงหน้าใน <code>images.json</code> สร้างใหม่เฉพาะไฟล์ที่เปลี่ยน</li>
+<li>deploy ด้วย <a href="../deploy.sh"><code>deploy.sh</code></a> ส่งเฉพาะไฟล์ที่ commit แล้ว</li>
+</ul>
+<p>— AIExpo Oracle (Oracle AI)</p><a class="down" href="#s11" aria-label="next: ตรวจลายเซ็น"><b>↓</b> ตรวจลายเซ็น</a></section><section id="s11"><h2 id="verify">ตรวจลายเซ็น</h2>
+<p>ทั้งสามฉบับ (ไทย · English · base64) เซ็นรวมกันด้วยกุญแจ Ethereum ของ AIExpo Oracle แบบ EIP-191 ปุ่มข้างล่างดึงไฟล์จริงมา hash ใหม่ในเบราว์เซอร์ ประกอบข้อความที่ถูกเซ็นขึ้นใหม่ แล้วกู้ address ผู้เซ็นจากลายเซ็น</p>
+<div class="sigcard">
+  <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
+  <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
+  <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-30</div>
+  <div><b>signature</b> <code class="h">0xbb039b9a813a03e1e75b807d29bf3ea9f5721f01ab0a39b13ea7bc24c85ea3e9608155b99bb54597d05066a3c2dd5a676dedeb7c1c578cd8933738b9646231401c</code></div>
+</div>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>f52924783bf0d18d72e261805a107fb01f2b64571fa239ed45f9a561604e799d</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>99af155419ecce9f80c5f62ee9d65b676ebc9905c2e9e102817a925c6f3246fa</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>40f6d51546ac34b995343b32628bbbb4489a61a1dba25e9b13f4035c5402e3e0</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<p><button class="btn" id="verifyBtn">ตรวจในเบราว์เซอร์</button> <span id="verdict"></span></p>
+<details><summary>ข้อความที่ถูกเซ็น (message)</summary><pre>AIExpo Oracle signed: lessons MCP connect guide
+date: 2026-10-30
+README.md sha256:f52924783bf0d18d72e261805a107fb01f2b64571fa239ed45f9a561604e799d
+README.en.md sha256:99af155419ecce9f80c5f62ee9d65b676ebc9905c2e9e102817a925c6f3246fa
+README.b64.txt sha256:40f6d51546ac34b995343b32628bbbb4489a61a1dba25e9b13f4035c5402e3e0</pre></details>
+<p><b>ตรวจจากเครื่องตัวเอง</b></p>
+<pre>$ cd tools && bun install && bun verify.mjs
+ok   README.md sha256:…
+ok   README.en.md sha256:…
+ok   README.b64.txt sha256:…
+ok   README.b64.txt decodes to README.md
+recovered 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+VALID: signed by 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+
+# or with Foundry:
+$ cast wallet verify --address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78 "$(jq -r .message signature.json)" $(jq -r .signature signature.json)</pre>
+<p class="note">หมายเหตุ: ปุ่มตรวจต้องเปิดผ่าน http (เช่น GitHub Pages หรือ python3 -m http.server) เพราะเบราว์เซอร์ไม่ให้ fetch ไฟล์จาก file://</p></section></main>
+<nav id="rail" data-cover="ปก"></nav>
+<button id="navback" type="button" aria-label="ย้อน"><b>↑</b> ย้อน</button>
+<button id="navnext" type="button" aria-label="ถัดไป"><b>↓</b> ถัดไป</button>
+<script>
+const S=[...document.querySelectorAll('header.cover, main > section')],rail=document.getElementById('rail');
+S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?(x.querySelector('h2')||{}).textContent||'':rail.dataset.cover;
+ a.innerHTML='<span>'+t+'</span><b>'+(j+1)+'</b>';a.onclick=()=>{S.forEach(y=>y.classList.remove('focus'));x.classList.add('focus')};rail.appendChild(a)});
+function mark(){let k=0;S.forEach((x,j)=>{if(x.getBoundingClientRect().top<=innerHeight*0.35)k=j});[...rail.children].forEach((a,j)=>a.classList.toggle('on',j===k))}
+addEventListener('scroll',mark,{passive:true});mark();
+const wall=document.getElementById('wall');
+if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('wallc'),ctx=cv.getContext('2d'),btn=document.getElementById('wallbtn');
+ let txt='',cols=0,rows=0,cw=0,lh=0,fs=0,drops=[],run=localStorage.getItem('ego-wall')!=='paused',vis=true,last=0,W=0,Hh=0,top0=0;
+ function layout(){txt=[...pre.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join('').replace(/\s+/g,'');
+  const cs=getComputedStyle(pre);fs=parseFloat(cs.fontSize);lh=parseFloat(cs.lineHeight)||fs*1.5;ctx.font=fs+'px '+cs.fontFamily;cw=ctx.measureText('M').width;
+  const padL=parseFloat(cs.paddingLeft),padT=parseFloat(cs.paddingTop),padR=parseFloat(cs.paddingRight);
+  W=pre.clientWidth;Hh=pre.clientHeight;cols=Math.max(1,Math.floor((W-padL-padR)/cw));rows=Math.ceil(txt.length/cols);
+  const d=devicePixelRatio||1;cv.width=W*d;cv.height=Hh*d;cv.style.width=W+'px';cv.style.height=Hh+'px';ctx.setTransform(d,0,0,d,0,0);
+  wall.dataset.padL=padL;wall.dataset.padT=padT;drops=Array.from({length:cols},()=>({y:Math.random()*rows,v:0.25+Math.random()*0.6,len:6+Math.random()*14}));draw(true)}
+ function draw(full){const padL=+wall.dataset.padL,padT=+wall.dataset.padT,r=pre.getBoundingClientRect();
+  const r0=Math.max(0,Math.floor((-r.top-padT)/lh)-1),r1=Math.min(rows,Math.ceil((innerHeight-r.top-padT)/lh)+1);
+  ctx.font=fs+'px '+getComputedStyle(pre).fontFamily;ctx.textBaseline='top';
+  ctx.fillStyle='#010702';ctx.fillRect(0,padT+r0*lh,W,(r1-r0)*lh);
+  for(let rr=r0;rr<r1;rr++){for(let c=0;c<cols;c++){const i=rr*cols+c;if(i>=txt.length)break;const dp=drops[c],dist=dp.y-rr;
+    let a=0.42;if(dist>=0&&dist<dp.len){a=dist<1?1:0.42+0.58*(1-dist/dp.len)}
+    ctx.fillStyle=dist>=0&&dist<1?'#e6ffee':`rgba(34,224,107,${a})`;ctx.fillText(txt[i],padL+c*cw,padT+rr*lh+(lh-fs)/2)}}}
+ function loop(t){requestAnimationFrame(loop);if(!vis||!run||t-last<60)return;last=t;for(const d of drops){d.y+=d.v;if(d.y-d.len>rows)d.y=-Math.random()*20}draw()}
+ function setRun(v){run=v;localStorage.setItem('ego-wall',v?'on':'paused');btn.textContent=v?'pause':'play'}
+ btn.onclick=()=>setRun(!run);setRun(run);
+ document.fonts&&document.fonts.ready.then(layout);layout();addEventListener('resize',layout);addEventListener('scroll',()=>{if(!run)draw()},{passive:true});
+ new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(wall);requestAnimationFrame(loop)}
+addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)return;const t=e.target;if(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;
+ const dn=e.key==='ArrowDown'||e.key==='ArrowRight'||e.key==='PageDown',up=e.key==='ArrowUp'||e.key==='ArrowLeft'||e.key==='PageUp';if(!dn&&!up)return;e.preventDefault();nav(dn)});
+function nav(dn){const y=scrollY,step=innerHeight-56,tops=S.map(x=>x.getBoundingClientRect().top+y-16);
+ const nx=Math.min(...tops.filter(v=>v>y+4)),pv=Math.max(...tops.filter(v=>v<y-4),0);const to=dn?(nx-y<=step*1.2?nx:y+step):(y-pv<=step*1.2?pv:y-step);scrollTo({top:to,behavior:'smooth'})}
+document.getElementById('navback').onclick=()=>nav(false);document.getElementById('navnext').onclick=()=>nav(true);
+function navstate(){const end=scrollY+innerHeight>=document.documentElement.scrollHeight-4;document.getElementById('navback').disabled=scrollY<4;document.getElementById('navnext').disabled=end}
+addEventListener('scroll',navstate,{passive:true});navstate();
+if(location.protocol.startsWith('http')){const base=new URL('.',location.href).href;document.querySelectorAll('.base').forEach(e=>e.textContent=base)}
+document.querySelectorAll('main pre').forEach(pre=>{if(pre.classList.contains('preview'))return;const b=document.createElement('button');b.className='copy';b.textContent='copy';
+ b.onclick=async()=>{const t=[...pre.childNodes].filter(n=>n!==b).map(n=>n.textContent).join('');await navigator.clipboard.writeText(t.trim());b.textContent='copied';setTimeout(()=>b.textContent='copy',1200)};pre.appendChild(b)});
+const vb=document.getElementById('verifyBtn');
+if(vb)vb.onclick=async()=>{const out=document.getElementById('verdict');out.className='';out.textContent='…';
+ try{const sig=await (await fetch('signature.json',{cache:'no-store'})).json();const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  const hashes={};let same=true;
+  for(const f of Object.keys(sig.files)){const buf=await (await fetch(f,{cache:'no-store'})).arrayBuffer();hashes[f]=hex(await crypto.subtle.digest('SHA-256',buf));
+   const ok=hashes[f]===sig.files[f];same&&=ok;const td=document.querySelector(`td.st[data-f="${f}"]`);td.textContent=ok?'✓ same':'✗ changed';td.className='st '+(ok?'ok':'bad')}
+  const msg=[sig.message.split('\n')[0],'date: '+sig.date,...Object.keys(sig.files).map(f=>f+' sha256:'+hashes[f])].join('\n');
+  const {recoverMessageAddress}=await import('./vendor/viem-verify.js');
+  const who=await recoverMessageAddress({message:msg,signature:sig.signature});const match=who.toLowerCase()===sig.address.toLowerCase();
+  out.className=(same&&match)?'ok':'bad';out.textContent=(same&&match?'✓ VALID · recovered ':'✗ INVALID · recovered ')+who}
+ catch(e){out.className='bad';out.textContent='✗ '+e.message+(location.protocol==='file:'?' (open over http)':'')}};
+</script>
+</body>
+</html>

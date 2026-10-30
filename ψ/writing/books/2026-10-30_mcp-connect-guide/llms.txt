@@ -1,0 +1,28 @@
+# Connect claude.ai and ChatGPT to the lessons MCP (AIExpo Oracle)
+
+> How to connect claude.ai, ChatGPT, Claude Code and the Codex CLI to the read-only MCP of the AIExpo Oracle lessons, https://aiexpo.buildwithoracle.com/mcp (no sign-in). Written by AI, for AI; every screenshot is from the real sites (30 Oct 2026). Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Guide
+
+- [README.en.md](README.en.md): the full guide in English
+- [README.md](README.md): the same guide in Thai, the original
+- [README.b64.txt](README.b64.txt): base64 of README.md
+
+## Key facts
+
+- MCP URL: https://aiexpo.buildwithoracle.com/mcp (Streamable HTTP, stateless, no auth)
+- Tools: search {query, lang?, lesson?, topic?}, fetch {id}, get_image {id, start?}, list_lessons
+- claude.ai: Customize > Connectors > Add > Add custom connector, URL above, No sign-in
+- ChatGPT: Settings > Plugins > Browse directory > Add > Add custom MCP server, Authentication: No authentication
+- Claude Code: `claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp` (or the repo's .mcp.json)
+- Codex: `codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp`
+
+## Verify
+
+- [signature.json](signature.json), [SIGNATURE.md](SIGNATURE.md)
+
+## Optional
+
+- [captures/](captures/): raw output of every command quoted in the guide

@@ -1,0 +1,30 @@
+== initialize
+{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2025-06-18","capabilities":{"tools":{"listChanged":false}},"serverInfo":{"name":"aiexpo-lessons","title":"AIExpo Oracle lessons","version":"2026.10.30-3"},"instructions":"Read-only access to the AIExpo Oracle workshop lessons (AI Expo Thailand, 6 Nov 2026). Use search (optionally filtered by lang, lesson or topic), then fetch an id for the full text. Lessons exist in Thai (th, the original) and English (en)."}}
+== notifications/initialized
+HTTP 202
+== tools/list
+  search - Search the AIExpo Oracle workshop lessons (Thai and English): installi
+  fetch - Read the full text of a search result. id '<lesson>/<lang>/<section>' 
+  get_image - Return screenshots as images the model can see. id is an image id from
+  list_lessons - List every lesson in workshop order, with page URLs, language editions
+== search 'upload skill zip claude.ai'
+  claude-chatgpt/en/6 | Install Claude and ChatGPT, ready for the workshop · 6. The web fallback: skills in claude.ai (path C) | https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/en#s7
+  claude-chatgpt/th/6 | ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop · 6. ทางสำรองบนเว็บ: ลงสกิลใน claude.ai (ทาง C) | https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/th#s7
+  claude-chatgpt/en/9 | Install Claude and ChatGPT, ready for the workshop · 9. Sources | https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/en#s10
+  claude-chatgpt/en/3 | Install Claude and ChatGPT, ready for the workshop · 3. Install Claude Code (path A) | https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/en#s4
+  ego-lite/th/12 | ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง · 12. skill ในรีโปนี้ ใช้ได้ทั้ง Claude Code, omx และ omp | https://aiexpo.buildwithoracle.com/2026-10-30_ego-lite-guide/th#s13
+== search 'ติดตั้ง Codex'
+  claude-chatgpt/th/4 | ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop · 4. ติดตั้ง ChatGPT และ Codex (ทาง B)
+  claude-chatgpt/th/3 | ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop · 3. ติดตั้ง Claude Code (ทาง A)
+  claude-chatgpt/th/2 | ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop · 2. ติดตั้งแอป Claude (desktop)
+== fetch claude-chatgpt/en/6
+  claude-chatgpt/en/6 | Install Claude and ChatGPT, ready for the workshop · 6. The web fallback: skills in claude.ai (path C) | https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/en#s7
+  {"lesson": "claude-chatgpt", "lang": "en", "section": 6, "topic": ["install", "account", "skill", "memory", "web"], "audience": ["attendee", "agent", "presenter"], "title": "6. The web fallback: skills in claude.ai (path C)", "source": "https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/README.en.md", "signed_by": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78"}
+  text: ## 6. The web fallback: skills in claude.ai (path C) /  / claude.ai takes skills on every plan, Free included. A skill is uploaded as a ZIP holding the skill's folder with its `SKILL.md`. /  / **6.1 Prepare the ZIP.** This guide ships [`skills/awaken.zip`](https://aie
+== list_lessons
+  1 claude-chatgpt https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/en 9 sections
+  2 ego-lite https://aiexpo.buildwithoracle.com/2026-10-30_ego-lite-guide/en 13 sections
+== get_image claude-chatgpt/08-claude-capabilities.png
+  blocks: ['text', 'image']
+  text: ![Settings > Capabilities, Code execution and file creation: Run code in the cloud is on, with the note Requir
+  image: image/jpeg 75 KB, JPEG magic ok

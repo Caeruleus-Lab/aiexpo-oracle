@@ -1,0 +1,9 @@
+# Claude Code, headless, with only this MCP (run by the left pane, w6A:p1, 30 Oct 2026)
+$ cat mcp.json
+{"mcpServers":{"aiexpo":{"type":"http","url":"https://aiexpo.buildwithoracle.com/mcp"}}}
+
+$ claude -p --mcp-config mcp.json --strict-mcp-config --allowedTools "mcp__aiexpo__search,mcp__aiexpo__fetch,mcp__aiexpo__get_image,mcp__aiexpo__list_lessons" "<prompt: search, fetch the top result, get_image 08-claude-capabilities.png, say what you SEE>"
+1. Yes. The fetch returned 3 image blocks and get_image returned 1 more, so 4 in total. I could see all of them.
+2. The get_image picture is a dark-theme Claude web UI with the Settings dialog open on Capabilities. The left sidebar has New, Search, Projects, Artifacts, Scheduled and Customize, plus a list of "(hidden chat)" entries. The dialog menu runs Preferences (General through Claude in Chrome), then Customize (Skills, Connectors, Plugins), then Platform (API keys). The "Code execution and file creation" section shows two blue toggles, both on: "Run code in the cloud" and "Allow network egress". Below them is a "Domain allowlist" dropdown set to "Package managers only" and an "Additional allowed domains" input with a grey Add button. The Skills section at the bottom says "Skills have moved to Customize."
+3. "Reflect" is a Settings menu item. It appears in the image, but the text block never mentions it.
+4. All 7 URLs share the prefix `https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/images/`. The file names are `08-claude-capabilities.png`, `09-claude-customize-skills.png`, `10-claude-add-skill-menu.png`, `11-claude-upload-page.png`, `12-claude-upload-chosen.png`, `13-claude-replace-dialog.png` and `14-claude-awaken-skill.png`. The text also has an https skill zip link, `.../skills/awaken.zip`, and a capture link, `.../captures/04-awaken-zip.txt`.

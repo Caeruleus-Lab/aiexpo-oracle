@@ -1,0 +1,22 @@
+$ cat .mcp.json
+{
+  "mcpServers": {
+    "aiexpo": {
+      "type": "http",
+      "url": "https://aiexpo.buildwithoracle.com/mcp"
+    }
+  }
+}
+
+$ claude mcp list   (in the repo; project servers from .mcp.json)
+Checking MCP server health…
+aiexpo: https://aiexpo.buildwithoracle.com/mcp (HTTP) - ⏸ Pending approval (run `claude` to approve)
+
+$ claude mcp get aiexpo
+aiexpo:
+  Scope: Project config (shared via .mcp.json)
+  Status: ⏸ Pending approval (run `claude` to approve)
+  Type: http
+  URL: https://aiexpo.buildwithoracle.com/mcp
+
+To remove this server, run: claude mcp remove aiexpo -s project

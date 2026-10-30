@@ -1,0 +1,28 @@
+== search {"query":"เข้าเว็บไม่ได้ติดตั้งโปรแกรมไม่ผ่าน จะลองสกิลยังไง"}
+  mode: hybrid
+  0.520 (vec 0.613 kw 0.346) claude-chatgpt/th/6 | ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop · 6. ทางสำรองบนเว็บ: ลงสกิลใน claude.ai (ทาง C) | topic=account,skill,memory,web,verify
+  0.514 (vec 0.562 kw 0.423) ego-lite/th/3 | ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง · 3. ตรวจไฟล์ก่อนติดตั้ง (ไม่ต้องรันอะไร) | topic=install,verify
+  0.492 (vec 0.529 kw 0.423) claude-chatgpt/th/1 | ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop · 1. เลือกทางไหนดี | topic=install,account,skill,memory,web
+== search {"query":"how do I give my agent its own browser"}
+  mode: hybrid
+  0.544 (vec 0.669 kw 0.313) ego-lite/en/8 | Install ego(lite) so your AI agent gets a browser of its own · 8. Your first script (what the agent does behind the scenes) | topic=skill,browser
+  0.502 (vec 0.638 kw 0.250) ego-lite/en/1 | Install ego(lite) so your AI agent gets a browser of its own · 1. What ego(lite) is | topic=install,account,skill,browser
+  0.500 (vec 0.634 kw 0.250) ego-lite/en/9 | Install ego(lite) so your AI agent gets a browser of its own · 9. Watch and take over: Space | topic=account,browser
+== search {"query":"which account do I need, is it free","lang":"en"}
+  mode: hybrid
+  0.476 (vec 0.540 kw 0.357) claude-chatgpt/en/2 | Install Claude and ChatGPT, ready for the workshop · 2. Install the Claude app (desktop) | topic=install,account
+  0.455 (vec 0.468 kw 0.429) claude-chatgpt/en/1 | Install Claude and ChatGPT, ready for the workshop · 1. Pick a path | topic=install,account,skill,memory,web
+  0.438 (vec 0.481 kw 0.357) claude-chatgpt/en/3 | Install Claude and ChatGPT, ready for the workshop · 3. Install Claude Code (path A) | topic=install,account,skill,web
+== search {"query":"ตรวจลายเซ็น","lesson":"ego-lite","lang":"th"}
+  mode: hybrid
+  0.515 (vec 0.522 kw 0.500) ego-lite/th/3 | ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง · 3. ตรวจไฟล์ก่อนติดตั้ง (ไม่ต้องรันอะไร) | topic=install,verify
+  0.460 (vec 0.527 kw 0.333) ego-lite/th/5 | ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง · 5. ตรวจว่าเครื่องพร้อม | topic=skill,browser,verify
+  0.370 (vec 0.479 kw 0.167) ego-lite/th/12 | ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง · 12. skill ในรีโปนี้ ใช้ได้ทั้ง Claude Code, omx และ omp | topic=install,skill,browser,verify
+== search {"query":"install","topic":"troubleshooting","lang":"en"}
+  mode: hybrid
+  0.522 (vec 0.533 kw 0.500) claude-chatgpt/en/8 | Install Claude and ChatGPT, ready for the workshop · 8. Traps we really hit | topic=install,account,skill,memory,web,troubleshooting
+  0.311 (vec 0.478 kw 0.000) ego-lite/en/11 | Install ego(lite) so your AI agent gets a browser of its own · 11. Traps we really hit while making this guide | topic=install,browser,troubleshooting
+  0.306 (vec 0.471 kw 0.000) ego-lite/en/10 | Install ego(lite) so your AI agent gets a browser of its own · 10. Troubleshooting (from ego's Claude Code guide) | topic=skill,browser,troubleshooting
+== fetch claude-chatgpt/th/6 metadata
+  claude-chatgpt/th/6 | https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/th#s7
+  {"lesson": "claude-chatgpt", "lang": "th", "section": 6, "topic": ["account", "skill", "memory", "web", "verify"], "audience": ["agent", "presenter"], "title": "6. ทางสำรองบนเว็บ: ลงสกิลใน claude.ai (ทาง C)", "source": "https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/README.md", "signed_by": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78"}

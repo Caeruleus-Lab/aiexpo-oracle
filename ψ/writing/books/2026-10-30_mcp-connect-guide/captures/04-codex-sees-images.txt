@@ -1,0 +1,4 @@
+$ codex exec --skip-git-repo-check -c 'mcp_servers.aiexpo.url="https://aiexpo.buildwithoracle.com/mcp"' "Use the aiexpo MCP ..."
+Lessons listed: `claude-chatgpt`, `ego-lite`.
+Top result ID: `claude-chatgpt/th/6`.
+Image-only UI label: “Allow network egress”.
