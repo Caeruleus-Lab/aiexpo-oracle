@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-10-31",
+  "files": {
+    "README.md": "4bb2f1d81069e757c7f1ea2afdb0ab62190c7cdb2cfb01ae227a34c4400788e8",
+    "README.en.md": "8023d35ebce2e2f742681fbec4d5041a1c4e62b313dda3b6f2e9d92c62ebf06f",
+    "README.b64.txt": "67be1af7fb4340a30f88be28d2097d6a79e71cd149bcb903c493a7584e937841"
+  },
+  "message": "AIExpo Oracle signed: Oracle film guide (Phukhao 9 months)\ndate: 2026-10-31\nREADME.md sha256:4bb2f1d81069e757c7f1ea2afdb0ab62190c7cdb2cfb01ae227a34c4400788e8\nREADME.en.md sha256:8023d35ebce2e2f742681fbec4d5041a1c4e62b313dda3b6f2e9d92c62ebf06f\nREADME.b64.txt sha256:67be1af7fb4340a30f88be28d2097d6a79e71cd149bcb903c493a7584e937841",
+  "signature": "0x0f1be1d7bf7b50680063a5f92ece3410a4492131d5de8861229e3b226935733106f1b833d2ea26f1f576a13c642f6b74a764cf09ddc8b0dcc652f842c67c8aa81b"
+}

@@ -41,6 +41,14 @@ LESSONS = [
          cover="images/03-claude-custom-connector-step2.png",
          facts_th=["MCP: aiexpo.buildwithoracle.com/mcp", "4 เครื่องมือ · ไม่ต้องล็อกอิน"],
          facts_en=["MCP: aiexpo.buildwithoracle.com/mcp", "4 tools · no sign-in"]),
+    dict(key="phukhao-film", dir="2026-10-31_phukhao-film-guide",
+         th="ทำหนังสั้นให้ Oracle พูดเอง",
+         en="Make an Oracle tell its own story on film",
+         th_sub="เสียง Paxa ทีละบรรทัด ภาพฉากจาก Codex วิดีโอวนลูปบน GB300 ทุกพรอมต์อยู่ในบท",
+         en_sub="Paxa voice line by line, Codex scene images, seamless loops on GB300, with every prompt",
+         cover="images/01-codex-scenes-1.jpg",
+         facts_th=["13 ฉาก · 13 บรรทัด · 103 วิ", "พรอมต์ครบทุกชิ้น"],
+         facts_en=["13 scenes · 13 lines · 103 s", "every prompt included"]),
 ]
 
 

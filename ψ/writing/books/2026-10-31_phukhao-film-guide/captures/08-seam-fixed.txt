@@ -1,0 +1,3 @@
+$ ./fixloop.sh loops/p9-a1_Loop_final_x2_00001-audio.mp4 a1-fixed.mp4 && ./seamcheck.sh a1-fixed.mp4
+FIXED a1-fixed.mp4
+PASS a1-fixed.mp4 step=41.7 seam=39.0 252

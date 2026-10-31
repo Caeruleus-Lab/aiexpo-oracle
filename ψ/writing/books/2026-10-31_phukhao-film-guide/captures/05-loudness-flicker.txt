@@ -1,0 +1,6 @@
+$ oraclefilm loudness out/phukhao-9m-v1-worlds.mp4
+duration 102.775s  integrated -15.94 LUFS  true peak -2.98 dBTP  LRA 3.10
+$ oraclefilm flicker --frames frames --every 2 --limit 2463
+global brightness jump p95 2.17 max 7.26  (2.1698 / 7.2602)
+core (centre crop) mean abs diff p95 9.99 max 23.36
+1232 frames in 12.45s

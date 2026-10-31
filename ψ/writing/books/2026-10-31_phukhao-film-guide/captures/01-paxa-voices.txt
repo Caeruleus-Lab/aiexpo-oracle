@@ -1,0 +1,7 @@
+$ curl -s https://api.paxalabs.com/v1/voices -H "Authorization: Bearer $PAXA_API_KEY" | jq ...  # Flash v2 voices
+voices: 50  female: 26  male: 24
+khanomkrok	m	Calm, unhurried elder voice and the roster's male lead: documentary, heritage storytelling, and narration.
+nomyen	f	Bright, energetic voice and the roster's female lead: promos, social clips, and everyday product speech.
+foithong	f	Captivating narrator for long reads and explainers.
+matum	f	Unhurried, precise voice-over for documentaries, travel films, and museum guides.
+todmun	f	Room-lifting host voice for events, shows, and live announcements.

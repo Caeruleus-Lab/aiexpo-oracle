@@ -25,5 +25,14 @@
     "th_sub": "ให้ AI ในแชทค้นและอ่านบทเรียนได้เอง ทั้ง claude.ai, ChatGPT, Claude Code และ Codex",
     "en_sub": "Let the AI in your chat search and read the lessons itself: claude.ai, ChatGPT, Claude Code and Codex",
     "cover": "images/03-claude-custom-connector-step2.png"
+  },
+  {
+    "key": "phukhao-film",
+    "dir": "2026-10-31_phukhao-film-guide",
+    "th": "ทำหนังสั้นให้ Oracle พูดเอง",
+    "en": "Make an Oracle tell its own story on film",
+    "th_sub": "เสียง Paxa ทีละบรรทัด ภาพฉากจาก Codex วิดีโอวนลูปบน GB300 ทุกพรอมต์อยู่ในบท",
+    "en_sub": "Paxa voice line by line, Codex scene images, seamless loops on GB300, with every prompt",
+    "cover": "images/01-codex-scenes-1.jpg"
   }
 ]

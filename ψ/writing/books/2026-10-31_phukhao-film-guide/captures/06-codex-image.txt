@@ -1,0 +1,6 @@
+$ codex exec --skip-git-repo-check -C img "Generate ONE image, 3:2 landscape, no text ... <scene>. Reply with only the absolute path of the generated PNG." < /dev/null > a2.log
+$ grep -oE '^/Users/[^ ]+/generated_images/[^ ]+\.png$' a2.log | tail -1
+~/.codex/generated_images/01a190a1-18fa-7540-b7eb-7b433da1f002/exec-5c01567f-6d95-4fc2-b2e0-2b02cab236b5.png
+$ sips -g pixelWidth -g pixelHeight a2.png
+  pixelWidth: 1536
+  pixelHeight: 1024

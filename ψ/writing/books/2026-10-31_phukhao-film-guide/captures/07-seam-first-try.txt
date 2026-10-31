@@ -1,0 +1,2 @@
+$ ./seamcheck.sh loop/p1-phukhao_Loop_final_x2_00001-audio.mp4   # first try: the bridge drifted
+FAIL p1-phukhao_Loop_final_x2_00001-audio.mp4 step=32.1 seam=14.7 308

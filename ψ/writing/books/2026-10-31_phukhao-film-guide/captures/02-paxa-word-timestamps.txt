@@ -1,0 +1,17 @@
+$ curl -s -X POST https://api.paxalabs.com/v1/tts -d {"text":"[ภูมิใจ] ณัฐ กับ คุณยิ้ม จะขึ้นเวที Builder Stage งาน AI Expo ที่เมืองทองธานี.","voice":"foithong","model":"paxa-tts-flash-v2","speed":1.2,"temperature":0.8,"timestamps":"word"} | jq .timing.spans
+0.05	0.24	ณัฐ
+0.25	0.32	กับ
+0.37	0.57	คุณ
+0.57	0.93	ยิ้ม
+1.09	1.22	จะ
+1.22	1.4	ขึ้น
+1.4	1.77	เวที
+1.82	2.07	Builder
+2.13	2.48	Stage
+2.69	2.97	งาน
+3	3.2	AI
+3.31	3.61	Expo
+3.71	3.87	ที่
+3.87	4.08	เมือง
+4.08	4.32	ทอง
+4.32	4.91	ธานี.
