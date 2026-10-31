@@ -19,6 +19,7 @@ import markdown
 import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 from og_meta import og_tags  # noqa: E402  shared OG / Twitter / canonical tags
+from video_html import CSS as VIDEO_CSS, watch_section  # noqa: E402  the watch section, first after the cover
 
 here = pathlib.Path(__file__).resolve().parent
 sig = json.loads((here / "signature.json").read_text(encoding="utf-8")) if (here / "signature.json").exists() else None
@@ -50,6 +51,10 @@ def og(lang):
                    image_alt=l["en"] if en else l["th"], lang="en" if en else "th", kind="article")
 
 
+VIDEOS = [
+    dict(src="videos/oracle-family.mp4", poster="videos/oracle-family.jpg", caption={"th": "ครอบครัว Oracle ทักทาย เสียงแม่ (Mother) ขึ้นก่อน (1 นาที 9 วินาที)", "en": "The Oracle family says hi, Mother first (1 min 9 s)"}),
+    dict(src="../2026-10-31_phukhao-film-guide/videos/phukhao-film.mp4", poster="../2026-10-31_phukhao-film-guide/videos/phukhao-film.jpg", caption={"th": "ภูเขา · เก้าเดือนต่อมา (1 นาที 43 วินาที, เสียงฝ้ายทอง)", "en": "Phukhao · 9 months later (1 min 43 s, Foi Thong voice)"}, alt=("../2026-10-31_phukhao-film-guide/videos/phukhao-film-vertical.mp4", {"th": "ฉบับแนวตั้ง 9:16 สำหรับมือถือ", "en": "Vertical 9:16 cut for phones"})),
+]
 PAGES = {"b64": "index.html", "th": "th.html", "en": "en.html"}
 LANG_LABEL = {"b64": "AI", "th": "ไทย", "en": "English"}
 
@@ -137,7 +142,7 @@ $ cast wallet verify --address {sig["address"]} "$(jq -r .message signature.json
 
 THEME_HEAD = (here.parent / "theme_head.html").read_text(encoding="utf-8")
 THEME_JS = (here.parent / "theme.js").read_text(encoding="utf-8")
-CSS = ((here.parent / "tokens.css").read_text(encoding="utf-8") + (here.parent / "guide.css").read_text(encoding="utf-8"))  # shared stage theme, same palette as the deck
+CSS = ((here.parent / "tokens.css").read_text(encoding="utf-8") + (here.parent / "guide.css").read_text(encoding="utf-8") + VIDEO_CSS)  # shared stage theme, same palette as the deck
 
 JS = """
 const S=[...document.querySelectorAll('header.cover, main > section')],rail=document.getElementById('rail');
@@ -219,11 +224,14 @@ if(vb)vb.onclick=async()=>{const out=document.getElementById('verdict');out.clas
 def page(lang):
     c = COVER[lang]
     sections = md_body({"th": "README.md", "en": "README.en.md"}[lang]) if lang != "b64" else b64_body()
+    sections.insert(0, watch_section(lang, VIDEOS))
     sections.append(verify_section(lang))
     titles = [re.sub("<[^>]+>", "", (re.search(r"<h2[^>]*>(.*?)</h2>", x, re.S) or [None, ""])[1]).strip() for x in sections]
+    # the watch section is #watch, so the README sections keep #s2, #s3 … (the MCP's chunk URLs point at them)
+    ids = ["watch"] + [f"s{i + 2}" for i in range(len(sections) - 1)]
     def down(i):  # i = index of the section the button jumps to
-        return f'<a class="down" href="#s{i + 2}" aria-label="next: {H.escape(titles[i])}"><b>↓</b> {H.escape(titles[i])}</a>'
-    body = "".join(f'<section id="s{i + 2}">{x}{down(i + 1) if i + 1 < len(sections) else ""}</section>' for i, x in enumerate(sections))
+        return f'<a class="down" href="#{ids[i]}" aria-label="next: {H.escape(titles[i])}"><b>↓</b> {H.escape(titles[i])}</a>'
+    body = "".join(f'<section id="{ids[i]}">{x}{down(i + 1) if i + 1 < len(sections) else ""}</section>' for i, x in enumerate(sections))
     # AI / ไทย / English: the same language switch as the landing page; the choice is remembered for every page
     langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}" data-set="{"ai" if k == "b64" else k}">{LANG_LABEL[k]}</a>' for k in ("b64", "th", "en"))
     langs_end = f'<button class="theme" id="themebtn" type="button">{"☀ โหมดสว่าง" if lang == "th" else "☀ Light"}</button>'
@@ -253,7 +261,7 @@ def page(lang):
   {"".join(f"<p>{x}</p>" for x in c["sub"])}
   <div class="facts">{facts}</div>
   {'<a class="enter" href="#wall"><span class="rain" aria-hidden="true">01001011 10110</span><b>ENTER THE MATRIX</b><i>↓</i></a>' if lang == "b64" else ""}
-  <a class="down cover-down" href="#s2" aria-label="next: {H.escape(titles[0])}"><b>↓</b> {H.escape(titles[0])}</a>
+  <a class="down cover-down" href="#{ids[0]}" aria-label="next: {H.escape(titles[0])}"><b>↓</b> {H.escape(titles[0])}</a>
 </div></header>
 <main>{body}</main>
 <details class="ai"><summary>AI</summary><div><p>{AI_NOTE[lang]}</p><a href="llms.txt">llms.txt</a><a href="README.en.md">README.en.md</a><a href="README.md">README.md</a><a href="README.b64.txt">README.b64.txt</a><a href="signature.json">signature.json</a><a href="https://phukhao.buildwithoracle.com/">phukhao.buildwithoracle.com</a></div></details>
