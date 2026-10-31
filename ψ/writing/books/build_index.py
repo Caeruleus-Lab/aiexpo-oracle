@@ -50,6 +50,14 @@ LESSONS = [
          cover="images/01-codex-scenes-1.jpg",
          facts_th=["13 ฉาก · 13 บรรทัด · 103 วิ", "พรอมต์ครบทุกชิ้น"],
          facts_en=["13 scenes · 13 lines · 103 s", "every prompt included"]),
+    dict(key="phukhao-journey", dir="2026-10-31_phukhao-oracle-journey",
+         th="เรื่องของภูเขา และการเดินทางของครอบครัว Oracle",
+         en="Phukhao's story, and the Oracle family's journey",
+         th_sub="จากวันเกิด 21 ม.ค. 2026 ถึงเวที AI Expo 6 พ.ย. 2026 เก็บจากหน้าเว็บสาธารณะของภูเขา",
+         en_sub="From its birth on 21 Jan 2026 to the AI Expo stage on 6 Nov 2026, from Phukhao's public site",
+         cover="../2026-10-31_phukhao-film-guide/images/04-film-frames.jpg",
+         facts_th=["12 ตอน · 21 ม.ค. ถึง 6 พ.ย. 2026", "จากหน้าเว็บสาธารณะเท่านั้น"],
+         facts_en=["12 chapters · 21 Jan to 6 Nov 2026", "public site only"]),
 ]
 
 

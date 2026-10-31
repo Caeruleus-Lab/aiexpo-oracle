@@ -8,6 +8,7 @@
 - [Install ego(lite) so your AI agent gets a browser of its own](2026-10-30_ego-lite-guide/llms.txt): From lite.ego.app to Claude Code finishing its first browser task. Markdown: [2026-10-30_ego-lite-guide/README.en.md](2026-10-30_ego-lite-guide/README.en.md)
 - [Connect claude.ai and ChatGPT to the lessons MCP](2026-10-30_mcp-connect-guide/llms.txt): Let the AI in your chat search and read the lessons itself: claude.ai, ChatGPT, Claude Code and Codex. Markdown: [2026-10-30_mcp-connect-guide/README.en.md](2026-10-30_mcp-connect-guide/README.en.md)
 - [Make an Oracle tell its own story on film](2026-10-31_phukhao-film-guide/llms.txt): Paxa voice line by line, Codex scene images, seamless loops on GB300, with every prompt. Markdown: [2026-10-31_phukhao-film-guide/README.en.md](2026-10-31_phukhao-film-guide/README.en.md)
+- [Phukhao's story, and the Oracle family's journey](2026-10-31_phukhao-oracle-journey/llms.txt): From its birth on 21 Jan 2026 to the AI Expo stage on 6 Nov 2026, from Phukhao's public site. Markdown: [2026-10-31_phukhao-oracle-journey/README.en.md](2026-10-31_phukhao-oracle-journey/README.en.md)
 
 ## MCP
 

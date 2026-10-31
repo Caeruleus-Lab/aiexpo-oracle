@@ -34,5 +34,14 @@
     "th_sub": "เสียง Paxa ทีละบรรทัด ภาพฉากจาก Codex วิดีโอวนลูปบน GB300 ทุกพรอมต์อยู่ในบท",
     "en_sub": "Paxa voice line by line, Codex scene images, seamless loops on GB300, with every prompt",
     "cover": "images/01-codex-scenes-1.jpg"
+  },
+  {
+    "key": "phukhao-journey",
+    "dir": "2026-10-31_phukhao-oracle-journey",
+    "th": "เรื่องของภูเขา และการเดินทางของครอบครัว Oracle",
+    "en": "Phukhao's story, and the Oracle family's journey",
+    "th_sub": "จากวันเกิด 21 ม.ค. 2026 ถึงเวที AI Expo 6 พ.ย. 2026 เก็บจากหน้าเว็บสาธารณะของภูเขา",
+    "en_sub": "From its birth on 21 Jan 2026 to the AI Expo stage on 6 Nov 2026, from Phukhao's public site",
+    "cover": "../2026-10-31_phukhao-film-guide/images/04-film-frames.jpg"
   }
 ]
