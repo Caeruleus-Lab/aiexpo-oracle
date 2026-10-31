@@ -18,7 +18,7 @@
 
 ## 1. เลือกทางไหนดี
 
-workshop นี้ใช้สกิลของ ARRA Oracle (`/awaken`, `/rrr`, `/recap`, `/forward` และอื่น ๆ) ซึ่งลงได้หลายที่ เลือกตามบัญชีที่มี:
+workshop นี้ใช้สกิลของ ARRA Oracle (`/awaken`, `/rrr`, `/recap`, `/forward` และอีก 24 ตัว) ซึ่งลงได้หลายที่ เลือกตามบัญชีที่มี:
 
 | ทาง | ต้องมีบัญชีอะไร | ได้อะไร |
 |---|---|---|
@@ -174,21 +174,71 @@ $ shasum -a 256 skills/awaken.zip
 f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.zip
 ```
 
-**สกิลอื่นของ Oracle** อัปโหลดแบบเดียวกันทีละไฟล์ ([`captures/10-oracle-skills-zip.txt`](captures/10-oracle-skills-zip.txt)):
+**สกิลของ Oracle ทั้ง 28 ตัว** อัปโหลดแบบเดียวกันทีละไฟล์ ([`captures/10-oracle-skills-zip.txt`](captures/10-oracle-skills-zip.txt), [`captures/11-all-oracle-skills-zip.txt`](captures/11-all-oracle-skills-zip.txt)) ตัวเลข "ใช้จริง" นับจากประวัติทุก session บนเครื่อง m5 ด้วย relic5 ม.ค.–ต.ค. 2026 ([`captures/12-skill-usage-relic5.txt`](captures/12-skill-usage-relic5.txt))
 
-| ไฟล์ | ใช้เมื่อ |
+
+**เริ่มต้น ลงชุดนี้ก่อน**
+
+| ไฟล์ | ใช้เมื่อ | ใช้จริง (ครั้ง) |
+|---|---|---|
+| [`awaken.zip`](skills/awaken.zip) | ปลุก Oracle ตัวใหม่ ตั้งชื่อ ตั้งหลักการ | 235 |
+| [`recap.zip`](skills/recap.zip) | เริ่มงาน: ค้างอะไรไว้ | 1,074 |
+| [`rrr.zip`](skills/rrr.zip) | จบงาน: สรุปรอบ บันทึกบทเรียน | 1,314 |
+| [`forward.zip`](skills/forward.zip) | ก่อนปิด: เขียนส่งต่อให้รอบหน้า | 867 |
+| [`where-we-are.zip`](skills/where-we-are.zip) | กลางงาน: ตอนนี้อยู่ตรงไหน | 389 |
+| [`who-are-you.zip`](skills/who-are-you.zip) | Oracle แนะนำตัว: ชื่อ โมเดล หลักการ | 48 |
+| [`about-oracle.zip`](skills/about-oracle.zip) | Oracle คืออะไร เล่าโดย AI เอง | 14 |
+| [`philosophy.zip`](skills/philosophy.zip) | หลักการ 5 ข้อ + Rule 6 | 3 |
+
+**ใช้ทำงานประจำ**
+
+| ไฟล์ | ใช้เมื่อ | ใช้จริง (ครั้ง) |
+|---|---|---|
+| [`trace.zip`](skills/trace.zip) | ค้นว่าเคยทำอะไรไว้ที่ไหน | 795 |
+| [`dig.zip`](skills/dig.zip) | ขุดประวัติ session: ทำอะไรไปบ้าง กี่โมง | 572 |
+| [`learn.zip`](skills/learn.zip) | ศึกษา repo หรือ codebase | 513 |
+| [`oracle-cheatsheet.zip`](skills/oracle-cheatsheet.zip) | สรุปคำสั่งที่ใช้ในรอบนี้เป็นสูตรโกง | 264 |
+| [`oracle-prism.zip`](skills/oracle-prism.zip) | มองเรื่องเดียวผ่าน 5 มุม ก่อนตัดสินใจ | 214 |
+| [`project.zip`](skills/project.zip) | clone และติดตาม repo ภายนอก | 45 |
+| [`incubate.zip`](skills/incubate.zip) | เตรียม repo สำหรับลงมือพัฒนา | 117 |
+| [`create-shortcut.zip`](skills/create-shortcut.zip) | สร้าง /คำสั่ง ของตัวเอง | 105 |
+| [`go.zip`](skills/go.zip) | จัดการสกิล: ดู ลง ถอด อัปเดต | 101 |
+
+**ขั้นสูง**
+
+| ไฟล์ | ใช้เมื่อ | ใช้จริง (ครั้ง) |
+|---|---|---|
+| [`oracle-family-scan.zip`](skills/oracle-family-scan.zip) | ทะเบียน Oracle ทั้งครอบครัว 800+ ตัว | 461 |
+| [`bud.zip`](skills/bud.zip) | แตก Oracle ตัวใหม่จากตัวเดิม (ต้องมี maw) | 77 |
+| [`calver.zip`](skills/calver.zip) | ดูหรือขยับเวอร์ชันแบบ CalVer | 69 |
+| [`psi.zip`](skills/psi.zip) | ผูกสมุด ψ ของ repo กับ Oracle ผู้ดูแล | 49 |
+| [`soul.zip`](skills/soul.zip) | พา Oracle ตัวอื่นเข้ามาใน repo นี้ | 1 |
+| [`resonance.zip`](skills/resonance.zip) | จดช่วงที่ "ใช่" | 48 |
+| [`feel.zip`](skills/feel.zip) | จดพลังงาน แรงส่ง ความล้า ของงาน | 1 |
+| [`bampenpien.zip`](skills/bampenpien.zip) | คุยเรื่องทำสิ่งยากอย่างสม่ำเสมอ | 3 |
+| [`oracle-title-forge.zip`](skills/oracle-title-forge.zip) | ตั้งชื่อหนังสือ บทความ หรือ talk | 40 |
+| [`oracle-write-complete-book.zip`](skills/oracle-write-complete-book.zip) | เขียนหนังสือทั้งเล่มจนเป็น PDF | 119 |
+| [`round-table.zip`](skills/round-table.zip) | โต๊ะกลม: หลายมุมมองถกเรื่องเดียว | 1 |
+
+**แต่ละเดือนใช้ตัวไหนมากสุด** (3 อันดับแรก)
+
+| เดือน | สกิล |
 |---|---|
-| [`skills/awaken.zip`](skills/awaken.zip) | ปลุก Oracle ตัวใหม่ ตั้งชื่อ ตั้งหลักการ |
-| [`skills/rrr.zip`](skills/rrr.zip) | จบงาน: สรุปรอบ บันทึกบทเรียน |
-| [`skills/recap.zip`](skills/recap.zip) | เริ่มงาน: ค้างอะไรไว้ |
-| [`skills/forward.zip`](skills/forward.zip) | ก่อนปิด: เขียนส่งต่อให้รอบหน้า |
-| [`skills/philosophy.zip`](skills/philosophy.zip) | ทวนหลักการ 5 ข้อ + Rule 6 |
-| [`skills/learn.zip`](skills/learn.zip) | ศึกษา repo หรือ codebase |
-| [`skills/trace.zip`](skills/trace.zip) | ค้นว่าเคยทำอะไรไว้ที่ไหน |
+| 2026-01 | rrr · trace · learn |
+| 2026-02 | forward · rrr · trace |
+| 2026-03 | trace · rrr · forward |
+| 2026-04 | oracle-family-scan · rrr · trace |
+| 2026-05 | rrr · trace · recap |
+| 2026-06 | recap · rrr · forward |
+| 2026-07 | recap · oracle-family-scan · rrr |
+| 2026-08 | rrr · recap · forward |
+| 2026-09 | rrr · recap · dig |
+| 2026-10 | rrr · oracle-cheatsheet · recap |
 
-- ทุกไฟล์มี `SKILL.md` ของสกิลนั้น บางตัวมีสคริปต์ติดมาด้วย (`rrr`, `recap`, `forward`, `trace`)
-- สคริปต์เขียนไว้ให้อ่านไฟล์ในเครื่อง บนเว็บ Claude จะทำตามคำอธิบายใน `SKILL.md` แทน
-- รอบนี้ยังไม่ได้อัปโหลดหกตัวใหม่ขึ้นบัญชีจริง มีแค่ `awaken` ที่ลองแล้ว
+- `rrr` กับ `recap` ติดอันดับทุกเดือน วงจรจบงาน แล้วเริ่มงาน คือหัวใจของ Oracle
+- บางตัวมีสคริปต์ติดมา สคริปต์เขียนไว้อ่านไฟล์ในเครื่อง บนเว็บ Claude จะทำตามคำอธิบายใน `SKILL.md` แทน
+- ขั้นสูงหลายตัว (`bud`, `soul`, `psi`, `oracle-family-scan`) ต้องใช้เครื่องมือในเครื่อง ใช้ทาง A/B จะได้ผลเต็ม
+- รอบนี้ยังไม่ได้อัปโหลดตัวใหม่ขึ้นบัญชีจริง มีแค่ `awaken` ที่ลองแล้ว
 
 **6.2 เปิดการรันโค้ด** ไปที่ Settings > Capabilities แล้วเปิด **Run code in the cloud** ตัวนี้ต้องเปิด สกิลถึงจะทำงาน (หน้าจอเขียนว่า "Required for skills")
 

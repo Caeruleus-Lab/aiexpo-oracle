@@ -1,0 +1,49 @@
+# relic5 history on m5 (~/.relic-scan: every Claude Code + Codex transcript on the machine), counted 31 Oct 2026
+# a use = a Skill tool call, or a /command typed by the human; only the 28 Oracle skills (arra-oracle-skills v26.8.23)
+
+┌────────────────────────────┬──────┬──────────┬─────────────┬────────────┐
+│           skill            │ uses │ n_months │ first_month │ last_month │
+├────────────────────────────┼──────┼──────────┼─────────────┼────────────┤
+│ rrr                        │ 1314 │ 10       │ 2026-01     │ 2026-10    │
+│ recap                      │ 1074 │ 10       │ 2026-01     │ 2026-10    │
+│ forward                    │ 867  │ 9        │ 2026-02     │ 2026-10    │
+│ trace                      │ 795  │ 9        │ 2026-01     │ 2026-09    │
+│ dig                        │ 572  │ 9        │ 2026-02     │ 2026-10    │
+│ learn                      │ 513  │ 10       │ 2026-01     │ 2026-10    │
+│ oracle-family-scan         │ 461  │ 10       │ 2026-01     │ 2026-10    │
+│ where-we-are               │ 389  │ 10       │ 2026-01     │ 2026-10    │
+│ oracle-cheatsheet          │ 264  │ 5        │ 2026-06     │ 2026-10    │
+│ awaken                     │ 235  │ 10       │ 2026-01     │ 2026-10    │
+│ oracle-prism               │ 214  │ 5        │ 2026-06     │ 2026-10    │
+│ oracle-write-complete-book │ 119  │ 5        │ 2026-06     │ 2026-10    │
+│ incubate                   │ 117  │ 7        │ 2026-04     │ 2026-10    │
+│ create-shortcut            │ 105  │ 8        │ 2026-03     │ 2026-10    │
+│ go                         │ 101  │ 4        │ 2026-04     │ 2026-10    │
+│ bud                        │ 77   │ 7        │ 2026-04     │ 2026-10    │
+│ calver                     │ 69   │ 7        │ 2026-04     │ 2026-10    │
+│ psi                        │ 49   │ 3        │ 2026-08     │ 2026-10    │
+│ resonance                  │ 48   │ 6        │ 2026-04     │ 2026-09    │
+│ who-are-you                │ 48   │ 10       │ 2026-01     │ 2026-10    │
+│ project                    │ 45   │ 7        │ 2026-01     │ 2026-09    │
+│ oracle-title-forge         │ 40   │ 3        │ 2026-07     │ 2026-09    │
+│ about-oracle               │ 14   │ 6        │ 2026-03     │ 2026-08    │
+│ philosophy                 │ 3    │ 2        │ 2026-01     │ 2026-02    │
+│ bampenpien                 │ 3    │ 2        │ 2026-04     │ 2026-06    │
+│ round-table                │ 1    │ 1        │ 2026-10     │ 2026-10    │
+│ feel                       │ 1    │ 1        │ 2026-04     │ 2026-04    │
+│ soul                       │ 1    │ 1        │ 2026-10     │ 2026-10    │
+└────────────────────────────┴──────┴──────────┴─────────────┴────────────┘
+┌─────────┬──────┬──────────────────────────────────────────────────────────────────────────────────────┐
+│   ym    │ uses │                                         top6                                         │
+├─────────┼──────┼──────────────────────────────────────────────────────────────────────────────────────┤
+│ 2026-01 │ 51   │ rrr 16, trace 15, learn 7, recap 6, oracle-family-scan 4, where-we-are 3             │
+│ 2026-02 │ 750  │ forward 239, rrr 184, trace 164, learn 71, recap 62, dig 30                          │
+│ 2026-03 │ 649  │ trace 170, rrr 156, forward 112, oracle-family-scan 87, recap 75, dig 49             │
+│ 2026-04 │ 856  │ oracle-family-scan 187, rrr 171, trace 153, recap 147, forward 122, learn 76         │
+│ 2026-05 │ 696  │ rrr 165, trace 154, recap 142, dig 106, learn 66, forward 63                         │
+│ 2026-06 │ 658  │ recap 192, rrr 145, forward 92, trace 83, learn 81, dig 65                           │
+│ 2026-07 │ 651  │ recap 172, oracle-family-scan 134, rrr 113, dig 107, learn 69, where-we-are 56       │
+│ 2026-08 │ 556  │ rrr 147, recap 128, forward 103, dig 74, where-we-are 54, learn 50                   │
+│ 2026-09 │ 490  │ rrr 100, recap 89, dig 86, where-we-are 82, oracle-cheatsheet 80, learn 53           │
+│ 2026-10 │ 363  │ rrr 117, oracle-cheatsheet 68, recap 61, where-we-are 47, calver 35, oracle-prism 35 │
+└─────────┴──────┴──────────────────────────────────────────────────────────────────────────────────────┘

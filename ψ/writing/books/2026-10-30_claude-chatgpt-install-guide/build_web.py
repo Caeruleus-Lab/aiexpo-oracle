@@ -87,7 +87,7 @@ def b64_body():
     text = (here / "README.b64.txt").read_text(encoding="utf-8")
     lines = text.rstrip("\n").split("\n")
     flat = "".join(lines)  # shown as one flowing block; the .txt file keeps its 76-char lines
-    files = ["README.md", "README.en.md", "README.b64.txt", "signature.json", "SIGNATURE.md", "llms.txt", "skills/awaken.zip", "skills/rrr.zip", "skills/recap.zip", "skills/forward.zip", "skills/philosophy.zip", "skills/learn.zip", "skills/trace.zip"]
+    files = ["README.md", "README.en.md", "README.b64.txt", "signature.json", "SIGNATURE.md", "llms.txt", "skills/awaken.zip"]
     chips = "".join(f'<a class="chip" href="{f}"><b>{f}</b><span>{size(f)}</span></a>' for f in files)
     U = '<span class="base">&lt;this-folder&gt;/</span>'
     return [
@@ -225,7 +225,7 @@ def page(lang):
     langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}">{LANG_LABEL[k]}</a>' for k in PAGES)
     langs_end = f'<button class="theme" id="themebtn" type="button">{"☀ โหมดสว่าง" if lang == "th" else "☀ Light"}</button>'
     langs = f'<a href="../index.html" class="home">{"← บทเรียนทั้งหมด" if lang == "th" else "← All lessons"}</a>' + langs
-    facts = (f'<span>Claude Code <b>2.1.314</b></span><span>codex-cli <b>0.166.0</b></span><a href="{"#s7" if lang != "b64" else "en.html#s7"}">skills <b>7 ZIP</b></a>'
+    facts = (f'<span>Claude Code <b>2.1.314</b></span><span>codex-cli <b>0.166.0</b></span><a href="{"#s7" if lang != "b64" else "en.html#s7"}">skills <b>28 ZIP</b></a>'
              f'<a href="#verify">{c["verify"]} <b>{sig["address"][:6]}…{sig["address"][-4:]}</b></a>' if sig else "")
     title = re.sub(r"\s+([,.])", r"\1", " ".join(re.sub("<[^>]+>", " ", c["h1"]).split()))
     return f"""<!doctype html>

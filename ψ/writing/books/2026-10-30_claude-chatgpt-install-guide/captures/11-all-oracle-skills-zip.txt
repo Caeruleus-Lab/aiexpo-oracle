@@ -1,0 +1,212 @@
+$ cd ~/.claude/skills && for s in about-oracle bampenpien bud calver create-shortcut dig feel go incubate oracle-cheatsheet oracle-family-scan oracle-prism oracle-title-forge oracle-write-complete-book project psi resonance round-table soul where-we-are who-are-you; do zip -X -r $s.zip $s -x '*.bak-*'; done
+$ unzip -l skills/about-oracle.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-03-2026 09:39   about-oracle/
+    12995  10-03-2026 09:39   about-oracle/SKILL.md
+---------                     -------
+    12995                     2 files
+$ unzip -l skills/bampenpien.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   bampenpien/
+    11260  09-14-2026 22:05   bampenpien/SKILL.md
+---------                     -------
+    11260                     2 files
+$ unzip -l skills/bud.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-23-2026 13:42   bud/
+     7317  10-23-2026 13:42   bud/SKILL.md
+---------                     -------
+     7317                     2 files
+$ unzip -l skills/calver.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   calver/
+     5140  09-14-2026 22:05   calver/SKILL.md
+---------                     -------
+     5140                     2 files
+$ unzip -l skills/create-shortcut.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-17-2026 19:13   create-shortcut/
+    12325  09-17-2026 19:15   create-shortcut/SKILL.md
+---------                     -------
+    12325                     2 files
+$ unzip -l skills/dig.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-26-2026 15:34   dig/
+     6352  09-14-2026 22:05   dig/DEEP.md
+        0  09-26-2026 15:33   dig/scripts/
+    16360  09-26-2026 15:33   dig/scripts/dig.py
+     9212  09-26-2026 15:34   dig/SKILL.md
+---------                     -------
+    31924                     5 files
+$ unzip -l skills/feel.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-17-2026 19:13   feel/
+     5100  09-17-2026 19:15   feel/SKILL.md
+---------                     -------
+     5100                     2 files
+$ unzip -l skills/go.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-03-2026 09:39   go/
+    20813  10-03-2026 09:39   go/SKILL.md
+---------                     -------
+    20813                     2 files
+$ unzip -l skills/incubate.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   incubate/
+        0  09-14-2026 22:05   incubate/references/
+    13252  09-14-2026 22:05   incubate/references/worktree-recovery.md
+    74767  09-14-2026 22:05   incubate/SKILL.md
+---------                     -------
+    88019                     4 files
+$ unzip -l skills/oracle-cheatsheet.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   oracle-cheatsheet/
+     7748  09-14-2026 22:05   oracle-cheatsheet/SKILL.md
+---------                     -------
+     7748                     2 files
+$ unzip -l skills/oracle-family-scan.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   oracle-family-scan/
+     4848  09-14-2026 22:05   oracle-family-scan/scan.sh
+        0  09-14-2026 22:05   oracle-family-scan/scripts/
+     5941  10-30-2026 07:18   oracle-family-scan/scripts/fleet-scan.ts
+    31431  09-14-2026 22:05   oracle-family-scan/SKILL.md
+      595  09-14-2026 22:05   oracle-family-scan/registry-snapshot.json
+---------                     -------
+    42815                     6 files
+$ unzip -l skills/oracle-prism.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   oracle-prism/
+     5594  09-14-2026 22:05   oracle-prism/SKILL.md
+---------                     -------
+     5594                     2 files
+$ unzip -l skills/oracle-title-forge.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-05-2026 14:17   oracle-title-forge/
+    13617  10-05-2026 14:18   oracle-title-forge/SKILL.md
+---------                     -------
+    13617                     2 files
+$ unzip -l skills/oracle-write-complete-book.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-05-2026 14:19   oracle-write-complete-book/
+    26067  10-05-2026 14:19   oracle-write-complete-book/SKILL.md
+---------                     -------
+    26067                     2 files
+$ unzip -l skills/project.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   project/
+     5346  09-14-2026 22:05   project/project-manager.md
+        0  09-14-2026 22:05   project/scripts/
+     1880  09-14-2026 22:05   project/scripts/history.ts
+     1294  09-14-2026 22:05   project/scripts/offload.ts
+     1863  09-14-2026 22:05   project/scripts/incubate.ts
+     2057  09-14-2026 22:05   project/scripts/search.ts
+     1537  09-14-2026 22:05   project/scripts/learn.ts
+     3821  09-14-2026 22:05   project/scripts/utils.ts
+     1949  09-14-2026 22:05   project/scripts/spinoff.ts
+     1412  09-14-2026 22:05   project/scripts/resolve-slug.ts
+     3294  09-14-2026 22:05   project/scripts/index.ts
+     2276  09-14-2026 22:05   project/scripts/create.ts
+     2837  09-14-2026 22:05   project/scripts/reunion.ts
+     6008  09-14-2026 22:05   project/SKILL.md
+        0  09-14-2026 22:05   project/templates/
+      556  09-14-2026 22:05   project/templates/slugs.yaml
+---------                     -------
+    36130                     17 files
+$ unzip -l skills/psi.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   psi/
+    20721  09-14-2026 22:05   psi/SKILL.md
+---------                     -------
+    20721                     2 files
+$ unzip -l skills/resonance.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   resonance/
+     4175  09-14-2026 22:05   resonance/SKILL.md
+---------                     -------
+     4175                     2 files
+$ unzip -l skills/round-table.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-03-2026 09:30   round-table/
+        0  10-03-2026 09:30   round-table/examples/
+     3024  10-03-2026 09:30   round-table/examples/adopt-a-pattern.json
+        0  10-03-2026 09:30   round-table/scripts/
+     6113  10-03-2026 09:30   round-table/scripts/table.ts
+     8899  10-03-2026 09:30   round-table/SKILL.md
+        0  10-03-2026 09:30   round-table/prompts/
+      848  10-03-2026 09:30   round-table/prompts/round4-vote.txt
+      808  10-03-2026 09:30   round-table/prompts/round2-deepen.txt
+      824  10-03-2026 09:30   round-table/prompts/round1-open.txt
+      852  10-03-2026 09:30   round-table/prompts/round3-converge.txt
+---------                     -------
+    21368                     11 files
+$ unzip -l skills/soul.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-03-2026 09:39   soul/
+        0  10-03-2026 09:39   soul/scripts/
+     7582  10-03-2026 09:39   soul/scripts/soul.ts
+     5408  10-03-2026 09:39   soul/SKILL.md
+---------                     -------
+    12990                     4 files
+$ unzip -l skills/where-we-are.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   where-we-are/
+      673  09-14-2026 22:05   where-we-are/SKILL.md
+---------                     -------
+      673                     2 files
+$ unzip -l skills/who-are-you.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-03-2026 09:39   who-are-you/
+     7689  10-03-2026 09:39   who-are-you/SKILL.md
+---------                     -------
+     7689                     2 files
+$ shasum -a 256 skills/*.zip
+dca085577b08c0d3f36a430924f34be8c9e53632e5a3f2f8409455c397e4cb65  skills/about-oracle.zip
+f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.zip
+a8a05f4a2c102854eccc64874a657adca4f5fd6363e4be2daa3dd972c9be3c57  skills/bampenpien.zip
+08f9a87efc2a1a35b4ebb5bd245d37645df605d6067fc0664ff9b8759351f3bc  skills/bud.zip
+0b8accaaa427ebe34e57db23d038caeea6e22634d7169f32de02dc9022ccb96a  skills/calver.zip
+d4053592455a11c78503bec543761a9ad8f1507cfb17191639fb037362c479c7  skills/create-shortcut.zip
+285aecd8cceaf4894cc871f7a1303f22b1c644fc6f97a04a0df38b451dc5151e  skills/dig.zip
+a28a0f491f0dfb69bb8898baad04023e9bbfd917d9eeffca86295ab9f8f01627  skills/feel.zip
+bcc782fd47ec983737eeb9463fc66232033a1d3c439839675c3bf15c90e15eac  skills/forward.zip
+b2e43d0ba5ac70fa88d6b0b5845542311745175248a1d614f576e197ccb05c13  skills/go.zip
+90d677ce8beee59262652cab8ff153c5bc1939a99c830967750639233cb0fea5  skills/incubate.zip
+4cb23586fda9e206add080dab5c7fabb65a8a1c66a7ad6114c69ec63207d6fef  skills/learn.zip
+90cb5a49e2b7d11b96f83234cf09ce460593da582fdd5488d45fa8e0d9bd13c7  skills/oracle-cheatsheet.zip
+17af1edc40b992ea12829fa14712cac4d423e32ac8bcf0e8a2d0f1c39a528d34  skills/oracle-family-scan.zip
+1c0be801596a4141291bac9674e2eb1b2c5d667e9a57b51a282e1b9f28615ce9  skills/oracle-prism.zip
+2146d4635f36da76448d70a91547cc121c18ce7d636d37d08d2d154b348d7a5f  skills/oracle-title-forge.zip
+6fdc959bdf94d43115db232e0b32e9a548d3097e182ad092ba9b7b1915b3fff3  skills/oracle-write-complete-book.zip
+7fdf8cea7bf05026e1bc2f723a2ab501465ce3e1300c6fd22278d031e740d46d  skills/philosophy.zip
+931d9672462af3495eaded3aa872832804794b649bf98a23ed8692b66321119a  skills/project.zip
+889391c1eaa0241d53fba6f62b3b1a269bcbf64f0d70599c344006df04382d5d  skills/psi.zip
+4dd762c9073831dacf7f742bd62d0315b8fd2304f78dbba33d0145780201965a  skills/recap.zip
+7f178c582eb0f84ae616f39df3fa4a365b948f944d287978410fbf439e9483f7  skills/resonance.zip
+30f21f255db70b59936359f97e5ecfb854a3d075243dedb31c2f4bdd748c291f  skills/round-table.zip
+05e95e3291e2b11eab76cf59cf31f62226475506009d4c7a2281435e098b7125  skills/rrr.zip
+e72a1b6686b6b496655abbc3ecd84a59847cf677e07c9c68a822178598f2ef8f  skills/soul.zip
+aa8a3d4e01f5aa7d855233949073b525d687eb29ce566cb16f8b0909a5971c1c  skills/trace.zip
+339242107b84eefc8158b963d05638c47f702349d3a6da1c973336e05be4389d  skills/where-we-are.zip
+aaaf3d1422ca23deb81202d981e7004c8a0cca4e1ef01bc6c457d38071c74d80  skills/who-are-you.zip

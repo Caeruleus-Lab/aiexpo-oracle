@@ -18,7 +18,7 @@
 
 ## 1. Pick a path
 
-The workshop uses ARRA Oracle's skills (`/awaken`, `/rrr`, `/recap`, `/forward` and more), which install in several places. Pick by the account you have:
+The workshop uses ARRA Oracle's skills (`/awaken`, `/rrr`, `/recap`, `/forward` and 24 more), which install in several places. Pick by the account you have:
 
 | Path | Account needed | What you get |
 |---|---|---|
@@ -174,21 +174,71 @@ $ shasum -a 256 skills/awaken.zip
 f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.zip
 ```
 
-**More Oracle skills** upload the same way, one file at a time ([`captures/10-oracle-skills-zip.txt`](captures/10-oracle-skills-zip.txt)):
+**All 28 Oracle skills** upload the same way, one file at a time ([`captures/10-oracle-skills-zip.txt`](captures/10-oracle-skills-zip.txt), [`captures/11-all-oracle-skills-zip.txt`](captures/11-all-oracle-skills-zip.txt)). "Used" counts every session on the m5 machine, Jan–Oct 2026, from relic5 ([`captures/12-skill-usage-relic5.txt`](captures/12-skill-usage-relic5.txt))
 
-| File | Use it to |
+
+**Beginner: install these first**
+
+| File | Use it to | Used (times) |
+|---|---|---|
+| [`awaken.zip`](skills/awaken.zip) | wake a new Oracle, name it, set its principles | 235 |
+| [`recap.zip`](skills/recap.zip) | start a session: what was left open | 1,074 |
+| [`rrr.zip`](skills/rrr.zip) | end a session: a retrospective and lessons | 1,314 |
+| [`forward.zip`](skills/forward.zip) | before closing: a handoff for next time | 867 |
+| [`where-we-are.zip`](skills/where-we-are.zip) | mid-session: where are we now | 389 |
+| [`who-are-you.zip`](skills/who-are-you.zip) | the Oracle introduces itself: name, model, principles | 48 |
+| [`about-oracle.zip`](skills/about-oracle.zip) | what Oracle is, told by the AI itself | 14 |
+| [`philosophy.zip`](skills/philosophy.zip) | the 5 principles + Rule 6 | 3 |
+
+**Everyday work**
+
+| File | Use it to | Used (times) |
+|---|---|---|
+| [`trace.zip`](skills/trace.zip) | find where something was done before | 795 |
+| [`dig.zip`](skills/dig.zip) | mine past sessions: what was done, when | 572 |
+| [`learn.zip`](skills/learn.zip) | study a repo or codebase | 513 |
+| [`oracle-cheatsheet.zip`](skills/oracle-cheatsheet.zip) | turn this session's commands into a cheat sheet | 264 |
+| [`oracle-prism.zip`](skills/oracle-prism.zip) | look at one question through 5 lenses before deciding | 214 |
+| [`project.zip`](skills/project.zip) | clone and track outside repos | 45 |
+| [`incubate.zip`](skills/incubate.zip) | set up a repo for active development | 117 |
+| [`create-shortcut.zip`](skills/create-shortcut.zip) | make your own /commands | 105 |
+| [`go.zip`](skills/go.zip) | manage skills: list, install, remove, update | 101 |
+
+**Advanced**
+
+| File | Use it to | Used (times) |
+|---|---|---|
+| [`oracle-family-scan.zip`](skills/oracle-family-scan.zip) | the family registry of 800+ Oracles | 461 |
+| [`bud.zip`](skills/bud.zip) | bud a new Oracle from this one (needs maw) | 77 |
+| [`calver.zip`](skills/calver.zip) | show or bump a CalVer version | 69 |
+| [`psi.zip`](skills/psi.zip) | attach a repo's ψ vault to a caretaker Oracle | 49 |
+| [`soul.zip`](skills/soul.zip) | bring another Oracle into this repo | 1 |
+| [`resonance.zip`](skills/resonance.zip) | log a moment that clicked | 48 |
+| [`feel.zip`](skills/feel.zip) | log the energy, momentum and fatigue of the work | 1 |
+| [`bampenpien.zip`](skills/bampenpien.zip) | a talk about doing hard things steadily | 3 |
+| [`oracle-title-forge.zip`](skills/oracle-title-forge.zip) | forge a title for a book, article or talk | 40 |
+| [`oracle-write-complete-book.zip`](skills/oracle-write-complete-book.zip) | write a whole book through to PDF | 119 |
+| [`round-table.zip`](skills/round-table.zip) | a round table: several voices debate one question | 1 |
+
+**Most used each month** (top 3)
+
+| Month | Skills |
 |---|---|
-| [`skills/awaken.zip`](skills/awaken.zip) | wake a new Oracle, name it, set its principles |
-| [`skills/rrr.zip`](skills/rrr.zip) | end a session: a retrospective and lessons |
-| [`skills/recap.zip`](skills/recap.zip) | start a session: what was left open |
-| [`skills/forward.zip`](skills/forward.zip) | before closing: a handoff for next time |
-| [`skills/philosophy.zip`](skills/philosophy.zip) | go over the 5 principles + Rule 6 |
-| [`skills/learn.zip`](skills/learn.zip) | study a repo or codebase |
-| [`skills/trace.zip`](skills/trace.zip) | find where something was done before |
+| 2026-01 | rrr · trace · learn |
+| 2026-02 | forward · rrr · trace |
+| 2026-03 | trace · rrr · forward |
+| 2026-04 | oracle-family-scan · rrr · trace |
+| 2026-05 | rrr · trace · recap |
+| 2026-06 | recap · rrr · forward |
+| 2026-07 | recap · oracle-family-scan · rrr |
+| 2026-08 | rrr · recap · forward |
+| 2026-09 | rrr · recap · dig |
+| 2026-10 | rrr · oracle-cheatsheet · recap |
 
-- Each ZIP holds that skill's `SKILL.md`; some carry scripts too (`rrr`, `recap`, `forward`, `trace`)
-- The scripts read local files; on the web Claude follows the instructions in `SKILL.md` instead
-- The six new ones have not been uploaded to a real account yet; only `awaken` was tried
+- `rrr` and `recap` are in the top list every month: closing a session and opening the next is the heart of Oracle
+- Some ZIPs carry scripts that read local files; on the web Claude follows the instructions in `SKILL.md` instead
+- Several advanced ones (`bud`, `soul`, `psi`, `oracle-family-scan`) need local tools; paths A/B give the full result
+- The new ones have not been uploaded to a real account yet; only `awaken` was tried
 
 **6.2 Turn on code execution.** Go to Settings > Capabilities and turn on **Run code in the cloud**. Skills do not run without it (the screen says "Required for skills").
 
