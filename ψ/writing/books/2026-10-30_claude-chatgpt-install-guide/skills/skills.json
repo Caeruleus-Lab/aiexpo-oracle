@@ -1,0 +1,611 @@
+{
+ "source": "arra-oracle-skills v26.8.23, ~/.claude/skills on m5",
+ "deps": [
+  "~/.claude",
+  "bun",
+  "maw",
+  "gh",
+  "git",
+  "python3",
+  ".jsonl",
+  "ψ/"
+ ],
+ "start": [
+  "awaken",
+  "rrr",
+  "recap"
+ ],
+ "web": {
+  "ok": {
+   "mark": "✓",
+   "th": "ใช้บนเว็บได้",
+   "en": "works on the web"
+  },
+  "partial": {
+   "mark": "◐",
+   "th": "ได้บางส่วน ความจำหายเมื่อเปิดแชทใหม่",
+   "en": "partly: memory is gone in the next chat"
+  },
+  "local": {
+   "mark": "✗",
+   "th": "ต้องใช้เครื่องตัวเอง (ทาง A/B)",
+   "en": "needs your own machine (path A/B)"
+  }
+ },
+ "tiers": {
+  "1": {
+   "th": "เริ่มต้น",
+   "en": "Beginner"
+  },
+  "2": {
+   "th": "ใช้ทำงานประจำ",
+   "en": "Everyday work"
+  },
+  "3": {
+   "th": "ขั้นสูง",
+   "en": "Advanced"
+  }
+ },
+ "skills": [
+  {
+   "name": "awaken",
+   "tier": 1,
+   "web": "partial",
+   "th": "ปลุก Oracle ตัวใหม่ ตั้งชื่อ ตั้งหลักการ",
+   "en": "wake a new Oracle, name it, set its principles",
+   "uses": 235,
+   "files": 1,
+   "kb": 12.4,
+   "deps": {
+    "~/.claude": 1,
+    "bun": 4,
+    "maw": 0,
+    "gh": 5,
+    "git": 14,
+    "python3": 0,
+    ".jsonl": 1,
+    "ψ/": 34
+   }
+  },
+  {
+   "name": "recap",
+   "tier": 1,
+   "web": "partial",
+   "th": "เริ่มงาน: ค้างอะไรไว้",
+   "en": "start a session: what was left open",
+   "uses": 1074,
+   "files": 7,
+   "kb": 17.4,
+   "deps": {
+    "~/.claude": 7,
+    "bun": 3,
+    "maw": 1,
+    "gh": 3,
+    "git": 12,
+    "python3": 1,
+    ".jsonl": 1,
+    "ψ/": 7
+   }
+  },
+  {
+   "name": "rrr",
+   "tier": 1,
+   "web": "partial",
+   "th": "จบงาน: สรุปรอบ บันทึกบทเรียน",
+   "en": "end a session: a retrospective and lessons",
+   "uses": 1314,
+   "files": 6,
+   "kb": 13.0,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 11,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 2
+   }
+  },
+  {
+   "name": "forward",
+   "tier": 1,
+   "web": "partial",
+   "th": "ก่อนปิด: เขียนส่งต่อให้รอบหน้า",
+   "en": "before closing: a handoff for next time",
+   "uses": 867,
+   "files": 4,
+   "kb": 6.7,
+   "deps": {
+    "~/.claude": 6,
+    "bun": 0,
+    "maw": 0,
+    "gh": 4,
+    "git": 12,
+    "python3": 1,
+    ".jsonl": 4,
+    "ψ/": 3
+   }
+  },
+  {
+   "name": "where-we-are",
+   "tier": 1,
+   "web": "ok",
+   "th": "กลางงาน: ตอนนี้อยู่ตรงไหน",
+   "en": "mid-session: where are we now",
+   "uses": 389,
+   "files": 2,
+   "kb": 0.6,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 0,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 0
+   }
+  },
+  {
+   "name": "who-are-you",
+   "tier": 1,
+   "web": "ok",
+   "th": "Oracle แนะนำตัว: ชื่อ โมเดล หลักการ",
+   "en": "the Oracle introduces itself: name, model, principles",
+   "uses": 48,
+   "files": 2,
+   "kb": 3.6,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 0,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 1
+   }
+  },
+  {
+   "name": "about-oracle",
+   "tier": 1,
+   "web": "partial",
+   "th": "Oracle คืออะไร เล่าโดย AI เอง",
+   "en": "what Oracle is, told by the AI itself",
+   "uses": 14,
+   "files": 2,
+   "kb": 5.9,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 2,
+    "maw": 0,
+    "gh": 3,
+    "git": 6,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 8
+   }
+  },
+  {
+   "name": "philosophy",
+   "tier": 1,
+   "web": "ok",
+   "th": "หลักการ 5 ข้อ + Rule 6",
+   "en": "the 5 principles + Rule 6",
+   "uses": 3,
+   "files": 2,
+   "kb": 3.8,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 1,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 2
+   }
+  },
+  {
+   "name": "trace",
+   "tier": 2,
+   "web": "partial",
+   "th": "ค้นว่าเคยทำอะไรไว้ที่ไหน",
+   "en": "find where something was done before",
+   "uses": 795,
+   "files": 4,
+   "kb": 7.2,
+   "deps": {
+    "~/.claude": 3,
+    "bun": 0,
+    "maw": 0,
+    "gh": 2,
+    "git": 3,
+    "python3": 1,
+    ".jsonl": 0,
+    "ψ/": 11
+   }
+  },
+  {
+   "name": "dig",
+   "tier": 2,
+   "web": "local",
+   "th": "ขุดประวัติ session: ทำอะไรไปบ้าง กี่โมง",
+   "en": "mine past sessions: what was done, when",
+   "uses": 572,
+   "files": 5,
+   "kb": 13.0,
+   "deps": {
+    "~/.claude": 5,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 0,
+    "python3": 1,
+    ".jsonl": 4,
+    "ψ/": 0
+   }
+  },
+  {
+   "name": "learn",
+   "tier": 2,
+   "web": "partial",
+   "th": "ศึกษา repo หรือ codebase",
+   "en": "study a repo or codebase",
+   "uses": 513,
+   "files": 2,
+   "kb": 6.9,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 2,
+    "maw": 0,
+    "gh": 0,
+    "git": 2,
+    "python3": 1,
+    ".jsonl": 0,
+    "ψ/": 32
+   }
+  },
+  {
+   "name": "oracle-cheatsheet",
+   "tier": 2,
+   "web": "partial",
+   "th": "สรุปคำสั่งที่ใช้ในรอบนี้เป็นสูตรโกง",
+   "en": "turn this session's commands into a cheat sheet",
+   "uses": 264,
+   "files": 2,
+   "kb": 3.5,
+   "deps": {
+    "~/.claude": 1,
+    "bun": 0,
+    "maw": 3,
+    "gh": 0,
+    "git": 1,
+    "python3": 1,
+    ".jsonl": 1,
+    "ψ/": 2
+   }
+  },
+  {
+   "name": "oracle-prism",
+   "tier": 2,
+   "web": "ok",
+   "th": "มองเรื่องเดียวผ่าน 5 มุม ก่อนตัดสินใจ",
+   "en": "look at one question through 5 lenses before deciding",
+   "uses": 214,
+   "files": 2,
+   "kb": 2.8,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 0,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 0
+   }
+  },
+  {
+   "name": "project",
+   "tier": 2,
+   "web": "partial",
+   "th": "clone และติดตาม repo ภายนอก",
+   "en": "clone and track outside repos",
+   "uses": 45,
+   "files": 17,
+   "kb": 16.4,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 0,
+    "gh": 1,
+    "git": 4,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 10
+   }
+  },
+  {
+   "name": "incubate",
+   "tier": 2,
+   "web": "local",
+   "th": "เตรียม repo สำหรับลงมือพัฒนา",
+   "en": "set up a repo for active development",
+   "uses": 117,
+   "files": 4,
+   "kb": 31.5,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 1,
+    "gh": 9,
+    "git": 137,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 72
+   }
+  },
+  {
+   "name": "create-shortcut",
+   "tier": 2,
+   "web": "local",
+   "th": "สร้าง /คำสั่ง ของตัวเอง",
+   "en": "make your own /commands",
+   "uses": 105,
+   "files": 2,
+   "kb": 5.1,
+   "deps": {
+    "~/.claude": 7,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 0,
+    "python3": 0,
+    ".jsonl": 3,
+    "ψ/": 2
+   }
+  },
+  {
+   "name": "go",
+   "tier": 2,
+   "web": "local",
+   "th": "จัดการสกิล: ดู ลง ถอด อัปเดต",
+   "en": "manage skills: list, install, remove, update",
+   "uses": 101,
+   "files": 2,
+   "kb": 7.6,
+   "deps": {
+    "~/.claude": 8,
+    "bun": 11,
+    "maw": 0,
+    "gh": 0,
+    "git": 1,
+    "python3": 1,
+    ".jsonl": 2,
+    "ψ/": 0
+   }
+  },
+  {
+   "name": "oracle-family-scan",
+   "tier": 3,
+   "web": "local",
+   "th": "ทะเบียน Oracle ทั้งครอบครัว 800+ ตัว",
+   "en": "the family registry of 800+ Oracles",
+   "uses": 461,
+   "files": 6,
+   "kb": 15.6,
+   "deps": {
+    "~/.claude": 2,
+    "bun": 19,
+    "maw": 2,
+    "gh": 4,
+    "git": 1,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 7
+   }
+  },
+  {
+   "name": "bud",
+   "tier": 3,
+   "web": "local",
+   "th": "แตก Oracle ตัวใหม่จากตัวเดิม (ต้องมี maw)",
+   "en": "bud a new Oracle from this one (needs maw)",
+   "uses": 77,
+   "files": 2,
+   "kb": 3.3,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 3,
+    "maw": 23,
+    "gh": 1,
+    "git": 7,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 8
+   }
+  },
+  {
+   "name": "calver",
+   "tier": 3,
+   "web": "partial",
+   "th": "ดูหรือขยับเวอร์ชันแบบ CalVer",
+   "en": "show or bump a CalVer version",
+   "uses": 69,
+   "files": 2,
+   "kb": 2.6,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 5,
+    "maw": 1,
+    "gh": 0,
+    "git": 4,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 1
+   }
+  },
+  {
+   "name": "psi",
+   "tier": 3,
+   "web": "local",
+   "th": "ผูกสมุด ψ ของ repo กับ Oracle ผู้ดูแล",
+   "en": "attach a repo's ψ vault to a caretaker Oracle",
+   "uses": 49,
+   "files": 2,
+   "kb": 8.3,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 6,
+    "gh": 0,
+    "git": 22,
+    "python3": 1,
+    ".jsonl": 0,
+    "ψ/": 23
+   }
+  },
+  {
+   "name": "soul",
+   "tier": 3,
+   "web": "local",
+   "th": "พา Oracle ตัวอื่นเข้ามาใน repo นี้",
+   "en": "bring another Oracle into this repo",
+   "uses": 1,
+   "files": 4,
+   "kb": 5.6,
+   "deps": {
+    "~/.claude": 1,
+    "bun": 3,
+    "maw": 4,
+    "gh": 0,
+    "git": 0,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 2
+   }
+  },
+  {
+   "name": "resonance",
+   "tier": 3,
+   "web": "partial",
+   "th": "จดช่วงที่ \"ใช่\"",
+   "en": "log a moment that clicked",
+   "uses": 48,
+   "files": 2,
+   "kb": 2.3,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 3,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 3
+   }
+  },
+  {
+   "name": "feel",
+   "tier": 3,
+   "web": "partial",
+   "th": "จดพลังงาน แรงส่ง ความล้า ของงาน",
+   "en": "log the energy, momentum and fatigue of the work",
+   "uses": 1,
+   "files": 2,
+   "kb": 2.8,
+   "deps": {
+    "~/.claude": 1,
+    "bun": 0,
+    "maw": 0,
+    "gh": 1,
+    "git": 4,
+    "python3": 1,
+    ".jsonl": 2,
+    "ψ/": 2
+   }
+  },
+  {
+   "name": "bampenpien",
+   "tier": 3,
+   "web": "ok",
+   "th": "คุยเรื่องทำสิ่งยากอย่างสม่ำเสมอ",
+   "en": "a talk about doing hard things steadily",
+   "uses": 3,
+   "files": 2,
+   "kb": 4.7,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 3,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 3
+   }
+  },
+  {
+   "name": "oracle-title-forge",
+   "tier": 3,
+   "web": "ok",
+   "th": "ตั้งชื่อหนังสือ บทความ หรือ talk",
+   "en": "forge a title for a book, article or talk",
+   "uses": 40,
+   "files": 2,
+   "kb": 6.3,
+   "deps": {
+    "~/.claude": 1,
+    "bun": 0,
+    "maw": 0,
+    "gh": 0,
+    "git": 0,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 0
+   }
+  },
+  {
+   "name": "oracle-write-complete-book",
+   "tier": 3,
+   "web": "partial",
+   "th": "เขียนหนังสือทั้งเล่มจนเป็น PDF",
+   "en": "write a whole book through to PDF",
+   "uses": 119,
+   "files": 2,
+   "kb": 10.6,
+   "deps": {
+    "~/.claude": 3,
+    "bun": 0,
+    "maw": 0,
+    "gh": 3,
+    "git": 6,
+    "python3": 3,
+    ".jsonl": 0,
+    "ψ/": 11
+   }
+  },
+  {
+   "name": "round-table",
+   "tier": 3,
+   "web": "local",
+   "th": "โต๊ะกลม: หลายมุมมองถกเรื่องเดียว",
+   "en": "a round table: several voices debate one question",
+   "uses": 1,
+   "files": 11,
+   "kb": 10.5,
+   "deps": {
+    "~/.claude": 0,
+    "bun": 3,
+    "maw": 2,
+    "gh": 0,
+    "git": 3,
+    "python3": 0,
+    ".jsonl": 0,
+    "ψ/": 4
+   }
+  }
+ ]
+}

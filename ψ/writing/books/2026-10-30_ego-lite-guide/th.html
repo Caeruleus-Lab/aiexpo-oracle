@@ -189,6 +189,39 @@ body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen 
 #boomc.on{display:block}
 .wall.shake{animation:wallshake .42s cubic-bezier(.36,.07,.19,.97)}
 @keyframes wallshake{10%,90%{transform:translate(-2px,1px)}20%,80%{transform:translate(4px,-2px)}30%,50%,70%{transform:translate(-7px,3px)}40%,60%{transform:translate(7px,-3px)}}
+/* skill map heatmap (Nat, 31 Oct "bring the cool in!"): 28 skills x local deps, amber = used */
+.skillmap{margin:22px 0;background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);padding:16px;overflow-x:auto}
+.skillmap .cap{margin:0 0 10px;color:var(--ink-3);font-size:.92em}
+.skillmap .sf{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.skillmap .sf button{font:600 13px var(--body);color:var(--ink-2);background:transparent;border:1px solid var(--rule);border-radius:999px;padding:5px 12px;cursor:pointer}
+.skillmap .sf button:hover{border-color:var(--accent);color:var(--ink)}
+.skillmap .sf button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.skillmap{--heat:#22e06b}
+[data-theme=light] .skillmap{--heat:#0b8f43}
+.skillmap .grid{display:grid;gap:3px;min-width:640px;font:500 12px var(--mono)}
+.skillmap .r{display:grid;grid-template-columns:minmax(140px,1.3fr) minmax(90px,1fr) repeat(var(--cols),minmax(38px,.55fr)) 34px;gap:3px;align-items:center;transition:opacity .25s,transform .25s}
+.skillmap .r.off{display:none}
+.skillmap .r:not(.hd):hover{background:color-mix(in oklch,var(--accent) 8%,transparent);border-radius:4px}
+.skillmap .hd span{color:var(--ink-3);font-size:11px;text-align:center;white-space:nowrap}
+.skillmap .hd .n{text-align:left}
+.skillmap .n{color:var(--ink);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.skillmap a.n:hover{color:var(--accent-text)}
+.skillmap .r.start .n::before{content:"★ ";color:var(--accent-text)}
+.skillmap .u{position:relative;height:18px;border-radius:3px;background:color-mix(in oklch,var(--ink) 6%,transparent);overflow:hidden}
+.skillmap .u::before{content:"";position:absolute;inset:0 auto 0 0;width:calc(var(--u)*100%);background:linear-gradient(90deg,color-mix(in oklch,var(--accent) 45%,transparent),var(--accent));transform-origin:left;transform:scaleX(0);transition:transform .9s cubic-bezier(.2,.8,.2,1) calc(var(--k)*25ms)}
+.skillmap .u b{position:relative;padding-left:6px;font-weight:600;color:var(--ink);line-height:18px}
+.skillmap .hd .u{background:none;height:auto}.skillmap .hd .u::before{display:none}
+.skillmap i{font-style:normal;text-align:center;line-height:22px;border-radius:3px;color:color-mix(in oklch,var(--ink) calc(45% + var(--v)*55%),transparent);
+  background:color-mix(in oklch,var(--heat) calc(var(--v)*78%),transparent);box-shadow:0 0 calc(var(--v)*14px) color-mix(in oklch,var(--heat) calc(var(--v)*60%),transparent);
+  opacity:0;transform:scale(.6);transition:opacity .4s calc(var(--k)*25ms + var(--c)*30ms),transform .4s calc(var(--k)*25ms + var(--c)*30ms)}
+.skillmap.lit i{opacity:1;transform:none}
+.skillmap.lit .u::before{transform:scaleX(1)}
+.skillmap .col{outline:1px solid var(--accent);outline-offset:-1px}
+.skillmap .w{text-align:center;font-size:15px}
+.skillmap .w-ok{color:var(--ok)}.skillmap .w-partial{color:var(--accent-text)}.skillmap .w-local{color:var(--bad)}
+@media (prefers-reduced-motion:reduce){.skillmap i,.skillmap .u::before{transition:none}}
+[data-theme=light] .skillmap i[style*="--v:0."]{color:var(--ink)}
+[data-theme=light] .skillmap i[style^="--v:0.000"]{color:color-mix(in oklch,var(--ink) 35%,transparent)}
 </style>
 </head>
 <body>

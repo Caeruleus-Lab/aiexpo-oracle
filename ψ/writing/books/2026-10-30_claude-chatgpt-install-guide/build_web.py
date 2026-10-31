@@ -78,6 +78,42 @@ def md_body(path):
     return [p for p in re.split(r"(?=<h2>)", body) if p.strip()]
 
 
+
+def skillmap(lang):
+    """The dependency heatmap of the 28 skills (Nat, 31 Oct: "bring the cool in!"), from skills/skills.json."""
+    f = here / "skills/skills.json"
+    if not f.exists():
+        return ""
+    j = json.loads(f.read_text(encoding="utf-8"))
+    th = lang == "th"
+    import math
+    top = max(max(r["deps"].values()) for r in j["skills"])
+    umax = max(r["uses"] for r in j["skills"])
+    head = "".join(f'<span class="h" style="--c:{i + 3}">{H.escape(c)}</span>' for i, c in enumerate(j["deps"]))
+    rows = []
+    for k, r in enumerate(j["skills"]):
+        cells = "".join(
+            f'<i style="--v:{math.log1p(n) / math.log1p(top):.3f};--c:{i + 3}" title="{H.escape(r["name"])} · {H.escape(c)} × {n}">{n or "·"}</i>'
+            for i, (c, n) in enumerate(r["deps"].items()))
+        w = j["web"][r["web"]]
+        star = " start" if r["name"] in j["start"] else ""
+        rows.append(
+            f'<div class="r{star}" data-tier="{r["tier"]}" data-web="{r["web"]}" style="--k:{k}">'
+            f'<a class="n" href="skills/{r["name"]}.zip" title="{H.escape(r["th"] if th else r["en"])}">{r["name"]}</a>'
+            f'<span class="u" style="--u:{r["uses"] / umax:.3f}"><b>{r["uses"]:,}</b></span>{cells}'
+            f'<span class="w w-{r["web"]}" title="{H.escape(w["th"] if th else w["en"])}">{w["mark"]}</span></div>')
+    T = j["tiers"]
+    btn = lambda v, label, on="": f'<button type="button" data-f="{v}" class="{on}">{label}</button>'
+    filters = (btn("all", "ทั้งหมด" if th else "All", "on") + "".join(btn(t, T[t]["th" if th else "en"]) for t in ("1", "2", "3"))
+               + btn("ok", "✓ " + ("ใช้บนเว็บได้" if th else "web OK")) + btn("start", "★ " + ("เริ่มที่นี่" if th else "start here")))
+    cap = ("แผนที่สกิล: แต่ละช่องคือจำนวนครั้งที่ SKILL.md เรียกของในเครื่อง ยิ่งสว่างยิ่งพึ่งเครื่องตัวเอง แถบสีเหลืองคือใช้จริงกี่ครั้ง"
+           if th else "Skill map: each cell counts how often SKILL.md calls something local; brighter means more tied to your own machine. The amber bar is how often it was used")
+    return (f'<div class="skillmap" id="skillmap"><p class="cap">{cap}</p><div class="sf">{filters}</div>'
+            f'<div class="grid" style="--cols:{len(j["deps"])}"><div class="r hd"><span class="n">skill</span>'
+            f'<span class="u">{"ใช้จริง" if th else "used"}</span>{head}<span class="w">{"เว็บ" if th else "web"}</span></div>'
+            + "".join(rows) + '</div></div>')
+
+
 def size(name):
     n = (here / name).stat().st_size
     return f"{n / 1024:.0f} KB" if n >= 1024 else f"{n} B"
@@ -140,6 +176,15 @@ THEME_JS = (here.parent / "theme.js").read_text(encoding="utf-8")
 CSS = ((here.parent / "tokens.css").read_text(encoding="utf-8") + (here.parent / "guide.css").read_text(encoding="utf-8"))  # shared stage theme, same palette as the deck
 
 JS = """
+// skill map: tier / web filters, a lit row + column on hover, cells light up in a scan when the map scrolls in
+(()=>{const m=document.getElementById('skillmap');if(!m)return;
+ m.querySelectorAll('.sf button').forEach(b=>b.onclick=()=>{m.querySelectorAll('.sf button').forEach(x=>x.classList.toggle('on',x===b));const f=b.dataset.f;
+  m.querySelectorAll('.r:not(.hd)').forEach(r=>{const show=f==='all'||r.dataset.tier===f||(f==='ok'&&r.dataset.web==='ok')||(f==='start'&&r.classList.contains('start'));r.classList.toggle('off',!show)})});
+ m.addEventListener('mouseover',e=>{const i=e.target.closest('i,.h');m.querySelectorAll('.col').forEach(x=>x.classList.remove('col'));if(!i)return;const c=i.style.getPropertyValue('--c');m.querySelectorAll('[style*="--c:'+c+';"],[style$="--c:'+c+'"]').forEach(x=>x.classList.add('col'))});
+ m.addEventListener('mouseleave',()=>m.querySelectorAll('.col').forEach(x=>x.classList.remove('col')));
+ new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){m.classList.add('lit');o.disconnect()}}),{threshold:.15}).observe(m);
+})();
+
 const S=[...document.querySelectorAll('header.cover, main > section')],rail=document.getElementById('rail');
 S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?(x.querySelector('h2')||{}).textContent||'':rail.dataset.cover;
  a.innerHTML='<span>'+t+'</span><b>'+(j+1)+'</b>';a.onclick=()=>{S.forEach(y=>y.classList.remove('focus'));x.classList.add('focus')};rail.appendChild(a)});
@@ -217,6 +262,7 @@ if(vb)vb.onclick=async()=>{const out=document.getElementById('verdict');out.clas
 def page(lang):
     c = COVER[lang]
     sections = md_body({"th": "README.md", "en": "README.en.md"}[lang]) if lang != "b64" else b64_body()
+    sections = [x.replace('<div id="skillmap"></div>', skillmap(lang)) for x in sections]
     sections.append(verify_section(lang))
     titles = [re.sub("<[^>]+>", "", (re.search(r"<h2[^>]*>(.*?)</h2>", x, re.S) or [None, ""])[1]).strip() for x in sections]
     def down(i):  # i = index of the section the button jumps to
