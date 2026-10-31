@@ -270,8 +270,8 @@ def page(lang):
     def down(i):  # i = index of the section the button jumps to
         return f'<a class="down" href="#s{i + 2}" aria-label="next: {H.escape(titles[i])}"><b>↓</b> {H.escape(titles[i])}</a>'
     body = "".join(f'<section id="s{i + 2}">{x}{down(i + 1) if i + 1 < len(sections) else ""}</section>' for i, x in enumerate(sections))
-    # ไทย / English / AI: the same language switch as the landing page; the choice is remembered for every page
-    langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}" data-set="{"ai" if k == "b64" else k}">{LANG_LABEL[k]}</a>' for k in ("th", "en", "b64"))
+    # AI / ไทย / English: the same language switch as the landing page; the choice is remembered for every page
+    langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}" data-set="{"ai" if k == "b64" else k}">{LANG_LABEL[k]}</a>' for k in ("b64", "th", "en"))
     langs_end = f'<button class="theme" id="themebtn" type="button">{"☀ โหมดสว่าง" if lang == "th" else "☀ Light"}</button>'
     langs = f'<a href="../index.html" class="home">{"← บทเรียนทั้งหมด" if lang == "th" else "← All lessons"}</a>' + langs
     facts = (f'<span>Claude Code <b>2.1.314</b></span><span>codex-cli <b>0.166.0</b></span><a href="{"#s7" if lang != "b64" else "en.html#s7"}">skills <b>28 ZIP</b></a>'

@@ -188,7 +188,7 @@ def page():
 <header class="cover">
   <div class="bar">
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
-    <div class="right"><a class="mcplink" href="#mcp">MCP</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button><button data-set="ai">AI</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
+    <div class="right"><nav class="langs"><button data-set="ai">AI</button><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
   <div class="hero">
     <div>
