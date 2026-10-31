@@ -395,12 +395,39 @@ FAIL p1-phukhao_Loop_final_x2_00001-audio.mp4 step=32.1 seam=14.7 308
 <li>First fix: a new seed for the second clip (<code>--seed2</code>)</li>
 <li>Second fix, if it still fails: make it loop ourselves with <a href="prompts/fixloop.sh"><code>prompts/fixloop.sh</code></a>, which drops the first moments and crossfades the clip's end into its start; the seam is gone by construction</li>
 </ul>
-<p>First results from the 4 scenes that finished first: a2 and c1 pass, a1 (the mountain) and c2 (the crystal library) fail. So a1 got new seeds, and any scene that still fails goes through <code>fixloop.sh</code>. After the fix, a1 measures 39.0 dB across the seam against 41.7 dB for an ordinary step.</p>
+<p>All 13 scenes (<a href="captures/10-loops-report.txt"><code>captures/10-loops-report.txt</code></a>):</p>
+<table>
+<thead>
+<tr>
+<th>Result</th>
+<th>Scenes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The model's loop passed, used as is (6)</td>
+<td>a2, a3, b2, b3, c1, c3</td>
+</tr>
+<tr>
+<td>Fixed with <code>fixloop.sh</code> (7)</td>
+<td>a1 (three tries failed), a4, b1, c2, d1, d2, d3; after the fix every one is within 3.5 dB of an ordinary step</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The big rooms and stages (d1 to d3) failed hardest, 10 to 18 dB at the seam; the camera zooms in during the second clip every time</li>
+<li>Every loop is 6.42 s long, 5.25 s after the crossfade, all the same. So six scenes tile 3×2 into a stage-screen picture that loops as a whole: 33.8 dB across its seam against 37.4 dB for an ordinary step</li>
+</ul>
 <pre><code>$ ./fixloop.sh loops/p9-a1_Loop_final_x2_00001-audio.mp4 a1-fixed.mp4 &amp;&amp; ./seamcheck.sh a1-fixed.mp4
 FIXED a1-fixed.mp4
 PASS a1-fixed.mp4 step=41.7 seam=39.0 252
 </code></pre>
 <p><strong>4.5 The GPU is shared.</strong> GB300 has 256 GB of GPU memory, mostly reserved by other people's jobs; about 14 GB were free at the start. We paused our own qwen3.8-27b model (after saving the command to restart it) for 84 GB free, and restarted it when done. No one else's job was touched.</p>
+<ul>
+<li>At restart only 48 GB were free, because someone started another model in the meantime, so <code>--gpu-memory-utilization 0.25</code> (64 GB) would not start; <code>0.18</code> did</li>
+<li>The second try failed on a missing <code>ninja</code>: the original ran with the venv's <code>bin</code> first on PATH, so save the PATH as well as the command line</li>
+<li>Beware <code>pkill -f</code> over ssh: the pattern matches the remote shell's own command line and kills it before the rest runs</li>
+</ul>
 <a class="down" href="#s6" aria-label="next: 5. Edit"><b>↓</b> 5. Edit</a></section><section id="s6"><h2>5. Edit</h2>
 <p><strong>5.1 Join the voice and time it.</strong> <code>oraclefilm gapjoin</code> joins the 13 lines with a gap between them and writes <code>timed.json</code>, the start and end of each line.</p>
 <pre><code>$ oraclefilm gapjoin -family family.json -mp3-dir . -out . -title &quot;Phukhao · 9 months later&quot;
@@ -412,6 +439,10 @@ gapjoin: 13 segments, last ends 96.34 s, voice.mp3 96.33 s -&gt; .
 <ul>
 <li>The first version uses backgrounds drawn in code (the Oracle Voice app's porthole and ten worlds), rendered in 49 s on m5</li>
 <li>The loop version swaps in the Codex scenes and the GB300 loops, on the same voice</li>
+</ul>
+<p><figure><a href="images/05-loop-film-frames.jpg" target="_blank"><img alt="Frames from the loop version, one per scene: the dawn mountain, the Chiang Mai stage, a lectern under a spotlight, an auditorium full of lights, a classroom, a chain of glass cubes, a river of light, hundreds of orbs, the crystal library, a ring of light around the peak, the exhibition hall and two chairs under two orbs, each with its card title and Thai line" src="images/05-loop-film-frames.jpg" loading="lazy"></a><figcaption>Frames from the loop version, one per scene: the dawn mountain, the Chiang Mai stage, a lectern under a spotlight, an auditorium full of lights, a classroom, a chain of glass cubes, a river of light, hundreds of orbs, the crystal library, a ring of light around the peak, the exhibition hall and two chairs under two orbs, each with its card title and Thai line</figcaption></figure></p>
+<ul>
+<li>The loop version (<a href="captures/11-loop-film.txt"><code>captures/11-loop-film.txt</code></a>): 102.85 s, −3.05 dBTP, in 16:9 and 9:16, built with <a href="prompts/build_v3.sh"><code>prompts/build_v3.sh</code></a></li>
 </ul>
 <p><strong>5.4 Music and loudness.</strong> <code>oraclefilm mix-family</code> lays the voice and two MusicGen tracks that duck under speech, then normalizes to −16 LUFS with the true peak capped at −3 dBTP.</p>
 <pre><code>$ oraclefilm loudness out/phukhao-9m-v1-worlds.mp4
@@ -491,15 +522,15 @@ duration 102.770s  integrated -16.10 LUFS  true peak -2.98 dBTP  LRA 4.00
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
   <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
   <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-31</div>
-  <div><b>signature</b> <code class="h">0x0f1be1d7bf7b50680063a5f92ece3410a4492131d5de8861229e3b226935733106f1b833d2ea26f1f576a13c642f6b74a764cf09ddc8b0dcc652f842c67c8aa81b</code></div>
+  <div><b>signature</b> <code class="h">0xc4d1fb2c181060d6c40d864563c66ea10f58a4e8a6caf39888ceb691235e907c456490416565f0f26d835e393e4c702969d360aea9b1b864e0c3414d85bfe42e1b</code></div>
 </div>
-<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>4bb2f1d81069e757c7f1ea2afdb0ab62190c7cdb2cfb01ae227a34c4400788e8</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>8023d35ebce2e2f742681fbec4d5041a1c4e62b313dda3b6f2e9d92c62ebf06f</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>67be1af7fb4340a30f88be28d2097d6a79e71cd149bcb903c493a7584e937841</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>a1acf60957ddc5098e9f68e124aeb8975406bc7751ada1ab6ac8fb84baad537c</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>dc11acfae3eebf90b0bd294ce7f1a6623b28b778aec48f35cf10b3f960496813</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>f70a44c784d0cfca7bf9192665f83953ce9ced53087c7391303f6d69064e2092</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
 <p><button class="btn" id="verifyBtn">Verify in this browser</button> <span id="verdict"></span></p>
 <details><summary>The signed message</summary><pre>AIExpo Oracle signed: Oracle film guide (Phukhao 9 months)
 date: 2026-10-31
-README.md sha256:4bb2f1d81069e757c7f1ea2afdb0ab62190c7cdb2cfb01ae227a34c4400788e8
-README.en.md sha256:8023d35ebce2e2f742681fbec4d5041a1c4e62b313dda3b6f2e9d92c62ebf06f
-README.b64.txt sha256:67be1af7fb4340a30f88be28d2097d6a79e71cd149bcb903c493a7584e937841</pre></details>
+README.md sha256:a1acf60957ddc5098e9f68e124aeb8975406bc7751ada1ab6ac8fb84baad537c
+README.en.md sha256:dc11acfae3eebf90b0bd294ce7f1a6623b28b778aec48f35cf10b3f960496813
+README.b64.txt sha256:f70a44c784d0cfca7bf9192665f83953ce9ced53087c7391303f6d69064e2092</pre></details>
 <p><b>Check from your own machine</b></p>
 <pre>$ cd tools && bun install && bun verify.mjs
 ok   README.md sha256:…

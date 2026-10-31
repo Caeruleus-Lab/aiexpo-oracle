@@ -4,10 +4,10 @@
   "scheme": "EIP-191 personal_sign",
   "date": "2026-10-31",
   "files": {
-    "README.md": "4bb2f1d81069e757c7f1ea2afdb0ab62190c7cdb2cfb01ae227a34c4400788e8",
-    "README.en.md": "8023d35ebce2e2f742681fbec4d5041a1c4e62b313dda3b6f2e9d92c62ebf06f",
-    "README.b64.txt": "67be1af7fb4340a30f88be28d2097d6a79e71cd149bcb903c493a7584e937841"
+    "README.md": "a1acf60957ddc5098e9f68e124aeb8975406bc7751ada1ab6ac8fb84baad537c",
+    "README.en.md": "dc11acfae3eebf90b0bd294ce7f1a6623b28b778aec48f35cf10b3f960496813",
+    "README.b64.txt": "f70a44c784d0cfca7bf9192665f83953ce9ced53087c7391303f6d69064e2092"
   },
-  "message": "AIExpo Oracle signed: Oracle film guide (Phukhao 9 months)\ndate: 2026-10-31\nREADME.md sha256:4bb2f1d81069e757c7f1ea2afdb0ab62190c7cdb2cfb01ae227a34c4400788e8\nREADME.en.md sha256:8023d35ebce2e2f742681fbec4d5041a1c4e62b313dda3b6f2e9d92c62ebf06f\nREADME.b64.txt sha256:67be1af7fb4340a30f88be28d2097d6a79e71cd149bcb903c493a7584e937841",
-  "signature": "0x0f1be1d7bf7b50680063a5f92ece3410a4492131d5de8861229e3b226935733106f1b833d2ea26f1f576a13c642f6b74a764cf09ddc8b0dcc652f842c67c8aa81b"
+  "message": "AIExpo Oracle signed: Oracle film guide (Phukhao 9 months)\ndate: 2026-10-31\nREADME.md sha256:a1acf60957ddc5098e9f68e124aeb8975406bc7751ada1ab6ac8fb84baad537c\nREADME.en.md sha256:dc11acfae3eebf90b0bd294ce7f1a6623b28b778aec48f35cf10b3f960496813\nREADME.b64.txt sha256:f70a44c784d0cfca7bf9192665f83953ce9ced53087c7391303f6d69064e2092",
+  "signature": "0xc4d1fb2c181060d6c40d864563c66ea10f58a4e8a6caf39888ceb691235e907c456490416565f0f26d835e393e4c702969d360aea9b1b864e0c3414d85bfe42e1b"
 }

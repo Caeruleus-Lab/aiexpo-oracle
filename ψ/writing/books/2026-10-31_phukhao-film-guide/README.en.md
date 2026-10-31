@@ -151,7 +151,15 @@ Full file: [`captures/07-seam-first-try.txt`](captures/07-seam-first-try.txt) ·
 - First fix: a new seed for the second clip (`--seed2`)
 - Second fix, if it still fails: make it loop ourselves with [`prompts/fixloop.sh`](prompts/fixloop.sh), which drops the first moments and crossfades the clip's end into its start; the seam is gone by construction
 
-First results from the 4 scenes that finished first: a2 and c1 pass, a1 (the mountain) and c2 (the crystal library) fail. So a1 got new seeds, and any scene that still fails goes through `fixloop.sh`. After the fix, a1 measures 39.0 dB across the seam against 41.7 dB for an ordinary step.
+All 13 scenes ([`captures/10-loops-report.txt`](captures/10-loops-report.txt)):
+
+| Result | Scenes |
+|---|---|
+| The model's loop passed, used as is (6) | a2, a3, b2, b3, c1, c3 |
+| Fixed with `fixloop.sh` (7) | a1 (three tries failed), a4, b1, c2, d1, d2, d3; after the fix every one is within 3.5 dB of an ordinary step |
+
+- The big rooms and stages (d1 to d3) failed hardest, 10 to 18 dB at the seam; the camera zooms in during the second clip every time
+- Every loop is 6.42 s long, 5.25 s after the crossfade, all the same. So six scenes tile 3×2 into a stage-screen picture that loops as a whole: 33.8 dB across its seam against 37.4 dB for an ordinary step
 
 ```
 $ ./fixloop.sh loops/p9-a1_Loop_final_x2_00001-audio.mp4 a1-fixed.mp4 && ./seamcheck.sh a1-fixed.mp4
@@ -160,6 +168,10 @@ PASS a1-fixed.mp4 step=41.7 seam=39.0 252
 ```
 
 **4.5 The GPU is shared.** GB300 has 256 GB of GPU memory, mostly reserved by other people's jobs; about 14 GB were free at the start. We paused our own qwen3.8-27b model (after saving the command to restart it) for 84 GB free, and restarted it when done. No one else's job was touched.
+
+- At restart only 48 GB were free, because someone started another model in the meantime, so `--gpu-memory-utilization 0.25` (64 GB) would not start; `0.18` did
+- The second try failed on a missing `ninja`: the original ran with the venv's `bin` first on PATH, so save the PATH as well as the command line
+- Beware `pkill -f` over ssh: the pattern matches the remote shell's own command line and kills it before the rest runs
 
 ## 5. Edit
 
@@ -178,6 +190,10 @@ gapjoin: 13 segments, last ends 96.34 s, voice.mp3 96.33 s -> .
 
 - The first version uses backgrounds drawn in code (the Oracle Voice app's porthole and ten worlds), rendered in 49 s on m5
 - The loop version swaps in the Codex scenes and the GB300 loops, on the same voice
+
+![Frames from the loop version, one per scene: the dawn mountain, the Chiang Mai stage, a lectern under a spotlight, an auditorium full of lights, a classroom, a chain of glass cubes, a river of light, hundreds of orbs, the crystal library, a ring of light around the peak, the exhibition hall and two chairs under two orbs, each with its card title and Thai line](images/05-loop-film-frames.jpg)
+
+- The loop version ([`captures/11-loop-film.txt`](captures/11-loop-film.txt)): 102.85 s, −3.05 dBTP, in 16:9 and 9:16, built with [`prompts/build_v3.sh`](prompts/build_v3.sh)
 
 **5.4 Music and loudness.** `oraclefilm mix-family` lays the voice and two MusicGen tracks that duck under speech, then normalizes to −16 LUFS with the true peak capped at −3 dBTP.
 

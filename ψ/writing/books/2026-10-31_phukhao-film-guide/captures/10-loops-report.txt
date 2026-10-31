@@ -1,0 +1,14 @@
+$ ./pick_loops.sh   # model loop if the seam passes, otherwise fixloop.sh
+a1  FAIL p9-a1_Loop_final_x2_00001-audio.mp4 step=44.0 seam=20.1 308  ->  fixed: PASS a1.mp4 step=41.7 seam=39.0 252
+a2  PASS p9-a2_Loop_final_x2_00001-audio.mp4 step=33.1 seam=32.9 308  ->  model
+a3  PASS p9-a3_Loop_final_x2_00001-audio.mp4 step=41.4 seam=42.3 308  ->  model
+a4  FAIL p9-a4_Loop_final_x2_00001-audio.mp4 step=46.1 seam=38.3 308  ->  fixed: PASS a4.mp4 step=35.2 seam=36.0 252
+b1  FAIL p9-b1_Loop_final_x2_00001-audio.mp4 step=29.6 seam=21.9 308  ->  fixed: PASS b1.mp4 step=35.1 seam=34.5 252
+b2  PASS p9-b2_Loop_final_x2_00001-audio.mp4 step=34.2 seam=28.7 308  ->  model
+b3  PASS p9-b3_Loop_final_x2_00001-audio.mp4 step=14.3 seam=26.7 308  ->  model
+c1  PASS p9-c1_Loop_final_x2_00001-audio.mp4 step=19.0 seam=31.6 308  ->  model
+c2  FAIL p9-c2_Loop_final_x2_00001-audio.mp4 step=35.3 seam=28.8 308  ->  fixed: PASS c2.mp4 step=36.5 seam=34.6 252
+c3  PASS p9-c3_Loop_final_x2_00001-audio.mp4 step=21.6 seam=31.2 308  ->  model
+d1  FAIL p9-d1_Loop_final_x2_00001-audio.mp4 step=39.7 seam=17.6 308  ->  fixed: PASS d1.mp4 step=38.3 seam=34.8 252
+d2  FAIL p9-d2_Loop_final_x2_00001-audio.mp4 step=46.9 seam=10.2 308  ->  fixed: PASS d2.mp4 step=35.4 seam=36.3 252
+d3  FAIL p9-d3_Loop_final_x2_00001-audio.mp4 step=35.3 seam=12.9 308  ->  fixed: PASS d3.mp4 step=32.9 seam=32.0 252

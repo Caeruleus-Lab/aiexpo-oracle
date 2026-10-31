@@ -395,12 +395,39 @@ FAIL p1-phukhao_Loop_final_x2_00001-audio.mp4 step=32.1 seam=14.7 308
 <li>แก้ทางแรก: สุ่ม seed ใหม่ให้คลิปที่สอง (<code>--seed2</code>)</li>
 <li>แก้ทางสอง ถ้ายังไม่ผ่าน: เราทำให้วนเองด้วย <a href="prompts/fixloop.sh"><code>prompts/fixloop.sh</code></a> ตัดช่วงต้นออกแล้ว crossfade ท้ายคลิปเข้าหาต้นคลิป รอยต่อหายแน่นอน</li>
 </ul>
-<p>ผลรอบแรกของ 4 ฉากที่เสร็จก่อน: a2 และ c1 ผ่าน, a1 (ภูเขา) และ c2 (ห้องสมุดคริสตัล) ไม่ผ่าน เราเลยสุ่ม seed ใหม่ให้ a1 และใช้ <code>fixloop.sh</code> กับฉากที่ยังไม่ผ่าน หลังแก้ a1 วัดได้ seam 39.0 dB เทียบกับการขยับปกติ 41.7 dB</p>
+<p>ผลครบ 13 ฉาก (<a href="captures/10-loops-report.txt"><code>captures/10-loops-report.txt</code></a>):</p>
+<table>
+<thead>
+<tr>
+<th>ผล</th>
+<th>ฉาก</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ลูปจากโมเดลผ่านเลย 6 ฉาก</td>
+<td>a2, a3, b2, b3, c1, c3</td>
+</tr>
+<tr>
+<td>ใช้ <code>fixloop.sh</code> 7 ฉาก</td>
+<td>a1 (ลองสามครั้งไม่ผ่าน), a4, b1, c2, d1, d2, d3 หลังแก้ทุกฉากห่างจากการขยับปกติไม่เกิน 3.5 dB</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>ฉากห้องใหญ่และเวที (d1 ถึง d3) พลาดหนักสุด รอยต่อ 10 ถึง 18 dB กล้องซูมเข้าในคลิปที่สองทุกครั้ง</li>
+<li>ลูปทุกตัวยาวเท่ากัน 6.42 วินาที หลัง crossfade เหลือ 5.25 วินาทีเท่ากันทุกตัว จึงเอา 6 ฉากมาเรียง 3×2 เป็นภาพจอเวทีที่วนได้ทั้งภาพ วัดรอยต่อทั้งภาพได้ 33.8 dB เทียบกับการขยับปกติ 37.4 dB</li>
+</ul>
 <pre><code>$ ./fixloop.sh loops/p9-a1_Loop_final_x2_00001-audio.mp4 a1-fixed.mp4 &amp;&amp; ./seamcheck.sh a1-fixed.mp4
 FIXED a1-fixed.mp4
 PASS a1-fixed.mp4 step=41.7 seam=39.0 252
 </code></pre>
 <p><strong>4.5 GPU ใช้ร่วมกับคนอื่น</strong> GB300 มี GPU 256 GB แต่งานของหลายคนจองไว้ ตอนเริ่มเหลือว่างราว 14 GB เราปิดโมเดล qwen3.8-27b ของเราเองชั่วคราว (เก็บคำสั่งเปิดใหม่ไว้ก่อนปิด) ได้ที่ว่าง 84 GB แล้วเปิดกลับเมื่อเสร็จ ไม่แตะงานของคนอื่น</p>
+<ul>
+<li>ตอนเปิดกลับ ที่ว่างเหลือ 48 GB เพราะมีคนเปิดโมเดลอีกตัวระหว่างนั้น ค่า <code>--gpu-memory-utilization 0.25</code> (64 GB) จึงเปิดไม่ขึ้น ลดเป็น <code>0.18</code></li>
+<li>ครั้งที่สองพังเพราะหา <code>ninja</code> ไม่เจอ คำสั่งเดิมรันโดยมี <code>bin</code> ของ venv อยู่หน้า PATH ต้องเก็บ PATH ไว้ด้วย ไม่ใช่แค่ command line</li>
+<li>ระวัง <code>pkill -f</code> ผ่าน ssh: รูปแบบไปตรงกับคำสั่งของ shell ตัวเอง แล้ว shell ก็ถูกปิดก่อนทำงานต่อ</li>
+</ul>
 <a class="down" href="#s6" aria-label="next: 5. ตัดต่อ"><b>↓</b> 5. ตัดต่อ</a></section><section id="s6"><h2>5. ตัดต่อ</h2>
 <p><strong>5.1 ต่อเสียงและวัดเวลา</strong> <code>oraclefilm gapjoin</code> ต่อ 13 บรรทัดโดยเว้นช่วงระหว่างบรรทัด แล้วเขียน <code>timed.json</code> บอกว่าแต่ละบรรทัดเริ่มและจบเมื่อไร</p>
 <pre><code>$ oraclefilm gapjoin -family family.json -mp3-dir . -out . -title &quot;Phukhao · 9 months later&quot;
@@ -412,6 +439,10 @@ gapjoin: 13 segments, last ends 96.34 s, voice.mp3 96.33 s -&gt; .
 <ul>
 <li>เวอร์ชันแรกใช้พื้นหลังที่วาดด้วยโค้ด (porthole ของแอป Oracle Voice กับโลกสิบแบบ) ทำเสร็จใน 49 วินาทีบน m5</li>
 <li>เวอร์ชันลูปใช้ภาพ Codex กับลูปจาก GB300 แทน เสียงชุดเดิม</li>
+</ul>
+<p><figure><a href="images/05-loop-film-frames.jpg" target="_blank"><img alt="เฟรมจากหนังเวอร์ชันลูป หนึ่งเฟรมต่อฉาก: ภูเขายามเช้า เวทีเชียงใหม่ แท่นพูดใต้สปอตไลต์ หอประชุมเต็มแสง ห้องเรียน สายโซ่กล่องแก้ว แม่น้ำแสง ดวงแสงนับร้อย ห้องสมุดคริสตัล วงแสงรอบยอดเขา ฮอลล์นิทรรศการ และเก้าอี้สองตัวใต้ดวงแสง พร้อมหัวการ์ดและบทพูดภาษาไทย" src="images/05-loop-film-frames.jpg" loading="lazy"></a><figcaption>เฟรมจากหนังเวอร์ชันลูป หนึ่งเฟรมต่อฉาก: ภูเขายามเช้า เวทีเชียงใหม่ แท่นพูดใต้สปอตไลต์ หอประชุมเต็มแสง ห้องเรียน สายโซ่กล่องแก้ว แม่น้ำแสง ดวงแสงนับร้อย ห้องสมุดคริสตัล วงแสงรอบยอดเขา ฮอลล์นิทรรศการ และเก้าอี้สองตัวใต้ดวงแสง พร้อมหัวการ์ดและบทพูดภาษาไทย</figcaption></figure></p>
+<ul>
+<li>เวอร์ชันลูป (<a href="captures/11-loop-film.txt"><code>captures/11-loop-film.txt</code></a>): 102.85 วินาที, −3.05 dBTP, ทั้ง 16:9 และ 9:16 สร้างด้วย <a href="prompts/build_v3.sh"><code>prompts/build_v3.sh</code></a></li>
 </ul>
 <p><strong>5.4 เสียงดนตรีและความดัง</strong> <code>oraclefilm mix-family</code> วางเสียงพูด ดนตรี MusicGen สองท่อนที่ลดเสียงลงเองตอนมีคนพูด แล้ว normalize ให้ได้ −16 LUFS และจำกัดยอดไว้ที่ −3 dBTP</p>
 <pre><code>$ oraclefilm loudness out/phukhao-9m-v1-worlds.mp4
@@ -491,15 +522,15 @@ duration 102.770s  integrated -16.10 LUFS  true peak -2.98 dBTP  LRA 4.00
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
   <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
   <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-31</div>
-  <div><b>signature</b> <code class="h">0x0f1be1d7bf7b50680063a5f92ece3410a4492131d5de8861229e3b226935733106f1b833d2ea26f1f576a13c642f6b74a764cf09ddc8b0dcc652f842c67c8aa81b</code></div>
+  <div><b>signature</b> <code class="h">0xc4d1fb2c181060d6c40d864563c66ea10f58a4e8a6caf39888ceb691235e907c456490416565f0f26d835e393e4c702969d360aea9b1b864e0c3414d85bfe42e1b</code></div>
 </div>
-<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>4bb2f1d81069e757c7f1ea2afdb0ab62190c7cdb2cfb01ae227a34c4400788e8</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>8023d35ebce2e2f742681fbec4d5041a1c4e62b313dda3b6f2e9d92c62ebf06f</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>67be1af7fb4340a30f88be28d2097d6a79e71cd149bcb903c493a7584e937841</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>a1acf60957ddc5098e9f68e124aeb8975406bc7751ada1ab6ac8fb84baad537c</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>dc11acfae3eebf90b0bd294ce7f1a6623b28b778aec48f35cf10b3f960496813</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>f70a44c784d0cfca7bf9192665f83953ce9ced53087c7391303f6d69064e2092</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
 <p><button class="btn" id="verifyBtn">ตรวจในเบราว์เซอร์</button> <span id="verdict"></span></p>
 <details><summary>ข้อความที่ถูกเซ็น (message)</summary><pre>AIExpo Oracle signed: Oracle film guide (Phukhao 9 months)
 date: 2026-10-31
-README.md sha256:4bb2f1d81069e757c7f1ea2afdb0ab62190c7cdb2cfb01ae227a34c4400788e8
-README.en.md sha256:8023d35ebce2e2f742681fbec4d5041a1c4e62b313dda3b6f2e9d92c62ebf06f
-README.b64.txt sha256:67be1af7fb4340a30f88be28d2097d6a79e71cd149bcb903c493a7584e937841</pre></details>
+README.md sha256:a1acf60957ddc5098e9f68e124aeb8975406bc7751ada1ab6ac8fb84baad537c
+README.en.md sha256:dc11acfae3eebf90b0bd294ce7f1a6623b28b778aec48f35cf10b3f960496813
+README.b64.txt sha256:f70a44c784d0cfca7bf9192665f83953ce9ced53087c7391303f6d69064e2092</pre></details>
 <p><b>ตรวจจากเครื่องตัวเอง</b></p>
 <pre>$ cd tools && bun install && bun verify.mjs
 ok   README.md sha256:…

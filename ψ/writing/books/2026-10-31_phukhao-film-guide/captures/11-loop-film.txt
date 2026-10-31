@@ -1,0 +1,4 @@
+$ ./build_v3.sh   # compose -> mix-family -> loudnorm + limiter -> 9:16
+MIX-DONE 102.800000s (close 96.54s, card 98.14s)
+out/phukhao-9m-v3-loops-vertical.mp4 102.850000s  56M true peak -3.05 dBTP
+out/phukhao-9m-v3-loops.mp4 102.850000s 119M true peak -3.05 dBTP
