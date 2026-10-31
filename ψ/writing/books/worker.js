@@ -82,9 +82,10 @@ const CORS = {
 // Static assets answer a Range request with the whole file (200), and Safari / iOS will not play an mp4 that way.
 // The lesson videos (each under 25 MiB) are sliced here and answered 206 with Content-Range.
 async function video(request, env) {
-  const res = await env.ASSETS.fetch(request.url, { method: request.method === "HEAD" ? "HEAD" : "GET" });
-  if (!res.ok) return res;
   const range = /^bytes=(\d*)-(\d*)$/.exec(request.headers.get("Range") || "");
+  // a HEAD with a Range still needs the real size, so only a plain HEAD is passed through as HEAD
+  const res = await env.ASSETS.fetch(request.url, { method: request.method === "HEAD" && !range ? "HEAD" : "GET" });
+  if (!res.ok) return res;
   const headers = new Headers(res.headers);
   headers.set("Accept-Ranges", "bytes");
   headers.set("Content-Type", "video/mp4");
