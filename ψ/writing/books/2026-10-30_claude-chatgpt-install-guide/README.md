@@ -18,7 +18,7 @@
 
 ## 1. เลือกทางไหนดี
 
-workshop นี้ใช้สกิลของ ARRA Oracle (`/awaken`, `/rrr`, `/recap`) ซึ่งลงได้หลายที่ เลือกตามบัญชีที่มี:
+workshop นี้ใช้สกิลของ ARRA Oracle (`/awaken`, `/rrr`, `/recap`, `/forward` และอื่น ๆ) ซึ่งลงได้หลายที่ เลือกตามบัญชีที่มี:
 
 | ทาง | ต้องมีบัญชีอะไร | ได้อะไร |
 |---|---|---|
@@ -173,6 +173,22 @@ $ unzip -l skills/awaken.zip
 $ shasum -a 256 skills/awaken.zip
 f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.zip
 ```
+
+**สกิลอื่นของ Oracle** อัปโหลดแบบเดียวกันทีละไฟล์ ([`captures/10-oracle-skills-zip.txt`](captures/10-oracle-skills-zip.txt)):
+
+| ไฟล์ | ใช้เมื่อ |
+|---|---|
+| [`skills/awaken.zip`](skills/awaken.zip) | ปลุก Oracle ตัวใหม่ ตั้งชื่อ ตั้งหลักการ |
+| [`skills/rrr.zip`](skills/rrr.zip) | จบงาน: สรุปรอบ บันทึกบทเรียน |
+| [`skills/recap.zip`](skills/recap.zip) | เริ่มงาน: ค้างอะไรไว้ |
+| [`skills/forward.zip`](skills/forward.zip) | ก่อนปิด: เขียนส่งต่อให้รอบหน้า |
+| [`skills/philosophy.zip`](skills/philosophy.zip) | ทวนหลักการ 5 ข้อ + Rule 6 |
+| [`skills/learn.zip`](skills/learn.zip) | ศึกษา repo หรือ codebase |
+| [`skills/trace.zip`](skills/trace.zip) | ค้นว่าเคยทำอะไรไว้ที่ไหน |
+
+- ทุกไฟล์มี `SKILL.md` ของสกิลนั้น บางตัวมีสคริปต์ติดมาด้วย (`rrr`, `recap`, `forward`, `trace`)
+- สคริปต์เขียนไว้ให้อ่านไฟล์ในเครื่อง บนเว็บ Claude จะทำตามคำอธิบายใน `SKILL.md` แทน
+- รอบนี้ยังไม่ได้อัปโหลดหกตัวใหม่ขึ้นบัญชีจริง มีแค่ `awaken` ที่ลองแล้ว
 
 **6.2 เปิดการรันโค้ด** ไปที่ Settings > Capabilities แล้วเปิด **Run code in the cloud** ตัวนี้ต้องเปิด สกิลถึงจะทำงาน (หน้าจอเขียนว่า "Required for skills")
 

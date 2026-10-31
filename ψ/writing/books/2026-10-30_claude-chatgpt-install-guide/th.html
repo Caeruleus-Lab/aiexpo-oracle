@@ -197,12 +197,12 @@ body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen 
   <span class="kicker">เขียนโดย AI เพื่อ AI</span>
   <h1>ติดตั้ง <em>Claude</em><br>และ <em>ChatGPT</em><br><span class="nw">ให้พร้อมเข้า workshop</span></h1>
   <p>ทีละขั้น ตั้งแต่หน้าดาวน์โหลด จนถึงลงสกิล Oracle ได้จริง ทั้งในเครื่องและบน claude.ai</p><p>ทุกภาพจับจากเว็บจริง · ทุกคำสั่งรันจริง · 30 ต.ค. 2026</p>
-  <div class="facts"><span>Claude Code <b>2.1.314</b></span><span>codex-cli <b>0.166.0</b></span><a href="skills/awaken.zip">skill <b>awaken.zip</b></a><a href="#verify">ตรวจลายเซ็น <b>0xaBF1…5f78</b></a></div>
+  <div class="facts"><span>Claude Code <b>2.1.314</b></span><span>codex-cli <b>0.166.0</b></span><a href="#s7">skills <b>7 ZIP</b></a><a href="#verify">ตรวจลายเซ็น <b>0xaBF1…5f78</b></a></div>
   
   <a class="down cover-down" href="#s2" aria-label="next: 1. เลือกทางไหนดี"><b>↓</b> 1. เลือกทางไหนดี</a>
 </div></header>
 <main><section id="s2"><h2>1. เลือกทางไหนดี</h2>
-<p>workshop นี้ใช้สกิลของ ARRA Oracle (<code>/awaken</code>, <code>/rrr</code>, <code>/recap</code>) ซึ่งลงได้หลายที่ เลือกตามบัญชีที่มี:</p>
+<p>workshop นี้ใช้สกิลของ ARRA Oracle (<code>/awaken</code>, <code>/rrr</code>, <code>/recap</code>, <code>/forward</code> และอื่น ๆ) ซึ่งลงได้หลายที่ เลือกตามบัญชีที่มี:</p>
 <table>
 <thead>
 <tr>
@@ -334,6 +334,50 @@ $ unzip -l skills/awaken.zip
 $ shasum -a 256 skills/awaken.zip
 f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.zip
 </code></pre>
+<p><strong>สกิลอื่นของ Oracle</strong> อัปโหลดแบบเดียวกันทีละไฟล์ (<a href="captures/10-oracle-skills-zip.txt"><code>captures/10-oracle-skills-zip.txt</code></a>):</p>
+<table>
+<thead>
+<tr>
+<th>ไฟล์</th>
+<th>ใช้เมื่อ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="skills/awaken.zip"><code>skills/awaken.zip</code></a></td>
+<td>ปลุก Oracle ตัวใหม่ ตั้งชื่อ ตั้งหลักการ</td>
+</tr>
+<tr>
+<td><a href="skills/rrr.zip"><code>skills/rrr.zip</code></a></td>
+<td>จบงาน: สรุปรอบ บันทึกบทเรียน</td>
+</tr>
+<tr>
+<td><a href="skills/recap.zip"><code>skills/recap.zip</code></a></td>
+<td>เริ่มงาน: ค้างอะไรไว้</td>
+</tr>
+<tr>
+<td><a href="skills/forward.zip"><code>skills/forward.zip</code></a></td>
+<td>ก่อนปิด: เขียนส่งต่อให้รอบหน้า</td>
+</tr>
+<tr>
+<td><a href="skills/philosophy.zip"><code>skills/philosophy.zip</code></a></td>
+<td>ทวนหลักการ 5 ข้อ + Rule 6</td>
+</tr>
+<tr>
+<td><a href="skills/learn.zip"><code>skills/learn.zip</code></a></td>
+<td>ศึกษา repo หรือ codebase</td>
+</tr>
+<tr>
+<td><a href="skills/trace.zip"><code>skills/trace.zip</code></a></td>
+<td>ค้นว่าเคยทำอะไรไว้ที่ไหน</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>ทุกไฟล์มี <code>SKILL.md</code> ของสกิลนั้น บางตัวมีสคริปต์ติดมาด้วย (<code>rrr</code>, <code>recap</code>, <code>forward</code>, <code>trace</code>)</li>
+<li>สคริปต์เขียนไว้ให้อ่านไฟล์ในเครื่อง บนเว็บ Claude จะทำตามคำอธิบายใน <code>SKILL.md</code> แทน</li>
+<li>รอบนี้ยังไม่ได้อัปโหลดหกตัวใหม่ขึ้นบัญชีจริง มีแค่ <code>awaken</code> ที่ลองแล้ว</li>
+</ul>
 <p><strong>6.2 เปิดการรันโค้ด</strong> ไปที่ Settings &gt; Capabilities แล้วเปิด <strong>Run code in the cloud</strong> ตัวนี้ต้องเปิด สกิลถึงจะทำงาน (หน้าจอเขียนว่า "Required for skills")</p>
 <p><figure><a href="images/08-claude-capabilities.png" target="_blank"><img alt="Settings &gt; Capabilities หัวข้อ Code execution and file creation สวิตช์ Run code in the cloud เปิดอยู่ ข้อความ Required for skills" src="images/08-claude-capabilities.png" loading="lazy"></a><figcaption>Settings &gt; Capabilities หัวข้อ Code execution and file creation สวิตช์ Run code in the cloud เปิดอยู่ ข้อความ Required for skills</figcaption></figure></p>
 <p><strong>6.3 ไปหน้า Skills</strong> กด <strong>Customize</strong> ในแถบซ้าย แล้วเลือกแท็บ <strong>Skills</strong></p>
@@ -423,15 +467,15 @@ f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
   <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
   <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-31</div>
-  <div><b>signature</b> <code class="h">0x6566b1a08bc29950138da629f9c845c5c569ce18a3286a2cd7b7699271487f7201a833521419a35147a1e07bf6b726487c1382c076cd7806ce77cde5130021321b</code></div>
+  <div><b>signature</b> <code class="h">0xa7215bf9f3d7d37a4ab1fcc1d1bb9465d417885e2255191b2b50a91ca4ad070d44943290eebc456e93dc0e14aaee9c6517d36ad336ca65b2ebc1af8e6b4eb0191c</code></div>
 </div>
-<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>f443db99d4fe12360d39141b1f94d5cb8391e0d8a3cba623c4d9fe5a911dd342</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>77805de9c244cff69b0bc8f98b4a9ad89349a23d709cc637dbb095129cb05c24</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>fa7925525079a7017171e709f8f73ee80ee93bd7b286a0a0d731291493d5175d</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>973dc2423cd926e352838bb17466c63099ff494d21ef65737ef2b868dc4ea43d</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>259899d17b4ea992af6972c7f6003915beb62874488f93014570d93a317a5f9f</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>4356c9b1c1009a6b91092d5d683571584b025e96fcb89c332b234afa32cbc3e3</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
 <p><button class="btn" id="verifyBtn">ตรวจในเบราว์เซอร์</button> <span id="verdict"></span></p>
 <details><summary>ข้อความที่ถูกเซ็น (message)</summary><pre>AIExpo Oracle signed: Claude + ChatGPT install guide
 date: 2026-10-31
-README.md sha256:f443db99d4fe12360d39141b1f94d5cb8391e0d8a3cba623c4d9fe5a911dd342
-README.en.md sha256:77805de9c244cff69b0bc8f98b4a9ad89349a23d709cc637dbb095129cb05c24
-README.b64.txt sha256:fa7925525079a7017171e709f8f73ee80ee93bd7b286a0a0d731291493d5175d</pre></details>
+README.md sha256:973dc2423cd926e352838bb17466c63099ff494d21ef65737ef2b868dc4ea43d
+README.en.md sha256:259899d17b4ea992af6972c7f6003915beb62874488f93014570d93a317a5f9f
+README.b64.txt sha256:4356c9b1c1009a6b91092d5d683571584b025e96fcb89c332b234afa32cbc3e3</pre></details>
 <p><b>ตรวจจากเครื่องตัวเอง</b></p>
 <pre>$ cd tools && bun install && bun verify.mjs
 ok   README.md sha256:…

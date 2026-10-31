@@ -1,0 +1,70 @@
+$ cd ~/.claude/skills && for s in rrr recap forward philosophy learn trace; do zip -X -r $s.zip $s; done
+$ unzip -l skills/awaken.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+    33448  09-14-2026 22:05   awaken/SKILL.md
+---------                     -------
+    33448                     1 file
+$ unzip -l skills/forward.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-03-2026 09:39   forward/
+        0  10-03-2026 09:39   forward/scripts/
+     4395  10-03-2026 09:39   forward/scripts/dig-session.py
+    11798  10-03-2026 09:39   forward/SKILL.md
+---------                     -------
+    16193                     4 files
+$ unzip -l skills/learn.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   learn/
+    16367  09-14-2026 22:05   learn/SKILL.md
+---------                     -------
+    16367                     2 files
+$ unzip -l skills/philosophy.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  09-14-2026 22:05   philosophy/
+     8122  09-14-2026 22:05   philosophy/SKILL.md
+---------                     -------
+     8122                     2 files
+$ unzip -l skills/recap.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-03-2026 09:39   recap/
+     5049  10-03-2026 09:39   recap/recap.ts
+        0  10-03-2026 09:39   recap/references/
+     7135  10-03-2026 09:39   recap/references/rich-paths.md
+     6077  10-03-2026 09:39   recap/recap-rich.ts
+    11039  10-03-2026 09:39   recap/SKILL.md
+    11591  10-03-2026 09:39   recap/skills-staleness.ts
+---------                     -------
+    40891                     7 files
+$ unzip -l skills/rrr.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-03-2026 09:39   rrr/
+     4600  10-03-2026 09:39   rrr/TEMPLATE.md
+        0  10-03-2026 12:23   rrr/scripts/
+     4153  10-03-2026 09:39   rrr/scripts/session-clock.py
+    14027  10-03-2026 12:23   rrr/SKILL.md
+     5707  10-03-2026 12:23   rrr/HOSTS.md
+---------                     -------
+    28487                     6 files
+$ unzip -l skills/trace.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-03-2026 09:39   trace/
+        0  10-03-2026 09:39   trace/scripts/
+     5471  10-03-2026 09:39   trace/scripts/dig.py
+    12275  10-03-2026 09:39   trace/SKILL.md
+---------                     -------
+    17746                     4 files
+$ shasum -a 256 skills/*.zip
+f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.zip
+bcc782fd47ec983737eeb9463fc66232033a1d3c439839675c3bf15c90e15eac  skills/forward.zip
+4cb23586fda9e206add080dab5c7fabb65a8a1c66a7ad6114c69ec63207d6fef  skills/learn.zip
+7fdf8cea7bf05026e1bc2f723a2ab501465ce3e1300c6fd22278d031e740d46d  skills/philosophy.zip
+4dd762c9073831dacf7f742bd62d0315b8fd2304f78dbba33d0145780201965a  skills/recap.zip
+05e95e3291e2b11eab76cf59cf31f62226475506009d4c7a2281435e098b7125  skills/rrr.zip
+aa8a3d4e01f5aa7d855233949073b525d687eb29ce566cb16f8b0909a5971c1c  skills/trace.zip

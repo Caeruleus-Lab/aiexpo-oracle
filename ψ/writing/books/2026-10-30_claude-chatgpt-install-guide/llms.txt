@@ -26,5 +26,5 @@ Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D1
 
 ## Optional
 
-- [skills/awaken.zip](skills/awaken.zip): the awaken skill packaged for claude.ai upload
+- Oracle skills packaged for claude.ai upload, one ZIP each: [awaken](skills/awaken.zip), [rrr](skills/rrr.zip), [recap](skills/recap.zip), [forward](skills/forward.zip), [philosophy](skills/philosophy.zip), [learn](skills/learn.zip), [trace](skills/trace.zip)
 - [captures/](captures/): raw terminal output for every command quoted in the guide

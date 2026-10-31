@@ -18,7 +18,7 @@
 
 ## 1. Pick a path
 
-The workshop uses ARRA Oracle's skills (`/awaken`, `/rrr`, `/recap`), which install in several places. Pick by the account you have:
+The workshop uses ARRA Oracle's skills (`/awaken`, `/rrr`, `/recap`, `/forward` and more), which install in several places. Pick by the account you have:
 
 | Path | Account needed | What you get |
 |---|---|---|
@@ -173,6 +173,22 @@ $ unzip -l skills/awaken.zip
 $ shasum -a 256 skills/awaken.zip
 f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.zip
 ```
+
+**More Oracle skills** upload the same way, one file at a time ([`captures/10-oracle-skills-zip.txt`](captures/10-oracle-skills-zip.txt)):
+
+| File | Use it to |
+|---|---|
+| [`skills/awaken.zip`](skills/awaken.zip) | wake a new Oracle, name it, set its principles |
+| [`skills/rrr.zip`](skills/rrr.zip) | end a session: a retrospective and lessons |
+| [`skills/recap.zip`](skills/recap.zip) | start a session: what was left open |
+| [`skills/forward.zip`](skills/forward.zip) | before closing: a handoff for next time |
+| [`skills/philosophy.zip`](skills/philosophy.zip) | go over the 5 principles + Rule 6 |
+| [`skills/learn.zip`](skills/learn.zip) | study a repo or codebase |
+| [`skills/trace.zip`](skills/trace.zip) | find where something was done before |
+
+- Each ZIP holds that skill's `SKILL.md`; some carry scripts too (`rrr`, `recap`, `forward`, `trace`)
+- The scripts read local files; on the web Claude follows the instructions in `SKILL.md` instead
+- The six new ones have not been uploaded to a real account yet; only `awaken` was tried
 
 **6.2 Turn on code execution.** Go to Settings > Capabilities and turn on **Run code in the cloud**. Skills do not run without it (the screen says "Required for skills").
 
