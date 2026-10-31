@@ -7,6 +7,7 @@
 Add a lesson: append one dict to LESSONS, then run `python3 build_index.py`.
 Each lesson folder keeps its own pages, signature and llms.txt; this page only links to them.
 """
+import base64
 import html as H
 import json
 import pathlib
@@ -85,6 +86,38 @@ THEME_HEAD = (here / "theme_head.html").read_text(encoding="utf-8")
 THEME_JS = (here / "theme.js").read_text(encoding="utf-8")
 CSS = (here / "tokens.css").read_text(encoding="utf-8") + (here / "landing.css").read_text(encoding="utf-8")  # same palette as the deck v3
 
+# The Matrix wall (AI edition of this page): CSS and JS taken from the lesson pages at build time, so there is one copy
+WALL_KEYS = ("pre{", "pre.b64", "pre .copy", "matrix-block", ".wall", "wallbtn", "wallhint", "wallopen", "#boomc", "wallshake", "walltoast")
+WALL_CSS = "\n".join(l for l in (here / "guide.css").read_text(encoding="utf-8").splitlines()
+                     if l.lstrip().startswith(WALL_KEYS) or any(k in l.split("{", 1)[0] for k in WALL_KEYS[1:]))
+_src = (here / "2026-10-30_mcp-connect-guide" / "build_web.py").read_text(encoding="utf-8")
+_a = _src.index("const wall=document.getElementById('wall');")
+_b = _src.index("requestAnimationFrame(loop)}", _a) + len("requestAnimationFrame(loop)}")
+WALL_JS = _src[_a:_b].replace("\\\\", "\\")   # the source is a Python string: \\s there is \s in the page
+
+
+def ai_text():
+    """The AI edition of this page: what an agent needs, in one block."""
+    items = "\n".join(f"{i + 1:02d}. {l['en']} / {l['th']}\n    https://aiexpo.buildwithoracle.com/{l['dir']}/  (llms.txt, README.en.md, README.md)"
+                      for i, l in enumerate(LESSONS))
+    return f"""# AIExpo Oracle lessons (AI edition of https://aiexpo.buildwithoracle.com/)
+Workshop "ARRA Oracle & Multi-Agent Workflow" · AI Expo Thailand · Fri 6 Nov 2026 · 15:05 · written by AI, for AI.
+
+## Let your AI read the lessons over MCP
+URL: https://aiexpo.buildwithoracle.com/mcp  (read-only, no sign-in)
+- claude.ai: Customize -> Connectors -> Add -> Add custom connector, paste the URL, No sign-in
+- ChatGPT: Settings -> Plugins -> Browse directory -> Add -> Add custom MCP server, Authentication: No authentication
+- Claude Code: claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp
+- Codex: codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp
+Tools: search {{query, lang?, lesson?, topic?}}, fetch {{id}}, get_image {{id, start?}}, list_lessons
+
+## Lessons, in workshop order
+{items}
+
+Index for agents: https://aiexpo.buildwithoracle.com/llms.txt
+— AIExpo Oracle (Oracle AI)
+"""
+
 JS = """
 const root=document.documentElement;
 function setLang(l){root.lang=l;if(window.aiexpoThemeLabel)aiexpoThemeLabel();localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
@@ -102,6 +135,7 @@ def page():
     path = "\n".join(f'      <a href="{l["dir"]}/"><b>{i + 1:02d}</b><span class="t"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></span></a>'
                       for i, l in enumerate(LESSONS))
     n = len(LESSONS)
+    flat = base64.b64encode(ai_text().encode("utf-8")).decode("ascii")
     return f"""<!doctype html>
 <html lang="th">
 <head>
@@ -112,13 +146,13 @@ def page():
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
 {THEME_HEAD}{OG_TAGS}
-<style>{CSS}</style>
+<style>{CSS}\n{WALL_CSS}</style>
 </head>
 <body>
 <header class="cover">
   <div class="bar">
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
-    <div class="right"><a class="mcplink" href="#mcp">MCP</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
+    <div class="right"><a class="mcplink" href="#mcp">MCP</a><a class="mcplink" href="#ai">AI</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
   <div class="hero">
     <div>
@@ -149,9 +183,15 @@ def page():
 <div class="list">
 {cards}
 </div>
+<section class="matrix" id="ai">
+  <h2>The Matrix</h2>
+  <p class="note"><span data-l="th">ฉบับ AI ของหน้านี้ · {len(flat):,} ตัวอักษร · คลิกเพื่อคัดลอกทั้งหมด · ลากเพื่อคัดลอกบางส่วน · ปุ่ม full screen, Esc เพื่อปิด ·</span><span data-l="en">The AI edition of this page · {len(flat):,} characters · click to copy all · drag to copy a part · full screen button, Esc to close ·</span> <a href="index.b64.txt">index.b64.txt</a></p>
+  <div class="wall" id="wall"><button class="wallbtn" id="wallbtn" type="button">pause</button><button class="wallbtn wallfs" id="wallfs" type="button">full screen</button><canvas id="wallc" aria-hidden="true"></canvas>
+<pre class="b64 matrix-block" id="blob">{H.escape(flat)}</pre></div>
+</section>
 <p class="note"><span data-l="th">แต่ละบทเซ็นรวมกันทุกฉบับ กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Every edition of each lesson is signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
 </main>
-<script>{JS}</script>
+<script>{JS}\n{WALL_JS}</script>
 <script>{THEME_JS}</script>
 </body>
 </html>
@@ -208,6 +248,7 @@ def llms():
 (here / "index.html").write_text(page(), encoding="utf-8")
 (here / "README.md").write_text(readme(), encoding="utf-8")
 (here / "llms.txt").write_text(llms(), encoding="utf-8")
+(here / "index.b64.txt").write_text(base64.b64encode(ai_text().encode("utf-8")).decode("ascii") + "\n", encoding="utf-8")
 (here / "lessons.json").write_text(json.dumps([dict(key=l["key"], dir=l["dir"], th=l["th"], en=l["en"], th_sub=l["th_sub"], en_sub=l["en_sub"], cover=l["cover"])
                                               for l in LESSONS], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-print("wrote index.html README.md llms.txt lessons.json,", len(LESSONS), "lessons")
+print("wrote index.html index.b64.txt README.md llms.txt lessons.json,", len(LESSONS), "lessons")
