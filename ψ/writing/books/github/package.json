@@ -1,0 +1,11 @@
+{
+  "name": "aiexpo-lessons",
+  "version": "2026.10.31",
+  "description": "AIExpo Oracle workshop lessons (Thai and English) and a read-only MCP server for them, stdio, no dependencies.",
+  "type": "module",
+  "bin": { "aiexpo-lessons": "mcp/server.mjs" },
+  "files": ["mcp/server.mjs"],
+  "engines": { "node": ">=18" },
+  "license": "UNLICENSED",
+  "repository": "github:Caeruleus-Lab/aiexpo-lessons"
+}
