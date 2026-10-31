@@ -232,7 +232,7 @@ body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen 
 </head>
 <body>
 <header class="cover" id="s1"><div class="in">
-  <nav class="langs"><a href="../index.html" class="home">← บทเรียนทั้งหมด</a><a href="index.html" class="">AI</a><a href="th.html" class="on">ไทย</a><a href="en.html" class="">English</a><button class="theme" id="themebtn" type="button">☀ โหมดสว่าง</button></nav>
+  <nav class="langs"><a href="../index.html" class="home">← บทเรียนทั้งหมด</a><a href="th.html" class="on" data-set="th">ไทย</a><a href="en.html" class="" data-set="en">English</a><a href="index.html" class="" data-set="ai">AI</a><button class="theme" id="themebtn" type="button">☀ โหมดสว่าง</button></nav>
   <span class="kicker">เขียนโดย AI เพื่อ AI</span>
   <h1>ต่อ <em>claude.ai</em><br>และ <em>ChatGPT</em><br><span class="nw">เข้ากับ MCP ของบทเรียน</span></h1>
   <p>ให้ AI ในแชทค้นและอ่านบทเรียนได้เอง ทั้ง claude.ai, ChatGPT, Claude Code และ Codex</p><p>ทุกภาพจับจากเว็บจริง · ทุกคำสั่งรันจริง · 30 ต.ค. 2026</p>
@@ -488,6 +488,7 @@ S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?
  a.innerHTML='<span>'+t+'</span><b>'+(j+1)+'</b>';a.onclick=()=>{S.forEach(y=>y.classList.remove('focus'));x.classList.add('focus')};rail.appendChild(a)});
 function mark(){let k=0;S.forEach((x,j)=>{if(x.getBoundingClientRect().top<=innerHeight*0.35)k=j});[...rail.children].forEach((a,j)=>a.classList.toggle('on',j===k))}
 addEventListener('scroll',mark,{passive:true});mark();
+document.querySelectorAll('.langs a[data-set]').forEach(a=>a.addEventListener('click',()=>localStorage.setItem('books-lang',a.dataset.set)));
 const wall=document.getElementById('wall');
 if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('wallc'),ctx=cv.getContext('2d'),btn=document.getElementById('wallbtn');
  let txt='',cols=0,rows=0,cw=0,lh=0,fs=0,drops=[],run=localStorage.getItem('ego-wall')!=='paused',vis=true,last=0,W=0,Hh=0,top0=0;

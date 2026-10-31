@@ -145,6 +145,7 @@ S.forEach((x,j)=>{const a=document.createElement('a');a.href='#'+x.id;const t=j?
  a.innerHTML='<span>'+t+'</span><b>'+(j+1)+'</b>';a.onclick=()=>{S.forEach(y=>y.classList.remove('focus'));x.classList.add('focus')};rail.appendChild(a)});
 function mark(){let k=0;S.forEach((x,j)=>{if(x.getBoundingClientRect().top<=innerHeight*0.35)k=j});[...rail.children].forEach((a,j)=>a.classList.toggle('on',j===k))}
 addEventListener('scroll',mark,{passive:true});mark();
+document.querySelectorAll('.langs a[data-set]').forEach(a=>a.addEventListener('click',()=>localStorage.setItem('books-lang',a.dataset.set)));
 const wall=document.getElementById('wall');
 if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('wallc'),ctx=cv.getContext('2d'),btn=document.getElementById('wallbtn');
  let txt='',cols=0,rows=0,cw=0,lh=0,fs=0,drops=[],run=localStorage.getItem('ego-wall')!=='paused',vis=true,last=0,W=0,Hh=0,top0=0;
@@ -223,7 +224,8 @@ def page(lang):
     def down(i):  # i = index of the section the button jumps to
         return f'<a class="down" href="#s{i + 2}" aria-label="next: {H.escape(titles[i])}"><b>↓</b> {H.escape(titles[i])}</a>'
     body = "".join(f'<section id="s{i + 2}">{x}{down(i + 1) if i + 1 < len(sections) else ""}</section>' for i, x in enumerate(sections))
-    langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}">{LANG_LABEL[k]}</a>' for k in PAGES)
+    # ไทย / English / AI: the same language switch as the landing page; the choice is remembered for every page
+    langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}" data-set="{"ai" if k == "b64" else k}">{LANG_LABEL[k]}</a>' for k in ("th", "en", "b64"))
     langs_end = f'<button class="theme" id="themebtn" type="button">{"☀ โหมดสว่าง" if lang == "th" else "☀ Light"}</button>'
     langs = f'<a href="../index.html" class="home">{"← บทเรียนทั้งหมด" if lang == "th" else "← All lessons"}</a>' + langs
     facts = (f'<span>voice <b>Paxa · foithong</b></span><span>scenes <b>13 · Codex + GB300 loops</b></span>'

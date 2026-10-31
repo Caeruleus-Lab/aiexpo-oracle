@@ -71,10 +71,10 @@ def card(i, l):
                     for a, b in zip(l["facts_th"], l["facts_en"]))
     addr = x["address"]
     return f'''<article class="card">
-  <a class="thumb" href="{d}"><img src="{d}{l["cover"]}" alt="" loading="lazy"></a>
+  <a class="thumb" href="{d}" data-lesson="{d}"><img src="{d}{l["cover"]}" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">{i:02d}</div>
-    <h2><a href="{d}"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></a></h2>
+    <h2><a href="{d}" data-lesson="{d}"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></a></h2>
     <p><span data-l="th">{H.escape(l["th_sub"])}</span><span data-l="en">{H.escape(l["en_sub"])}</span></p>
     <div class="facts">{facts}<span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> {addr[:6]}…{addr[-4:]}</span><span>{x["date"]}</span></div>
     <div class="chips">{chips}</div>
@@ -154,7 +154,8 @@ def ai_text():
 
 JS = """
 const root=document.documentElement;
-function setLang(l){const ai=l==='ai';root.dataset.mode=ai?'ai':'';if(ai){localStorage.setItem('books-lang','ai');document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set==='ai'));scrollTo(0,0);setTimeout(()=>dispatchEvent(new Event('resize')),60);return}
+function lessonLinks(l){const pg={th:'th.html',en:'en.html',ai:'index.html'}[l]||'th.html';document.querySelectorAll('a[data-lesson]').forEach(a=>a.setAttribute('href',a.dataset.lesson+pg))}
+function setLang(l){const ai=l==='ai';lessonLinks(l);root.dataset.mode=ai?'ai':'';if(ai){localStorage.setItem('books-lang','ai');document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set==='ai'));scrollTo(0,0);setTimeout(()=>dispatchEvent(new Event('resize')),60);return}
  setTimeout(()=>dispatchEvent(new Event('resize')),60);root.lang=l;if(window.aiexpoThemeLabel)aiexpoThemeLabel();localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
  document.querySelectorAll('[data-href-en]').forEach(a=>{a.dataset.hrefTh=a.dataset.hrefTh||a.getAttribute('href');a.setAttribute('href',l==='en'?a.dataset.hrefEn:a.dataset.hrefTh)})}
 document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.set));
@@ -167,7 +168,7 @@ def page():
                       description=f"คู่มือทีละขั้น {len(LESSONS)} บท สำหรับ workshop ARRA Oracle & Multi-Agent Workflow ที่งาน AI Expo วันศุกร์ 6 พ.ย. 2026",
                       path="", image="index.png", image_alt="บทเรียน workshop ARRA Oracle", lang="th", kind="website")
     cards = "\n".join(card(i + 1, l) for i, l in enumerate(LESSONS))
-    path = "\n".join(f'      <a href="{l["dir"]}/"><b>{i + 1:02d}</b><span class="t"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></span></a>'
+    path = "\n".join(f'      <a href="{l["dir"]}/" data-lesson="{l["dir"]}/"><b>{i + 1:02d}</b><span class="t"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></span></a>'
                       for i, l in enumerate(LESSONS))
     n = len(LESSONS)
     flat = base64.b64encode(ai_text().encode("utf-8")).decode("ascii")
