@@ -1,0 +1,5 @@
+$ herdr pane report-agent <pane> --agent claude --state idle; herdr agent rename <pane> <name>
+w2:p1	desk	idle	team
+w3:p1	member-a	idle	team/wt/member-a
+w4:p1	member-b	idle	team/wt/member-b
+(exit 0)

@@ -1,0 +1,12 @@
+$ herdr-room in team desk member-a-new member-b --layout fib --session roomlab   # old body still inside
+room 'team' · session roomlab · layout fib · 4 members: desk, member-a, member-b, member-a
+  name  w9:p1 = desk
+  name  w9:p4 = member-a   (not an agent: skipped)
+  name  w9:p3 = member-b
+  name  w9:p2 = member-a
+  saved ~/.local/state/herdr-room/roomlab__team.json
+  rect  w9:p1    x=0    y=0   57x46
+  rect  w9:p4    x=57   y=0   56x23
+  rect  w9:p3    x=57   y=23  28x23
+  rect  w9:p2    x=85   y=23  28x23
+(exit 0)

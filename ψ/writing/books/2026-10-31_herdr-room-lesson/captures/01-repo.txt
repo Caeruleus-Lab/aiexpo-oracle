@@ -1,0 +1,5 @@
+$ git -C /tmp/roomlab/team worktree list
+/private/tmp/roomlab/team             ba5a8be [main]
+/private/tmp/roomlab/team/wt/member-a ba5a8be [member-a]
+/private/tmp/roomlab/team/wt/member-b ba5a8be [member-b]
+(exit 0)

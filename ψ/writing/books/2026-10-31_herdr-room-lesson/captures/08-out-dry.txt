@@ -1,0 +1,12 @@
+$ herdr-room out team --session roomlab --dry
+room 'team' · session roomlab · 3 member(s) out: desk, member-a, member-b
+  plan  herdr --session roomlab pane move w5:p1 --new-workspace --label desk --no-focus   # desk to a space of its own
+  plan  herdr --session roomlab pane move w5:p2 --new-workspace --label member-a --no-focus   # member-a to a space of its own
+  plan  herdr --session roomlab pane move w5:p3 --new-workspace --label member-b --no-focus   # member-b to a space of its own
+  plan  herdr --session roomlab worktree open --cwd /private/tmp/roomlab/team --path /private/tmp/roomlab/team/wt/member-a --label member-a --no-focus   # nest member-a under its repo
+  plan  herdr --session roomlab worktree open --cwd /private/tmp/roomlab/team --path /private/tmp/roomlab/team/wt/member-b --label member-b --no-focus   # nest member-b under its repo
+  plan  herdr --session roomlab workspace move <desk's space> --after <last space of team or w5>   # desk beside its repo
+  plan  herdr --session roomlab workspace move <member-a's space> --after <last space of team or w5>   # member-a beside its repo
+  plan  herdr --session roomlab workspace move <member-b's space> --after <last space of team or w5>   # member-b beside its repo
+  --dry: nothing was moved
+(exit 0)

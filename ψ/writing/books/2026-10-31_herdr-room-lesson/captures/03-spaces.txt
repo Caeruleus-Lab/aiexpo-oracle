@@ -1,0 +1,5 @@
+$ herdr --session roomlab workspace create --cwd team --label desk; herdr worktree open (x2)
+{"space":"w2","pane":"w2:p1"}
+{"space":"w3","label":"member-a","linked":true}
+{"space":"w4","label":"member-b","linked":true}
+(exit 0)

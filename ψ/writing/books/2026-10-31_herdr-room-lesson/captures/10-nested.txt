@@ -1,0 +1,6 @@
+$ herdr --session roomlab workspace list | jq '[space, label, linked worktree]'
+w1	roomlab	false
+w6	desk	false
+w7	member-a	true
+w8	member-b	true
+(exit 0)

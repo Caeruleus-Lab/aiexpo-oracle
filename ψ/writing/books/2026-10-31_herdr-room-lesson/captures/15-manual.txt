@@ -1,0 +1,6 @@
+$ herdr pane move <pane> --tab <room tab> --target-pane <desk> --split right --ratio 0.5   # what in does, by hand
+{"type":"pane_move","changed":null}
+w9:p1	desk
+w9:p5	member-b
+w9:p4	member-a
+(exit 0)

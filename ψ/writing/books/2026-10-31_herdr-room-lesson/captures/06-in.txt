@@ -1,0 +1,15 @@
+$ herdr-room in team desk member-a member-b --layout fib --session roomlab
+room 'team' · session roomlab · layout fib · 3 members: desk, member-a, member-b
+  run   herdr --session roomlab pane move w2:p1 --new-workspace --label team --tab-label team --no-focus   # desk opens the room
+  run   herdr --session roomlab pane move w3:p1 --new-tab --workspace w5 --label scratch --no-focus   # member-a to scratch
+  run   herdr --session roomlab pane move w4:p1 --tab w5:t2 --target-pane w5:p2 --split right --no-focus   # member-b to scratch
+  run   herdr --session roomlab pane move w5:p2 --tab w5:t1 --target-pane w5:p1 --split right --ratio 0.5 --no-focus   # member-a beside desk, which keeps 0.5
+  run   herdr --session roomlab pane move w5:p3 --tab w5:t1 --target-pane w5:p2 --split down --ratio 0.5 --no-focus   # member-b beside member-a, which keeps 0.5
+  name  w5:p1 = desk
+  name  w5:p2 = member-a
+  name  w5:p3 = member-b
+  saved ~/.local/state/herdr-room/roomlab__team.json
+  rect  w5:p1    x=0    y=0   57x46
+  rect  w5:p2    x=57   y=0   56x23
+  rect  w5:p3    x=57   y=23  56x23
+(exit 0)

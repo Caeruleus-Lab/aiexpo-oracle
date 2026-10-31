@@ -1,0 +1,10 @@
+$ herdr-room in team desk member-a member-b --layout fib --session roomlab --dry
+room 'team' · session roomlab · layout fib · 3 members: desk, member-a, member-b
+  plan  herdr --session roomlab pane move w2:p1 --new-workspace --label team --tab-label team --no-focus   # desk opens the room
+  plan  herdr --session roomlab pane move w3:p1 --new-tab --workspace <room> --label scratch --no-focus   # member-a to scratch
+  plan  herdr --session roomlab pane move w4:p1 --tab <scratch tab> --target-pane <w3:p1 new id> --split right --no-focus   # member-b to scratch
+  plan  herdr --session roomlab pane move <w3:p1 new id> --tab <room tab> --target-pane <w2:p1 new id> --split right --ratio 0.5 --no-focus   # member-a beside desk, which keeps 0.5
+  plan  herdr --session roomlab pane move <w4:p1 new id> --tab <room tab> --target-pane <w3:p1 new id> --split down --ratio 0.5 --no-focus   # member-b beside member-a, which keeps 0.5
+  plan  herdr --session roomlab workspace move <room> --after <last space of team>   # room team beside desk's repo
+  --dry: nothing was moved (5 moves planned)
+(exit 0)

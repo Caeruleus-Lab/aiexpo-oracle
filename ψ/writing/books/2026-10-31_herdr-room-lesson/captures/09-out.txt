@@ -1,0 +1,15 @@
+$ herdr-room out team --session roomlab
+  saved ~/.local/state/herdr-room/roomlab__team.json
+room 'team' · session roomlab · 3 member(s) out: desk, member-a, member-b
+  run   herdr --session roomlab pane move w5:p1 --new-workspace --label desk --no-focus   # desk to a space of its own
+  run   herdr --session roomlab pane move w5:p2 --new-workspace --label member-a --no-focus   # member-a to a space of its own
+  run   herdr --session roomlab pane move w5:p3 --new-workspace --label member-b --no-focus   # member-b to a space of its own
+  run   herdr --session roomlab worktree open --cwd /private/tmp/roomlab/team --path /private/tmp/roomlab/team/wt/member-a --label member-a --no-focus   # nest member-a under its repo
+  run   herdr --session roomlab worktree open --cwd /private/tmp/roomlab/team --path /private/tmp/roomlab/team/wt/member-b --label member-b --no-focus   # nest member-b under its repo
+  name  w6:p1 = desk
+  name  w7:p1 = member-a
+  name  w8:p1 = member-b
+  ok    w7 already right after w6   # member-a beside its repo
+  ok    w8 already right after w7   # member-b beside its repo
+  the room space closed itself once empty · `herdr-room in team` rebuilds it
+(exit 0)

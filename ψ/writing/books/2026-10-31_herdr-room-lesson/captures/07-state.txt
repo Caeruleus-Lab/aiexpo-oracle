@@ -1,0 +1,7 @@
+$ herdr-room list | rg roomlab; jq '.members' ~/.local/state/herdr-room/roomlab__team.json
+roomlab      team             fib   OPEN  desk · member-a · member-b   (saved 2026-10-31T21:02:02+0700)
+"fib"
+["w5:p1","desk"]
+["w5:p2","member-a"]
+["w5:p3","member-b"]
+(exit 0)

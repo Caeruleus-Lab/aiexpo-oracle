@@ -1,0 +1,10 @@
+$ herdr-room in team --session roomlab      # no members: rebuild from the saved state
+room 'team' · session roomlab · layout fib · 3 members: desk, member-a, member-b
+  name  w9:p1 = desk
+  name  w9:p2 = member-a
+  name  w9:p3 = member-b
+  saved ~/.local/state/herdr-room/roomlab__team.json
+  rect  w9:p1    x=0    y=0   57x46
+  rect  w9:p2    x=57   y=0   56x23
+  rect  w9:p3    x=57   y=23  56x23
+(exit 0)
