@@ -1,112 +1,200 @@
 """Build the Open Graph / Facebook share cards: og/index.png and og/<lesson>.png, 1200x630.
 
-Each card is an HTML page in the deck palette (tokens.css), rendered by ego-browser so Thai shapes correctly,
-with the lesson's real cover screenshot beside the title. Re-renders a card only when its HTML changes
-(hash kept in og/cards.json).
+Each card is drawn with Pillow in the deck palette (tokens.css, dark): an amber lamp bar, the lesson number,
+the Thai title in Bai Jamjuree, the English title, the lesson's real cover screenshot, the URL small at the
+bottom. Pillow lays out Thai with libraqm, so marks stack correctly. A card is redrawn only when its inputs
+change (hash kept in og/cards.json).
 
-Usage: python3 build_og.py   (after build_index.py; needs ego-browser; then commit og/ and ./deploy.sh)
+Drawn with Pillow since 2026-10-31 (issue #6): the earlier ego-browser render came out zoomed 2x and cropped,
+whatever the viewport override said, so the cards no longer depend on a browser window.
+
+Usage: python3 build_og.py   (after build_index.py; needs Pillow with raqm, the macOS Bai Jamjuree and Sarabun
+fonts; then commit og/ and ./deploy.sh)
 """
-import base64
 import hashlib
-import html as H
 import json
 import pathlib
-import subprocess
+
+from PIL import Image, ImageDraw, ImageFont, ImageOps, features
 
 here = pathlib.Path(__file__).resolve().parent
 OG = here / "og"
 SITE = "aiexpo.buildwithoracle.com"
-FONTS = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">'
+VERSION = "pillow-1"  # bump to redraw every card after a layout change
 
-CARD_CSS = """
-*{box-sizing:border-box;margin:0}
-html,body{width:1200px;height:630px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--body)}
-.card{position:relative;width:1200px;height:630px;padding:64px 72px;display:grid;grid-template-columns:1fr 430px;gap:56px;align-items:center}
-.lamp{position:absolute;left:0;top:0;width:12px;height:100%;background:var(--accent)}
-.num{font:700 44px/1 var(--display);color:var(--accent);margin-bottom:22px}
-h1{font:700 60px/1.18 var(--display);color:var(--ink)}
-.en{margin-top:20px;font:500 26px/1.35 var(--body);color:var(--ink-2)}
-.foot{position:absolute;left:72px;right:72px;bottom:40px;display:flex;justify-content:space-between;font:600 22px var(--body);color:var(--ink-3)}
-.foot b{color:var(--ink-2);font-weight:700}
-.shot{width:430px;height:430px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:var(--paper-2)}
-.shot img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block}
-ol{list-style:none;padding:0;display:grid;gap:18px}
-ol li{display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:center;font:600 27px/1.3 var(--display);color:var(--ink)}
-ol li b{display:inline-flex;width:56px;height:56px;border-radius:50%;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink);font:700 24px var(--display)}
-.idx{grid-template-columns:1fr 520px}
-"""
+W, H = 1200, 630
+PAPER, PAPER_2, RULE = (14, 18, 23), (25, 29, 36), (56, 61, 70)
+INK, INK_2, INK_3 = (243, 242, 237), (172, 177, 186), (123, 129, 137)
+ACCENT, ACCENT_INK = (245, 174, 57), (32, 22, 8)
+
+FONT_DIR = pathlib.Path("/System/Library/AssetsV2")
+FACES = {}
 
 
-def data_uri(path):
-    return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode()
+def find_font(file_name):
+    hits = sorted(FONT_DIR.glob(f"com_apple_MobileAsset_Font*/*/AssetData/{file_name}"))
+    if not hits:
+        raise SystemExit(f"font {file_name} not found under {FONT_DIR}: download it in Font Book (Bai Jamjuree, Sarabun)")
+    return hits[0]
 
 
-def page(body, extra=""):
-    tokens = (here / "tokens.css").read_text(encoding="utf-8")
-    return f'<!doctype html><html lang="th"><head><meta charset="utf-8">{FONTS}<style>{tokens}{CARD_CSS}</style></head><body>{body}</body></html>'
+def font(family, style, size):
+    """family 'display' = Bai Jamjuree, 'body' = Sarabun (as tokens.css); style is the face name, e.g. 'Bold'."""
+    key = (family, style, size)
+    if key not in FACES:
+        path = find_font("Baijam.ttc" if family == "display" else "Sarabun.ttc")
+        for i in range(16):
+            f = ImageFont.truetype(str(path), size, index=i, layout_engine=ImageFont.Layout.RAQM)
+            if f.getname()[1] == style:
+                FACES[key] = f
+                break
+        else:
+            raise SystemExit(f"no {style} face in {path.name}")
+    return FACES[key]
 
 
-def lesson_card(i, l):
-    return page(f'''<div class="card"><div class="lamp"></div>
-<div><div class="num">{i:02d}</div><h1>{H.escape(l["th"])}</h1><p class="en">{H.escape(l["en"])}</p></div>
-<div class="shot"><img src="{data_uri(here / l["dir"] / l["cover"])}"></div>
-<div class="foot"><span><b>AIExpo Oracle</b> · AI Expo · 6 พ.ย. 2026</span><span>{SITE}</span></div></div>''')
+THAI_MARKS = set("ัิีึืฺุู็่้๊๋์ํ๎")
+THAI_LEADING = set("เแโใไ")  # vowels written before their consonant
 
 
-def index_card(lessons):
-    items = "".join(f'<li><b>{i + 1:02d}</b><span>{H.escape(l["th"])}</span></li>' for i, l in enumerate(lessons))
-    return page(f'''<div class="card idx"><div class="lamp"></div>
-<div><h1>บทเรียน workshop<br><span style="color:var(--accent)">ARRA Oracle</span></h1><p class="en">ARRA Oracle &amp; Multi-Agent Workflow · AI Expo · Fri 6 Nov 2026</p></div>
-<ol>{items}</ol>
-<div class="foot"><span><b>AIExpo Oracle</b> · {len(lessons)} บทเรียน</span><span>{SITE}</span></div></div>''')
+def split_long(draw, word, f, width):
+    """A Thai run with no space can be wider than the column: cut it between characters, never before a
+    combining mark and never right after a leading vowel."""
+    parts, cur = [], ""
+    for ch in word:
+        if cur and draw.textlength(cur + ch, font=f) > width and ch not in THAI_MARKS and cur[-1] not in THAI_LEADING:
+            parts.append(cur)
+            cur = ""
+        cur += ch
+    return parts + [cur]
 
 
-def render(jobs):
-    """jobs: list of (html_path, png_path). One ego-browser round renders them all at 1200x630."""
-    pairs = json.dumps([[str(h), str(p)] for h, p in jobs])
-    script = f"""
-const fs = await import('node:fs')
-const task = await taskSpace('og cards: aiexpo lessons')
-const page = task.page('p1')
-for (const [h, p] of {pairs}) {{
-  await page.goto('file://' + h, {{ timeout: 20000 }})
-  await page.cdp('Emulation.setDeviceMetricsOverride', {{ width: 1200, height: 630, deviceScaleFactor: 1, mobile: false, screenWidth: 1200, screenHeight: 630 }})
-  await page.waitForFunction(() => document.fonts.status === 'loaded', undefined, {{ timeout: 15000 }}).catch(() => {{}})
-  await page.waitForTimeout(800)
-  let ok = false
-  for (let i = 0; i < 8 && !ok; i++) {{
-    try {{ const r = await page.cdp('Page.captureScreenshot', {{ format: 'png' }}, {{ timeout: 6000 }}); fs.writeFileSync(p, Buffer.from(r.data, 'base64')); ok = true }}
-    catch (e) {{ await page.waitForTimeout(800) }}
-  }}
-  console.log((ok ? 'ok   ' : 'FAIL ') + p)
-}}
-await task.finish({{ keep: [] }})
-"""
-    out = subprocess.run(["ego-browser", "nodejs"], input=script, text=True, capture_output=True)
-    print(out.stdout.strip() or out.stderr.strip())
+def thai_words(run):
+    """Thai has no spaces between words: segment a run with pythainlp when it is installed, so a line never
+    breaks inside a word (ครอบครัว stays whole). Without it the run stays one piece and split_long cuts it."""
+    try:
+        from pythainlp.tokenize import word_tokenize
+    except ImportError:
+        return [run]
+    return [w for w in word_tokenize(run, engine="newmm", keep_whitespace=False) if w]
+
+
+def wrap(draw, text, f, width):
+    """Greedy wrap: at spaces, then at Thai word boundaries; a piece still wider than the column is cut."""
+    words = []  # (piece, glue): glue " " after a space, "" inside a segmented Thai run
+    for w in text.split(" "):
+        pieces = thai_words(w) if draw.textlength(w, font=f) > width else [w]
+        for k, p in enumerate(pieces):
+            for q in (split_long(draw, p, f, width) if draw.textlength(p, font=f) > width else [p]):
+                words.append((q, "" if k else " "))
+    lines, cur = [], ""
+    for word, glue in words:
+        test = (cur + glue + word).strip() if cur else word
+        if draw.textlength(test, font=f) <= width or not cur:
+            cur = test
+        else:
+            lines.append(cur)
+            cur = word
+    return lines + ([cur] if cur else [])
+
+
+def foot(draw, left_bold, left_rest):
+    f_b, f = font("body", "Bold", 22), font("body", "SemiBold", 22)
+    y = H - 40 - 30
+    draw.text((72, y), left_bold, font=f_b, fill=INK_2)
+    draw.text((72 + draw.textlength(left_bold, font=f_b), y), left_rest, font=f, fill=INK_3)
+    draw.text((W - 72 - draw.textlength(SITE, font=f), y), SITE, font=f, fill=INK_3)
+
+
+def lesson_card(i, l, out):
+    im = Image.new("RGB", (W, H), PAPER)
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, 11, H], fill=ACCENT)  # the lamp
+    text_w = W - 72 - 72 - 56 - 430
+    h1, num, en = font("display", "Bold", 60), font("display", "Bold", 44), font("body", "Medium", 26)
+    title = wrap(d, l["th"], h1, text_w)[:4]
+    sub = wrap(d, l["en"], en, text_w)[:3]
+    y = (H - (44 + 22 + len(title) * 71 + 20 + len(sub) * 35)) // 2 - 10
+    d.text((72, y), f"{i:02d}", font=num, fill=ACCENT)
+    y += 44 + 22
+    for line in title:
+        d.text((72, y), line, font=h1, fill=INK)
+        y += 71
+    y += 20
+    for line in sub:
+        d.text((72, y), line, font=en, fill=INK_2)
+        y += 35
+    # the cover: 430x430, object-fit cover from the top left, rounded, with a hairline border
+    shot = ImageOps.fit(Image.open(here / l["dir"] / l["cover"]).convert("RGB"), (430, 430), centering=(0, 0))
+    x0, y0 = W - 72 - 430, (H - 430) // 2
+    mask = Image.new("L", (430, 430), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, 429, 429], radius=14, fill=255)
+    d.rounded_rectangle([x0 - 1, y0 - 1, x0 + 430, y0 + 430], radius=15, fill=PAPER_2, outline=RULE)
+    im.paste(shot, (x0, y0), mask)
+    foot(d, "AIExpo Oracle", " · AI Expo · 6 พ.ย. 2026")
+    im.save(out, optimize=True)
+
+
+def index_card(lessons, out):
+    im = Image.new("RGB", (W, H), PAPER)
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, 11, H], fill=ACCENT)
+    h1, en = font("display", "Bold", 60), font("body", "Medium", 26)
+    d.text((72, 150), "บทเรียน workshop", font=h1, fill=INK)
+    d.text((72, 221), "ARRA Oracle", font=h1, fill=ACCENT)
+    y = 312
+    for line in wrap(d, "ARRA Oracle & Multi-Agent Workflow · AI Expo · Fri 6 Nov 2026", en, W - 72 - 56 - 520 - 72):
+        d.text((72, y), line, font=en, fill=INK_2)
+        y += 35
+    # the list, right column 520 px: amber number discs and titles
+    item, num = font("display", "SemiBold", 25), font("display", "Bold", 22)
+    x0, gap = W - 72 - 520, 14
+    rows = [wrap(d, l["th"], item, 520 - 64)[:2] for l in lessons]
+    total = sum(max(48, len(r) * 32) for r in rows) + gap * (len(rows) - 1)
+    y = (H - 60 - total) // 2
+    for i, r in enumerate(rows):
+        hgt = max(48, len(r) * 32)
+        cy = y + hgt // 2
+        d.ellipse([x0, cy - 24, x0 + 48, cy + 24], fill=ACCENT)
+        label = f"{i + 1:02d}"
+        d.text((x0 + 24 - d.textlength(label, font=num) / 2, cy - 15), label, font=num, fill=ACCENT_INK)
+        ty = cy - len(r) * 32 // 2 - 4
+        for line in r:
+            d.text((x0 + 64, ty), line, font=item, fill=INK)
+            ty += 32
+        y += hgt + gap
+    foot(d, "AIExpo Oracle", f" · {len(lessons)} บทเรียน")
+    im.save(out, optimize=True)
 
 
 def main():
+    if not features.check("raqm"):
+        raise SystemExit("this Pillow has no libraqm, so Thai marks would not stack: run it with the system python3")
     lessons = json.loads((here / "lessons.json").read_text(encoding="utf-8"))
     OG.mkdir(exist_ok=True)
-    src = OG / "src"
-    src.mkdir(exist_ok=True)
     state_path = OG / "cards.json"
     state = json.loads(state_path.read_text()) if state_path.exists() else {}
-    cards = {"index": index_card(lessons)}
-    cards.update({l["key"]: lesson_card(i + 1, l) for i, l in enumerate(lessons)})
-    jobs = []
-    for key, doc in cards.items():
-        h = hashlib.sha256(doc.encode()).hexdigest()[:16]
-        (src / f"{key}.html").write_text(doc, encoding="utf-8")
+
+    def digest(*parts):
+        h = hashlib.sha256(VERSION.encode())
+        for p in parts:
+            h.update(p if isinstance(p, bytes) else str(p).encode())
+        return h.hexdigest()[:16]
+
+    jobs = {"index": (digest(json.dumps([l["th"] for l in lessons], ensure_ascii=False)), lambda out: index_card(lessons, out))}
+    for i, l in enumerate(lessons):
+        cover = (here / l["dir"] / l["cover"]).read_bytes()
+        jobs[l["key"]] = (digest(i + 1, l["th"], l["en"], cover), lambda out, i=i, l=l: lesson_card(i + 1, l, out))
+    drawn = 0
+    for key, (h, draw) in jobs.items():
         png = OG / f"{key}.png"
         if state.get(key) != h or not png.exists():
-            jobs.append((src / f"{key}.html", png))
+            draw(png)
             state[key] = h
-    if jobs:
-        render(jobs)
+            drawn += 1
+            print(f"ok   {png}")
     state_path.write_text(json.dumps(state, indent=2) + "\n")
-    print(f"og cards: {len(cards)} total, {len(jobs)} rendered now")
+    print(f"og cards: {len(jobs)} total, {drawn} drawn now")
 
 
 main()
