@@ -128,8 +128,8 @@ def b64_body():
     U = '<span class="base">&lt;this-folder&gt;/</span>'
     return [
         f'''<h2>The Matrix</h2>
-<p class="note">{len(flat):,} characters ({size("README.b64.txt")}) · click to copy all · drag to copy a part · Esc to close</p>
-<div class="wall" id="wall"><button class="wallbtn" id="wallbtn" type="button">pause</button><canvas id="wallc" aria-hidden="true"></canvas>
+<p class="note">{len(flat):,} characters ({size("README.b64.txt")}) · click to copy all · drag to copy a part · full screen button, Esc to close</p>
+<div class="wall" id="wall"><button class="wallbtn" id="wallbtn" type="button">pause</button><button class="wallbtn wallfs" id="wallfs" type="button">full screen</button><canvas id="wallc" aria-hidden="true"></canvas>
 <pre class="b64 matrix-block" id="blob">{H.escape(flat)}</pre></div>''',
     ]
 
@@ -210,8 +210,9 @@ if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('w
  function setRun(v){run=v;localStorage.setItem('ego-wall',v?'on':'paused');btn.textContent=v?'pause':'play'}
  btn.onclick=()=>setRun(!run);setRun(run);
  document.fonts&&document.fonts.ready.then(layout);layout();addEventListener('resize',layout);addEventListener('scroll',()=>{if(!run)draw()},{passive:true});
- // full screen: click the wall to open; inside, click copies everything, a drag-selection copies just that; Esc closes
+ // click the wall: copy everything at once; drag: highlight + copy just that. Full screen is its own button; Esc closes it
  const hint=document.createElement('div');hint.className='wallhint';wall.appendChild(hint);const HINT='click: copy all · drag: highlight + copy · Esc: close';hint.textContent=HINT;
+ const toast=document.createElement('div');toast.className='walltoast';toast.setAttribute('role','status');document.body.appendChild(toast);const fsb=document.getElementById('wallfs');
  // the copy blast: base64 glyphs explode from the click, a shockwave ring, a white flash, a glitching COPIED, the wall shakes
  const bc=document.createElement('canvas');bc.id='boomc';wall.appendChild(bc);const bx=bc.getContext('2d');const GL='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
  function boom(x,y,label){const d=devicePixelRatio||1,w=innerWidth,h=innerHeight;bc.width=w*d;bc.height=h*d;bc.style.width=w+'px';bc.style.height=h+'px';bx.setTransform(d,0,0,d,0,0);
@@ -225,11 +226,11 @@ if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('w
    bx.fillStyle='rgba(255,40,90,'+.5*(1-k)+')';bx.fillText(label,w/2+j+4,h/2);bx.fillStyle='rgba(40,200,255,'+.5*(1-k)+')';bx.fillText(label,w/2-j-4,h/2);
    bx.shadowColor='#3dff8a';bx.shadowBlur=36;bx.fillStyle='rgba(235,255,240,'+(1-k*k)+')';bx.fillText(label,w/2+j,h/2);bx.shadowBlur=0;bx.textAlign='start';
    if(k<1)requestAnimationFrame(f);else{bx.clearRect(0,0,w,h);bc.classList.remove('on')}})(t0)}
- function flash(m){hint.textContent=m;clearTimeout(flash.t);flash.t=setTimeout(()=>hint.textContent=HINT,1400)}
- function setFull(v){wall.classList.toggle('full',v);document.body.classList.toggle('wallopen',v);if(v){wall.scrollTop=0;if(wall.requestFullscreen)wall.requestFullscreen().catch(()=>{})}else{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});getSelection().removeAllRanges();requestAnimationFrame(()=>wall.scrollIntoView({block:'start',behavior:'instant'}))}setTimeout(layout,80)}
+ function flash(m){hint.textContent=m;toast.textContent=m;toast.classList.add('on');clearTimeout(flash.t);flash.t=setTimeout(()=>{hint.textContent=HINT;toast.classList.remove('on')},1600)}
+ function setFull(v){wall.classList.toggle('full',v);if(fsb)fsb.textContent=v?'exit full screen':'full screen';document.body.classList.toggle('wallopen',v);if(v){wall.scrollTop=0;if(wall.requestFullscreen)wall.requestFullscreen().catch(()=>{})}else{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});getSelection().removeAllRanges();requestAnimationFrame(()=>wall.scrollIntoView({block:'start',behavior:'instant'}))}setTimeout(layout,80)}
+ if(fsb)fsb.onclick=()=>setFull(!wall.classList.contains('full'));
  let down=null;pre.addEventListener('mousedown',e=>{down=[e.clientX,e.clientY]});
  pre.addEventListener('mouseup',async e=>{const moved=down&&Math.hypot(e.clientX-down[0],e.clientY-down[1])>4;const sel=String(getSelection());
-  if(!wall.classList.contains('full')){if(!moved&&!sel)setFull(true);return}
   try{if(sel){await navigator.clipboard.writeText(sel.replace(/\\s+/g,''));boom(e.clientX,e.clientY,'COPIED');flash('copied selection · '+sel.replace(/\\s+/g,'').length+' chars')}else if(!moved){await navigator.clipboard.writeText(txt);getSelection().selectAllChildren(pre);boom(e.clientX,e.clientY,'COPIED');flash('copied all · '+txt.length+' chars')}}catch(err){flash('copy blocked by the browser: select and press Cmd/Ctrl+C')}});
  addEventListener('keydown',e=>{if(e.key==='Escape'&&wall.classList.contains('full')){e.preventDefault();setFull(false)}});
  document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&wall.classList.contains('full'))setFull(false)});
