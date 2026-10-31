@@ -79,10 +79,38 @@ const CORS = {
   "access-control-expose-headers": "mcp-protocol-version",
 };
 
+// Static assets answer a Range request with the whole file (200), and Safari / iOS will not play an mp4 that way.
+// The lesson videos (each under 25 MiB) are sliced here and answered 206 with Content-Range.
+async function video(request, env) {
+  const res = await env.ASSETS.fetch(request.url, { method: request.method === "HEAD" ? "HEAD" : "GET" });
+  if (!res.ok) return res;
+  const range = /^bytes=(\d*)-(\d*)$/.exec(request.headers.get("Range") || "");
+  const headers = new Headers(res.headers);
+  headers.set("Accept-Ranges", "bytes");
+  headers.set("Content-Type", "video/mp4");
+  if (request.method === "HEAD" && !range) return new Response(null, { status: 200, headers });
+  const body = await res.arrayBuffer();
+  const size = body.byteLength;
+  if (!range) {
+    headers.set("Content-Length", String(size));
+    return new Response(request.method === "HEAD" ? null : body, { status: 200, headers });
+  }
+  let start = range[1] === "" ? Math.max(0, size - Number(range[2])) : Number(range[1]);
+  let end = range[1] !== "" && range[2] !== "" ? Math.min(Number(range[2]), size - 1) : size - 1;
+  if (start >= size || start > end) {
+    headers.set("Content-Range", `bytes */${size}`);
+    return new Response(null, { status: 416, headers });
+  }
+  headers.set("Content-Range", `bytes ${start}-${end}/${size}`);
+  headers.set("Content-Length", String(end - start + 1));
+  return new Response(request.method === "HEAD" ? null : body.slice(start, end + 1), { status: 206, headers });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/mcp" || url.pathname === "/mcp/") return mcp(request, env);
+    if (url.pathname.endsWith(".mp4")) return video(request, env);
     return env.ASSETS.fetch(request);
   },
 };

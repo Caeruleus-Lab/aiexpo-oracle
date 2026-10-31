@@ -6,6 +6,6 @@
   "compatibility_date": "2026-10-01",
   "account_id": "a5eabdc2b11aae9bd5af46bd6a88179e",
   "ai": { "binding": "AI" },
-  "assets": { "directory": "./dist", "binding": "ASSETS", "html_handling": "auto-trailing-slash", "run_worker_first": ["/mcp", "/mcp/*"] },
+  "assets": { "directory": "./dist", "binding": "ASSETS", "html_handling": "auto-trailing-slash", "run_worker_first": ["/mcp", "/mcp/*", "/*/videos/*"] },
   "routes": [{ "pattern": "aiexpo.buildwithoracle.com", "custom_domain": true }]
 }
