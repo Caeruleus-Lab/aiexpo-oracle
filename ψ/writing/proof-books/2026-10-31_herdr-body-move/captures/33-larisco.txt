@@ -1,0 +1,3 @@
+$ herdr --session laris-co agent list | jq (LarisCo host w60:p1)
+w60:p1	working	laris-co/laris-team
+(exit 0 · 0.0 s)

@@ -1,0 +1,9 @@
+$ python3 (read 89a694ad): the commands that started the new body and closed the old
+2026-10-31T13:05:21.547Z UTC
+R=/opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle; NEW=$(herdr pane split wCC:p3 --direction down --cwd $R --no-focus | python3 -c 'import json,sys;print(json.load(sys.stdin)["result"]["pane"]["pane_id"])'); echo NEW=$NEW
+BRIEF="You are AIExpo Oracle, body back in ... Report to Nat in 3 lines, then wait."
+herdr pane run $NEW "(sleep 40; herdr pane send-text wCC:p3 '/exit'; herdr pane send-keys wCC:p3 enter; sleep 10; herdr pane close wCC:p3) >/dev/null 2>&1 &! claude \"$BRIEF\"" 2>&1 | python3 -c 'import json,sys;d=json.load(sys.stdin);print(d.get("error") or "started")'
+2026-10-31T13:05:45.863Z UTC
+nohup sh -c "sleep 20; herdr pane send-text wCC:p3 '/exit'; herdr pane send-keys wCC:p3 enter; sleep 10; herdr pane close wCC:p3" >/dev/null 2>&1 &
+echo scheduled
+(exit 0 · 0.0 s)

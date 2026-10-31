@@ -1,0 +1,23 @@
+herdr-room -- pull agents into one room (a space whose single tab shows them all) and send
+them back to spaces of their own, as often as you like. No agent restarts: real panes move.
+
+  herdr-room in  <room> [member ...] [--layout fib|cols|rows|main] [--ratio R] [--session S] [--dry]
+  herdr-room out <room> [member ...] [--session S] [--dry]   (members given: only they leave)
+  herdr-room list
+  herdr-room rename <room> <new-name> [--session S]   (space label, tab label and saved state)
+
+A member is an agent name (herdr-team names every member), a folder path (the agent's cwd, e.g.
+/opt/Code/github.com/laris-co/gateway-oracle) or a pane id in that session (w8:p3). Names and
+paths are safer than pane ids: pane ids repeat across herdr sessions.
+`in` with no members rebuilds the room from what the last `in`/`out` saved.
+
+Layouts (shares are set INSIDE each move, so nothing is resized afterwards):
+  fib   first member takes the left half, the next takes half of what is left, turning
+        right/down in a spiral (3 members: left | top-right / bottom-right)
+  cols  equal columns, left to right        rows  equal rows, top to bottom
+  main  first member a left column of share R (default 0.5), the rest stacked on the right
+
+Works from any pane in any session: it calls `herdr --session S pane move` with exact pane ids,
+so it never depends on which pane it runs in. Panes cannot cross herdr sessions; a member found
+in another session is refused with the session's name.
+State: ~/.local/state/herdr-room/<session>__<room>.json (members, names, layout).

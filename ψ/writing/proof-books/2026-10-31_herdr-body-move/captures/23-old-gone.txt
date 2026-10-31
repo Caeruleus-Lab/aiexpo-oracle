@@ -1,0 +1,6 @@
+$ wait for the old body's pane to close, then list the room's panes
+closed=20:15:48
+w1:p1	w1	Caeruleus-Lab/aiexpo-oracle/ψ/writing/proof-books/2026-10-31_herdr-body-move
+w7:p3	w7	Caeruleus-Lab/aiexpo-oracle
+w7:p2	w7	Caeruleus-Lab/aiexpo-oracle/wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026
+(exit 0 · 30.5 s)

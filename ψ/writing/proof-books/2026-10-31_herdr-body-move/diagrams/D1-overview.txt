@@ -1,0 +1,27 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║  BODY MOVE · herdr session laris-co · space wCC "aiexpo-oracle"          ║
+║  31 Oct 2026 · old body p3 -> new body p5 · 3 columns -> 2               ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+ 1 ─ BEFORE                        sidebar shows branch wt/aiexpo-oracle
+   ┌────────────────────┐  ┌────────────────────┐
+   │ wCC:p3  OLD BODY   │  │ wCC:p4  aiexpo-wt  │
+   │ course-team/wt/    │  │ wt/workshop-for-   │
+   │ aiexpo-oracle      │  │ ai-aiexpo-...      │
+   └────────────────────┘  └────────────────────┘
+
+ 2 ─ NEW BODY BORN, ROOM IN TOO EARLY        3 columns (!)
+   ┌──────────────┐  ┌──────────────┐  ┌ ─ ─ ─ ─ ─ ─ ─┐
+   │ wCC:p5  NEW  │  │ wCC:p4  wt   │  │ wCC:p3  OLD  │
+   │ main         │  │              │  │ still inside │
+   └──────────────┘  └──────────────┘  └ ─ ─ ─ ─ ─ ─ ─┘
+     an open room keeps every pane already in its space
+
+ 3 ─ OLD BODY CLOSES, ROOM IN AGAIN          2 columns
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓   ┌────────────────────────────┐
+   ┃ LEFT   wCC:p5              ┃   │ RIGHT  wCC:p4              │
+   ┃ main checkout, branch main ┃   │ worktree, lessons + site   │
+   ┃ talks with Nat, merges     ┃   │ asks left to merge         │
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛   └────────────────────────────┘
+
+  ┏━┓ the body · ┌─┐ live pane · ┌ ─ ┐ pane about to close

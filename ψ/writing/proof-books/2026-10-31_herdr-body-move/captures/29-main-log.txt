@@ -1,0 +1,10 @@
+$ git log --oneline -6 main; gh pr list --state open
+0dec1a1 feat(books): MCP connect block first, above All lessons
+8a61104 Merge pull request #2 from Caeruleus-Lab/event-research-aiexpo-28oct-wed2026
+f7f1525 Merge pull request #5 from Caeruleus-Lab/workshop-for-ai-aiexpo-issue3-30oct-fri2026
+1c699e9 docs(ψ): skills inventory, herdr promote/unpromote notes, herdr bring/move/promote cheat sheet
+fd279c7 docs(books): lesson 04, the loop film: 13 scenes seam-checked, 6 model loops + 7 fixed, stage mosaic
+6674825 feat(books): Matrix wall, one click copies all with a toast; full screen is its own button
+
+open PRs: 0
+(exit 0 · 0.6 s)

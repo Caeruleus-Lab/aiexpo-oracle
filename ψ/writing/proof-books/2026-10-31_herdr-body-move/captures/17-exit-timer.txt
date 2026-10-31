@@ -1,0 +1,4 @@
+$ (sleep 30; herdr pane close <old>) &   # the old body schedules its own exit
+old=w7:p1 closes at 20:15:47
+now=20:15:17
+(exit 0 · 0.0 s)

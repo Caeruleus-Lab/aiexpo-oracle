@@ -1,0 +1,19 @@
+$ sed -n 1,12p <handoff>; rg -n -A1 Charter <handoff>; stat -f %Sm <handoff>
+# Handoff: AIExpo body moves back to the main checkout (2026-10-31 20:10)
+
+From session `89a694ad` (body in `laris-co/course-team/wt/aiexpo-oracle`, pane wCC:p3).
+Nat, 31 Oct: the body should live in the aiexpo-oracle workspace, so the sidebar shows `main`, not
+`wt/aiexpo-oracle`. This new session runs in `Caeruleus-Lab/aiexpo-oracle` (main checkout).
+Read the old sessions through relic5: `89a694ad` (today) and `051fd11a` (28–31 Oct).
+
+## Layout (herdr session laris-co)
+- Space `wCC` "aiexpo-oracle" (a room, layout cols): you (left) + `aiexpo-wt` (right, wCC:p4).
+- `aiexpo-wt` = session bfe79650 in `wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026`, owns the lessons
+  (`ψ/writing/books`), deploys aiexpo.buildwithoracle.com, pushes its branch and asks you to merge.
+- You own: main, merges (fast-forward after a scan for keys/emails/tailnet/local paths), the deck
+
+16:- Charter: LarisCo was asked to point `laris-team/teams/course-team.yaml` and
+17-  `oracles/aiexpo-oracle/config.yaml` at this checkout. Check that it happened.
+
+last written: 20:05:05
+(exit 0 · 0.0 s)

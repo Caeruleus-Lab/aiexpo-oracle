@@ -1,0 +1,11 @@
+$ herdr-room in aiexpo-oracle <old> <wt> --layout cols --session bookdemo
+room 'aiexpo-oracle' · session bookdemo · layout cols · 2 members: aiexpo-oracle, aiexpo-wt
+  run   herdr --session bookdemo pane move w5:p1 --new-workspace --label aiexpo-oracle --tab-label aiexpo-oracle --no-focus   # aiexpo-oracle opens the room
+  run   herdr --session bookdemo pane move w6:p1 --new-tab --workspace w7 --label scratch --no-focus   # aiexpo-wt to scratch
+  run   herdr --session bookdemo pane move w7:p2 --tab w7:t1 --target-pane w7:p1 --split right --ratio 0.5 --no-focus   # aiexpo-wt beside aiexpo-oracle, which keeps 0.5
+  name  w7:p1 = aiexpo-oracle
+  name  w7:p2 = aiexpo-wt
+  saved /Users/beta/.local/state/herdr-room/bookdemo__aiexpo-oracle.json
+  rect  w7:p1    x=0    y=0   21x44
+  rect  w7:p2    x=21   y=0   20x44
+(exit 0 · 0.1 s)

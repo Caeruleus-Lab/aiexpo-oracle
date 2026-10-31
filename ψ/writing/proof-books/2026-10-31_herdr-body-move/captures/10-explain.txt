@@ -1,0 +1,7 @@
+$ herdr --session bookdemo agent explain <old body pane>
+agent: claude
+state: idle
+manifest: remote:/Users/beta/.local/state/herdr/agent-detection/remote/claude.toml 2026.10.11.1
+rule: none
+fallback_reason: default_known_agent_idle_fallback
+(exit 0 · 0.0 s)

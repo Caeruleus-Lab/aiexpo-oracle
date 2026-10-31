@@ -1,0 +1,5 @@
+$ jq -c '.members[]|[.pane,.name,.path]' <laris-co state>; jq -r .saved <laris-co state>
+["wCC:p5","aiexpo-oracle","Caeruleus-Lab/aiexpo-oracle"]
+["wCC:p4","aiexpo-wt","Caeruleus-Lab/aiexpo-oracle/wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026"]
+2026-10-31T20:06:05+0700
+(exit 0 · 0.0 s)

@@ -1,0 +1,20 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║  LEFT TALKS, RIGHT REPORTS · room wCC · after the move                   ║
+║  laris-team CLAUDE.md:51 · main 0dec1a1 · 0 open PRs                     ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+                       Nat
+                        │ asks, decides
+                        ▼
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓  merge request ┌──────────────────────────┐
+   ┃ LEFT  wCC:p5 aiexpo-oracle ┃◄───────────────│ RIGHT wCC:p4 aiexpo-wt   │
+   ┃ main checkout, branch main ┃                │ worktree branch          │
+   ┃ merges, deck, issue #1     ┃───────────────►│ ψ/writing/books, site    │
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ merged/pushed  └──────────────────────────┘
+
+ ONE CHANGE, END TO END
+   right commits ──► pushes branch ──► prompt to left, by pane id
+   left: git diff main..branch | rg  keys · emails · tailnet · paths
+             ├── clean ──► git merge --ff-only ──► git push ──► "merged"
+             └── a hit ──► read the line, decide, or send it back
+   both: sync after each change. pane ids change on every move.

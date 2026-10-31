@@ -1,0 +1,6 @@
+$ git diff fd279c7..8a61104 | rg -c <keys|emails|tailnet|local paths>
+sk-[A-Za-z0-9]{16,}|ghp_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}      0
+[A-Za-z0-9._%+-]+@gmail\.com                                   0
+\.ts\.net|100\.(6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.[0-9]+\.[0-9]+ 0
+/Users/beta|/opt/Code                                          3
+(exit 0 · 0.1 s)

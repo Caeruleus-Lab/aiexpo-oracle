@@ -1,0 +1,12 @@
+$ herdr-room list | rg 'bookdemo|laris-co'
+bookdemo     aiexpo-oracle    cols  OPEN  aiexpo-oracle · aiexpo-wt   (saved 2026-10-31T20:15:16
+laris-co     aiexpo-oracle    cols  OPEN  aiexpo-oracle · aiexpo-wt   (saved 2026-10-31T20:06:05
+laris-co     creative-team    fib   out   calliope-oracle · pigment-oracle · transcriber-oracle 
+laris-co     manager-team     fib   out   athena-oracle · manager-team · pulse-oracle   (saved 2
+laris-co     media-team       fib   out   media-team · calliope-oracle · pigment-oracle · herald
+laris-co     neo-team         fib   out   neo-recap · neo-network · neo · neo-right   (saved 202
+laris-co     office           fib   out   transcriber-oracle · pigment-oracle · nexus-oracle · c
+laris-co     oracle-apps      fib   out   neo-oracle · pulse · nexus-oracle · pigment-oracle   (
+laris-co     pulse-team       fib   out   athena-oracle   (saved 2026-10-08T14:28:37+0700)
+laris-co     rd-team          fib   out   claude-w7y-p1 · reply-desk-rd-team · pb-admin-passkey-
+(exit 0 · 0.2 s)

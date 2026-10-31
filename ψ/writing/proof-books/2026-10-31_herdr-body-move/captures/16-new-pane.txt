@@ -1,0 +1,4 @@
+$ herdr pane split <old> --direction down --cwd $MAIN; report-agent
+new=w7:p3
+w7:p3	w7	/opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle
+(exit 0 · 0.0 s)

@@ -1,0 +1,4 @@
+$ herdr pane report-agent <pane> --agent claude --state idle; herdr agent rename
+agent_info
+agent_info
+(exit 0 · 0.0 s)

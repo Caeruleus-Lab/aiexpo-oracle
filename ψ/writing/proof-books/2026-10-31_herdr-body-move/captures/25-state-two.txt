@@ -1,0 +1,5 @@
+$ jq -c '.members[]|[.pane,.name,.path]' <state>; herdr-room list
+["w7:p3","aiexpo-oracle","Caeruleus-Lab/aiexpo-oracle"]
+["w7:p2","aiexpo-wt","Caeruleus-Lab/aiexpo-oracle/wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026"]
+bookdemo     aiexpo-oracle    cols  OPEN  aiexpo-oracle · aiexpo-wt   (saved 2026-10-31T20:15:48
+(exit 0 · 0.2 s)

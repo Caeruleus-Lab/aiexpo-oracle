@@ -1,0 +1,10 @@
+$ herdr-room in aiexpo-oracle <new> <wt> --layout cols --session bookdemo
+room 'aiexpo-oracle' · session bookdemo · layout cols · 3 members: aiexpo-oracle, aiexpo-wt, aiexpo-oracle
+  name  w7:p3 = aiexpo-oracle   (not an agent: skipped)
+  name  w7:p2 = aiexpo-wt
+  name  w7:p1 = aiexpo-oracle
+  saved /Users/beta/.local/state/herdr-room/bookdemo__aiexpo-oracle.json
+  rect  w7:p3    x=0    y=0   14x44
+  rect  w7:p2    x=14   y=0   14x44
+  rect  w7:p1    x=28   y=0   13x44
+(exit 0 · 0.1 s)

@@ -1,0 +1,22 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║  RECIPE · move an agent's body into another checkout, inside a room      ║
+║  tested in session bookdemo · then done for real in laris-co             ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+ 1 ─ NEW PANE IN THE ROOM'S SPACE, CWD = THE NEW CHECKOUT
+     herdr pane split <old> --direction down --cwd <new checkout>
+ 2 ─ START THE NEW BODY WITH A BRIEF                 handoff file first
+     herdr pane run <new> 'claude "<brief: read handoff, tell peers>"'
+ 3 ─ OLD BODY LEAVES THE SPACE                       BEFORE step 4
+     herdr pane close <old>        or   herdr-room out <room> <old>
+ 4 ─ RE-TILE                                         only now
+     herdr-room in <room> <new> <peer> --layout cols --session <s>
+ 5 ─ CHECK
+     herdr-room list               2 members, path = new checkout
+     git -C <new> branch --show-current        sidebar label
+ 6 ─ TELL THE PEERS THE NEW PANE ID                  ids change on moves
+     herdr --session <s> agent prompt <peer> '[left <new> → right ...]'
+ 7 ─ CHARTER                                          owner repo, not you
+     body: in oracles/<name>/config.yaml + teams/<team>.yaml
+
+   (!) step 3 after step 4  =  3 columns.  That is what happened.

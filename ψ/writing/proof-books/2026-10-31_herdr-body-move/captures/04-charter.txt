@@ -1,0 +1,9 @@
+$ rg -n 'body|aiexpo' oracles/aiexpo-oracle/config.yaml teams/course-team.yaml
+oracles/aiexpo-oracle/config.yaml:1:# aiexpo-oracle: member body in course-team (Nat 2026-10-31, laris-co all-nested layout). No bot.
+oracles/aiexpo-oracle/config.yaml:2:oracle: aiexpo-oracle
+oracles/aiexpo-oracle/config.yaml:3:soul: "{ghq}/github.com/Caeruleus-Lab/aiexpo-oracle"
+oracles/aiexpo-oracle/config.yaml:4:body: "{ghq}/github.com/laris-co/course-team/wt/aiexpo-oracle"
+teams/course-team.yaml:17:  - name: aiexpo-oracle
+teams/course-team.yaml:18:    role: AI Expo workshops (Caeruleus-Lab/aiexpo-oracle); body course-team/wt/aiexpo-oracle since 2026-10-31
+teams/course-team.yaml:20:  - one-soul-one-body
+(exit 0 · 0.0 s)

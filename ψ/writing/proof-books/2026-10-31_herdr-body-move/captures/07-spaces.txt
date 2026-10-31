@@ -1,0 +1,4 @@
+$ herdr --session bookdemo workspace create --cwd <dir> --label <name>  (x2)
+{"space":"w5","pane":"w5:p1","label":"old-body"}
+{"space":"w6","pane":"w6:p1","label":"aiexpo-wt"}
+(exit 0 · 0.0 s)

@@ -1,0 +1,7 @@
+$ herdr-room out aiexpo-oracle <old> --session bookdemo --dry   (the other way)
+room 'aiexpo-oracle' · session bookdemo · 1 member(s) out: aiexpo-oracle
+  plan  herdr --session bookdemo pane move w7:p1 --new-workspace --label aiexpo-oracle --no-focus   # aiexpo-oracle to a space of its own
+  plan  herdr --session bookdemo worktree open --cwd /opt/Code/github.com/laris-co/course-team --path /opt/Code/github.com/laris-co/course-team/wt/aiexpo-oracle --label aiexpo-oracle --no-focus   # nest aiexpo-oracle under its repo
+  plan  herdr --session bookdemo workspace move <aiexpo-oracle's space> --after <last space of course-team or w7>   # aiexpo-oracle beside its repo
+  --dry: nothing was moved
+(exit 0 · 0.1 s)

@@ -1,0 +1,18 @@
+$ sed -n 235,250p ~/.local/bin/herdr-room
+    if ws:   # the room is open: keep everyone inside it; new members join at the end
+        order_paths = [m["path"] for m in (state or {}).get("members", [])]
+        pos = {}
+        for l in snap.get("layouts", []):
+            for lp in l.get("panes", []):
+                pos[lp["pane_id"]] = (lp["rect"]["x"], lp["rect"]["y"])
+        inside = [p for p in snap.get("panes", []) if p["workspace_id"] == ws["workspace_id"]]
+        inside.sort(key=lambda p: (order_paths.index(real(p.get("cwd"))) if real(p.get("cwd")) in order_paths else 99,
+                                   pos.get(p["pane_id"], (0, 0))))
+        existing = [{"pane": p["pane_id"], "path": real(p.get("cwd")),
+                     "name": names.get(real(p.get("cwd"))) or name_of(p, agents), "ws": p["workspace_id"]} for p in inside]
+        ids = {m["pane"] for m in existing}
+        if members and members[0]["pane"] in ids:      # the caller's order wins when it starts inside the room
+            members = members + [m for m in existing if m["pane"] not in {x["pane"] for x in members}]
+        else:
+            members = existing + [m for m in members if m["pane"] not in ids]
+(exit 0 · 0.0 s)

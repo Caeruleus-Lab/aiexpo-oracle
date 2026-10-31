@@ -1,0 +1,4 @@
+$ rg -n 'left pane|Pane ids change' laris-team/CLAUDE.md
+50:- Pane ids change on every move: find agents by cwd. One-line `herdr agent prompt`s only.
+51:- In a room the left pane talks with Nat; the right panes report to it.
+(exit 0 · 0.0 s)

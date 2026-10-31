@@ -1,0 +1,21 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║  THE RACE · 31 Oct 2026 · times from both transcripts (+07)              ║
+║  room in at 20:05:38 · old pane closed after it · 2nd room in 20:06:04   ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+  time       OLD BODY wCC:p3 (89a694ad)       NEW BODY wCC:p5 (2969076e)
+  ─────────  ───────────────────────────────  ───────────────────────────────
+  19:59:51   herdr-room in  p3 + wt  (cols)
+  20:05:21   split down, cwd = main  ───────►  claude starts with the brief
+             timer 1: sleep 40, /exit, close
+  20:05:35                                     prompt wCC:p4: my pane is p5
+  20:05:38                                     herdr-room in p5 p4
+                                               ──► 3 members (!) p3 inside
+  20:05:45   timer 2: sleep 20, /exit, close
+  20:05:48                                     edit state, room in: still 3
+  20:06:04                                     herdr-room in p5 p4 ──► 2
+  20:06:05                                     state saved: p5, p4
+  20:06:06                                     right: "old body p3 closed"
+
+   the 3rd column = the room was built while p3 was still alive.
+   no bug in the state file. an order bug in the move.

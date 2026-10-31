@@ -1,0 +1,11 @@
+$ ls <old body dir>; git -C <old> status --short | wc -l; agents with cwd = <old>
+ψ
+CLAUDE.local.md
+CLAUDE.md
+justfile
+README.md
+
+uncommitted: 0 files
+unpushed: 0 commits
+agents in laris-co with this cwd: 0
+(exit 0 · 0.0 s)

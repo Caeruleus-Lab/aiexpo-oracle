@@ -1,0 +1,20 @@
+$ jq . ~/.local/state/herdr-room/bookdemo__aiexpo-oracle.json
+{
+  "room": "aiexpo-oracle",
+  "session": "bookdemo",
+  "layout": "cols",
+  "members": [
+    {
+      "path": "/opt/Code/github.com/laris-co/course-team/wt/aiexpo-oracle",
+      "pane": "w7:p1",
+      "name": "aiexpo-oracle"
+    },
+    {
+      "path": "/opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle/wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026",
+      "pane": "w7:p2",
+      "name": "aiexpo-wt"
+    }
+  ],
+  "saved": "2026-10-31T20:15:16+0700"
+}
+(exit 0 · 0.0 s)

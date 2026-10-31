@@ -1,0 +1,24 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║  HERDR, OUTSIDE IN · as measured in scratch session bookdemo             ║
+║  session > space > tab > pane > agent · ids change on every move         ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+ ┌─ SESSION  bookdemo ─────────────────────────────────────────────────┐
+ │  one server, one socket   ~/.config/herdr/sessions/bookdemo/        │
+ │                                                                     │
+ │  ┌─ SPACE  w7  "aiexpo-oracle"   (herdr calls it workspace) ──────┐ │
+ │  │                                                                │ │
+ │  │  ┌─ TAB  w7:t1 ─────────────────────────────────────────────┐  │ │
+ │  │  │  ┌────────────────┐  ┌────────────────┐                  │  │ │
+ │  │  │  │ PANE  w7:p3    │  │ PANE  w7:p2    │   a pane is a    │  │ │
+ │  │  │  │ cwd = main     │  │ cwd = wt/...   │   terminal       │  │ │
+ │  │  │  │ AGENT claude   │  │ AGENT claude   │   an agent is    │  │ │
+ │  │  │  │ aiexpo-oracle  │  │ aiexpo-wt      │   what runs in it│  │ │
+ │  │  │  └────────────────┘  └────────────────┘                  │  │ │
+ │  │  └──────────────────────────────────────────────────────────┘  │ │
+ │  └────────────────────────────────────────────────────────────────┘ │
+ └─────────────────────────────────────────────────────────────────────┘
+
+   pane id  = <space>:p<n>      w7:p1 was w5:p1 before the room moved it
+   agent    = found by herdr, or reported:  pane report-agent ... claude
+   room     = a space whose one tab shows several agents   (herdr-room)

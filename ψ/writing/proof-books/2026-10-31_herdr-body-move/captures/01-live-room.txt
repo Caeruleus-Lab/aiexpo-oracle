@@ -1,0 +1,4 @@
+$ herdr --session laris-co agent list | jq (space wCC)
+wCC:p5	aiexpo-oracle	working	/opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle
+wCC:p4	aiexpo-wt	idle	/opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle/wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026
+(exit 0 · 0.0 s)

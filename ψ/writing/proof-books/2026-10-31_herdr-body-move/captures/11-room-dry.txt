@@ -1,0 +1,8 @@
+$ herdr-room in aiexpo-oracle <old> <wt> --layout cols --session bookdemo --dry
+room 'aiexpo-oracle' · session bookdemo · layout cols · 2 members: aiexpo-oracle, aiexpo-wt
+  plan  herdr --session bookdemo pane move w5:p1 --new-workspace --label aiexpo-oracle --tab-label aiexpo-oracle --no-focus   # aiexpo-oracle opens the room
+  plan  herdr --session bookdemo pane move w6:p1 --new-tab --workspace <room> --label scratch --no-focus   # aiexpo-wt to scratch
+  plan  herdr --session bookdemo pane move <w6:p1 new id> --tab <room tab> --target-pane <w5:p1 new id> --split right --ratio 0.5 --no-focus   # aiexpo-wt beside aiexpo-oracle, which keeps 0.5
+  plan  herdr --session bookdemo workspace move <room> --after <last space of course-team>   # room aiexpo-oracle beside aiexpo-oracle's repo
+  --dry: nothing was moved (3 moves planned)
+(exit 0 · 0.1 s)

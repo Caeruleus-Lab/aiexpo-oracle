@@ -1,0 +1,4 @@
+$ herdr --session bookdemo agent list | jq '[pane, name, status, cwd]'
+w5:p1	aiexpo-oracle	idle	laris-co/course-team/wt/aiexpo-oracle
+w6:p1	aiexpo-wt	idle	Caeruleus-Lab/aiexpo-oracle/wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026
+(exit 0 · 0.0 s)

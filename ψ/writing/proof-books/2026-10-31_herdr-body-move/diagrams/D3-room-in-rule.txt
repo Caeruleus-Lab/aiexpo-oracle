@@ -1,0 +1,24 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║  herdr-room in <room> <members...> · how the member list is built        ║
+║  ~/.local/bin/herdr-room lines 235-250 · the saved state file is a hint  ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+        members you typed          w7:p3 (new)  w7:p2 (wt)
+                 │
+                 ▼
+        is the room's space open? ──no──► members as typed
+                 │ yes
+                 ▼
+        inside = every pane in that space, right now
+                 │              w7:p3  w7:p2  w7:p1 (old, still open)
+                 ▼
+        first typed member inside? ──yes──► typed + (inside not typed)
+                 │ no                        w7:p3 w7:p2 + w7:p1
+                 ▼
+        inside + (typed not inside)
+                 │
+                 ▼
+        3 members ──► 3 columns ──► state saved with all 3
+
+   state file  = order only. Editing it does not remove a pane.
+   way out     = the pane leaves the space:  pane close  or  herdr-room out

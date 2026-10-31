@@ -1,0 +1,12 @@
+$ sed -n 22,23p CLAUDE.md; cat sessions/laris-co.yaml   (laris-team)
+- **One herdr session = one host oracle named after it**: `laris-co` → larisco-oracle, `ccdc` → ccdc-oracle.
+  `sessions/<session>.yaml` lists its host, machine and teams; `just up <session>` brings every team in it up.
+
+# Session laris-co — host larisco-oracle in laris-team main (m5). laris-team itself comes back with `just restore`.
+session: laris-co
+host: larisco-oracle
+machine: m5
+teams:
+  - manager-team
+  - rd-team
+(exit 0 · 0.0 s)

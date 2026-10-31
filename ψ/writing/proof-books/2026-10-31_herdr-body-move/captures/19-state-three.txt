@@ -1,0 +1,5 @@
+$ jq -c '.members[]|[.pane,.name,.path]' <state>
+["w7:p3","aiexpo-oracle","Caeruleus-Lab/aiexpo-oracle"]
+["w7:p2","aiexpo-wt","Caeruleus-Lab/aiexpo-oracle/wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026"]
+["w7:p1","aiexpo-oracle","laris-co/course-team/wt/aiexpo-oracle"]
+(exit 0 · 0.0 s)

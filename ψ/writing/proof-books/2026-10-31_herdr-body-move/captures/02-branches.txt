@@ -1,0 +1,5 @@
+$ git -C <dir> branch --show-current  (main · old body · wt)
+Caeruleus-Lab/aiexpo-oracle                                  main
+laris-co/course-team/wt/aiexpo-oracle                        wt/aiexpo-oracle
+Caeruleus-Lab/aiexpo-oracle/wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026 workshop-for-ai-aiexpo-issue3-30oct-fri2026
+(exit 0 · 0.0 s)

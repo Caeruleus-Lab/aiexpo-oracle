@@ -1,0 +1,7 @@
+$ jq 'drop old from .members' > state; herdr-room in ... again
+state now: 2 members
+room 'aiexpo-oracle' · session bookdemo · layout cols · 3 members: aiexpo-oracle, aiexpo-wt, aiexpo-oracle
+  rect  w7:p3    x=0    y=0   14x44
+  rect  w7:p2    x=14   y=0   14x44
+  rect  w7:p1    x=28   y=0   13x44
+(exit 0 · 0.1 s)

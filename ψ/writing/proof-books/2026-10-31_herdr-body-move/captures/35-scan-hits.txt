@@ -1,0 +1,5 @@
+$ git diff fd279c7..8a61104 | rg '^\+' | rg -n '/Users/beta|/opt/Code'
+65:+  laris-co:wBZ:p1 89a694ad /opt/Code/github.com/laris-co/course-team/wt/aiexpo-oracle
+421:+R=/opt/Code/github.com/Soul-Brews-Studio/herdr-orca-oracle
+466:+cd /opt/Code/github.com/Soul-Brews-Studio/digger-oracle
+(exit 0 · 0.1 s)

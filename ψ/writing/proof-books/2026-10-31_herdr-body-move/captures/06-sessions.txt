@@ -1,0 +1,5 @@
+$ herdr session list | rg 'name|laris-co|bookdemo'
+name                 status   
+bookdemo             running  
+laris-co             running  
+(exit 0 · 0.0 s)
