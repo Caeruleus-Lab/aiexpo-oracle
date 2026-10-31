@@ -141,6 +141,12 @@ pre.matrix-block .copy{color:#b9ffd2;border-color:rgba(61,255,138,.5);background
 .wall canvas{position:absolute;left:0;top:0;z-index:1;pointer-events:none;border-radius:var(--r)}
 .wall .copy{z-index:2;color:#b9ffd2!important}
 .wallbtn{position:absolute;top:10px;right:74px;z-index:2;background:rgba(255,255,255,.08);color:#b9ffd2;border:1px solid rgba(61,255,138,.5);border-radius:var(--r-sm);padding:3px 10px;font:600 13px var(--body);cursor:pointer}
+.enter{display:flex;align-items:center;gap:clamp(14px,1.6vw,28px);width:fit-content;margin-top:clamp(28px,5vh,64px);padding:clamp(18px,2.2vw,34px) clamp(26px,3vw,52px);border-radius:var(--r);background:#010702;border:2px solid #22e06b;color:#22e06b;text-decoration:none;font:700 clamp(24px,2.6vw,52px)/1 var(--mono);letter-spacing:.06em;text-shadow:0 0 12px rgba(34,224,107,.7);box-shadow:0 0 40px rgba(34,224,107,.25),inset 0 0 30px rgba(34,224,107,.12);transition:transform .15s,box-shadow .15s}
+.enter:hover{transform:translateY(3px);box-shadow:0 0 70px rgba(34,224,107,.45),inset 0 0 40px rgba(34,224,107,.2)}
+.enter .rain{font-size:.42em;opacity:.55;writing-mode:vertical-rl;letter-spacing:0}
+.enter b{color:inherit}
+.enter i{font-style:normal;animation:drop 1.4s ease-in-out infinite}
+@keyframes drop{50%{transform:translateY(8px)}}
 .wall pre.matrix-block{cursor:zoom-in}
 .wall.full{position:fixed;inset:0;z-index:60;overflow:auto;background:#010702;padding:60px clamp(12px,2vw,32px) 32px}
 .wall.full pre.matrix-block{cursor:copy;min-height:100%;border:0;box-shadow:none;border-radius:0}
@@ -160,7 +166,7 @@ body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen 
 .walltoast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,8px);z-index:85;background:#03140a;color:#b9ffd2;border:1px solid rgba(61,255,138,.6);border-radius:var(--r-sm);padding:8px 16px;font:600 14px var(--mono);box-shadow:0 0 18px rgba(34,224,107,.35);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
 .walltoast.on{opacity:1;transform:translate(-50%,0)}
 .wall pre.matrix-block{cursor:copy}
-html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp{display:none}</style>
+html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp):not(.enterbox){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp,html:not([data-mode=ai]) .enterbox{display:none}.enterbox .enter{margin:0 0 clamp(20px,3vh,36px)}</style>
 </head>
 <body>
 <header class="cover">
@@ -185,6 +191,7 @@ html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp){di
   </div>
 </header>
 <main id="lessons">
+<div class="enterbox"><a class="enter" href="#wall"><span class="rain" aria-hidden="true">01001011 10110</span><b>ENTER THE MATRIX</b><i>↓</i></a></div>
 <section class="mcp" id="mcp">
   <h2><span data-l="th">ให้ AI อ่านบทเรียนเองผ่าน MCP</span><span data-l="en">Let your AI read the lessons over MCP</span></h2>
   <p><code id="mcpurl">https://aiexpo.buildwithoracle.com/mcp</code><button class="copy" type="button" onclick="navigator.clipboard.writeText(document.getElementById('mcpurl').textContent);this.textContent='copied'">copy</button></p>

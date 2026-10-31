@@ -87,7 +87,7 @@ THEME_JS = (here / "theme.js").read_text(encoding="utf-8")
 CSS = (here / "tokens.css").read_text(encoding="utf-8") + (here / "landing.css").read_text(encoding="utf-8")  # same palette as the deck v3
 
 # The Matrix wall (AI edition of this page): CSS and JS taken from the lesson pages at build time, so there is one copy
-WALL_KEYS = ("pre{", "pre.b64", "pre .copy", "matrix-block", ".wall", "wallbtn", "wallhint", "wallopen", "#boomc", "wallshake", "walltoast")
+WALL_KEYS = ("pre{", "pre.b64", "pre .copy", "matrix-block", ".wall", "wallbtn", "wallhint", "wallopen", "#boomc", "wallshake", "walltoast", ".enter", "@keyframes drop")
 WALL_CSS = "\n".join(l for l in (here / "guide.css").read_text(encoding="utf-8").splitlines()
                      if l.lstrip().startswith(WALL_KEYS) or any(k in l.split("{", 1)[0] for k in WALL_KEYS[1:]))
 _src = (here / "2026-10-30_mcp-connect-guide" / "build_web.py").read_text(encoding="utf-8")
@@ -97,7 +97,7 @@ WALL_JS = _src[_a:_b].replace("\\\\", "\\")   # the source is a Python string: \
 
 
 # ไทย / English / AI is the page's language switch: AI presents the page as its AI edition (the wall alone)
-AI_MODE_CSS = "html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp{display:none}"   # the MCP box shows in AI mode only   # AI page: the MCP block, then the wall
+AI_MODE_CSS = "html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp):not(.enterbox){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp,html:not([data-mode=ai]) .enterbox{display:none}.enterbox .enter{margin:0 0 clamp(20px,3vh,36px)}"   # the MCP box shows in AI mode only   # AI page: the MCP block, then the wall
 
 SITE = "https://aiexpo.buildwithoracle.com/"
 
@@ -204,6 +204,7 @@ def page():
   </div>
 </header>
 <main id="lessons">
+<div class="enterbox"><a class="enter" href="#wall"><span class="rain" aria-hidden="true">01001011 10110</span><b>ENTER THE MATRIX</b><i>↓</i></a></div>
 <section class="mcp" id="mcp">
   <h2><span data-l="th">ให้ AI อ่านบทเรียนเองผ่าน MCP</span><span data-l="en">Let your AI read the lessons over MCP</span></h2>
   <p><code id="mcpurl">https://aiexpo.buildwithoracle.com/mcp</code><button class="copy" type="button" onclick="navigator.clipboard.writeText(document.getElementById('mcpurl').textContent);this.textContent='copied'">copy</button></p>
