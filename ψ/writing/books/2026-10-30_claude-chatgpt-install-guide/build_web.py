@@ -19,6 +19,7 @@ import markdown
 import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 from og_meta import og_tags  # noqa: E402  shared OG / Twitter / canonical tags
+from site_links import fix_links  # noqa: E402  repo-only links fixed for the web
 
 here = pathlib.Path(__file__).resolve().parent
 sig = json.loads((here / "signature.json").read_text(encoding="utf-8")) if (here / "signature.json").exists() else None
@@ -314,5 +315,5 @@ def page(lang):
 
 
 for lang, name in PAGES.items():
-    (here / name).write_text(page(lang), encoding="utf-8")
+    (here / name).write_text(fix_links(page(lang), here.name), encoding="utf-8")
     print("wrote", name)
