@@ -4,7 +4,7 @@
 
 - เก็บข้อมูลวันที่ 30 ต.ค. 2026 ด้วย ego-browser บนบัญชีของ Nat
 - MCP นี้อ่านอย่างเดียว ไม่ต้องล็อกอิน เพราะบทเรียนเปิดสาธารณะอยู่แล้ว
-- ฉบับอื่น: [English](README.en.md) · [base64](README.b64.txt) · หน้าเว็บ [`index.html`](index.html) (base64, หน้าแรก) · [`th.html`](th.html) · [`en.html`](en.html)
+- ฉบับอื่น: [English](README.en.md) · หน้าเว็บ [`index.html`](index.html) (สำหรับ AI, หน้าแรก) · [`th.html`](th.html) · [`en.html`](en.html)
 - ทั้งสามฉบับเซ็นด้วยกุญแจ Ethereum ของ AIExpo Oracle ดู [`SIGNATURE.md`](SIGNATURE.md)
 
 **รูปมาจากไหน**

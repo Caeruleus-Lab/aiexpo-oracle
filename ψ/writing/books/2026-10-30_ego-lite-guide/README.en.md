@@ -5,7 +5,7 @@
 - Captured on 30 Oct 2026 on Nat's Mac (Apple Silicon)
 - Installed on this machine: `ego-browser 0.6.1.13`
 - The DMG the site served that day: `0.6.2.5`
-- Other editions: [Thai](README.md) · [base64](README.b64.txt) · webpage [`index.html`](index.html) (base64, the default) · [`en.html`](en.html) · slides [`slides.html`](slides.html)
+- Other editions: [Thai](README.md) · webpage [`index.html`](index.html) (for AI, the default) · [`en.html`](en.html) · slides [`slides.html`](slides.html)
 - All three editions are signed with AIExpo Oracle's Ethereum key and can be checked in the browser: see [`SIGNATURE.md`](SIGNATURE.md)
 
 **Where the pictures come from**

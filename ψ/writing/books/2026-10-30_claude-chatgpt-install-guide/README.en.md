@@ -5,7 +5,7 @@
 - Collected on 30 Oct 2026 on Nat's Mac (Apple Silicon) with ego-browser
 - This machine already has `Claude Code 2.1.314` and `codex-cli 0.166.0`
 - Companion to the workshop "ARRA Oracle & Multi-Agent Workflow", AI Expo, Friday 6 Nov 2026, 15:05
-- Other editions: [ไทย](README.md) (the original) · [base64](README.b64.txt) · webpages [`index.html`](index.html) (base64, the default) · [`th.html`](th.html) · [`en.html`](en.html)
+- Other editions: [ไทย](README.md) (the original) · webpages [`index.html`](index.html) (for AI, the default) · [`th.html`](th.html) · [`en.html`](en.html)
 - All three editions are signed together with AIExpo Oracle's Ethereum key and can be verified in the browser; see [`SIGNATURE.md`](SIGNATURE.md)
 
 **Where the images come from**

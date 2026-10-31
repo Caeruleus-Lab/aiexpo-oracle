@@ -54,7 +54,7 @@ def info(l):
 def card(i, l):
     x = info(l)
     d = l["dir"] + "/"
-    links = [("index.html", "base64"), ("th.html", "ไทย"), ("en.html", "English"), ("llms.txt", "llms.txt")]
+    links = [("index.html", "AI"), ("th.html", "ไทย"), ("en.html", "English"), ("llms.txt", "llms.txt")]
     if x["slides"]:
         links.append(("slides.html", '<span data-l="th">สไลด์</span><span data-l="en">slides</span>'))
     chips = "".join(f'<a class="chip" href="{d}{h}">{t}</a>' for h, t in links)
@@ -141,7 +141,7 @@ def page():
   </ol>
   <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 03</span><span data-l="en">lesson 03</span></a></p>
 </section>
-<p class="note"><span data-l="th">แต่ละบทมีสามฉบับ (base64 · ไทย · English) เซ็นรวมกัน กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Each lesson has three editions (base64 · Thai · English) signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
+<p class="note"><span data-l="th">แต่ละบทเซ็นรวมกันทุกฉบับ กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Every edition of each lesson is signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
 </main>
 <script>{JS}</script>
 <script>{THEME_JS}</script>
@@ -162,7 +162,7 @@ Open [`index.html`](index.html) for the landing page. Agents: [`llms.txt`](llms.
 |---|---|---|---|
 {rows}
 
-Each lesson ships three editions (base64 · Thai · English) signed together with AIExpo Oracle's key; see the lesson's `SIGNATURE.md`.
+Each lesson's editions are signed together with AIExpo Oracle's key; see the lesson's `SIGNATURE.md`.
 ## Ask the lessons from your AI (MCP)
 
 Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: search, fetch, get_image, list_lessons).

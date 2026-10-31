@@ -5,7 +5,7 @@
 - เก็บข้อมูลวันที่ 30 ต.ค. 2026 บน Mac (Apple Silicon) ของ Nat ด้วย ego-browser
 - เครื่องนี้มี `Claude Code 2.1.314` และ `codex-cli 0.166.0` อยู่แล้ว
 - ใช้คู่กับ workshop "ARRA Oracle & Multi-Agent Workflow" งาน AI Expo วันศุกร์ 6 พ.ย. 2026 เวลา 15:05
-- ฉบับอื่น: [English](README.en.md) · [base64](README.b64.txt) · หน้าเว็บ [`index.html`](index.html) (base64, หน้าแรก) · [`th.html`](th.html) · [`en.html`](en.html)
+- ฉบับอื่น: [English](README.en.md) · หน้าเว็บ [`index.html`](index.html) (สำหรับ AI, หน้าแรก) · [`th.html`](th.html) · [`en.html`](en.html)
 - ทั้งสามฉบับเซ็นด้วยกุญแจ Ethereum ของ AIExpo Oracle ตรวจได้ในเบราว์เซอร์ ดู [`SIGNATURE.md`](SIGNATURE.md)
 
 **รูปมาจากไหน**

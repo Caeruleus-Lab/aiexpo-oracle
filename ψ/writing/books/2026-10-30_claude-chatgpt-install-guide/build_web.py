@@ -34,10 +34,9 @@ COVER = {
                sub=["Step by step, from the download pages to Oracle skills that really load, locally and on claude.ai",
                     "Every screenshot from the real site · every command really ran · 30 Oct 2026"],
                cover_label="Cover", verify="Signature", slides="Slides", back="Back", next="Next"),
-    "b64": dict(kicker="base64 · for machines",
-                h1='<em>Claude + ChatGPT</em> guide<br><span class="nw">as base64</span>',
-                sub=["The Thai edition, byte for byte, encoded as base64 (RFC 4648, 76-char lines)",
-                     "Agents: read llms.txt, or curl README.b64.txt | base64 -d"],
+    "b64": dict(kicker="Written by AI, for AI",
+                h1='<em>Claude + ChatGPT</em> guide<br><span class="nw">for AI</span>',
+                sub=[],
                 cover_label="Cover", verify="Signature", slides="Slides", back="Back", next="Next"),
 }
 AI_NOTE = {"th": "ไฟล์ต้นฉบับ และ MCP", "en": "Source files and the MCP", "b64": "Source files and the MCP"}
@@ -46,13 +45,13 @@ def og(lang):
     l = next(x for x in json.loads((here.parent / "lessons.json").read_text(encoding="utf-8")) if x["dir"] == here.name)
     en = lang == "en"
     path = here.name + "/" + {"b64": "", "th": "th", "en": "en"}[lang]
-    title = (l["en"] if en else l["th"]) + (" (base64)" if lang == "b64" else "")
+    title = (l["en"] if en else l["th"])
     return og_tags(title=title, description=l["en_sub"] if en else l["th_sub"], path=path, image=f'{l["key"]}.png',
                    image_alt=l["en"] if en else l["th"], lang="en" if en else "th", kind="article")
 
 
 PAGES = {"b64": "index.html", "th": "th.html", "en": "en.html"}
-LANG_LABEL = {"b64": "base64", "th": "ไทย", "en": "English"}
+LANG_LABEL = {"b64": "AI", "th": "ไทย", "en": "English"}
 
 
 def gfm_lists(text):
@@ -92,8 +91,8 @@ def b64_body():
     chips = "".join(f'<a class="chip" href="{f}"><b>{f}</b><span>{size(f)}</span></a>' for f in files)
     U = '<span class="base">&lt;this-folder&gt;/</span>'
     return [
-        f'''<h2>README.b64.txt</h2>
-<p class="note">The whole file, {len(flat):,} characters ({size("README.b64.txt")}), drawn for people. Agents: read <a href="README.b64.txt">README.b64.txt</a> directly; the copy button also copies all of it.</p>
+        f'''<h2>The Matrix</h2>
+<p class="note">{len(flat):,} characters ({size("README.b64.txt")}) · click to copy all · drag to copy a part · Esc to close</p>
 <div class="wall" id="wall"><button class="wallbtn" id="wallbtn" type="button">pause</button><canvas id="wallc" aria-hidden="true"></canvas>
 <pre class="b64 matrix-block" id="blob">{H.escape(flat)}</pre></div>''',
     ]
@@ -105,10 +104,10 @@ def verify_section(lang):
     th = lang == "th"
     rows = "".join(f"<tr><td><code>{f}</code></td><td><code class='h'>{h}</code></td><td class='st' data-f='{f}'>…</td></tr>"
                    for f, h in sig["files"].items())
-    intro = ("ทั้งสามฉบับ (ไทย · English · base64) เซ็นรวมกันด้วยกุญแจ Ethereum ของ AIExpo Oracle แบบ EIP-191 "
+    intro = ("ทั้งสามฉบับเซ็นรวมกันด้วยกุญแจ Ethereum ของ AIExpo Oracle แบบ EIP-191 "
              "ปุ่มข้างล่างดึงไฟล์จริงมา hash ใหม่ในเบราว์เซอร์ ประกอบข้อความที่ถูกเซ็นขึ้นใหม่ แล้วกู้ address ผู้เซ็นจากลายเซ็น"
              if th else
-             "All three editions (Thai · English · base64) are signed together with AIExpo Oracle's Ethereum key, EIP-191. "
+             "All three editions are signed together with AIExpo Oracle's Ethereum key, EIP-191. "
              "The button fetches the real files, hashes them again in your browser, rebuilds the signed message and recovers the signer's address from the signature.")
     cli = ("ตรวจจากเครื่องตัวเอง" if th else "Check from your own machine")
     return f'''<h2 id="verify">{COVER[lang]["verify"]}</h2>

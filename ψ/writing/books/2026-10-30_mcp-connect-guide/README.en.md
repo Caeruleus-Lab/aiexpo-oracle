@@ -4,7 +4,7 @@
 
 - Collected on 30 Oct 2026 with ego-browser on Nat's accounts
 - The MCP is read-only and needs no sign-in, because the lessons are public already
-- Other editions: [ไทย](README.md) (the original) · [base64](README.b64.txt) · webpages [`index.html`](index.html) (base64, the default) · [`th.html`](th.html) · [`en.html`](en.html)
+- Other editions: [ไทย](README.md) (the original) · webpages [`index.html`](index.html) (for AI, the default) · [`th.html`](th.html) · [`en.html`](en.html)
 - All three editions are signed together with AIExpo Oracle's Ethereum key; see [`SIGNATURE.md`](SIGNATURE.md)
 
 **Where the images come from**

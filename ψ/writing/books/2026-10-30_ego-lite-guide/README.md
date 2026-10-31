@@ -5,7 +5,7 @@
 - เก็บข้อมูลวันที่ 30 ต.ค. 2026 บน Mac (Apple Silicon) ของ Nat
 - เครื่องนี้ลง ego(lite) ไว้แล้ว: `ego-browser 0.6.1.13`
 - ไฟล์ DMG ที่หน้าเว็บแจกวันนี้: `0.6.2.5`
-- ฉบับอื่น: [English](README.en.md) · [base64](README.b64.txt) · หน้าเว็บ [`index.html`](index.html) (base64, หน้าแรก) · [`th.html`](th.html) · สไลด์ [`slides.html`](slides.html)
+- ฉบับอื่น: [English](README.en.md) · หน้าเว็บ [`index.html`](index.html) (สำหรับ AI, หน้าแรก) · [`th.html`](th.html) · สไลด์ [`slides.html`](slides.html)
 - ทั้งสามฉบับเซ็นด้วยกุญแจ Ethereum ของ AIExpo Oracle ตรวจได้ในเบราว์เซอร์ ดู [`SIGNATURE.md`](SIGNATURE.md)
 
 **รูปมาจากไหน**

@@ -9,7 +9,7 @@ Open [`index.html`](index.html) for the landing page. Agents: [`llms.txt`](llms.
 | 02 | [ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง](2026-10-30_ego-lite-guide/README.md) | [Install ego(lite) so your AI agent gets a browser of its own](2026-10-30_ego-lite-guide/README.en.md) | [index.html](2026-10-30_ego-lite-guide/index.html) · [th](2026-10-30_ego-lite-guide/th.html) · [en](2026-10-30_ego-lite-guide/en.html) |
 | 03 | [ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน](2026-10-30_mcp-connect-guide/README.md) | [Connect claude.ai and ChatGPT to the lessons MCP](2026-10-30_mcp-connect-guide/README.en.md) | [index.html](2026-10-30_mcp-connect-guide/index.html) · [th](2026-10-30_mcp-connect-guide/th.html) · [en](2026-10-30_mcp-connect-guide/en.html) |
 
-Each lesson ships three editions (base64 · Thai · English) signed together with AIExpo Oracle's key; see the lesson's `SIGNATURE.md`.
+Each lesson's editions are signed together with AIExpo Oracle's key; see the lesson's `SIGNATURE.md`.
 ## Ask the lessons from your AI (MCP)
 
 Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: search, fetch, get_image, list_lessons).
