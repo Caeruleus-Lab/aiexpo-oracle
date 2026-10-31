@@ -96,25 +96,56 @@ _b = _src.index("requestAnimationFrame(loop)}", _a) + len("requestAnimationFrame
 WALL_JS = _src[_a:_b].replace("\\\\", "\\")   # the source is a Python string: \\s there is \s in the page
 
 
+SITE = "https://aiexpo.buildwithoracle.com/"
+
+
 def ai_text():
-    """The AI edition of this page: what an agent needs, in one block."""
-    items = "\n".join(f"{i + 1:02d}. {l['en']} / {l['th']}\n    https://aiexpo.buildwithoracle.com/{l['dir']}/  (llms.txt, README.en.md, README.md)"
-                      for i, l in enumerate(LESSONS))
-    return f"""# AIExpo Oracle lessons (AI edition of https://aiexpo.buildwithoracle.com/)
-Workshop "ARRA Oracle & Multi-Agent Workflow" · AI Expo Thailand · Fri 6 Nov 2026 · 15:05 · written by AI, for AI.
+    """The AI edition of this page: the whole page in Thai (its default language), top to bottom, as markdown."""
+    path = "\n".join(f"{i + 1:02d}. [{l['th']}]({SITE}{l['dir']}/)" for i, l in enumerate(LESSONS))
+    cards = []
+    for i, l in enumerate(LESSONS):
+        x = info(l)
+        d = SITE + l["dir"] + "/"
+        links = " · ".join([f"[AI]({d}index.html)", f"[ไทย]({d}th.html)", f"[English]({d}en.html)", f"[llms.txt]({d}llms.txt)"]
+                           + ([f"[สไลด์]({d}slides.html)"] if x["slides"] else []))
+        cards.append(f"""### {i + 1:02d} · [{l['th']}]({d})
 
-## Let your AI read the lessons over MCP
-URL: https://aiexpo.buildwithoracle.com/mcp  (read-only, no sign-in)
-- claude.ai: Customize -> Connectors -> Add -> Add custom connector, paste the URL, No sign-in
-- ChatGPT: Settings -> Plugins -> Browse directory -> Add -> Add custom MCP server, Authentication: No authentication
-- Claude Code: claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp
-- Codex: codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp
-Tools: search {{query, lang?, lesson?, topic?}}, fetch {{id}}, get_image {{id, start?}}, list_lessons
+{l['th_sub']}
 
-## Lessons, in workshop order
-{items}
+- {' · '.join(l['facts_th'])} · ✓ เซ็นแล้ว {x['address']} · {x['date']}
+- {links}""")
+    cards = "\n\n".join(cards)
+    return f"""# บทเรียน workshop ARRA Oracle
 
-Index for agents: https://aiexpo.buildwithoracle.com/llms.txt
+> เขียนโดย AI เพื่อ AI · หน้านี้ฉบับ AI: {SITE}
+
+"ARRA Oracle & Multi-Agent Workflow" · AI Expo · ศุกร์ 6 พ.ย. 2026 · 15:05
+
+{len(LESSONS)} บทเรียน · ทุกภาพจากเว็บจริง · ทุกคำสั่งรันจริง · เซ็นด้วยกุญแจ Ethereum
+
+## ทำตามลำดับ
+
+{path}
+
+## ให้ AI อ่านบทเรียนเองผ่าน MCP
+
+{SITE}mcp
+
+1. claude.ai: Customize → Connectors → Add → Add custom connector · ใส่ URL · เลือก No sign-in
+2. ChatGPT: Settings → Plugins → Browse directory → Add → Add custom MCP server · Authentication: No authentication
+3. Claude Code: `claude mcp add --transport http aiexpo {SITE}mcp`
+4. Codex: `codex mcp add aiexpo --url {SITE}mcp`
+
+อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ: [บทเรียน 03]({SITE}2026-10-30_mcp-connect-guide/)
+
+## บทเรียนทั้งหมด
+
+{cards}
+
+---
+
+แต่ละบทเซ็นรวมกันทุกฉบับ กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน [llms.txt]({SITE}llms.txt)
+
 — AIExpo Oracle (Oracle AI)
 """
 
