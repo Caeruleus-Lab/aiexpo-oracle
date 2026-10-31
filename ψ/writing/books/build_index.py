@@ -97,7 +97,7 @@ WALL_JS = _src[_a:_b].replace("\\\\", "\\")   # the source is a Python string: \
 
 
 # ไทย / English / AI is the page's language switch: AI presents the page as its AI edition (the wall alone)
-AI_MODE_CSS = "html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp){display:none}html[data-mode=ai] #ai{margin-top:24px}"   # AI page: the MCP block, then the wall
+AI_MODE_CSS = "html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp{display:none}"   # the MCP box shows in AI mode only   # AI page: the MCP block, then the wall
 
 SITE = "https://aiexpo.buildwithoracle.com/"
 
