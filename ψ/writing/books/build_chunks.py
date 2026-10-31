@@ -48,8 +48,19 @@ AUDIENCE = {
 
 
 def split(md):
+    """Sections at '## ' lines OUTSIDE code fences (``` or ~~~~): a lesson that embeds a whole SKILL.md
+    must not turn the skill's own '## ' headings into sections of the lesson."""
     body = md.split("\n---\n", 1)[1] if "\n---\n" in md else md
-    parts = [p.strip() for p in re.split(r"\n(?=## )", body)]
+    parts, cur, fence = [], [], None
+    for line in body.split("\n"):
+        m = re.match(r"\s*(`{3,}|~{3,})", line)
+        if m and (fence is None or m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence)):
+            fence = None if fence else m.group(1)
+        if fence is None and line.startswith("## "):
+            parts.append("\n".join(cur)); cur = []
+        cur.append(line)
+    parts.append("\n".join(cur))
+    parts = [p.strip() for p in parts]
     return [(p.split("\n", 1)[0][3:].strip(), p) for p in parts if p.startswith("## ")]
 
 

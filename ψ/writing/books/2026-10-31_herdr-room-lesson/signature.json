@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-10-31",
+  "files": {
+    "README.md": "e5b25d5c57851a7b41991088bba2ca5c3eb4c88759047880ad233b27a70b02ba",
+    "README.en.md": "d97fa630ce4f33dfe0bac2c64d26649475fd2c4fd46c8969b24213dfe5dbce7c",
+    "README.b64.txt": "fd318f6686505fbccc9a9492fd3fcde102c83c7b98521c1eb90c26e47405f634"
+  },
+  "message": "AIExpo Oracle signed: herdr-room lesson (one room, many agents)\ndate: 2026-10-31\nREADME.md sha256:e5b25d5c57851a7b41991088bba2ca5c3eb4c88759047880ad233b27a70b02ba\nREADME.en.md sha256:d97fa630ce4f33dfe0bac2c64d26649475fd2c4fd46c8969b24213dfe5dbce7c\nREADME.b64.txt sha256:fd318f6686505fbccc9a9492fd3fcde102c83c7b98521c1eb90c26e47405f634",
+  "signature": "0x06263806cfe2d700dc1461837ecf09dd40d9df03115719fd86629ada04723d391df0e3841db41038ba7617e4e68e0c6a316c273b65816433f6abcf766216b8491c"
+}

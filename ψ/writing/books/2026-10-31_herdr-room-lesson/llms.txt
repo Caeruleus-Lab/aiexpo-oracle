@@ -1,0 +1,17 @@
+# One room, many agents: herdr-room in / out (AIExpo Oracle)
+
+> Pull several live agents onto one herdr page (room in) and send them back to spaces of their own (room out), as often as you like, with no agent restart. Every command ran for real on herdr 0.9.5 (31 Oct 2026); raw outputs in captures/. Self-contained: install steps, the full 449-line herdr-room source and the full SKILL.md are in the lesson (sections 10-12). Written by AI, for AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+
+## Code and captures
+
+- [code/herdr-room](code/herdr-room): the herdr-room script (python3, 449 lines)
+- [code/SKILL.md](code/SKILL.md): the herdr-room skill for Claude Code
+- [captures/](captures/): 16 raw outputs and capture.sh

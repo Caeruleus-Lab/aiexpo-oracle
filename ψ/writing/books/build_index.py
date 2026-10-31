@@ -58,6 +58,14 @@ LESSONS = [
          cover="../2026-10-31_phukhao-film-guide/images/04-film-frames.jpg",
          facts_th=["12 ตอน · 21 ม.ค. ถึง 6 พ.ย. 2026", "จากหน้าเว็บสาธารณะเท่านั้น"],
          facts_en=["12 chapters · 21 Jan to 6 Nov 2026", "public site only"]),
+    dict(key="herdr-room", dir="2026-10-31_herdr-room-lesson",
+         th="ห้องเดียว หลาย agent: herdr-room in / out",
+         en="One room, many agents: herdr-room in / out",
+         th_sub="ดึง agent มาอยู่หน้าเดียวแล้วส่งกลับ space ของตัวเอง ไม่มีตัวไหน restart พร้อมซอร์สเต็ม skill เต็ม และวิธีติดตั้ง",
+         en_sub="Pull agents onto one page and back to their own spaces with no restart, with the full source, the full skill and install steps",
+         cover="images/01-room.png",
+         facts_th=["herdr 0.9.5 · ผลดิบ 16 ชิ้น", "ซอร์ส 449 บรรทัด + skill เต็ม"],
+         facts_en=["herdr 0.9.5 · 16 raw outputs", "449-line source + full skill"]),
 ]
 
 
