@@ -9,7 +9,7 @@
 // Search is keyword only here (Thai split with Intl.Segmenter). The hosted endpoint adds meaning search with
 // Workers AI bge-m3, which needs Cloudflare; the chunk vectors are in chunks.json if you have your own bge-m3.
 //
-//   claude mcp add aiexpo-github -- npx -y github:Caeruleus-Lab/aiexpo-lessons
+//   claude mcp add aiexpo-github -- npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp
 //   AIEXPO_BASE=https://caeruleus-lab.github.io/aiexpo-lessons   (default)
 //   AIEXPO_DIR=/path/to/a/clone                                    (read files from disk instead)
 

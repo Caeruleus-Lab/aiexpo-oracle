@@ -28,10 +28,11 @@ Step by step with screenshots: [lesson 03](2026-10-30_mcp-connect-guide/README.e
 
 The same site is mirrored on GitHub Pages: https://caeruleus-lab.github.io/aiexpo-lessons/ (repo
 [Caeruleus-Lab/aiexpo-lessons](https://github.com/Caeruleus-Lab/aiexpo-lessons)). Pages serves files only, so the hosted `/mcp`
-stays on Cloudflare; the repo also ships the same four tools as a local stdio MCP server, keyword search only, no dependencies (Node 18+):
+stays on Cloudflare; the same four tools also run as a local stdio MCP server from the tiny repo
+[Caeruleus-Lab/aiexpo-lessons-mcp](https://github.com/Caeruleus-Lab/aiexpo-lessons-mcp) (a few KB, keyword search only, no dependencies, Node 18+):
 
-- **Claude Code**: `claude mcp add aiexpo-github -- npx -y github:Caeruleus-Lab/aiexpo-lessons`
-- **Codex**: `codex mcp add aiexpo-github -- npx -y github:Caeruleus-Lab/aiexpo-lessons`
+- **Claude Code**: `claude mcp add aiexpo-github -- npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp`
+- **Codex**: `codex mcp add aiexpo-github -- npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp`
 - Offline from a clone: set `AIEXPO_DIR=/path/to/clone` and run `node mcp/server.mjs`
 
 The hosted endpoint's source is in `mcp/worker.js`. Rebuild the copy: `sh github/build_pages.sh <clone of aiexpo-lessons>`.
