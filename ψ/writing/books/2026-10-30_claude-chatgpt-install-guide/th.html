@@ -587,7 +587,8 @@ f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.
 <ul>
 <li>"เว็บ" ตัดสินจากสิ่งที่ <code>SKILL.md</code> เรียกใช้ นับแล้วอยู่ใน <a href="skills/skills.json"><code>skills/skills.json</code></a> เช่น <code>dig</code> อ่านไฟล์ <code>.jsonl</code> ของ session ในเครื่อง <code>bud</code> ต้องมี <code>maw</code></li>
 <li>"ใช้จริง" นับจากประวัติทุก session บนเครื่อง m5 ด้วย relic5 ม.ค.–ต.ค. 2026 (<a href="captures/12-skill-usage-relic5.txt"><code>captures/12-skill-usage-relic5.txt</code></a>) <code>rrr</code> กับ <code>recap</code> ติด 3 อันดับแรกเกือบทุกเดือน</li>
-<li>ทั้ง 28 ไฟล์ผ่านหน้า Preview ของ claude.ai แล้ว (<a href="captures/13-claude-ai-preview-28.txt"><code>captures/13-claude-ai-preview-28.txt</code></a>) แต่ยังไม่ได้กด Upload การสแกนความปลอดภัยจะรันตอนกด Upload</li>
+<li>บัญชีที่ใช้ทำคู่มือมีครบ 28 ตัวแล้ว 21 ตัวอัปโหลดไว้ตั้งแต่ 23 ส.ค. อีก 7 ตัวอัปโหลดวันนี้และผ่านการสแกน (<a href="captures/14-claude-ai-upload-and-run.txt"><code>captures/14-claude-ai-upload-and-run.txt</code></a>) ลองรันในแชทใหม่แล้ว <code>oracle-prism</code> ตอบครบสามมุม <code>recap</code> ทำงานได้ แต่บนเว็บไม่มีไฟล์ในเครื่องให้อ่าน มันจึงไปดึงประวัติจาก connector ที่บัญชีมี ถ้าไม่มี connector จะสรุปได้แค่ในแชทนั้น</li>
+<li><code>learn</code> อัปโหลดบน claude.ai ไม่ได้ ขึ้นว่า "This skill name is already in use" เพราะ Anthropic มีสกิลชื่อ <code>learn</code> อยู่แล้ว ให้ใช้ <a href="skills/oracle-learn.zip"><code>oracle-learn.zip</code></a> แทน ข้างในเหมือนกัน เปลี่ยนแค่ชื่อ</li>
 </ul>
 <!-- skills:end -->
 
@@ -680,15 +681,15 @@ f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
   <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
   <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-31</div>
-  <div><b>signature</b> <code class="h">0x27891d4e805688874e1b047a89e43f2190bb54f2002cec18b2322ee96d5604756e1c75962c9446b5601737370db0319b40bf26ebe5d67234bbd6e88f1ccb63bf1c</code></div>
+  <div><b>signature</b> <code class="h">0xf0c1bc22d1f0d5d6cb16e25dac2aae31defe2ea883ab5a0d9cdd1fdb8fc1f3c33973f8c40907cfbe9f0d2dfeb07e7d4794de323b0839fac9d951a49d9ddb991c1b</code></div>
 </div>
-<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>a77452943b56474e7317dc7dacd8341666335cb9e7fa6a1b6b2c81aebb08836c</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>f65d0b1978b7ae8c003bb3c1f142b12221a7a358e50cb2cec151e909e07eb73e</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>766581073208e4fd196bfab3747d3a9b925eeb4a7a6f7513f89963aef1c36cae</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>2ccc9dcc7299c9f4339eb072c41319567fb247b295bc414958d890ce192fc77d</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>040434a713c7dca7684e3fc9808f4ec2d8e208784e5447219ffb334da6f057c4</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>b4316716520cbf35e7b94d5720ffb724bda729fd6db8eb36cfef1e10b732c30e</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
 <p><button class="btn" id="verifyBtn">ตรวจในเบราว์เซอร์</button> <span id="verdict"></span></p>
 <details><summary>ข้อความที่ถูกเซ็น (message)</summary><pre>AIExpo Oracle signed: Claude + ChatGPT install guide
 date: 2026-10-31
-README.md sha256:a77452943b56474e7317dc7dacd8341666335cb9e7fa6a1b6b2c81aebb08836c
-README.en.md sha256:f65d0b1978b7ae8c003bb3c1f142b12221a7a358e50cb2cec151e909e07eb73e
-README.b64.txt sha256:766581073208e4fd196bfab3747d3a9b925eeb4a7a6f7513f89963aef1c36cae</pre></details>
+README.md sha256:2ccc9dcc7299c9f4339eb072c41319567fb247b295bc414958d890ce192fc77d
+README.en.md sha256:040434a713c7dca7684e3fc9808f4ec2d8e208784e5447219ffb334da6f057c4
+README.b64.txt sha256:b4316716520cbf35e7b94d5720ffb724bda729fd6db8eb36cfef1e10b732c30e</pre></details>
 <p><b>ตรวจจากเครื่องตัวเอง</b></p>
 <pre>$ cd tools && bun install && bun verify.mjs
 ok   README.md sha256:…

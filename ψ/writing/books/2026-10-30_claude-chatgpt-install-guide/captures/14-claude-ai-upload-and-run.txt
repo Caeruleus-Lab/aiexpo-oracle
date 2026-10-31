@@ -1,0 +1,29 @@
+# claude.ai, 31 Oct 2026, via ego-browser, on the account used for this guide
+# Customize > Skills > Yours already held 21 Oracle skills uploaded on 23 Aug 2026, all on:
+#   about-oracle awaken bampenpien bud create-shortcut dig forward go incubate oracle-cheatsheet
+#   oracle-family-scan oracle-prism philosophy project psi recap resonance rrr trace where-we-are who-are-you
+# oracle-prism.zip: Upload -> "Replace “oracle-prism” skill? ... Current: 129 lines · This file: 129 lines" -> Cancel (same file)
+
+== upload the 7 missing ZIPs (Add skill > Upload skill > choose file > Upload)
+calver                       Uploaded calver
+feel                         Uploaded feel
+learn                        "This skill name is already in use. Try a different name."
+oracle-title-forge           Uploaded oracle-title-forge
+oracle-write-complete-book   Uploaded oracle-write-complete-book
+round-table                  Uploaded round-table
+soul                         Uploaded soul
+oracle-learn (renamed copy)  Uploaded -> /customize/skills/yours/id/skill_…/contents
+# Skills > Yours: "Created by you 28"
+# learn: Anthropic's own `learn` skill (Skills > Discover) holds the name; skills/oracle-learn.zip changes only
+#        the frontmatter `name:` and the folder (build_skills.py WEB_RENAME)
+
+== run in a new chat
+prompt  ใช้สกิล oracle-prism --lenses 3 วิเคราะห์สั้นๆ: workshop 65 นาที ควรสอน /rrr ก่อน /recap ไหม
+result  answered with three lenses, a minute plan and a "Cross-lens summary"
+panel   Used in this session · Skills: oracle-prism
+
+prompt  /recap
+result  a recap with git-free sections and "ต่อจากนี้จะทำอะไรดีครับ?" options; no local files exist in the
+        sandbox, so it pulled history from a connector the account already had (relic5); the answer's
+        content is the owner's private work and is not reproduced here
+panel   Used in this session · Connectors: relic5 · Skills: recap

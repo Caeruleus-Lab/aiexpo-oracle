@@ -230,7 +230,8 @@ f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.
 
 - "เว็บ" ตัดสินจากสิ่งที่ `SKILL.md` เรียกใช้ นับแล้วอยู่ใน [`skills/skills.json`](skills/skills.json) เช่น `dig` อ่านไฟล์ `.jsonl` ของ session ในเครื่อง `bud` ต้องมี `maw`
 - "ใช้จริง" นับจากประวัติทุก session บนเครื่อง m5 ด้วย relic5 ม.ค.–ต.ค. 2026 ([`captures/12-skill-usage-relic5.txt`](captures/12-skill-usage-relic5.txt)) `rrr` กับ `recap` ติด 3 อันดับแรกเกือบทุกเดือน
-- ทั้ง 28 ไฟล์ผ่านหน้า Preview ของ claude.ai แล้ว ([`captures/13-claude-ai-preview-28.txt`](captures/13-claude-ai-preview-28.txt)) แต่ยังไม่ได้กด Upload การสแกนความปลอดภัยจะรันตอนกด Upload
+- บัญชีที่ใช้ทำคู่มือมีครบ 28 ตัวแล้ว 21 ตัวอัปโหลดไว้ตั้งแต่ 23 ส.ค. อีก 7 ตัวอัปโหลดวันนี้และผ่านการสแกน ([`captures/14-claude-ai-upload-and-run.txt`](captures/14-claude-ai-upload-and-run.txt)) ลองรันในแชทใหม่แล้ว `oracle-prism` ตอบครบสามมุม `recap` ทำงานได้ แต่บนเว็บไม่มีไฟล์ในเครื่องให้อ่าน มันจึงไปดึงประวัติจาก connector ที่บัญชีมี ถ้าไม่มี connector จะสรุปได้แค่ในแชทนั้น
+- `learn` อัปโหลดบน claude.ai ไม่ได้ ขึ้นว่า "This skill name is already in use" เพราะ Anthropic มีสกิลชื่อ `learn` อยู่แล้ว ให้ใช้ [`oracle-learn.zip`](skills/oracle-learn.zip) แทน ข้างในเหมือนกัน เปลี่ยนแค่ชื่อ
 <!-- skills:end -->
 
 **6.2 เปิดการรันโค้ด** ไปที่ Settings > Capabilities แล้วเปิด **Run code in the cloud** ตัวนี้ต้องเปิด สกิลถึงจะทำงาน (หน้าจอเขียนว่า "Required for skills")

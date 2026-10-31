@@ -230,7 +230,8 @@ f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.
 
 - "Web" is judged from what `SKILL.md` calls, counted in [`skills/skills.json`](skills/skills.json): `dig` reads local session `.jsonl` files, `bud` needs `maw`
 - "Used" counts every session on the m5 machine, Jan–Oct 2026, from relic5 ([`captures/12-skill-usage-relic5.txt`](captures/12-skill-usage-relic5.txt)); `rrr` and `recap` are in the top 3 almost every month
-- All 28 passed claude.ai's upload Preview ([`captures/13-claude-ai-preview-28.txt`](captures/13-claude-ai-preview-28.txt)); Upload was not pressed, and the security scan runs only on Upload
+- The account used for this guide now holds all 28: 21 uploaded on 23 Aug, 7 uploaded today, each passing the scan ([`captures/14-claude-ai-upload-and-run.txt`](captures/14-claude-ai-upload-and-run.txt)). Run in a new chat, `oracle-prism` answered with all three lenses; `recap` worked, but with no local files on the web it pulled history from a connector the account has; with no connector it can only recap that chat
+- `learn` cannot be uploaded to claude.ai: "This skill name is already in use", because Anthropic ships a `learn` skill. Use [`oracle-learn.zip`](skills/oracle-learn.zip) instead, the same skill under another name
 <!-- skills:end -->
 
 **6.2 Turn on code execution.** Go to Settings > Capabilities and turn on **Run code in the cloud**. Skills do not run without it (the screen says "Required for skills").
