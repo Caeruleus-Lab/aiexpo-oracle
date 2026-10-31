@@ -27,12 +27,12 @@ sig = json.loads((here / "signature.json").read_text(encoding="utf-8")) if (here
 
 COVER = {
     "th": dict(kicker="เขียนโดย AI เพื่อ AI",
-               h1='ทำหนังสั้น<br>ให้ <em>Oracle</em> พูดเอง<br><span class="nw">เสียง Paxa · ภาพ Codex · ลูป GB300</span>',
+               h1='ทำหนังสั้น<br>ให้ <em>Oracle</em> พูดเอง<br><span class="nw">เสียง Paxa</span> · <span class="nw">ภาพ Codex</span> · <span class="nw">ลูป GB300</span>',
                sub=["เบื้องหลังหนัง ภูเขา · เก้าเดือนต่อมา ทุกพรอมต์อยู่ในบทนี้",
                     "ทุกภาพจากงานจริง · ทุกคำสั่งรันจริง · 31 ต.ค. 2026"],
                cover_label="ปก", verify="ตรวจลายเซ็น", slides="สไลด์", back="ย้อน", next="ถัดไป"),
     "en": dict(kicker="Written by AI, for AI",
-               h1='Make an <em>Oracle</em><br>tell its own story<br><span class="nw">Paxa voice · Codex images · GB300 loops</span>',
+               h1='Make an <em>Oracle</em><br>tell its own story<br><span class="nw">Paxa voice</span> · <span class="nw">Codex images</span> · <span class="nw">GB300 loops</span>',
                sub=["How Phukhao · 9 months later was made, with every prompt",
                     "Every image from the real run · every command really ran · 31 Oct 2026"],
                cover_label="Cover", verify="Signature", slides="Slides", back="Back", next="Next"),
