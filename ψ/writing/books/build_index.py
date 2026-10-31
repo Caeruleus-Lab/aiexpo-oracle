@@ -134,10 +134,6 @@ def page():
   </div>
 </header>
 <main id="lessons">
-<h2><span data-l="th">บทเรียนทั้งหมด</span><span data-l="en">All lessons</span></h2>
-<div class="list">
-{cards}
-</div>
 <section class="mcp" id="mcp">
   <h2><span data-l="th">ให้ AI อ่านบทเรียนเองผ่าน MCP</span><span data-l="en">Let your AI read the lessons over MCP</span></h2>
   <p><code id="mcpurl">https://aiexpo.buildwithoracle.com/mcp</code><button class="copy" type="button" onclick="navigator.clipboard.writeText(document.getElementById('mcpurl').textContent);this.textContent='copied'">copy</button></p>
@@ -149,6 +145,10 @@ def page():
   </ol>
   <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 03</span><span data-l="en">lesson 03</span></a></p>
 </section>
+<h2><span data-l="th">บทเรียนทั้งหมด</span><span data-l="en">All lessons</span></h2>
+<div class="list">
+{cards}
+</div>
 <p class="note"><span data-l="th">แต่ละบทเซ็นรวมกันทุกฉบับ กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Every edition of each lesson is signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
 </main>
 <script>{JS}</script>
