@@ -124,6 +124,9 @@ a{color:var(--accent-text)}
 .mcp .copy{margin-left:8px;background:var(--paper-3);border:1px solid var(--rule);color:var(--ink);border-radius:var(--r-sm);padding:2px 10px;font:600 14px var(--body);cursor:pointer}
 .mcp .copy:hover{border-color:var(--accent)}
 main>h2{scroll-margin-top:16px}
+/* focus ring in the site accent, not the browser blue (Nat 2026-10-31: "dont like this color") */
+button:focus{outline:none}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 pre{background:var(--paper-2);color:var(--ink);border-radius:var(--r);padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:600 clamp(13px,0.45vw + 10px,19px)/1.55 var(--mono);border:1px solid var(--rule)}
 pre.b64{padding-top:48px;font-size:clamp(11px,0.35vw + 8px,16px);white-space:normal;word-break:break-all;line-height:1.5}
@@ -156,13 +159,14 @@ body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen 
 .wall.full .wallfs{position:fixed;top:16px;right:160px}
 .walltoast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,8px);z-index:85;background:#03140a;color:#b9ffd2;border:1px solid rgba(61,255,138,.6);border-radius:var(--r-sm);padding:8px 16px;font:600 14px var(--mono);box-shadow:0 0 18px rgba(34,224,107,.35);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
 .walltoast.on{opacity:1;transform:translate(-50%,0)}
-.wall pre.matrix-block{cursor:copy}</style>
+.wall pre.matrix-block{cursor:copy}
+html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai){display:none}html[data-mode=ai] #ai{margin-top:24px}</style>
 </head>
 <body>
 <header class="cover">
   <div class="bar">
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
-    <div class="right"><a class="mcplink" href="#mcp">MCP</a><a class="mcplink" href="#ai">AI</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
+    <div class="right"><a class="mcplink" href="#mcp">MCP</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button><button data-set="ai">AI</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
   <div class="hero">
     <div>
@@ -245,7 +249,8 @@ body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen 
 </main>
 <script>
 const root=document.documentElement;
-function setLang(l){root.lang=l;if(window.aiexpoThemeLabel)aiexpoThemeLabel();localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
+function setLang(l){const ai=l==='ai';root.dataset.mode=ai?'ai':'';if(ai){localStorage.setItem('books-lang','ai');document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set==='ai'));scrollTo(0,0);setTimeout(()=>dispatchEvent(new Event('resize')),60);return}
+ setTimeout(()=>dispatchEvent(new Event('resize')),60);root.lang=l;if(window.aiexpoThemeLabel)aiexpoThemeLabel();localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
  document.querySelectorAll('[data-href-en]').forEach(a=>{a.dataset.hrefTh=a.dataset.hrefTh||a.getAttribute('href');a.setAttribute('href',l==='en'?a.dataset.hrefEn:a.dataset.hrefTh)})}
 document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.set));
 setLang(localStorage.getItem('books-lang')||'th');

@@ -96,6 +96,9 @@ _b = _src.index("requestAnimationFrame(loop)}", _a) + len("requestAnimationFrame
 WALL_JS = _src[_a:_b].replace("\\\\", "\\")   # the source is a Python string: \\s there is \s in the page
 
 
+# ไทย / English / AI is the page's language switch: AI presents the page as its AI edition (the wall alone)
+AI_MODE_CSS = "html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai){display:none}html[data-mode=ai] #ai{margin-top:24px}"
+
 SITE = "https://aiexpo.buildwithoracle.com/"
 
 
@@ -151,7 +154,8 @@ def ai_text():
 
 JS = """
 const root=document.documentElement;
-function setLang(l){root.lang=l;if(window.aiexpoThemeLabel)aiexpoThemeLabel();localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
+function setLang(l){const ai=l==='ai';root.dataset.mode=ai?'ai':'';if(ai){localStorage.setItem('books-lang','ai');document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set==='ai'));scrollTo(0,0);setTimeout(()=>dispatchEvent(new Event('resize')),60);return}
+ setTimeout(()=>dispatchEvent(new Event('resize')),60);root.lang=l;if(window.aiexpoThemeLabel)aiexpoThemeLabel();localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
  document.querySelectorAll('[data-href-en]').forEach(a=>{a.dataset.hrefTh=a.dataset.hrefTh||a.getAttribute('href');a.setAttribute('href',l==='en'?a.dataset.hrefEn:a.dataset.hrefTh)})}
 document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.set));
 setLang(localStorage.getItem('books-lang')||'th');
@@ -177,13 +181,13 @@ def page():
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
 {THEME_HEAD}{OG_TAGS}
-<style>{CSS}\n{WALL_CSS}</style>
+<style>{CSS}\n{WALL_CSS}\n{AI_MODE_CSS}</style>
 </head>
 <body>
 <header class="cover">
   <div class="bar">
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
-    <div class="right"><a class="mcplink" href="#mcp">MCP</a><a class="mcplink" href="#ai">AI</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
+    <div class="right"><a class="mcplink" href="#mcp">MCP</a><nav class="langs"><button data-set="th">ไทย</button><button data-set="en">English</button><button data-set="ai">AI</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
   <div class="hero">
     <div>
