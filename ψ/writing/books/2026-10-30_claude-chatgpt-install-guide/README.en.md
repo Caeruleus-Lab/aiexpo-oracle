@@ -238,7 +238,7 @@ f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.
 - `rrr` and `recap` are in the top list every month: closing a session and opening the next is the heart of Oracle
 - Some ZIPs carry scripts that read local files; on the web Claude follows the instructions in `SKILL.md` instead
 - Several advanced ones (`bud`, `soul`, `psi`, `oracle-family-scan`) need local tools; paths A/B give the full result
-- The new ones have not been uploaded to a real account yet; only `awaken` was tried
+- All 28 were chosen on claude.ai's Upload a skill page and every one showed its name and description under Preview ([`captures/13-claude-ai-preview-28.txt`](captures/13-claude-ai-preview-28.txt)); Upload was not pressed, and the security scan runs only on Upload
 
 **6.2 Turn on code execution.** Go to Settings > Capabilities and turn on **Run code in the cloud**. Skills do not run without it (the screen says "Required for skills").
 

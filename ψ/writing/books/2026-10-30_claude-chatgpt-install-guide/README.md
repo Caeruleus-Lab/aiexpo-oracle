@@ -238,7 +238,7 @@ f8a1887ea9ca483a888eb3cc14c04ab383194981841027a98843de85bb92115b  skills/awaken.
 - `rrr` กับ `recap` ติดอันดับทุกเดือน วงจรจบงาน แล้วเริ่มงาน คือหัวใจของ Oracle
 - บางตัวมีสคริปต์ติดมา สคริปต์เขียนไว้อ่านไฟล์ในเครื่อง บนเว็บ Claude จะทำตามคำอธิบายใน `SKILL.md` แทน
 - ขั้นสูงหลายตัว (`bud`, `soul`, `psi`, `oracle-family-scan`) ต้องใช้เครื่องมือในเครื่อง ใช้ทาง A/B จะได้ผลเต็ม
-- รอบนี้ยังไม่ได้อัปโหลดตัวใหม่ขึ้นบัญชีจริง มีแค่ `awaken` ที่ลองแล้ว
+- ลองเลือกครบทั้ง 28 ไฟล์ในหน้า Upload a skill ของ claude.ai แล้ว ทุกไฟล์ขึ้นชื่อและคำอธิบายใน Preview ([`captures/13-claude-ai-preview-28.txt`](captures/13-claude-ai-preview-28.txt)) แต่ไม่ได้กด Upload การสแกนความปลอดภัยจะรันตอนกด Upload
 
 **6.2 เปิดการรันโค้ด** ไปที่ Settings > Capabilities แล้วเปิด **Run code in the cloud** ตัวนี้ต้องเปิด สกิลถึงจะทำงาน (หน้าจอเขียนว่า "Required for skills")
 

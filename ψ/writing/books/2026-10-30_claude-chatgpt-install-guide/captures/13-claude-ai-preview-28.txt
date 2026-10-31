@@ -1,0 +1,31 @@
+# claude.ai, Customize > Skills > Add skill > Upload skill, 31 Oct 2026, via ego-browser
+# each ZIP set on the page's file input (accept=".zip,.skill,.md"); the name shown under Preview recorded; Upload was NOT pressed, then Cancel
+# "Security scan: Ready — runs when you upload" for every file
+about-oracle                 preview: about-oracle
+awaken                       preview: awaken
+bampenpien                   preview: bampenpien
+bud                          preview: bud
+calver                       preview: calver
+create-shortcut              preview: create-shortcut
+dig                          preview: dig
+feel                         preview: feel
+forward                      preview: forward
+go                           preview: go
+incubate                     preview: incubate
+learn                        preview: learn
+oracle-cheatsheet            preview: oracle-cheatsheet
+oracle-family-scan           preview: oracle-family-scan
+oracle-prism                 preview: oracle-prism
+oracle-title-forge           preview: oracle-title-forge
+oracle-write-complete-book   preview: oracle-write-complete-book
+philosophy                   preview: philosophy
+project                      preview: project
+psi                          preview: psi
+recap                        preview: recap
+resonance                    preview: resonance
+round-table                  preview: round-table
+rrr                          preview: rrr
+soul                         preview: soul
+trace                        preview: trace
+where-we-are                 preview: where-we-are
+who-are-you                  preview: who-are-you
