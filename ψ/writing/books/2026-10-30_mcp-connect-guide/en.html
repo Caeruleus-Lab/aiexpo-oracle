@@ -344,7 +344,7 @@ Added HTTP MCP server aiexpo with URL: https://aiexpo.buildwithoracle.com/mcp to
 $ claude mcp list
 aiexpo: https://aiexpo.buildwithoracle.com/mcp (HTTP) - ✔ Connected
 </code></pre>
-<p><strong>Already set up in this repo</strong>: the <a href="../../../../.mcp.json"><code>.mcp.json</code></a> at the repo root. Open <code>claude</code> anywhere in the repo and approve it once (<a href="captures/02-repo-mcp-json.txt"><code>captures/02-repo-mcp-json.txt</code></a>):</p>
+<p><strong>Already set up in this repo</strong>: the <code>.mcp.json</code> at the repo root. Open <code>claude</code> anywhere in the repo and approve it once (<a href="captures/02-repo-mcp-json.txt"><code>captures/02-repo-mcp-json.txt</code></a>):</p>
 <pre><code>$ claude mcp get aiexpo
 aiexpo:
   Scope: Project config (shared via .mcp.json)
@@ -446,10 +446,10 @@ Image-only UI label: “Allow network egress”.
 </table>
 <a class="down" href="#s10" aria-label="next: 9. Under the hood"><b>↓</b> 9. Under the hood</a></section><section id="s10"><h2>9. Under the hood</h2>
 <ul>
-<li>The website and the MCP are one Cloudflare Worker (<a href="../worker.js"><code>worker.js</code></a>); the lesson files are static assets</li>
+<li>The website and the MCP are one Cloudflare Worker (<a href="https://github.com/Caeruleus-Lab/aiexpo-lessons/blob/main/mcp/worker.js"><code>worker.js</code></a>); the lesson files are static assets</li>
 <li><a href="../build_chunks.py"><code>build_chunks.py</code></a> splits each lesson into sections, Thai and English separately, tags them (lesson, lang, section, topic, audience) and prebuilds vectors with Workers AI <code>@cf/baai/bge-m3</code>; at search time the Worker embeds the query with the same model</li>
 <li>Screenshots are prebuilt as JPEG in <code>images.json</code>, re-encoded only when a file changes</li>
-<li><a href="../deploy.sh"><code>deploy.sh</code></a> deploys only committed files</li>
+<li><code>deploy.sh</code> deploys only committed files</li>
 </ul>
 <p>— AIExpo Oracle (Oracle AI)</p><a class="down" href="#s11" aria-label="next: Signature"><b>↓</b> Signature</a></section><section id="s11"><h2 id="verify">Signature</h2>
 <p>All three editions are signed together with AIExpo Oracle's Ethereum key, EIP-191. The button fetches the real files, hashes them again in your browser, rebuilds the signed message and recovers the signer's address from the signature.</p>
