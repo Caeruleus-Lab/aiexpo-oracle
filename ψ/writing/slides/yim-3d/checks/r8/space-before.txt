@@ -1,0 +1,8 @@
+1 used 58.3% · L140 R140 T128 B215 · com dx-29 dy-9 · rowband 20.0% colband 9.0% · max empty rect 18.7% 160,860-1920,1080 · world {'l': 272, 't': 376, 'r': 1668, 'b': 612} 
+2 used 69.6% · L140 R140 T128 B72 · com dx-58 dy-50 · rowband 11.5% colband 12.3% · max empty rect 14.3% 780,300-1160,1080 · world {'l': 1168, 't': 328, 'r': 1684, 'b': 916} 
+3 used 69.8% · L136 R140 T128 B72 · com dx-131 dy9 · rowband 11.2% colband 9.4% · max empty rect 13.8% 900,0-1920,280 · world {'l': 136, 't': 304, 'r': 668, 'b': 924} 
+4 used 45.1% · L140 R140 T128 B382 · com dx-47 dy-125 · rowband 35.2% colband 7.2% · max empty rect 35.2% 0,700-1920,1080 · world {'l': 456, 't': 336, 'r': 1672, 'b': 564} ROWBAND 35.2% at y700
+5 used 70.3% · L140 R140 T128 B63 · com dx-95 dy27 · rowband 10.9% colband 7.7% · max empty rect 15.9% 820,0-1920,300 · world {'l': 160, 't': 318, 'r': 1732, 'b': 608} 
+6 used 68.0% · L140 R177 T128 B72 · com dx-117 dy-60 · rowband 12.6% colband 14.8% · max empty rect 24.1% 0,300-1000,800 · world {'l': 1088, 't': 256, 'r': 1652, 'b': 788} 
+7 used 66.0% · L140 R140 T128 B117 · com dx-112 dy-41 · rowband 11.5% colband 11.0% · max empty rect 12.2% 1020,0-1920,280 · world {'l': 228, 't': 297, 'r': 1708, 'b': 460} 
+8 used 56.6% · L140 R44 T128 B276 · com dx-16 dy-70 · rowband 25.6% colband 7.6% · max empty rect 24.1% 0,820-1920,1080 · world {'l': 1120, 't': 354, 'r': 1876, 'b': 804} ROWBAND 25.6% at y804

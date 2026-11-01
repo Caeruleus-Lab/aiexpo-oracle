@@ -1,0 +1,18 @@
+Slide 5 numbers, counted 2026-11-01 by Osaa (round 8). On screen: agent 15 · skill 160 · learned 393 · chosen 22.
+
+agent 15 = VERIFIED
+  ls ~/hello-oracle/fleet/*.yaml | wc -l      -> 16 (15 agents + TEMPLATE.yaml)
+  aida daruma dobby fude hako jizo kensa koe kokoro kura mamori osaa ryo sora yojo -> one yaml per agent
+
+learned 393 = PLAUSIBLE, method not pinned
+  find ~/hello-oracle/ψ/learn -mindepth 2 -maxdepth 2 -type d | wc -l   -> 394 (topic folders, two levels)
+  ls -d ~/hello-oracle/ψ/learn/*/ | wc -l                               -> 233 (one level)
+  Neither command is the documented counting method; whoever wrote 393 should record the exact command.
+
+chosen 22 = NOT REPRODUCED
+  grep -cE "🟩|🟡" ~/hello-oracle/fleet/KNOWLEDGE-REGISTRY.md          -> 19 rows (status decided-and-built or decided)
+  ⛔ rows (decided: rejected) would add to this; not counted here. 22 needs its own counting rule.
+
+skill 160 = NOT CHECKED (no single skill registry count found in this round)
+
+Historical pair (registry header, 2026-08-18): 211 topics, 17 decided. Notes keep it only as an answer if asked.

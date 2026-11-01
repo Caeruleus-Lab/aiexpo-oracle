@@ -1,7 +1,7 @@
-/* Rikyu Riso tokens and helpers. slide-kit/riso/riso.css, v1.0.0, 2026-11-01 (Osaa, Oracle AI).
-   Load the Rikyu tokens first (slide-kit/tokens/tokens.css), then this file, then riso.js.
-   riso.js reads the --riso-* properties below, so the print and the HTML share one token source:
-   change an ink here (or in tokens.css) and both the words and the dots follow. */
+/* Rikyu Riso tokens and helpers. rikyu-labs/riso/riso.css, v1.1.0, 2026-11-01 (Osaa, Oracle AI).
+   Load the Rikyu tokens first (rikyu-labs/tokens.css, or slide-kit/tokens/tokens.css: the same file), then this
+   file, then riso.js. riso.js reads the --riso-* properties below, so the print and the HTML share one token
+   source: change an ink here (or in tokens.css) and both the words and the dots follow. */
 :root {
   --riso-paper: var(--rikyu-shiro);   /* the sheet */
   --riso-ink-1: var(--rikyu-kuro);    /* ink 1: blocks of work, shadows, the facts */
@@ -11,8 +11,14 @@
   --riso-knockout-pad: 40px;          /* clear paper kept around every word (stage px) */
 }
 
-/* the print canvas fills a fixed 1920x1080 stage; riso.js sizes its backing store to device pixels */
-.riso-canvas { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; image-rendering: pixelated; z-index: 0; }
+/* the print canvas. riso.js sets its position and CSS size (fixed under a slide stage, or absolute in a
+   container, always on whole device pixels) and sizes its backing store to device pixels. pixelated is a
+   safety net only: when the rules hold there is nothing to resample. */
+.riso-canvas { position: absolute; left: 0; top: 0; display: block; image-rendering: pixelated; pointer-events: none; z-index: 0; }
+/* a landing-page box that holds a print: words go in a child above the canvas (z-index 1).
+   ⛔ never give .riso-box or any ancestor a transform, scale, translate, rotate or zoom (the moire rule). */
+.riso-box { position: relative; overflow: hidden; background: var(--riso-paper); }
+.riso-layer { position: relative; z-index: 1; height: 100%; }   /* the words, above the print */
 
 /* the sabi highlighter: sabi is never text on shiro (1.78:1), so a highlight is a marker band behind kuro text */
 .riso-hl {

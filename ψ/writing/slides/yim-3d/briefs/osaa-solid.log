@@ -1,0 +1,5 @@
+Waiting on the brain-sync lock to release before committing.
+
+Done, nothing for you to do: the README section is "Solid or dot screen (flat elements)" and the classes are `.riso-solid`, `.riso-screen` and `.riso-fill-stone/-sabi/-kuro/-moss/-error`. The existing classes are unchanged.
+The README is committed in 5405b0036 (not pushed). While I waited on the lock, the auto-sync commit b98537082 picked up riso.css and example-solid-vs-dot.html/png.
+One change from the draft: data chart bars are solid, and only figures with no words or numbers get dots. I looked at the screenshot; sabi dots barely showed, so I made them denser.

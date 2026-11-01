@@ -1,6 +1,17 @@
-/* Rikyu Riso: a risograph print pass for three.js slide scenes. slide-kit/riso/riso.js, v1.0.0, 2026-11-01.
+/* Rikyu Riso: a risograph print pass for three.js scenes on Rikyu Labs slides and landing pages.
+ * rikyu-labs/riso/riso.js, v1.1.0, 2026-11-01 (moved up from slide-kit/riso/ so slides and the website share it).
  * Written by Osaa (Oracle AI) for Rikyu Labs. Vanilla classic script, no build step: load three r169 as a classic
  * script first (window.THREE, e.g. three.iife.js), then this file. It defines window.RikyuRiso.
+ *
+ * Entry point: RikyuRiso.mount(canvas, options) -> print handle.
+ *   - container mode (default, landing pages): the canvas fills options.container (default: its parent) and sizes
+ *     itself to that box in device pixels; 1 world unit = 1 CSS px at zoom 1.
+ *   - stage mode (options.stage, slides): a fixed 1920x1080 design stage that the deck scales with a CSS transform;
+ *     the canvas is a fixed layer outside that stage (see place()).
+ *   Both modes follow DPR changes and resizes. Pass options.draw(ctx) and mount runs the loop for you: it pauses
+ *   when the canvas is off-screen (IntersectionObserver) or the tab is hidden, and prints one settled frame under
+ *   prefers-reduced-motion or still mode. Without options.draw you call print.render() yourself, as in v1.0.
+ *   RikyuRiso.create(options) is the v1.0 name; it still works and does no observing.
  *
  * What it does. Your scene is rendered into an "ink separation" target: R = ink 1 (kuro), G = ink 2 (sabi),
  * B = ink 3 (moss), where 1 = no ink. One full-screen pass prints it like a risograph: each ink has its own
@@ -9,9 +20,11 @@
  * Words are knocked out: no ink is printed within `pad` px of any box you pass to knockout().
  *
  * Moire rule (why the canvas is sized the way it is). The canvas backing store is always sized to the device
- * pixels the stage covers on screen, the canvas is a fixed layer outside any CSS transform (see place()),
- * and the dither cell is a whole number of device pixels:
- *   cell = max(2, round(cellAt1920 * devicePxPerStagePx)).  1920 wide at dpr 1 -> 4, 1280 -> 3, 3840 -> 8.
+ * pixels the stage (or container) covers on screen, the canvas sits outside any CSS transform (mount() warns and
+ * info().transformed names the element if one is found), its top-left lands on a whole device pixel, and the
+ * dither cell is a whole number of device pixels:
+ *   cell = max(2, round(cell * devicePxPerStagePx)).  Stage mode: 1920 wide at dpr 1 -> 4, 1280 -> 3, 3840 -> 8.
+ *   Container mode (a stage px is a CSS px): cell 4 -> 4 device px at dpr 1, 8 at dpr 2, 12 at dpr 3.
  * The browser never resamples the dots, so the dots cannot beat against the screen grid. Only a projector or
  * capture box that rescales the whole output can still add moire; a bigger cell is the remedy there.
  *
@@ -22,7 +35,7 @@
  */
 (function (root) {
   'use strict';
-  const VERSION = '1.0.0';
+  const VERSION = '1.1.1';   // 1.1.1: deck round 8 (flood texture, maxDpr), not yet in hello-oracle
   const MAXB = 64;                        // knockout boxes per frame
 
   // resolve any CSS colour (hex, var() already resolved, oklch, color-mix) to sRGB 0..1 via a 1px canvas
@@ -44,12 +57,33 @@
    * Shadowed faces print darker automatically. Use INK.* for the house blocks. */
   const INK = { kuro: [0.22, 0, 0], kuroLight: [0.08, 0, 0], sabi: [0, 0.52, 0], moss: [0, 0, 0.62], mossLight: [0, 0, 0.16], none: [0, 0, 0] };
 
+  // the nearest element (canvas or ancestor) with a CSS transform, scale, translate, rotate or zoom: Chrome
+  // resamples a canvas under any of these, which breaks the 1:1 dots (measured 2026-11-01, see place())
+  function transformedAncestor(el) {
+    for (let e = el; e && e !== document.documentElement; e = e.parentElement) {
+      const s = getComputedStyle(e);
+      if ((s.transform && s.transform !== 'none') || (s.scale && s.scale !== 'none') || (s.translate && s.translate !== 'none') ||
+          (s.rotate && s.rotate !== 'none') || (s.zoom && s.zoom !== '1' && s.zoom !== 'normal'))
+        return e.tagName.toLowerCase() + (e.id ? '#' + e.id : '') + (e.className && typeof e.className === 'string' ? '.' + e.className.trim().split(/\s+/).join('.') : '');
+    }
+    return null;
+  }
+
   function create(o) {
     const T = root.THREE;
     if (!T || !T.WebGLRenderer) throw new Error('RikyuRiso: three.js r169 (window.THREE) is required');
     o = o || {};
-    const W = o.width || 1920, H = o.height || 1080;
-    const canvas = o.canvas, stage = o.stage || canvas.parentElement;
+    const canvas = o.canvas; if (!canvas) throw new Error('RikyuRiso: options.canvas is required');
+    // stage mode: a fixed design stage (default 1920x1080) scaled by the page. container mode: the box is the stage,
+    // measured in CSS px, so W and H follow the container.
+    const stageMode = !!o.stage;
+    const stage = o.stage || o.container || canvas.parentElement;
+    let W = o.width || 1920, H = o.height || 1080;
+    if (!stageMode) {
+      const r0 = stage.getBoundingClientRect(); W = Math.max(1, r0.width); H = Math.max(1, r0.height);
+      if (canvas.parentElement !== stage) throw new Error('RikyuRiso: in container mode the canvas must be a child of the container');
+      if (getComputedStyle(stage).position === 'static') stage.style.position = 'relative';
+    }
     const styles = getComputedStyle(o.tokens || document.documentElement);
     const paper = token(styles, '--riso-paper');
     const inks = ['--riso-ink-1', '--riso-ink-2', '--riso-ink-3'].map(n => token(styles, n));
@@ -75,7 +109,8 @@
     scene.add(new T.AmbientLight(0xffffff, 0.28 * Math.PI));
     const sun = new T.DirectionalLight(0xffffff, 0.92 * Math.PI); sun.castShadow = true;
     sun.shadow.mapSize.set(o.shadowSize || 2048, o.shadowSize || 2048);
-    Object.assign(sun.shadow.camera, { left: -1600, right: 1600, top: 1600, bottom: -1600, near: 10, far: 6000 });
+    const SE = o.shadowExtent || 1600;      // half-size of the sun's shadow box, world units
+    Object.assign(sun.shadow.camera, { left: -SE, right: SE, top: SE, bottom: -SE, near: 10, far: 6000 });
     sun.shadow.bias = -0.0006; sun.shadow.normalBias = 1.5; sun.shadow.radius = 2;
     scene.add(sun); scene.add(sun.target);
     const ground = new T.Mesh(new T.PlaneGeometry(12000, 12000),
@@ -150,13 +185,13 @@
         uLo: { value: new T.Vector3(...curve.map(c => c[0])) }, uHi: { value: new T.Vector3(...curve.map(c => c[1])) },
         uInk1: { value: new T.Vector3(...printed[0]) }, uInk2: { value: new T.Vector3(...printed[1]) }, uInk3: { value: new T.Vector3(...printed[2]) },
         uPaper: { value: new T.Vector3(...paper) }, uFloodInk: { value: new T.Vector3(...flood) }, uFlood: { value: 0 },
-        uGrain: { value: o.grain === false ? 0 : 1 }, uMask: { value: 1 }, uPad: { value: 40 },
+        uGrain: { value: o.grain === false ? 0 : 1 }, uVig: { value: o.vignette ?? (stageMode ? 1 : 0) }, uMask: { value: 1 }, uPad: { value: 40 },
         uBox: { value: Array.from({ length: MAXB }, () => new T.Vector4(-9, -9, -9, -9)) }, uNB: { value: 0 },
       },
       vertexShader: 'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
       fragmentShader: `precision highp float;
 varying vec2 vUv;
-uniform sampler2D tSep; uniform vec2 uRes, uSep; uniform float uCell, uScale, uFlood, uGrain, uMask, uPad;
+uniform sampler2D tSep; uniform vec2 uRes, uSep; uniform float uCell, uScale, uFlood, uGrain, uVig, uMask, uPad;
 uniform vec2 uMis[3]; uniform vec2 uLat[3]; uniform vec3 uLo, uHi, uInk1, uInk2, uInk3, uPaper, uFloodInk;
 uniform vec4 uBox[${MAXB}]; uniform int uNB;
 float hh(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
@@ -190,29 +225,41 @@ void main(){
   float m = plate(2, frag, uMis[2], uLat[2], uLo.z, uHi.z);
   // flood ink: a whole-sheet solid that fills in by dither as uFlood goes 0 -> 1
   float fl = step(bayer8(floor(frag/uCell)+vec2(6.,1.)), uFlood*1.02) * step(.001,uFlood);
-  fl *= mix(1., .9+.1*vn(frag/uScale*vec2(.01,.09)+31.), uGrain);
+  // v1.1.1 (deck round 8): the solid flood gets riso speckle and an even mottle; the old (.01,.09) noise drew horizontal streaks
+  fl *= 1. - uGrain*(step(.975, hh(floor(frag/max(1.,floor(uCell/2.)))+53.))*.55 + (vn(frag/uScale*.035+31.)-.5)*.05);
   vec2 sp = frag/uScale;
   float fib = vn(vec2(sp.x*.6, sp.y*.04))*.5 + vn(sp*.02)*.5;
   vec3 paper = uPaper*(1.-uGrain*((fib-.5)*.025+(hh(frag)-.5)*.02));
   vec3 c = paper * mix(vec3(1.), uFloodInk/uPaper, fl);
   c *= mix(vec3(1.), uInk2/uPaper, s) * mix(vec3(1.), uInk3/uPaper, m) * mix(vec3(1.), uInk1/uPaper, k*.97);
-  vec2 q=vUv-.5; c *= 1.-dot(q,q)*.08*uGrain;
+  vec2 q=vUv-.5; c *= 1.-dot(q,q)*.08*uGrain*uVig;   // the sheet's edge falloff: on for a slide, off for a page band
   gl_FragColor = vec4(c,1.);
 }`,
     });
     const quad = new T.Mesh(new T.PlaneGeometry(2, 2), quadMat);
     const qScene = new T.Scene(); qScene.add(quad); const qCam = new T.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-    let sep = null, outW = 0, outH = 0, cell = 4, scale = 1;
+    let sep = null, outW = 0, outH = 0, cell = 4, scale = 1, dprNow = 1, effNow = 1, placed = '';
     function resize() {
       // device pixels the stage covers: the canvas backing store matches them 1:1 (the moire rule)
-      const r = stage.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
-      const w = forced ? forced.w : Math.max(2, Math.round(r.width * dpr)), h = forced ? forced.h : Math.max(2, Math.round(w * H / W));
-      if (w === outW && h === outH && sep) { place(r, dpr); return info(); }
+      // o.maxDpr (low-power): the backing store drops by a whole factor k, the browser scales it back up k times with
+      // image-rendering: pixelated, so a dither cell still lands on whole device px (cell 4 -> 8 device px at dpr 2, k 2)
+      const r = stage.getBoundingClientRect(), dprReal = window.devicePixelRatio || 1, k = o.maxDpr ? Math.max(1, Math.ceil(dprReal / o.maxDpr - 1e-6)) : 1, dpr = dprReal / k;
+      dprNow = dprReal; effNow = dpr;
+      if (!stageMode) {
+        const nW = Math.max(1, r.width), nH = Math.max(1, r.height);
+        if (nW !== W || nH !== H) {
+          W = nW; H = nH;
+          Object.assign(camera, { left: -W / 2, right: W / 2, top: H / 2, bottom: -H / 2 }); camera.updateProjectionMatrix();
+        }
+      }
+      const w = forced ? forced.w : Math.max(2, Math.round(r.width * dpr));
+      const h = forced ? forced.h : stageMode ? Math.max(2, Math.round(w * H / W)) : Math.max(2, Math.round(r.height * dpr));
+      if (w === outW && h === outH && sep) { place(r, dprReal); return info(); }
       outW = w; outH = h; scale = outW / W;
       cell = Math.max(2, Math.round(cellAt1920 * scale));
       renderer.setSize(outW, outH, false);
-      place(r, dpr);
+      place(r, dprReal);
       if (sep) sep.dispose();
       const sw = Math.ceil(outW / cell) + 1, sh = Math.ceil(outH / cell) + 1;
       sep = new T.WebGLRenderTarget(sw, sh, { minFilter: T.NearestFilter, magFilter: T.NearestFilter });
@@ -225,13 +272,24 @@ void main(){
     // The canvas must not sit inside a CSS-transformed element: Chrome filters a transformed canvas even at an exact
     // 1:1 size (measured 2026-11-01 at 1280x720: dots came out 2 px plus a grey edge pixel). So the canvas is a fixed
     // layer under the stage, sized in CSS px to outW / dpr and placed on the stage's whole-device-pixel origin.
+    // Container mode: the canvas is absolute inside its (untransformed) container, shifted by under one device px so
+    // its top-left lands on a whole device pixel, and sized in CSS px to outW / dpr. Re-checked every render, so a
+    // scroll that leaves the container on a fractional device px is corrected too.
     function place(r, dpr) {
       if (o.place === false) return;
-      const cs = canvas.style; cs.position = 'fixed'; cs.zIndex = '0'; cs.pointerEvents = 'none';
-      cs.left = Math.round(r.left * dpr) / dpr + 'px'; cs.top = Math.round(r.top * dpr) / dpr + 'px';
-      cs.width = (forced ? r.width : outW / dpr) + 'px'; cs.height = (forced ? r.height : outH / dpr) + 'px';
+      const fw = (forced ? r.width : outW / effNow) + 'px', fh = (forced ? r.height : outH / effNow) + 'px';
+      let pos, left, top;
+      if (stageMode) { pos = 'fixed'; left = Math.round(r.left * dpr) / dpr + 'px'; top = Math.round(r.top * dpr) / dpr + 'px'; }
+      else if (o.snap === false) { pos = 'absolute'; left = '0px'; top = '0px'; }   // debug: the snap negative control
+      else { pos = 'absolute'; left = (Math.round(r.left * dpr) - r.left * dpr) / dpr + 'px'; top = (Math.round(r.top * dpr) - r.top * dpr) / dpr + 'px'; }
+      const key = [pos, left, top, fw, fh].join(); if (key === placed) return; placed = key;
+      const cs = canvas.style; cs.position = pos; cs.zIndex = '0'; cs.pointerEvents = 'none'; cs.display = 'block';
+      cs.left = left; cs.top = top; cs.width = fw; cs.height = fh;
     }
-    function info() { return { outW, outH, cell, scale, canvasW: canvas.width, canvasH: canvas.height, version: VERSION }; }
+    function info() {
+      return { mode: stageMode ? 'stage' : 'container', W, H, dpr: dprNow, outW, outH, cell, scale, canvasW: canvas.width, canvasH: canvas.height,
+        transformed: transformedAncestor(canvas), version: VERSION };
+    }
 
     // knockout boxes in stage px: [{l,t,r,b}] (pad applies to all, default 40)
     function knockout(boxes, pad) {
@@ -252,6 +310,7 @@ void main(){
     // slip 0..1 moves inks 2 and 3 out of register (use it during a page change); flood 0..1 fills the sheet
     function render(opt) {
       opt = opt || {}; if (!sep) resize();
+      if (!stageMode) place(stage.getBoundingClientRect(), dprNow);
       const u = quadMat.uniforms, sl = opt.slip || 0;
       u.uMis.value[1].set(Math.round((misStage[1][0] + sl * 3) * scale), Math.round((misStage[1][1] + sl) * scale));
       u.uMis.value[2].set(Math.round((misStage[2][0] - sl) * scale), Math.round((misStage[2][1] - sl * 3) * scale));
@@ -267,9 +326,83 @@ void main(){
     resize();
     return {
       THREE: T, renderer, scene, camera, sun, ground, blocks, pose, poseCamera, sunAt, onGround, groundMap,
-      knockout, measureKnockout, render, resize, info, INK,
+      knockout, measureKnockout, render, resize, info, INK, stageEl: stage, size: () => ({ W, H, dpr: dprNow }),
       rendererName() { const e = gl.getExtension('WEBGL_debug_renderer_info'); return e ? gl.getParameter(e.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER); },
     };
+  }
+
+  /* ---------- mount: create + resize, DPR, visibility, reduced motion and the loop ----------
+   * options: everything create() takes, plus
+   *   container  the box to fill (container mode, default canvas.parentElement)   stage  a design stage (stage mode)
+   *   draw(ctx)  called once per printed frame; set blocks and knockout there, return render options {slip, flood, mask}
+   *              ctx = {t, dt, still, progress, W, H, G, print, frame}. t only advances while the layer is running.
+   *              progress: 0..1 scroll progress. With options.track (a tall section holding a sticky container) it is
+   *              how far the track has scrolled past its sticky span; otherwise how far the container has crossed
+   *              the viewport. In still mode progress is 1 (the settled state).
+   *   still      start in still mode (one frame, no loop)          reducedMotion  'respect' (default) | 'ignore'
+   *   rootMargin IntersectionObserver margin (default '120px')      onResize(info)  after every resize */
+  function mount(canvas, options) {
+    const opt = Object.assign({}, options || {}, { canvas });
+    const print = create(opt), stage = print.stageEl, draw = opt.draw;
+    const tr = print.info().transformed;
+    if (tr && opt.place !== false) console.warn('RikyuRiso: ' + tr + ' has a CSS transform; the canvas under it is resampled and the dots can moire. Keep the canvas outside transformed elements.');
+    const mq = root.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : null;
+    let reduced = !!(mq && mq.matches) && opt.reducedMotion !== 'ignore';
+    let still = !!opt.still, onScreen = true, pageOn = !document.hidden, destroyed = false;
+    let raf = 0, last = 0, t = 0, frames = 0, pending = false, dprMq = null;
+    const isStill = () => still || reduced;
+    const running = () => !!draw && !destroyed && !isStill() && onScreen && pageOn;
+    function progress() {
+      const vh = innerHeight || 1;
+      if (opt.track) { const r = opt.track.getBoundingClientRect(), span = r.height - vh; return span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 1; }
+      const r = stage.getBoundingClientRect(); return Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+    }
+    function frame(dt) {
+      if (!draw || destroyed) return;
+      const s = isStill(), { W, H } = print.size();
+      const ctx = { t: s ? (opt.stillTime || 0) : t, dt, still: s, progress: s ? 1 : progress(), W, H, G: print.groundMap(print.camera), print, frame: frames };
+      print.render(draw(ctx) || {});
+    }
+    function tick(now) {
+      raf = 0; if (!running()) { last = 0; return; }
+      if ((root.devicePixelRatio || 1) !== print.size().dpr) onDpr();   // fallback when no resize/media event comes
+      const dt = last ? Math.min(0.1, (now - last) / 1000) : 0; last = now; t += dt; frames++;
+      frame(dt); raf = requestAnimationFrame(tick);
+    }
+    function kick() {
+      if (running()) { if (!raf) raf = requestAnimationFrame(tick); }
+      else { if (raf) cancelAnimationFrame(raf); raf = 0; last = 0; }
+    }
+    const redraw = () => frame(0);          // one frame now: still mode, resize, fonts
+    function schedule() {
+      if (pending || destroyed) return; pending = true;
+      requestAnimationFrame(() => { pending = false; if (destroyed) return; const i = print.resize(); if (opt.onResize) opt.onResize(i); if (!running()) redraw(); });
+    }
+    function watchDpr() {        // a window dragged to another screen changes devicePixelRatio without a resize event
+      if (!root.matchMedia) return; if (dprMq) dprMq.removeEventListener('change', onDpr);
+      dprMq = matchMedia('(resolution: ' + (root.devicePixelRatio || 1) + 'dppx)'); dprMq.addEventListener('change', onDpr);
+    }
+    function onDpr() { watchDpr(); schedule(); }
+    const onVis = () => { pageOn = !document.hidden; kick(); };
+    const onMq = e => { reduced = e.matches && opt.reducedMotion !== 'ignore'; if (!running()) redraw(); kick(); };
+    const io = root.IntersectionObserver ? new IntersectionObserver(es => { onScreen = es[es.length - 1].isIntersecting; kick(); }, { rootMargin: opt.rootMargin || '120px' }) : null;
+    const ro = root.ResizeObserver ? new ResizeObserver(schedule) : null;
+    if (io) io.observe(stage); if (ro) ro.observe(stage);
+    addEventListener('resize', schedule); document.addEventListener('visibilitychange', onVis);
+    if (mq) mq.addEventListener('change', onMq); watchDpr();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+    if (!running()) redraw(); kick();
+    return Object.assign(print, {
+      still(on) { if (on !== undefined) { still = !!on; if (!running()) redraw(); kick(); } return isStill(); },
+      redraw, frames: () => frames,
+      state: () => ({ still, reduced, onScreen, pageOn, running: running(), frames, t }),
+      destroy() {
+        destroyed = true; kick(); if (io) io.disconnect(); if (ro) ro.disconnect();
+        removeEventListener('resize', schedule); document.removeEventListener('visibilitychange', onVis);
+        if (mq) mq.removeEventListener('change', onMq); if (dprMq) dprMq.removeEventListener('change', onDpr);
+        print.renderer.dispose();
+      },
+    });
   }
 
   /* ---------- formation helpers: pure functions, world units, centred on (0,0); add your anchor ---------- */
@@ -304,5 +437,5 @@ void main(){
   const ease = x => x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x);
   const back = x => { x = Math.max(0, Math.min(1, x)); const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
 
-  root.RikyuRiso = { VERSION, create, formations, INK, ease, back, rgb };
+  root.RikyuRiso = { VERSION, mount, create, formations, INK, ease, back, rgb, transformedAncestor };
 })(window);

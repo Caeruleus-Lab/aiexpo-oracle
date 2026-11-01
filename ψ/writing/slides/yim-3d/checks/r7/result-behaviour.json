@@ -1,0 +1,65 @@
+{
+ "behaviour": {
+  "top_of_page_frames_in_1s": [
+   61,
+   61,
+   0
+  ],
+  "mid_scroll_frames_in_1s": [
+   0,
+   60,
+   0
+  ],
+  "states_mid_scroll": [
+   {
+    "onScreen": false,
+    "running": false
+   },
+   {
+    "onScreen": true,
+    "running": true
+   },
+   {
+    "onScreen": false,
+    "running": false
+   }
+  ],
+  "after_pause_button_frames": [
+   0,
+   0,
+   0
+  ],
+  "reduced_motion": {
+   "frames_in_1s": [
+    0,
+    0,
+    0
+   ],
+   "state0": {
+    "still": false,
+    "reduced": true,
+    "onScreen": true,
+    "pageOn": true,
+    "running": false,
+    "frames": 0,
+    "t": 0
+   },
+   "dark_px_in_hero_shot": 67955,
+   "button_hidden": true
+  },
+  "dpr_change": {
+   "before": [
+    1,
+    1280,
+    800,
+    4
+   ],
+   "after": [
+    2,
+    2560,
+    1600,
+    8
+   ]
+  }
+ }
+}

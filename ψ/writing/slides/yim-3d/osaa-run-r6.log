@@ -1,0 +1,4 @@
+Both parts are done and every acceptance check passes; nothing committed. Two things need you: test on the real projector, and know that hello-oracle's auto-sync already committed the first draft of `riso.js` (not me).
+The canvas has to sit outside the scaled stage: inside it, Chrome blurred the dots at 1280 and only 61% landed on whole cells. Now 1920, 1280 and 1366 each score 99%, and the negative control scores 58%.
+Proposed `rikyu-slides` line for Dobby, plus all outputs, are in `REPORT.md` and `slide-kit/riso/README.md`.
+SessionEnd hook [/Users/yim/.claude/hooks/psi-commit.sh] failed: Hook cancelled

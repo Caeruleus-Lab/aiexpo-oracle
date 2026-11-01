@@ -1,0 +1,3 @@
+popup slide 5: 5 / 8 | 1.25 นาที  SAY "ฝูงนี้บริหารเหมือนบริษัท คนที่เคยบริหารทีมจะเห็นภาพทัน | ถัดไป: ทำงานกับ AI เหมือนทำงานเป็นกะ
+after ArrowRight in popup: 6 / 8 | deck hash #6 | 1.5 นาที  SAY "เหมือนโรงพยาบาลหรือโรงงาน
+projector notes hidden: none
