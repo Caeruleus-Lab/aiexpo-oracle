@@ -150,7 +150,7 @@ h2,.heading{font-family:var(--font-display);font-size:var(--fs-heading);line-hei
 /* 1 three stages */
 .who{display:flex;flex-direction:column;gap:var(--gap-in)}
 .stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
-.stages .anc{height:250px}
+.stages .anc{height:230px;margin-bottom:28px}   /* 3D clear of the rule line */
 .stages .item .title{white-space:nowrap}
 
 /* 2 unlock */
@@ -211,7 +211,7 @@ svg .d-slot{fill:none;stroke:var(--color-diagram-idle)}
 
 /* 7 numbers */
 .big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
-.big3 .anc{height:170px}
+.big3 .anc{height:128px;margin-bottom:40px}   /* keep the 3D clear of the rule line (Yim 2026-11-01) */
 .big3 .num{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700;color:var(--color-ink)}
 .big3 .title{margin-top:var(--gap-in)}
 .big3~.lead{color:var(--color-ink)}
