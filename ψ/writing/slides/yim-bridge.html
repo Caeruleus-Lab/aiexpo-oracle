@@ -174,28 +174,33 @@ body.shownotes .notes{display:block}
 .before > div.on{background:var(--color-paper-3);border:var(--rule-w) solid var(--color-accent)}
 .before .k{font-family:var(--font-display);font-size:var(--text-md);color:var(--color-ink-2);margin-bottom:var(--space-sm)}
 .before .on .k{color:var(--color-accent)}
-.before p{font-size:var(--text-lg);line-height:1.45}
+.before p{font-size:var(--text-lg);line-height:1.3;font-family:var(--font-display)}
+.before p.sm{font-family:var(--font-body);font-size:var(--text-sm);color:var(--color-ink-2);margin-top:var(--space-sm);line-height:1.4}
+.tight{gap:var(--space-md)!important}
+.tight .steps .row{padding:var(--space-sm) var(--space-lg)}
 </style>
 <section class="slide">
   <div class="lamp"></div>
   <div class="frame">
     <p class="meta">สุทธิณี เทพปริยะพล (ยิ้ม) · product manager ไม่ใช่วิศวกร</p>
-    <div class="before">
-      <div><p class="k">ก่อน</p><p>รู้งานของตัวเองลึก<br>แต่ใช้ AI ในแชต ทีละงาน<br>ทุกครั้งต้องเล่าใหม่</p></div>
-      <div class="on"><p class="k">ปัญหาจริง</p><p>ยิ้มกลายเป็นความจำให้ AI<br>แทนที่ AI จะช่วยยิ้มจำ</p></div>
+    <div class="before" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div><p class="k">ขั้น 1</p><p><b>ยิ้มเป็นความจำ<br>ให้ AI</b></p><p class="sm">คุยในแชตทีละงาน ทุกครั้งต้องเล่าใหม่</p></div>
+      <div><p class="k">ขั้น 2</p><p><b>ยิ้มกลายเป็น<br>คอขวด</b></p><p class="sm">AI ทำได้มากขึ้น แต่ทุกงานรอยิ้มสั่ง รอยิ้มตรวจ</p></div>
+      <div class="on"><p class="k">ขั้น 3</p><p><b>งานเดินได้<br>โดยไม่รอยิ้ม</b></p><p class="sm">ทีม AI หลายตัว กับวิธีทำงานของ ARRA</p></div>
     </div>
   </div>
-  <div class="notes">1.5 นาที · ผูกกับ forgetting test ที่คุณนัทเพิ่งทำ: "เมื่อกี้ที่เห็น AI ลืม นั่นคือชีวิตยิ้มทุกวันเมื่อปีที่แล้ว" · ยิ้มอยู่บนเวทีในฐานะคนใช้ ไม่ใช่คนสร้างระบบ ⇒ ห้ามอธิบายเทคนิคที่คุณนัทจะสอน</div>
+  <div class="notes">2 นาที · ขั้น 2 คือจุดที่คนใช้ AI เก่งแล้วเจอกันทุกคน เล่าเหตุการณ์จริง 1 ครั้งที่งานกองรอยิ้มอยู่คนเดียว · ผูกขั้น 1 กับ forgetting test ที่คุณนัทเพิ่งทำ: "เมื่อกี้ที่เห็น AI ลืม นั่นคือชีวิตยิ้มทุกวันเมื่อปีที่แล้ว" · ยิ้มอยู่บนเวทีในฐานะคนใช้ ไม่ใช่คนสร้างระบบ ⇒ ห้ามอธิบายเทคนิคที่คุณนัทจะสอน</div>
 </section>
 <section class="slide">
-  <div class="frame">
-    <h2 style="font-size:var(--text-xl)">สิ่งที่ปลดล็อก <span class="hl">ไม่ใช่เครื่องมือ แต่เป็นวิธีทำงาน</span></h2>
+  <div class="frame tight">
+    <h2 style="font-size:var(--text-xl)">สิ่งที่ปลดล็อก <span class="hl">ทีม AI กับวิธีทำงาน</span></h2>
     <div class="steps">
+      <div class="row" style="border:var(--rule-w) solid var(--color-accent)"><span class="n">+</span><span class="t">หลายตัว ทำพร้อมกัน <span class="meta">แต่ละตัวมีหน้าที่ และตรวจงานกันเอง</span></span></div>
       <div class="row"><span class="n">1</span><span class="t">ไม่มีอะไรหาย <span class="meta">งานทุกชิ้นถูกจดไว้ ย้อนดูได้เสมอ</span></span></div>
       <div class="row"><span class="n">2</span><span class="t">AI ไม่ตัดสินแทน <span class="meta">คนตัดสิน ความรู้ของงานยังเป็นของเรา</span></span></div>
       <div class="row"><span class="n">3</span><span class="t">เราถาม มันจำ <span class="meta">ครั้งต่อไปจึงง่ายกว่าเดิม</span></span></div>
     </div>
-    <p class="meta">จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
+    <p class="meta">สามข้อล่าง จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
   </div>
   <div class="notes">2 นาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ เล่าแค่ว่าแต่ละข้อเปลี่ยนงานของยิ้มยังไง ข้อละ 1 เหตุการณ์จริง (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
 </section>
