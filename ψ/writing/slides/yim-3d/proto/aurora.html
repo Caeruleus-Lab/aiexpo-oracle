@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proto B · Fleet Aurora · Yim 3D deck, slide 1</title>
+<!--
+  Direction B "Fleet Aurora" (RESEARCH-3D.md §3.B) by Osaa (Oracle AI), 2026-11-01. One slide, prototype for Yim's choice.
+  A deep kuro room; ~25k additive points moved by a curl-noise field; one hand-written bloom (2 mip levels, separable blur)
+  whose strength swells only while the scene changes and drops to a faint halo at rest.
+  Technique studied from fwdapps.net "Particles Transition Bloom" (notes: hello-oracle ψ/learn/fwdapps.net/particles-transition-2/):
+  positions are a pure function of home position + time (no ping-pong), noise displacement and bloom both follow one
+  triangle-shaped transition pulse. Re-implemented from scratch here (own noise, own curl, own blur); no shader text copied.
+  Stage 1: dust drifts, each chat is a flare that flickers and dies; only Yim's gold star holds.
+  Stage 2: eighteen streams of waiting work all try to pass one gap above the star and jam.
+  Stage 3: the work runs round a ring of five ivory agents; the gold star is not on the ring.
+  Key Right: the registry moment, 211 nodes condense out of the flow, then 17 become bright and move to a row, 194 fade.
+  Keys: Right/Space next, Left back. All text is HTML; no WebGL = text only on dark. Offline: ../vendor/ only.
+-->
+<link rel="stylesheet" href="../vendor/fonts.css">
+<style>
+:root{
+  --rikyu-kuro:#1A1A1A; --rikyu-shiro:#F7F5F2; --rikyu-sabi:#C9B89E; --rikyu-moss:#6B7A6B; --rikyu-stone:#D9D6CF;
+  --room:#101113; --ink:var(--rikyu-shiro); --ink-2:color-mix(in srgb,var(--rikyu-shiro) 74%,var(--room));
+  --sans:Satoshi,"IBM Plex Sans Thai",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0;background:var(--room);overflow:hidden;font-family:var(--sans);color:var(--ink)}
+#world{position:absolute;inset:0;width:1920px;height:1080px}
+.layer{position:absolute;inset:0;transition:opacity .7s cubic-bezier(.6,0,.3,1),transform .9s cubic-bezier(.6,0,.3,1)}
+.who{position:absolute;left:120px;top:96px}
+.heading{font-size:72px;line-height:1.2;font-weight:700;letter-spacing:-.005em}
+.lead{font-size:48px;line-height:1.35;font-weight:500;color:var(--ink-2);margin-top:8px}
+.stages{position:absolute;left:120px;top:716px;display:grid;grid-template-columns:repeat(3,520px);column-gap:60px}
+.label{font-size:30px;line-height:1.4;font-weight:600;color:var(--rikyu-sabi);display:flex;align-items:center;gap:16px}
+.key .label::after{content:"";width:72px;height:8px;border-radius:4px;background:var(--rikyu-sabi)}
+.title{font-size:48px;line-height:1.35;font-weight:700;margin-top:4px;white-space:nowrap}
+.body{font-size:36px;line-height:1.4;font-weight:400;color:var(--ink-2);margin-top:8px}
+.nw{white-space:nowrap}
+.reg{opacity:0;pointer-events:none}
+.reg .col{position:absolute;left:120px;top:150px;width:640px}
+.reg .title{white-space:normal}
+.num{font-size:156px;line-height:1.08;font-weight:700;letter-spacing:-.02em;margin-top:56px;display:flex;align-items:baseline;gap:28px}
+.num .a{transition:color .9s,opacity .9s}
+.num .b{opacity:0;transition:opacity .9s}
+.reg .body{margin-top:24px}
+.reg .b-line{opacity:0;transition:opacity .9s}
+.cap{font-size:30px;line-height:1.4;color:var(--rikyu-sabi);margin-top:40px}
+body.s1 .stg{opacity:0;transform:translateY(-24px)}
+body.s1 .reg{opacity:1}
+body.s2 .num .a{color:color-mix(in srgb,var(--rikyu-shiro) 30%,var(--room))}
+body.s2 .num .b,body.s2 .reg .b-line{opacity:1}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="world" width="1920" height="1080" aria-hidden="true"></canvas>
+  <div class="layer stg">
+    <div class="who"><p class="heading">สุทธิณี เทพปริยะพล (ยิ้ม)</p><p class="lead">product manager ไม่ใช่วิศวกร</p></div>
+    <div class="stages">
+      <div class="item"><p class="label">ขั้น 1</p><p class="title">ยิ้มเป็นความจำให้ AI</p><p class="body">คุยในแชตทีละงาน<br>ทุกครั้งต้องเล่าใหม่</p></div>
+      <div class="item"><p class="label">ขั้น 2</p><p class="title">ยิ้มกลายเป็นคอขวด</p><p class="body">AI ทำได้มากขึ้น แต่ทุกงาน<br><span class="nw">รอยิ้มสั่ง รอยิ้มตรวจ</span></p></div>
+      <div class="item key"><p class="label">ขั้น 3</p><p class="title">งานเดินได้โดยไม่รอยิ้ม</p><p class="body">ทีม AI หลายตัว<br>กับวิธีทำงานของ ARRA</p></div>
+    </div>
+  </div>
+  <div class="layer reg">
+    <div class="col">
+      <p class="title">ทะเบียนว่าใครทำอะไรได้<br>และเรียนอะไรมาแล้ว</p>
+      <p class="num"><span class="a">211</span><span class="b">17</span></p>
+      <p class="body">เรียนไป 211 เรื่อง<br><span class="b-line">ตัดสินใจว่าจะใช้แค่ 17</span></p>
+      <p class="cap">ณ ส.ค. 2026</p>
+    </div>
+  </div>
+</div>
+<script src="../vendor/three.iife.js"></script>
+<script>
+// ---------- shell: scale, state machine (same as sumi.html) ----------
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`scale(${s})`;stage.style.left=(innerWidth-1920*s)/2+'px';stage.style.top=(innerHeight-1080*s)/2+'px';window.__scale=s}
+fit();addEventListener('resize',fit);
+let state=0,stateAt=-10,auto=null;
+function setState(n){n=Math.max(0,Math.min(1,n));if(n===state)return;state=n;stateAt=performance.now()/1000;
+  document.body.classList.toggle('s1',n===1);document.body.classList.remove('s2');clearTimeout(auto);
+  if(n===1)auto=setTimeout(()=>document.body.classList.add('s2'),2600)}
+addEventListener('keydown',e=>{if(e.repeat)return;if(['ArrowRight',' ','PageDown'].includes(e.key))setState(state+1);if(['ArrowLeft','PageUp'].includes(e.key))setState(state-1)});
+window.__proto={state:()=>state,go:setState,frames:()=>0,gl:false};
+
+// ---------- world ----------
+(function(){
+if(!window.THREE)return;
+let renderer;try{renderer=new THREE.WebGLRenderer({canvas:document.getElementById('world'),antialias:false,alpha:false,powerPreference:'high-performance'})}catch(e){return}
+const glc=renderer.getContext();if(!glc)return;
+renderer.autoClear=false;
+const PR=()=>Math.min(2,(devicePixelRatio||1)*(window.__scale||1));
+const W=()=>Math.round(1920*PR()),H=()=>Math.round(1080*PR());
+const RT_TYPE=renderer.capabilities.isWebGL2?THREE.HalfFloatType:THREE.UnsignedByteType;
+const mkRT=(w,h)=>new THREE.WebGLRenderTarget(w,h,{type:RT_TYPE,minFilter:THREE.LinearFilter,magFilter:THREE.LinearFilter,depthBuffer:false});
+let rtScene,rtA,rtB,rtC,rtD;
+function size(){renderer.setPixelRatio(1);renderer.setSize(W(),H(),false);
+  [rtScene,rtA,rtB,rtC,rtD].forEach(r=>r&&r.dispose());
+  rtScene=mkRT(W(),H());rtA=mkRT(W()>>1,H()>>1);rtB=mkRT(W()>>1,H()>>1);rtC=mkRT(W()>>2,H()>>2);rtD=mkRT(W()>>2,H()>>2)}
+size();addEventListener('resize',size);
+
+const scene=new THREE.Scene();
+const cam=new THREE.OrthographicCamera(0,1920,0,1080,-10,10); // stage pixels, y down
+
+// ---- the flow: one Points draw call; every position is a pure function of (home, time, state) ----
+const NOISE=`
+float hh(vec3 p){p=fract(p*.1031);p+=dot(p,p.zyx+31.32);return fract((p.x+p.y)*p.z);}
+float vn(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*f*(f*(f*6.-15.)+10.);
+  float a=hh(i),b=hh(i+vec3(1,0,0)),c=hh(i+vec3(0,1,0)),d=hh(i+vec3(1,1,0)),
+        e=hh(i+vec3(0,0,1)),g=hh(i+vec3(1,0,1)),k=hh(i+vec3(0,1,1)),l=hh(i+vec3(1,1,1));
+  return mix(mix(mix(a,b,f.x),mix(c,d,f.x),f.y),mix(mix(e,g,f.x),mix(k,l,f.x),f.y),f.z);}
+float pot(vec3 p){return vn(p)+.5*vn(p*2.07+11.3);}
+// divergence-free 2D field: rotate the gradient of a scalar potential by 90 degrees
+vec2 curl(vec2 p,float t){const float e=.07;vec3 q=vec3(p,t);
+  float dy=pot(q+vec3(0,e,0))-pot(q-vec3(0,e,0)),dx=pot(q+vec3(e,0,0))-pot(q-vec3(e,0,0));
+  return vec2(dy,-dx)/(2.*e);}
+float h1(float n){return fract(sin(n*91.345)*43758.5453);}`;
+const flowMat=new THREE.ShaderMaterial({transparent:true,depthTest:false,depthWrite:false,blending:THREE.AdditiveBlending,
+  uniforms:{uT:{value:0},uInto:{value:0},uRes:{value:0},uPR:{value:1},uFade:{value:1}},
+  vertexShader:`attribute vec4 aA;attribute vec4 aB;attribute float aD;
+  uniform float uT,uInto,uRes,uPR,uFade;varying vec3 vC;varying float vA;
+  ${NOISE}
+  const vec3 DUST=vec3(.42,.47,.54),IVORY=vec3(1.,.95,.86),PALE=vec3(.55,.70,.62),HOT=vec3(.95,.80,.66);
+  float ez(float x){x=clamp(x,0.,1.);return x<.5?4.*x*x*x:1.-pow(-2.*x+2.,3.)/2.;}
+  void main(){
+    float G=aA.x,s=aA.y,s2=aA.z,kind=aA.w;
+    vec2 p;vec3 col;float al,sz;
+    if(G<.5){                       // ---- stage 1: no memory ----
+      vec2 C=vec2(380.,500.);
+      if(kind<.5){float a=s*6.2832,r=60.+s2*200.;p=C+vec2(cos(a),sin(a)*.72)*r;p+=curl(p*.006,uT*.06)*26.;
+        col=DUST;al=.30;sz=2.2;}
+      else{float f=floor(s*9.),L=4.8,tt=uT+f*L/9.,cyc=floor(tt/L),ph=fract(tt/L);
+        float fa=h1(f*13.1+cyc*7.7)*6.2832,fr=95.+h1(f*3.3+cyc*1.9)*115.;
+        vec2 fc=C+vec2(cos(fa),sin(fa)*.72)*fr;
+        float burst=1.-pow(1.-min(ph/.45,1.),3.);float a=s2*6.2832,rr=(3.+h1(s2*91.)*38.)*burst;
+        p=fc+vec2(cos(a),sin(a))*rr+curl(fc*.01+s2,uT*.4)*9.*ph;
+        float life=smoothstep(0.,.04,ph)*pow(1.-ph,2.4);
+        col=mix(IVORY,DUST,smoothstep(.1,.6,ph));al=.85*life*(.72+.28*sin(uT*37.+s2*50.));sz=2.6+2.*(1.-ph);}
+    }else if(G<1.5){                // ---- stage 2: bottleneck ----
+      float lane=floor(s2*18.),ang=3.1416*(1.04+(lane+.5)/18.*.92)+(h1(lane)-.5)*.06;
+      float R0=215.+h1(lane*3.7)*70.;
+      vec2 st=vec2(960.,570.)+vec2(cos(ang)*R0*1.18,sin(ang)*R0*.98),nk=vec2(960.,520.);
+      float sv=fract(s+uT*(.05+.02*h1(lane*1.3))),u=1.-pow(1.-sv,2.2);
+      vec2 cp=mix(st,nk,.45)+vec2(0.,-55.);
+      p=(1.-u)*(1.-u)*st+2.*(1.-u)*u*cp+u*u*nk;
+      p+=(vec2(h1(s*7.),h1(s*11.))-.5)*5.*(1.-u);
+      float jam=smoothstep(.7,1.,u);
+      float ja=3.1416*(1.+h1(s*5.3)),jr=(8.+sqrt(h1(s*9.1))*68.)*jam;
+      p+=vec2(cos(ja)*jr*1.1,sin(ja)*jr*.62)+vec2(sin(uT*7.+s*60.),cos(uT*6.+s*40.))*1.6*jam;
+      p+=curl(p*.008,uT*.12)*12.*(1.-u);
+      col=mix(DUST,HOT,jam*.55);al=mix(.42,.16,jam)*smoothstep(0.,.06,sv);sz=2.1+.6*jam;
+    }else{                          // ---- stage 3: the work runs without Yim ----
+      vec2 C=vec2(1540.,500.);float a0=-1.32,seg=6.2832/5.;
+      if(kind<.5){float a=a0+fract(s+uT*.05)*6.2832,lane=s2-.5;
+        float r=150.+lane*24.+sin(a*5.+uT*.8)*5.;p=C+vec2(cos(a),sin(a)*.82)*r;p+=curl(p*.01,uT*.1)*5.;
+        float d=mod(a-a0-seg*.5+seg*.5,seg)-seg*.5;float near=exp(-d*d/.03);
+        col=mix(PALE,IVORY,near);al=.26+.5*near;sz=2.+1.4*near;}
+      else{float k=floor(s*5.),a=a0+seg*(k+.5),o=s2*6.2832+uT*(.6+h1(k)*.4),rr=3.+h1(s*31.)*15.;
+        p=C+vec2(cos(a)*150.,sin(a)*150.*.82)+vec2(cos(o),sin(o))*rr;col=IVORY;al=.32;sz=2.4;}
+    }
+    // ---- registry: 211 nodes condense out of the flow; 17 move to a row and brighten ----
+    float e=ez(uInto*1.45-aD*.45);
+    float o=s2*6.2832+uT*(.25+s*.4),orr=1.5+s*9.;
+    vec2 rp=aB.xy+vec2(cos(o),sin(o))*orr;
+    float ch=step(0.,aB.z),r=ez(uRes*1.2-aD*.2);
+    rp=mix(rp,aB.zw+vec2(cos(o),sin(o))*(1.+s*s*13.),r*ch);
+    vec3 rc=mix(IVORY,DUST,r*(1.-ch));float ra=mix(.16,.05,r*(1.-ch))+.22*r*ch;
+    float pulse=sin(3.1416*e);
+    p=mix(p,rp,e)+curl(mix(p,rp,e)*.004+s*.2,uT*.3)*95.*pulse;
+    col=mix(col,rc,e);al=mix(al,ra,e)*uFade;sz=mix(sz,2.4+.8*ch*r,e);
+    vC=col;vA=al;
+    gl_Position=projectionMatrix*modelViewMatrix*vec4(p,0.,1.);gl_PointSize=sz*uPR;}`,
+  fragmentShader:`precision highp float;varying vec3 vC;varying float vA;
+    void main(){float d=length(gl_PointCoord-.5)*2.;float m=1.-smoothstep(.25,1.,d);if(m*vA<.002)discard;gl_FragColor=vec4(vC,m*vA);}`});
+
+const N0=6000,N1=10000,N2=9000,N=N0+N1+N2;
+const aA=new Float32Array(N*4),aB=new Float32Array(N*4),aD=new Float32Array(N);
+// registry layout, same cloud and shelf as sumi.html
+const rnd=(i,k)=>{const x=Math.sin(i*127.1+k*311.7)*43758.5453;return x-Math.floor(x)};
+const REG=[];{let tries=0;while(REG.length<211&&tries<20000){tries++;const a=rnd(tries,1)*Math.PI*2,r=Math.sqrt(rnd(tries,2));
+  const x=1290+Math.cos(a)*r*470+Math.sin(a*3)*20,y=420+Math.sin(a)*r*220;if(REG.some(p=>Math.hypot(p.x-x,p.y-y)<26))continue;REG.push({x,y})}}
+const CHOSEN=new Set();while(CHOSEN.size<17)CHOSEN.add(Math.floor(rnd(CHOSEN.size+900,4)*211));
+const chosenIdx=[...CHOSEN].sort((a,b)=>REG[a].x-REG[b].x);const slotOf={};chosenIdx.forEach((k,j)=>slotOf[k]=j);
+const shelfY=780,shelfX0=860,shelfW=860;
+for(let i=0;i<N;i++){const G=i<N0?0:i<N0+N1?1:2;
+  const kind=G===0?(Math.random()<.5?0:1):G===2?(Math.random()<.8?0:1):0;
+  aA.set([G,Math.random(),Math.random(),kind],i*4);
+  const nd=i%211,p=REG[nd]||{x:1290,y:420};let sx=-1,sy=-1;
+  if(CHOSEN.has(nd)){sx=shelfX0+(slotOf[nd]+.5)*shelfW/17;sy=shelfY}
+  aB.set([p.x,p.y,sx,sy],i*4);aD[i]=nd/211}
+const g=new THREE.BufferGeometry();
+g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(N*3),3));
+g.setAttribute('aA',new THREE.BufferAttribute(aA,4));g.setAttribute('aB',new THREE.BufferAttribute(aB,4));g.setAttribute('aD',new THREE.BufferAttribute(aD,1));
+const flow=new THREE.Points(g,flowMat);flow.frustumCulled=false;scene.add(flow);
+
+// ---- Yim: one steady gold star (4 positions, CPU-driven) ----
+const starG=new THREE.BufferGeometry();const SP=new Float32Array(4*3),SA=new Float32Array(4);
+starG.setAttribute('position',new THREE.BufferAttribute(SP,3));starG.setAttribute('aA',new THREE.BufferAttribute(SA,1));
+const starMat=new THREE.ShaderMaterial({transparent:true,depthTest:false,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uPR:{value:1},uT:{value:0}},
+  vertexShader:`attribute float aA;uniform float uPR;varying float vA;void main(){vA=aA;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);gl_PointSize=96.*uPR;}`,
+  fragmentShader:`precision highp float;varying float vA;uniform float uT;
+    void main(){vec2 u=gl_PointCoord*2.-1.;float r=length(u);
+      float core=exp(-r*r*90.),halo=exp(-r*r*9.)*.22,rays=(exp(-abs(u.x)*60.)+exp(-abs(u.y)*60.))*exp(-r*r*5.)*.18;
+      vec3 c=vec3(1.,.80,.50)*(core*1.6+halo+rays)+vec3(1.)*core*.5;float a=vA*(.96+.04*sin(uT*1.7));
+      gl_FragColor=vec4(c*a,1.);}`});
+starMat.blending=THREE.CustomBlending;starMat.blendSrc=THREE.OneFactor;starMat.blendDst=THREE.OneFactor;
+const stars=new THREE.Points(starG,starMat);stars.frustumCulled=false;scene.add(stars);
+
+// ---- post: hand-written bloom ----
+const quad=new THREE.Mesh(new THREE.PlaneGeometry(2,2));const qScene=new THREE.Scene();qScene.add(quad);const qCam=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+const VQ=`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}`;
+const downMat=new THREE.ShaderMaterial({uniforms:{tSrc:{value:null},uTexel:{value:new THREE.Vector2()}},vertexShader:VQ,depthTest:false,depthWrite:false,
+  fragmentShader:`precision highp float;varying vec2 vUv;uniform sampler2D tSrc;uniform vec2 uTexel;
+    void main(){vec2 o=uTexel;gl_FragColor=.25*(texture2D(tSrc,vUv+vec2(-o.x,-o.y))+texture2D(tSrc,vUv+vec2(o.x,-o.y))+texture2D(tSrc,vUv+vec2(-o.x,o.y))+texture2D(tSrc,vUv+vec2(o.x,o.y)));}`});
+const blurMat=new THREE.ShaderMaterial({uniforms:{tSrc:{value:null},uDir:{value:new THREE.Vector2()}},vertexShader:VQ,depthTest:false,depthWrite:false,
+  fragmentShader:`precision highp float;varying vec2 vUv;uniform sampler2D tSrc;uniform vec2 uDir;
+    void main(){vec4 s=texture2D(tSrc,vUv)*.2270;
+      s+=(texture2D(tSrc,vUv+uDir*1.3846)+texture2D(tSrc,vUv-uDir*1.3846))*.3162;
+      s+=(texture2D(tSrc,vUv+uDir*3.2308)+texture2D(tSrc,vUv-uDir*3.2308))*.0703;gl_FragColor=s;}`});
+const compMat=new THREE.ShaderMaterial({uniforms:{tScene:{value:null},tB1:{value:null},tB2:{value:null},uBloom:{value:.4},uT:{value:0}},vertexShader:VQ,depthTest:false,depthWrite:false,
+  fragmentShader:`precision highp float;varying vec2 vUv;uniform sampler2D tScene,tB1,tB2;uniform float uBloom,uT;
+    float hz(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233))+uT)*43758.5453);}
+    void main(){vec3 s=texture2D(tScene,vUv).rgb;vec3 b=texture2D(tB1,vUv).rgb*.9+texture2D(tB2,vUv).rgb*1.3;
+      vec3 l=s+b*uBloom;l=1.-exp(-l*1.25);
+      vec2 q=vUv-vec2(.5,.62);vec3 room=vec3(.063,.066,.074)+vec3(.010,.016,.012)*exp(-dot(q*vec2(1.4,2.6),q*vec2(1.4,2.6))*3.);
+      room*=1.-dot(vUv-.5,vUv-.5)*.5;
+      gl_FragColor=vec4(room+l*(1.-room)+(hz(gl_FragCoord.xy)-.5)/255.,1.);}`});
+function pass(mat,target){quad.material=mat;renderer.setRenderTarget(target);renderer.render(qScene,qCam)}
+
+// ---------- loop ----------
+const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
+let frames=0;const t0=performance.now()/1000;let resAt=null;
+function frame(){
+  const now=performance.now()/1000,t=now-t0,dt=now-stateAt;
+  const into=state===1?Math.min(1,dt/1.6):Math.max(0,1-dt/1.2);
+  const s2on=document.body.classList.contains('s2');if(s2on&&resAt===null)resAt=now;if(!s2on)resAt=null;
+  const res=resAt===null?0:Math.min(1,(now-resAt)/1.6);
+  const pr=PR();
+  Object.assign(flowMat.uniforms,{});flowMat.uniforms.uT.value=t;flowMat.uniforms.uInto.value=into;flowMat.uniforms.uRes.value=res;flowMat.uniforms.uPR.value=pr;
+  const st=1-ease(into*1.6);
+  const pos=[[380,500,st],[960,570,st],[1540,500,st],[shelfX0-70,shelfY,ease(into*2-1)*ease(res*2)]];
+  pos.forEach(([x,y,a],i)=>{SP[i*3]=x;SP[i*3+1]=y;SA[i]=a});starG.attributes.position.needsUpdate=true;starG.attributes.aA.needsUpdate=true;
+  starMat.uniforms.uPR.value=pr;starMat.uniforms.uT.value=t;
+  // bloom: faint halo at rest, strong only while the scene changes
+  const pulse=Math.sin(Math.PI*Math.min(1,into))*(state===1||into>0?1:0),rp=Math.sin(Math.PI*res);
+  compMat.uniforms.uBloom.value=.45+1.6*pulse+.7*rp;compMat.uniforms.uT.value=t%10;
+  renderer.setRenderTarget(rtScene);renderer.setClearColor(0x000000,1);renderer.clear();renderer.render(scene,cam);
+  downMat.uniforms.tSrc.value=rtScene.texture;downMat.uniforms.uTexel.value.set(1/rtScene.width,1/rtScene.height);pass(downMat,rtA);
+  blurMat.uniforms.tSrc.value=rtA.texture;blurMat.uniforms.uDir.value.set(1/rtA.width,0);pass(blurMat,rtB);
+  blurMat.uniforms.tSrc.value=rtB.texture;blurMat.uniforms.uDir.value.set(0,1/rtA.height);pass(blurMat,rtA);
+  downMat.uniforms.tSrc.value=rtA.texture;downMat.uniforms.uTexel.value.set(1/rtA.width,1/rtA.height);pass(downMat,rtC);
+  blurMat.uniforms.tSrc.value=rtC.texture;blurMat.uniforms.uDir.value.set(2/rtC.width,0);pass(blurMat,rtD);
+  blurMat.uniforms.tSrc.value=rtD.texture;blurMat.uniforms.uDir.value.set(0,2/rtC.height);pass(blurMat,rtC);
+  compMat.uniforms.tScene.value=rtScene.texture;compMat.uniforms.tB1.value=rtA.texture;compMat.uniforms.tB2.value=rtC.texture;pass(compMat,null);
+  frames++;requestAnimationFrame(frame);
+}
+window.__proto.gl=true;window.__proto.frames=()=>frames;window.__proto.renderer=()=>{const e=glc.getExtension('WEBGL_debug_renderer_info');return e?glc.getParameter(e.UNMASKED_RENDERER_WEBGL):glc.getParameter(glc.RENDERER)};
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proto C · Riso · Yim 3D deck, slide 1</title>
+<!--
+  Direction C "Riso" (RESEARCH-3D.md §3.C) by Osaa (Oracle AI), 2026-11-01. One slide, prototype for Yim's choice.
+  Simple blocks under one directional light with a real shadow map, orthographic isometric camera.
+  The scene is rendered into an "ink separation" target: R = kuro ink, G = sabi ink, B = moss ink (1 = no ink).
+  One full-screen pass prints it like a risograph: each ink gets its own threshold curve, its own Bayer lattice offset
+  and its own misregistration, ink colours multiply on shiro paper, solid ink has grain. Shadows become dot stripes.
+  Ordered-dither threshold idea after niccolofanton/dithering-shader (MIT, Copyright (c) 2023-2024 Niccolo Fanton;
+  original pattern by Klems, shadertoy.com/view/ltSSzW). Our pass computes an 8x8 Bayer value by bit interleave
+  instead of the repo's unrolled 4x4 table; per-ink separation, paper and misregistration are ours.
+  Stage 1: small work blocks drop next to Yim's block, land, and vanish; only her block stays.
+  Stage 2: the work piles into a tower on top of Yim's block; a queue keeps sliding in; the tower's shadow is long.
+  Stage 3: five moss agent blocks; a work block hops agent to agent and never lands on Yim.
+  Key Right: the registry moment, 211 small cubes pop onto a grid, then 17 rise into pillars and 194 flatten to tiles.
+  Keys: Right/Space next, Left back. All text is HTML; no WebGL = text only on paper. Offline: ../vendor/ only.
+-->
+<link rel="stylesheet" href="../vendor/fonts.css">
+<style>
+:root{
+  --rikyu-kuro:#1A1A1A; --rikyu-shiro:#F7F5F2; --rikyu-sabi:#C9B89E; --rikyu-moss:#6B7A6B; --rikyu-stone:#D9D6CF;
+  --ink:var(--rikyu-kuro); --ink-2:color-mix(in srgb,var(--rikyu-kuro) 78%,var(--rikyu-shiro)); --paper:var(--rikyu-shiro);
+  --sans:Satoshi,"IBM Plex Sans Thai",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--paper);overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0;background:var(--paper);overflow:hidden;font-family:var(--sans);color:var(--ink)}
+#world{position:absolute;inset:0;width:1920px;height:1080px;image-rendering:pixelated}
+.layer{position:absolute;inset:0;transition:opacity .7s cubic-bezier(.6,0,.3,1),transform .9s cubic-bezier(.6,0,.3,1)}
+.who{position:absolute;left:120px;top:96px}
+.heading{font-size:72px;line-height:1.2;font-weight:700;letter-spacing:-.005em}
+.lead{font-size:48px;line-height:1.35;font-weight:500;color:var(--ink-2);margin-top:8px}
+.stages{position:absolute;left:120px;top:716px;display:grid;grid-template-columns:repeat(3,520px);column-gap:60px}
+.label{font-size:30px;line-height:1.4;font-weight:600;color:var(--rikyu-moss);display:flex;align-items:center;gap:16px}
+.key .label::after{content:"";width:72px;height:8px;border-radius:4px;background:var(--rikyu-sabi)}
+.title{font-size:48px;line-height:1.35;font-weight:700;margin-top:4px;white-space:nowrap}
+.body{font-size:36px;line-height:1.4;font-weight:400;color:var(--ink-2);margin-top:8px}
+.nw{white-space:nowrap}
+.reg{opacity:0;pointer-events:none}
+.reg .col{position:absolute;left:120px;top:150px;width:640px}
+.reg .title{white-space:normal}
+.num{font-size:156px;line-height:1.08;font-weight:700;letter-spacing:-.02em;margin-top:56px;display:flex;align-items:baseline;gap:28px}
+.num .a{transition:color .9s,opacity .9s}
+.num .b{opacity:0;transition:opacity .9s}
+.reg .body{margin-top:24px}
+.reg .b-line{opacity:0;transition:opacity .9s}
+.cap{font-size:30px;line-height:1.4;color:var(--rikyu-moss);margin-top:40px}
+body.s1 .stg{opacity:0;transform:translateY(-24px)}
+body.s1 .reg{opacity:1}
+body.s2 .num .a{color:color-mix(in srgb,var(--rikyu-kuro) 28%,var(--rikyu-shiro))}
+body.s2 .num .b,body.s2 .reg .b-line{opacity:1}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="world" width="1920" height="1080" aria-hidden="true"></canvas>
+  <div class="layer stg">
+    <div class="who"><p class="heading">สุทธิณี เทพปริยะพล (ยิ้ม)</p><p class="lead">product manager ไม่ใช่วิศวกร</p></div>
+    <div class="stages">
+      <div class="item"><p class="label">ขั้น 1</p><p class="title">ยิ้มเป็นความจำให้ AI</p><p class="body">คุยในแชตทีละงาน<br>ทุกครั้งต้องเล่าใหม่</p></div>
+      <div class="item"><p class="label">ขั้น 2</p><p class="title">ยิ้มกลายเป็นคอขวด</p><p class="body">AI ทำได้มากขึ้น แต่ทุกงาน<br><span class="nw">รอยิ้มสั่ง รอยิ้มตรวจ</span></p></div>
+      <div class="item key"><p class="label">ขั้น 3</p><p class="title">งานเดินได้โดยไม่รอยิ้ม</p><p class="body">ทีม AI หลายตัว<br>กับวิธีทำงานของ ARRA</p></div>
+    </div>
+  </div>
+  <div class="layer reg">
+    <div class="col">
+      <p class="title">ทะเบียนว่าใครทำอะไรได้<br>และเรียนอะไรมาแล้ว</p>
+      <p class="num"><span class="a">211</span><span class="b">17</span></p>
+      <p class="body">เรียนไป 211 เรื่อง<br><span class="b-line">ตัดสินใจว่าจะใช้แค่ 17</span></p>
+      <p class="cap">ณ ส.ค. 2026</p>
+    </div>
+  </div>
+</div>
+<script src="../vendor/three.iife.js"></script>
+<script>
+// ---------- shell: scale, state machine (same as sumi.html) ----------
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`scale(${s})`;stage.style.left=(innerWidth-1920*s)/2+'px';stage.style.top=(innerHeight-1080*s)/2+'px';window.__scale=s}
+fit();addEventListener('resize',fit);
+let state=0,stateAt=-10,auto=null;
+function setState(n){n=Math.max(0,Math.min(1,n));if(n===state)return;state=n;stateAt=performance.now()/1000;
+  document.body.classList.toggle('s1',n===1);document.body.classList.remove('s2');clearTimeout(auto);
+  if(n===1)auto=setTimeout(()=>document.body.classList.add('s2'),2600)}
+addEventListener('keydown',e=>{if(e.repeat)return;if(['ArrowRight',' ','PageDown'].includes(e.key))setState(state+1);if(['ArrowLeft','PageUp'].includes(e.key))setState(state-1)});
+window.__proto={state:()=>state,go:setState,frames:()=>0,gl:false};
+
+// ---------- world ----------
+(function(){
+if(!window.THREE)return;
+let renderer;try{renderer=new THREE.WebGLRenderer({canvas:document.getElementById('world'),antialias:false,alpha:false})}catch(e){return}
+const glc=renderer.getContext();if(!glc)return;
+// the print is defined in stage pixels: 1920x1080 always, the CSS scale enlarges it with pixelated sampling
+renderer.setPixelRatio(1);renderer.setSize(1920,1080,false);
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const sep=new THREE.WebGLRenderTarget(1920,1080,{minFilter:THREE.NearestFilter,magFilter:THREE.NearestFilter});
+
+const scene=new THREE.Scene();scene.background=new THREE.Color(1,1,1);
+const cam=new THREE.OrthographicCamera(-960,960,540,-540,1,6000);
+cam.position.set(1500,1500*0.92,1500);cam.lookAt(0,0,0);cam.updateMatrixWorld();
+scene.add(new THREE.AmbientLight(0xffffff,.28*Math.PI));
+const sun=new THREE.DirectionalLight(0xffffff,.92*Math.PI);sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-1500,right:1500,top:1500,bottom:-1500,near:10,far:5000});
+sun.shadow.bias=-.0006;sun.shadow.normalBias=1.5;sun.shadow.radius=2;scene.add(sun);scene.add(sun.target);
+
+// r169 Lambert = colour/PI * irradiance, so both lights carry a PI factor to make a lit face = 1
+// ink separation materials: the printed channel = colour * light + emissive, the other two channels held at 1 (no ink)
+// base < 1 = ink even on the lit face (the block's own tone)
+const ink=(ch,base)=>{const c=[0,0,0],e=[1,1,1];c[ch]=base;e[ch]=0;
+  return new THREE.MeshLambertMaterial({color:new THREE.Color(...c),emissive:new THREE.Color(...e)})};
+const M_KURO=ink(0,.78),M_SABI=ink(1,.52),M_MOSS=ink(2,.62),M_TILE=ink(2,.86),M_KURO_REG=ink(0,.70);
+// ground: kuro ink only where the shadow falls (lit = 1, shadow ~ .55)
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(9000,9000),new THREE.MeshLambertMaterial({color:new THREE.Color(.62,0,0),emissive:new THREE.Color(.40,1,1)}));
+ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+
+// screen pixel (stage coords, y down) -> point on the ground plane
+const ray=new THREE.Raycaster(),plane=new THREE.Plane(new THREE.Vector3(0,1,0),0);
+function onGround(sx,sy){ray.setFromCamera(new THREE.Vector2(sx/960-1,1-sy/540),cam);const v=new THREE.Vector3();ray.ray.intersectPlane(plane,v);return v}
+const box=new THREE.BoxGeometry(1,1,1);box.translate(0,.5,0); // origin at the bottom face
+function block(mat){const m=new THREE.Mesh(box,mat);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m}
+function setB(m,p,w,h,d,ry){m.position.copy(p);m.scale.set(Math.max(w,1e-3),Math.max(h,1e-3),Math.max(d||w,1e-3));m.rotation.y=ry||0;m.visible=w>.5&&h>.3}
+
+const G1=onGround(380,610),G2=onGround(960,640),G3=onGround(1540,605);
+// stage 1
+const yim1=block(M_SABI),drops=[...Array(6)].map(()=>block(M_KURO));
+// stage 2
+const yim2=block(M_SABI),tower=[...Array(6)].map(()=>block(M_KURO)),queue=[...Array(5)].map(()=>block(M_KURO));
+// stage 3
+const yim3=block(M_SABI),agents=[...Array(5)].map(()=>block(M_MOSS)),token=block(M_KURO);
+// registry: 211 small cubes on a grid; 17 chosen rise into pillars, 194 flatten into tiles
+const RG=onGround(1300,520);const COLS=15,SP=46;const cells=[];
+for(let i=0;i<225&&cells.length<211;i++){const c=i%COLS,r=Math.floor(i/COLS);if((c+r*7)%16===5&&cells.length+(225-i)>211)continue;cells.push([c,r])}
+const rnd=(i,k)=>{const x=Math.sin(i*127.1+k*311.7)*43758.5453;return x-Math.floor(x)};
+const CHOSEN=new Set();while(CHOSEN.size<17)CHOSEN.add(Math.floor(rnd(CHOSEN.size+900,4)*211));
+const regK=new THREE.InstancedMesh(box,M_KURO_REG,211),regT=new THREE.InstancedMesh(box,M_TILE,211);
+[regK,regT].forEach(m=>{m.castShadow=true;m.receiveShadow=true;m.frustumCulled=false;scene.add(m)});
+const yimR=block(M_SABI);
+const dummy=new THREE.Object3D();
+
+// ---- print pass: separation -> risograph ----
+const quad=new THREE.Mesh(new THREE.PlaneGeometry(2,2),new THREE.ShaderMaterial({depthTest:false,depthWrite:false,
+  uniforms:{tSep:{value:sep.texture},uT:{value:0},uMis:{value:0}},
+  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}`,
+  fragmentShader:`precision highp float;varying vec2 vUv;uniform sampler2D tSep;uniform float uT,uMis;
+  const vec2 RES=vec2(1920.,1080.);const float CELL=3.;
+  float hh(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+  float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hh(i),hh(i+vec2(1,0)),f.x),mix(hh(i+vec2(0,1)),hh(i+vec2(1,1)),f.x),f.y);}
+  // 8x8 Bayer threshold by bit interleave: 2x2 core m(x,y) = (2x + 3y) mod 4
+  float bayer8(vec2 p){p=mod(floor(p),8.);float v=0.,w=16.;
+    for(int i=0;i<3;i++){vec2 b=mod(p,2.);v+=w*mod(2.*b.x+3.*b.y,4.);p=floor(p/2.);w/=4.;}
+    return (v+.5)/64.;}
+  // one ink: sample its separation channel at its own misregistration, threshold on its own lattice
+  float ink(int ch,vec2 frag,vec2 mis,vec2 lat,float lo,float hi){
+    vec2 f=frag+mis;vec2 cell=floor(f/CELL)*CELL+CELL*.5;
+    vec4 s=texture2D(tSep,cell/RES);float v=ch==0?s.r:ch==1?s.g:s.b;
+    float d=clamp(((1.-v)-lo)/(hi-lo),0.,1.);
+    float on=step(bayer8(f/CELL+lat),d);
+    // riso ink never covers perfectly: speckle in solids, soft starve along the drum direction
+    float hole=step(.965,hh(floor(f)+float(ch)*7.1));
+    float starve=.88+.12*vn(f*vec2(.012,.11)+float(ch)*13.);
+    return on*(1.-hole)*starve;}
+  void main(){vec2 frag=vUv*RES;
+    float k=ink(0,frag,vec2(0.),vec2(0.),.06,.92);
+    float s=ink(1,frag,vec2(2.,-1.)+uMis*vec2(3.,1.),vec2(3.,5.),.04,.82);
+    float m=ink(2,frag,vec2(-1.,2.)-uMis*vec2(1.,3.),vec2(5.,2.),.05,.88);
+    // paper: shiro with fibre and slow tone
+    float fib=vn(vec2(frag.x*.6,frag.y*.04))*.5+vn(frag*.02)*.5;
+    vec3 paper=vec3(.969,.961,.949)*(1.-(fib-.5)*.025-(hh(frag)-.5)*.02);
+    vec3 KURO=vec3(.15,.145,.14),SABI=vec3(.80,.66,.47),MOSS=vec3(.42,.50,.42);
+    vec3 c=paper*mix(vec3(1.),SABI,s)*mix(vec3(1.),MOSS,m)*mix(vec3(1.),KURO/vec3(.969,.961,.949)*1.,k*.97);
+    vec2 q=vUv-.5;c*=1.-dot(q,q)*.08;
+    gl_FragColor=vec4(c,1.);}`}));
+const qScene=new THREE.Scene();qScene.add(quad);const qCam=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+
+// ---------- loop ----------
+const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
+const back=x=>{x=Math.max(0,Math.min(1,x));const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const V=(o,dx,dz)=>new THREE.Vector3(o.x+dx,0,o.z+dz);
+let frames=0;const t0=performance.now()/1000;let resAt=null;
+function frame(){
+  const now=performance.now()/1000,t=now-t0,dt=now-stateAt;
+  const into=state===1?Math.min(1,dt/1.3):Math.max(0,1-dt/1.0);
+  const s2on=document.body.classList.contains('s2');if(s2on&&resAt===null)resAt=now;if(!s2on)resAt=null;
+  const res=resAt===null?0:Math.min(1,(now-resAt)/1.8);
+  const st=1-ease(into*1.8);                     // stage blocks shrink out first
+  // one sun; it swings slowly, so every shadow sweeps like time passing
+  const az=-.95+Math.sin(t*.12)*.28;sun.position.set(Math.cos(az)*1600,1500,Math.sin(az)*1600);sun.target.position.set(0,0,0);
+
+  // ---- stage 1: work lands, then vanishes; Yim's block stays ----
+  setB(yim1,G1,78*st,78*st);
+  drops.forEach((m,d)=>{const L=4.4,tt=t+d*L/6,cyc=Math.floor(tt/L),ph=(tt%L)/L;
+    const a=rnd(d,cyc)*Math.PI*2,r=125+rnd(d,cyc+5)*70;const p=V(G1,Math.cos(a)*r,Math.sin(a)*r);
+    const fall=Math.min(1,ph/.16);p.y=(1-fall*fall)*230;const sq=ph>.16&&ph<.24?1-Math.sin((ph-.16)/.08*Math.PI)*.35:1;
+    const gone=ph<.62?1:1-ease((ph-.62)/.3);const s=36*st*gone*(ph<.01?0:1);
+    setB(m,p,s*(2-sq),s*sq,s*(2-sq),a)});
+  // ---- stage 2: the tower of waiting work sits on Yim; the queue keeps coming ----
+  setB(yim2,G2,78*st,78*st);
+  let y=78;tower.forEach((m,k)=>{const sway=Math.sin(t*1.1+k*.5)*k*1.6;const p=V(G2,sway+k*2.2,-k*1.4);p.y=y*st;
+    const h=40;setB(m,p,(58-k*2)*st,h*st,(58-k*2)*st,Math.sin(t*.7+k)*.09);y+=h});
+  queue.forEach((m,k)=>{const u=(t*.06+k/5)%1;const p=V(G2,-520+u*430,-24);
+    const s=28*st*Math.min(1,u*6)*Math.min(1,(1-u)*7);setB(m,p,s,s,s,.2)});
+  // ---- stage 3: five agents, the work hops between them, never onto Yim ----
+  setB(yim3,G3,64*st,64*st);
+  const AG=agents.map((m,k)=>{const a=-Math.PI/2+k*Math.PI*2/5+.3,p=V(G3,Math.cos(a)*175,Math.sin(a)*175);setB(m,p,56*st,(62+(k%2)*14)*st,56*st);return p});
+  {const u=(t*.55)%5,k=Math.floor(u),f=u-k;const A=AG[k],B=AG[(k+1)%5];const hA=62+(k%2)*14,hB=62+((k+1)%2)*14;
+   const e=ease(f);const p=new THREE.Vector3(A.x+(B.x-A.x)*e,0,A.z+(B.z-A.z)*e);p.y=(hA+(hB-hA)*e+Math.sin(f*Math.PI)*90)*st;
+   setB(token,p,26*st,26*st,26*st,t)}
+  // ---- registry ----
+  const half=(COLS-1)*SP/2;
+  cells.forEach(([c,r],i)=>{const ch=CHOSEN.has(i);const pop=back((into*1.3-.3)*1.6-(c+r)/28*.9);
+    const x=RG.x-half+c*SP,z=RG.z-half+r*SP;
+    const rise=ease(res*1.4-(ch?i/211*.4:0));
+    const hK=ch?28+rise*125:28,sK=ch?30:30*(1-rise);
+    dummy.position.set(x,0,z);dummy.rotation.set(0,0,0);dummy.scale.set(Math.max(1e-3,sK*pop),Math.max(1e-3,hK*pop),Math.max(1e-3,sK*pop));dummy.updateMatrix();regK.setMatrixAt(i,dummy.matrix);
+    const sT=ch?0:30*rise;dummy.scale.set(Math.max(1e-3,sT*pop),Math.max(1e-3,6*pop),Math.max(1e-3,sT*pop));dummy.updateMatrix();regT.setMatrixAt(i,dummy.matrix)});
+  regK.instanceMatrix.needsUpdate=true;regT.instanceMatrix.needsUpdate=true;regK.visible=regT.visible=into>.01;
+  {const s=46*ease(into*2-1);setB(yimR,V(RG,-half-110,half+40),s,s)}
+
+  quad.material.uniforms.uT.value=t;
+  quad.material.uniforms.uMis.value=Math.sin(Math.PI*into)*(state===1?1:0)+Math.sin(Math.PI*res)*.6; // the print slips while the page changes
+  renderer.setRenderTarget(sep);renderer.render(scene,cam);
+  renderer.setRenderTarget(null);renderer.render(qScene,qCam);
+  frames++;requestAnimationFrame(frame);
+}
+window.__proto.gl=true;window.__proto.frames=()=>frames;window.__proto.renderer=()=>{const e=glc.getExtension('WEBGL_debug_renderer_info');return e?glc.getParameter(e.UNMASKED_RENDERER_WEBGL):glc.getParameter(glc.RENDERER)};
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
