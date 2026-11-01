@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yim 3D talk deck, AI Expo 2026, Builder Stage</title>
+<!--
+  yim-3d deck by Osaa (Oracle AI). Round 2, 2026-11-01. Content from ../yim-bridge.html (v3), notes copied verbatim;
+  slide 3 content from hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md "Stage-safe wording".
+  One Three.js world behind all 6 slides: one InstancedMesh (1 draw call) morphs per slide, one camera travels a path.
+  Composition rules (see DESIGN-NOTES.md):
+   - formations anchor to empty HTML boxes (.anc) projected at the slide's camera pose, so 3D sits beside text;
+   - every mote is projected each frame and fades out near any text box, so no geometry ever passes under a word;
+   - 3D colours are read from the same CSS tokens as the HTML (one token source, zero drift);
+   - slide change = one timed move, 850 ms ease in out, for camera, formation and colour together.
+  Content-first: every word is HTML; if WebGL or the CDN fails the module never runs and the deck still works.
+  prefers-reduced-motion: no loop, one still frame per slide, no CSS motion.
+  Keys: Right / Space / PageDown next, Left / PageUp prev, Home / End, N toggles speaker notes. 1920x1080 scaled to window.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
+<style>
+:root{
+  /* primitives */
+  --graphite-950:oklch(13% 0.01 260);
+  --graphite-900:oklch(18% 0.012 260);
+  --graphite-850:oklch(23% 0.014 260);
+  --graphite-800:oklch(28% 0.016 260);
+  --graphite-700:oklch(36% 0.016 260);
+  --graphite-500:oklch(66% 0.014 260);
+  --graphite-300:oklch(78% 0.014 260);
+  --ivory-100:oklch(96% 0.006 90);
+  --ivory-200:oklch(93% 0.03 85);
+  --amber-500:oklch(80% 0.15 75);
+  --amber-700:oklch(62% 0.13 70);
+  --amber-950:oklch(21% 0.03 75);
+  --cream-200:oklch(88% 0.09 90);
+  --graphite-600:oklch(60% 0.014 260);
+  --graphite-550:oklch(55% 0.014 260);
+  --graphite-820:oklch(26% 0.016 260);
+  --black:oklch(0% 0 0);
+
+  /* semantic: surfaces and ink */
+  --color-paper:var(--graphite-900);
+  --color-paper-2:oklch(23% 0.014 260 / .82);
+  --color-ink:var(--ivory-100);
+  --color-ink-2:var(--graphite-300);
+  --color-ink-3:var(--graphite-500);
+  --color-rule:var(--graphite-700);
+  --color-accent:var(--amber-500);
+  --color-accent-ink:var(--amber-950);
+  --color-notes:var(--cream-200);
+  --color-letterbox:var(--black);
+  --color-chrome:var(--graphite-550);
+  --color-notes-bg:oklch(10% 0.01 260 / .94);
+  --color-diagram-line:var(--graphite-600);
+  --color-diagram-ring:oklch(36% 0.016 260 / .6);
+  --color-diagram-node:var(--graphite-850);
+  --color-diagram-hub:var(--graphite-820);
+  --color-diagram-live:var(--amber-500);
+  --color-diagram-idle:var(--graphite-700);
+  --light-fill:oklch(100% 0 0);
+  --light-key:oklch(93% 0.05 75);
+  --light-rim:oklch(91% 0.012 260);
+  --color-vignette:oklch(10% 0.01 260 / .62);
+
+  /* semantic: the 3D world reads these (one token source for HTML and WebGL) */
+  --mote-key:var(--amber-500);        /* Yim, her knowledge, work in motion */
+  --mote-wait:oklch(52% 0.018 260);   /* work waiting, outsiders, background dust */
+  --mote-agent:var(--ivory-200);      /* agents */
+  --mote-key-on-amber:oklch(98% 0.03 90);     /* on the amber close the key colour is light itself */
+  --mote-wait-on-amber:oklch(87% 0.1 85);
+  --mote-agent-on-amber:oklch(24% 0.03 70);
+
+  --font-display:"Bai Jamjuree","Sarabun","Noto Sans Thai","Sukhumvit Set",Thonburi,sans-serif;
+  --font-body:"Sarabun","Bai Jamjuree","Noto Sans Thai","Sukhumvit Set",Thonburi,sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Menlo,monospace;
+  --space-xs:12px;--space-sm:24px;--space-md:40px;--space-lg:64px;--space-xl:96px;--space-2xl:140px;
+  --text-sm:30px;--text-md:40px;--text-lg:52px;--text-xl:72px;--text-display:156px;
+  --radius:20px;--rule-w:4px;
+  --dur-move:850ms;--dur-bg:250ms;--ease-move:cubic-bezier(.65,0,.35,1);--ease-out:cubic-bezier(.2,.7,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:var(--color-letterbox);overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;
+  background:var(--color-paper);transition:background-color var(--dur-bg) var(--ease-out)}
+#stage.amber{background:var(--color-accent)}
+#world{position:absolute;inset:0;width:1920px;height:1080px;z-index:0;display:block}
+.vig{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 75% 70% at 50% 46%,transparent 58%,var(--color-vignette) 100%);transition:opacity var(--dur-move)}
+#stage.amber .vig{opacity:0}
+.slide{position:absolute;inset:0;z-index:1;display:none;color:var(--color-ink);font-family:var(--font-body)}
+.slide.on{display:block}
+.slide.amber{color:var(--color-accent-ink)}
+.frame{position:absolute;inset:0;padding:var(--space-xl) var(--space-2xl);display:grid;align-content:center;gap:var(--space-lg)}
+h1,h2,.display{font-family:var(--font-display);font-weight:700;letter-spacing:0;line-height:1.08}
+h2{font-size:var(--text-xl);line-height:1.2}
+.display{font-size:var(--text-display)}
+.hl{color:var(--color-accent)}
+.lead{font-size:var(--text-lg);line-height:1.45;color:var(--color-ink-2)}
+.meta{font-size:var(--text-md);color:var(--color-ink-2)}
+.foot{font-size:var(--text-sm);color:var(--color-ink-3)}
+.nw{white-space:nowrap}
+.lamp{position:absolute;left:var(--space-2xl);top:var(--space-xl);width:120px;height:var(--rule-w);background:var(--color-accent)}
+.anc{min-height:0}
+
+/* entrance: text arrives once per slide, after the background has turned, staggered, never loops
+   (200 ms + up to 210 ms stagger + 460 ms = 870 ms; on the amber close it waits 300 ms for the amber to land) */
+.slide.on .rv{animation:rise .46s var(--ease-out) both;animation-delay:calc(200ms + var(--d,0) * 70ms)}
+.slide.amber.on .rv{animation-delay:300ms}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.capture .slide.on .rv,.slide.measuring .rv{animation:none!important}
+.capture #stage,.capture .vig{transition:none}
+
+/* 1 three stages */
+.who{display:grid;gap:var(--space-xs)}
+.who .name{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;line-height:1.1}
+.stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md)}
+.stages .anc{height:270px}
+.stages .card{border-top:var(--rule-w) solid var(--color-rule);padding-top:var(--space-sm)}
+.stages .on .card{border-top-color:var(--color-accent)}
+.stages .k{font-family:var(--font-display);font-size:var(--text-md);font-weight:600;color:var(--color-ink-3)}
+.stages .on .k{color:var(--color-accent)}
+.stages .t{white-space:nowrap;font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;line-height:1.2;margin-top:6px}
+.stages .s{font-size:var(--text-sm);line-height:1.4;color:var(--color-ink-2);margin-top:var(--space-xs)}
+
+/* 2 unlock */
+.unlock{display:grid;grid-template-columns:1080px minmax(0,1fr);gap:var(--space-lg);align-items:stretch}
+.rows{display:grid;gap:var(--space-sm)}
+.row{display:grid;grid-template-columns:84px minmax(0,1fr);align-items:center;background:var(--color-paper-2);border-radius:var(--radius);padding:var(--space-sm) var(--space-md)}
+.row.plus{box-shadow:inset 0 0 0 var(--rule-w) var(--color-accent)}
+.row .n{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;color:var(--color-accent)}
+.row .t{font-family:var(--font-display);font-size:48px;font-weight:700;line-height:1.2}
+.row .m{display:block;font-family:var(--font-body);font-size:32px;font-weight:400;color:var(--color-ink-2);line-height:1.35;margin-top:4px}
+
+/* 3 fleet: each row = one scene + its words, the eye reads scene then line */
+.fleet-frame{gap:var(--space-md)}
+.fleet{display:grid;gap:var(--space-md)}
+.frow{display:grid;grid-template-columns:600px minmax(0,1fr);gap:var(--space-lg);align-items:center}
+.frow .anc{height:200px}
+.frow .ft{font-family:var(--font-display);font-size:var(--text-md);font-weight:700;line-height:1.25}
+.frow .ft .hl{white-space:nowrap}
+.frow ul{list-style:none;margin-top:var(--space-xs);display:grid;gap:4px}
+.frow li{font-size:32px;line-height:1.4;color:var(--color-ink-2);padding-left:30px;position:relative}
+.frow li::before{content:"";position:absolute;left:2px;top:.62em;width:10px;height:10px;border-radius:50%;background:var(--color-rule)}
+.todo{display:inline-block;margin:0 10px;outline:3px dashed var(--color-accent);outline-offset:4px;border-radius:6px;padding:0 10px;
+  color:var(--color-accent);font-family:var(--font-mono);font-size:34px;letter-spacing:0}
+
+/* 4 shift ring */
+.ring{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:var(--space-lg);align-items:center}
+.ring svg{width:100%;height:auto;display:block;overflow:visible}
+.ring svg text{font-family:var(--font-display);fill:var(--color-ink)}
+.ring svg .cmd{font-family:var(--font-mono);font-weight:700;fill:var(--color-accent)}
+.ring svg .d-arrowhead{fill:var(--color-diagram-line)}
+.ring svg .d-arc{stroke:var(--color-diagram-line)}
+.ring svg .d-ring{stroke:var(--color-diagram-ring)}
+.ring svg .d-hub{fill:var(--color-diagram-hub);stroke:var(--color-diagram-live)}
+.ring svg .d-node{fill:var(--color-diagram-node);stroke:var(--color-diagram-idle)}
+.ring svg .d-node[data-live]{stroke:var(--color-diagram-live)}
+.ring svg .sub{font-family:var(--font-body);fill:var(--color-ink-2);font-weight:500}
+
+/* 5 numbers */
+.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md)}
+.big3 .anc{height:230px}
+.big3 .col{border-top:var(--rule-w) solid var(--color-accent);padding-top:var(--space-sm)}
+.big3 .num{font-family:var(--font-display);font-size:var(--text-display);font-weight:700;color:var(--color-accent);line-height:1}
+.big3 .what{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;margin-top:var(--space-xs)}
+.big3 .note{font-size:var(--text-sm);color:var(--color-ink-2);margin-top:var(--space-xs);line-height:1.4}
+
+/* 6 close (amber) */
+.close{display:grid;grid-template-columns:1060px minmax(0,1fr);gap:var(--space-lg);align-items:center}
+.slide.amber .lead{color:var(--color-accent-ink)}
+.close .anc{height:760px}
+
+/* chrome: orientation always visible */
+#prog{position:absolute;left:0;bottom:0;height:6px;width:0;z-index:5;background:var(--color-accent);transition:width var(--dur-move) var(--ease-move),background-color var(--dur-move)}
+#stage.amber #prog{background:var(--color-accent-ink)}
+.notes{display:none;position:absolute;left:0;right:0;bottom:0;z-index:9;background:var(--color-notes-bg);color:var(--color-notes);font-family:var(--font-body);font-size:30px;line-height:1.45;padding:28px 100px;border-top:3px solid var(--color-accent)}
+body.shownotes .notes{display:block}
+#count{position:fixed;right:14px;bottom:10px;color:var(--color-chrome);font:14px var(--font-body);z-index:20}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="stage">
+<canvas id="world" width="1920" height="1080" aria-hidden="true"></canvas>
+<div class="vig" aria-hidden="true"></div>
+
+<!-- 1 · who + three stages · 3D: lone node / node buried in a pile of work / five agents passing light -->
+<section class="slide">
+  <div class="lamp"></div>
+  <div class="frame">
+    <div class="who rv">
+      <p class="name">สุทธิณี เทพปริยะพล (ยิ้ม)</p>
+      <p class="meta">product manager ไม่ใช่วิศวกร</p>
+    </div>
+    <div class="stages">
+      <div class="rv" style="--d:1"><div class="anc"></div><div class="card"><p class="k">ขั้น 1</p><p class="t">ยิ้มเป็นความจำให้ AI</p><p class="s">คุยในแชตทีละงาน ทุกครั้งต้องเล่าใหม่</p></div></div>
+      <div class="rv" style="--d:2"><div class="anc"></div><div class="card"><p class="k">ขั้น 2</p><p class="t">ยิ้มกลายเป็นคอขวด</p><p class="s">AI ทำได้มากขึ้น แต่ทุกงาน<span class="nw">รอยิ้มสั่ง รอยิ้มตรวจ</span></p></div></div>
+      <div class="on rv" style="--d:3"><div class="anc"></div><div class="card"><p class="k">ขั้น 3</p><p class="t">งานเดินได้โดยไม่รอยิ้ม</p><p class="s">ทีม AI หลายตัว กับวิธีทำงานของ ARRA</p></div></div>
+    </div>
+  </div>
+  <div class="notes">2 นาที · ขั้น 2 คือจุดที่คนใช้ AI เก่งแล้วเจอกันทุกคน เล่าเหตุการณ์จริง 1 ครั้งที่งานกองรอยิ้มอยู่คนเดียว · ผูกขั้น 1 กับ forgetting test ที่คุณนัทเพิ่งทำ: "เมื่อกี้ที่เห็น AI ลืม นั่นคือชีวิตยิ้มทุกวันเมื่อปีที่แล้ว" · ยิ้มอยู่บนเวทีในฐานะคนใช้ ไม่ใช่คนสร้างระบบ ⇒ ห้ามอธิบายเทคนิคที่คุณนัทจะสอน</div>
+</section>
+
+<!-- 2 · what unlocked it · 3D: the five-agent constellation, turning in depth, light passing between agents -->
+<section class="slide">
+  <div class="frame">
+    <h2 class="rv">สิ่งที่ปลดล็อก <span class="hl">ทีม AI กับวิธีทำงาน</span></h2>
+    <div class="unlock">
+      <div class="rows">
+        <div class="row plus rv" style="--d:1"><span class="n">+</span><span class="t">หลายตัว ทำพร้อมกัน<span class="m">แต่ละตัวมีหน้าที่ และตรวจงานกันเอง</span></span></div>
+        <div class="row rv" style="--d:2"><span class="n">1</span><span class="t">ไม่มีอะไรหาย<span class="m">งานทุกชิ้นถูกจดไว้ ย้อนดูได้เสมอ</span></span></div>
+        <div class="row rv" style="--d:2"><span class="n">2</span><span class="t">AI ไม่ตัดสินแทน<span class="m">คนตัดสิน ความรู้ของงานยังเป็นของเรา</span></span></div>
+        <div class="row rv" style="--d:3"><span class="n">3</span><span class="t">เราถาม มันจำ<span class="m">ครั้งต่อไปจึงง่ายกว่าเดิม</span></span></div>
+      </div>
+      <div class="anc"></div>
+    </div>
+    <p class="foot rv" style="--d:3">สามข้อล่าง จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
+  </div>
+  <div class="notes">2 นาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ เล่าแค่ว่าแต่ละข้อเปลี่ยนงานของยิ้มยังไง ข้อละ 1 เหตุการณ์จริง (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
+</section>
+
+<!-- 3 · how the fleet works (NEW, round 2) · 3D per row: a house of buds passing signed envelopes /
+     a gate that lets talk in but stops actions / one relay line to the personal agent with task out, callback back -->
+<section class="slide">
+  <div class="frame fleet-frame">
+    <h2 class="rv">ฝูงของยิ้ม <span class="hl">ทำงานกันยังไง</span></h2>
+    <div class="fleet">
+      <div class="frow rv" style="--d:1"><div class="anc"></div><div>
+        <p class="ft">ในฝูง <span class="hl">สิบกว่าตัว</span> แต่ละตัวมีหน้าที่ของตัวเอง</p>
+        <ul>
+          <li>ส่งงานกันเป็นไฟล์ที่มีลายเซ็น ไม่ฝากไว้ในแชท</li>
+          <li>ไม่มีตัวไหนตรวจงานตัวเอง ตัวตรวจใช้โมเดลคนละเจ้า</li>
+          <li>เรื่องที่ย้อนกลับไม่ได้ เช่น ลบ โพสต์ ใช้เงิน รอยิ้มอนุมัติ</li>
+        </ul></div></div>
+      <div class="frow rv" style="--d:2"><div class="anc"></div><div>
+        <p class="ft">agent ของคนอื่น <span class="hl">คุยได้</span> แต่ลงมือในระบบเราไม่ได้</p>
+        <ul>
+          <li>คนต้องเป็นคนกดอนุมัติ</li>
+          <li>แขกแต่ละคนได้กุญแจของตัวเอง เปิดได้แค่ไม่กี่อย่าง</li>
+          <li>ข้อความที่ส่งไปบ้านอื่นต้องไม่เดา มีคำสั่งที่รันจริงรองรับ</li>
+        </ul></div></div>
+      <div class="frow rv" style="--d:3"><div class="anc"></div><div>
+        <!-- PLACEHOLDER for Dobby: replace [[PERSONAL_AGENT]] (span.todo) with the name Yim confirms, Grok Bot or Muse.
+             Then drop the .todo class. Layout was checked with the placeholder, the longest of the three. -->
+        <p class="ft">agent ส่วนตัว <span class="todo" title="รอคุณยิ้มยืนยัน: Grok Bot หรือ Muse">[[PERSONAL_AGENT]]</span> <span class="hl">ต่อเข้ากับฝูง</span></p>
+        <ul>
+          <li>ฝูงส่งงานผ่านทางที่มีสมุดบันทึก ผลที่กลับมาตรวจก่อนเชื่อ</li>
+          <li>ถามฝูงกลับได้ ผ่านประตูเดียวที่จำกัดว่าถามใครได้</li>
+          <li>คำว่า "เสร็จแล้ว" ไม่นับ ต้องมี id ตรงกันทั้งสองฝั่ง</li>
+        </ul></div></div>
+    </div>
+  </div>
+  <div class="notes">2 นาที · เล่าเป็นภาพ ไม่สอนเทคนิค · แถว 1: งานส่งต่อเป็นไฟล์มีลายเซ็น เพราะแชทเคยทำงานหายเงียบๆ · งานที่ออกไปข้างนอกมีตัวตรวจที่ใช้โมเดลคนละเจ้า · พูดว่า "สิบกว่าตัว" ห้ามบอกเลขเป๊ะ · แถว 2: พูดแค่ "agent ของคนอื่น" ห้ามบอกว่าเป็นของใคร · ข้อมูลภายในและเรื่องความปลอดภัยไม่ส่งออก เว้นแต่คุณยิ้มสั่งเป็นครั้งๆ · ไม่พูดว่าข้อความข้ามบ้านมีลายเซ็น (ยังไม่ยืนยัน) · แถว 3: [[PERSONAL_AGENT]] รอคุณยิ้มยืนยันว่า Grok Bot หรือ Muse · agent แต่ละตัวได้กุญแจของตัวเอง จึงมองไม่เห็นงานของอีกตัว · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md (Stage-safe wording)</div>
+</section>
+
+<!-- 4 · shift ring · 3D: halos orbit the 4 ring nodes, light flows clockwise and drops into ψ/ -->
+<section class="slide" data-anchors="ring">
+  <div class="frame">
+    <div class="ring">
+      <div class="rv">
+        <h2>ทำงานกับ AI<br><span class="hl">เหมือนทำงานเป็นกะ</span></h2>
+        <p class="lead" style="margin-top:var(--space-md)">โรงพยาบาลกับโรงงานไม่ได้ใช้คู่มือส่งงานกัน เขาใช้บันทึกส่งกะ ใครเคยดูแลทีมคน รู้วิธีนี้อยู่แล้ว</p>
+      </div>
+      <svg class="rv" style="--d:1" viewBox="0 0 900 900" role="img" aria-label="วงจรวัน 4 จังหวะ: เข้ากะ recap, ทำงาน, ออกกะ forward, ทบทวน rrr รอบไฟล์บันทึกส่งกะ">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+        <circle cx="450" cy="450" r="300" class="anc-ring d-ring" fill="none" stroke-width="4"/>
+        <path d="M 570 175 A 300 300 0 0 1 725 330" class="d-arc" fill="none" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 725 570 A 300 300 0 0 1 570 725" class="d-arc" fill="none" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 330 725 A 300 300 0 0 1 175 570" class="d-arc" fill="none" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 175 330 A 300 300 0 0 1 330 175" class="d-arc" fill="none" stroke-width="6" marker-end="url(#ah)"/>
+        <circle class="anc-c d-hub" cx="450" cy="450" r="130" stroke-width="5"/>
+        <text x="450" y="440" text-anchor="middle" font-size="52" font-weight="700">ψ/</text>
+        <text x="450" y="500" text-anchor="middle" class="sub" font-size="34">บันทึกส่งกะ</text>
+        <g><circle class="anc-n d-node" cx="450" cy="150" r="105" data-live="1" stroke-width="4"/>
+          <text x="450" y="140" text-anchor="middle" font-size="40" font-weight="700">เข้ากะ</text><text x="450" y="190" text-anchor="middle" class="cmd" font-size="34">/recap</text></g>
+        <g><circle class="anc-n d-node" cx="750" cy="450" r="105" stroke-width="4"/>
+          <text x="750" y="440" text-anchor="middle" font-size="40" font-weight="700">ทำงาน</text><text x="750" y="490" text-anchor="middle" class="sub" font-size="32">งานจริง</text></g>
+        <g><circle class="anc-n d-node" cx="450" cy="750" r="105" data-live="1" stroke-width="4"/>
+          <text x="450" y="740" text-anchor="middle" font-size="40" font-weight="700">ออกกะ</text><text x="450" y="790" text-anchor="middle" class="cmd" font-size="34">/forward</text></g>
+        <g><circle class="anc-n d-node" cx="150" cy="450" r="105" data-live="1" stroke-width="4"/>
+          <text x="150" y="440" text-anchor="middle" font-size="40" font-weight="700">ทบทวน</text><text x="150" y="490" text-anchor="middle" class="cmd" font-size="34">/rrr</text></g>
+      </svg>
+    </div>
+    <p class="foot rv" style="--d:2">พิธีทั้งสามเป็นของ Oracle Protocol ของคุณนัท</p>
+  </div>
+  <div class="notes">2 นาที · จุดที่แรงที่สุดของช่วงยิ้ม · ประโยคหลัก: "คนที่เคยบริหารทีมคนมาแล้ว รู้วิธีทำงานกับ AI อยู่แล้ว แค่ยังไม่มีใครบอก" · /recap = อ่านบันทึกกะก่อนแตะงาน · /forward = เขียนสภาพงานลงไฟล์ก่อนความจำหาย · /rrr = retro เก็บบทเรียนเป็นของถาวร · ที่มา: คอร์ส Part 2 หน้า 3–5 (hello-oracle ψ/writing/slides/part2-working-with-ai.html) · ⚠️ เช็กกับคุณนัทว่า 6 บทเรียนใช้ /forward ด้วยไหม ถ้าไม่ใช้ เปลี่ยนเป็น "handoff"</div>
+</section>
+
+<!-- 5 · what got made · 3D: exactly 135 motes stacked 9x5x3, 5 gems with users orbiting, 3 rising steps -->
+<section class="slide">
+  <div class="frame">
+    <h2 class="rv">งานที่เคยอยากทำ <span class="hl">แต่ทำไม่ได้</span></h2>
+    <div class="big3">
+      <div class="rv" style="--d:1"><div class="anc"></div><div class="col"><div class="num">135</div><p class="what">บทความ</p><p class="note">เล่าจากงานจริงบน productize.life</p></div></div>
+      <div class="rv" style="--d:2"><div class="anc"></div><div class="col"><div class="num">5</div><p class="what">แอปที่คนอื่นใช้ได้</p><p class="note">เช่น วิเคราะห์สต็อกและ SKU ในหนึ่งนาที</p></div></div>
+      <div class="rv" style="--d:3"><div class="anc"></div><div class="col"><div class="num">3</div><p class="what">Part ของคอร์ส</p><p class="note">จากคนเรียน กลายเป็นคนสอน</p></div></div>
+    </div>
+    <p class="lead rv" style="--d:3">ทั้งหมดมาจากความรู้งานเดิมของยิ้ม ฝูง agent แค่ขยายมันออกไป</p>
+  </div>
+  <div class="notes">2 นาที · เลขวัดจาก productize.life วันที่ 1 พ.ย. 2026 (บล็อก 135 ตอน · หน้า Apps มี 5 แอปที่เปิดให้ใช้ · คอร์ส From Prompting to Your Own AI Agent 3 Part) ⚠️ นับใหม่เช้าวันงาน · ฝูง: Fude เขียน · Osaa ทำภาพ · Koe การตลาด · Kensa ตรวจงานตัวอื่น ไม่มีตัวไหนตรวจงานตัวเอง · เวิร์กช็อป 11:00 ก็ทำกับฝูงนี้ · ⛔ ไม่ขาย handbook บนเวที · ⛔ ไม่ยกตัวอย่างงานบัญชี · ไม่เล่าเรื่องครอบครัว Oracle (บทเรียน 05)</div>
+</section>
+
+<!-- 6 · hand-off (amber) · 3D: one node lights many, the light spreads out to the room -->
+<section class="slide amber">
+  <div class="frame">
+    <div class="close">
+      <div class="rv">
+        <h1 class="display">ถ้ายิ้มทำได้<br>คุณก็ทำได้</h1>
+        <p class="lead" style="margin-top:var(--space-lg)">คุณนัทพาทำ 6 บทเรียน<br>ทำตามได้ที่ <b class="nw">aiexpo.buildwithoracle.com</b></p>
+      </div>
+      <div class="anc"></div>
+    </div>
+  </div>
+  <div class="notes">30 วินาที · ส่งไมค์ให้คุณนัท เริ่มบทเรียน 01 · ⚠️ ถามคุณนัทว่าช่วงยิ้มอยู่ตรงไหนของ session</div>
+</section>
+
+<div id="prog" aria-hidden="true"></div>
+</div>
+<div id="count" aria-live="polite"></div>
+<script>
+// navigation layer: works with no WebGL, no CDN, no module support
+if (navigator.webdriver && !/[?&]live\b/.test(location.search)) document.documentElement.classList.add('capture');
+const S=[...document.querySelectorAll('.slide')];let i=0;
+const stage=document.getElementById('stage'),prog=document.getElementById('prog');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((x,k)=>x.classList.toggle('on',k===i));
+  stage.classList.toggle('amber',S[i].classList.contains('amber'));
+  prog.style.width=((i+1)/S.length*100)+'%';
+  document.getElementById('count').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1));
+  window.__slide=i;dispatchEvent(new CustomEvent('slide',{detail:i}))}
+addEventListener('keydown',e=>{if(e.altKey||e.metaKey||e.ctrlKey)return;if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}else if(['ArrowLeft','PageUp'].includes(e.key))go(i-1);else if(e.key==='Home')go(0);else if(e.key==='End')go(S.length-1);else if(e.key==='n'||e.key==='N')document.body.classList.toggle('shownotes')});
+addEventListener('resize',fit);fit();go((parseInt(location.hash.slice(1))||1)-1);
+</script>
+
+<!-- 3D world: one InstancedMesh of motes (1 draw call) that morphs per slide. Optional layer. -->
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.0.0-broken/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+try {
+  const canvas = document.getElementById('world');
+  const stageEl = document.getElementById('stage');
+  const slides = [...document.querySelectorAll('.slide')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const capture = document.documentElement.classList.contains('capture');
+  const DUR = 0.85;                                   // one move per slide change, seconds
+  const PAD = 40;                                     // px of clear air kept around every word
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+  renderer.setSize(1920, 1080, false);
+  renderer.setClearColor(0, 0);                       // fully transparent: the CSS paper shows through
+
+  // tokens: the 3D reads the same CSS custom properties as the HTML
+  const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+  const rootStyle = getComputedStyle(document.documentElement);
+  function tok(name) {
+    const v = rootStyle.getPropertyValue(name).trim();
+    if (!v) throw new Error('missing colour token ' + name);   // a missing token must fail, not paint black
+    probe.clearRect(0, 0, 1, 1); probe.fillStyle = v;
+    probe.fillRect(0, 0, 1, 1); const d = probe.getImageData(0, 0, 1, 1).data;
+    return new THREE.Color().setRGB(d[0] / 255, d[1] / 255, d[2] / 255, THREE.SRGBColorSpace);
+  }
+  const PAL = {                                     // slot 0 key (Yim, work in motion) · 1 waiting · 2 agents
+    dark:  ['--mote-key', '--mote-wait', '--mote-agent'].map(tok),
+    amber: ['--mote-key-on-amber', '--mote-wait-on-amber', '--mote-agent-on-amber'].map(tok),
+  };
+  const BG = { dark: tok('--color-paper'), amber: tok('--color-accent') };
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(BG.dark.clone(), 28, 64);     // dust fades into the paper, gives depth for free
+  const camera = new THREE.PerspectiveCamera(40, 1920 / 1080, 0.1, 200);
+  // the camera path is the story: wide establishing · in to the team · down into the house · up over the day ·
+  // back to see everything made · close on the one node that lights the room
+  const POSES = [
+    { p: [0, 0, 24],     l: [0, 0, 0] },
+    { p: [5, 2.5, 21],   l: [2, 0.5, 0] },
+    { p: [-3.5, -3, 22], l: [-1, -0.4, 0] },
+    { p: [0, 4.5, 22],   l: [0, 0.6, 0] },
+    { p: [0, 3, 26],     l: [0, 1, 0] },
+    { p: [5, -0.8, 17],  l: [3, 0, 0] },
+  ];
+  const poseCam = POSES.map(o => {
+    const c = camera.clone(); c.position.set(...o.p); c.lookAt(...o.l); c.updateMatrixWorld(); c.updateProjectionMatrix(); return c;
+  });
+  camera.position.set(...POSES[0].p);
+  const look = new THREE.Vector3(...POSES[0].l);
+
+  // three lights, no more: soft fill, warm key, neutral rim from behind
+  scene.add(new THREE.AmbientLight(tok('--light-fill'), 1.05));
+  const key = new THREE.DirectionalLight(tok('--light-key'), 2.1); key.position.set(6, 9, 10); scene.add(key);
+  const rim = new THREE.DirectionalLight(tok('--light-rim'), 1.1); rim.position.set(-7, 3, -9); scene.add(rim);
+
+  const N = 1000;
+  const geo = new THREE.IcosahedronGeometry(0.12, 0);
+  const mat = new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0.08 });
+  // a little self light from each mote's own colour, so the motes read as lamps, not plastic
+  mat.onBeforeCompile = sh => {
+    sh.fragmentShader = sh.fragmentShader.replace('#include <emissivemap_fragment>',
+      '#include <emissivemap_fragment>\n  totalEmissiveRadiance += diffuseColor.rgb * 0.22;');
+  };
+  const mesh = new THREE.InstancedMesh(geo, mat, N);
+  mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+  mesh.frustumCulled = false;
+  scene.add(mesh);
+
+  let _s = 0.731; const rng = () => (_s = Math.sin(_s * 99991) * 9973, _s - Math.floor(_s));
+  const R = Array.from({ length: N }, () => [rng(), rng(), rng(), rng(), rng()]);
+  const frac = x => x - Math.floor(x);
+  const ease = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;   // matches --ease-move
+
+  // anchors: unproject an element's box onto z=0 at the slide's camera pose
+  const ndc = new THREE.Vector3(), dir = new THREE.Vector3();
+  function worldAt(px, py, cam) {
+    ndc.set(px / 960 - 1, 1 - py / 540, 0.5).unproject(cam);
+    dir.copy(ndc).sub(cam.position).normalize();
+    const t = -cam.position.z / dir.z;
+    return cam.position.clone().addScaledVector(dir, t);
+  }
+  const anchors = [], textBoxes = [];
+  function measure(k) {
+    const s = slides[k]; if (!s.classList.contains('on')) return;
+    s.classList.add('measuring');                       // read the resting layout, not the entrance offset
+    const sr = stageEl.getBoundingClientRect(), sc = sr.width / 1920;
+    const box = el => { const b = el.getBoundingClientRect();
+      return { l: (b.left - sr.left) / sc, t: (b.top - sr.top) / sc, r: (b.right - sr.left) / sc, b: (b.bottom - sr.top) / sc }; };
+    // ring slide: 4 ring nodes (clockwise from top), then ψ/, then the ring itself
+    const els = s.dataset.anchors === 'ring' ? ['.anc-n', '.anc-c', '.anc-ring'].flatMap(q => [...s.querySelectorAll(q)]) : [...s.querySelectorAll('.anc')];
+    anchors[k] = els.map(el => {
+      const q = box(el), cx = (q.l + q.r) / 2, cy = (q.t + q.b) / 2, w = q.r - q.l, h = q.b - q.t;
+      const c = worldAt(cx, cy, poseCam[k]);
+      const ex = worldAt(cx + Math.min(w, h) / 2, cy, poseCam[k]);
+      const ey = worldAt(cx, cy - h / 2, poseCam[k]);
+      const ex2 = worldAt(cx + w / 2, cy, poseCam[k]);
+      return { x: c.x, y: c.y, r: ex.distanceTo(c), hw: ex2.distanceTo(c), hh: ey.distanceTo(c) };
+    });
+    // words on this slide: no mote may pass under them. svg diagrams only keep the background dust out.
+    textBoxes[k] = [...s.querySelectorAll('h1,h2,p,li,.row,svg,svg text')].map(el => { const tg = el.tagName.toLowerCase();
+      return Object.assign(box(el), { dustOnly: tg === 'svg', pad: tg === 'text' ? 30 : PAD }); });
+    s.classList.remove('measuring');
+  }
+
+  const ZERO = { x: 0, y: 0, r: 2, hw: 2, hh: 2 };
+  const out = { x: 0, y: 0, z: 0, s: 1, c: 0, f: 0, dust: false };
+  function put(x, y, z, s, c, f = 0) { out.x = x; out.y = y; out.z = z; out.s = s; out.c = c; out.f = f; out.dust = false; }
+  function dust(i, t) {
+    const r = R[i];
+    put((r[0] - 0.5) * 70 + Math.sin(t * 0.04 + i) * 0.5, (r[1] - 0.5) * 40 + Math.cos(t * 0.03 + i) * 0.35, -10 - r[2] * 30, 0.55 + r[3] * 0.7, 1);
+    out.dust = true;
+  }
+  function sphere(c, rad, k, n, t, spin, z0 = 0) {   // fibonacci shell, spinning about y
+    const y = 1 - 2 * (k + 0.5) / n, rr = Math.sqrt(1 - y * y), th = k * 2.39996 + t * spin;
+    return [c.x + Math.cos(th) * rr * rad, c.y + y * rad, z0 + Math.sin(th) * rr * rad];
+  }
+  const PENTA = (c, rad, t, tilt) => Array.from({ length: 5 }, (_, j) => {
+    const a = Math.PI / 2 + j * 2 * Math.PI / 5 + t * 0.12;
+    return { x: c.x + Math.cos(a) * rad, y: c.y + Math.sin(a) * rad * Math.cos(tilt), z: Math.sin(a) * rad * Math.sin(tilt) };
+  });
+  const EDGES = []; for (let a = 0; a < 5; a++) for (let b = a + 1; b < 5; b++) EDGES.push([a, b]);
+  function messenger(nodes, j, i, t, speed, c = 2) {
+    const [a, b] = EDGES[j % EDGES.length], A = nodes[a], B = nodes[b];
+    let u = frac(R[i][0] + t * speed * (0.6 + R[i][1] * 0.8)); if (R[i][2] > 0.5) u = 1 - u;
+    put(A.x + (B.x - A.x) * u, A.y + (B.y - A.y) * u, (A.z || 0) + ((B.z || 0) - (A.z || 0)) * u + Math.sin(u * Math.PI) * 0.8, 0.7, c);
+  }
+  const lerp3 = (A, B, u, lift = 0) => [A.x + (B.x - A.x) * u, A.y + (B.y - A.y) * u, (A.z || 0) + ((B.z || 0) - (A.z || 0)) * u + Math.sin(u * Math.PI) * lift];
+
+  // formation per slide: every mote gets a target (position, scale, colour slot, flatness)
+  const F = [
+    (i, t, A) => {                       // 1: lone node | buried node | five agents
+      const a0 = A[0] || ZERO, a1 = A[1] || ZERO, a2 = A[2] || ZERO;
+      if (i < 1) return put(a0.x, a0.y, 0, 2.6, 0);
+      if (i < 41) { const p = sphere(a0, a0.r * 0.32, i - 1, 40, t, 0.3); return put(...p, 1, 2); }
+      if (i < 53) { const k = i - 41, a = k / 12 * Math.PI * 2 + t * 0.25;   // the chat that has to be retold
+        return put(a0.x + Math.cos(a) * a0.r * 0.75, a0.y + Math.sin(a) * a0.r * 0.42, Math.sin(a * 2) * 0.4, 0.6, 0); }
+      if (i < 54) return put(a1.x, a1.y, 0, 2.6, 0);
+      if (i < 94) { const p = sphere(a1, a1.r * 0.32, i - 54, 40, t, 0.3); return put(...p, 1, 2); }
+      if (i < 244) { const r = R[i], rad = a1.r * (0.42 + 0.5 * Math.cbrt(r[0])), th = r[1] * Math.PI * 2, ph = Math.acos(2 * r[2] - 1);
+        const j = 0.04 * Math.sin(t * 2 + i);        // the pile: work waiting on one person
+        return put(a1.x + rad * Math.sin(ph) * Math.cos(th) + j, a1.y + rad * Math.cos(ph) * 0.62 + j, rad * Math.sin(ph) * Math.sin(th) * 0.6, 0.85, r[3] > 0.3 ? 1 : 0, 0.6); }
+      if (i < 324) { const r = R[i], u = frac(r[0] + t * 0.09);      // more work still arriving
+        const sx = a1.x - a1.hw * 1.1 + r[1] * 0.6, sy = a1.y + a1.hh * 0.9 + r[2] * 0.6, e = u * u;
+        return put(sx + (a1.x - sx) * e, sy + (a1.y - sy) * e, (r[3] - 0.5) * 1.5 * (1 - e), 0.8, 1, 0.6); }
+      if (i < 329) { const n = PENTA(a2, a2.r * 0.62, t, 0.5)[i - 324]; return put(n.x, n.y, n.z, 1.9, 2); }
+      if (i < 429) { const k = i - 329, nodes = PENTA(a2, a2.r * 0.62, t, 0.5), n = nodes[k % 5];
+        const p = sphere(n, a2.r * 0.15, Math.floor(k / 5), 20, t, 0.6, n.z); return put(...p, 0.7, 2); }
+      if (i < 479) return messenger(PENTA(a2, a2.r * 0.62, t, 0.5), i - 429, i, t, 0.25, 0);
+      return dust(i, t);
+    },
+    (i, t, A) => {                       // 2: the constellation, turning in depth
+      const a = A[0] || ZERO, rad = Math.min(a.hw, a.hh) * 0.62;
+      const nodes = PENTA(a, rad, t * 0.6, 0.9);
+      if (i < 5) { const n = nodes[i]; return put(n.x, n.y, n.z, 2.8, 2); }
+      if (i < 245) { const k = i - 5, n = nodes[k % 5]; const p = sphere(n, rad * 0.24, Math.floor(k / 5), 48, t, 0.5, n.z); return put(...p, 0.9, 2); }
+      if (i < 365) return messenger(nodes, i - 245, i, t, 0.22, 0);
+      return dust(i, t);
+    },
+    (i, t, A) => {                       // 3: the fleet · house of buds | the gate | the personal agent line
+      const a = A[0] || ZERO, b = A[1] || ZERO, c = A[2] || ZERO;
+      // row 1: buds on a ring, signed envelopes hopping between them, some go to Yim in the middle for approval
+      const NB = 12, bud = k => { const g = k / NB * Math.PI * 2 + t * 0.06;
+        return { x: a.x + Math.cos(g) * a.hw * 0.8, y: a.y + Math.sin(g) * a.hh * 0.55, z: Math.sin(g) * a.hh * 0.9 }; };
+      const yim = { x: a.x, y: a.y, z: 0 };
+      if (i < 12) { const n = bud(i); return put(n.x, n.y, n.z, 1.5, 2); }
+      if (i < 108) { const k = i - 12, n = bud(k % NB); const p = sphere(n, 0.3, Math.floor(k / NB), 8, t, 0.7, n.z); return put(...p, 0.42, 2); }
+      if (i < 109) return put(yim.x, yim.y, 0, 2.2, 0);
+      if (i < 125) { const p = sphere(yim, 0.45, i - 109, 16, t, 0.35); return put(...p, 0.55, 0); }
+      if (i < 165) { const k = i - 125, r = R[i], ph = r[0] + t * 0.16, p = Math.floor(ph), u = ease(frac(ph));
+        const dest = q => ((k + q) % 6 === 0) ? -1 : (k * 7 + q * 5 + (k * q) % 3) % NB;
+        let s = dest(p - 1), e = dest(p); if (s === e) e = (e + 1) % NB;
+        const S0 = s < 0 ? yim : bud(s), E0 = e < 0 ? yim : bud(e);
+        return put(...lerp3(S0, E0, u, 0.6), 0.75, 0, 1); }
+      // row 2: our house (left), a gate (middle), another person's agent (right).
+      //        talk passes the gate, actions stop at it, our checked replies go out
+      const L = { x: b.x - b.hw * 0.62, y: b.y, z: 0 }, G = { x: b.x + b.hw * 0.06, y: b.y, z: 0 }, O = { x: b.x + b.hw * 0.72, y: b.y, z: 0 };
+      const gr = Math.min(b.hh * 0.62, 1.2);
+      if (i < 215) { const p = sphere(L, Math.min(b.hh * 0.5, 1.0), i - 165, 50, t, 0.25); return put(...p, 0.7, 2); }
+      if (i < 216) return put(L.x, L.y, 0, 1.8, 0);
+      if (i < 256) { const g = (i - 216) / 40 * Math.PI * 2 + t * 0.15;   // the gate: a ring standing across the path
+        return put(G.x + Math.sin(g) * gr * 0.42, G.y + Math.cos(g) * gr, Math.sin(g) * gr, 0.5, 2); }
+      if (i < 257) return put(O.x, O.y, 0, 2.0, 1);
+      if (i < 271) { const p = sphere(O, 0.5, i - 257, 14, t, -0.4); return put(...p, 0.5, 1); }
+      if (i < 283) { const u = frac(R[i][0] + t * 0.13), y0 = (R[i][1] - 0.5) * 0.5;   // talk: crosses the gate, softly
+        const P = lerp3({ x: O.x, y: O.y + y0 }, { x: L.x + 0.9, y: L.y + y0 * 0.4 }, u, 0.3); return put(...P, 0.45, 2); }
+      if (i < 295) { const v = frac(R[i][0] + t * 0.11), u = Math.min(v / 0.6, 1), y0 = (R[i][1] - 0.5) * gr * 1.2;   // actions: stop at the gate
+        const P = lerp3({ x: O.x - 0.3, y: O.y + y0 * 0.3 }, { x: G.x + 0.28, y: G.y + y0 }, ease(u));
+        return put(...P, v < 0.6 ? 0.62 : 0.62 * (1 - (v - 0.6) / 0.4), 1, 0.8); }
+      if (i < 305) { const u = frac(R[i][0] + t * 0.1), y0 = (R[i][1] - 0.5) * 0.4;   // replies: checked, then out
+        const P = lerp3({ x: L.x + 0.9, y: L.y + y0 }, { x: O.x - 0.5, y: O.y + y0 }, u, -0.2); return put(...P, 0.55, 0, 1); }
+      // row 3: our house (left), the personal agent (right), one relay line with a ledger under it
+      const H = { x: c.x - c.hw * 0.62, y: c.y, z: 0 }, P = { x: c.x + c.hw * 0.66, y: c.y, z: 0 }, lane = 0.26;
+      if (i < 345) { const p = sphere(H, Math.min(c.hh * 0.5, 1.0), i - 305, 40, t, 0.25); return put(...p, 0.7, 2); }
+      if (i < 346) return put(H.x, H.y, 0, 1.8, 0);
+      if (i < 347) return put(P.x, P.y, 0, 2.6, 2);
+      if (i < 365) { const p = sphere(P, 0.62, i - 347, 18, t, -0.5); return put(...p, 0.55, 0); }
+      if (i < 389) { const k = i - 365, u = (k + 0.5) / 24;   // the relay line
+        return put(H.x + 1.1 + (P.x - H.x - 2.0) * u, H.y, 0, 0.28, 1); }
+      if (i < 397) { const k = i - 389, u = frac(t * 0.17 + k * 0.022);   // task out, as one short train
+        return put(...lerp3({ x: H.x + 1.1, y: H.y + lane }, { x: P.x - 0.9, y: P.y + lane }, u), 0.5, 2); }
+      if (i < 405) { const k = i - 397, u = frac(t * 0.17 + 0.5 + k * 0.022);   // callback home, half a beat later
+        return put(...lerp3({ x: P.x - 0.9, y: P.y - lane }, { x: H.x + 1.1, y: H.y - lane }, u), 0.5, 0); }
+      if (i < 415) { const j = i - 405, cnt = Math.floor(frac(t * 0.17) * 11), mx = (H.x + P.x) / 2;   // the ledger: one line per trip
+        return put(mx + (j % 5 - 2) * 0.32, c.y - Math.min(c.hh * 0.6, 1.1) + Math.floor(j / 5) * 0.2, 0, j < cnt ? 0.6 : 0, 1, 1); }
+      return dust(i, t);
+    },
+    (i, t, A) => {                       // 4: shift ring; nodes clockwise from top, then ψ/, then ring
+      const n = [A[0], A[1], A[2], A[3]].map(v => v || ZERO), c = A[4] || ZERO, ring = A[5] || ZERO;
+      if (i < 160) { const k = i % 4, m = Math.floor(i / 4), a = m / 40 * Math.PI * 2 + t * 0.3 * (k % 2 ? -1 : 1);
+        const rr = n[k].r * 1.14; return put(n[k].x + Math.cos(a) * rr, n[k].y + Math.sin(a) * rr, Math.sin(a * 3 + t) * 0.15, 0.75, k === 1 ? 2 : 0); }
+      if (i < 220) { const m = i - 160, a = m / 60 * Math.PI * 2 - t * 0.2;
+        const rr = c.r * 1.12; return put(c.x + Math.cos(a) * rr, c.y + Math.sin(a) * rr, 0, 0.9, 0); }
+      if (i < 400) { const r = R[i], th = Math.PI / 2 - frac(r[0] + t * 0.035) * Math.PI * 2;   // clockwise on screen
+        const rr = ring.r * (1 + (r[1] - 0.5) * 0.07); return put(ring.x + Math.cos(th) * rr, ring.y + Math.sin(th) * rr, (r[2] - 0.5) * 0.5, 0.6 + r[3] * 0.4, r[3] > 0.7 ? 0 : 2); }
+      if (i < 440) { const k = (i - 400) % 4, r = R[i], u = frac(r[0] + t * 0.12);   // each shift writes into ψ/
+        const A0 = n[k], e = u * u * (3 - 2 * u), rr0 = A0.r * 1.05, rr1 = c.r * 1.05;
+        const dx = c.x - A0.x, dy = c.y - A0.y, L = Math.hypot(dx, dy) || 1;
+        const sx = A0.x + dx / L * rr0, sy = A0.y + dy / L * rr0, ex = c.x - dx / L * rr1, ey = c.y - dy / L * rr1;
+        return put(sx + (ex - sx) * e, sy + (ey - sy) * e, 0.3, 0.55, 0, 1); }
+      return dust(i, t);
+    },
+    (i, t, A) => {                       // 5: 135 articles, 5 apps with users, 3 course parts
+      const b0 = A[0] || ZERO, b1 = A[1] || ZERO, b2 = A[2] || ZERO;
+      if (i < 135) { const x = i % 9, y = Math.floor(i / 9) % 5, z = Math.floor(i / 45), sp = 0.4;   // 9 x 5 x 3, seen in depth
+        const lx = (x - 4) * sp, ly = (y - 2) * sp, lz = (z - 1) * sp, a = 0.55 + Math.sin(t * 0.15) * 0.3, ca = Math.cos(a), sa = Math.sin(a), tx = 0.38;
+        const rx = lx * ca - lz * sa, rz = lx * sa + lz * ca;
+        return put(b0.x + rx, b0.y + ly * Math.cos(tx) - rz * Math.sin(tx), ly * Math.sin(tx) + rz * Math.cos(tx), 1, (i * 7) % 11 === 0 ? 2 : 0); }
+      const gem = k => { const a = (k - 2) * 0.62; return { x: b1.x + Math.sin(a) * 2.2, y: b1.y - 0.3 + Math.cos(a) * 0.7 + Math.sin(t + k) * 0.08, z: 0 }; };
+      if (i < 140) { const g = gem(i - 135); return put(g.x, g.y, g.z, 3.2, 0); }
+      if (i < 180) { const k = i - 140, g = gem(k % 5), a = Math.floor(k / 5) / 8 * Math.PI * 2 + t * 0.8;
+        return put(g.x + Math.cos(a) * 0.62, g.y + Math.sin(a) * 0.28, Math.sin(a) * 0.62, 0.45, 2); }
+      if (i < 183) { const k = i - 180; return put(b2.x + (k - 1) * 1.15, b2.y + (k - 1) * 0.7 - 0.2, 0, 4.4 + k * 0.6, k === 2 ? 2 : 0); }
+      if (i < 213) { const k = i - 183, p = k % 3, a = Math.floor(k / 3) / 10 * Math.PI * 2 + t * 0.5;   // learners circling each part
+        const cx = b2.x + (p - 1) * 1.15, cy = b2.y + (p - 1) * 0.7 - 0.2, rr = 0.75 + p * 0.1;
+        return put(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr * 0.35, Math.sin(a) * rr, 0.4, 2); }
+      return dust(i, t);
+    },
+    (i, t, A) => {                       // 6: one node lights many
+      const a = A[0] || ZERO, rad = Math.min(a.hw, a.hh) * 0.82;
+      const sat = k => { const y = 1 - 2 * (k + 0.5) / 14, rr = Math.sqrt(1 - y * y), th = k * 2.39996 + t * 0.15;
+        return { x: a.x + Math.cos(th) * rr * rad, y: a.y + y * rad, z: Math.sin(th) * rr * rad }; };
+      if (i < 1) return put(a.x, a.y, 0, 3.2, 0);
+      if (i < 41) { const p = sphere(a, rad * 0.2, i - 1, 40, t, 0.4); return put(...p, 1, 0); }
+      if (i < 55) { const s = sat(i - 41); return put(s.x, s.y, s.z, 1.6, 2); }
+      if (i < 223) { const k = i - 55, s = sat(k % 14); const p = sphere(s, 0.42, Math.floor(k / 14), 12, t, 0.8, s.z); return put(...p, 0.6, 0); }
+      if (i < 323) { const k = i - 223, s = sat(k % 14), u = frac(R[i][0] + t * 0.18);   // light travels outward
+        return put(a.x + (s.x - a.x) * u, a.y + (s.y - a.y) * u, s.z * u + Math.sin(u * Math.PI) * 0.5, 0.55, 0); }
+      return dust(i, t);
+    },
+  ];
+
+  // state: current, and a snapshot taken at the start of each move
+  const pos = new Float32Array(N * 3), scl = new Float32Array(N), col = new Float32Array(N * 3), flat = new Float32Array(N);
+  const p0 = new Float32Array(N * 3), s0 = new Float32Array(N), c0 = new Float32Array(N * 3), f0 = new Float32Array(N);
+  const camFrom = new THREE.Vector3(), lookFrom = new THREE.Vector3(), fogFrom = new THREE.Color();
+  let cur = window.__slide || 0, started = false, tStart = -1e9;
+  const dummy = new THREE.Object3D(), tc = new THREE.Color(), pv = new THREE.Vector3();
+  const noMask = /[?&]nomask\b/.test(location.search);   // debug only: shows what the clearance hides
+
+  function clearance(px, py, pz, isDust, boxes) {      // 1 = free, 0 = under a word
+    pv.set(px, py, pz).project(camera);
+    const sx = (pv.x + 1) * 960, sy = (1 - pv.y) * 540;
+    let m = 1;
+    for (let b = 0; b < boxes.length; b++) { const q = boxes[b]; if (q.dustOnly && !isDust) continue;
+      const dx = Math.max(q.l - sx, 0, sx - q.r), dy = Math.max(q.t - sy, 0, sy - q.b), d = Math.hypot(dx, dy);
+      if (d < q.pad) { m = Math.min(m, d / q.pad); if (m === 0) break; } }
+    return m * m * (3 - 2 * m);
+  }
+
+  function frame(t, snap) {
+    const A = anchors[cur] || [], amber = slides[cur].classList.contains('amber'), pal = amber ? PAL.amber : PAL.dark, f = F[cur];
+    const boxes = textBoxes[cur] || [];
+    if (snap) tStart = -1e9;                          // a still frame ends any move in progress
+    const u = snap || !started ? 1 : Math.min(1, (t - tStart) / DUR), e = ease(u), moving = u < 1;
+    // camera first, so the clearance test uses this frame's view
+    const P = POSES[cur];
+    camera.position.set(camFrom.x + (P.p[0] - camFrom.x) * e, camFrom.y + (P.p[1] - camFrom.y) * e, camFrom.z + (P.p[2] - camFrom.z) * e);
+    if (!moving) camera.position.set(...P.p);
+    look.set(lookFrom.x + (P.l[0] - lookFrom.x) * e, lookFrom.y + (P.l[1] - lookFrom.y) * e, lookFrom.z + (P.l[2] - lookFrom.z) * e);
+    if (!moving) look.set(...P.l);
+    camera.lookAt(look); camera.updateMatrixWorld();
+    scene.fog.color.copy(fogFrom).lerp(amber ? BG.amber : BG.dark, e);
+    for (let i = 0; i < N; i++) {
+      f(i, t, A); const c = pal[out.c], ix = i * 3;
+      let x = out.x, y = out.y, z = out.z, s = out.s, fl = out.f, r = c.r, g = c.g, bb = c.b;
+      if (moving) {                                     // fly from the snapshot, with a little lift toward the lens
+        const lift = Math.sin(u * Math.PI) * (R[i][4] - 0.35) * 1.4;
+        x = p0[ix] + (x - p0[ix]) * e; y = p0[ix + 1] + (y - p0[ix + 1]) * e; z = p0[ix + 2] + (z - p0[ix + 2]) * e + lift;
+        s = s0[i] + (s - s0[i]) * e; fl = f0[i] + (fl - f0[i]) * e;
+        r = c0[ix] + (r - c0[ix]) * e; g = c0[ix + 1] + (g - c0[ix + 1]) * e; bb = c0[ix + 2] + (bb - c0[ix + 2]) * e;
+      }
+      pos[ix] = x; pos[ix + 1] = y; pos[ix + 2] = z; scl[i] = s; flat[i] = fl; col[ix] = r; col[ix + 1] = g; col[ix + 2] = bb;
+      const k = noMask ? s : s * clearance(x, y, z, out.dust, boxes);
+      dummy.position.set(x, y, z);
+      dummy.rotation.set(t * 0.2 + i, t * 0.15 + i * 0.5, 0);
+      dummy.scale.set(k * (1 + fl * 0.5), k * (1 - fl * 0.35), k * (1 - fl * 0.75));
+      dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix);
+      mesh.setColorAt(i, tc.setRGB(r, g, bb));
+    }
+    started = true;
+    mesh.instanceMatrix.needsUpdate = true; if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+    renderer.render(scene, camera);
+  }
+
+  function begin(k, t) {          // freeze where everything is, then one 850 ms move to slide k
+    p0.set(pos); s0.set(scl); c0.set(col); f0.set(flat);
+    camFrom.copy(camera.position); lookFrom.copy(look); fogFrom.copy(scene.fog.color);
+    cur = k; tStart = t; measure(k);
+  }
+
+  const clock = new THREE.Clock();
+  measure(cur);
+  addEventListener('slide', e => {
+    begin(e.detail, clock.getElapsedTime());
+    if (reduce || capture) frame(clock.elapsedTime, true);
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(cur); if (reduce) frame(0, true); });
+
+  let frames = 0;
+  if (reduce) frame(0, true);
+  else (function loop() { frames++; frame(clock.getElapsedTime(), false); requestAnimationFrame(loop); })();
+  window.__world = { ok: true, frames: () => frames, dbg: () => ({ cur, anchors: anchors[cur], cam: camera.position.toArray(), look: look.toArray() }), snap: () => frame(clock.elapsedTime, true) };
+} catch (err) {
+  window.__world = false;
+  console.warn('3D world disabled, deck content stays fully visible', err);
+}
+</script>
+</body>
+</html>
