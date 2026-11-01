@@ -361,7 +361,7 @@ html.world-off #world{display:none!important}   /* W key, or WebGL lost: the HTM
         <div class="org-v reg">
           <div class="anc anc-cloud"></div>
           <!-- round 8: the shelf has one slot per chosen topic; slots are drawn from data-chosen by the navigation script -->
-          <svg class="shelf" viewBox="0 0 520 38" role="img" aria-label="ชั้นของเรื่องที่เลือกเอามาใช้จริง"></svg>
+
         </div>
         <div class="item key"><p class="title">Registry คือทะเบียนว่า</p><p class="body def5">ใครทำอะไรได้ และเรียนอะไรมาแล้ว</p><p class="body">agent <span class="hl">15</span> ตัว มี yaml คนละใบ<br>skill <span class="hl">160</span> อย่าง<br>เรียนมาแล้ว <span class="hl" data-count="learned">393</span> เรื่อง</p><p class="cap">นับ 1 พ.ย. 2026</p></div>
       </div>
@@ -548,7 +548,7 @@ try {
   // ---- instance state: [x, z, y, w, h, d, ry, ink1, ink2, ink3] ----
   // slide 5 prints exactly the numbers on screen: one block per learned topic, the chosen ones go to the shelf
   const numAt = (q, d) => { const e = document.querySelector('[data-count="' + q + '"]'); const v = e ? parseInt(e.textContent, 10) : NaN; return v > 0 ? v : d; };
-  const LEARNED = numAt('learned', 211), CHOSEN = Math.min(numAt('chosen', 17), LEARNED);
+  const LEARNED = numAt('learned', 211), CHOSEN = Math.min(numAt('chosen', 0), LEARNED);
   const N = Math.max(400, LEARNED + 24), STR = 10, B = print.blocks(N);
   // per-frame memo: rings and stacks shared by many instances are built once per frame, not once per instance
   const M = {}; const once = (key, fn) => (key in M ? M[key] : (M[key] = fn()));
