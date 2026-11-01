@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Yim 3D talk deck, AI Expo 2026, Builder Stage</title>
 <!--
@@ -15,7 +15,12 @@
   Satoshi + IBM Plex Sans Thai everywhere, Source Serif 4 + Noto Serif Thai for the one editorial line (the hand-off).
   Content from ../yim-bridge.html (v3), notes copied verbatim; slide 3 wording from hello-oracle
   ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md "Stage-safe wording" plus Dobby's edits.
-  One Three.js world behind all 8 slides: one InstancedMesh (1 draw call) morphs per slide, one camera travels a path.
+  Round 6, 2026-11-01: the Riso direction (proto/riso.html) across all 8 slides. Shiro paper, Rikyu inks, dithered isometric
+  blocks printed by vendor/riso.js (a copy of hello-oracle ψ/design-systems/rikyu-labs/slide-kit/riso/riso.js v1.0.0).
+  Words, notes, timing, keys unchanged. The canvas sits outside the scaled stage and the dither cell is a whole number of
+  device px (4 at 1920, 3 at 1280), so the browser never resamples the dots (moire rule, see the kit README).
+  Debug flags: ?nomask (no knockout) ?decoy (a block under each heading) ?flat (no grain) ?fixed1920 (moire negative control).
+  Round 3 to 5 world (kept in git at c7fc050): one Three.js world behind all 8 slides: one InstancedMesh (1 draw call) morphs per slide, one camera travels a path.
    - formations anchor to empty HTML/SVG boxes projected at the slide's camera pose, so 3D sits beside text;
    - every mote is projected each frame and fades out near any text box (incl. the big numbers);
    - 3D colours are read from the same CSS tokens as the HTML (one token source, zero drift);
@@ -26,6 +31,7 @@
   Keys: Right / Space / PageDown next, Left / PageUp prev, Home / End, N notes, S still mode. Held keys do not repeat.
 -->
 <link rel="stylesheet" href="vendor/fonts.css">
+<link rel="stylesheet" href="vendor/riso.css">
 <style>
 /* =====================================================================================================
    TYPE SCALE (one scale, five steps, each step has one job on every slide; sizes at the 1920x1080 stage)
@@ -42,60 +48,36 @@
      x: 140 | 1640 content | 140      heading line: top 128 (lamp rule sits at 88 on every slide)
      heading -> content 64 · content -> lead line 64 · footnote pinned to bottom 72
    ELEMENT LANGUAGE (one treatment each)
-     rule   4px top rule over every item; amber = the item the slide is about, graphite = the rest
+     rule   4px top rule over every item; round 6: sabi 8px = the item the slide is about, stone = the rest
      label  caption size, Bai Jamjuree 600, ink-3 (amber on the key item): ขั้น 1, + 1 2 3
-     highlight  amber, only inside headings
+     highlight  round 6: the sabi highlighter band behind kuro text (sabi is never text on shiro, 1.78:1)
      cards  none; boxes appear only as diagram nodes (slide 4 boxes, slide 5 ladder, gate and shelf slots, slide 6 circles), same fill and stroke tokens
      bullets none
    ===================================================================================================== */
 :root{
-  /* primitives */
-  --graphite-950:oklch(13% 0.01 260);
-  --graphite-900:oklch(18% 0.012 260);
-  --graphite-850:oklch(23% 0.014 260);
-  --graphite-820:oklch(26% 0.016 260);
-  --graphite-700:oklch(40% 0.016 260);
-  --graphite-600:oklch(60% 0.014 260);
-  --graphite-550:oklch(55% 0.014 260);
-  --graphite-400:oklch(73% 0.014 260);
-  --graphite-300:oklch(80% 0.014 260);
-  --ivory-100:oklch(96% 0.006 90);
-  --ivory-200:oklch(93% 0.03 85);
-  --amber-500:oklch(80% 0.15 75);
-  --amber-950:oklch(21% 0.03 75);
-  --cream-200:oklch(88% 0.09 90);
-  --black:oklch(0% 0 0);
+  /* Rikyu Labs primitives, copied from hello-oracle ψ/design-systems/rikyu-labs/slide-kit/tokens/tokens.css L22-29 */
+  --rikyu-kuro:#1A1A1A; --rikyu-shiro:#F7F5F2; --rikyu-sabi:#C9B89E; --rikyu-moss:#6B7A6B; --rikyu-stone:#D9D6CF;
 
-  /* semantic: surfaces and ink (ink-2 and ink-3 both >= 7:1 on paper) */
-  --color-paper:var(--graphite-900);
-  --color-ink:var(--ivory-100);
-  --color-ink-2:var(--graphite-300);
-  --color-ink-3:var(--graphite-400);
-  --color-rule:var(--graphite-700);
-  --color-accent:var(--amber-500);
-  --color-accent-ink:var(--amber-950);
-  --color-notes:var(--cream-200);
-  --color-letterbox:var(--black);
-  --color-chrome:var(--graphite-550);
-  --color-notes-bg:oklch(10% 0.01 260 / .94);
-  --color-diagram-line:var(--graphite-600);
-  --color-diagram-ring:oklch(40% 0.016 260 / .6);
-  --color-diagram-node:var(--graphite-850);
-  --color-diagram-hub:var(--graphite-820);
-  --color-diagram-live:var(--amber-500);
-  --color-diagram-idle:var(--graphite-700);
-  --light-fill:oklch(100% 0 0);
-  --light-key:oklch(93% 0.05 75);
-  --light-rim:oklch(91% 0.012 260);
-  --color-vignette:oklch(10% 0.01 260 / .62);
+  /* semantic: surfaces and ink (round 6: Riso on shiro paper; ink-2 and ink-3 both >= 7:1 on paper) */
+  --color-paper:var(--rikyu-shiro);
+  --color-ink:var(--rikyu-kuro);
+  --color-ink-2:color-mix(in srgb,var(--rikyu-kuro) 84%,var(--rikyu-shiro));
+  --color-ink-3:color-mix(in srgb,var(--rikyu-kuro) 74%,var(--rikyu-shiro));
+  --color-rule:var(--rikyu-stone);
+  --color-accent:var(--rikyu-sabi);          /* fills, rules and the highlighter band only, never text (1.78:1) */
+  --color-accent-ink:var(--rikyu-kuro);      /* text on the sabi page */
+  --color-notes:var(--rikyu-shiro);
+  --color-letterbox:var(--rikyu-kuro);
+  --color-chrome:var(--color-ink-3);
+  --color-notes-bg:color-mix(in srgb,var(--rikyu-kuro) 95%,transparent);
+  --color-diagram-line:var(--color-ink-2);
+  --color-diagram-ring:var(--rikyu-stone);
+  --color-diagram-node:color-mix(in srgb,var(--rikyu-stone) 38%,var(--rikyu-shiro));
+  --color-diagram-hub:color-mix(in srgb,var(--rikyu-sabi) 34%,var(--rikyu-shiro));
+  --color-diagram-live:var(--rikyu-kuro);
+  --color-diagram-idle:color-mix(in srgb,var(--rikyu-kuro) 34%,var(--rikyu-shiro));
 
-  /* semantic: the 3D world reads these (one token source for HTML and WebGL) */
-  --mote-key:var(--amber-500);        /* Yim, her knowledge, work in motion */
-  --mote-wait:oklch(52% 0.018 260);   /* work waiting, outsiders, background dust */
-  --mote-agent:var(--ivory-200);      /* agents */
-  --mote-key-on-amber:oklch(98% 0.03 90);
-  --mote-wait-on-amber:oklch(87% 0.1 85);
-  --mote-agent-on-amber:oklch(24% 0.03 70);
+  /* the 3D world prints with the --riso-* inks from vendor/riso.css (kuro = work, sabi = Yim, moss = agents) */
 
   --font-sans:Satoshi,"IBM Plex Sans Thai",Inter,"Helvetica Neue",Arial,sans-serif;   /* Rikyu --rikyu-font-sans */
   --font-serif:"Source Serif 4","Noto Serif Thai",serif;                                 /* Rikyu --rikyu-font-serif, editorial only */
@@ -116,19 +98,18 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;background:var(--color-letterbox);overflow:hidden}
-#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
   background:var(--color-paper);transition:background-color var(--dur-bg) var(--ease-out)}
 #stage.amber{background:var(--color-accent)}
-#world{position:absolute;inset:0;width:1920px;height:1080px;z-index:0;display:block}
-.vig{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 75% 70% at 50% 46%,transparent 58%,var(--color-vignette) 100%);transition:opacity var(--dur-move)}
-#stage.amber .vig{opacity:0}
+html.riso-on #stage,html.riso-on #stage.amber{background:transparent}   /* the print under the stage is the paper */
+#world{position:absolute;inset:0;width:1920px;height:1080px;z-index:0;display:block;image-rendering:pixelated}
+.vig{display:none}   /* round 6: the print pass carries its own paper tone */
 
 /* grid: every slide shares the lamp, the heading line, the side margins and the footnote line */
 .slide{position:absolute;inset:0;z-index:1;display:none;color:var(--color-ink);font-family:var(--font-body)}
 .slide.on{display:block}
 .slide.amber{color:var(--color-accent-ink)}
-.slide::before{content:"";position:absolute;left:var(--pad-x);top:var(--lamp-top);width:var(--lamp-w);height:var(--rule-w);background:var(--color-accent)}
+.slide::before{content:"";position:absolute;left:var(--pad-x);top:var(--lamp-top);width:var(--lamp-w);height:8px;border-radius:4px;background:var(--color-accent)}
 .slide.amber::before{background:var(--color-accent-ink)}
 .frame{position:absolute;left:var(--pad-x);right:var(--pad-x);top:var(--line-top);display:flex;flex-direction:column;gap:var(--gap-head)}
 .foot{position:absolute;left:var(--pad-x);bottom:var(--foot-bottom);font-size:var(--fs-caption);font-weight:500;line-height:var(--lh-caption);color:var(--color-ink-3)}
@@ -140,14 +121,15 @@ h2,.heading{font-family:var(--font-display);font-size:var(--fs-heading);line-hei
 .lead{font-family:var(--font-body);font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:500;color:var(--color-ink-2)}
 .body{font-family:var(--font-body);font-size:var(--fs-body);line-height:var(--lh-body);font-weight:500;color:var(--color-ink-2)}
 .label{font-family:var(--font-display);font-size:var(--fs-caption);line-height:var(--lh-caption);font-weight:600;color:var(--color-ink-3);letter-spacing:.02em}
-.hl{color:var(--color-accent)}
+.hl{color:var(--color-ink);background:linear-gradient(transparent 58%,var(--color-accent) 58%,var(--color-accent) 90%,transparent 90%);-webkit-box-decoration-break:clone;box-decoration-break:clone}   /* the sabi highlighter (riso.css .riso-hl) */
+.slide.amber .hl{background:linear-gradient(transparent 86%,var(--color-accent-ink) 86%,var(--color-accent-ink) 92%,transparent 92%)}
 .nw{white-space:nowrap}
 .slide.amber .lead,.slide.amber .title{color:var(--color-accent-ink)}
 
 /* element language */
 .item{border-top:var(--rule-w) solid var(--color-rule);padding-top:var(--gap-item)}
-.item.key{border-top-color:var(--color-accent)}
-.item.key .label{color:var(--color-accent)}
+.item.key{border-top-color:var(--color-accent);border-top-width:8px;padding-top:calc(var(--gap-item) - 4px)}
+.item.key .label{color:var(--color-ink)}
 .item .title{margin-top:var(--gap-in)}
 .item .title:first-child{margin-top:0}
 .item .body{margin-top:var(--gap-in)}
@@ -186,7 +168,7 @@ h2,.heading{font-family:var(--font-display);font-size:var(--fs-heading);line-hei
 .arch text{font-family:var(--font-body)}
 .arch .n-t,.org-v .n-t{font-family:var(--font-display);font-size:var(--fs-body);font-weight:700;fill:var(--color-ink)}
 .arch .n-s,.org-v .n-s{font-family:var(--font-body);font-size:var(--fs-caption);font-weight:500;fill:var(--color-ink-2)}
-.arch .n-s.hl,.org-v .n-s.hl{fill:var(--color-accent);font-family:var(--font-display);font-weight:600}
+.arch .n-s.hl,.org-v .n-s.hl{fill:var(--color-ink);font-family:var(--font-display);font-weight:700;background:none}
 
 /* 5 run like a company: three columns, each a picture above the item rule (same pattern as slides 1 and 6) */
 .org{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
@@ -214,13 +196,13 @@ svg .d-slot{fill:none;stroke:var(--color-diagram-idle)}
 .ring .lead{color:var(--color-ink)}
 .ring svg{width:800px;height:800px;display:block;overflow:visible}
 .ring svg text{font-family:var(--font-display);fill:var(--color-ink)}
-.ring svg .cmd{font-family:var(--font-mono);font-weight:700;fill:var(--color-accent)}
+.ring svg .cmd{font-family:var(--font-mono);font-weight:700;fill:var(--color-ink)}
 .ring svg .sub{font-family:var(--font-body);fill:var(--color-ink-2);font-weight:500}
 
 /* 7 numbers */
 .big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
 .big3 .anc{height:170px}
-.big3 .num{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700;color:var(--color-accent)}
+.big3 .num{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700;color:var(--color-ink)}
 .big3 .title{margin-top:var(--gap-in)}
 .big3~.lead{color:var(--color-ink)}
 
@@ -237,13 +219,13 @@ svg .d-slot{fill:none;stroke:var(--color-diagram-idle)}
 body.shownotes .notes{display:block}
 #chrome{position:fixed;right:14px;bottom:10px;z-index:20;display:flex;gap:14px;align-items:center;font:14px var(--font-body);color:var(--color-chrome)}
 #still{font:inherit;color:inherit;background:none;border:1px solid currentColor;border-radius:6px;padding:2px 8px;cursor:pointer;opacity:.8}
-#still[aria-pressed="true"]{color:var(--color-accent);opacity:1}
+#still[aria-pressed="true"]{color:var(--color-ink);border-width:2px;opacity:1}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-<div id="stage">
 <canvas id="world" width="1920" height="1080" aria-hidden="true"></canvas>
+<div id="stage">
 <div class="vig" aria-hidden="true"></div>
 
 <!-- 1 · who + three stages · 3D: lone node / node buried in a pile of work / five agents passing light -->
@@ -452,7 +434,9 @@ body.shownotes .notes{display:block}
 if (navigator.webdriver && !/[?&]live\b/.test(location.search)) document.documentElement.classList.add('capture');
 const S=[...document.querySelectorAll('.slide')];let i=-1;
 const stage=document.getElementById('stage'),prog=document.getElementById('prog'),stillBtn=document.getElementById('still');
-function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+// the stage lands on whole device pixels and its width is a multiple of 16 device px, so the Riso canvas maps 1:1 (moire rule)
+function fit(){const d=devicePixelRatio||1;let s=Math.min(innerWidth/1920,innerHeight/1080);s=Math.max(1,Math.floor(s*120*d+1e-6))/(120*d);
+  stage.style.transform=`scale(${s})`;stage.style.left=Math.round((innerWidth-1920*s)/2*d)/d+'px';stage.style.top=Math.round((innerHeight-1080*s)/2*d)/d+'px'}
 function go(n){n=Math.max(0,Math.min(S.length-1,n));if(n===i)return;i=n;
   S.forEach((x,k)=>x.classList.toggle('on',k===i));
   stage.classList.toggle('amber',S[i].classList.contains('amber'));
@@ -477,394 +461,248 @@ window.__still=/[?&]still\b/.test(location.search);if(window.__still)setStill(tr
 go((parseInt(location.hash.slice(1))||1)-1);
 </script>
 
-<!-- 3D world: one InstancedMesh of motes (1 draw call) that morphs per slide. Optional layer, loaded from ./vendor/. -->
+<!-- 3D world, round 6: Riso. One InstancedMesh of blocks (1 draw call) printed by vendor/riso.js. Optional layer. -->
 <script src="vendor/three.iife.js"></script>
+<script src="vendor/riso.js"></script>
 <script>
 (function () {
 try {
   if (!window.THREE || !THREE.WebGLRenderer) throw new Error('vendor/three.iife.js did not load');
-  const canvas = document.getElementById('world');
-  const stageEl = document.getElementById('stage');
+  if (!window.RikyuRiso) throw new Error('vendor/riso.js did not load');
+  const RR = RikyuRiso, INK = RR.INK, FM = RR.formations, rnd = FM.rnd, sm = RR.ease, back = RR.back;
+  const canvas = document.getElementById('world'), stageEl = document.getElementById('stage');
   const slides = [...document.querySelectorAll('.slide')];
   const mq = matchMedia('(prefers-reduced-motion: reduce)'); let reduce = mq.matches;
   const capture = document.documentElement.classList.contains('capture');
-  const DUR = 0.85;                                   // one move per slide change, seconds
-  const PAD = 40;                                     // px of clear air kept around every word
+  const Q = new URLSearchParams(location.search);
+  const noMask = Q.has('nomask');      // debug: print under the words too (negative control for the knockout)
+  const decoy = Q.has('decoy');        // debug: one big kuro block under every slide's heading
+  const DUR = 0.85, PAD = 36, TAU = Math.PI * 2;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
-  renderer.setSize(1920, 1080, false);
-  renderer.setClearColor(0, 0);                       // fully transparent: the CSS paper shows through
+  // the print: cell 4 stage px at 1920, always a whole number of device px (see vendor/riso.js, moire rule)
+  document.documentElement.classList.add('riso-on');
+  const print = RR.create({ canvas, stage: stageEl, cell: 4, grain: !Q.has('flat'),
+    forceOutput: Q.has('fixed1920') ? { w: 1920, h: 1080 } : null, preserveDrawingBuffer: Q.has('readback') });
 
-  // tokens: the 3D reads the same CSS custom properties as the HTML
-  const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
-  const rootStyle = getComputedStyle(document.documentElement);
-  function tok(name) {
-    const v = rootStyle.getPropertyValue(name).trim();
-    if (!v) throw new Error('missing colour token ' + name);   // a missing token must fail, not paint black
-    probe.clearRect(0, 0, 1, 1); probe.fillStyle = v;
-    probe.fillRect(0, 0, 1, 1); const d = probe.getImageData(0, 0, 1, 1).data;
-    return new THREE.Color().setRGB(d[0] / 255, d[1] / 255, d[2] / 255, THREE.SRGBColorSpace);
-  }
-  const PAL = {                                     // slot 0 key (Yim, work in motion) · 1 waiting · 2 agents
-    dark:  ['--mote-key', '--mote-wait', '--mote-agent'].map(tok),
-    amber: ['--mote-key-on-amber', '--mote-wait-on-amber', '--mote-agent-on-amber'].map(tok),
-  };
-  const BG = { dark: tok('--color-paper'), amber: tok('--color-accent') };
-
-  const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(BG.dark.clone(), 28, 64);     // dust fades into the paper, gives depth for free
-  const camera = new THREE.PerspectiveCamera(40, 1920 / 1080, 0.1, 200);
-  // the camera path is the story: wide establishing · in to the team · down into the house · level with the map ·
-  // square on to the org ·
-  // up over the day ·
-  // back to see everything made · close on the one node that lights the room
+  // camera per slide (orthographic isometric): az = turn around the room, el = height, zoom
+  // the path is the story: wide on the three stages · in to the team · level with the fleet · up over the map ·
+  // square to the org · high over the day like a clock · low to see the stacks · close on the one block
   const POSES = [
-    { p: [0, 0, 24],     l: [0, 0, 0] },
-    { p: [5, 2.5, 21],   l: [2, 0.5, 0] },
-    { p: [-3.5, -3, 22], l: [-1, -0.4, 0] },
-    { p: [-2, -1.5, 22], l: [-0.6, -0.3, 0] },
-    { p: [1.5, 0.8, 23], l: [0.6, 0.2, 0] },
-    { p: [0, 4.5, 22],   l: [0, 0.6, 0] },
-    { p: [0, 3, 26],     l: [0, 1, 0] },
-    { p: [5, -0.8, 17],  l: [3, 0, 0] },
+    { az: 0.785, el: 0.58, zoom: 1 }, { az: 0.70, el: 0.62, zoom: 1 }, { az: 0.86, el: 0.52, zoom: 1 },
+    { az: 0.785, el: 0.70, zoom: 1 }, { az: 0.74, el: 0.56, zoom: 1 }, { az: 0.785, el: 0.86, zoom: 1 },
+    { az: 0.92, el: 0.48, zoom: 1 }, { az: 0.66, el: 0.60, zoom: 1 },
   ];
-  const poseCam = POSES.map(o => {
-    const c = camera.clone(); c.position.set(...o.p); c.lookAt(...o.l); c.updateMatrixWorld(); c.updateProjectionMatrix(); return c;
-  });
-  camera.position.set(...POSES[0].p);
-  const look = new THREE.Vector3(...POSES[0].l);
+  const SUN_SPEED = [0.02, 0.02, 0.02, 0.02, 0.02, 0.32, 0.02, 0.02];   // slide 6: the shadow sweeps like a clock hand
+  const poseCam = POSES.map(p => print.poseCamera(p)), maps = poseCam.map(c => print.groundMap(c));
 
-  // three lights, no more: soft fill, warm key, neutral rim from behind
-  scene.add(new THREE.AmbientLight(tok('--light-fill'), 1.05));
-  const key = new THREE.DirectionalLight(tok('--light-key'), 2.1); key.position.set(6, 9, 10); scene.add(key);
-  const rim = new THREE.DirectionalLight(tok('--light-rim'), 1.1); rim.position.set(-7, 3, -9); scene.add(rim);
-
-  const N = 1000;
-  const geo = new THREE.IcosahedronGeometry(0.12, 0);
-  const mat = new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0.08 });
-  // a little self light from each mote's own colour, so the motes read as lamps, not plastic
-  mat.onBeforeCompile = sh => {
-    sh.fragmentShader = sh.fragmentShader.replace('#include <emissivemap_fragment>',
-      '#include <emissivemap_fragment>\n  totalEmissiveRadiance += diffuseColor.rgb * 0.22;');
-  };
-  const mesh = new THREE.InstancedMesh(geo, mat, N);
-  mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-  mesh.frustumCulled = false;
-  scene.add(mesh);
-
-  let _s = 0.731; const rng = () => (_s = Math.sin(_s * 99991) * 9973, _s - Math.floor(_s));
-  const R = Array.from({ length: N }, () => [rng(), rng(), rng(), rng(), rng()]);
-  const frac = x => x - Math.floor(x);
-  const ease = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;   // matches --ease-move
-
-  // anchors: unproject an element's box onto z=0 at the slide's camera pose
-  const ndc = new THREE.Vector3(), dir = new THREE.Vector3();
-  function worldAt(px, py, cam) {
-    ndc.set(px / 960 - 1, 1 - py / 540, 0.5).unproject(cam);
-    dir.copy(ndc).sub(cam.position).normalize();
-    const t = -cam.position.z / dir.z;
-    return cam.position.clone().addScaledVector(dir, t);
-  }
-  const anchors = [], textBoxes = [];
+  // anchors (stage px boxes of the empty HTML/SVG slots) and knockout boxes (every word), per slide
+  const anchors = [], words = [], heads = [];
   function measure(k) {
     const s = slides[k]; if (!s.classList.contains('on')) return;
-    s.classList.add('measuring');                       // read the resting layout, not the entrance offset
+    s.classList.add('measuring');
     const sr = stageEl.getBoundingClientRect(), sc = sr.width / 1920;
-    const box = el => { const b = el.getBoundingClientRect();
-      return { l: (b.left - sr.left) / sc, t: (b.top - sr.top) / sc, r: (b.right - sr.left) / sc, b: (b.bottom - sr.top) / sc }; };
-        // anchors: data-anchors lists selectors in the order the formation expects ('|' keeps groups in that order)
-    const els = (s.dataset.anchors || '.anc').split('|').flatMap(q => [...s.querySelectorAll(q)]);
-    anchors[k] = els.map(el => {
-      const q = box(el), cx = (q.l + q.r) / 2, cy = (q.t + q.b) / 2, w = q.r - q.l, h = q.b - q.t;
-      const c = worldAt(cx, cy, poseCam[k]);
-      const ex = worldAt(cx + Math.min(w, h) / 2, cy, poseCam[k]);
-      const ey = worldAt(cx, cy - h / 2, poseCam[k]);
-      const ex2 = worldAt(cx + w / 2, cy, poseCam[k]);
-      return { x: c.x, y: c.y, r: ex.distanceTo(c), hw: ex2.distanceTo(c), hh: ey.distanceTo(c) };
-    });
-    // words on this slide (incl. the big numbers): no mote may pass under them. svg diagrams only keep the dust out.
-    textBoxes[k] = [...s.querySelectorAll('h1,h2,p,.label,.num,svg,svg text')].map(el => { const tg = el.tagName.toLowerCase();
-      return Object.assign(box(el), { dustOnly: tg === 'svg', pad: tg === 'text' ? 30 : PAD }); });
+    const box = el => { const b = el.getBoundingClientRect(), l = (b.left - sr.left) / sc, t = (b.top - sr.top) / sc, r = (b.right - sr.left) / sc, bo = (b.bottom - sr.top) / sc;
+      return { l, t, r, bo, cx: (l + r) / 2, cy: (t + bo) / 2, w: r - l, h: bo - t }; };
+    anchors[k] = (s.dataset.anchors || '.anc').split('|').flatMap(q => [...s.querySelectorAll(q)]).map(box);
+    words[k] = [...s.querySelectorAll('h1,h2,p,.label,.num,svg text')].map(box).map(b => ({ l: b.l, t: b.t, r: b.r, b: b.bo }));
+    const h = s.querySelector('h1,h2,.heading'); heads[k] = h ? box(h) : null;
     s.classList.remove('measuring');
   }
 
-  const ZERO = { x: 0, y: 0, r: 2, hw: 2, hh: 2 };
-  const out = { x: 0, y: 0, z: 0, s: 1, c: 0, f: 0, dust: false };
-  function put(x, y, z, s, c, f = 0) { out.x = x; out.y = y; out.z = z; out.s = s; out.c = c; out.f = f; out.dust = false; }
-  function dust(i, t) {
-    const r = R[i];
-    put((r[0] - 0.5) * 70 + Math.sin(t * 0.04 + i) * 0.5, (r[1] - 0.5) * 40 + Math.cos(t * 0.03 + i) * 0.35, -10 - r[2] * 30, 0.55 + r[3] * 0.7, 1);
-    out.dust = true;
-  }
-  function sphere(c, rad, k, n, t, spin, z0 = 0) {   // fibonacci shell, spinning about y
-    const y = 1 - 2 * (k + 0.5) / n, rr = Math.sqrt(1 - y * y), th = k * 2.39996 + t * spin;
-    return [c.x + Math.cos(th) * rr * rad, c.y + y * rad, z0 + Math.sin(th) * rr * rad];
-  }
-  const PENTA = (c, rad, t, tilt) => Array.from({ length: 5 }, (_, j) => {
-    const a = Math.PI / 2 + j * 2 * Math.PI / 5 + t * 0.12;
-    return { x: c.x + Math.cos(a) * rad, y: c.y + Math.sin(a) * rad * Math.cos(tilt), z: Math.sin(a) * rad * Math.sin(tilt) };
-  });
-  const EDGES = []; for (let a = 0; a < 5; a++) for (let b = a + 1; b < 5; b++) EDGES.push([a, b]);
-  function messenger(nodes, j, i, t, speed, c = 2) {
-    const [a, b] = EDGES[j % EDGES.length], A = nodes[a], B = nodes[b];
-    let u = frac(R[i][0] + t * speed * (0.6 + R[i][1] * 0.8)); if (R[i][2] > 0.5) u = 1 - u;
-    put(A.x + (B.x - A.x) * u, A.y + (B.y - A.y) * u, (A.z || 0) + ((B.z || 0) - (A.z || 0)) * u + Math.sin(u * Math.PI) * 0.8, 0.7, c);
-  }
-  const lerp3 = (A, B, u, lift = 0) => [A.x + (B.x - A.x) * u, A.y + (B.y - A.y) * u, (A.z || 0) + ((B.z || 0) - (A.z || 0)) * u + Math.sin(u * Math.PI) * lift];
+  // ---- instance state: [x, z, y, w, h, d, ry, ink1, ink2, ink3] ----
+  const N = 400, STR = 10, B = print.blocks(N);
+  const cur = new Float32Array(N * STR), from = new Float32Array(N * STR);
+  const o = new Float32Array(STR);
+  function put(g, y, w, h, d, ry, ink) { o[0] = g.x; o[1] = g.z; o[2] = y; o[3] = w; o[4] = h; o[5] = d == null ? w : d; o[6] = ry || 0; o[7] = ink[0]; o[8] = ink[1]; o[9] = ink[2]; }
+  const Z = { l: 0, t: 0, r: 0, bo: 0, cx: 960, cy: 540, w: 0, h: 0 };
+  const lerpG = (A, Bq, u) => ({ x: A.x + (Bq.x - A.x) * u, z: A.z + (Bq.z - A.z) * u });
+  const off = (g, dx, dz) => ({ x: g.x + dx, z: g.z + dz });
+  const frac = x => x - Math.floor(x);
 
-  // formation per slide: every mote gets a target (position, scale, colour slot, flatness)
+  // formations: one per slide, i = instance, t = clock, A = anchors, G = stage px -> ground, lt = seconds on this slide
   const F = [
-    (i, t, A) => {                       // 1: lone node | buried node | five agents
-      const a0 = A[0] || ZERO, a1 = A[1] || ZERO, a2 = A[2] || ZERO;
-      if (i < 1) return put(a0.x, a0.y, 0, 2.6, 0);
-      if (i < 41) { const p = sphere(a0, a0.r * 0.32, i - 1, 40, t, 0.3); return put(...p, 1, 2); }
-      if (i < 53) { const k = i - 41, a = k / 12 * Math.PI * 2 + t * 0.25;   // the chat that has to be retold
-        return put(a0.x + Math.cos(a) * a0.r * 0.75, a0.y + Math.sin(a) * a0.r * 0.42, Math.sin(a * 2) * 0.4, 0.6, 0); }
-      if (i < 54) return put(a1.x, a1.y, 0, 2.6, 0);
-      if (i < 94) { const p = sphere(a1, a1.r * 0.32, i - 54, 40, t, 0.3); return put(...p, 1, 2); }
-      if (i < 244) { const r = R[i], rad = a1.r * (0.42 + 0.5 * Math.cbrt(r[0])), th = r[1] * Math.PI * 2, ph = Math.acos(2 * r[2] - 1);
-        const j = 0.04 * Math.sin(t * 2 + i);        // the pile: work waiting on one person
-        return put(a1.x + rad * Math.sin(ph) * Math.cos(th) + j, a1.y + rad * Math.cos(ph) * 0.62 + j, rad * Math.sin(ph) * Math.sin(th) * 0.6, 0.85, r[3] > 0.3 ? 1 : 0, 0.6); }
-      if (i < 324) { const r = R[i], u = frac(r[0] + t * 0.09);      // more work still arriving
-        const sx = a1.x - a1.hw * 1.1 + r[1] * 0.6, sy = a1.y + a1.hh * 0.9 + r[2] * 0.6, e = u * u;
-        return put(sx + (a1.x - sx) * e, sy + (a1.y - sy) * e, (r[3] - 0.5) * 1.5 * (1 - e), 0.8, 1, 0.6); }
-      if (i < 329) { const n = PENTA(a2, a2.r * 0.62, t, 0.5)[i - 324]; return put(n.x, n.y, n.z, 1.9, 2); }
-      if (i < 429) { const k = i - 329, nodes = PENTA(a2, a2.r * 0.62, t, 0.5), n = nodes[k % 5];
-        const p = sphere(n, a2.r * 0.15, Math.floor(k / 5), 20, t, 0.6, n.z); return put(...p, 0.7, 2); }
-      if (i < 479) return messenger(PENTA(a2, a2.r * 0.62, t, 0.5), i - 429, i, t, 0.25, 0);
-      return dust(i, t);
+    (i, t, A, G) => {                      // 1 · three stages: work lands and vanishes | the tower on Yim | five agents
+      const a = A[0] || Z, b = A[1] || Z, c = A[2] || Z;
+      const G1 = G(a.cx, a.bo - 64), G2 = G(b.cx, b.bo - 44), G3 = G(c.cx, c.bo - 78);
+      if (i === 0) return put(G1, 0, 58, 58, 58, 0, INK.sabi);
+      if (i < 7) { const d = i - 1, L = 4.4, tt = t + d * L / 6, cyc = Math.floor(tt / L), ph = (tt % L) / L;
+        const an = rnd(d, cyc) * TAU, r = 84 + rnd(d, cyc + 5) * 46, p = off(G1, Math.cos(an) * r, Math.sin(an) * r);
+        const fall = Math.min(1, ph / 0.16), sq = ph > 0.16 && ph < 0.24 ? 1 - Math.sin((ph - 0.16) / 0.08 * Math.PI) * 0.35 : 1;
+        const gone = ph < 0.62 ? 1 : 1 - sm((ph - 0.62) / 0.3), s = 30 * gone * (ph < 0.01 ? 0 : 1);
+        return put(p, (1 - fall * fall) * 170, s * (2 - sq), s * sq, s * (2 - sq), an, INK.kuro); }
+      if (i === 7) return put(G2, 0, 58, 58, 58, 0, INK.sabi);
+      if (i < 13) { const k = i - 8, sl = FM.stack({ n: 5, base: 58, slab: 30, width: 50, t })[k]; return put(off(G2, sl.dx, sl.dz), sl.y, sl.w, sl.h, sl.w, sl.ry, INK.kuro); }
+      if (i < 18) { const k = i - 13, u = frac(t * 0.06 + k / 5), s = 24 * Math.min(1, u * 6) * Math.min(1, (1 - u) * 7);   // the queue keeps coming
+        return put(G(b.l + 20 + (b.cx - 70 - b.l - 20) * u, b.bo - 30), 0, s, s, s, 0.2, INK.kuro); }
+      if (i === 18) return put(G3, 0, 50, 50, 50, 0, INK.sabi);
+      const AG = FM.ring({ n: 5, rx: 128, phase: 0.3 }).map(q => off(G3, q.dx, q.dz)), hA = k => 56 + (k % 2) * 14;
+      if (i < 24) { const k = i - 19; return put(AG[k], 0, 48, hA(k), 48, 0, INK.moss); }
+      if (i === 24) { const u = (t * 0.55) % 5, k = Math.floor(u), f = u - k, e = sm(f);   // the work hops agent to agent, never onto Yim
+        return put(lerpG(AG[k], AG[(k + 1) % 5], e), hA(k) + (hA((k + 1) % 5) - hA(k)) * e + Math.sin(f * Math.PI) * 80, 22, 22, 22, t, INK.kuro); }
+      return null;
     },
-    (i, t, A) => {                       // 2: the constellation, turning in depth
-      const a = A[0] || ZERO, rad = Math.min(a.hw, a.hh) * 0.62;
-      const nodes = PENTA(a, rad, t * 0.6, 0.9);
-      if (i < 5) { const n = nodes[i]; return put(n.x, n.y, n.z, 2.8, 2); }
-      if (i < 245) { const k = i - 5, n = nodes[k % 5]; const p = sphere(n, rad * 0.24, Math.floor(k / 5), 48, t, 0.5, n.z); return put(...p, 0.9, 2); }
-      if (i < 365) return messenger(nodes, i - 245, i, t, 0.22, 0);
-      return dust(i, t);
+    (i, t, A, G, lt) => {                  // 2 · what unlocked it: five agents, a ledger that only grows, the call stays with Yim
+      const a = A[0] || Z, C = G(a.cx, a.cy - 10), AG = FM.ring({ n: 5, rx: 168, phase: t * 0.05 }).map(q => off(C, q.dx, q.dz));
+      if (i < 5) return put(AG[i], 0, 64, 76, 64, 0, INK.moss);
+      if (i < 35) { const k = i - 5, ag = k % 5, n = Math.floor(k / 5), have = Math.min(6, 1 + Math.floor(lt * 0.8 + ag * 0.7));
+        return n < have ? put(AG[ag], 76 + n * 13, 48, 11, 48, 0, INK.kuroLight) : put(AG[ag], 76 + n * 13, 0, 0, 0, 0, INK.kuroLight); }
+      if (i < 41) { const k = i - 35, u = frac(t * 0.32 + k / 6), hop = Math.floor(t * 0.32 + k / 6), s0 = (k + hop * 2) % 5, s1 = (s0 + 1 + (k % 3)) % 5;
+        return put(lerpG(AG[s0], AG[s1], sm(u)), 76 + 84 + Math.sin(u * Math.PI) * 70, 24, 24, 24, t + k, INK.kuro); }
+      const Y = G(a.cx + 10, a.bo - 40);
+      if (i === 41) return put(Y, 0, 60, 60, 60, 0, INK.sabi);
+      if (i === 42) { const u = frac(t * 0.18), go = u < 0.5 ? sm(u * 2) : 1 - sm((u - 0.5) * 2);   // a question goes to Yim and comes back
+        return put(lerpG(AG[2], Y, go), 60 + 30 + Math.sin(go * Math.PI) * 60, 24, 24, 24, 0, INK.kuro); }
+      return null;
     },
-    (i, t, A) => {                       // 3: the fleet · house of buds | the gate | the personal agent line
-      const a = A[0] || ZERO, b = A[1] || ZERO, c = A[2] || ZERO;
-      // row 1: buds on a ring, signed envelopes hopping between them, some go to Yim in the middle for approval
-      const NB = 12, bud = k => { const g = k / NB * Math.PI * 2 + t * 0.06;
-        return { x: a.x + Math.cos(g) * a.hw * 0.8, y: a.y + Math.sin(g) * a.hh * 0.55, z: Math.sin(g) * a.hh * 0.9 }; };
-      const yim = { x: a.x, y: a.y, z: 0 };
-      if (i < 12) { const n = bud(i); return put(n.x, n.y, n.z, 1.5, 2); }
-      if (i < 108) { const k = i - 12, n = bud(k % NB); const p = sphere(n, 0.3, Math.floor(k / NB), 8, t, 0.7, n.z); return put(...p, 0.42, 2); }
-      if (i < 109) return put(yim.x, yim.y, 0, 2.2, 0);
-      if (i < 125) { const p = sphere(yim, 0.45, i - 109, 16, t, 0.35); return put(...p, 0.55, 0); }
-      if (i < 165) { const k = i - 125, r = R[i], ph = r[0] + t * 0.16, p = Math.floor(ph), u = ease(frac(ph));
-        const dest = q => ((k + q) % 6 === 0) ? -1 : (k * 7 + q * 5 + (k * q) % 3) % NB;
-        let s = dest(p - 1), e = dest(p); if (s === e) e = (e + 1) % NB;
-        const S0 = s < 0 ? yim : bud(s), E0 = e < 0 ? yim : bud(e);
-        return put(...lerp3(S0, E0, u, 0.6), 0.75, 0, 1); }
-      // row 2: our house (left), a gate (middle), another person's agent (right).
-      //        talk passes the gate, actions stop at it, our checked replies go out
-      const L = { x: b.x - b.hw * 0.62, y: b.y, z: 0 }, G = { x: b.x + b.hw * 0.06, y: b.y, z: 0 }, O = { x: b.x + b.hw * 0.72, y: b.y, z: 0 };
-      const gr = Math.min(b.hh * 0.62, 1.2);
-      if (i < 215) { const p = sphere(L, Math.min(b.hh * 0.5, 1.0), i - 165, 50, t, 0.25); return put(...p, 0.7, 2); }
-      if (i < 216) return put(L.x, L.y, 0, 1.8, 0);
-      if (i < 256) { const g = (i - 216) / 40 * Math.PI * 2 + t * 0.15;   // the gate: a ring standing across the path
-        return put(G.x + Math.sin(g) * gr * 0.42, G.y + Math.cos(g) * gr, Math.sin(g) * gr, 0.5, 2); }
-      if (i < 257) return put(O.x, O.y, 0, 2.0, 1);
-      if (i < 271) { const p = sphere(O, 0.5, i - 257, 14, t, -0.4); return put(...p, 0.5, 1); }
-      if (i < 283) { const u = frac(R[i][0] + t * 0.13), y0 = (R[i][1] - 0.5) * 0.5;   // talk: crosses the gate, softly
-        const P = lerp3({ x: O.x, y: O.y + y0 }, { x: L.x + 0.9, y: L.y + y0 * 0.4 }, u, 0.3); return put(...P, 0.45, 2); }
-      if (i < 295) { const v = frac(R[i][0] + t * 0.11), u = Math.min(v / 0.6, 1), y0 = (R[i][1] - 0.5) * gr * 1.2;   // actions: stop at the gate
-        const P = lerp3({ x: O.x - 0.3, y: O.y + y0 * 0.3 }, { x: G.x + 0.28, y: G.y + y0 }, ease(u));
-        return put(...P, v < 0.6 ? 0.62 : 0.62 * (1 - (v - 0.6) / 0.4), 1, 0.8); }
-      if (i < 305) { const u = frac(R[i][0] + t * 0.1), y0 = (R[i][1] - 0.5) * 0.4;   // replies: checked, then out
-        const P = lerp3({ x: L.x + 0.9, y: L.y + y0 }, { x: O.x - 0.5, y: O.y + y0 }, u, -0.2); return put(...P, 0.55, 0, 1); }
-      // row 3: our house (left), the personal agent (right), one relay line with a ledger under it
-      const H = { x: c.x - c.hw * 0.62, y: c.y, z: 0 }, P = { x: c.x + c.hw * 0.66, y: c.y, z: 0 }, lane = 0.26;
-      if (i < 345) { const p = sphere(H, Math.min(c.hh * 0.5, 1.0), i - 305, 40, t, 0.25); return put(...p, 0.7, 2); }
-      if (i < 346) return put(H.x, H.y, 0, 1.8, 0);
-      if (i < 347) return put(P.x, P.y, 0, 2.6, 2);
-      if (i < 365) { const p = sphere(P, 0.62, i - 347, 18, t, -0.5); return put(...p, 0.55, 0); }
-      if (i < 389) { const k = i - 365, u = (k + 0.5) / 24;   // the relay line
-        return put(H.x + 1.1 + (P.x - H.x - 2.0) * u, H.y, 0, 0.28, 1); }
-      if (i < 397) { const k = i - 389, u = frac(t * 0.17 + k * 0.022);   // task out, as one short train
-        return put(...lerp3({ x: H.x + 1.1, y: H.y + lane }, { x: P.x - 0.9, y: P.y + lane }, u), 0.5, 2); }
-      if (i < 405) { const k = i - 397, u = frac(t * 0.17 + 0.5 + k * 0.022);   // callback home, half a beat later
-        return put(...lerp3({ x: P.x - 0.9, y: P.y - lane }, { x: H.x + 1.1, y: H.y - lane }, u), 0.5, 0); }
-      if (i < 415) { const j = i - 405, cnt = Math.floor(frac(t * 0.17) * 11), mx = (H.x + P.x) / 2;   // the ledger: one line per trip
-        return put(mx + (j % 5 - 2) * 0.32, c.y - Math.min(c.hh * 0.6, 1.1) + Math.floor(j / 5) * 0.2, 0, j < cnt ? 0.6 : 0, 1, 1); }
-      return dust(i, t);
+    (i, t, A, G) => {                      // 3 · the fleet: house of buds | a gate for other people's agents | relay to the personal assistants
+      const a = A[0] || Z, b = A[1] || Z, c = A[2] || Z;
+      const C1 = G(a.cx, a.cy + 22), BU = FM.ring({ n: 12, rx: 150, phase: t * 0.06 }).map(q => off(C1, q.dx, q.dz));
+      if (i < 12) return put(BU[i], 0, 28, 34, 28, 0, INK.moss);
+      if (i === 12) return put(C1, 0, 46, 50, 46, 0, INK.sabi);
+      if (i < 21) { const k = i - 13, ph = t * 0.22 + k * 0.37, p = Math.floor(ph), u = sm(frac(ph));   // signed envelopes; some go to Yim
+        const dest = q => ((k + q) % 5 === 0) ? -1 : (k * 7 + q * 5) % 12, s = dest(p - 1), e = dest(p);
+        const S0 = s < 0 ? C1 : BU[s], E0 = e < 0 ? C1 : BU[e === s ? (e + 1) % 12 : e];
+        return put(lerpG(S0, E0, u), 38 + Math.sin(u * Math.PI) * 50, 20, 8, 20, 0, INK.kuro); }
+      // row 2: our house (left), the gate (middle), another person's agent (right)
+      const L2 = G(b.l + 90, b.cy + 34), O2 = G(b.r - 90, b.cy + 34), Ga = lerpG(L2, O2, 0.5);
+      const dx = O2.x - L2.x, dz = O2.z - L2.z, len = Math.hypot(dx, dz), px = -dz / len, pz = dx / len, ry = Math.atan2(-pz, px);
+      if (i < 26) { const k = i - 21, q = [[0, 0], [30, 8], [-26, 14], [10, -30], [-14, -26]][k]; return put(off(L2, q[0] * 1.3, q[1] * 1.3), 0, 32, 36 + (k % 2) * 12, 32, 0, INK.moss); }
+      if (i < 28) { const sd = i === 26 ? 1 : -1; return put(off(Ga, px * 46 * sd, pz * 46 * sd), 0, 16, 76, 16, 0, INK.kuro); }
+      if (i === 28) return put(Ga, 76, 108, 14, 16, ry, INK.kuro);
+      if (i === 29) return put(O2, 0, 52, 60, 52, 0, INK.kuroLight);
+      if (i < 33) { const k = i - 30, u = frac(t * 0.13 + k / 3);   // talk: crosses the gate
+        return put(lerpG(O2, L2, u), 20 + Math.sin(u * Math.PI) * 14, 18, 14, 18, 0, INK.moss); }
+      if (i < 36) { const k = i - 33, v = frac(t * 0.11 + k / 3), u = Math.min(v / 0.6, 1), s = v < 0.6 ? 1 : 1 - (v - 0.6) / 0.4;   // actions: stop at the gate
+        return put(lerpG(O2, lerpG(O2, Ga, 0.86), sm(u)), 0, 20 * s, 20 * s, 20 * s, 0, INK.kuro); }
+      if (i < 38) { const k = i - 36, u = frac(t * 0.1 + k / 2 + 0.25);   // our replies: checked by a person, then out
+        return put(lerpG(L2, O2, u), 4, 20, 16, 20, 0, INK.sabi); }
+      // row 3: our house (left), the three personal assistants (right), one relay line between
+      const H3 = G(c.l + 90, c.cy + 30), P3 = G(c.r - 90, c.cy + 30);
+      const ex = P3.x - H3.x, ez = P3.z - H3.z, el = Math.hypot(ex, ez), nx = -ez / el, nz = ex / el;
+      if (i < 42) { const k = i - 38, q = [[0, 0], [28, 10], [-24, 14], [8, -28]][k]; return put(off(H3, q[0] * 1.3, q[1] * 1.3), 0, 32, 36 + (k % 2) * 12, 32, 0, INK.moss); }
+      if (i < 45) { const k = i - 42, g = off(P3, (k - 1) * 38, (1 - k) * 12); return put(g, 0, 32, 36 + k * 10, 32, 0, INK.kuroLight); }
+      if (i < 57) { const k = i - 45, u = 0.14 + (k + 0.5) / 12 * 0.72; return put(lerpG(H3, P3, u), 0, 18, 4, 18, 0, INK.kuroLight); }
+      if (i < 60) { const k = i - 57, u = 0.14 + frac(t * 0.17 + k * 0.05) * 0.72; return put(off(lerpG(H3, P3, u), nx * 18, nz * 18), 4, 18, 14, 18, 0, INK.kuro); }
+      if (i < 63) { const k = i - 60, u = 0.86 - frac(t * 0.17 + 0.5 + k * 0.05) * 0.72; return put(off(lerpG(H3, P3, u), -nx * 18, -nz * 18), 4, 18, 14, 18, 0, INK.moss); }
+      return null;
     },
-    (i, t, A) => {                       // 4: the architecture · light travels the arrows, agents circle the machine
-      const [y0, dc, fl, mem, oth, per] = [0, 1, 2, 3, 4, 5].map(k => A[k] || ZERO);
-      // twelve agents circle the always-on machine, each with a small halo
-      const NB = 12, bud = k => { const g = k / NB * Math.PI * 2 + t * 0.08;
-        return { x: fl.x + Math.cos(g) * fl.hw * 1.12, y: fl.y + Math.sin(g) * fl.hh * 1.35, z: Math.sin(g) * 0.9 }; };
-      if (i < 12) { const n = bud(i); return put(n.x, n.y, n.z, 1.3, 2); }
-      if (i < 84) { const k = i - 12, n = bud(k % NB); const p = sphere(n, 0.26, Math.floor(k / NB), 6, t, 0.7, n.z); return put(...p, 0.4, 2); }
-      // the main chain: Yim -> Discord -> machine -> memory, light flowing along each arrow
-      if (i < 144) { const k = i - 84, e = k % 3, from = [y0, dc, fl][e], to = [dc, fl, mem][e];
-        const u = frac(R[i][0] + t * 0.22), sx = from.x + from.hw, ex = to.x - to.hw, j = (R[i][1] - 0.5) * 0.18;
-        return put(sx + (ex - sx) * u, from.y + j, Math.sin(u * Math.PI) * 0.25, 0.55 + R[i][2] * 0.25, 0, 1); }
-      // personal assistants <-> machine: both directions
-      if (i < 160) { const k = i - 144, up = k % 2 === 0, u = frac(R[i][0] + t * 0.2), x = fl.x + (up ? -0.22 : 0.22);
-        const a = per.y + per.hh, b = fl.y - fl.hh, v = up ? u : 1 - u;
-        return put(x, a + (b - a) * v, 0, 0.5, 2, 1); }
-      // other people's agents: talk crosses to Discord, actions stop halfway and fade
-      if (i < 170) { const k = i - 160, up = k % 2 === 0, u = frac(R[i][0] + t * 0.16), x = dc.x + (up ? -0.22 : 0.22);
-        const a = oth.y + oth.hh, b = dc.y - dc.hh, v = up ? u : 1 - u;
-        return put(x, a + (b - a) * v, 0, 0.45, 2, 1); }
-      if (i < 178) { const v = frac(R[i][0] + t * 0.12), u = Math.min(v / 0.55, 1), x = dc.x + (R[i][1] - 0.5) * 0.9;
-        const a = oth.y + oth.hh, b = (oth.y + oth.hh + dc.y - dc.hh) / 2;
-        return put(x, a + (b - a) * ease(u), 0, v < 0.55 ? 0.55 : 0.55 * (1 - (v - 0.55) / 0.45), 1, 0.8); }
-      return dust(i, t);
+    (i, t, A, G, lt) => {                  // 4 · architecture: work travels the arrows, twelve buds under the machine, memory piles up
+      const [yi, dc, fl, mem, oth, per] = [0, 1, 2, 3, 4, 5].map(k => A[k] || Z);
+      if (i < 12) { const e = i % 3, from = [yi, dc, fl][e], to = [dc, fl, mem][e], u = frac(Math.floor(i / 3) / 4 + t * 0.22);
+        return put(G(from.r + 16 + (to.l - from.r - 32) * u, from.cy), 0, 18, 12, 18, 0, INK.kuro); }
+      if (i < 18) { const k = i - 12, up = k % 2 === 0, u = frac(k / 6 + t * 0.2), v = up ? u : 1 - u;   // personal assistants <-> machine
+        return put(G(fl.cx + (up ? -22 : 22), per.t - 10 + (fl.bo + 10 - per.t + 10) * v), 0, 16, 12, 16, 0, INK.moss); }
+      if (i < 22) { const k = i - 18, up = k % 2 === 0, u = frac(k / 4 + t * 0.16), v = up ? u : 1 - u;   // other people's agents: talk crosses
+        return put(G(dc.cx + (up ? -22 : 22), oth.t - 10 + (dc.bo + 10 - oth.t + 10) * v), 0, 16, 12, 16, 0, INK.moss); }
+      if (i < 25) { const k = i - 22, v = frac(k / 3 + t * 0.12), u = Math.min(v / 0.55, 1), s = v < 0.55 ? 1 : 1 - (v - 0.55) / 0.45;   // actions stop halfway
+        return put(G(dc.cx + (k - 1) * 30, oth.t - 10 - (oth.t - dc.bo) * 0.5 * sm(u)), 0, 18 * s, 14 * s, 18 * s, 0, INK.kuro); }
+      if (i < 37) { const j = i - 25, sd = j < 6 ? -1 : 1, ix = j % 6, col = ix % 3, row = Math.floor(ix / 3);
+        return put(G(fl.cx + sd * (70 + col * 50), fl.bo + 34 + row * 48), 0, 24, 28 + 8 * Math.sin(t * 1.4 + j), 24, 0, INK.moss); }
+      if (i < 45) { const n = i - 37, have = Math.min(8, 2 + Math.floor(lt * 1.2));   // the shared memory: files that only pile up
+        return put(G(mem.cx, mem.bo + 96), n * 10, n < have ? 84 : 0, n < have ? 9 : 0, n < have ? 60 : 0, 0.04 * Math.sin(n * 3), n === have - 1 ? INK.kuro : INK.kuroLight); }
+      return null;
     },
-    (i, t, A) => {                       // 5: run like a company · ladder | registry shelf | gate
-      const lt = t - tStart;                // seconds since this slide arrived (huge in still / capture: final state)
-      const lv = [A[0], A[1], A[2]].map(v => v || ZERO), rail = A[3] || ZERO, cloud = A[4] || ZERO;
-      const slot = k => A[5 + k] || ZERO, gate = A[22] || ZERO, lane = A[23] || ZERO;
-      // 211 topics learned; 17 light up and move onto the shelf, 194 keep drifting
+    (i, t, A, G, lt) => {                  // 5 · run like a company: the ladder | 211 learned, 17 chosen onto the shelf | the gate
+      const lv = [A[0], A[1], A[2]].map(v => v || Z), rail = A[3] || Z, cloud = A[4] || Z, slot = k => A[5 + k] || Z, gate = A[22] || Z, lane = A[23] || Z;
       if (i < 211) {
-        const r = R[i], th = r[0] * Math.PI * 2 + t * 0.05 * (r[4] > 0.5 ? 1 : -1), rr = Math.sqrt(r[1]);
-        const cx = cloud.x + Math.cos(th) * rr * cloud.hw * 0.92, cy = cloud.y + Math.sin(th) * rr * cloud.hh * 0.8;
-        const cz = (r[2] - 0.5) * 1.6;
-        if (i >= 17) return put(cx, cy, cz, 0.62 + r[3] * 0.25, 1);
-        const sl = slot(i), u = ease(Math.max(0, Math.min(1, (lt - 1.3 - i * 0.05) / 1.1)));
-        const lit = lt > 1.0 + i * 0.05;
-        return put(cx + (sl.x - cx) * u, cy + (sl.y - cy) * u + Math.sin(u * Math.PI) * 0.6, cz * (1 - u), lit ? 0.75 + u * 0.4 : 0.7, lit ? 0 : 1); }
-      // decisions climb the ladder; most stop at small, fewer at medium, few reach the human at the top (amber)
-      if (i < 271) {
-        const r = R[i], d = r[1] < 0.6 ? 2 : r[1] < 0.88 ? 1 : 0, u = frac(r[0] + t * 0.07 * (1.6 - d * 0.3));
-        const y0 = rail.y - rail.hh, y1 = lv[d].y;
-        return put(lv[2].x, y0 + (y1 - y0) * u, 0, 0.7, d === 0 ? 0 : 1, 1); }
-      // work passes the gate: checked work leaves lit, some never gets past it
-      if (i < 321) {
-        const r = R[i], u = frac(r[0] + t * 0.09), x0 = lane.x - lane.hw, x1 = lane.x + lane.hw * 0.9;
-        let x = x0 + (x1 - x0) * u, s = 0.7, c = 1;
-        const gl = gate.x - gate.hw * 0.75;
-        if (r[1] < 0.3) { if (x > gl) { s = 0.7 * Math.max(0, 1 - (x - gl) / 1.0); x = gl; } }
-        else if (x > gate.x) c = 0;
-        return put(x, lane.y + (r[2] - 0.5) * 0.12, 0, s, c, 1); }
-      return dust(i, t);
+        if (!F5.cells) { F5.cells = FM.field({ count: 211, cols: 15, spacing: 21 }); F5.chosen = FM.pick(17, 211, 900); F5.order = [...F5.chosen].sort((x, y) => x - y); }
+        const cl = F5.cells[i], ch = F5.chosen.has(i), C = G(cloud.cx, cloud.cy + 8), g = off(C, cl.dx, cl.dz);
+        const pop = back(lt * 1.25 - 0.2 - (cl.c + cl.r) / 28 * 0.9), rise = sm((lt - 1.6) / 1.2 - (ch ? i / 211 * 0.3 : 0));
+        if (!ch) { const s = 13 + 6 * rise; return put(g, 0, s * pop, (13 - 10 * rise) * pop, s * pop, 0, rise > 0.5 ? INK.mossLight : INK.kuroLight); }
+        const k = F5.order.indexOf(i), mv = sm((lt - 3.2) / 1.2 - k * 0.02), sl = slot(k), S = G(sl.cx, sl.cy);
+        return put(lerpG(g, S, mv), 0, 13 * pop, (13 + 57 * rise - 16 * mv) * pop, 13 * pop, 0, INK.kuro); }
+      if (i < 221) { const k = i - 211, r = rnd(k, 3), d = r < 0.6 ? 2 : r < 0.88 ? 1 : 0, u = frac(rnd(k, 7) + t * 0.08 * (1.5 - d * 0.3));   // decisions climb; few reach Yim
+        const y0 = rail.bo, y1 = lv[d].cy, s = u < 0.85 ? 1 : 1 - (u - 0.85) / 0.15;
+        return put(G(lv[2].cx, y0 + (y1 - y0) * sm(Math.min(1, u / 0.85))), 0, 20 * s, 14 * s, 20 * s, 0, d === 0 ? INK.sabi : INK.kuro); }
+      if (i < 233) { const k = i - 221, r = rnd(k, 11), u = frac(k / 12 + t * 0.09), x0 = lane.l + 8, x1 = lane.r - 20, gl = gate.l - 10;
+        let x = x0 + (x1 - x0) * u, s = 1; if (r < 0.3 && x > gl) { s = Math.max(0, 1 - (x - gl) / 50); x = gl; }   // some never pass the check
+        return put(G(x, lane.cy), 0, 22 * s, 18 * s, 22 * s, 0, x > gate.cx ? INK.kuro : INK.kuroLight); }
+      return null;
     },
-    (i, t, A) => {                       // 6: shift ring; nodes clockwise from top, then ψ/, then ring
-      const n = [A[0], A[1], A[2], A[3]].map(v => v || ZERO), c = A[4] || ZERO, ring = A[5] || ZERO;
-      if (i < 160) { const k = i % 4, m = Math.floor(i / 4), a = m / 40 * Math.PI * 2 + t * 0.3 * (k % 2 ? -1 : 1);
-        const rr = n[k].r * 1.14; return put(n[k].x + Math.cos(a) * rr, n[k].y + Math.sin(a) * rr, Math.sin(a * 3 + t) * 0.15, 0.75, k === 1 ? 2 : 0); }
-      if (i < 220) { const m = i - 160, a = m / 60 * Math.PI * 2 - t * 0.2;
-        const rr = c.r * 1.12; return put(c.x + Math.cos(a) * rr, c.y + Math.sin(a) * rr, 0, 0.9, 0); }
-      if (i < 400) { const r = R[i], th = Math.PI / 2 - frac(r[0] + t * 0.035) * Math.PI * 2;   // clockwise on screen
-        const rr = ring.r * (1 + (r[1] - 0.5) * 0.07); return put(ring.x + Math.cos(th) * rr, ring.y + Math.sin(th) * rr, (r[2] - 0.5) * 0.5, 0.6 + r[3] * 0.4, r[3] > 0.7 ? 0 : 2); }
-      if (i < 440) { const k = (i - 400) % 4, r = R[i], u = frac(r[0] + t * 0.12);   // each shift writes into ψ/
-        const A0 = n[k], e = u * u * (3 - 2 * u), rr0 = A0.r * 1.05, rr1 = c.r * 1.05;
-        const dx = c.x - A0.x, dy = c.y - A0.y, L = Math.hypot(dx, dy) || 1;
-        const sx = A0.x + dx / L * rr0, sy = A0.y + dy / L * rr0, ex = c.x - dx / L * rr1, ey = c.y - dy / L * rr1;
-        return put(sx + (ex - sx) * e, sy + (ey - sy) * e, 0.3, 0.55, 0, 1); }
-      return dust(i, t);
+    (i, t, A, G) => {                      // 6 · the shift ring: work flows clockwise, each shift drops a note into ψ/
+      const n = [A[0], A[1], A[2], A[3]].map(v => v || Z), c = A[4] || Z, ring = A[5] || Z, R0 = ring.w / 2;
+      if (i < 40) { const th = Math.PI / 2 - frac(i / 40 + t * 0.03) * TAU;
+        return put(G(ring.cx + Math.cos(th) * R0, ring.cy - Math.sin(th) * R0), 0, 20, i % 8 === 0 ? 36 : 16, 20, 0, i % 8 === 0 ? INK.sabi : INK.kuro); }
+      if (i < 48) { const k = (i - 40) % 4, u = frac((i - 40) / 8 + t * 0.12), e = sm(u), A0 = n[k];
+        const dx = c.cx - A0.cx, dy = c.cy - A0.cy, Ln = Math.hypot(dx, dy) || 1, r0 = A0.w / 2 + 6, r1 = c.w / 2 + 6;
+        const sx = A0.cx + dx / Ln * r0, sy = A0.cy + dy / Ln * r0, ex = c.cx - dx / Ln * r1, ey = c.cy - dy / Ln * r1;
+        return put(G(sx + (ex - sx) * e, sy + (ey - sy) * e), 0, 18, 12, 18, 0, INK.moss); }
+      return null;
     },
-    (i, t, A) => {                       // 7: 135 articles, 5 apps with users, 3 course parts
-      const b0 = A[0] || ZERO, b1 = A[1] || ZERO, b2 = A[2] || ZERO;
-      if (i < 135) { const x = i % 9, y = Math.floor(i / 9) % 5, z = Math.floor(i / 45), sp = 0.4;   // 9 x 5 x 3, seen in depth
-        const lx = (x - 4) * sp, ly = (y - 2) * sp, lz = (z - 1) * sp, a = 0.55 + Math.sin(t * 0.15) * 0.3, ca = Math.cos(a), sa = Math.sin(a), tx = 0.38;
-        const rx = lx * ca - lz * sa, rz = lx * sa + lz * ca;
-        return put(b0.x + rx, b0.y + ly * Math.cos(tx) - rz * Math.sin(tx), ly * Math.sin(tx) + rz * Math.cos(tx), 1, (i * 7) % 11 === 0 ? 2 : 0); }
-      const gem = k => { const a = (k - 2) * 0.62; return { x: b1.x + Math.sin(a) * 2.2, y: b1.y - 0.3 + Math.cos(a) * 0.7 + Math.sin(t + k) * 0.08, z: 0 }; };
-      if (i < 140) { const g = gem(i - 135); return put(g.x, g.y, g.z, 3.2, 0); }
-      if (i < 180) { const k = i - 140, g = gem(k % 5), a = Math.floor(k / 5) / 8 * Math.PI * 2 + t * 0.8;
-        return put(g.x + Math.cos(a) * 0.62, g.y + Math.sin(a) * 0.28, Math.sin(a) * 0.62, 0.45, 2); }
-      if (i < 183) { const k = i - 180; return put(b2.x + (k - 1) * 1.15, b2.y + (k - 1) * 0.7 - 0.2, 0, 4.4 + k * 0.6, k === 2 ? 2 : 0); }
-      if (i < 213) { const k = i - 183, p = k % 3, a = Math.floor(k / 3) / 10 * Math.PI * 2 + t * 0.5;   // learners circling each part
-        const cx = b2.x + (p - 1) * 1.15, cy = b2.y + (p - 1) * 0.7 - 0.2, rr = 0.75 + p * 0.1;
-        return put(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr * 0.35, Math.sin(a) * rr, 0.4, 2); }
-      return dust(i, t);
+    (i, t, A, G) => {                      // 7 · what got made: exactly 135 blocks (9x5x3), 5 apps with users, 3 rising steps
+      const b0 = A[0] || Z, b1 = A[1] || Z, b2 = A[2] || Z;
+      if (i < 135) { const x = i % 9, z = Math.floor(i / 9) % 5, y = Math.floor(i / 45), C = G(b0.cx, b0.bo - 44);
+        return put(off(C, (x - 4) * 22, (z - 2) * 22), y * 22, 19, 19, 19, 0, (i * 7) % 11 === 0 ? INK.moss : INK.kuro); }
+      const gem = k => G(b1.cx + (k - 2) * 96, b1.bo - 50 - Math.cos((k - 2) * 0.6) * 24);
+      if (i < 140) { const k = i - 135; return put(gem(k), 0, 40, 50 + Math.sin(t + k) * 4, 40, 0, INK.sabi); }
+      if (i < 180) { const k = i - 140, g = gem(k % 5), an = Math.floor(k / 5) / 8 * TAU + t * 0.8; return put(off(g, Math.cos(an) * 42, Math.sin(an) * 42), 0, 12, 12, 12, 0, INK.moss); }
+      const step = k => G(b2.cx + (k - 1) * 110, b2.bo - 44);
+      if (i < 183) { const k = i - 180; return put(step(k), 0, 70, 30 + k * 34, 70, 0, k === 2 ? INK.sabi : INK.kuro); }
+      if (i < 213) { const k = i - 183, p = k % 3, an = Math.floor(k / 3) / 10 * TAU + t * 0.5, rr = 60 + p * 4; return put(off(step(p), Math.cos(an) * rr, Math.sin(an) * rr), 0, 12, 12, 12, 0, INK.moss); }
+      return null;
     },
-    (i, t, A) => {                       // 8: one node lights many
-      const a = A[0] || ZERO, rad = Math.min(a.hw, a.hh) * 0.82;
-      const sat = k => { const y = 1 - 2 * (k + 0.5) / 14, rr = Math.sqrt(1 - y * y), th = k * 2.39996 + t * 0.15;
-        return { x: a.x + Math.cos(th) * rr * rad, y: a.y + y * rad, z: Math.sin(th) * rr * rad }; };
-      if (i < 1) return put(a.x, a.y, 0, 3.2, 0);
-      if (i < 41) { const p = sphere(a, rad * 0.2, i - 1, 40, t, 0.4); return put(...p, 1, 0); }
-      if (i < 55) { const s = sat(i - 41); return put(s.x, s.y, s.z, 1.6, 2); }
-      if (i < 223) { const k = i - 55, s = sat(k % 14); const p = sphere(s, 0.42, Math.floor(k / 14), 12, t, 0.8, s.z); return put(...p, 0.6, 0); }
-      if (i < 323) { const k = i - 223, s = sat(k % 14), u = frac(R[i][0] + t * 0.18);   // light travels outward
-        return put(a.x + (s.x - a.x) * u, a.y + (s.y - a.y) * u, s.z * u + Math.sin(u * Math.PI) * 0.5, 0.55, 0); }
-      return dust(i, t);
+    (i, t, A, G) => {                      // 8 · hand-off on the sabi sheet: one block, the light spreads out to the room in waves
+      const a = A[0] || Z, C = G(a.cx, a.cy + 70);
+      if (i === 0) return put(C, 0, 84, 160, 84, 0, INK.kuro);
+      if (i < 71) { let k = i - 1, j = 1; while (k >= 6 + 4 * (j - 1)) { k -= 6 + 4 * (j - 1); j++; }
+        const cnt = 6 + 4 * (j - 1), an = k / cnt * TAU + j * 0.4, rr = 70 * j, wave = frac(t * 0.22) * 7, bump = Math.exp(-Math.pow(j - wave, 2) * 1.6);
+        return put(off(C, Math.cos(an) * rr, Math.sin(an) * rr), 0, 26, 16 + 64 * bump, 26, 0, j % 2 ? INK.moss : INK.kuro); }
+      return null;
     },
   ];
+  const F5 = {};
 
-  // state: current, and a snapshot taken at the start of each move
-  const pos = new Float32Array(N * 3), scl = new Float32Array(N), col = new Float32Array(N * 3), flat = new Float32Array(N);
-  const p0 = new Float32Array(N * 3), s0 = new Float32Array(N), c0 = new Float32Array(N * 3), f0 = new Float32Array(N);
-  const camFrom = new THREE.Vector3(), lookFrom = new THREE.Vector3(), fogFrom = new THREE.Color();
-  let cur = window.__slide || 0, started = false, tStart = -1e9;
-  const dummy = new THREE.Object3D(), tc = new THREE.Color(), pv = new THREE.Vector3();
-  const noMask = /[?&]nomask\b/.test(location.search);   // debug only: shows what the clearance hides
-
-  function clearance(px, py, pz, isDust, boxes) {      // 1 = free, 0 = under a word
-    pv.set(px, py, pz).project(camera);
-    const sx = (pv.x + 1) * 960, sy = (1 - pv.y) * 540;
-    let m = 1;
-    for (let b = 0; b < boxes.length; b++) { const q = boxes[b]; if (q.dustOnly && !isDust) continue;
-      const dx = Math.max(q.l - sx, 0, sx - q.r), dy = Math.max(q.t - sy, 0, sy - q.b), d = Math.hypot(dx, dy);
-      if (d < q.pad) { m = Math.min(m, d / q.pad); if (m === 0) break; } }
-    return m * m * (3 - 2 * m);
-  }
+  let cs = window.__slide || 0, started = false, tStart = -1e9, frames = 0, sunPhase = 0, lastT = 0;
+  const camFrom = { az: POSES[0].az, el: POSES[0].el, zoom: 1 }, camNow = { ...camFrom };
+  let floodFrom = 0, floodNow = 0;
+  const ease3 = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;   // matches --ease-move
 
   function frame(t, snap) {
-    const A = anchors[cur] || [], amber = slides[cur].classList.contains('amber'), pal = amber ? PAL.amber : PAL.dark, f = F[cur];
-    const boxes = textBoxes[cur] || [];
-    if (snap) tStart = -1e9;                          // a still frame ends any move in progress
-    const u = snap || !started ? 1 : Math.min(1, (t - tStart) / DUR), e = ease(u), moving = u < 1;
-    // camera first, so the clearance test uses this frame's view
-    const P = POSES[cur];
-    camera.position.set(camFrom.x + (P.p[0] - camFrom.x) * e, camFrom.y + (P.p[1] - camFrom.y) * e, camFrom.z + (P.p[2] - camFrom.z) * e);
-    if (!moving) camera.position.set(...P.p);
-    look.set(lookFrom.x + (P.l[0] - lookFrom.x) * e, lookFrom.y + (P.l[1] - lookFrom.y) * e, lookFrom.z + (P.l[2] - lookFrom.z) * e);
-    if (!moving) look.set(...P.l);
-    camera.lookAt(look); camera.updateMatrixWorld();
-    scene.fog.color.copy(fogFrom).lerp(amber ? BG.amber : BG.dark, e);
+    if (snap) tStart = -1e9;
+    const u = snap || !started ? 1 : Math.min(1, (t - tStart) / DUR), e = ease3(u), moving = u < 1, lt = t - tStart;
+    const P = POSES[cs];
+    camNow.az = camFrom.az + (P.az - camFrom.az) * e; camNow.el = camFrom.el + (P.el - camFrom.el) * e; camNow.zoom = camFrom.zoom + (P.zoom - camFrom.zoom) * e;
+    print.pose(camNow);
+    sunPhase += (snap ? 0 : Math.min(0.1, t - lastT)) * SUN_SPEED[cs]; lastT = t;
+    print.sunAt(-0.95 + Math.sin(t * 0.12) * (snap ? 0 : 0.2) + sunPhase);
+    const amber = slides[cs].classList.contains('amber'); floodNow = floodFrom + ((amber ? 1 : 0) - floodFrom) * e;
+    const A = anchors[cs] || [], G = (x, y) => maps[cs](x, y), f = F[cs];
     for (let i = 0; i < N; i++) {
-      f(i, t, A); const c = pal[out.c], ix = i * 3;
-      let x = out.x, y = out.y, z = out.z, s = out.s, fl = out.f, r = c.r, g = c.g, bb = c.b;
-      if (moving) {                                     // fly from the snapshot, with a little lift toward the lens
-        const lift = Math.sin(u * Math.PI) * (R[i][4] - 0.35) * 1.4;
-        x = p0[ix] + (x - p0[ix]) * e; y = p0[ix + 1] + (y - p0[ix + 1]) * e; z = p0[ix + 2] + (z - p0[ix + 2]) * e + lift;
-        s = s0[i] + (s - s0[i]) * e; fl = f0[i] + (fl - f0[i]) * e;
-        r = c0[ix] + (r - c0[ix]) * e; g = c0[ix + 1] + (g - c0[ix + 1]) * e; bb = c0[ix + 2] + (bb - c0[ix + 2]) * e;
-      }
-      pos[ix] = x; pos[ix + 1] = y; pos[ix + 2] = z; scl[i] = s; flat[i] = fl; col[ix] = r; col[ix + 1] = g; col[ix + 2] = bb;
-      const k = noMask ? s : s * clearance(x, y, z, out.dust, boxes);
-      dummy.position.set(x, y, z);
-      dummy.rotation.set(t * 0.2 + i, t * 0.15 + i * 0.5, 0);
-      dummy.scale.set(k * (1 + fl * 0.5), k * (1 - fl * 0.35), k * (1 - fl * 0.75));
-      dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix);
-      mesh.setColorAt(i, tc.setRGB(r, g, bb));
+      const ix = i * STR;
+      o.set(cur.subarray(ix, ix + STR)); o[3] = o[4] = o[5] = 0;      // default: shrink away where it stands
+      f(i, t, A, G, lt);
+      if (decoy && i === N - 1 && heads[cs]) put(G(heads[cs].cx, heads[cs].cy + 40), 0, 150, 90, 150, 0, INK.kuro);
+      if (moving) for (let j = 0; j < STR; j++) o[j] = from[ix + j] + (o[j] - from[ix + j]) * e;
+      cur.set(o, ix);
+      if (o[3] < 0.5 || o[4] < 0.3) B.hide(i);
+      else B.set(i, { x: o[0], z: o[1], y: o[2], w: o[3], h: o[4], d: o[5], ry: o[6], ink: [o[7], o[8], o[9]] });
     }
-    started = true;
-    mesh.instanceMatrix.needsUpdate = true; if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-    renderer.render(scene, camera);
+    B.commit(); started = true;
+    print.knockout(words[cs] || [], PAD);
+    print.render({ slip: moving ? Math.sin(Math.PI * u) : 0, flood: floodNow, mask: !noMask });
   }
 
   function begin(k, t) {          // freeze where everything is, then one 850 ms move to slide k
-    p0.set(pos); s0.set(scl); c0.set(col); f0.set(flat);
-    camFrom.copy(camera.position); lookFrom.copy(look); fogFrom.copy(scene.fog.color);
-    cur = k; tStart = t; measure(k);
+    from.set(cur); Object.assign(camFrom, camNow); floodFrom = floodNow;
+    cs = k; tStart = t; measure(k);
   }
 
   const clock = new THREE.Clock();
-  measure(cur);
-  // still = reduced motion (OS, live), or the S key / button: no loop, one static frame per slide
+  measure(cs);
   let still = reduce || !!window.__still;
   const stillFrame = () => frame(clock.getElapsedTime(), true);
-  addEventListener('slide', e => {
-    begin(e.detail, clock.getElapsedTime());
-    if (still || capture) stillFrame();
-  });
+  addEventListener('slide', e => { begin(e.detail, clock.getElapsedTime()); if (still || capture) stillFrame(); });
   addEventListener('still', e => { still = reduce || e.detail; if (still) stillFrame(); });
+  addEventListener('resize', () => { print.resize(); measure(cs); if (still || capture) stillFrame(); });
   mq.addEventListener('change', e => { reduce = e.matches; still = reduce || !!window.__still; if (still) stillFrame(); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(cur); if (still) stillFrame(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(cs); if (still || capture) stillFrame(); });
 
-  let frames = 0;
-  if (still) stillFrame();
-  (function loop() { if (!still) { frames++; frame(clock.getElapsedTime(), false); } requestAnimationFrame(loop); })();
-  window.__world = { ok: true, frames: () => frames, still: () => still, dbg: () => ({ cur, anchors: anchors[cur], cam: camera.position.toArray(), look: look.toArray() }), snap: stillFrame };
+  if (still || capture) stillFrame();
+  (function loop() { if (!still && !capture) { frames++; frame(clock.getElapsedTime(), false); } requestAnimationFrame(loop); })();
+  window.__world = { ok: true, frames: () => frames, still: () => still, snap: stillFrame, info: () => print.info(), renderer: () => print.rendererName(),
+    dbg: () => ({ cs, anchors: anchors[cs], words: (words[cs] || []).length, cam: { ...camNow } }) };
 } catch (err) {
+  document.documentElement.classList.remove('riso-on');
   window.__world = false;
   console.warn('3D world disabled, deck content stays fully visible', err);
 }

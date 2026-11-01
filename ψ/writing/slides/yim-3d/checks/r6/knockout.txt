@@ -1,0 +1,4 @@
+{"query": "(none)", "ink_px_under_words_per_slide": [0, 0, 0, 0, 0, 0, 0, 3], "total": 3}
+{"query": "?decoy", "ink_px_under_words_per_slide": [0, 0, 0, 0, 0, 0, 0, 3], "total": 3}
+{"query": "?decoy&nomask", "ink_px_under_words_per_slide": [14059, 9390, 9710, 8851, 9459, 17654, 9964, 20727], "total": 99814}
+{"query": "?live&nomask", "ink_px_under_words_per_slide": [0, 16570, 34246, 2006, 38, 1002, 2607, 274012], "total": 330481}

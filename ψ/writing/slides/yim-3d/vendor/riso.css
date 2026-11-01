@@ -1,0 +1,27 @@
+/* Rikyu Riso tokens and helpers. slide-kit/riso/riso.css, v1.0.0, 2026-11-01 (Osaa, Oracle AI).
+   Load the Rikyu tokens first (slide-kit/tokens/tokens.css), then this file, then riso.js.
+   riso.js reads the --riso-* properties below, so the print and the HTML share one token source:
+   change an ink here (or in tokens.css) and both the words and the dots follow. */
+:root {
+  --riso-paper: var(--rikyu-shiro);   /* the sheet */
+  --riso-ink-1: var(--rikyu-kuro);    /* ink 1: blocks of work, shadows, the facts */
+  --riso-ink-2: var(--rikyu-sabi);    /* ink 2: the human (the one block that is "you") */
+  --riso-ink-3: var(--rikyu-moss);    /* ink 3: agents, helpers, the background crowd */
+  --riso-flood: var(--rikyu-sabi);    /* a whole-sheet solid for the one closing page */
+  --riso-knockout-pad: 40px;          /* clear paper kept around every word (stage px) */
+}
+
+/* the print canvas fills a fixed 1920x1080 stage; riso.js sizes its backing store to device pixels */
+.riso-canvas { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; image-rendering: pixelated; z-index: 0; }
+
+/* the sabi highlighter: sabi is never text on shiro (1.78:1), so a highlight is a marker band behind kuro text */
+.riso-hl {
+  color: var(--rikyu-kuro);
+  background: linear-gradient(transparent 58%, var(--rikyu-sabi) 58%, var(--rikyu-sabi) 90%, transparent 90%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+/* on the flooded (sabi) page the band would vanish, so it turns into a kuro underline */
+.riso-flooded .riso-hl { background: linear-gradient(transparent 86%, var(--rikyu-kuro) 86%, var(--rikyu-kuro) 92%, transparent 92%); }
+
+/* still mode (key S): the page stops; riso.js prints one frame and stays */
+.riso-still * { animation: none !important; transition: none !important; }
