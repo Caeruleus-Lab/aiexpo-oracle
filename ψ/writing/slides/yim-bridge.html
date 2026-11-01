@@ -158,58 +158,98 @@ body.shownotes .notes{display:block}
 <div id="stage">
 
 <!-- 1 · title -->
+<style>
+.ring{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:var(--space-lg);align-items:center}
+.ring svg{width:100%;height:auto;display:block}
+.ring svg text{font-family:var(--font-display);fill:var(--color-ink)}
+.ring svg .cmd{font-family:var(--font-mono);font-weight:700;fill:var(--color-accent)}
+.ring svg .sub{font-family:var(--font-body);fill:var(--color-ink-2);font-weight:500}
+.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md)}
+.big3 > div{border-top:var(--rule-w) solid var(--color-accent);padding-top:var(--space-md)}
+.big3 .num{font-family:var(--font-display);font-size:var(--text-display);font-weight:700;color:var(--color-accent);line-height:1}
+.big3 .what{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;margin-top:var(--space-sm)}
+.big3 .note{font-size:var(--text-sm);color:var(--color-ink-2);margin-top:var(--space-xs);line-height:1.4}
+.before{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-lg)}
+.before > div{border-radius:var(--radius);padding:var(--space-lg);background:var(--color-paper-2)}
+.before > div.on{background:var(--color-paper-3);border:var(--rule-w) solid var(--color-accent)}
+.before .k{font-family:var(--font-display);font-size:var(--text-md);color:var(--color-ink-2);margin-bottom:var(--space-sm)}
+.before .on .k{color:var(--color-accent)}
+.before p{font-size:var(--text-lg);line-height:1.45}
+</style>
 <section class="slide">
   <div class="lamp"></div>
   <div class="frame">
     <p class="meta">สุทธิณี เทพปริยะพล (ยิ้ม) · product manager ไม่ใช่วิศวกร</p>
-    <h1 class="display" style="font-size:var(--text-2xl);line-height:1.3">เช้านี้เราแบ่งงาน<br><span class="hl">บ่ายนี้ให้ทีม AI ทำงานนั้น</span></h1>
-    <p class="lead">11:00 ตอบว่างานไหนให้คน งานไหนให้ AI · ตอนนี้เอางานเดียวกันมาสร้างจริง</p>
-  </div>
-  <div class="notes">15:08 · 1 นาที · แนะนำตัวประโยคเดียว เน้นว่าไม่ใช่วิศวกร เรื่องนี้จึงเป็นของคนทั่วไป คนที่มาช่วงเช้าหยิบหน้าสมุดของตัวเองขึ้นมา คนที่ไม่ได้มาใช้ตัวอย่างร้านบนสไลด์ถัดไป</div>
-</section>
-<section class="slide">
-  <div class="frame">
-    <h2 style="font-size:var(--text-xl)">ร้านออนไลน์ รับออเดอร์ทาง LINE <span class="hl">ใครทำอะไร</span></h2>
-    <div class="three">
-      <div><h3>คน</h3><p>ตัดสินใจคืนเงิน<br>คุยกับลูกค้าที่ไม่พอใจ</p></div>
-      <div><h3>AI หนึ่งตัว</h3><p>สรุปออเดอร์ลงตาราง<br>ร่างข้อความแจ้งพัสดุ</p></div>
-      <div class="on"><h3>ทีม AI</h3><p>เช็กสต็อก ทำใบปะหน้า<br>สรุปยอด พร้อมกัน</p></div>
+    <div class="before">
+      <div><p class="k">ก่อน</p><p>รู้งานของตัวเองลึก<br>แต่ใช้ AI ในแชต ทีละงาน<br>ทุกครั้งต้องเล่าใหม่</p></div>
+      <div class="on"><p class="k">ปัญหาจริง</p><p>ยิ้มกลายเป็นความจำให้ AI<br>แทนที่ AI จะช่วยยิ้มจำ</p></div>
     </div>
-    <p class="meta">ช่อง “ทีม AI” คือบทเรียน 06 ของคุณนัท: ห้องเดียว หลาย agent</p>
   </div>
-  <div class="notes">15:09 · 2 นาที · แทนสไลด์ 5 เดิม ไม่สอนซ้ำของ 11:00 ⚠️ ยิ้มเช็กว่างานย่อยตรงกับตัวอย่างร้าน LINE ในเวิร์กช็อปเช้า ถ้าไม่ตรงแก้ให้ตรง ชี้ช่องทีม AI ว่าจะได้เห็นจริงในบทเรียน 06 แล้วพาไปเรื่องฝูง</div>
+  <div class="notes">1.5 นาที · ผูกกับ forgetting test ที่คุณนัทเพิ่งทำ: "เมื่อกี้ที่เห็น AI ลืม นั่นคือชีวิตยิ้มทุกวันเมื่อปีที่แล้ว" · ยิ้มอยู่บนเวทีในฐานะคนใช้ ไม่ใช่คนสร้างระบบ ⇒ ห้ามอธิบายเทคนิคที่คุณนัทจะสอน</div>
 </section>
 <section class="slide">
   <div class="frame">
-    <h2 style="font-size:var(--text-xl)">ตัวเดียวก่อน <span class="hl">เพิ่มตัวที่สองเมื่อมีหลักฐานว่าต้องมี</span></h2>
-    <div class="three" style="grid-template-columns:repeat(4,minmax(0,1fr))">
-      <div><h3>Fude</h3><p>เขียน</p></div>
-      <div><h3>Osaa</h3><p>ทำภาพ</p></div>
-      <div><h3>Koe</h3><p>ทำการตลาด</p></div>
-      <div class="on"><h3>Kensa</h3><p>ตรวจงานตัวอื่น</p></div>
-    </div>
-    <p class="lead">ไม่มีตัวไหนตรวจงานตัวเอง · ส่งงานต่อกันผ่านไฟล์ ไม่ใช่ผ่านแชต</p>
-  </div>
-  <div class="notes">15:11 · 4–5 นาที · เล่าเฉพาะฝูงของยิ้ม ส่วนครอบครัว Oracle และภูเขาเป็นบทเรียน 05 ของคุณนัท ห้ามเล่าแทน · ตัวแรกคือ Dobby ผู้ช่วยส่วนตัวที่ทำทุกอย่าง ⚠️ ยิ้มเลือกเหตุการณ์จริง 1 ครั้งที่งานหนึ่งชนกับงานอื่นจนต้องแยกตัวที่สอง · จำนวนตัวพูดว่า “สิบกว่าตัว” ถ้ายังไม่ได้นับตัวที่ทำงานจริง · เรื่องใช้โมเดลหลายเจ้าเป็นวิธีของฝูงยิ้ม ไม่ใช่ฟีเจอร์ ARRA Oracle ถ้าเวลาเกินตัดเรื่องนี้ก่อน · ⛔ ห้ามอ้าง ARRA v4</div>
-</section>
-<section class="slide">
-  <div class="frame">
-    <h2 style="font-size:var(--text-xl)">3 คำถาม ก่อนรับ agent เข้าบริษัท</h2>
+    <h2 style="font-size:var(--text-xl)">สิ่งที่ปลดล็อก <span class="hl">ไม่ใช่เครื่องมือ แต่เป็นวิธีทำงาน</span></h2>
     <div class="steps">
-      <div class="row"><span class="n">1</span><span class="t">ความจำอยู่กับใคร <span class="meta">เลิกใช้เจ้านี้พรุ่งนี้ ความรู้ของทีมหายไปด้วยไหม</span></span></div>
-      <div class="row"><span class="n">2</span><span class="t">เปลี่ยนโมเดลได้ไหม <span class="meta">ราคาขึ้นหรือมีตัวที่ดีกว่า ต้องเริ่มใหม่หมดไหม</span></span></div>
-      <div class="row"><span class="n">3</span><span class="t">ใครตรวจงาน <span class="meta">บอกว่าเสร็จแล้ว มีหลักฐานให้เปิดดูไหม</span></span></div>
+      <div class="row"><span class="n">1</span><span class="t">ไม่มีอะไรหาย <span class="meta">งานทุกชิ้นถูกจดไว้ ย้อนดูได้เสมอ</span></span></div>
+      <div class="row"><span class="n">2</span><span class="t">AI ไม่ตัดสินแทน <span class="meta">คนตัดสิน ความรู้ของงานยังเป็นของเรา</span></span></div>
+      <div class="row"><span class="n">3</span><span class="t">เราถาม มันจำ <span class="meta">ครั้งต่อไปจึงง่ายกว่าเดิม</span></span></div>
     </div>
+    <p class="meta">จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
   </div>
-  <div class="notes">15:16 · 2 นาที · ทั้งสามข้อคือเหตุที่ความจำต้องเป็นไฟล์ของเรา ซึ่งเป็นเรื่องที่คุณนัทจะพาทำต่อ</div>
+  <div class="notes">2 นาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ เล่าแค่ว่าแต่ละข้อเปลี่ยนงานของยิ้มยังไง ข้อละ 1 เหตุการณ์จริง (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
+</section>
+<section class="slide">
+  <div class="frame">
+    <div class="ring">
+      <div>
+        <h2 style="font-size:var(--text-xl);line-height:1.2">ทำงานกับ AI<br><span class="hl">เหมือนทำงานเป็นกะ</span></h2>
+        <p class="lead" style="margin-top:var(--space-md)">โรงพยาบาลกับโรงงานไม่ได้ใช้คู่มือส่งงานกัน เขาใช้บันทึกส่งกะ ใครเคยดูแลทีมคน รู้วิธีนี้อยู่แล้ว</p>
+      </div>
+      <svg viewBox="0 0 900 900" role="img" aria-label="วงจรวัน 4 จังหวะ: เข้ากะ recap, ทำงาน, ออกกะ forward, ทบทวน rrr รอบไฟล์บันทึกส่งกะ">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="oklch(60% 0.014 260)"/></marker></defs>
+        <circle cx="450" cy="450" r="300" fill="none" stroke="oklch(36% 0.016 260)" stroke-width="6"/>
+        <path d="M 570 175 A 300 300 0 0 1 725 330" fill="none" stroke="oklch(60% 0.014 260)" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 725 570 A 300 300 0 0 1 570 725" fill="none" stroke="oklch(60% 0.014 260)" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 330 725 A 300 300 0 0 1 175 570" fill="none" stroke="oklch(60% 0.014 260)" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 175 330 A 300 300 0 0 1 330 175" fill="none" stroke="oklch(60% 0.014 260)" stroke-width="6" marker-end="url(#ah)"/>
+        <circle cx="450" cy="450" r="130" fill="oklch(28% 0.016 260)" stroke="oklch(80% 0.15 75)" stroke-width="5"/>
+        <text x="450" y="440" text-anchor="middle" font-size="52" font-weight="700">ψ/</text>
+        <text x="450" y="500" text-anchor="middle" class="sub" font-size="32">บันทึกส่งกะ</text>
+        <g><circle cx="450" cy="150" r="105" fill="oklch(23% 0.014 260)" stroke="oklch(80% 0.15 75)" stroke-width="4"/>
+          <text x="450" y="140" text-anchor="middle" font-size="40" font-weight="700">เข้ากะ</text><text x="450" y="190" text-anchor="middle" class="cmd" font-size="34">/recap</text></g>
+        <g><circle cx="750" cy="450" r="105" fill="oklch(23% 0.014 260)" stroke="oklch(36% 0.016 260)" stroke-width="4"/>
+          <text x="750" y="440" text-anchor="middle" font-size="40" font-weight="700">ทำงาน</text><text x="750" y="490" text-anchor="middle" class="sub" font-size="28">งานจริง</text></g>
+        <g><circle cx="450" cy="750" r="105" fill="oklch(23% 0.014 260)" stroke="oklch(80% 0.15 75)" stroke-width="4"/>
+          <text x="450" y="740" text-anchor="middle" font-size="40" font-weight="700">ออกกะ</text><text x="450" y="790" text-anchor="middle" class="cmd" font-size="34">/forward</text></g>
+        <g><circle cx="150" cy="450" r="105" fill="oklch(23% 0.014 260)" stroke="oklch(80% 0.15 75)" stroke-width="4"/>
+          <text x="150" y="440" text-anchor="middle" font-size="40" font-weight="700">ทบทวน</text><text x="150" y="490" text-anchor="middle" class="cmd" font-size="34">/rrr</text></g>
+      </svg>
+    </div>
+    <p class="meta">พิธีทั้งสามเป็นของ Oracle Protocol ของคุณนัท</p>
+  </div>
+  <div class="notes">2 นาที · จุดที่แรงที่สุดของช่วงยิ้ม · ประโยคหลัก: "คนที่เคยบริหารทีมคนมาแล้ว รู้วิธีทำงานกับ AI อยู่แล้ว แค่ยังไม่มีใครบอก" · /recap = อ่านบันทึกกะก่อนแตะงาน · /forward = เขียนสภาพงานลงไฟล์ก่อนความจำหาย · /rrr = retro เก็บบทเรียนเป็นของถาวร · ที่มา: คอร์ส Part 2 หน้า 3–5 (hello-oracle ψ/writing/slides/part2-working-with-ai.html) · ⚠️ เช็กกับคุณนัทว่า 6 บทเรียนใช้ /forward ด้วยไหม ถ้าไม่ใช้ เปลี่ยนเป็น "handoff"</div>
+</section>
+<section class="slide">
+  <div class="frame">
+    <h2 style="font-size:var(--text-xl)">งานที่เคยอยากทำ <span class="hl">แต่ทำไม่ได้</span></h2>
+    <div class="big3">
+      <div><div class="num">135</div><p class="what">บทความ</p><p class="note">เล่าจากงานจริงบน productize.life</p></div>
+      <div><div class="num">5</div><p class="what">แอปที่คนอื่นใช้ได้</p><p class="note">เช่น วิเคราะห์สต็อกและ SKU ในหนึ่งนาที</p></div>
+      <div><div class="num">3</div><p class="what">Part ของคอร์ส</p><p class="note">จากคนเรียน กลายเป็นคนสอน</p></div>
+    </div>
+    <p class="lead">ทั้งหมดมาจากความรู้งานเดิมของยิ้ม ฝูง agent แค่ขยายมันออกไป</p>
+  </div>
+  <div class="notes">2 นาที · เลขวัดจาก productize.life วันที่ 1 พ.ย. 2026 (บล็อก 135 ตอน · หน้า Apps มี 5 แอปที่เปิดให้ใช้ · คอร์ส From Prompting to Your Own AI Agent 3 Part) ⚠️ นับใหม่เช้าวันงาน · ฝูง: Fude เขียน · Osaa ทำภาพ · Koe การตลาด · Kensa ตรวจงานตัวอื่น ไม่มีตัวไหนตรวจงานตัวเอง · เวิร์กช็อป 11:00 ก็ทำกับฝูงนี้ · ⛔ ไม่ขาย handbook บนเวที · ⛔ ไม่ยกตัวอย่างงานบัญชี · ไม่เล่าเรื่องครอบครัว Oracle (บทเรียน 05)</div>
 </section>
 <section class="slide amber">
   <div class="frame">
-    <h1 class="display">ทีนี้มาสร้าง<br>ของตัวเองกัน</h1>
+    <h1 class="display">ถ้ายิ้มทำได้<br>คุณก็ทำได้</h1>
     <p class="lead">คุณนัทพาทำ 6 บทเรียน · ทำตามได้ที่ <b class="nw">aiexpo.buildwithoracle.com</b></p>
   </div>
-  <div class="notes">15:18 · ส่งไมค์ให้คุณนัท เริ่มบทเรียน 01 (ติดตั้ง Claude และ ChatGPT) · ⚠️ เวลาในโน้ตทุกหน้ามาจาก deck v3 ถามคุณนัทว่าช่วงยิ้มยังอยู่ 15:08 หรือย้ายไปเปิดก่อนบทเรียน 01</div>
+  <div class="notes">30 วินาที · ส่งไมค์ให้คุณนัท เริ่มบทเรียน 01 · ⚠️ ถามคุณนัทว่าช่วงยิ้มอยู่ตรงไหนของ session</div>
 </section>
+
 
 
 </div>
