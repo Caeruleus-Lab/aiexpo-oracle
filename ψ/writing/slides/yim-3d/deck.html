@@ -169,7 +169,19 @@ h2,.heading{font-family:var(--font-display);font-size:var(--fs-heading);line-hei
 .frow .item .body{margin-top:2px}
 .frow .item .title+.body{margin-top:6px}
 
-/* 4 fleet architecture diagram (SVG, every word is real text) */
+/* 4 faces (round 9): 7 x 2 contact sheet; portrait above the item rule, 24px clear of it (same pattern as slides 1 and 6) */
+.faces{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));column-gap:var(--gap-col);row-gap:48px}
+.face{margin:0;min-width:0}
+.face .pic{position:relative;aspect-ratio:1;overflow:hidden;isolation:isolate;margin-bottom:var(--gap-item);
+  background:color-mix(in srgb,var(--rikyu-sabi) 70%,var(--rikyu-shiro))}   /* the sabi drum: white in the photo prints as sabi */
+.face img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.18) brightness(1.04);mix-blend-mode:multiply}   /* kuro drum */
+.face .pic::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(circle at 3px 3px,color-mix(in srgb,var(--rikyu-shiro) 55%,transparent) 1.3px,transparent 1.9px) 0 0/6px 6px}   /* dot screen, 6 stage px = whole device px at 1920 and 1280 */
+.face .item{padding-top:16px}
+.face .title{margin-top:0;font-size:var(--fs-body);line-height:var(--lh-body)}
+.face .label{color:var(--color-ink-2);white-space:nowrap;letter-spacing:0}   /* "service design" fits its 200px column */
+
+/* 5 fleet architecture diagram (SVG, every word is real text) */
 .arch .n-s.key{fill:var(--color-ink);font-weight:600}
 .arch{display:block;width:1640px;height:auto;overflow:visible}
 .arch text{font-family:var(--font-body)}
@@ -288,10 +300,35 @@ html.world-off #world{display:none!important}   /* W key, or WebGL lost: the HTM
     </div>
   </div>
   <p class="foot rv" style="--d:3">T3 · Pi (Claude วางแผน, Codex ลงมือและตรวจแยก) · Linear</p>
-  <div class="notes"><p class="nt">1.5 นาที</p><p><b>SAY</b> "เราเรียกทีมนี้ว่าฝูง" · พูดแค่บรรทัดตัวหนาของแต่ละแถว · แถว 1: เครื่องที่เปิดตลอด เหมือนเซิร์ฟเวอร์ของร้าน ทำงานตอนยิ้มหลับ · แถว 3: ผู้ช่วยส่วนตัว พูดชื่อแล้วผ่าน</p><p><b>DON'T</b> บอกว่า agent ของคนอื่นเป็นของใคร ข้อมูลภายในไม่ส่งออก · ลงรายละเอียดเพดานหรือกติกาของผู้ช่วยส่วนตัว · อธิบายชื่อเครื่องมือใน footnote</p><p><b>CHECK</b> จอนี้ใช้ "สิบกว่าตัว" ส่วนเลข 15 อยู่หน้า 5 · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md</p></div>
+  <div class="notes"><p class="nt">1.5 นาที</p><p><b>SAY</b> "เราเรียกทีมนี้ว่าฝูง" · พูดแค่บรรทัดตัวหนาของแต่ละแถว · แถว 1: เครื่องที่เปิดตลอด เหมือนเซิร์ฟเวอร์ของร้าน ทำงานตอนยิ้มหลับ · แถว 3: ผู้ช่วยส่วนตัว พูดชื่อแล้วผ่าน</p><p><b>DON'T</b> บอกว่า agent ของคนอื่นเป็นของใคร ข้อมูลภายในไม่ส่งออก · ลงรายละเอียดเพดานหรือกติกาของผู้ช่วยส่วนตัว · อธิบายชื่อเครื่องมือใน footnote</p><p><b>CHECK</b> จอนี้ใช้ "สิบกว่าตัว" ส่วนเลข 15 อยู่หน้า 6 · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md</p></div>
 </section>
 
-<!-- 4 · the fleet's architecture; 3D: light travels the arrows,
+<!-- 4 · round 9: the fleet's faces, a contact sheet of the portraits from the productize.life home redesign (feat/home-workbench).
+     No 3D on this sheet: the faces are the picture. Portraits print as a duotone (kuro on sabi) with a 6px dot screen. -->
+<section class="slide faces-slide">
+  <div class="frame">
+    <h2 class="rv">หน้าตาของ Fleet <span class="hl">หนึ่งตัว หนึ่งหน้าที่</span></h2>
+    <div class="faces" role="list" aria-label="agent ใน Fleet ของยิ้ม พร้อมหน้าที่">
+      <figure class="face rv" style="--d:1"><div class="pic"><img src="vendor/fleet/dobby.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Dobby</p><p class="label">ประสานงาน</p></figcaption></figure>
+      <figure class="face rv" style="--d:1"><div class="pic"><img src="vendor/fleet/daruma.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Daruma</p><p class="label">product</p></figcaption></figure>
+      <figure class="face rv" style="--d:1"><div class="pic"><img src="vendor/fleet/aida.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Aida</p><p class="label">service design</p></figcaption></figure>
+      <figure class="face rv" style="--d:1"><div class="pic"><img src="vendor/fleet/osaa.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Osaa</p><p class="label">ภาพ</p></figcaption></figure>
+      <figure class="face rv" style="--d:1"><div class="pic"><img src="vendor/fleet/fude.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Fude</p><p class="label">เขียน</p></figcaption></figure>
+      <figure class="face rv" style="--d:1"><div class="pic"><img src="vendor/fleet/koe.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Koe</p><p class="label">การตลาด</p></figcaption></figure>
+      <figure class="face rv" style="--d:1"><div class="pic"><img src="vendor/fleet/jizo.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Jizo</p><p class="label">รับรู้</p></figcaption></figure>
+      <figure class="face rv" style="--d:2"><div class="pic"><img src="vendor/fleet/kensa.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Kensa</p><p class="label">ตรวจ</p></figcaption></figure>
+      <figure class="face rv" style="--d:2"><div class="pic"><img src="vendor/fleet/mamori.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Mamori</p><p class="label">ระบบ</p></figcaption></figure>
+      <figure class="face rv" style="--d:2"><div class="pic"><img src="vendor/fleet/kura.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Kura</p><p class="label">บัญชี</p></figcaption></figure>
+      <figure class="face rv" style="--d:2"><div class="pic"><img src="vendor/fleet/hako.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Hako</p><p class="label">สต็อก</p></figcaption></figure>
+      <figure class="face rv" style="--d:2"><div class="pic"><img src="vendor/fleet/ryo.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Ryo</p><p class="label">ตลาด</p></figcaption></figure>
+      <figure class="face rv" style="--d:2"><div class="pic"><img src="vendor/fleet/sora.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Sora</p><p class="label">อุปกรณ์</p></figcaption></figure>
+      <figure class="face rv" style="--d:2"><div class="pic"><img src="vendor/fleet/kokoro.webp" alt="" width="900" height="900" decoding="async"></div><figcaption class="item"><p class="title">Kokoro</p><p class="label">ปรัชญา</p></figcaption></figure>
+    </div>
+  </div>
+  <div class="notes"><p class="nt">30 วินาที</p><p><b>SAY</b> "นี่คือหน้าตาของทีม แต่ละตัวมีงานของตัวเอง" · ชี้แค่สามตัว: Dobby ประสานงาน · Osaa ทำภาพ · Kensa ตรวจ "คนทำกับคนตรวจเป็นคนละตัว อย่างที่เล่าเมื่อกี้"</p><p><b>DON'T</b> ไล่ชื่อทุกตัว · พูดเลขจำนวนตัว (หน้า 3 ใช้ "สิบกว่าตัว")</p><p><b>CHECK</b> บนจอมี 14 หน้า ส่วนหน้า 6 เขียน 15 ตัว (14 คือตัวที่มีภาพ ถ้ามีคนถาม) · ภาพชุดเดียวกับหน้าแรก productize.life ที่กำลังทำใหม่</p></div>
+</section>
+
+<!-- 5 · the fleet's architecture; 3D: light travels the arrows,
      twelve agents circle the always-on machine, talk crosses to other people's agents but actions stop halfway -->
 <section class="slide" data-anchors=".anc-d" data-knock=".anc-arrow">
   <div class="frame">
@@ -524,11 +561,11 @@ try {
   // the path is the story: wide on the three stages · in to the team · level with the fleet · up over the map ·
   // square to the org · high over the day like a clock · low to see the stacks · close on the one block
   const POSES = [
-    { az: 0.785, el: 0.58, zoom: 1 }, { az: 0.70, el: 0.62, zoom: 1 }, { az: 0.86, el: 0.52, zoom: 1 },
+    { az: 0.785, el: 0.58, zoom: 1 }, { az: 0.70, el: 0.62, zoom: 1 }, { az: 0.86, el: 0.52, zoom: 1 }, { az: 0.86, el: 0.52, zoom: 1 },
     { az: 0.785, el: 0.70, zoom: 1 }, { az: 0.74, el: 0.56, zoom: 1 }, { az: 0.785, el: 0.86, zoom: 1 },
     { az: 0.92, el: 0.48, zoom: 1 }, { az: 0.66, el: 0.78, zoom: 1 },
   ];
-  const SUN_SPEED = [0.02, 0.02, 0.02, 0.02, 0.02, 0.32, 0.02, 0.02];   // slide 6: the shadow sweeps like a clock hand
+  const SUN_SPEED = [0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.32, 0.02, 0.02];   // slide 7 (round 9: was 6): the shadow sweeps like a clock hand
   const poseCam = POSES.map(p => print.poseCamera(p)), maps = poseCam.map(c => print.groundMap(c));
 
   // anchors (stage px boxes of the empty HTML/SVG slots) and knockout boxes (every word), per slide
@@ -627,6 +664,7 @@ try {
       if (i < 63) { const k = i - 60, u = 0.86 - frac(t * 0.17 + 0.5 + k * 0.05) * 0.72; return put(off(lerpG(H3, P3, u), -nx * 18, -nz * 18), 4, 18, 14, 18, 0, INK.moss); }
       return null;
     },
+    () => null,                            // 4 · faces (round 9): no 3D, every block shrinks away where it stands; the portraits are the picture
     (i, t, A, G, lt) => {                  // 4 · architecture (round 8): the 3D lives in the middle band, never on an arrow
       const [yi, dc, fl, mem, oth, per] = [0, 1, 2, 3, 4, 5].map(k => A[k] || Z), midY = (fl.bo + per.t) / 2;
       if (i < 12) { const sd = i < 6 ? -1 : 1, ix = i % 6, col = ix % 3, row = Math.floor(ix / 3);   // twelve buds either side of the machine's arrow
