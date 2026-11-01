@@ -16,7 +16,8 @@
   Content from ../yim-bridge.html (v3), notes copied verbatim; slide 3 wording from hello-oracle
   ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md "Stage-safe wording" plus Dobby's edits.
   Round 6, 2026-11-01: the Riso direction (proto/riso.html) across all 8 slides. Shiro paper, Rikyu inks, dithered isometric
-  blocks printed by vendor/riso.js (a copy of hello-oracle ψ/design-systems/rikyu-labs/slide-kit/riso/riso.js v1.0.0).
+  blocks printed by vendor/riso.js (a copy of hello-oracle ψ/design-systems/rikyu-labs/riso/riso.js v1.1.0; round 7 moved the
+  module there and the deck now calls RikyuRiso.mount() in stage mode).
   Words, notes, timing, keys unchanged. The canvas sits outside the scaled stage and the dither cell is a whole number of
   device px (4 at 1920, 3 at 1280), so the browser never resamples the dots (moire rule, see the kit README).
   Debug flags: ?nomask (no knockout) ?decoy (a block under each heading) ?flat (no grain) ?fixed1920 (moire negative control).
@@ -346,11 +347,11 @@ body.shownotes .notes{display:block}
       <div class="rv" style="--d:2">
         <div class="org-v reg">
           <div class="anc anc-cloud"></div>
-          <svg class="shelf" viewBox="0 0 520 38" role="img" aria-label="ชั้นทะเบียน 17 ช่อง">
+          <svg class="shelf" viewBox="0 0 520 38" role="img" aria-label="ชั้น registry">
             <rect class="anc-slot d-slot" x="4" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="34" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="64" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="94" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="124" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="154" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="184" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="214" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="244" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="274" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="304" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="334" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="364" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="394" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="424" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="454" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="484" y="8" width="22" height="22" rx="4" stroke-width="3"/>
           </svg>
         </div>
-        <div class="item key"><p class="title">ทะเบียนว่าใครทำอะไรได้<br>และเรียนอะไรมาแล้ว</p><p class="body">เรียนไป <span class="hl">211</span> เรื่อง<br>ตัดสินใจว่าจะใช้แค่ <span class="hl">17</span></p><p class="cap">ณ ส.ค. 2026</p></div>
+        <div class="item key"><p class="title">Registry ว่าใครทำอะไรได้<br>และเรียนอะไรมาแล้ว</p><p class="body">Fleet registry: agent ละ 1 yaml (<span class="hl">15</span>) · Skill registry <span class="hl">160</span> skills<br>เรียนไปเกือบ <span class="hl">400</span> เรื่อง ตัดสินใจแล้ว <span class="hl">22</span></p><p class="cap">นับ 1 พ.ย. 2026</p></div>
       </div>
       <div class="rv" style="--d:3">
         <svg class="org-v" viewBox="0 0 520 340" role="img" aria-label="งานทุกชิ้นต้องผ่านการตรวจก่อนนับว่าเสร็จ">
@@ -481,7 +482,8 @@ try {
 
   // the print: cell 4 stage px at 1920, always a whole number of device px (see vendor/riso.js, moire rule)
   document.documentElement.classList.add('riso-on');
-  const print = RR.create({ canvas, stage: stageEl, cell: 4, grain: !Q.has('flat'),
+  // stage mode, no draw callback: the deck keeps its own loop, mount() adds the DPR and resize watching
+  const print = RR.mount(canvas, { stage: stageEl, cell: 4, grain: !Q.has('flat'),
     forceOutput: Q.has('fixed1920') ? { w: 1920, h: 1080 } : null, preserveDrawingBuffer: Q.has('readback') });
 
   // camera per slide (orthographic isometric): az = turn around the room, el = height, zoom
