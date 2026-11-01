@@ -8,9 +8,11 @@
 <!--
   yim-3d deck by Osaa (Oracle AI). Round 3, 2026-11-01: one type scale, one grid, one element language,
   slide 3 rebuilt as a labelled architecture diagram, fully offline (./vendor/), still mode on key S.
+  Round 4, 2026-11-01: new slide 4 "the fleet is run like a company" (7 slides), facts from hello-oracle
+  ψ/writing/expo-2026-10/2026-11-01_fleet-rules-candidates.md, section "Orchestration and registries".
   Content from ../yim-bridge.html (v3), notes copied verbatim; slide 3 wording from hello-oracle
   ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md "Stage-safe wording" plus Dobby's edits.
-  One Three.js world behind all 6 slides: one InstancedMesh (1 draw call) morphs per slide, one camera travels a path.
+  One Three.js world behind all 7 slides: one InstancedMesh (1 draw call) morphs per slide, one camera travels a path.
    - formations anchor to empty HTML/SVG boxes projected at the slide's camera pose, so 3D sits beside text;
    - every mote is projected each frame and fades out near any text box (incl. the big numbers);
    - 3D colours are read from the same CSS tokens as the HTML (one token source, zero drift);
@@ -24,7 +26,7 @@
 <style>
 /* =====================================================================================================
    TYPE SCALE (one scale, five steps, each step has one job on every slide; sizes at the 1920x1080 stage)
-     display  156 / 1.08  Bai Jamjuree 700   the hand-off line (6), the three big numbers (5)
+     display  156 / 1.08  Bai Jamjuree 700   the hand-off line (7), the three big numbers (6)
      heading   72 / 1.2   Bai Jamjuree 700   one per slide, on the heading line; the speaker name on 1
      lead      48 / 1.35  two voices, same size:
                           title  Bai Jamjuree 700, ink     item titles (stages, unlock rows, what was made)
@@ -38,7 +40,7 @@
      rule   4px top rule over every item; amber = the item the slide is about, graphite = the rest
      label  caption size, Bai Jamjuree 600, ink-3 (amber on the key item): ขั้น 1, + 1 2 3
      highlight  amber, only inside headings
-     cards  none; boxes appear only as diagram nodes (slide 3 boxes, slide 4 circles), same fill and stroke tokens
+     cards  none; boxes appear only as diagram nodes (slide 3 boxes, slide 4 ladder, gate and shelf slots, slide 5 circles), same fill and stroke tokens
      bullets none
    ===================================================================================================== */
 :root{
@@ -166,11 +168,20 @@ h2,.heading{font-family:var(--font-display);font-size:var(--fs-heading);line-hei
 /* 3 fleet architecture diagram (SVG, every word is real text) */
 .arch{display:block;width:1640px;height:auto;overflow:visible}
 .arch text{font-family:var(--font-body)}
-.arch .n-t{font-family:var(--font-display);font-size:var(--fs-body);font-weight:700;fill:var(--color-ink)}
-.arch .n-s{font-size:var(--fs-caption);fill:var(--color-ink-2)}
-.arch .n-s.hl{fill:var(--color-accent);font-family:var(--font-display);font-weight:600}
+.arch .n-t,.org-v .n-t{font-family:var(--font-display);font-size:var(--fs-body);font-weight:700;fill:var(--color-ink)}
+.arch .n-s,.org-v .n-s{font-family:var(--font-body);font-size:var(--fs-caption);fill:var(--color-ink-2)}
+.arch .n-s.hl,.org-v .n-s.hl{fill:var(--color-accent);font-family:var(--font-display);font-weight:600}
 
-/* diagram language, shared by slide 3 and slide 4 */
+/* 4 run like a company: three columns, each a picture above the item rule (same pattern as slides 1 and 6) */
+.org{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
+.org-v{display:block;width:520px;height:340px;overflow:visible;margin-bottom:var(--gap-item)}
+.reg{display:flex;flex-direction:column;justify-content:flex-end}
+.reg .anc-cloud{height:302px}
+.reg .shelf{display:block;width:520px;height:38px;overflow:visible}
+.org .item .body+.body{margin-top:var(--gap-item)}
+.cap{font-family:var(--font-body);font-size:var(--fs-caption);line-height:var(--lh-caption);color:var(--color-ink-3);margin-top:var(--gap-in)}
+
+/* diagram language, shared by slides 3, 4 and 5 */
 svg .d-arrowhead{fill:var(--color-diagram-line)}
 svg .d-arc{stroke:var(--color-diagram-line);fill:none}
 svg .d-arc.dash{stroke-dasharray:14 12}
@@ -178,8 +189,10 @@ svg .d-ring{stroke:var(--color-diagram-ring)}
 svg .d-hub{fill:var(--color-diagram-hub);stroke:var(--color-diagram-live)}
 svg .d-node{fill:var(--color-diagram-node);stroke:var(--color-diagram-idle)}
 svg .d-node[data-live]{stroke:var(--color-diagram-live)}
+svg .d-gate{fill:none;stroke:var(--color-diagram-live)}
+svg .d-slot{fill:none;stroke:var(--color-diagram-idle)}
 
-/* 4 shift ring */
+/* 5 shift ring */
 .ring{display:grid;grid-template-columns:minmax(0,1fr) 800px;gap:var(--gap-col);align-items:start}
 .ring .left{display:flex;flex-direction:column;gap:var(--gap-lead)}
 .ring svg{width:800px;height:800px;display:block;overflow:visible}
@@ -187,13 +200,13 @@ svg .d-node[data-live]{stroke:var(--color-diagram-live)}
 .ring svg .cmd{font-family:var(--font-mono);font-weight:700;fill:var(--color-accent)}
 .ring svg .sub{font-family:var(--font-body);fill:var(--color-ink-2);font-weight:500}
 
-/* 5 numbers */
+/* 6 numbers */
 .big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
 .big3 .anc{height:170px}
 .big3 .num{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700;color:var(--color-accent)}
 .big3 .title{margin-top:var(--gap-in)}
 
-/* 6 close (amber) */
+/* 7 close (amber) */
 .close{display:grid;grid-template-columns:1060px minmax(0,1fr);gap:var(--gap-col)}
 .close .left{display:flex;flex-direction:column;gap:var(--gap-lead)}
 .close .display{padding-top:36px}   /* Thai tone marks on a 156px line rise above the heading line; keep them clear of the lamp */
@@ -246,7 +259,7 @@ body.shownotes .notes{display:block}
     </div>
   </div>
   <p class="foot rv" style="--d:3">สามข้อล่าง จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
-  <div class="notes">2 นาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ เล่าแค่ว่าแต่ละข้อเปลี่ยนงานของยิ้มยังไง ข้อละ 1 เหตุการณ์จริง (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
+  <div class="notes">1 นาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ · อ่านหัวข้อสี่บรรทัดแล้วเล่าเหตุการณ์จริงแค่ 1 เรื่อง ข้อที่เปลี่ยนงานของยิ้มมากที่สุด แล้วไปต่อ (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
 </section>
 
 <!-- 3 · how the fleet works · one labelled architecture diagram; 3D: light travels the arrows,
@@ -292,7 +305,54 @@ body.shownotes .notes{display:block}
   <div class="notes">2 นาที · เล่าเป็นภาพ ไม่สอนเทคนิค · แถว 1: ฝูงอยู่บนเครื่องที่เปิดตลอด (box) ทำงานตอนยิ้มหลับ ส่วน Mac ของยิ้มคือห้องคนขับ · Discord คือศูนย์กลาง · พูดว่า "สิบกว่าตัว" ห้ามบอกเลขเป๊ะ · หลักคนละตัว: ชื่อเครื่องมือดู footnote ไม่ต้องอธิบาย · แถว 2: พูดแค่ "agent ของคนอื่น" ห้ามบอกว่าเป็นของใคร ข้อมูลภายในไม่ส่งออก · แถว 3: ผู้ช่วยส่วนตัว 3 ตัว พูดชื่อแล้วผ่าน ไม่ลงรายละเอียดเพดานหรือกติกา (คุณยิ้ม 2026-11-01) · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md</div>
 </section>
 
-<!-- 4 · shift ring · 3D: halos orbit the 4 ring nodes, light flows clockwise and drops into ψ/ -->
+<!-- 4 · the fleet is run like a company · three parts read as one picture;
+     3D: decisions climb the ladder and thin out, 211 learned topics float and 17 light up and move onto the shelf,
+     work passes through the gate and only checked work comes out lit -->
+<section class="slide" data-anchors=".anc-lv|.anc-rail|.anc-cloud|.anc-slot|.anc-gate|.anc-lane">
+  <div class="frame">
+    <h2 class="rv">ฝูงนี้ <span class="hl">บริหารแบบบริษัท</span></h2>
+    <div class="org">
+      <div class="rv" style="--d:1">
+        <svg class="org-v" viewBox="0 0 520 340" role="img" aria-label="แบ่งงานสามระดับ เล็ก Dobby ตัดสินเองแล้วรายงาน กลาง คิดด้วยกัน ใหญ่หรือย้อนไม่ได้ ยิ้มตัดสิน">
+          <defs><marker id="ah4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="d-arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+          <path class="anc-rail d-arc" d="M 48 338 L 48 314" stroke-width="5"/>
+          <path class="d-arc" d="M 48 248 L 48 212" stroke-width="5" marker-end="url(#ah4)"/>
+          <path class="d-arc" d="M 48 130 L 48 94" stroke-width="5" marker-end="url(#ah4)"/>
+          <circle class="anc-lv d-node" data-live="1" cx="48" cy="44" r="36" stroke-width="4"/>
+          <circle class="anc-lv d-node" cx="48" cy="170" r="28" stroke-width="4"/>
+          <circle class="anc-lv d-node" cx="48" cy="282" r="20" stroke-width="4"/>
+          <text class="n-t" x="120" y="40">ใหญ่ หรือย้อนไม่ได้</text>
+          <text class="n-s hl" x="120" y="86">ยิ้มตัดสิน</text>
+          <text class="n-t" x="120" y="166">กลาง</text>
+          <text class="n-s" x="120" y="212">คิดด้วยกัน</text>
+          <text class="n-t" x="120" y="278">เล็ก</text>
+          <text class="n-s" x="120" y="324">Dobby ตัดสินเองแล้วรายงาน</text>
+        </svg>
+        <div class="item"><p class="title">แบ่งงาน<br>ตามราคาของการผิด</p></div>
+      </div>
+      <div class="rv" style="--d:2">
+        <div class="org-v reg">
+          <div class="anc anc-cloud"></div>
+          <svg class="shelf" viewBox="0 0 520 38" role="img" aria-label="ชั้นทะเบียน 17 ช่อง">
+            <rect class="anc-slot d-slot" x="4" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="34" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="64" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="94" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="124" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="154" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="184" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="214" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="244" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="274" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="304" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="334" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="364" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="394" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="424" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="454" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="484" y="8" width="22" height="22" rx="4" stroke-width="3"/>
+          </svg>
+        </div>
+        <div class="item key"><p class="title">ทะเบียนว่าใครทำอะไรได้<br>และเรียนอะไรมาแล้ว</p><p class="body">เรียนไป 211 เรื่อง<br>ตัดสินใจว่าจะใช้แค่ 17</p><p class="cap">ณ ส.ค. 2026</p></div>
+      </div>
+      <div class="rv" style="--d:3">
+        <svg class="org-v" viewBox="0 0 520 340" role="img" aria-label="งานทุกชิ้นต้องผ่านด่านก่อนนับว่าเสร็จ">
+          <defs><marker id="ah5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="d-arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+          <path class="anc-lane d-arc dash" d="M 0 170 L 506 170" stroke-width="5" marker-end="url(#ah5)"/>
+          <rect class="anc-gate d-gate" x="200" y="56" width="120" height="228" rx="20" stroke-width="4"/>
+        </svg>
+        <div class="item"><p class="title">กฎที่เกิดจากของพังจริง</p><p class="body">เสร็จแล้ว ไม่นับ ต้องเปิดของจริงดู</p><p class="body">กฎที่เป็นตัวหนังสือจะถูกลืม<br>ทำให้เป็นด่านที่บังคับเอง</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">1.5 นาที · เปิดด้วย: "ฝูงนี้บริหารเหมือนบริษัท คนที่เคยบริหารทีมจะเห็นภาพทันที" · ซ้าย แบ่งงานตามราคาของการผิด: เรื่องเล็ก Dobby ตัดสินเองแล้วรายงาน · เรื่องกลางคิดด้วยกัน · เรื่องใหญ่หรือย้อนไม่ได้ ยิ้มตัดสิน (เหมือนวงเงินอนุมัติของแต่ละตำแหน่ง) · กลาง ทะเบียน: ตอนนั้น (ส.ค. 2026) ฝูงเรียนไป 211 เรื่อง แต่มีแค่ 17 เรื่องที่จดไว้ว่าตัดสินใจจะเอาไปใช้ เหมือนบริษัทที่ส่งคนไปอบรมแต่ไม่เคยจดว่าใครทำอะไรได้ เลยต้องมีทะเบียน · ขวา กฎสองข้อนี้เกิดจากของพังจริง ข้อละหนึ่งเหตุการณ์: "เสร็จแล้ว ไม่นับ" = 31 ก.ค. AI พิมพ์ว่าแก้แล้ว แต่ไฟล์ไม่เคยเปลี่ยน (ลูกทีมบอกว่าเสร็จ เราก็ยังเปิดดู) · "ทำเป็นด่าน" = กฎที่จดไว้ 8 ส.ค. ถูกค้นพบใหม่ทั้งชุด 6 วันต่อมา (กฎในคู่มือที่ไม่มีใครอ่าน) เลยเปลี่ยนเป็นด่านที่ระบบบังคับเอง · ไม่ต้องเอ่ยชื่อ registry หรือ hook · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-rules-candidates.md</div>
+</section>
+
+<!-- 5 · shift ring · 3D: halos orbit the 4 ring nodes, light flows clockwise and drops into ψ/ -->
 <section class="slide" data-anchors=".anc-n|.anc-c|.anc-ring">
   <div class="frame">
     <div class="ring">
@@ -325,7 +385,7 @@ body.shownotes .notes{display:block}
   <div class="notes">พูด: "โรงพยาบาลกับโรงงานไม่ได้ใช้คู่มือส่งงานกัน เขาใช้บันทึกส่งกะ" แล้วชี้ประโยคบนจอ · 2 นาที · จุดที่แรงที่สุดของช่วงยิ้ม · ประโยคหลัก: "คนที่เคยบริหารทีมคนมาแล้ว รู้วิธีทำงานกับ AI อยู่แล้ว แค่ยังไม่มีใครบอก" · /recap = อ่านบันทึกกะก่อนแตะงาน · /forward = เขียนสภาพงานลงไฟล์ก่อนความจำหาย · /rrr = retro เก็บบทเรียนเป็นของถาวร · ที่มา: คอร์ส Part 2 หน้า 3 ถึง 5 (hello-oracle ψ/writing/slides/part2-working-with-ai.html) · ⚠️ เช็กกับคุณนัทว่า 6 บทเรียนใช้ /forward ด้วยไหม ถ้าไม่ใช้ เปลี่ยนเป็น "handoff"</div>
 </section>
 
-<!-- 5 · what got made · 3D: exactly 135 motes stacked 9x5x3, 5 gems with users orbiting, 3 rising steps -->
+<!-- 6 · what got made · 3D: exactly 135 motes stacked 9x5x3, 5 gems with users orbiting, 3 rising steps -->
 <section class="slide">
   <div class="frame">
     <h2 class="rv">งานที่เคยอยากทำ <span class="hl">แต่ทำไม่ได้</span></h2>
@@ -339,7 +399,7 @@ body.shownotes .notes{display:block}
   <div class="notes">2 นาที · เลขวัดจาก productize.life วันที่ 1 พ.ย. 2026 (บล็อก 135 ตอน · หน้า Apps มี 5 แอปที่เปิดให้ใช้ · คอร์ส From Prompting to Your Own AI Agent 3 Part) ⚠️ นับใหม่เช้าวันงาน · ฝูง: Fude เขียน · Osaa ทำภาพ · Koe การตลาด · Kensa ตรวจงานตัวอื่น ไม่มีตัวไหนตรวจงานตัวเอง · เวิร์กช็อป 11:00 ก็ทำกับฝูงนี้ · ⛔ ไม่ขาย handbook บนเวที · ⛔ ไม่ยกตัวอย่างงานบัญชี · ไม่เล่าเรื่องครอบครัว Oracle (บทเรียน 05)</div>
 </section>
 
-<!-- 6 · hand-off (amber) · 3D: one node lights many, the light spreads out to the room -->
+<!-- 7 · hand-off (amber) · 3D: one node lights many, the light spreads out to the room -->
 <section class="slide amber">
   <div class="frame">
     <div class="close">
@@ -424,12 +484,14 @@ try {
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(BG.dark.clone(), 28, 64);     // dust fades into the paper, gives depth for free
   const camera = new THREE.PerspectiveCamera(40, 1920 / 1080, 0.1, 200);
-  // the camera path is the story: wide establishing · in to the team · down into the house · up over the day ·
+  // the camera path is the story: wide establishing · in to the team · down into the house · square on to the org ·
+  // up over the day ·
   // back to see everything made · close on the one node that lights the room
   const POSES = [
     { p: [0, 0, 24],     l: [0, 0, 0] },
     { p: [5, 2.5, 21],   l: [2, 0.5, 0] },
     { p: [-2, -1.5, 22], l: [-0.6, -0.3, 0] },
+    { p: [1.5, 0.8, 23], l: [0.6, 0.2, 0] },
     { p: [0, 4.5, 22],   l: [0, 0.6, 0] },
     { p: [0, 3, 26],     l: [0, 1, 0] },
     { p: [5, -0.8, 17],  l: [3, 0, 0] },
@@ -572,7 +634,35 @@ try {
         return put(x, a + (b - a) * ease(u), 0, v < 0.55 ? 0.55 : 0.55 * (1 - (v - 0.55) / 0.45), 1, 0.8); }
       return dust(i, t);
     },
-    (i, t, A) => {                       // 4: shift ring; nodes clockwise from top, then ψ/, then ring
+    (i, t, A) => {                       // 4: run like a company · ladder | registry shelf | gate
+      const lt = t - tStart;                // seconds since this slide arrived (huge in still / capture: final state)
+      const lv = [A[0], A[1], A[2]].map(v => v || ZERO), rail = A[3] || ZERO, cloud = A[4] || ZERO;
+      const slot = k => A[5 + k] || ZERO, gate = A[22] || ZERO, lane = A[23] || ZERO;
+      // 211 topics learned; 17 light up and move onto the shelf, 194 keep drifting
+      if (i < 211) {
+        const r = R[i], th = r[0] * Math.PI * 2 + t * 0.05 * (r[4] > 0.5 ? 1 : -1), rr = Math.sqrt(r[1]);
+        const cx = cloud.x + Math.cos(th) * rr * cloud.hw * 0.92, cy = cloud.y + Math.sin(th) * rr * cloud.hh * 0.8;
+        const cz = (r[2] - 0.5) * 1.6;
+        if (i >= 17) return put(cx, cy, cz, 0.62 + r[3] * 0.25, 1);
+        const sl = slot(i), u = ease(Math.max(0, Math.min(1, (lt - 1.3 - i * 0.05) / 1.1)));
+        const lit = lt > 1.0 + i * 0.05;
+        return put(cx + (sl.x - cx) * u, cy + (sl.y - cy) * u + Math.sin(u * Math.PI) * 0.6, cz * (1 - u), lit ? 0.75 + u * 0.4 : 0.7, lit ? 0 : 1); }
+      // decisions climb the ladder; most stop at small, fewer at medium, few reach the human at the top (amber)
+      if (i < 271) {
+        const r = R[i], d = r[1] < 0.6 ? 2 : r[1] < 0.88 ? 1 : 0, u = frac(r[0] + t * 0.07 * (1.6 - d * 0.3));
+        const y0 = rail.y - rail.hh, y1 = lv[d].y;
+        return put(lv[2].x, y0 + (y1 - y0) * u, 0, 0.7, d === 0 ? 0 : 1, 1); }
+      // work passes the gate: checked work leaves lit, some never gets past it
+      if (i < 321) {
+        const r = R[i], u = frac(r[0] + t * 0.09), x0 = lane.x - lane.hw, x1 = lane.x + lane.hw * 0.9;
+        let x = x0 + (x1 - x0) * u, s = 0.7, c = 1;
+        const gl = gate.x - gate.hw * 0.75;
+        if (r[1] < 0.3) { if (x > gl) { s = 0.7 * Math.max(0, 1 - (x - gl) / 1.0); x = gl; } }
+        else if (x > gate.x) c = 0;
+        return put(x, lane.y + (r[2] - 0.5) * 0.12, 0, s, c, 1); }
+      return dust(i, t);
+    },
+    (i, t, A) => {                       // 5: shift ring; nodes clockwise from top, then ψ/, then ring
       const n = [A[0], A[1], A[2], A[3]].map(v => v || ZERO), c = A[4] || ZERO, ring = A[5] || ZERO;
       if (i < 160) { const k = i % 4, m = Math.floor(i / 4), a = m / 40 * Math.PI * 2 + t * 0.3 * (k % 2 ? -1 : 1);
         const rr = n[k].r * 1.14; return put(n[k].x + Math.cos(a) * rr, n[k].y + Math.sin(a) * rr, Math.sin(a * 3 + t) * 0.15, 0.75, k === 1 ? 2 : 0); }
@@ -587,7 +677,7 @@ try {
         return put(sx + (ex - sx) * e, sy + (ey - sy) * e, 0.3, 0.55, 0, 1); }
       return dust(i, t);
     },
-    (i, t, A) => {                       // 5: 135 articles, 5 apps with users, 3 course parts
+    (i, t, A) => {                       // 6: 135 articles, 5 apps with users, 3 course parts
       const b0 = A[0] || ZERO, b1 = A[1] || ZERO, b2 = A[2] || ZERO;
       if (i < 135) { const x = i % 9, y = Math.floor(i / 9) % 5, z = Math.floor(i / 45), sp = 0.4;   // 9 x 5 x 3, seen in depth
         const lx = (x - 4) * sp, ly = (y - 2) * sp, lz = (z - 1) * sp, a = 0.55 + Math.sin(t * 0.15) * 0.3, ca = Math.cos(a), sa = Math.sin(a), tx = 0.38;
@@ -603,7 +693,7 @@ try {
         return put(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr * 0.35, Math.sin(a) * rr, 0.4, 2); }
       return dust(i, t);
     },
-    (i, t, A) => {                       // 6: one node lights many
+    (i, t, A) => {                       // 7: one node lights many
       const a = A[0] || ZERO, rad = Math.min(a.hw, a.hh) * 0.82;
       const sat = k => { const y = 1 - 2 * (k + 0.5) / 14, rr = Math.sqrt(1 - y * y), th = k * 2.39996 + t * 0.15;
         return { x: a.x + Math.cos(th) * rr * rad, y: a.y + y * rad, z: Math.sin(th) * rr * rad }; };
