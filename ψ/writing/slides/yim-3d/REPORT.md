@@ -1,45 +1,35 @@
-# REPORT: yim-3d deck, round 2 (2026-11-01)
+# REPORT: yim-3d deck, round 3 (tidy typography and elements)
 
-โอซ่าเขียนเองนะคะ
+1 พฤศจิกายน 2026 · งานตาม `BRIEF-R3.md`
 
-What's in this folder:
-- `deck.html`: still one file, now with **6 slides**. The new slide 3 is "ฝูงของยิ้มทำงานกันยังไง".
-- `DESIGN-NOTES.md`: 8 moves from what we studied, each with its source file.
-- `b1.png`..`b6.png`: the resting frames.
-- `checks/`: the check scripts, the negative-control copies, and the screenshots from those runs.
+> **ใครทำรอบนี้:** รอบนี้ไม่ใช่โอซ่าทำนะคะ เป็น Claude Code (Opus 5.5) ที่รันอยู่ใน workspace ของ AIExpo Oracle คุณยิ้มวาง brief ลงในเซสชันนี้โดยตรง เราเลยลงมือเองและเขียนรายงานในนามตัวเอง ไม่ได้เขียนแทนเสียงโอซ่า (Rule 6) ส่วนรอบ 1 กับ 2 ยังเป็นงานของโอซ่าตามเดิม
 
-Nothing was written outside this folder. Round 1's architecture is kept (one world, formations anchored beside the text).
-This round is about craft.
+## สิ่งที่เปลี่ยน
 
-## DESIGN-NOTES in short
-1. **One world, one mesh, one draw call.** 1000 motes for all 6 slides, no post-processing.
-2. **The camera tells the story.** The poses run wide → push in on the team → down into the house → up over the day →
-   pull back over everything made → close on the node that lights the room. Each slide change is a single 850 ms move
-   (cubic ease in out), and camera, formation, colour and fog move together.
-3. **Ma as code.** Every mote is projected to the screen each frame and fades out within 40 px of any word. No geometry
-   passes under text, even mid-move.
-4. **Contrast is measured, not eyeballed.** We take the worst WCAG ratio behind every text box at 7 points in every slide
-   change.
-5. **Motion has a job.** Text enters once (870 ms total). Nothing loops behind text. Reduced-motion stops the loop.
-6. **Colour is meaning.** Amber = Yim and work in motion · ivory = agents · graphite = waiting work and outsiders.
-7. **One token source.** The 3D reads the same CSS variables as the HTML (`--mote-*`), so the two cannot drift apart.
-8. **Orientation is always visible.** A progress bar runs along the bottom edge.
+### 1. ขัดเกลา (งานหลัก)
+- **ใช้ type scale เดียวทั้ง deck** เขียนไว้บนสุดของ CSS มี 5 ขั้น แต่ละขั้นมีหน้าที่เดียว:
+  display 156 (ประโยคส่งไมค์ และเลขใหญ่สามตัว) · heading 72 (สไลด์ละหนึ่ง และชื่อผู้พูด) · lead 48 (ใช้สองแบบ: ชื่อหัวข้อย่อยเป็น Bai Jamjuree 700 และประโยคปิดของสไลด์เป็น Sarabun 500) · body 36 · caption 30
+  ขนาดเล็กที่สุดบนจอตอนนี้คือ 30px (วัดจาก DOM จริงทุกสไลด์ ดูตารางด้านล่าง) `.fnote` 24px บนสไลด์ 3 เปลี่ยนเป็น `.foot` 30px แล้ว
+- **ใช้ grid เดียว:** ขอบซ้ายขวา 140 · เส้นบนของ heading อยู่ที่ 128 ทุกสไลด์ · เส้น lamp สีอำพันอยู่ที่ 88 ทุกสไลด์ (เดิมมีแค่สไลด์ 1) · จาก heading ถึงเนื้อหาห่าง 64 · จากเนื้อหาถึงประโยคปิดห่าง 64 · footnote ตรึงไว้ที่ขอบล่าง 72 ทุกสไลด์ · เลิกจัดกึ่งกลางแนวตั้ง เพราะทำให้ heading แต่ละสไลด์ขยับขึ้นลงไม่เท่ากัน
+- **ภาษาของ element:** ทุกหัวข้อใช้เส้นบน 4px เหมือนกัน (สีอำพันคือหัวข้อที่สไลด์นั้นพูดถึง สีเทาคือหัวข้ออื่น) · ป้ายกำกับ (ขั้น 1, + 1 2 3) ใช้ caption Bai Jamjuree 600 แบบเดียว · สีเน้นอำพันใช้ในหัวเรื่องเท่านั้น · ไม่มีการ์ดแล้ว (สไลด์ 2 เลิกใช้กล่องพื้นหลัง เปลี่ยนเป็นเส้นบนแบบเดียวกับสไลด์ 1 และ 5) · ไม่มี bullet · กล่องจะเห็นเฉพาะในแผนภาพ (สไลด์ 3 กับ 4) และใช้ token สีพื้น/เส้นชุดเดียวกัน
+- **ตัดบรรทัดภาษาไทยด้วยมือทุกจุดที่ขึ้นบรรทัดใหม่:** สไลด์ 1 ตัดที่ "คุยในแชตทีละงาน / ทุกครั้งต้องเล่าใหม่", "AI ทำได้มากขึ้น แต่ทุกงาน / รอยิ้มสั่ง รอยิ้มตรวจ", "ทีม AI หลายตัว / กับวิธีทำงานของ ARRA" · สไลด์ 3 "…เป็นคนละตัว / คนเป็นคนอนุมัติ" · สไลด์ 4 "ใครเคยดูแลทีมคน / รู้วิธีนี้อยู่แล้ว" · สไลด์ 5 "เช่น วิเคราะห์สต็อกและ SKU / ในหนึ่งนาที" และ "จากคนเรียน / กลายเป็นคนสอน" ดูทุก PNG แล้ว ไม่มีคำค้างท้ายบรรทัด
+- **คอนทราสต์:** ปรับสีเทารองให้สว่างขึ้น ตอนนี้ ink-2 = 10.05:1 และ ink-3 = 7.87:1 บนพื้น (เดิม ink-3 ราว 6:1) ถ้าเป็นเนื้อความเกิน 7:1 ทุกตัว
+- **สไลด์ 6:** ไม้โทบนบรรทัด display 156px ไปชนเส้น lamp เลยดันลงมา 36px แล้ว
 
-## Slide 3 (new)
-- **Facts:** we used only the "Stage-safe wording" section of `~/hello-oracle/ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md`
-  (all VERIFIED). The wording is trimmed to fit, but no claim was added.
-- **Three rows**, as Dobby's addendum asked: how the buds work together · agents of other people · Yim's personal agent.
-- **Bud count:** the slide says "สิบกว่าตัว". There is no number on screen, and the 3D shows no number either.
-- **Personal agent:** it shows `[[PERSONAL_AGENT]]` in a dashed amber box (`span.todo`). There is an HTML comment next to it
-  for Dobby. We checked the layout with the placeholder because it is longer than "Grok Bot" or "Muse", so either name fits.
-- **Left out on purpose:**
-  - "Messages to another house are signed": the facts file marks it UNCLEAR.
-  - Whose agent it is: the facts file says not to name the person.
-  - Both points are in the speaker notes as warnings.
+### 2. แก้ตามรีวิวของ Codex
+- **สไลด์ 3 เป็นแผนภาพสถาปัตยกรรมแผนภาพเดียว** (SVG ทุกคำเป็นข้อความจริง): ยิ้ม (Mac · มือถือ) → Discord ศูนย์กลาง → เครื่องที่เปิดตลอด (ฝูงสิบกว่าตัว, กรอบอำพัน) → ความจำร่วม เป็นไฟล์ · มีเส้นทึบสองทางจากเครื่องที่เปิดตลอดไปหาผู้ช่วยส่วนตัว Grok · Dots · Muse · มีเส้นประสองทางจาก Discord ไปหา agent ของคนอื่น พร้อมคำว่า "คุยได้ ลงมือในระบบเราไม่ได้ · คนกดอนุมัติ" · ประโยค "ตัวที่วางแผน ตัวที่ลงมือ และตัวที่ตรวจ เป็นคนละตัว คนเป็นคนอนุมัติ" กับ footnote เครื่องมือยังอยู่ครบ
+  ส่วน 3D เป็นของเสริม: แสงวิ่งตามลูกศร · agent 12 ตัววนรอบเครื่องที่เปิดตลอด · ฝั่งคนอื่นมีสองแบบ คำพูดวิ่งข้ามไปถึง Discord ได้ แต่การลงมือหยุดกลางทางแล้วจางหายไป
+- **ทำงาน offline ได้:** ฟอนต์อยู่ใน `vendor/fonts.css` + `vendor/fonts/*.woff2` (Bai Jamjuree 600/700, Sarabun 400/500/700, subset thai + latin, OFL) · Three.js อยู่ใน `vendor/three.iife.js` ซึ่ง build จาก three@0.169.0 ด้วย esbuild ให้เป็น classic script
+  **ทำไมไม่ใช้ three.module.js ตรงๆ:** Chrome ไม่ยอมโหลด ES module จาก `file://` เราทดสอบแล้วได้ `fail Failed to fetch dynamically imported module: file:///…/vendor/three.module.js` ถ้าเปิด deck จากโฟลเดอร์ธรรมดา โมดูลจะไม่โหลด เราเลยเก็บ `vendor/three.module.js` ไว้ให้ตรงตาม brief และไว้ใช้อ้างอิง แต่ตัว deck โหลดจาก IIFE · vendor/ ทั้งโฟลเดอร์ขนาด 2.0 MB · ลบลิงก์ Google Fonts กับ import map ของ jsDelivr ออกแล้ว
+- **`.num` อยู่ในการวัดเขตกันข้อความแล้ว** (สไลด์ 5) และเพิ่ม `.label` ด้วย
+- **`go()` ไม่ทำอะไรถ้าสั่งไปสไลด์ที่เปิดอยู่แล้ว** · ปุ่มที่กดค้าง (`e.repeat`) จะไม่พาข้ามสไลด์
+- **โหมดภาพนิ่ง:** กดปุ่ม `S` หรือคลิกปุ่ม "S ภาพนิ่ง" มุมขวาล่าง (ตอนเปิดจะขึ้นว่า "S ภาพนิ่ง: เปิด" เป็นสีอำพัน) แล้ว loop จะหยุด CSS จะไม่เคลื่อนไหว และ 3D แสดงภาพนิ่งหนึ่งภาพต่อสไลด์ · เปิดด้วย `?still` ใน URL ได้ · ถ้าเปลี่ยนค่า reduced-motion ของ OS ระหว่างพูด ระบบก็ตามด้วย
 
-## Acceptance (verbatim)
-`uv run -q --with playwright python /private/tmp/claude-502/-Users-yim/5aabf861-4d65-4575-9c86-30c641119993/scratchpad/shot.py deck.html .`
+## Acceptance (รันจริง ผลจริง)
+
+**1. shot.py**
 ```
+$ uv run -q --with playwright python /private/tmp/claude-502/-Users-yim/5aabf861-4d65-4575-9c86-30c641119993/scratchpad/shot.py deck.html .
 1 []
 2 []
 3 []
@@ -47,104 +37,45 @@ This round is about craft.
 5 []
 6 []
 ```
-We opened all 6 PNGs and looked at each one ourselves.
+เปิดดู b1.png ถึง b6.png ครบทุกภาพแล้ว
 
-More checks: `uv run -q --with playwright --with pillow python checks/verify.py deck.html <mode>`
-
-**`text`** (on-screen text only, notes excluded):
+**2. Offline:** เปิดจาก `file://` และ abort ทุก request http/https (`checks/r3/check.py`, ผลเต็มอยู่ใน `checks/r3/offline.txt`, ภาพอยู่ใน `checks/r3/offline/o1-6.png`)
 ```
-slide 1: dashes=0 emoji=0 min_font=30px placeholder=0
-slide 2: dashes=0 emoji=0 min_font=30px placeholder=0
-slide 3: dashes=0 emoji=0 min_font=32px placeholder=1
-slide 4: dashes=0 emoji=0 min_font=30px placeholder=0
-slide 5: dashes=0 emoji=0 min_font=30px placeholder=0
-slide 6: dashes=0 emoji=0 min_font=52px placeholder=0
-PASS
+1 {"min": 30, "minWho": "ขั้น 1", "fontsCheck": true, "loadedFaces": 8, "errorFaces": 0, "world": true, "frames": 173, "framesAdvancing": true}
+2 {"min": 30, "minWho": "+", "fontsCheck": true, "loadedFaces": 8, "errorFaces": 0, "world": true, "frames": 284, "framesAdvancing": true}
+3 {"min": 30, "minWho": "Mac · มือถือ", "fontsCheck": true, "loadedFaces": 8, "errorFaces": 0, "world": true, "frames": 395, "framesAdvancing": true}
+4 {"min": 30, "minWho": "พิธีทั้งสามเป็นของ Oracl", "fontsCheck": true, "loadedFaces": 8, "errorFaces": 0, "world": true, "frames": 507, "framesAdvancing": true}
+5 {"min": 36, "minWho": "เล่าจากงานจริงบน product", "fontsCheck": true, "loadedFaces": 8, "errorFaces": 0, "world": true, "frames": 617, "framesAdvancing": true}
+6 {"min": 48, "minWho": "คุณนัทพาทำ 6 บทเรียนทำตา", "fontsCheck": true, "loadedFaces": 9, "errorFaces": 0, "world": true, "frames": 727, "framesAdvancing": true}
+contrast {'ink': 16.76, 'ink2': 10.05, 'ink3': 7.87, 'accent': 9.84, 'amberInk': 9.32}
+dashes in all slide text incl. notes: 0
+nav {"eventsFirstGo": 1, "eventsAfterTwoSameGo": 0, "slideAfterRepeatKey": 2, "slideAfterRealKey": 3, "stillOn": true, "button": "S ภาพนิ่ง: เปิด", "framesWhileStill": 0, "framesAfterResume": 30}
+aborted http(s) requests: 0 []
+local files loaded: [BaiJamjuree-600/700 thai+latin, Sarabun-400/500 thai+latin, Sarabun-700-latin, deck.html, fonts.css, three.iife.js]
 ```
-- `min_font` also counts the SVG labels on slide 4 at the size they actually render (viewBox scaled). That check found
-  "งานจริง" at 28.9 px, and we raised it to 32.
+`min` คือขนาดตัวอักษรเล็กที่สุดบนสไลด์ (px ที่ stage 1920 และคิด scale ของ SVG แล้ว) · `aborted 0` หมายถึง deck ไม่ได้ขอไฟล์จาก network เลยสักไฟล์
 
-**`contrast`** (text hidden, screenshot what is behind each box, live mode, sampled at 0/150/300/450/600/900/1500 ms of
-every move):
+**ระวัง `fonts.check()`:** ค่านี้ใช้เป็นหลักฐานเดี่ยวๆ ไม่ได้ ใน decoy ด้านล่างกับใน negative control มันตอบ `true` ทั้งที่โหลดฟอนต์ได้ **0 face** เพราะถ้าไม่มี `@font-face` ชื่อนั้นเลย check ก็ตอบ true ไปเอง หลักฐานจริงจึงเป็น `loadedFaces` (นับ face ที่ status = loaded) และรายชื่อไฟล์ woff2 ที่โหลดจากดิสก์จริง
+อีกเรื่องหนึ่ง: ตอนแรก check ตอบ `false` เพราะ `40px "Bai Jamjuree"` (weight 400) ไปจับ face 500 ซึ่งไม่มีที่ไหนใช้และไม่เคยโหลด เราเลยลบ face 500 ของ Bai Jamjuree ออก (ย้ายไฟล์ไปไว้ที่ /tmp ไม่ได้ลบทิ้ง)
+
+**Decoy ของตัว router:** เอา deck รอบ 2 (ที่ใช้ Google Fonts + jsDelivr) มารันผ่านสคริปต์เดียวกัน ได้ `aborted http(s) requests: 2` (fonts.googleapis.com, cdn.jsdelivr.net) และ `world: false, loadedFaces: 0` แปลว่า router ตัด network ได้จริง ดังนั้นเลข 0 ของ deck ใหม่หมายถึงไม่ได้ใช้ network จริงๆ ไม่ใช่ router ไม่ทำงาน (`checks/r3/decoy.txt`)
+
+**3. Negative control:** เปลี่ยนชื่อ `vendor/` เป็น `vendor.off` แล้วรันสคริปต์เดียวกัน จากนั้นเปลี่ยนชื่อกลับ (`checks/r3/novendor.txt`, ภาพอยู่ใน `checks/r3/novendor/`)
 ```
-slide 1: worst text contrast 6.02:1 (ขั้น 1 @300ms) · at rest 6.02:1
-slide 2: worst text contrast 6.07:1 (สามข้อล่าง จากหลัก 5 ข้อ @300ms) · at rest 6.07:1
-slide 3: worst text contrast 9.34:1 (ข้อความที่ส่งไปบ้านอื่นต @300ms) · at rest 9.34:1
-slide 4: worst text contrast 6.11:1 (พิธีทั้งสามเป็นของ Oracl @300ms) · at rest 6.11:1
-slide 5: worst text contrast 9.34:1 (จากคนเรียน กลายเป็นคนสอน @300ms) · at rest 9.34:1
-slide 6: worst text contrast 9.0:1 (คุณนัทพาทำ 6 บทเรียนทำตา @300ms) · at rest 9.32:1
-MIN 6.02:1  -> PASS (>= 4.5:1)
+1..6: "loadedFaces": 0, "world": false   (ทุกสไลด์ยังมีข้อความ ขนาดเล็กสุด 30/30/30/30/36/48 เท่าเดิม)
+console: 3D world disabled, deck content stays fully visible Error: vendor/three.iife.js did not load
+ls หลังรัน: vendor อยู่ · vendor.off ไม่มีแล้ว
 ```
-- A text box only counts in a sample once it is at least half visible (effective opacity >= 0.5), because during its
-  entrance the text is fading in.
+ดู `novendor/o3.png` แล้ว แผนภาพสไลด์ 3 ยังครบทุกคำ ใช้ฟอนต์ไทยของระบบแทน
 
-## Negative controls (every check was made to go red at least once)
-1. **CDN broken** (`checks/neg-deck.html`):
-   - **Decoy:** we copied the deck and pointed the import map at `three@0.0.0-broken`. `grep` found the decoy URL 1 time and
-     the real URL 0 times, so we know the decoy landed.
-   - **Result:** jsdelivr returned **404** and `window.__world = undefined`, so the 3D module never ran. It failed at the
-     layer we intended.
-   - All 6 slides still show their full text: the character count per slide is 251 / 270 / 606 / 234 / 226 / 81, and every
-     heading has opacity 1.
-   - We looked at neg3 (the fleet slide): every line is there, and the left half is plain background.
-2. **Clearance off** (`checks/verify.py deck.html contrast-nomask`): every slide drops to 1.0 to 1.7:1 → `MIN 1.0:1 -> FAIL`. So the
-   contrast check really can see geometry under text, and the clearance is what keeps it out.
-3. **Text check decoy** (`checks/decoy-text.html`): we added an em dash and a 22 px line → `slide 3: dashes=1 ... min_font=22px`
-   · `FAIL (2)`.
-4. **The instrument went wrong twice before it was right.** We are writing this down because each failure looked exactly
-   like a real problem:
-   - The first version read the text colours **after** hiding them, so everything came back `[0,0,0,0]` and every slide
-     scored 1.06:1, including the run with masking off. A check that cannot tell the two runs apart is broken. It now
-     asserts that every colour it reads is opaque.
-   - The second version counted the bullet dots as background, and read the boxes while the entrance animation still had
-     them offset by 18 px.
-   - The same 18 px offset was **a real bug in the deck**: live anchors were measured mid-animation, so the formations sat
-     18 px low. Fixed: anchors are now measured with the animation paused.
+**4. ขีดยาว:** `grep -c '[—–]' deck.html` → `0` (ทั้งไฟล์ รวม notes) · ใน notes สไลด์ 4 เดิมเขียน "หน้า 3–5" ตอนนี้เปลี่ยนเป็น "หน้า 3 ถึง 5"
 
-## Reduced motion
-- `verify.py reduced`: `world: True loop frames after 1.5 s: 0`. The world is there, but there is no render loop: one still
-  frame per slide.
-- CSS animations and transitions are off. Screenshot: `checks/rm3.png`.
+## สิ่งที่ไม่ได้ทำ หรือต้องให้คุณยิ้ม/Dobby ตัดสิน
+- **ไม่ได้เรียก skill impeccable critique/polish และ osaa-design-system เป็นรอบแยก** เราตรวจและแก้เอง (type scale, grid, element, คอนทราสต์, ตัดบรรทัด) แล้ววัดผลด้วยสคริปต์ด้านบน ถ้าอยากได้มุมมองอิสระ ควรส่งให้คนอื่นรีวิวต่อ
+- **ข้อความสไลด์ 3 ที่ตัดออกจากจอ** เพราะแผนภาพใช้คำตาม brief: "ศูนย์กลางคือ Discord ยิ้มสั่งงานและเห็นงานทุกตัวในที่เดียว" · "แขกแต่ละคนได้กุญแจของตัวเอง เปิดได้แค่ไม่กี่อย่าง" · "ไปขอให้ agent ในฝูงทำงานให้ได้เอง" ทั้งสามประโยคยังอยู่ใน notes/ที่มา ถ้าคุณยิ้มอยากเอาประโยคไหนกลับขึ้นจอ บอกได้เลยค่ะ
+- **ไม่ได้แตะเรื่องที่ Codex ยกมาแต่ไม่อยู่ใน brief นี้:** หลักฐานตัวเลขสไลด์ 5 · คำที่ฟังเหมือนสัญญาเด็ดขาด (ไม่มีอะไรหาย / AI ไม่ตัดสินแทน) · notes ที่ขึ้นบนจอเวที · เวลารวม 10:30 · ทั้งหมดยังเปิดอยู่
+- **ความลื่นบนเครื่องที่ใช้จริงในงาน** ยังไม่ได้วัด ถ้ากระตุกให้กด `S`
+- `BRIEF-R4.md` (สไลด์ "ฝูงบริหารแบบบริษัท") โผล่ขึ้นมาระหว่างที่เราทำรอบนี้ เรายังไม่ได้แตะนะคะ
+- ยังไม่ได้ commit ไฟล์ไหนเลย
 
-## FPS (headless, 1920x1080, pixel ratio cap 1.5, rAF count over 3 s, live mode)
-- **Mac GPU** (`ANGLE Metal, Apple M4`): 182 frames / 3 s = **60.7 fps** on every slide. That is the display cap.
-- **Weak-GPU stand-in**: we forced software rendering (`--use-angle=swiftshader`, all on the CPU) and got **38.0 to 47.3 fps**
-  (slide 2 is the slowest at 38.0, slide 6 the fastest at 47.3).
-- **Venue projector laptop:** not tested yet. Software GL is the worst case we could stage here.
-
-## Critique and audit passes
-- **How:** we ran two independent reviewers who had not seen DESIGN-NOTES. Their full findings are in `checks/critique-A.md`
-  (impeccable + praneet-front) and `checks/audit-B.md` (web-design-guidelines + osaa-design-system).
-- **Applied:**
-  - Every raw colour outside the token block is now a token: the ring SVG, the letterbox, the notes panel and the counter.
-  - The three Three.js lights read tokens (`--light-*`) too.
-  - `tok()` now throws on a missing token instead of painting black.
-  - A Thai font fallback chain (Noto Sans Thai, Sukhumvit Set, Thonburi), and `nowrap` on the stage titles, so slide 1
-    does not wrap offline.
-  - Letter-spacing 0 on Thai headings.
-  - Slide 3 bullets went from 30 to 32 px, with the same dot colour in all three rows.
-  - Dim text raised (graphite 62% to 66%). That is why contrast on slides 1, 2 and 4 went from about 5.1 to about 6.0.
-  - The "waiting work" motes are lighter, so the bottleneck pile reads.
-  - Alt/Cmd/Ctrl + arrow no longer changes slide.
-  - The counter is a live region, and `color-scheme: dark` is set.
-- **After these changes:** we re-ran everything (acceptance, text, contrast, nomask, reduced, neg, fps). The numbers above
-  are from that run.
-- **Not applied, and why:**
-  - Bigger 3D formations on slides 1, 2 and 5: it would cost the negative space between scene and text. We would rather
-    test this on the real projector first.
-  - Making the URL the loudest line on slide 6: the content order is fixed by the brief.
-  - Raising line-height to the skill floor: slide 3 has no vertical room left at 32 px.
-  - Heading-level semantics (h1 to h2): a stage deck is not read by a screen reader as one page.
-  - Animating `#prog` with transform instead of width: it is a 6 px bar.
-  - The JS `DUR`/`PAD` values that duplicate CSS values: noted, left as is.
-
-## Two things we would still improve with more time
-1. **A still picture for each scene when 3D is not available.** If WebGL or the CDN fails, the text is all there, but the
-   left half of slide 3 (and the scene areas on slides 1, 5 and 6) is just plain background. We would put a small inline
-   SVG drawing of each scene behind the `.anc` boxes and hide it once the 3D comes up, so the composition still holds
-   offline.
-2. **Offline fonts and a run on the real machine.** Bai Jamjuree and Sarabun still load from Google Fonts. We would put
-   the fonts and three.js inside the file (or next to it), then do one run on the venue laptop and projector to measure
-   real FPS and contrast under a washed-out projector.
-
-— Osaa (Oracle AI)
+— AIExpo Oracle workspace · Claude Code (Oracle AI)

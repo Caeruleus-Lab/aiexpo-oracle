@@ -6,46 +6,64 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Yim 3D talk deck, AI Expo 2026, Builder Stage</title>
 <!--
-  yim-3d deck by Osaa (Oracle AI). Round 2, 2026-11-01. Content from ../yim-bridge.html (v3), notes copied verbatim;
-  slide 3 content from hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md "Stage-safe wording".
+  yim-3d deck by Osaa (Oracle AI). Round 3, 2026-11-01: one type scale, one grid, one element language,
+  slide 3 rebuilt as a labelled architecture diagram, fully offline (./vendor/), still mode on key S.
+  Content from ../yim-bridge.html (v3), notes copied verbatim; slide 3 wording from hello-oracle
+  ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md "Stage-safe wording" plus Dobby's edits.
   One Three.js world behind all 6 slides: one InstancedMesh (1 draw call) morphs per slide, one camera travels a path.
-  Composition rules (see DESIGN-NOTES.md):
-   - formations anchor to empty HTML boxes (.anc) projected at the slide's camera pose, so 3D sits beside text;
-   - every mote is projected each frame and fades out near any text box, so no geometry ever passes under a word;
+   - formations anchor to empty HTML/SVG boxes projected at the slide's camera pose, so 3D sits beside text;
+   - every mote is projected each frame and fades out near any text box (incl. the big numbers);
    - 3D colours are read from the same CSS tokens as the HTML (one token source, zero drift);
    - slide change = one timed move, 850 ms ease in out, for camera, formation and colour together.
-  Content-first: every word is HTML; if WebGL or the CDN fails the module never runs and the deck still works.
-  prefers-reduced-motion: no loop, one still frame per slide, no CSS motion.
-  Keys: Right / Space / PageDown next, Left / PageUp prev, Home / End, N toggles speaker notes. 1920x1080 scaled to window.
+  Offline: fonts are ./vendor/fonts.css + woff2; Three.js is ./vendor/three.iife.js, a classic-script build of
+  three@0.169.0 (ES modules do not load from file://, so the module copy in vendor/ is kept only for reference).
+  Content-first: every word is HTML/SVG text; if WebGL or vendor/ is missing the deck still works, __world = false.
+  Keys: Right / Space / PageDown next, Left / PageUp prev, Home / End, N notes, S still mode. Held keys do not repeat.
 -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="vendor/fonts.css">
 <style>
+/* =====================================================================================================
+   TYPE SCALE (one scale, five steps, each step has one job on every slide; sizes at the 1920x1080 stage)
+     display  156 / 1.08  Bai Jamjuree 700   the hand-off line (6), the three big numbers (5)
+     heading   72 / 1.2   Bai Jamjuree 700   one per slide, on the heading line; the speaker name on 1
+     lead      48 / 1.35  two voices, same size:
+                          title  Bai Jamjuree 700, ink     item titles (stages, unlock rows, what was made)
+                          line   Sarabun 500, ink-2        the one sentence a slide lands on
+     body      36 / 1.4   Sarabun 400, ink-2               explanation under an item title; diagram node names (700, ink)
+     caption   30 / 1.4   Sarabun 400, ink-3               footnotes, diagram sub-labels; labels use it in Bai Jamjuree 600
+   GRID
+     x: 140 | 1640 content | 140      heading line: top 128 (lamp rule sits at 88 on every slide)
+     heading -> content 64 · content -> lead line 64 · footnote pinned to bottom 72
+   ELEMENT LANGUAGE (one treatment each)
+     rule   4px top rule over every item; amber = the item the slide is about, graphite = the rest
+     label  caption size, Bai Jamjuree 600, ink-3 (amber on the key item): ขั้น 1, + 1 2 3
+     highlight  amber, only inside headings
+     cards  none; boxes appear only as diagram nodes (slide 3 boxes, slide 4 circles), same fill and stroke tokens
+     bullets none
+   ===================================================================================================== */
 :root{
   /* primitives */
   --graphite-950:oklch(13% 0.01 260);
   --graphite-900:oklch(18% 0.012 260);
   --graphite-850:oklch(23% 0.014 260);
-  --graphite-800:oklch(28% 0.016 260);
-  --graphite-700:oklch(36% 0.016 260);
-  --graphite-500:oklch(66% 0.014 260);
-  --graphite-300:oklch(78% 0.014 260);
+  --graphite-820:oklch(26% 0.016 260);
+  --graphite-700:oklch(40% 0.016 260);
+  --graphite-600:oklch(60% 0.014 260);
+  --graphite-550:oklch(55% 0.014 260);
+  --graphite-400:oklch(73% 0.014 260);
+  --graphite-300:oklch(80% 0.014 260);
   --ivory-100:oklch(96% 0.006 90);
   --ivory-200:oklch(93% 0.03 85);
   --amber-500:oklch(80% 0.15 75);
-  --amber-700:oklch(62% 0.13 70);
   --amber-950:oklch(21% 0.03 75);
   --cream-200:oklch(88% 0.09 90);
-  --graphite-600:oklch(60% 0.014 260);
-  --graphite-550:oklch(55% 0.014 260);
-  --graphite-820:oklch(26% 0.016 260);
   --black:oklch(0% 0 0);
 
-  /* semantic: surfaces and ink */
+  /* semantic: surfaces and ink (ink-2 and ink-3 both >= 7:1 on paper) */
   --color-paper:var(--graphite-900);
-  --color-paper-2:oklch(23% 0.014 260 / .82);
   --color-ink:var(--ivory-100);
   --color-ink-2:var(--graphite-300);
-  --color-ink-3:var(--graphite-500);
+  --color-ink-3:var(--graphite-400);
   --color-rule:var(--graphite-700);
   --color-accent:var(--amber-500);
   --color-accent-ink:var(--amber-950);
@@ -54,7 +72,7 @@
   --color-chrome:var(--graphite-550);
   --color-notes-bg:oklch(10% 0.01 260 / .94);
   --color-diagram-line:var(--graphite-600);
-  --color-diagram-ring:oklch(36% 0.016 260 / .6);
+  --color-diagram-ring:oklch(40% 0.016 260 / .6);
   --color-diagram-node:var(--graphite-850);
   --color-diagram-hub:var(--graphite-820);
   --color-diagram-live:var(--amber-500);
@@ -68,16 +86,23 @@
   --mote-key:var(--amber-500);        /* Yim, her knowledge, work in motion */
   --mote-wait:oklch(52% 0.018 260);   /* work waiting, outsiders, background dust */
   --mote-agent:var(--ivory-200);      /* agents */
-  --mote-key-on-amber:oklch(98% 0.03 90);     /* on the amber close the key colour is light itself */
+  --mote-key-on-amber:oklch(98% 0.03 90);
   --mote-wait-on-amber:oklch(87% 0.1 85);
   --mote-agent-on-amber:oklch(24% 0.03 70);
 
   --font-display:"Bai Jamjuree","Sarabun","Noto Sans Thai","Sukhumvit Set",Thonburi,sans-serif;
   --font-body:"Sarabun","Bai Jamjuree","Noto Sans Thai","Sukhumvit Set",Thonburi,sans-serif;
   --font-mono:ui-monospace,"SF Mono",Menlo,monospace;
-  --space-xs:12px;--space-sm:24px;--space-md:40px;--space-lg:64px;--space-xl:96px;--space-2xl:140px;
-  --text-sm:30px;--text-md:40px;--text-lg:52px;--text-xl:72px;--text-display:156px;
-  --radius:20px;--rule-w:4px;
+
+  /* the scale */
+  --fs-display:156px; --fs-heading:72px; --fs-lead:48px; --fs-body:36px; --fs-caption:30px;
+  --lh-display:1.08;  --lh-heading:1.2;  --lh-lead:1.35;  --lh-body:1.4;  --lh-caption:1.4;
+
+  /* the grid */
+  --pad-x:140px; --line-top:128px; --lamp-top:88px; --foot-bottom:72px;
+  --gap-head:64px; --gap-lead:64px; --gap-col:40px; --gap-item:24px; --gap-in:12px;
+  --rule-w:4px; --lamp-w:120px;
+
   --dur-move:850ms;--dur-bg:250ms;--ease-move:cubic-bezier(.65,0,.35,1);--ease-out:cubic-bezier(.2,.7,.2,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -89,97 +114,100 @@ html,body{width:100%;height:100%;background:var(--color-letterbox);overflow:hidd
 .vig{position:absolute;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(ellipse 75% 70% at 50% 46%,transparent 58%,var(--color-vignette) 100%);transition:opacity var(--dur-move)}
 #stage.amber .vig{opacity:0}
+
+/* grid: every slide shares the lamp, the heading line, the side margins and the footnote line */
 .slide{position:absolute;inset:0;z-index:1;display:none;color:var(--color-ink);font-family:var(--font-body)}
 .slide.on{display:block}
 .slide.amber{color:var(--color-accent-ink)}
-.frame{position:absolute;inset:0;padding:var(--space-xl) var(--space-2xl);display:grid;align-content:center;gap:var(--space-lg)}
-h1,h2,.display{font-family:var(--font-display);font-weight:700;letter-spacing:0;line-height:1.08}
-h2{font-size:var(--text-xl);line-height:1.2}
-.display{font-size:var(--text-display)}
+.slide::before{content:"";position:absolute;left:var(--pad-x);top:var(--lamp-top);width:var(--lamp-w);height:var(--rule-w);background:var(--color-accent)}
+.slide.amber::before{background:var(--color-accent-ink)}
+.frame{position:absolute;left:var(--pad-x);right:var(--pad-x);top:var(--line-top);display:flex;flex-direction:column;gap:var(--gap-head)}
+.foot{position:absolute;left:var(--pad-x);bottom:var(--foot-bottom);font-size:var(--fs-caption);line-height:var(--lh-caption);color:var(--color-ink-3)}
+
+/* the five steps */
+.display{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700}
+h2,.heading{font-family:var(--font-display);font-size:var(--fs-heading);line-height:var(--lh-heading);font-weight:700}
+.title{font-family:var(--font-display);font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:700;color:var(--color-ink)}
+.lead{font-family:var(--font-body);font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:500;color:var(--color-ink-2)}
+.body{font-family:var(--font-body);font-size:var(--fs-body);line-height:var(--lh-body);font-weight:400;color:var(--color-ink-2)}
+.label{font-family:var(--font-display);font-size:var(--fs-caption);line-height:var(--lh-caption);font-weight:600;color:var(--color-ink-3);letter-spacing:.02em}
 .hl{color:var(--color-accent)}
-.lead{font-size:var(--text-lg);line-height:1.45;color:var(--color-ink-2)}
-.meta{font-size:var(--text-md);color:var(--color-ink-2)}
-.foot{font-size:var(--text-sm);color:var(--color-ink-3)}
 .nw{white-space:nowrap}
-.lamp{position:absolute;left:var(--space-2xl);top:var(--space-xl);width:120px;height:var(--rule-w);background:var(--color-accent)}
+.slide.amber .lead,.slide.amber .title{color:var(--color-accent-ink)}
+
+/* element language */
+.item{border-top:var(--rule-w) solid var(--color-rule);padding-top:var(--gap-item)}
+.item.key{border-top-color:var(--color-accent)}
+.item.key .label{color:var(--color-accent)}
+.item .title{margin-top:var(--gap-in)}
+.item .title:first-child{margin-top:0}
+.item .body{margin-top:var(--gap-in)}
 .anc{min-height:0}
 
-/* entrance: text arrives once per slide, after the background has turned, staggered, never loops
-   (200 ms + up to 210 ms stagger + 460 ms = 870 ms; on the amber close it waits 300 ms for the amber to land) */
+/* entrance: text arrives once per slide, after the background has turned, staggered, never loops */
 .slide.on .rv{animation:rise .46s var(--ease-out) both;animation-delay:calc(200ms + var(--d,0) * 70ms)}
 .slide.amber.on .rv{animation-delay:300ms}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}}
-.capture .slide.on .rv,.slide.measuring .rv{animation:none!important}
-.capture #stage,.capture .vig{transition:none}
+.capture .slide.on .rv,.still .slide.on .rv,.slide.measuring .rv{animation:none!important}
+.capture #stage,.capture .vig,.still #stage,.still .vig{transition:none}
 
 /* 1 three stages */
-.who{display:grid;gap:var(--space-xs)}
-.who .name{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;line-height:1.1}
-.stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md)}
-.stages .anc{height:270px}
-.stages .card{border-top:var(--rule-w) solid var(--color-rule);padding-top:var(--space-sm)}
-.stages .on .card{border-top-color:var(--color-accent)}
-.stages .k{font-family:var(--font-display);font-size:var(--text-md);font-weight:600;color:var(--color-ink-3)}
-.stages .on .k{color:var(--color-accent)}
-.stages .t{white-space:nowrap;font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;line-height:1.2;margin-top:6px}
-.stages .s{font-size:var(--text-sm);line-height:1.4;color:var(--color-ink-2);margin-top:var(--space-xs)}
+.who{display:flex;flex-direction:column;gap:var(--gap-in)}
+.stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
+.stages .anc{height:250px}
+.stages .item .title{white-space:nowrap}
 
 /* 2 unlock */
-.unlock{display:grid;grid-template-columns:1080px minmax(0,1fr);gap:var(--space-lg);align-items:stretch}
-.rows{display:grid;gap:var(--space-sm)}
-.row{display:grid;grid-template-columns:84px minmax(0,1fr);align-items:center;background:var(--color-paper-2);border-radius:var(--radius);padding:var(--space-sm) var(--space-md)}
-.row.plus{box-shadow:inset 0 0 0 var(--rule-w) var(--color-accent)}
-.row .n{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;color:var(--color-accent)}
-.row .t{font-family:var(--font-display);font-size:48px;font-weight:700;line-height:1.2}
-.row .m{display:block;font-family:var(--font-body);font-size:32px;font-weight:400;color:var(--color-ink-2);line-height:1.35;margin-top:4px}
+.unlock{display:grid;grid-template-columns:1040px minmax(0,1fr);gap:var(--gap-col)}
+.rows{display:flex;flex-direction:column;gap:var(--gap-item)}
+.rows .item{display:grid;grid-template-columns:64px minmax(0,1fr);align-items:baseline;padding-top:20px}
+.rows .item .body{margin-top:4px}
 
-/* 3 fleet: each row = one scene + its words, the eye reads scene then line */
-.fleet-frame{gap:var(--space-md)}
-.fleet{display:grid;gap:var(--space-md)}
-.frow{display:grid;grid-template-columns:600px minmax(0,1fr);gap:var(--space-lg);align-items:center}
-.frow .anc{height:200px}
-.frow .ft{font-family:var(--font-display);font-size:var(--text-md);font-weight:700;line-height:1.25}
-.frow .ft .hl{white-space:nowrap}
-.frow ul{list-style:none;margin-top:var(--space-xs);display:grid;gap:4px}
-.frow li{font-size:32px;line-height:1.4;color:var(--color-ink-2);padding-left:30px;position:relative}
-.frow li::before{content:"";position:absolute;left:2px;top:.62em;width:10px;height:10px;border-radius:50%;background:var(--color-rule)}
-.todo{display:inline-block;margin:0 10px;outline:3px dashed var(--color-accent);outline-offset:4px;border-radius:6px;padding:0 10px;
-  color:var(--color-accent);font-family:var(--font-mono);font-size:34px;letter-spacing:0}
+/* 3 fleet architecture diagram (SVG, every word is real text) */
+.arch{display:block;width:1640px;height:auto;overflow:visible}
+.arch text{font-family:var(--font-body)}
+.arch .n-t{font-family:var(--font-display);font-size:var(--fs-body);font-weight:700;fill:var(--color-ink)}
+.arch .n-s{font-size:var(--fs-caption);fill:var(--color-ink-2)}
+.arch .n-s.hl{fill:var(--color-accent);font-family:var(--font-display);font-weight:600}
+
+/* diagram language, shared by slide 3 and slide 4 */
+svg .d-arrowhead{fill:var(--color-diagram-line)}
+svg .d-arc{stroke:var(--color-diagram-line);fill:none}
+svg .d-arc.dash{stroke-dasharray:14 12}
+svg .d-ring{stroke:var(--color-diagram-ring)}
+svg .d-hub{fill:var(--color-diagram-hub);stroke:var(--color-diagram-live)}
+svg .d-node{fill:var(--color-diagram-node);stroke:var(--color-diagram-idle)}
+svg .d-node[data-live]{stroke:var(--color-diagram-live)}
 
 /* 4 shift ring */
-.ring{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:var(--space-lg);align-items:center}
-.ring svg{width:100%;height:auto;display:block;overflow:visible}
+.ring{display:grid;grid-template-columns:minmax(0,1fr) 800px;gap:var(--gap-col);align-items:start}
+.ring .left{display:flex;flex-direction:column;gap:var(--gap-lead)}
+.ring svg{width:800px;height:800px;display:block;overflow:visible}
 .ring svg text{font-family:var(--font-display);fill:var(--color-ink)}
 .ring svg .cmd{font-family:var(--font-mono);font-weight:700;fill:var(--color-accent)}
-.ring svg .d-arrowhead{fill:var(--color-diagram-line)}
-.ring svg .d-arc{stroke:var(--color-diagram-line)}
-.ring svg .d-ring{stroke:var(--color-diagram-ring)}
-.ring svg .d-hub{fill:var(--color-diagram-hub);stroke:var(--color-diagram-live)}
-.ring svg .d-node{fill:var(--color-diagram-node);stroke:var(--color-diagram-idle)}
-.ring svg .d-node[data-live]{stroke:var(--color-diagram-live)}
 .ring svg .sub{font-family:var(--font-body);fill:var(--color-ink-2);font-weight:500}
 
 /* 5 numbers */
-.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md)}
-.big3 .anc{height:230px}
-.big3 .col{border-top:var(--rule-w) solid var(--color-accent);padding-top:var(--space-sm)}
-.big3 .num{font-family:var(--font-display);font-size:var(--text-display);font-weight:700;color:var(--color-accent);line-height:1}
-.big3 .what{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;margin-top:var(--space-xs)}
-.big3 .note{font-size:var(--text-sm);color:var(--color-ink-2);margin-top:var(--space-xs);line-height:1.4}
+.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
+.big3 .anc{height:170px}
+.big3 .num{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700;color:var(--color-accent)}
+.big3 .title{margin-top:var(--gap-in)}
 
 /* 6 close (amber) */
-.close{display:grid;grid-template-columns:1060px minmax(0,1fr);gap:var(--space-lg);align-items:center}
-.slide.amber .lead{color:var(--color-accent-ink)}
-.close .anc{height:760px}
+.close{display:grid;grid-template-columns:1060px minmax(0,1fr);gap:var(--gap-col)}
+.close .left{display:flex;flex-direction:column;gap:var(--gap-lead)}
+.close .display{padding-top:36px}   /* Thai tone marks on a 156px line rise above the heading line; keep them clear of the lamp */
+.close .anc{height:800px}
 
 /* chrome: orientation always visible */
 #prog{position:absolute;left:0;bottom:0;height:6px;width:0;z-index:5;background:var(--color-accent);transition:width var(--dur-move) var(--ease-move),background-color var(--dur-move)}
 #stage.amber #prog{background:var(--color-accent-ink)}
 .notes{display:none;position:absolute;left:0;right:0;bottom:0;z-index:9;background:var(--color-notes-bg);color:var(--color-notes);font-family:var(--font-body);font-size:30px;line-height:1.45;padding:28px 100px;border-top:3px solid var(--color-accent)}
 body.shownotes .notes{display:block}
-#count{position:fixed;right:14px;bottom:10px;color:var(--color-chrome);font:14px var(--font-body);z-index:20}
+#chrome{position:fixed;right:14px;bottom:10px;z-index:20;display:flex;gap:14px;align-items:center;font:14px var(--font-body);color:var(--color-chrome)}
+#still{font:inherit;color:inherit;background:none;border:1px solid currentColor;border-radius:6px;padding:2px 8px;cursor:pointer;opacity:.8}
+#still[aria-pressed="true"]{color:var(--color-accent);opacity:1}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-.fnote{position:absolute;left:var(--space-2xl,140px);bottom:56px;font-size:24px;color:var(--color-ink-3,#7b8189);letter-spacing:.01em}
 </style>
 </head>
 <body>
@@ -189,16 +217,15 @@ body.shownotes .notes{display:block}
 
 <!-- 1 · who + three stages · 3D: lone node / node buried in a pile of work / five agents passing light -->
 <section class="slide">
-  <div class="lamp"></div>
   <div class="frame">
     <div class="who rv">
-      <p class="name">สุทธิณี เทพปริยะพล (ยิ้ม)</p>
-      <p class="meta">product manager ไม่ใช่วิศวกร</p>
+      <p class="heading">สุทธิณี เทพปริยะพล (ยิ้ม)</p>
+      <p class="lead">product manager ไม่ใช่วิศวกร</p>
     </div>
     <div class="stages">
-      <div class="rv" style="--d:1"><div class="anc"></div><div class="card"><p class="k">ขั้น 1</p><p class="t">ยิ้มเป็นความจำให้ AI</p><p class="s">คุยในแชตทีละงาน ทุกครั้งต้องเล่าใหม่</p></div></div>
-      <div class="rv" style="--d:2"><div class="anc"></div><div class="card"><p class="k">ขั้น 2</p><p class="t">ยิ้มกลายเป็นคอขวด</p><p class="s">AI ทำได้มากขึ้น แต่ทุกงาน<span class="nw">รอยิ้มสั่ง รอยิ้มตรวจ</span></p></div></div>
-      <div class="on rv" style="--d:3"><div class="anc"></div><div class="card"><p class="k">ขั้น 3</p><p class="t">งานเดินได้โดยไม่รอยิ้ม</p><p class="s">ทีม AI หลายตัว กับวิธีทำงานของ ARRA</p></div></div>
+      <div class="rv" style="--d:1"><div class="anc"></div><div class="item"><p class="label">ขั้น 1</p><p class="title">ยิ้มเป็นความจำให้ AI</p><p class="body">คุยในแชตทีละงาน<br>ทุกครั้งต้องเล่าใหม่</p></div></div>
+      <div class="rv" style="--d:2"><div class="anc"></div><div class="item"><p class="label">ขั้น 2</p><p class="title">ยิ้มกลายเป็นคอขวด</p><p class="body">AI ทำได้มากขึ้น แต่ทุกงาน<br><span class="nw">รอยิ้มสั่ง รอยิ้มตรวจ</span></p></div></div>
+      <div class="rv" style="--d:3"><div class="anc"></div><div class="item key"><p class="label">ขั้น 3</p><p class="title">งานเดินได้โดยไม่รอยิ้ม</p><p class="body">ทีม AI หลายตัว<br>กับวิธีทำงานของ ARRA</p></div></div>
     </div>
   </div>
   <div class="notes">2 นาที · ขั้น 2 คือจุดที่คนใช้ AI เก่งแล้วเจอกันทุกคน เล่าเหตุการณ์จริง 1 ครั้งที่งานกองรอยิ้มอยู่คนเดียว · ผูกขั้น 1 กับ forgetting test ที่คุณนัทเพิ่งทำ: "เมื่อกี้ที่เห็น AI ลืม นั่นคือชีวิตยิ้มทุกวันเมื่อปีที่แล้ว" · ยิ้มอยู่บนเวทีในฐานะคนใช้ ไม่ใช่คนสร้างระบบ ⇒ ห้ามอธิบายเทคนิคที่คุณนัทจะสอน</div>
@@ -210,79 +237,92 @@ body.shownotes .notes{display:block}
     <h2 class="rv">สิ่งที่ปลดล็อก <span class="hl">ทีม AI กับวิธีทำงาน</span></h2>
     <div class="unlock">
       <div class="rows">
-        <div class="row plus rv" style="--d:1"><span class="n">+</span><span class="t">หลายตัว ทำพร้อมกัน<span class="m">แต่ละตัวมีหน้าที่ และตรวจงานกันเอง</span></span></div>
-        <div class="row rv" style="--d:2"><span class="n">1</span><span class="t">ไม่มีอะไรหาย<span class="m">งานทุกชิ้นถูกจดไว้ ย้อนดูได้เสมอ</span></span></div>
-        <div class="row rv" style="--d:2"><span class="n">2</span><span class="t">AI ไม่ตัดสินแทน<span class="m">คนตัดสิน ความรู้ของงานยังเป็นของเรา</span></span></div>
-        <div class="row rv" style="--d:3"><span class="n">3</span><span class="t">เราถาม มันจำ<span class="m">ครั้งต่อไปจึงง่ายกว่าเดิม</span></span></div>
+        <div class="item key rv" style="--d:1"><span class="label">+</span><div><p class="title">หลายตัว ทำพร้อมกัน</p><p class="body">แต่ละตัวมีหน้าที่ และตรวจงานกันเอง</p></div></div>
+        <div class="item rv" style="--d:2"><span class="label">1</span><div><p class="title">ไม่มีอะไรหาย</p><p class="body">งานทุกชิ้นถูกจดไว้ ย้อนดูได้เสมอ</p></div></div>
+        <div class="item rv" style="--d:2"><span class="label">2</span><div><p class="title">AI ไม่ตัดสินแทน</p><p class="body">คนตัดสิน ความรู้ของงานยังเป็นของเรา</p></div></div>
+        <div class="item rv" style="--d:3"><span class="label">3</span><div><p class="title">เราถาม มันจำ</p><p class="body">ครั้งต่อไปจึงง่ายกว่าเดิม</p></div></div>
       </div>
       <div class="anc"></div>
     </div>
-    <p class="foot rv" style="--d:3">สามข้อล่าง จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
   </div>
+  <p class="foot rv" style="--d:3">สามข้อล่าง จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
   <div class="notes">2 นาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ เล่าแค่ว่าแต่ละข้อเปลี่ยนงานของยิ้มยังไง ข้อละ 1 เหตุการณ์จริง (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
 </section>
 
-<!-- 3 · how the fleet works (NEW, round 2) · 3D per row: a house of buds passing signed envelopes /
-     a gate that lets talk in but stops actions / one relay line to the personal agent with task out, callback back -->
-<section class="slide">
-  <div class="frame fleet-frame">
+<!-- 3 · how the fleet works · one labelled architecture diagram; 3D: light travels the arrows,
+     twelve agents circle the always-on machine, talk crosses to other people's agents but actions stop halfway -->
+<section class="slide" data-anchors=".anc-d">
+  <div class="frame">
     <h2 class="rv">ฝูงของยิ้ม <span class="hl">ทำงานกันยังไง</span></h2>
-    <div class="fleet">
-      <div class="frow rv" style="--d:1"><div class="anc"></div><div>
-        <p class="ft">ในฝูง <span class="hl">สิบกว่าตัว</span> อยู่บนเครื่องที่เปิดตลอด</p>
-        <ul>
-          <li>ศูนย์กลางคือ Discord ยิ้มสั่งงานและเห็นงานทุกตัวในที่เดียว</li>
-          <li>ความจำร่วมเป็นไฟล์ ไม่มีอะไรหาย</li>
-          <li>ตัวที่วางแผน ตัวที่ลงมือ และตัวที่ตรวจ เป็นคนละตัว คนเป็นคนอนุมัติ</li>
-        </ul></div></div>
-      <div class="frow rv" style="--d:2"><div class="anc"></div><div>
-        <p class="ft">agent ของคนอื่น <span class="hl">คุยได้</span> แต่ลงมือในระบบเราไม่ได้</p>
-        <ul>
-          <li>คนต้องเป็นคนกดอนุมัติ</li>
-          <li>แขกแต่ละคนได้กุญแจของตัวเอง เปิดได้แค่ไม่กี่อย่าง</li>
-        </ul></div></div>
-      <div class="frow rv" style="--d:3"><div class="anc"></div><div>
-        <p class="ft">ผู้ช่วยส่วนตัว <span class="hl">Grok · Dots · Muse</span> ต่อเข้ากับฝูง</p>
-        <ul>
-          <li>ไปขอให้ agent ในฝูงทำงานให้ได้เอง</li>
-        </ul></div></div>
-    </div>
-    <p class="fnote">T3 · Pi (Claude วางแผน, Codex ลงมือและตรวจแยก) · Linear</p>
+    <svg class="arch rv" style="--d:1" viewBox="0 0 1640 420" role="img"
+      aria-label="ยิ้มสั่งงานจาก Mac หรือมือถือ ผ่าน Discord ที่เป็นศูนย์กลาง ไปยังฝูงสิบกว่าตัวบนเครื่องที่เปิดตลอด ซึ่งเก็บความจำร่วมเป็นไฟล์ ผู้ช่วยส่วนตัว Grok Dots Muse ต่อเข้ากับฝูง agent ของคนอื่นคุยได้ผ่าน Discord แต่ลงมือในระบบเราไม่ได้ คนกดอนุมัติ">
+      <defs>
+        <marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="d-arrowhead" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+      <!-- edges first, nodes on top -->
+      <path class="d-arc" d="M 334 75 L 426 75" stroke-width="5" marker-end="url(#ah3)"/>
+      <path class="d-arc" d="M 774 75 L 866 75" stroke-width="5" marker-end="url(#ah3)"/>
+      <path class="d-arc" d="M 1214 75 L 1306 75" stroke-width="5" marker-end="url(#ah3)"/>
+      <path class="d-arc dash" d="M 600 164 L 600 256" stroke-width="5" marker-start="url(#ah3)" marker-end="url(#ah3)"/>
+      <path class="d-arc" d="M 1040 164 L 1040 256" stroke-width="5" marker-start="url(#ah3)" marker-end="url(#ah3)"/>
+      <!-- main row: Yim -> Discord -> always-on machine -> shared memory -->
+      <rect class="anc-d d-node" x="0" y="0" width="320" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="160" y="64" text-anchor="middle">ยิ้ม</text>
+      <text class="n-s" x="160" y="112" text-anchor="middle">Mac · มือถือ</text>
+      <rect class="anc-d d-node" x="440" y="0" width="320" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="600" y="64" text-anchor="middle">Discord</text>
+      <text class="n-s" x="600" y="112" text-anchor="middle">ศูนย์กลาง</text>
+      <rect class="anc-d d-node" data-live="1" x="880" y="0" width="320" height="150" rx="20" stroke-width="4"/>
+      <text class="n-t" x="1040" y="64" text-anchor="middle">เครื่องที่เปิดตลอด</text>
+      <text class="n-s hl" x="1040" y="112" text-anchor="middle">ฝูงสิบกว่าตัว</text>
+      <rect class="anc-d d-node" x="1320" y="0" width="320" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="1480" y="64" text-anchor="middle">ความจำร่วม</text>
+      <text class="n-s" x="1480" y="112" text-anchor="middle">เป็นไฟล์</text>
+      <!-- edge row: other people's agents (talk only) | personal assistants -->
+      <rect class="anc-d d-node" x="0" y="270" width="760" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="40" y="334">agent ของคนอื่น</text>
+      <text class="n-s" x="40" y="382">คุยได้ ลงมือในระบบเราไม่ได้ · คนกดอนุมัติ</text>
+      <rect class="anc-d d-node" x="880" y="270" width="760" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="920" y="334">ผู้ช่วยส่วนตัว</text>
+      <text class="n-s" x="920" y="382">Grok · Dots · Muse</text>
+    </svg>
+    <p class="lead rv" style="--d:2">ตัวที่วางแผน ตัวที่ลงมือ และตัวที่ตรวจ เป็นคนละตัว<br>คนเป็นคนอนุมัติ</p>
   </div>
+  <p class="foot rv" style="--d:3">T3 · Pi (Claude วางแผน, Codex ลงมือและตรวจแยก) · Linear</p>
   <div class="notes">2 นาที · เล่าเป็นภาพ ไม่สอนเทคนิค · แถว 1: ฝูงอยู่บนเครื่องที่เปิดตลอด (box) ทำงานตอนยิ้มหลับ ส่วน Mac ของยิ้มคือห้องคนขับ · Discord คือศูนย์กลาง · พูดว่า "สิบกว่าตัว" ห้ามบอกเลขเป๊ะ · หลักคนละตัว: ชื่อเครื่องมือดู footnote ไม่ต้องอธิบาย · แถว 2: พูดแค่ "agent ของคนอื่น" ห้ามบอกว่าเป็นของใคร ข้อมูลภายในไม่ส่งออก · แถว 3: ผู้ช่วยส่วนตัว 3 ตัว พูดชื่อแล้วผ่าน ไม่ลงรายละเอียดเพดานหรือกติกา (คุณยิ้ม 2026-11-01) · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md</div>
 </section>
 
 <!-- 4 · shift ring · 3D: halos orbit the 4 ring nodes, light flows clockwise and drops into ψ/ -->
-<section class="slide" data-anchors="ring">
+<section class="slide" data-anchors=".anc-n|.anc-c|.anc-ring">
   <div class="frame">
     <div class="ring">
-      <div class="rv">
+      <div class="left rv">
         <h2>ทำงานกับ AI<br><span class="hl">เหมือนทำงานเป็นกะ</span></h2>
-        <p class="lead" style="margin-top:var(--space-md)">ใครเคยดูแลทีมคน รู้วิธีนี้อยู่แล้ว</p>
+        <p class="lead">ใครเคยดูแลทีมคน<br>รู้วิธีนี้อยู่แล้ว</p>
       </div>
       <svg class="rv" style="--d:1" viewBox="0 0 900 900" role="img" aria-label="วงจรวัน 4 จังหวะ: เข้ากะ recap, ทำงาน, ออกกะ forward, ทบทวน rrr รอบไฟล์บันทึกส่งกะ">
         <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
         <circle cx="450" cy="450" r="300" class="anc-ring d-ring" fill="none" stroke-width="4"/>
-        <path d="M 570 175 A 300 300 0 0 1 725 330" class="d-arc" fill="none" stroke-width="6" marker-end="url(#ah)"/>
-        <path d="M 725 570 A 300 300 0 0 1 570 725" class="d-arc" fill="none" stroke-width="6" marker-end="url(#ah)"/>
-        <path d="M 330 725 A 300 300 0 0 1 175 570" class="d-arc" fill="none" stroke-width="6" marker-end="url(#ah)"/>
-        <path d="M 175 330 A 300 300 0 0 1 330 175" class="d-arc" fill="none" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 570 175 A 300 300 0 0 1 725 330" class="d-arc" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 725 570 A 300 300 0 0 1 570 725" class="d-arc" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 330 725 A 300 300 0 0 1 175 570" class="d-arc" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 175 330 A 300 300 0 0 1 330 175" class="d-arc" stroke-width="6" marker-end="url(#ah)"/>
         <circle class="anc-c d-hub" cx="450" cy="450" r="130" stroke-width="5"/>
-        <text x="450" y="440" text-anchor="middle" font-size="52" font-weight="700">ψ/</text>
-        <text x="450" y="500" text-anchor="middle" class="sub" font-size="34">บันทึกส่งกะ</text>
-        <g><circle class="anc-n d-node" cx="450" cy="150" r="105" data-live="1" stroke-width="4"/>
-          <text x="450" y="140" text-anchor="middle" font-size="40" font-weight="700">เข้ากะ</text><text x="450" y="190" text-anchor="middle" class="cmd" font-size="34">/recap</text></g>
-        <g><circle class="anc-n d-node" cx="750" cy="450" r="105" stroke-width="4"/>
-          <text x="750" y="440" text-anchor="middle" font-size="40" font-weight="700">ทำงาน</text><text x="750" y="490" text-anchor="middle" class="sub" font-size="32">งานจริง</text></g>
-        <g><circle class="anc-n d-node" cx="450" cy="750" r="105" data-live="1" stroke-width="4"/>
-          <text x="450" y="740" text-anchor="middle" font-size="40" font-weight="700">ออกกะ</text><text x="450" y="790" text-anchor="middle" class="cmd" font-size="34">/forward</text></g>
-        <g><circle class="anc-n d-node" cx="150" cy="450" r="105" data-live="1" stroke-width="4"/>
-          <text x="150" y="440" text-anchor="middle" font-size="40" font-weight="700">ทบทวน</text><text x="150" y="490" text-anchor="middle" class="cmd" font-size="34">/rrr</text></g>
+        <text x="450" y="440" text-anchor="middle" font-size="56" font-weight="700">ψ/</text>
+        <text x="450" y="500" text-anchor="middle" class="sub" font-size="36">บันทึกส่งกะ</text>
+        <g><circle class="anc-n d-node" cx="450" cy="150" r="108" data-live="1" stroke-width="4"/>
+          <text x="450" y="138" text-anchor="middle" font-size="42" font-weight="700">เข้ากะ</text><text x="450" y="190" text-anchor="middle" class="cmd" font-size="36">/recap</text></g>
+        <g><circle class="anc-n d-node" cx="750" cy="450" r="108" stroke-width="4"/>
+          <text x="750" y="438" text-anchor="middle" font-size="42" font-weight="700">ทำงาน</text><text x="750" y="490" text-anchor="middle" class="sub" font-size="36">งานจริง</text></g>
+        <g><circle class="anc-n d-node" cx="450" cy="750" r="108" data-live="1" stroke-width="4"/>
+          <text x="450" y="738" text-anchor="middle" font-size="42" font-weight="700">ออกกะ</text><text x="450" y="790" text-anchor="middle" class="cmd" font-size="36">/forward</text></g>
+        <g><circle class="anc-n d-node" cx="150" cy="450" r="108" data-live="1" stroke-width="4"/>
+          <text x="150" y="438" text-anchor="middle" font-size="42" font-weight="700">ทบทวน</text><text x="150" y="490" text-anchor="middle" class="cmd" font-size="36">/rrr</text></g>
       </svg>
     </div>
-    <p class="foot rv" style="--d:2">พิธีทั้งสามเป็นของ Oracle Protocol ของคุณนัท</p>
   </div>
-  <div class="notes">พูด: "โรงพยาบาลกับโรงงานไม่ได้ใช้คู่มือส่งงานกัน เขาใช้บันทึกส่งกะ" แล้วชี้ประโยคบนจอ · 2 นาที · จุดที่แรงที่สุดของช่วงยิ้ม · ประโยคหลัก: "คนที่เคยบริหารทีมคนมาแล้ว รู้วิธีทำงานกับ AI อยู่แล้ว แค่ยังไม่มีใครบอก" · /recap = อ่านบันทึกกะก่อนแตะงาน · /forward = เขียนสภาพงานลงไฟล์ก่อนความจำหาย · /rrr = retro เก็บบทเรียนเป็นของถาวร · ที่มา: คอร์ส Part 2 หน้า 3–5 (hello-oracle ψ/writing/slides/part2-working-with-ai.html) · ⚠️ เช็กกับคุณนัทว่า 6 บทเรียนใช้ /forward ด้วยไหม ถ้าไม่ใช้ เปลี่ยนเป็น "handoff"</div>
+  <p class="foot rv" style="--d:2">พิธีทั้งสามเป็นของ Oracle Protocol ของคุณนัท</p>
+  <div class="notes">พูด: "โรงพยาบาลกับโรงงานไม่ได้ใช้คู่มือส่งงานกัน เขาใช้บันทึกส่งกะ" แล้วชี้ประโยคบนจอ · 2 นาที · จุดที่แรงที่สุดของช่วงยิ้ม · ประโยคหลัก: "คนที่เคยบริหารทีมคนมาแล้ว รู้วิธีทำงานกับ AI อยู่แล้ว แค่ยังไม่มีใครบอก" · /recap = อ่านบันทึกกะก่อนแตะงาน · /forward = เขียนสภาพงานลงไฟล์ก่อนความจำหาย · /rrr = retro เก็บบทเรียนเป็นของถาวร · ที่มา: คอร์ส Part 2 หน้า 3 ถึง 5 (hello-oracle ψ/writing/slides/part2-working-with-ai.html) · ⚠️ เช็กกับคุณนัทว่า 6 บทเรียนใช้ /forward ด้วยไหม ถ้าไม่ใช้ เปลี่ยนเป็น "handoff"</div>
 </section>
 
 <!-- 5 · what got made · 3D: exactly 135 motes stacked 9x5x3, 5 gems with users orbiting, 3 rising steps -->
@@ -290,9 +330,9 @@ body.shownotes .notes{display:block}
   <div class="frame">
     <h2 class="rv">งานที่เคยอยากทำ <span class="hl">แต่ทำไม่ได้</span></h2>
     <div class="big3">
-      <div class="rv" style="--d:1"><div class="anc"></div><div class="col"><div class="num">135</div><p class="what">บทความ</p><p class="note">เล่าจากงานจริงบน productize.life</p></div></div>
-      <div class="rv" style="--d:2"><div class="anc"></div><div class="col"><div class="num">5</div><p class="what">แอปที่คนอื่นใช้ได้</p><p class="note">เช่น วิเคราะห์สต็อกและ SKU ในหนึ่งนาที</p></div></div>
-      <div class="rv" style="--d:3"><div class="anc"></div><div class="col"><div class="num">3</div><p class="what">Part ของคอร์ส</p><p class="note">จากคนเรียน กลายเป็นคนสอน</p></div></div>
+      <div class="rv" style="--d:1"><div class="anc"></div><div class="item"><div class="num">135</div><p class="title">บทความ</p><p class="body">เล่าจากงานจริงบน productize.life</p></div></div>
+      <div class="rv" style="--d:2"><div class="anc"></div><div class="item"><div class="num">5</div><p class="title">แอปที่คนอื่นใช้ได้</p><p class="body">เช่น วิเคราะห์สต็อกและ SKU<br>ในหนึ่งนาที</p></div></div>
+      <div class="rv" style="--d:3"><div class="anc"></div><div class="item"><div class="num">3</div><p class="title">Part ของคอร์ส</p><p class="body">จากคนเรียน<br>กลายเป็นคนสอน</p></div></div>
     </div>
     <p class="lead rv" style="--d:3">ทั้งหมดมาจากความรู้งานเดิมของยิ้ม ฝูง agent แค่ขยายมันออกไป</p>
   </div>
@@ -303,9 +343,9 @@ body.shownotes .notes{display:block}
 <section class="slide amber">
   <div class="frame">
     <div class="close">
-      <div class="rv">
+      <div class="left rv">
         <h1 class="display">ถ้ายิ้มทำได้<br>คุณก็ทำได้</h1>
-        <p class="lead" style="margin-top:var(--space-lg)">คุณนัทพาทำ 6 บทเรียน<br>ทำตามได้ที่ <b class="nw">aiexpo.buildwithoracle.com</b></p>
+        <p class="lead">คุณนัทพาทำ 6 บทเรียน<br>ทำตามได้ที่ <b class="nw">aiexpo.buildwithoracle.com</b></p>
       </div>
       <div class="anc"></div>
     </div>
@@ -315,33 +355,47 @@ body.shownotes .notes{display:block}
 
 <div id="prog" aria-hidden="true"></div>
 </div>
-<div id="count" aria-live="polite"></div>
+<div id="chrome"><button id="still" type="button" aria-pressed="false" title="ภาพนิ่ง: หยุดการเคลื่อนไหวทั้งหมด (ปุ่ม S)">S ภาพนิ่ง</button><span id="count" aria-live="polite"></span></div>
 <script>
-// navigation layer: works with no WebGL, no CDN, no module support
+// navigation layer: works with no WebGL, no Three.js, no fonts
 if (navigator.webdriver && !/[?&]live\b/.test(location.search)) document.documentElement.classList.add('capture');
-const S=[...document.querySelectorAll('.slide')];let i=0;
-const stage=document.getElementById('stage'),prog=document.getElementById('prog');
+const S=[...document.querySelectorAll('.slide')];let i=-1;
+const stage=document.getElementById('stage'),prog=document.getElementById('prog'),stillBtn=document.getElementById('still');
 function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
-function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((x,k)=>x.classList.toggle('on',k===i));
+function go(n){n=Math.max(0,Math.min(S.length-1,n));if(n===i)return;i=n;
+  S.forEach((x,k)=>x.classList.toggle('on',k===i));
   stage.classList.toggle('amber',S[i].classList.contains('amber'));
   prog.style.width=((i+1)/S.length*100)+'%';
   document.getElementById('count').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1));
   window.__slide=i;dispatchEvent(new CustomEvent('slide',{detail:i}))}
-addEventListener('keydown',e=>{if(e.altKey||e.metaKey||e.ctrlKey)return;if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}else if(['ArrowLeft','PageUp'].includes(e.key))go(i-1);else if(e.key==='Home')go(0);else if(e.key==='End')go(S.length-1);else if(e.key==='n'||e.key==='N')document.body.classList.toggle('shownotes')});
-addEventListener('resize',fit);fit();go((parseInt(location.hash.slice(1))||1)-1);
+// still mode: stops the 3D loop and all CSS motion; the 3D shows one static frame per slide
+function setStill(on){window.__still=on;document.documentElement.classList.toggle('still',on);
+  stillBtn.setAttribute('aria-pressed',String(on));stillBtn.textContent=on?'S ภาพนิ่ง: เปิด':'S ภาพนิ่ง';
+  dispatchEvent(new CustomEvent('still',{detail:on}))}
+stillBtn.addEventListener('click',()=>{setStill(!window.__still);stillBtn.blur()});
+addEventListener('keydown',e=>{if(e.altKey||e.metaKey||e.ctrlKey)return;
+  const nav=['ArrowRight','PageDown',' ','ArrowLeft','PageUp','Home','End'];
+  if(e.repeat){if(nav.includes(e.key))e.preventDefault();return}   // a held remote key must not skip slides
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}
+  else if(['ArrowLeft','PageUp'].includes(e.key))go(i-1);
+  else if(e.key==='Home')go(0);else if(e.key==='End')go(S.length-1);
+  else if(e.key==='n'||e.key==='N')document.body.classList.toggle('shownotes');
+  else if(e.key==='s'||e.key==='S')setStill(!window.__still)});
+addEventListener('resize',fit);fit();
+window.__still=/[?&]still\b/.test(location.search);if(window.__still)setStill(true);
+go((parseInt(location.hash.slice(1))||1)-1);
 </script>
 
-<!-- 3D world: one InstancedMesh of motes (1 draw call) that morphs per slide. Optional layer. -->
-<script type="importmap">
-{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js" } }
-</script>
-<script type="module">
-import * as THREE from 'three';
+<!-- 3D world: one InstancedMesh of motes (1 draw call) that morphs per slide. Optional layer, loaded from ./vendor/. -->
+<script src="vendor/three.iife.js"></script>
+<script>
+(function () {
 try {
+  if (!window.THREE || !THREE.WebGLRenderer) throw new Error('vendor/three.iife.js did not load');
   const canvas = document.getElementById('world');
   const stageEl = document.getElementById('stage');
   const slides = [...document.querySelectorAll('.slide')];
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mq = matchMedia('(prefers-reduced-motion: reduce)'); let reduce = mq.matches;
   const capture = document.documentElement.classList.contains('capture');
   const DUR = 0.85;                                   // one move per slide change, seconds
   const PAD = 40;                                     // px of clear air kept around every word
@@ -375,7 +429,7 @@ try {
   const POSES = [
     { p: [0, 0, 24],     l: [0, 0, 0] },
     { p: [5, 2.5, 21],   l: [2, 0.5, 0] },
-    { p: [-3.5, -3, 22], l: [-1, -0.4, 0] },
+    { p: [-2, -1.5, 22], l: [-0.6, -0.3, 0] },
     { p: [0, 4.5, 22],   l: [0, 0.6, 0] },
     { p: [0, 3, 26],     l: [0, 1, 0] },
     { p: [5, -0.8, 17],  l: [3, 0, 0] },
@@ -424,8 +478,8 @@ try {
     const sr = stageEl.getBoundingClientRect(), sc = sr.width / 1920;
     const box = el => { const b = el.getBoundingClientRect();
       return { l: (b.left - sr.left) / sc, t: (b.top - sr.top) / sc, r: (b.right - sr.left) / sc, b: (b.bottom - sr.top) / sc }; };
-    // ring slide: 4 ring nodes (clockwise from top), then ψ/, then the ring itself
-    const els = s.dataset.anchors === 'ring' ? ['.anc-n', '.anc-c', '.anc-ring'].flatMap(q => [...s.querySelectorAll(q)]) : [...s.querySelectorAll('.anc')];
+        // anchors: data-anchors lists selectors in the order the formation expects ('|' keeps groups in that order)
+    const els = (s.dataset.anchors || '.anc').split('|').flatMap(q => [...s.querySelectorAll(q)]);
     anchors[k] = els.map(el => {
       const q = box(el), cx = (q.l + q.r) / 2, cy = (q.t + q.b) / 2, w = q.r - q.l, h = q.b - q.t;
       const c = worldAt(cx, cy, poseCam[k]);
@@ -434,8 +488,8 @@ try {
       const ex2 = worldAt(cx + w / 2, cy, poseCam[k]);
       return { x: c.x, y: c.y, r: ex.distanceTo(c), hw: ex2.distanceTo(c), hh: ey.distanceTo(c) };
     });
-    // words on this slide: no mote may pass under them. svg diagrams only keep the background dust out.
-    textBoxes[k] = [...s.querySelectorAll('h1,h2,p,li,.row,svg,svg text')].map(el => { const tg = el.tagName.toLowerCase();
+    // words on this slide (incl. the big numbers): no mote may pass under them. svg diagrams only keep the dust out.
+    textBoxes[k] = [...s.querySelectorAll('h1,h2,p,.label,.num,svg,svg text')].map(el => { const tg = el.tagName.toLowerCase();
       return Object.assign(box(el), { dustOnly: tg === 'svg', pad: tg === 'text' ? 30 : PAD }); });
     s.classList.remove('measuring');
   }
@@ -494,52 +548,28 @@ try {
       if (i < 365) return messenger(nodes, i - 245, i, t, 0.22, 0);
       return dust(i, t);
     },
-    (i, t, A) => {                       // 3: the fleet · house of buds | the gate | the personal agent line
-      const a = A[0] || ZERO, b = A[1] || ZERO, c = A[2] || ZERO;
-      // row 1: buds on a ring, signed envelopes hopping between them, some go to Yim in the middle for approval
-      const NB = 12, bud = k => { const g = k / NB * Math.PI * 2 + t * 0.06;
-        return { x: a.x + Math.cos(g) * a.hw * 0.8, y: a.y + Math.sin(g) * a.hh * 0.55, z: Math.sin(g) * a.hh * 0.9 }; };
-      const yim = { x: a.x, y: a.y, z: 0 };
-      if (i < 12) { const n = bud(i); return put(n.x, n.y, n.z, 1.5, 2); }
-      if (i < 108) { const k = i - 12, n = bud(k % NB); const p = sphere(n, 0.3, Math.floor(k / NB), 8, t, 0.7, n.z); return put(...p, 0.42, 2); }
-      if (i < 109) return put(yim.x, yim.y, 0, 2.2, 0);
-      if (i < 125) { const p = sphere(yim, 0.45, i - 109, 16, t, 0.35); return put(...p, 0.55, 0); }
-      if (i < 165) { const k = i - 125, r = R[i], ph = r[0] + t * 0.16, p = Math.floor(ph), u = ease(frac(ph));
-        const dest = q => ((k + q) % 6 === 0) ? -1 : (k * 7 + q * 5 + (k * q) % 3) % NB;
-        let s = dest(p - 1), e = dest(p); if (s === e) e = (e + 1) % NB;
-        const S0 = s < 0 ? yim : bud(s), E0 = e < 0 ? yim : bud(e);
-        return put(...lerp3(S0, E0, u, 0.6), 0.75, 0, 1); }
-      // row 2: our house (left), a gate (middle), another person's agent (right).
-      //        talk passes the gate, actions stop at it, our checked replies go out
-      const L = { x: b.x - b.hw * 0.62, y: b.y, z: 0 }, G = { x: b.x + b.hw * 0.06, y: b.y, z: 0 }, O = { x: b.x + b.hw * 0.72, y: b.y, z: 0 };
-      const gr = Math.min(b.hh * 0.62, 1.2);
-      if (i < 215) { const p = sphere(L, Math.min(b.hh * 0.5, 1.0), i - 165, 50, t, 0.25); return put(...p, 0.7, 2); }
-      if (i < 216) return put(L.x, L.y, 0, 1.8, 0);
-      if (i < 256) { const g = (i - 216) / 40 * Math.PI * 2 + t * 0.15;   // the gate: a ring standing across the path
-        return put(G.x + Math.sin(g) * gr * 0.42, G.y + Math.cos(g) * gr, Math.sin(g) * gr, 0.5, 2); }
-      if (i < 257) return put(O.x, O.y, 0, 2.0, 1);
-      if (i < 271) { const p = sphere(O, 0.5, i - 257, 14, t, -0.4); return put(...p, 0.5, 1); }
-      if (i < 283) { const u = frac(R[i][0] + t * 0.13), y0 = (R[i][1] - 0.5) * 0.5;   // talk: crosses the gate, softly
-        const P = lerp3({ x: O.x, y: O.y + y0 }, { x: L.x + 0.9, y: L.y + y0 * 0.4 }, u, 0.3); return put(...P, 0.45, 2); }
-      if (i < 295) { const v = frac(R[i][0] + t * 0.11), u = Math.min(v / 0.6, 1), y0 = (R[i][1] - 0.5) * gr * 1.2;   // actions: stop at the gate
-        const P = lerp3({ x: O.x - 0.3, y: O.y + y0 * 0.3 }, { x: G.x + 0.28, y: G.y + y0 }, ease(u));
-        return put(...P, v < 0.6 ? 0.62 : 0.62 * (1 - (v - 0.6) / 0.4), 1, 0.8); }
-      if (i < 305) { const u = frac(R[i][0] + t * 0.1), y0 = (R[i][1] - 0.5) * 0.4;   // replies: checked, then out
-        const P = lerp3({ x: L.x + 0.9, y: L.y + y0 }, { x: O.x - 0.5, y: O.y + y0 }, u, -0.2); return put(...P, 0.55, 0, 1); }
-      // row 3: our house (left), the personal agent (right), one relay line with a ledger under it
-      const H = { x: c.x - c.hw * 0.62, y: c.y, z: 0 }, P = { x: c.x + c.hw * 0.66, y: c.y, z: 0 }, lane = 0.26;
-      if (i < 345) { const p = sphere(H, Math.min(c.hh * 0.5, 1.0), i - 305, 40, t, 0.25); return put(...p, 0.7, 2); }
-      if (i < 346) return put(H.x, H.y, 0, 1.8, 0);
-      if (i < 347) return put(P.x, P.y, 0, 2.6, 2);
-      if (i < 365) { const p = sphere(P, 0.62, i - 347, 18, t, -0.5); return put(...p, 0.55, 0); }
-      if (i < 389) { const k = i - 365, u = (k + 0.5) / 24;   // the relay line
-        return put(H.x + 1.1 + (P.x - H.x - 2.0) * u, H.y, 0, 0.28, 1); }
-      if (i < 397) { const k = i - 389, u = frac(t * 0.17 + k * 0.022);   // task out, as one short train
-        return put(...lerp3({ x: H.x + 1.1, y: H.y + lane }, { x: P.x - 0.9, y: P.y + lane }, u), 0.5, 2); }
-      if (i < 405) { const k = i - 397, u = frac(t * 0.17 + 0.5 + k * 0.022);   // callback home, half a beat later
-        return put(...lerp3({ x: P.x - 0.9, y: P.y - lane }, { x: H.x + 1.1, y: H.y - lane }, u), 0.5, 0); }
-      if (i < 415) { const j = i - 405, cnt = Math.floor(frac(t * 0.17) * 11), mx = (H.x + P.x) / 2;   // the ledger: one line per trip
-        return put(mx + (j % 5 - 2) * 0.32, c.y - Math.min(c.hh * 0.6, 1.1) + Math.floor(j / 5) * 0.2, 0, j < cnt ? 0.6 : 0, 1, 1); }
+    (i, t, A) => {                       // 3: the architecture · light travels the arrows, agents circle the machine
+      const [y0, dc, fl, mem, oth, per] = [0, 1, 2, 3, 4, 5].map(k => A[k] || ZERO);
+      // twelve agents circle the always-on machine, each with a small halo
+      const NB = 12, bud = k => { const g = k / NB * Math.PI * 2 + t * 0.08;
+        return { x: fl.x + Math.cos(g) * fl.hw * 1.12, y: fl.y + Math.sin(g) * fl.hh * 1.35, z: Math.sin(g) * 0.9 }; };
+      if (i < 12) { const n = bud(i); return put(n.x, n.y, n.z, 1.3, 2); }
+      if (i < 84) { const k = i - 12, n = bud(k % NB); const p = sphere(n, 0.26, Math.floor(k / NB), 6, t, 0.7, n.z); return put(...p, 0.4, 2); }
+      // the main chain: Yim -> Discord -> machine -> memory, light flowing along each arrow
+      if (i < 144) { const k = i - 84, e = k % 3, from = [y0, dc, fl][e], to = [dc, fl, mem][e];
+        const u = frac(R[i][0] + t * 0.22), sx = from.x + from.hw, ex = to.x - to.hw, j = (R[i][1] - 0.5) * 0.18;
+        return put(sx + (ex - sx) * u, from.y + j, Math.sin(u * Math.PI) * 0.25, 0.55 + R[i][2] * 0.25, 0, 1); }
+      // personal assistants <-> machine: both directions
+      if (i < 160) { const k = i - 144, up = k % 2 === 0, u = frac(R[i][0] + t * 0.2), x = fl.x + (up ? -0.22 : 0.22);
+        const a = per.y + per.hh, b = fl.y - fl.hh, v = up ? u : 1 - u;
+        return put(x, a + (b - a) * v, 0, 0.5, 2, 1); }
+      // other people's agents: talk crosses to Discord, actions stop halfway and fade
+      if (i < 170) { const k = i - 160, up = k % 2 === 0, u = frac(R[i][0] + t * 0.16), x = dc.x + (up ? -0.22 : 0.22);
+        const a = oth.y + oth.hh, b = dc.y - dc.hh, v = up ? u : 1 - u;
+        return put(x, a + (b - a) * v, 0, 0.45, 2, 1); }
+      if (i < 178) { const v = frac(R[i][0] + t * 0.12), u = Math.min(v / 0.55, 1), x = dc.x + (R[i][1] - 0.5) * 0.9;
+        const a = oth.y + oth.hh, b = (oth.y + oth.hh + dc.y - dc.hh) / 2;
+        return put(x, a + (b - a) * ease(u), 0, v < 0.55 ? 0.55 : 0.55 * (1 - (v - 0.55) / 0.45), 1, 0.8); }
       return dust(i, t);
     },
     (i, t, A) => {                       // 4: shift ring; nodes clockwise from top, then ψ/, then ring
@@ -648,20 +678,26 @@ try {
 
   const clock = new THREE.Clock();
   measure(cur);
+  // still = reduced motion (OS, live), or the S key / button: no loop, one static frame per slide
+  let still = reduce || !!window.__still;
+  const stillFrame = () => frame(clock.getElapsedTime(), true);
   addEventListener('slide', e => {
     begin(e.detail, clock.getElapsedTime());
-    if (reduce || capture) frame(clock.elapsedTime, true);
+    if (still || capture) stillFrame();
   });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(cur); if (reduce) frame(0, true); });
+  addEventListener('still', e => { still = reduce || e.detail; if (still) stillFrame(); });
+  mq.addEventListener('change', e => { reduce = e.matches; still = reduce || !!window.__still; if (still) stillFrame(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(cur); if (still) stillFrame(); });
 
   let frames = 0;
-  if (reduce) frame(0, true);
-  else (function loop() { frames++; frame(clock.getElapsedTime(), false); requestAnimationFrame(loop); })();
-  window.__world = { ok: true, frames: () => frames, dbg: () => ({ cur, anchors: anchors[cur], cam: camera.position.toArray(), look: look.toArray() }), snap: () => frame(clock.elapsedTime, true) };
+  if (still) stillFrame();
+  (function loop() { if (!still) { frames++; frame(clock.getElapsedTime(), false); } requestAnimationFrame(loop); })();
+  window.__world = { ok: true, frames: () => frames, still: () => still, dbg: () => ({ cur, anchors: anchors[cur], cam: camera.position.toArray(), look: look.toArray() }), snap: stillFrame };
 } catch (err) {
   window.__world = false;
   console.warn('3D world disabled, deck content stays fully visible', err);
 }
+})();
 </script>
 </body>
 </html>
