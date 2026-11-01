@@ -1,4 +1,88 @@
-# REPORT: yim-3d deck, round 4 (new slide 4 "ฝูงนี้บริหารแบบบริษัท")
+# REPORT: yim-3d deck, round 5 (คืนสไลด์ฝูงเดิม · แยกหน้าสถาปัตยกรรม · ฟอนต์ Rikyu)
+
+2026-11-01 · Osaa (Oracle AI) · ตาม `BRIEF-R5.md` · ยังไม่ได้ commit
+
+## สิ่งที่เปลี่ยน
+- **สไลด์ 3 "ฝูงของยิ้ม ทำงานกันยังไง" กลับมาเหมือนเดิมทุกคำ** (เอามาจาก `86e2829`): มี 3 แถว แต่ละแถวมีฉาก 3D ของตัวเอง ใช้โค้ด formation และมุมกล้องเดิม รวมถึง footnote เครื่องมือ ส่วนที่เปลี่ยนมีแค่การจัดหน้าให้เข้า scale รอบ 3: หัวแถวเป็น title 48 · บรรทัดย่อยเป็น body 36 แทน bullet 32 · มีเส้น rule เหนือแต่ละแถว · footnote ขนาด 30
+- **สไลด์ 4 "สถาปัตยกรรมของฝูง"** ใช้แผนภาพรอบ 3 เหมือนเดิม ย้ายมาอยู่หน้าของตัวเองถัดจากหน้า fleet และเขียน notes ใหม่ให้พูดจบใน 45 วินาที ประโยค "ตัวที่วางแผน…" กับ footnote เครื่องมือเอาออกจากหน้านี้แล้ว เพราะหน้า 3 พูดไว้แล้ว
+- deck ตอนนี้มี 8 หน้า: stages · unlock · fleet · architecture · บริหารแบบบริษัท · วงกะ · ผลงาน · ปิด
+- **ฟอนต์ Rikyu** (tokens.css L39-41): ใช้ Satoshi + IBM Plex Sans Thai กับทุกคำ ส่วน Source Serif 4 + Noto Serif Thai ใช้บรรทัดเดียวคือ "ถ้ายิ้มทำได้ คุณก็ทำได้" ไฟล์ woff2 ทำจากชุดที่ติดตั้งในเครื่องคุณยิ้ม (subset ด้วย pyftsubset) แล้วเก็บไว้ที่ `vendor/fonts/` ไฟล์ Bai Jamjuree/Sarabun เดิมย้ายไป `vendor/fonts/r3-retired/` ไม่ได้ลบ
+  - **ใบอนุญาต:** IBM Plex Sans Thai, Source Serif 4 และ Noto Serif Thai ใช้ SIL OFL 1.1 · ส่วน **Satoshi ใช้ ITF FFL 2.0** ซึ่งอนุญาตให้ self-host บนเว็บของเราเอง แต่**ห้ามแจกจ่ายไฟล์ฟอนต์ผ่าน repository** ตอนนี้ repo เป็น PRIVATE จึงยังไม่มีปัญหา แต่ถ้าวันหนึ่งเปิดเป็น public ต้องเอา `Satoshi-*.woff2` ออกก่อน
+
+## เวลาต่อหน้า (ตาม notes รวม 9:00)
+| หน้า | เดิม | ใหม่ |
+|---|---|---|
+| 1 stages | 2:00 | 1:30 |
+| 2 unlock | 1:00 | 0:45 |
+| 3 fleet | 2:00 | 1:30 |
+| 4 architecture | ไม่มี | 0:45 |
+| 5 บริษัท | 1:30 | 1:15 |
+| 6 วงกะ | 2:00 | 1:30 |
+| 7 ผลงาน | 2:00 | 1:15 |
+| 8 ปิด | 0:30 | 0:30 |
+แก้แค่ตัวเลขเวลาใน notes ส่วนเนื้อ notes ไม่ได้ตัดสักคำ ถ้าซ้อมแล้วยังเกิน ให้ตัดเรื่องเล่าในหน้า 1 กับหน้า 6 ก่อน เพราะสองหน้านี้มีเรื่องเล่ายาวที่สุด
+
+## Impeccable: critique และ polish (แยกเป็นคนละรอบ)
+- **critique:** context.mjs ตอบ `NO_PRODUCT_MD` ซึ่งต้องสัมภาษณ์ init ก่อน แต่รอบนี้รันแบบไม่มีคนตอบ เราเลยข้ามขั้นนั้นไป แล้วใช้ DESIGN-NOTES.md เป็นบริบทแทน
+  - Assessment A ให้ agent อีกตัวรีวิวแบบอ่านอย่างเดียว ไม่ได้เห็นผล detector ได้คะแนน Nielsen ราว 25/40 และตัดสินว่าไม่ใช่ AI slop แต่มี tell อ่อนสองจุด
+  - Assessment B รัน `detect.mjs` เจอ 1 จุด คือ `#prog` animate `width` (ผลเก็บไว้ที่ `checks/r5/detect.json`)
+- **polish: แก้ไปแล้ว** (ไม่ได้แตะคำบนหน้า 3 และ notes)
+  1. น้ำหนัก `.body` `.foot` `.cap` และ sub-label ในแผนภาพ เปลี่ยนจาก 400 เป็น 500 เพราะเส้น Plex Thai บาง อ่านไกลไม่ชัด
+  2. หน้า 4: แผนภาพย้ายขึ้นไปอยู่บน grid ห่างหัวเรื่อง 64 ตามหน้าอื่น และ "คุยได้ ลงมือในระบบเราไม่ได้ · คนกดอนุมัติ" เปลี่ยนเป็นสี ink น้ำหนัก 600 เพราะเป็นสารหลักของหน้า
+  3. หน้า 5: เลข 211 กับ 17 เปลี่ยนเป็นสีอำพัน
+  4. หน้า 6: บรรทัด "ใครเคยดูแลทีมคน…" เปลี่ยนเป็นสี ink และตรึงไว้ระดับเดียวกับฐานของวง
+  5. หน้า 7: บรรทัดปิดเปลี่ยนเป็นสี ink
+  6. `#prog` เปลี่ยนไปใช้ `transform:scaleX` แทน `width` รันซ้ำแล้ว detector ได้ `[]` exit 0
+- **polish: ยังไม่ได้ทำ ให้ตัดสิน**
+  - หน้า 5: ให้ title สามคอลัมน์อยู่บนเส้นฐานเดียวกัน และลดสีอำพันฝั่งซ้าย
+  - หน้า 4: ทำเส้นลูกศรให้หนาขึ้น และให้ฝุ่น 3D เว้นระยะจากลูกศร
+  - หน้า 8: แยก URL ออกมาเป็นบรรทัดใหญ่ 72px
+  - หน้า 2: เครื่องหมาย "+" ดูเหมือน bullet
+
+## Acceptance (รันจริง ผลจริง)
+**1. shot.py** สำเนาของ shot.py ใน scratchpad ถูก session อื่นเขียนทับเมื่อ 14:34 (ตอนนี้กลายเป็นสคริปต์ถ่ายเว็บ dithering) เราจึงคัดลอกตัวเดิมมาไว้ที่ `checks/r5/shot.py` ตรรกะเหมือนเดิมทุกบรรทัด
+```
+$ uv run -q --with playwright python checks/r5/shot.py deck.html checks/r5/shots
+1 [] 2 [] 3 [] 4 [] 5 [] 6 [] 7 [] 8 []
+```
+ภาพ: `b1.png`…`b8.png` (ก๊อปจาก `checks/r5/shots/`) · ภาพรวม `checks/r5/shots/contact.png`
+
+**2. Offline** (`checks/r5/check.py` ตัด request http/https ทุกตัว · ผลเต็มอยู่ที่ `checks/r5/offline.txt`)
+```
+ทุกหน้า: "fontsCheck": {"satoshi": true, "plexThai": true}, "loadedFaces": 7 (หน้า 8 = 9 รวม serif), "errorFaces": 0, "world": true, framesAdvancing true
+aborted http(s) requests: 0 · local files loaded: IBMPlexSansThai x4, Satoshi x3, NotoSerifThai-var, SourceSerif4-var, three.iife.js
+```
+⚠️ ใช้ `fonts.check()` อย่างเดียวพิสูจน์อะไรไม่ได้ เพราะใน negative control ข้างล่างมันก็ตอบ `true` เหมือนกัน หลักฐานจริงคือ `loadedFaces` และรายชื่อไฟล์ woff2 ที่โหลดจากดิสก์จริง
+
+**3. Negative control** (`mv vendor vendor.off` → รัน → `mv` กลับ · ผลอยู่ที่ `checks/r5/novendor.txt` และ `checks/r5/novendor/`)
+```
+1..8: "loadedFaces": 0, "world": false · ทุกหน้ายังมีข้อความ ขนาดเล็กสุด 30/30/30/30/30/30/36/48
+ls หลังรัน: มี vendor · ไม่มี vendor.off
+```
+⚠️ ในเครื่องนี้ ภาพ negative control ยังเป็นตัว Satoshi/Plex อยู่ เพราะคุณยิ้มติดตั้งสองฟอนต์นี้ไว้ใน `~/Library/Fonts` แล้ว ถ้าเป็นเครื่องในงานที่ไม่มีฟอนต์และไม่มี vendor/ ข้อความจะไปใช้ฟอนต์ระบบแทน
+
+**4. ขีดยาว:** `grep -c '[—–]' deck.html` → `0` · check.py นับข้อความทุกหน้ารวม notes ได้ `0`
+
+**5. ข้อความหน้า fleet เทียบกับ 86e2829** (ดึงข้อความบนจอทีละบรรทัดออกมาเทียบ ไม่รวม notes)
+```
+$ python3 checks/r5/textdiff.py && diff /tmp/r5-fleet-old.txt /tmp/r5-fleet-new.txt; echo "fleet diff exit=$?"
+11 runs at 86e2829, 11 runs now
+fleet diff exit=0
+```
+decoy: รอบแรกที่รัน สคริปต์ตัดผิดหน้า (ไปหยิบหน้า unlock มาเทียบ) ผลคือ diff แดงทั้ง 11 บรรทัด แปลว่าตัวเทียบแดงได้จริง จากนั้นแก้การตัดหน้าแล้วรันใหม่จึงได้ผลข้างบน
+ส่วน notes ของหน้า fleet เปลี่ยนแค่ "2 นาที" เป็น "1.5 นาที" นอกนั้นตรงกับของเดิมทุกตัวอักษร
+
+## ต้องให้คุณยิ้ม/Dobby ตัดสิน
+- รายการ polish 4 ข้อที่ยังไม่ได้ทำ (ดูข้างบน)
+- ถ้าวันหนึ่ง repo จะเป็น public ต้องจัดการไฟล์ Satoshi ก่อน
+- `vendor/fonts/` มีการย้ายไฟล์ที่ยังไม่ได้ stage: Bai/Sarabun ย้ายไปอยู่ `r3-retired/` แล้ว ตอน commit ต้อง `git add -A vendor` ไม่อย่างนั้น git จะเห็นเป็นไฟล์ถูกลบ
+- ความลื่นของ 3D บนเครื่องที่ใช้ในงาน ยังไม่ได้วัด
+
+— Osaa (Oracle AI)
+
+---
+
+## รอบ 4 (เก็บไว้ตามเดิม): yim-3d deck, round 4 (new slide 4 "ฝูงนี้บริหารแบบบริษัท")
 
 1 พฤศจิกายน 2026 · งานตาม `BRIEF-R4.md` · โอซ่าทำรอบนี้เองค่ะ (รัน `claude -p` ด้วย settings ของโอซ่า)
 

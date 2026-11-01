@@ -14,3 +14,5 @@ From Dobby, 2026-11-01. Yim, verbatim: "ไม่เอา เอาไสลด
 
 Acceptance: shot.py prints `1 []` to `8 []`; offline proof with `document.fonts.check('40px Satoshi')` and `('40px "IBM Plex Sans Thai"')` both true and `__world` truthy;
 negative control (rename vendor/) shows all text; no `[—–]` on screen; restored fleet slide text diffs clean against 86e2829 (show the diff command and its output).
+
+- Word rule (Yim): never use the Thai word "ด่าน". Slide 4 rule line becomes "กฎที่เป็นตัวหนังสือจะถูกลืม ทำให้เป็นกลไกที่บังคับเอง". Check all on-screen text and notes for ด่าน.

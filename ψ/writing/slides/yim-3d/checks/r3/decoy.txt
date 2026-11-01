@@ -1,0 +1,2 @@
+1 {"min": 30, "minWho": "คุยในแชตทีละงาน ทุกครั้ง", "fontsCheck": true, "loadedFaces": 0, "errorFaces": 0, "world": false, "frames": null, "framesAdvancing": false}
+aborted http(s) requests: 2 ['https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap', 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js']

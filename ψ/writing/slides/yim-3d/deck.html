@@ -10,9 +10,12 @@
   slide 3 rebuilt as a labelled architecture diagram, fully offline (./vendor/), still mode on key S.
   Round 4, 2026-11-01: new slide 4 "the fleet is run like a company" (7 slides), facts from hello-oracle
   ψ/writing/expo-2026-10/2026-11-01_fleet-rules-candidates.md, section "Orchestration and registries".
+  Round 5, 2026-11-01: the fleet slide from 86e2829 is back word for word (three rows, each with its own 3D scene, tools
+  footnote), the round-3 architecture diagram is its own slide right after it (8 slides), type is the Rikyu Labs system:
+  Satoshi + IBM Plex Sans Thai everywhere, Source Serif 4 + Noto Serif Thai for the one editorial line (the hand-off).
   Content from ../yim-bridge.html (v3), notes copied verbatim; slide 3 wording from hello-oracle
   ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md "Stage-safe wording" plus Dobby's edits.
-  One Three.js world behind all 7 slides: one InstancedMesh (1 draw call) morphs per slide, one camera travels a path.
+  One Three.js world behind all 8 slides: one InstancedMesh (1 draw call) morphs per slide, one camera travels a path.
    - formations anchor to empty HTML/SVG boxes projected at the slide's camera pose, so 3D sits beside text;
    - every mote is projected each frame and fades out near any text box (incl. the big numbers);
    - 3D colours are read from the same CSS tokens as the HTML (one token source, zero drift);
@@ -26,13 +29,15 @@
 <style>
 /* =====================================================================================================
    TYPE SCALE (one scale, five steps, each step has one job on every slide; sizes at the 1920x1080 stage)
-     display  156 / 1.08  Bai Jamjuree 700   the hand-off line (7), the three big numbers (6)
-     heading   72 / 1.2   Bai Jamjuree 700   one per slide, on the heading line; the speaker name on 1
+     families (Rikyu Labs tokens.css L39-41): sans = Satoshi + IBM Plex Sans Thai for every word on every slide;
+                                              serif = Source Serif 4 + Noto Serif Thai for one editorial line only (the hand-off, 8)
+     display  156 / 1.08  serif 700 on 8 (hand-off line), sans 700 on 7 (the three big numbers)
+     heading   72 / 1.2   sans 700           one per slide, on the heading line; the speaker name on 1
      lead      48 / 1.35  two voices, same size:
-                          title  Bai Jamjuree 700, ink     item titles (stages, unlock rows, what was made)
-                          line   Sarabun 500, ink-2        the one sentence a slide lands on
-     body      36 / 1.4   Sarabun 400, ink-2               explanation under an item title; diagram node names (700, ink)
-     caption   30 / 1.4   Sarabun 400, ink-3               footnotes, diagram sub-labels; labels use it in Bai Jamjuree 600
+                          title  sans 700, ink         item titles (stages, unlock rows, fleet rows, what was made)
+                          line   sans 500, ink-2       the one sentence a slide lands on
+     body      36 / 1.4   sans 400, ink-2              explanation under an item title; diagram node names (700, ink)
+     caption   30 / 1.4   sans 400, ink-3              footnotes, diagram sub-labels; labels use it at 600
    GRID
      x: 140 | 1640 content | 140      heading line: top 128 (lamp rule sits at 88 on every slide)
      heading -> content 64 · content -> lead line 64 · footnote pinned to bottom 72
@@ -40,7 +45,7 @@
      rule   4px top rule over every item; amber = the item the slide is about, graphite = the rest
      label  caption size, Bai Jamjuree 600, ink-3 (amber on the key item): ขั้น 1, + 1 2 3
      highlight  amber, only inside headings
-     cards  none; boxes appear only as diagram nodes (slide 3 boxes, slide 4 ladder, gate and shelf slots, slide 5 circles), same fill and stroke tokens
+     cards  none; boxes appear only as diagram nodes (slide 4 boxes, slide 5 ladder, gate and shelf slots, slide 6 circles), same fill and stroke tokens
      bullets none
    ===================================================================================================== */
 :root{
@@ -92,8 +97,10 @@
   --mote-wait-on-amber:oklch(87% 0.1 85);
   --mote-agent-on-amber:oklch(24% 0.03 70);
 
-  --font-display:"Bai Jamjuree","Sarabun","Noto Sans Thai","Sukhumvit Set",Thonburi,sans-serif;
-  --font-body:"Sarabun","Bai Jamjuree","Noto Sans Thai","Sukhumvit Set",Thonburi,sans-serif;
+  --font-sans:Satoshi,"IBM Plex Sans Thai",Inter,"Helvetica Neue",Arial,sans-serif;   /* Rikyu --rikyu-font-sans */
+  --font-serif:"Source Serif 4","Noto Serif Thai",serif;                                 /* Rikyu --rikyu-font-serif, editorial only */
+  --font-display:var(--font-sans);
+  --font-body:var(--font-sans);
   --font-mono:ui-monospace,"SF Mono",Menlo,monospace;
 
   /* the scale */
@@ -124,14 +131,14 @@ html,body{width:100%;height:100%;background:var(--color-letterbox);overflow:hidd
 .slide::before{content:"";position:absolute;left:var(--pad-x);top:var(--lamp-top);width:var(--lamp-w);height:var(--rule-w);background:var(--color-accent)}
 .slide.amber::before{background:var(--color-accent-ink)}
 .frame{position:absolute;left:var(--pad-x);right:var(--pad-x);top:var(--line-top);display:flex;flex-direction:column;gap:var(--gap-head)}
-.foot{position:absolute;left:var(--pad-x);bottom:var(--foot-bottom);font-size:var(--fs-caption);line-height:var(--lh-caption);color:var(--color-ink-3)}
+.foot{position:absolute;left:var(--pad-x);bottom:var(--foot-bottom);font-size:var(--fs-caption);font-weight:500;line-height:var(--lh-caption);color:var(--color-ink-3)}
 
 /* the five steps */
 .display{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700}
 h2,.heading{font-family:var(--font-display);font-size:var(--fs-heading);line-height:var(--lh-heading);font-weight:700}
 .title{font-family:var(--font-display);font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:700;color:var(--color-ink)}
 .lead{font-family:var(--font-body);font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:500;color:var(--color-ink-2)}
-.body{font-family:var(--font-body);font-size:var(--fs-body);line-height:var(--lh-body);font-weight:400;color:var(--color-ink-2)}
+.body{font-family:var(--font-body);font-size:var(--fs-body);line-height:var(--lh-body);font-weight:500;color:var(--color-ink-2)}
 .label{font-family:var(--font-display);font-size:var(--fs-caption);line-height:var(--lh-caption);font-weight:600;color:var(--color-ink-3);letter-spacing:.02em}
 .hl{color:var(--color-accent)}
 .nw{white-space:nowrap}
@@ -165,23 +172,32 @@ h2,.heading{font-family:var(--font-display);font-size:var(--fs-heading);line-hei
 .rows .item{display:grid;grid-template-columns:64px minmax(0,1fr);align-items:baseline;padding-top:20px}
 .rows .item .body{margin-top:4px}
 
-/* 3 fleet architecture diagram (SVG, every word is real text) */
+/* 3 fleet (restored from 86e2829): three rows, each a 3D scene on the left and its words on the right */
+.fleet{display:flex;flex-direction:column;gap:var(--gap-item)}
+.frow{display:grid;grid-template-columns:560px minmax(0,1fr);gap:var(--gap-col);align-items:center}
+.frow .anc{height:190px}
+.frow .item{padding-top:16px}
+.frow .item .body{margin-top:2px}
+.frow .item .title+.body{margin-top:6px}
+
+/* 4 fleet architecture diagram (SVG, every word is real text) */
+.arch .n-s.key{fill:var(--color-ink);font-weight:600}
 .arch{display:block;width:1640px;height:auto;overflow:visible}
 .arch text{font-family:var(--font-body)}
 .arch .n-t,.org-v .n-t{font-family:var(--font-display);font-size:var(--fs-body);font-weight:700;fill:var(--color-ink)}
-.arch .n-s,.org-v .n-s{font-family:var(--font-body);font-size:var(--fs-caption);fill:var(--color-ink-2)}
+.arch .n-s,.org-v .n-s{font-family:var(--font-body);font-size:var(--fs-caption);font-weight:500;fill:var(--color-ink-2)}
 .arch .n-s.hl,.org-v .n-s.hl{fill:var(--color-accent);font-family:var(--font-display);font-weight:600}
 
-/* 4 run like a company: three columns, each a picture above the item rule (same pattern as slides 1 and 6) */
+/* 5 run like a company: three columns, each a picture above the item rule (same pattern as slides 1 and 6) */
 .org{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
 .org-v{display:block;width:520px;height:340px;overflow:visible;margin-bottom:var(--gap-item)}
 .reg{display:flex;flex-direction:column;justify-content:flex-end}
 .reg .anc-cloud{height:302px}
 .reg .shelf{display:block;width:520px;height:38px;overflow:visible}
 .org .item .body+.body{margin-top:var(--gap-item)}
-.cap{font-family:var(--font-body);font-size:var(--fs-caption);line-height:var(--lh-caption);color:var(--color-ink-3);margin-top:var(--gap-in)}
+.cap{font-family:var(--font-body);font-size:var(--fs-caption);line-height:var(--lh-caption);font-weight:500;color:var(--color-ink-3);margin-top:var(--gap-in)}
 
-/* diagram language, shared by slides 3, 4 and 5 */
+/* diagram language, shared by slides 4, 5 and 6 */
 svg .d-arrowhead{fill:var(--color-diagram-line)}
 svg .d-arc{stroke:var(--color-diagram-line);fill:none}
 svg .d-arc.dash{stroke-dasharray:14 12}
@@ -192,28 +208,30 @@ svg .d-node[data-live]{stroke:var(--color-diagram-live)}
 svg .d-gate{fill:none;stroke:var(--color-diagram-live)}
 svg .d-slot{fill:none;stroke:var(--color-diagram-idle)}
 
-/* 5 shift ring */
+/* 6 shift ring */
 .ring{display:grid;grid-template-columns:minmax(0,1fr) 800px;gap:var(--gap-col);align-items:start}
-.ring .left{display:flex;flex-direction:column;gap:var(--gap-lead)}
+.ring .left{display:flex;flex-direction:column;justify-content:space-between;height:800px}
+.ring .lead{color:var(--color-ink)}
 .ring svg{width:800px;height:800px;display:block;overflow:visible}
 .ring svg text{font-family:var(--font-display);fill:var(--color-ink)}
 .ring svg .cmd{font-family:var(--font-mono);font-weight:700;fill:var(--color-accent)}
 .ring svg .sub{font-family:var(--font-body);fill:var(--color-ink-2);font-weight:500}
 
-/* 6 numbers */
+/* 7 numbers */
 .big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
 .big3 .anc{height:170px}
 .big3 .num{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700;color:var(--color-accent)}
 .big3 .title{margin-top:var(--gap-in)}
+.big3~.lead{color:var(--color-ink)}
 
-/* 7 close (amber) */
+/* 8 close (amber) */
 .close{display:grid;grid-template-columns:1060px minmax(0,1fr);gap:var(--gap-col)}
 .close .left{display:flex;flex-direction:column;gap:var(--gap-lead)}
-.close .display{padding-top:36px}   /* Thai tone marks on a 156px line rise above the heading line; keep them clear of the lamp */
+.close .display{font-family:var(--font-serif);padding-top:36px}   /* Thai tone marks on a 156px line rise above the heading line; keep them clear of the lamp */
 .close .anc{height:800px}
 
 /* chrome: orientation always visible */
-#prog{position:absolute;left:0;bottom:0;height:6px;width:0;z-index:5;background:var(--color-accent);transition:width var(--dur-move) var(--ease-move),background-color var(--dur-move)}
+#prog{position:absolute;left:0;bottom:0;height:6px;width:100%;z-index:5;background:var(--color-accent);transform:scaleX(0);transform-origin:left center;transition:transform var(--dur-move) var(--ease-move),background-color var(--dur-move)}
 #stage.amber #prog{background:var(--color-accent-ink)}
 .notes{display:none;position:absolute;left:0;right:0;bottom:0;z-index:9;background:var(--color-notes-bg);color:var(--color-notes);font-family:var(--font-body);font-size:30px;line-height:1.45;padding:28px 100px;border-top:3px solid var(--color-accent)}
 body.shownotes .notes{display:block}
@@ -241,7 +259,7 @@ body.shownotes .notes{display:block}
       <div class="rv" style="--d:3"><div class="anc"></div><div class="item key"><p class="label">ขั้น 3</p><p class="title">งานเดินได้โดยไม่รอยิ้ม</p><p class="body">ทีม AI หลายตัว<br>กับวิธีทำงานของ ARRA</p></div></div>
     </div>
   </div>
-  <div class="notes">2 นาที · ขั้น 2 คือจุดที่คนใช้ AI เก่งแล้วเจอกันทุกคน เล่าเหตุการณ์จริง 1 ครั้งที่งานกองรอยิ้มอยู่คนเดียว · ผูกขั้น 1 กับ forgetting test ที่คุณนัทเพิ่งทำ: "เมื่อกี้ที่เห็น AI ลืม นั่นคือชีวิตยิ้มทุกวันเมื่อปีที่แล้ว" · ยิ้มอยู่บนเวทีในฐานะคนใช้ ไม่ใช่คนสร้างระบบ ⇒ ห้ามอธิบายเทคนิคที่คุณนัทจะสอน</div>
+  <div class="notes">1.5 นาที · ขั้น 2 คือจุดที่คนใช้ AI เก่งแล้วเจอกันทุกคน เล่าเหตุการณ์จริง 1 ครั้งที่งานกองรอยิ้มอยู่คนเดียว · ผูกขั้น 1 กับ forgetting test ที่คุณนัทเพิ่งทำ: "เมื่อกี้ที่เห็น AI ลืม นั่นคือชีวิตยิ้มทุกวันเมื่อปีที่แล้ว" · ยิ้มอยู่บนเวทีในฐานะคนใช้ ไม่ใช่คนสร้างระบบ ⇒ ห้ามอธิบายเทคนิคที่คุณนัทจะสอน</div>
 </section>
 
 <!-- 2 · what unlocked it · 3D: the five-agent constellation, turning in depth, light passing between agents -->
@@ -259,14 +277,29 @@ body.shownotes .notes{display:block}
     </div>
   </div>
   <p class="foot rv" style="--d:3">สามข้อล่าง จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
-  <div class="notes">1 นาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ · อ่านหัวข้อสี่บรรทัดแล้วเล่าเหตุการณ์จริงแค่ 1 เรื่อง ข้อที่เปลี่ยนงานของยิ้มมากที่สุด แล้วไปต่อ (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
+  <div class="notes">45 วินาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ · อ่านหัวข้อสี่บรรทัดแล้วเล่าเหตุการณ์จริงแค่ 1 เรื่อง ข้อที่เปลี่ยนงานของยิ้มมากที่สุด แล้วไปต่อ (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
 </section>
 
-<!-- 3 · how the fleet works · one labelled architecture diagram; 3D: light travels the arrows,
+<!-- 3 · how the fleet works (restored from 86e2829, round 5) · 3D per row: a house of buds passing signed envelopes /
+     a gate that lets talk in but stops actions / one relay line to the personal agent with task out, callback back -->
+<section class="slide">
+  <div class="frame">
+    <h2 class="rv">ฝูงของยิ้ม <span class="hl">ทำงานกันยังไง</span></h2>
+    <div class="fleet">
+      <div class="frow rv" style="--d:1"><div class="anc"></div><div class="item"><p class="title">ในฝูง <span class="hl">สิบกว่าตัว</span> อยู่บนเครื่องที่เปิดตลอด</p><p class="body">ศูนย์กลางคือ Discord ยิ้มสั่งงานและเห็นงานทุกตัวในที่เดียว</p><p class="body">ความจำร่วมเป็นไฟล์ ไม่มีอะไรหาย</p><p class="body">ตัวที่วางแผน ตัวที่ลงมือ และตัวที่ตรวจ เป็นคนละตัว คนเป็นคนอนุมัติ</p></div></div>
+      <div class="frow rv" style="--d:2"><div class="anc"></div><div class="item"><p class="title">agent ของคนอื่น <span class="hl">คุยได้</span> แต่ลงมือในระบบเราไม่ได้</p><p class="body">คนต้องเป็นคนกดอนุมัติ</p><p class="body">แขกแต่ละคนได้กุญแจของตัวเอง เปิดได้แค่ไม่กี่อย่าง</p></div></div>
+      <div class="frow rv" style="--d:3"><div class="anc"></div><div class="item"><p class="title">ผู้ช่วยส่วนตัว <span class="hl">Grok · Dots · Muse</span> ต่อเข้ากับฝูง</p><p class="body">ไปขอให้ agent ในฝูงทำงานให้ได้เอง</p></div></div>
+    </div>
+  </div>
+  <p class="foot rv" style="--d:3">T3 · Pi (Claude วางแผน, Codex ลงมือและตรวจแยก) · Linear</p>
+  <div class="notes">1.5 นาที · เล่าเป็นภาพ ไม่สอนเทคนิค · แถว 1: ฝูงอยู่บนเครื่องที่เปิดตลอด (box) ทำงานตอนยิ้มหลับ ส่วน Mac ของยิ้มคือห้องคนขับ · Discord คือศูนย์กลาง · พูดว่า "สิบกว่าตัว" ห้ามบอกเลขเป๊ะ · หลักคนละตัว: ชื่อเครื่องมือดู footnote ไม่ต้องอธิบาย · แถว 2: พูดแค่ "agent ของคนอื่น" ห้ามบอกว่าเป็นของใคร ข้อมูลภายในไม่ส่งออก · แถว 3: ผู้ช่วยส่วนตัว 3 ตัว พูดชื่อแล้วผ่าน ไม่ลงรายละเอียดเพดานหรือกติกา (คุณยิ้ม 2026-11-01) · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md</div>
+</section>
+
+<!-- 4 · the fleet's architecture; 3D: light travels the arrows,
      twelve agents circle the always-on machine, talk crosses to other people's agents but actions stop halfway -->
 <section class="slide" data-anchors=".anc-d">
   <div class="frame">
-    <h2 class="rv">ฝูงของยิ้ม <span class="hl">ทำงานกันยังไง</span></h2>
+    <h2 class="rv">สถาปัตยกรรม<span class="hl">ของฝูง</span></h2>
     <svg class="arch rv" style="--d:1" viewBox="0 0 1640 420" role="img"
       aria-label="ยิ้มสั่งงานจาก Mac หรือมือถือ ผ่าน Discord ที่เป็นศูนย์กลาง ไปยังฝูงสิบกว่าตัวบนเครื่องที่เปิดตลอด ซึ่งเก็บความจำร่วมเป็นไฟล์ ผู้ช่วยส่วนตัว Grok Dots Muse ต่อเข้ากับฝูง agent ของคนอื่นคุยได้ผ่าน Discord แต่ลงมือในระบบเราไม่ได้ คนกดอนุมัติ">
       <defs>
@@ -294,18 +327,16 @@ body.shownotes .notes{display:block}
       <!-- edge row: other people's agents (talk only) | personal assistants -->
       <rect class="anc-d d-node" x="0" y="270" width="760" height="150" rx="20" stroke-width="3"/>
       <text class="n-t" x="40" y="334">agent ของคนอื่น</text>
-      <text class="n-s" x="40" y="382">คุยได้ ลงมือในระบบเราไม่ได้ · คนกดอนุมัติ</text>
+      <text class="n-s key" x="40" y="382">คุยได้ ลงมือในระบบเราไม่ได้ · คนกดอนุมัติ</text>
       <rect class="anc-d d-node" x="880" y="270" width="760" height="150" rx="20" stroke-width="3"/>
       <text class="n-t" x="920" y="334">ผู้ช่วยส่วนตัว</text>
       <text class="n-s" x="920" y="382">Grok · Dots · Muse</text>
     </svg>
-    <p class="lead rv" style="--d:2">ตัวที่วางแผน ตัวที่ลงมือ และตัวที่ตรวจ เป็นคนละตัว<br>คนเป็นคนอนุมัติ</p>
   </div>
-  <p class="foot rv" style="--d:3">T3 · Pi (Claude วางแผน, Codex ลงมือและตรวจแยก) · Linear</p>
-  <div class="notes">2 นาที · เล่าเป็นภาพ ไม่สอนเทคนิค · แถว 1: ฝูงอยู่บนเครื่องที่เปิดตลอด (box) ทำงานตอนยิ้มหลับ ส่วน Mac ของยิ้มคือห้องคนขับ · Discord คือศูนย์กลาง · พูดว่า "สิบกว่าตัว" ห้ามบอกเลขเป๊ะ · หลักคนละตัว: ชื่อเครื่องมือดู footnote ไม่ต้องอธิบาย · แถว 2: พูดแค่ "agent ของคนอื่น" ห้ามบอกว่าเป็นของใคร ข้อมูลภายในไม่ส่งออก · แถว 3: ผู้ช่วยส่วนตัว 3 ตัว พูดชื่อแล้วผ่าน ไม่ลงรายละเอียดเพดานหรือกติกา (คุณยิ้ม 2026-11-01) · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md</div>
+  <div class="notes">45 วินาที · ภาพเดียวของทุกอย่างในหน้าที่แล้ว ชี้ตามลูกศรจากซ้ายไปขวา: ยิ้มสั่งจาก Mac หรือมือถือ ผ่าน Discord ไปถึงเครื่องที่เปิดตลอด ฝูงเก็บความจำร่วมเป็นไฟล์ · แถวล่าง: agent ของคนอื่นคุยผ่าน Discord ได้ แต่ลงมือในระบบเราไม่ได้ · ผู้ช่วยส่วนตัวต่อตรงเข้าเครื่อง · ไม่ต้องอ่านทุกกล่อง · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md</div>
 </section>
 
-<!-- 4 · the fleet is run like a company · three parts read as one picture;
+<!-- 5 · the fleet is run like a company · three parts read as one picture;
      3D: decisions climb the ladder and thin out, 211 learned topics float and 17 light up and move onto the shelf,
      work passes through the gate and only checked work comes out lit -->
 <section class="slide" data-anchors=".anc-lv|.anc-rail|.anc-cloud|.anc-slot|.anc-gate|.anc-lane">
@@ -337,7 +368,7 @@ body.shownotes .notes{display:block}
             <rect class="anc-slot d-slot" x="4" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="34" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="64" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="94" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="124" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="154" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="184" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="214" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="244" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="274" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="304" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="334" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="364" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="394" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="424" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="454" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="484" y="8" width="22" height="22" rx="4" stroke-width="3"/>
           </svg>
         </div>
-        <div class="item key"><p class="title">ทะเบียนว่าใครทำอะไรได้<br>และเรียนอะไรมาแล้ว</p><p class="body">เรียนไป 211 เรื่อง<br>ตัดสินใจว่าจะใช้แค่ 17</p><p class="cap">ณ ส.ค. 2026</p></div>
+        <div class="item key"><p class="title">ทะเบียนว่าใครทำอะไรได้<br>และเรียนอะไรมาแล้ว</p><p class="body">เรียนไป <span class="hl">211</span> เรื่อง<br>ตัดสินใจว่าจะใช้แค่ <span class="hl">17</span></p><p class="cap">ณ ส.ค. 2026</p></div>
       </div>
       <div class="rv" style="--d:3">
         <svg class="org-v" viewBox="0 0 520 340" role="img" aria-label="งานทุกชิ้นต้องผ่านด่านก่อนนับว่าเสร็จ">
@@ -349,10 +380,10 @@ body.shownotes .notes{display:block}
       </div>
     </div>
   </div>
-  <div class="notes">1.5 นาที · เปิดด้วย: "ฝูงนี้บริหารเหมือนบริษัท คนที่เคยบริหารทีมจะเห็นภาพทันที" · ซ้าย แบ่งงานตามราคาของการผิด: เรื่องเล็ก Dobby ตัดสินเองแล้วรายงาน · เรื่องกลางคิดด้วยกัน · เรื่องใหญ่หรือย้อนไม่ได้ ยิ้มตัดสิน (เหมือนวงเงินอนุมัติของแต่ละตำแหน่ง) · กลาง ทะเบียน: ตอนนั้น (ส.ค. 2026) ฝูงเรียนไป 211 เรื่อง แต่มีแค่ 17 เรื่องที่จดไว้ว่าตัดสินใจจะเอาไปใช้ เหมือนบริษัทที่ส่งคนไปอบรมแต่ไม่เคยจดว่าใครทำอะไรได้ เลยต้องมีทะเบียน · ขวา กฎสองข้อนี้เกิดจากของพังจริง ข้อละหนึ่งเหตุการณ์: "เสร็จแล้ว ไม่นับ" = 31 ก.ค. AI พิมพ์ว่าแก้แล้ว แต่ไฟล์ไม่เคยเปลี่ยน (ลูกทีมบอกว่าเสร็จ เราก็ยังเปิดดู) · "ทำเป็นด่าน" = กฎที่จดไว้ 8 ส.ค. ถูกค้นพบใหม่ทั้งชุด 6 วันต่อมา (กฎในคู่มือที่ไม่มีใครอ่าน) เลยเปลี่ยนเป็นด่านที่ระบบบังคับเอง · ไม่ต้องเอ่ยชื่อ registry หรือ hook · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-rules-candidates.md</div>
+  <div class="notes">1.25 นาที · เปิดด้วย: "ฝูงนี้บริหารเหมือนบริษัท คนที่เคยบริหารทีมจะเห็นภาพทันที" · ซ้าย แบ่งงานตามราคาของการผิด: เรื่องเล็ก Dobby ตัดสินเองแล้วรายงาน · เรื่องกลางคิดด้วยกัน · เรื่องใหญ่หรือย้อนไม่ได้ ยิ้มตัดสิน (เหมือนวงเงินอนุมัติของแต่ละตำแหน่ง) · กลาง ทะเบียน: ตอนนั้น (ส.ค. 2026) ฝูงเรียนไป 211 เรื่อง แต่มีแค่ 17 เรื่องที่จดไว้ว่าตัดสินใจจะเอาไปใช้ เหมือนบริษัทที่ส่งคนไปอบรมแต่ไม่เคยจดว่าใครทำอะไรได้ เลยต้องมีทะเบียน · ขวา กฎสองข้อนี้เกิดจากของพังจริง ข้อละหนึ่งเหตุการณ์: "เสร็จแล้ว ไม่นับ" = 31 ก.ค. AI พิมพ์ว่าแก้แล้ว แต่ไฟล์ไม่เคยเปลี่ยน (ลูกทีมบอกว่าเสร็จ เราก็ยังเปิดดู) · "ทำเป็นกลไก" = กฎที่จดไว้ 8 ส.ค. ถูกค้นพบใหม่ทั้งชุด 6 วันต่อมา (กฎในคู่มือที่ไม่มีใครอ่าน) เลยเปลี่ยนเป็นกลไกที่ระบบบังคับเอง · ไม่ต้องเอ่ยชื่อ registry หรือ hook · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-rules-candidates.md</div>
 </section>
 
-<!-- 5 · shift ring · 3D: halos orbit the 4 ring nodes, light flows clockwise and drops into ψ/ -->
+<!-- 6 · shift ring · 3D: halos orbit the 4 ring nodes, light flows clockwise and drops into ψ/ -->
 <section class="slide" data-anchors=".anc-n|.anc-c|.anc-ring">
   <div class="frame">
     <div class="ring">
@@ -382,10 +413,10 @@ body.shownotes .notes{display:block}
     </div>
   </div>
   <p class="foot rv" style="--d:2">พิธีทั้งสามเป็นของ Oracle Protocol ของคุณนัท</p>
-  <div class="notes">พูด: "โรงพยาบาลกับโรงงานไม่ได้ใช้คู่มือส่งงานกัน เขาใช้บันทึกส่งกะ" แล้วชี้ประโยคบนจอ · 2 นาที · จุดที่แรงที่สุดของช่วงยิ้ม · ประโยคหลัก: "คนที่เคยบริหารทีมคนมาแล้ว รู้วิธีทำงานกับ AI อยู่แล้ว แค่ยังไม่มีใครบอก" · /recap = อ่านบันทึกกะก่อนแตะงาน · /forward = เขียนสภาพงานลงไฟล์ก่อนความจำหาย · /rrr = retro เก็บบทเรียนเป็นของถาวร · ที่มา: คอร์ส Part 2 หน้า 3 ถึง 5 (hello-oracle ψ/writing/slides/part2-working-with-ai.html) · ⚠️ เช็กกับคุณนัทว่า 6 บทเรียนใช้ /forward ด้วยไหม ถ้าไม่ใช้ เปลี่ยนเป็น "handoff"</div>
+  <div class="notes">พูด: "โรงพยาบาลกับโรงงานไม่ได้ใช้คู่มือส่งงานกัน เขาใช้บันทึกส่งกะ" แล้วชี้ประโยคบนจอ · 1.5 นาที · จุดที่แรงที่สุดของช่วงยิ้ม · ประโยคหลัก: "คนที่เคยบริหารทีมคนมาแล้ว รู้วิธีทำงานกับ AI อยู่แล้ว แค่ยังไม่มีใครบอก" · /recap = อ่านบันทึกกะก่อนแตะงาน · /forward = เขียนสภาพงานลงไฟล์ก่อนความจำหาย · /rrr = retro เก็บบทเรียนเป็นของถาวร · ที่มา: คอร์ส Part 2 หน้า 3 ถึง 5 (hello-oracle ψ/writing/slides/part2-working-with-ai.html) · ⚠️ เช็กกับคุณนัทว่า 6 บทเรียนใช้ /forward ด้วยไหม ถ้าไม่ใช้ เปลี่ยนเป็น "handoff"</div>
 </section>
 
-<!-- 6 · what got made · 3D: exactly 135 motes stacked 9x5x3, 5 gems with users orbiting, 3 rising steps -->
+<!-- 7 · what got made · 3D: exactly 135 motes stacked 9x5x3, 5 gems with users orbiting, 3 rising steps -->
 <section class="slide">
   <div class="frame">
     <h2 class="rv">งานที่เคยอยากทำ <span class="hl">แต่ทำไม่ได้</span></h2>
@@ -396,10 +427,10 @@ body.shownotes .notes{display:block}
     </div>
     <p class="lead rv" style="--d:3">ทั้งหมดมาจากความรู้งานเดิมของยิ้ม ฝูง agent แค่ขยายมันออกไป</p>
   </div>
-  <div class="notes">2 นาที · เลขวัดจาก productize.life วันที่ 1 พ.ย. 2026 (บล็อก 135 ตอน · หน้า Apps มี 5 แอปที่เปิดให้ใช้ · คอร์ส From Prompting to Your Own AI Agent 3 Part) ⚠️ นับใหม่เช้าวันงาน · ฝูง: Fude เขียน · Osaa ทำภาพ · Koe การตลาด · Kensa ตรวจงานตัวอื่น ไม่มีตัวไหนตรวจงานตัวเอง · เวิร์กช็อป 11:00 ก็ทำกับฝูงนี้ · ⛔ ไม่ขาย handbook บนเวที · ⛔ ไม่ยกตัวอย่างงานบัญชี · ไม่เล่าเรื่องครอบครัว Oracle (บทเรียน 05)</div>
+  <div class="notes">1.25 นาที · เลขวัดจาก productize.life วันที่ 1 พ.ย. 2026 (บล็อก 135 ตอน · หน้า Apps มี 5 แอปที่เปิดให้ใช้ · คอร์ส From Prompting to Your Own AI Agent 3 Part) ⚠️ นับใหม่เช้าวันงาน · ฝูง: Fude เขียน · Osaa ทำภาพ · Koe การตลาด · Kensa ตรวจงานตัวอื่น ไม่มีตัวไหนตรวจงานตัวเอง · เวิร์กช็อป 11:00 ก็ทำกับฝูงนี้ · ⛔ ไม่ขาย handbook บนเวที · ⛔ ไม่ยกตัวอย่างงานบัญชี · ไม่เล่าเรื่องครอบครัว Oracle (บทเรียน 05)</div>
 </section>
 
-<!-- 7 · hand-off (amber) · 3D: one node lights many, the light spreads out to the room -->
+<!-- 8 · hand-off (amber) · 3D: one node lights many, the light spreads out to the room -->
 <section class="slide amber">
   <div class="frame">
     <div class="close">
@@ -425,7 +456,7 @@ function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.tr
 function go(n){n=Math.max(0,Math.min(S.length-1,n));if(n===i)return;i=n;
   S.forEach((x,k)=>x.classList.toggle('on',k===i));
   stage.classList.toggle('amber',S[i].classList.contains('amber'));
-  prog.style.width=((i+1)/S.length*100)+'%';
+  prog.style.transform='scaleX('+((i+1)/S.length)+')';
   document.getElementById('count').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1));
   window.__slide=i;dispatchEvent(new CustomEvent('slide',{detail:i}))}
 // still mode: stops the 3D loop and all CSS motion; the 3D shows one static frame per slide
@@ -484,12 +515,14 @@ try {
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(BG.dark.clone(), 28, 64);     // dust fades into the paper, gives depth for free
   const camera = new THREE.PerspectiveCamera(40, 1920 / 1080, 0.1, 200);
-  // the camera path is the story: wide establishing · in to the team · down into the house · square on to the org ·
+  // the camera path is the story: wide establishing · in to the team · down into the house · level with the map ·
+  // square on to the org ·
   // up over the day ·
   // back to see everything made · close on the one node that lights the room
   const POSES = [
     { p: [0, 0, 24],     l: [0, 0, 0] },
     { p: [5, 2.5, 21],   l: [2, 0.5, 0] },
+    { p: [-3.5, -3, 22], l: [-1, -0.4, 0] },
     { p: [-2, -1.5, 22], l: [-0.6, -0.3, 0] },
     { p: [1.5, 0.8, 23], l: [0.6, 0.2, 0] },
     { p: [0, 4.5, 22],   l: [0, 0.6, 0] },
@@ -610,7 +643,55 @@ try {
       if (i < 365) return messenger(nodes, i - 245, i, t, 0.22, 0);
       return dust(i, t);
     },
-    (i, t, A) => {                       // 3: the architecture · light travels the arrows, agents circle the machine
+    (i, t, A) => {                       // 3: the fleet · house of buds | the gate | the personal agent line
+      const a = A[0] || ZERO, b = A[1] || ZERO, c = A[2] || ZERO;
+      // row 1: buds on a ring, signed envelopes hopping between them, some go to Yim in the middle for approval
+      const NB = 12, bud = k => { const g = k / NB * Math.PI * 2 + t * 0.06;
+        return { x: a.x + Math.cos(g) * a.hw * 0.8, y: a.y + Math.sin(g) * a.hh * 0.55, z: Math.sin(g) * a.hh * 0.9 }; };
+      const yim = { x: a.x, y: a.y, z: 0 };
+      if (i < 12) { const n = bud(i); return put(n.x, n.y, n.z, 1.5, 2); }
+      if (i < 108) { const k = i - 12, n = bud(k % NB); const p = sphere(n, 0.3, Math.floor(k / NB), 8, t, 0.7, n.z); return put(...p, 0.42, 2); }
+      if (i < 109) return put(yim.x, yim.y, 0, 2.2, 0);
+      if (i < 125) { const p = sphere(yim, 0.45, i - 109, 16, t, 0.35); return put(...p, 0.55, 0); }
+      if (i < 165) { const k = i - 125, r = R[i], ph = r[0] + t * 0.16, p = Math.floor(ph), u = ease(frac(ph));
+        const dest = q => ((k + q) % 6 === 0) ? -1 : (k * 7 + q * 5 + (k * q) % 3) % NB;
+        let s = dest(p - 1), e = dest(p); if (s === e) e = (e + 1) % NB;
+        const S0 = s < 0 ? yim : bud(s), E0 = e < 0 ? yim : bud(e);
+        return put(...lerp3(S0, E0, u, 0.6), 0.75, 0, 1); }
+      // row 2: our house (left), a gate (middle), another person's agent (right).
+      //        talk passes the gate, actions stop at it, our checked replies go out
+      const L = { x: b.x - b.hw * 0.62, y: b.y, z: 0 }, G = { x: b.x + b.hw * 0.06, y: b.y, z: 0 }, O = { x: b.x + b.hw * 0.72, y: b.y, z: 0 };
+      const gr = Math.min(b.hh * 0.62, 1.2);
+      if (i < 215) { const p = sphere(L, Math.min(b.hh * 0.5, 1.0), i - 165, 50, t, 0.25); return put(...p, 0.7, 2); }
+      if (i < 216) return put(L.x, L.y, 0, 1.8, 0);
+      if (i < 256) { const g = (i - 216) / 40 * Math.PI * 2 + t * 0.15;   // the gate: a ring standing across the path
+        return put(G.x + Math.sin(g) * gr * 0.42, G.y + Math.cos(g) * gr, Math.sin(g) * gr, 0.5, 2); }
+      if (i < 257) return put(O.x, O.y, 0, 2.0, 1);
+      if (i < 271) { const p = sphere(O, 0.5, i - 257, 14, t, -0.4); return put(...p, 0.5, 1); }
+      if (i < 283) { const u = frac(R[i][0] + t * 0.13), y0 = (R[i][1] - 0.5) * 0.5;   // talk: crosses the gate, softly
+        const P = lerp3({ x: O.x, y: O.y + y0 }, { x: L.x + 0.9, y: L.y + y0 * 0.4 }, u, 0.3); return put(...P, 0.45, 2); }
+      if (i < 295) { const v = frac(R[i][0] + t * 0.11), u = Math.min(v / 0.6, 1), y0 = (R[i][1] - 0.5) * gr * 1.2;   // actions: stop at the gate
+        const P = lerp3({ x: O.x - 0.3, y: O.y + y0 * 0.3 }, { x: G.x + 0.28, y: G.y + y0 }, ease(u));
+        return put(...P, v < 0.6 ? 0.62 : 0.62 * (1 - (v - 0.6) / 0.4), 1, 0.8); }
+      if (i < 305) { const u = frac(R[i][0] + t * 0.1), y0 = (R[i][1] - 0.5) * 0.4;   // replies: checked, then out
+        const P = lerp3({ x: L.x + 0.9, y: L.y + y0 }, { x: O.x - 0.5, y: O.y + y0 }, u, -0.2); return put(...P, 0.55, 0, 1); }
+      // row 3: our house (left), the personal agent (right), one relay line with a ledger under it
+      const H = { x: c.x - c.hw * 0.62, y: c.y, z: 0 }, P = { x: c.x + c.hw * 0.66, y: c.y, z: 0 }, lane = 0.26;
+      if (i < 345) { const p = sphere(H, Math.min(c.hh * 0.5, 1.0), i - 305, 40, t, 0.25); return put(...p, 0.7, 2); }
+      if (i < 346) return put(H.x, H.y, 0, 1.8, 0);
+      if (i < 347) return put(P.x, P.y, 0, 2.6, 2);
+      if (i < 365) { const p = sphere(P, 0.62, i - 347, 18, t, -0.5); return put(...p, 0.55, 0); }
+      if (i < 389) { const k = i - 365, u = (k + 0.5) / 24;   // the relay line
+        return put(H.x + 1.1 + (P.x - H.x - 2.0) * u, H.y, 0, 0.28, 1); }
+      if (i < 397) { const k = i - 389, u = frac(t * 0.17 + k * 0.022);   // task out, as one short train
+        return put(...lerp3({ x: H.x + 1.1, y: H.y + lane }, { x: P.x - 0.9, y: P.y + lane }, u), 0.5, 2); }
+      if (i < 405) { const k = i - 397, u = frac(t * 0.17 + 0.5 + k * 0.022);   // callback home, half a beat later
+        return put(...lerp3({ x: P.x - 0.9, y: P.y - lane }, { x: H.x + 1.1, y: H.y - lane }, u), 0.5, 0); }
+      if (i < 415) { const j = i - 405, cnt = Math.floor(frac(t * 0.17) * 11), mx = (H.x + P.x) / 2;   // the ledger: one line per trip
+        return put(mx + (j % 5 - 2) * 0.32, c.y - Math.min(c.hh * 0.6, 1.1) + Math.floor(j / 5) * 0.2, 0, j < cnt ? 0.6 : 0, 1, 1); }
+      return dust(i, t);
+    },
+    (i, t, A) => {                       // 4: the architecture · light travels the arrows, agents circle the machine
       const [y0, dc, fl, mem, oth, per] = [0, 1, 2, 3, 4, 5].map(k => A[k] || ZERO);
       // twelve agents circle the always-on machine, each with a small halo
       const NB = 12, bud = k => { const g = k / NB * Math.PI * 2 + t * 0.08;
@@ -634,7 +715,7 @@ try {
         return put(x, a + (b - a) * ease(u), 0, v < 0.55 ? 0.55 : 0.55 * (1 - (v - 0.55) / 0.45), 1, 0.8); }
       return dust(i, t);
     },
-    (i, t, A) => {                       // 4: run like a company · ladder | registry shelf | gate
+    (i, t, A) => {                       // 5: run like a company · ladder | registry shelf | gate
       const lt = t - tStart;                // seconds since this slide arrived (huge in still / capture: final state)
       const lv = [A[0], A[1], A[2]].map(v => v || ZERO), rail = A[3] || ZERO, cloud = A[4] || ZERO;
       const slot = k => A[5 + k] || ZERO, gate = A[22] || ZERO, lane = A[23] || ZERO;
@@ -662,7 +743,7 @@ try {
         return put(x, lane.y + (r[2] - 0.5) * 0.12, 0, s, c, 1); }
       return dust(i, t);
     },
-    (i, t, A) => {                       // 5: shift ring; nodes clockwise from top, then ψ/, then ring
+    (i, t, A) => {                       // 6: shift ring; nodes clockwise from top, then ψ/, then ring
       const n = [A[0], A[1], A[2], A[3]].map(v => v || ZERO), c = A[4] || ZERO, ring = A[5] || ZERO;
       if (i < 160) { const k = i % 4, m = Math.floor(i / 4), a = m / 40 * Math.PI * 2 + t * 0.3 * (k % 2 ? -1 : 1);
         const rr = n[k].r * 1.14; return put(n[k].x + Math.cos(a) * rr, n[k].y + Math.sin(a) * rr, Math.sin(a * 3 + t) * 0.15, 0.75, k === 1 ? 2 : 0); }
@@ -677,7 +758,7 @@ try {
         return put(sx + (ex - sx) * e, sy + (ey - sy) * e, 0.3, 0.55, 0, 1); }
       return dust(i, t);
     },
-    (i, t, A) => {                       // 6: 135 articles, 5 apps with users, 3 course parts
+    (i, t, A) => {                       // 7: 135 articles, 5 apps with users, 3 course parts
       const b0 = A[0] || ZERO, b1 = A[1] || ZERO, b2 = A[2] || ZERO;
       if (i < 135) { const x = i % 9, y = Math.floor(i / 9) % 5, z = Math.floor(i / 45), sp = 0.4;   // 9 x 5 x 3, seen in depth
         const lx = (x - 4) * sp, ly = (y - 2) * sp, lz = (z - 1) * sp, a = 0.55 + Math.sin(t * 0.15) * 0.3, ca = Math.cos(a), sa = Math.sin(a), tx = 0.38;
@@ -693,7 +774,7 @@ try {
         return put(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr * 0.35, Math.sin(a) * rr, 0.4, 2); }
       return dust(i, t);
     },
-    (i, t, A) => {                       // 7: one node lights many
+    (i, t, A) => {                       // 8: one node lights many
       const a = A[0] || ZERO, rad = Math.min(a.hw, a.hh) * 0.82;
       const sat = k => { const y = 1 - 2 * (k + 0.5) / 14, rr = Math.sqrt(1 - y * y), th = k * 2.39996 + t * 0.15;
         return { x: a.x + Math.cos(th) * rr * rad, y: a.y + y * rad, z: Math.sin(th) * rr * rad }; };

@@ -1,0 +1,11 @@
+[
+  {
+    "antipattern": "layout-transition",
+    "name": "Layout property animation",
+    "description": "Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.",
+    "severity": "warning",
+    "file": "/Users/yim/Code/aiexpo-oracle/ψ/writing/slides/yim-3d/deck.html",
+    "line": 233,
+    "snippet": "transition: width"
+  }
+]
