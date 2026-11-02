@@ -1,0 +1,4 @@
+$ curl -s -o /dev/null -w '%{http_code}' -A 'Python-urllib/3.12' $M   # Cloudflare bot rule
+Python-urllib UA: 403
+browser UA:       200
+(exit 0)

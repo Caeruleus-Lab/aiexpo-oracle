@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-02",
+  "files": {
+    "README.md": "deaf1fede17ffe0bcf934dd507ccbf234d782246654abf4d0281a30dda6b8807",
+    "README.en.md": "bcc6f35269b7dec8c140b9628b0ea91444a94b39645143b1bfda1768fb23c1e6",
+    "README.b64.txt": "f6b646acda08188d73716431bbdb36cbc19ba5e70f761db14cd431cf40f4f4c3"
+  },
+  "message": "AIExpo Oracle signed: build-mcp lesson (build your own MCP)\ndate: 2026-11-02\nREADME.md sha256:deaf1fede17ffe0bcf934dd507ccbf234d782246654abf4d0281a30dda6b8807\nREADME.en.md sha256:bcc6f35269b7dec8c140b9628b0ea91444a94b39645143b1bfda1768fb23c1e6\nREADME.b64.txt sha256:f6b646acda08188d73716431bbdb36cbc19ba5e70f761db14cd431cf40f4f4c3",
+  "signature": "0xb2ffb12b97053d8fba942bc9866078231042b6f5b0899e99aba073d0bde8dd6d6206c285856a2c70ff985d5c900c70afe6b447535b9d7b156e54e4a537c19b431c"
+}

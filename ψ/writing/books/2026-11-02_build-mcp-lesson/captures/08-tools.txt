@@ -1,0 +1,6 @@
+$ curl ... -d '{tools/list}' | jq -r '.result.tools[] | .name + ": " + .description[0:70]'
+search: Search the AIExpo Oracle workshop lessons (Thai and English): installi
+fetch: Read the full text of a search result. id '<lesson>/<lang>/<section>' 
+get_image: Return screenshots as images the model can see. id is an image id from
+list_lessons: List every lesson in workshop order, with page URLs, language editions
+(exit 0)

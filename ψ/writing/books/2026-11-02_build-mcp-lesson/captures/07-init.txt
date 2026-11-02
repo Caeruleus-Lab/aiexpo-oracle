@@ -1,0 +1,15 @@
+$ curl -s -X POST $M -H 'content-type: application/json' -d '{initialize}' | jq '.result | {protocolVersion, serverInfo}'
+{
+  "protocolVersion": "2025-06-18",
+  "serverInfo": {
+    "name": "aiexpo-lessons",
+    "title": "AIExpo Oracle lessons",
+    "version": "2026.10.30-3"
+  },
+  "capabilities": {
+    "tools": {
+      "listChanged": false
+    }
+  }
+}
+(exit 0)

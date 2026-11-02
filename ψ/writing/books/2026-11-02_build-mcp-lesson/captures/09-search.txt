@@ -1,0 +1,5 @@
+$ curl ... -d '{tools/call search {query: "ห้องเดียว หลาย agent", lang: th}}' | jq -r '.result.content[0].text | fromjson | .results[] | .id + "  " + .title' | head -3
+herdr-room/th/1  ห้องเดียว หลาย agent: herdr-room in / out · 1. ห้อง (room) คืออะไร
+herdr-room/th/8  ห้องเดียว หลาย agent: herdr-room in / out · 8. กับดัก: ร่างใหม่เกิดขณะร่างเก่ายังอยู่ในห้อง
+herdr-room/th/9  ห้องเดียว หลาย agent: herdr-room in / out · 9. กฎที่ทีมได้มาจากการใช้จริง
+(exit 0)

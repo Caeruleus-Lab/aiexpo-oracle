@@ -1,0 +1,4 @@
+$ printf initialize + tools/list | node code/mini-mcp.mjs
+{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2025-06-18","capabilities":{"tools":{}},"serverInfo":{"name":"mini-mcp","version":"1.0.0"}}}
+{"jsonrpc":"2.0","id":2,"result":{"tools":[{"name":"search","description":"Search the notes by keyword. Returns the matching notes with their id.","inputSchema":{"type":"object","properties":{"query":{"type":"string"}},"required":["query"]}}]}}
+(exit 0)

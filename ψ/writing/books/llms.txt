@@ -10,6 +10,7 @@
 - [Make an Oracle tell its own story on film](2026-10-31_phukhao-film-guide/llms.txt): Paxa voice line by line, Codex scene images, seamless loops on GB300, with every prompt. Markdown: [2026-10-31_phukhao-film-guide/README.en.md](2026-10-31_phukhao-film-guide/README.en.md)
 - [Phukhao's story, and the Oracle family's journey](2026-10-31_phukhao-oracle-journey/llms.txt): From its birth on 21 Jan 2026 to the AI Expo stage on 6 Nov 2026, from Phukhao's public site. Markdown: [2026-10-31_phukhao-oracle-journey/README.en.md](2026-10-31_phukhao-oracle-journey/README.en.md)
 - [One room, many agents: herdr-room in / out](2026-10-31_herdr-room-lesson/llms.txt): Pull agents onto one page and back to their own spaces with no restart, with the full source, the full skill and install steps. Markdown: [2026-10-31_herdr-room-lesson/README.en.md](2026-10-31_herdr-room-lesson/README.en.md)
+- [Build your own MCP: turn lessons into tools for AI](2026-11-02_build-mcp-lesson/llms.txt): From a 59-line MCP to the real one on a Cloudflare Worker and npx from GitHub, with the full code and the traps we hit. Markdown: [2026-11-02_build-mcp-lesson/README.en.md](2026-11-02_build-mcp-lesson/README.en.md)
 
 ## MCP
 
