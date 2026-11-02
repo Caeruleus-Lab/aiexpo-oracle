@@ -1,4 +1,7 @@
 // aiexpo-lessons: the static lessons plus a read-only MCP endpoint at /mcp.
+// Plus a tiny read-only GET API for any AI that can open a URL but cannot add MCP (free ChatGPT, Gemini, a phone):
+//   /api/search?q=...&lang=th|en&lesson=...&k=5   top sections, the same hybrid search as the MCP search tool
+//   /api/fetch?id=<section or lesson id>           the text, its source and its image URLs
 //
 // Remote MCP over Streamable HTTP, stateless, no auth (every lesson is already public).
 // Tools: search + fetch (the exact names and shapes ChatGPT connectors and deep research require), and list_lessons.
@@ -13,7 +16,7 @@
 // image as a markdown link to its https URL, for chat UIs that render markdown.
 
 const SITE = "https://aiexpo.buildwithoracle.com";
-const SERVER = { name: "aiexpo-lessons", title: "AIExpo Oracle lessons", version: "2026.10.30-3" };
+const SERVER = { name: "aiexpo-lessons", title: "AIExpo Oracle lessons", version: "2026.11.02-1" };
 const PROTOCOLS = ["2025-06-18", "2025-03-26", "2024-11-05"];
 const LANG_FILE = { en: "README.en.md", th: "README.md" };
 const LANG_PAGE = { en: "en", th: "th" };
@@ -111,10 +114,52 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/mcp" || url.pathname === "/mcp/") return mcp(request, env);
+    if (url.pathname === "/api" || url.pathname.startsWith("/api/")) return api(request, url, env);
     if (url.pathname.endsWith(".mp4")) return video(request, env);
     return env.ASSETS.fetch(request);
   },
 };
+
+// GET only, CORS *, JSON. Same data and ranking as the MCP tools, without JSON-RPC.
+async function api(request, url, env) {
+  if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
+  if (request.method !== "GET" && request.method !== "HEAD") return json({ error: "GET only" }, 405);
+  const p = url.searchParams;
+  const { lessons, chunks, model } = await load(env);
+  if (url.pathname === "/api/search") {
+    const q = String(p.get("q") || "").trim();
+    if (!q) return json({ error: "add ?q=your question", example: `${SITE}/api/search?q=${encodeURIComponent("ติดตั้ง Claude Code")}&lang=th&k=5` }, 400);
+    const k = Math.min(10, Math.max(1, Number(p.get("k")) || 5));
+    const lang = p.get("lang"), lesson = p.get("lesson");
+    const pool = chunks.filter((c) => (!lang || c.lang === lang) && (!lesson || c.lesson === lesson));
+    const { ranked, mode } = await rank(pool, q, env, model);
+    return json({
+      query: q, mode,
+      results: ranked.slice(0, k).map(({ c, score }) => ({
+        id: c.id, title: c.label, url: c.url, score: +score.toFixed(3),
+        snippet: c.text.replace(/\s+/g, " ").slice(0, 280),
+        fetch: `${SITE}/api/fetch?id=${encodeURIComponent(c.id)}`,
+      })),
+    });
+  }
+  if (url.pathname === "/api/fetch") {
+    const id = String(p.get("id") || "");
+    const doc = await find(lessons, chunks, id, env);
+    if (!doc) return json({ error: `No lesson or section with id '${id}'. Use /api/search or ${SITE}/lessons.json for valid ids.` }, 404);
+    const c = chunks.find((x) => x.id === doc.id);
+    doc.images = (c ? c.images : []).map((r) => ({ id: r.key, alt: r.alt, url: imageUrl(lessons, r.key) }));
+    return json(doc);
+  }
+  return json({
+    api: "AIExpo Oracle lessons, read-only GET",
+    endpoints: {
+      search: `${SITE}/api/search?q=<question>&lang=th|en&lesson=<id>&k=5`,
+      fetch: `${SITE}/api/fetch?id=<id from search, e.g. claude-chatgpt/th/3, or a whole lesson: claude-chatgpt/th>`,
+    },
+    lessons: lessons.map((l) => ({ id: l.key, th: l.th, en: l.en, page: `${SITE}/${l.dir}/` })),
+    mcp: `${SITE}/mcp`,
+  });
+}
 
 async function mcp(request, env) {
   if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });

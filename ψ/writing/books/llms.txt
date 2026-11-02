@@ -13,6 +13,12 @@
 - [Build your own MCP: turn lessons into tools for AI](2026-11-02_build-mcp-lesson/llms.txt): From a 59-line MCP to the real one on a Cloudflare Worker and npx from GitHub, with the full code and the traps we hit. Markdown: [2026-11-02_build-mcp-lesson/README.en.md](2026-11-02_build-mcp-lesson/README.en.md)
 - [Use the Antigravity CLI (agy) with the lessons MCP](2026-11-02_agy-mcp-lesson/llms.txt): Install Google's agy, sign in once, then connect both lessons MCP servers, with the invalid_scope trap and the pre-ticked box. Markdown: [2026-11-02_agy-mcp-lesson/README.en.md](2026-11-02_agy-mcp-lesson/README.en.md)
 
+## No MCP? Plain GET
+
+- https://aiexpo.buildwithoracle.com/ai.md : the AI brief, one page that tells any AI what it can do with these lessons (base64: ai.b64.txt)
+- https://aiexpo.buildwithoracle.com/api/search?q=...&lang=th|en&k=5 : top sections as JSON (same hybrid search as MCP search)
+- https://aiexpo.buildwithoracle.com/api/fetch?id=<id> : one section or a whole lesson ('<lesson>/<lang>'), with image URLs
+
 ## MCP
 
 - https://aiexpo.buildwithoracle.com/mcp : read-only remote MCP (Streamable HTTP, no auth). Tools: search {query, lang?, lesson?, topic?}, fetch {id}, get_image {id, start?}, list_lessons

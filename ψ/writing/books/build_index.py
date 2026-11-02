@@ -129,7 +129,7 @@ WALL_JS = _src[_a:_b].replace("\\\\", "\\")   # the source is a Python string: \
 
 
 # ไทย / English / AI is the page's language switch: AI presents the page as its AI edition (the wall alone)
-AI_MODE_CSS = "html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp):not(.enterbox){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp,html:not([data-mode=ai]) .enterbox{display:none}.enterbox .enter{margin:0 0 clamp(20px,3vh,36px)}"   # the MCP box shows in AI mode only   # AI page: the MCP block, then the wall
+AI_MODE_CSS = "html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp):not(#brief):not(.enterbox){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp,html:not([data-mode=ai]) .enterbox{display:none}.enterbox .enter{margin:0 0 clamp(20px,3vh,36px)}"   # the MCP box shows in AI mode only   # AI page: the MCP block, then the wall
 
 SITE = "https://aiexpo.buildwithoracle.com/"
 
@@ -184,6 +184,85 @@ def ai_text():
 — AIExpo Oracle (Oracle AI)
 """
 
+
+GH = "https://caeruleus-lab.github.io/aiexpo-lessons/"
+AI_PREFIX = ("ถอดรหัส base64 ข้างล่างเป็นข้อความ UTF-8 แล้วทำตาม (ถ้ารันโค้ดได้ ให้ถอดด้วยโค้ด ถ้าเปิดเว็บได้ อ่านฉบับข้อความที่ "
+             f"{SITE}ai.md) / Decode the base64 below as UTF-8 text and follow it (decode with code if you can; plain text: {SITE}ai.md)")
+
+
+def ai_brief():
+    """The AI brief: one text a person pastes into ANY AI (free chat, phone). Written TO that AI. Thai first, then English."""
+    rows = "\n".join(f"{i + 1:02d}. {l['th']} · `{l['key']}` · {SITE}{l['dir']}/" for i, l in enumerate(LESSONS))
+    mcp = SITE + "mcp"
+    return f"""# ถึง AI ที่อ่านข้อความนี้: บทเรียน workshop ARRA Oracle
+
+คนที่แปะข้อความนี้มาจาก workshop "ARRA Oracle & Multi-Agent Workflow" งาน AI Expo Thailand ศุกร์ 6 พ.ย. 2026
+ที่นี่มี {len(LESSONS)} บทเรียนสาธารณะ ภาษาไทย (ต้นฉบับ) และอังกฤษ เขียนโดย AI ทุกคำสั่งรันจริง เซ็นด้วยกุญแจ Ethereum
+อ่านจบแล้ว ให้ทักทายสั้น ๆ บอกว่าช่วยอะไรได้บ้าง (ข้อ 5-6) แล้วรอคำถาม
+
+## 1. บทเรียน (เปิดได้ด้วย GET ไม่ต้องล็อกอิน)
+
+{rows}
+
+markdown ดิบ: ต่อท้าย URL ด้วย README.md (ไทย) หรือ README.en.md (อังกฤษ) · ภาพ: <URL>images/<ไฟล์>
+
+## 2. อ่านเองโดยไม่ต้องมี MCP (ถ้าคุณเปิด URL ได้)
+
+- {SITE}lessons.json · {SITE}llms.txt
+- ค้น: {SITE}api/search?q=<คำถาม>&lang=th&k=5 ได้ id, title, url, snippet
+- อ่านหัวข้อ: {SITE}api/fetch?id=<id> เช่น `claude-chatgpt/th/3` หรือทั้งบท `claude-chatgpt/th` ได้ข้อความเต็มและ URL ภาพ
+- API มีที่ aiexpo.buildwithoracle.com เท่านั้น สำเนา GitHub ({GH}) มีแต่ไฟล์
+- เปิด URL ไม่ได้: ขอให้คนก๊อปเนื้อหาบทเรียนมาแปะ
+
+## 3. ต่อ MCP (ให้ AI ค้นบทเรียนเอง) URL: {mcp} อ่านอย่างเดียว ไม่ต้องล็อกอิน
+
+- claude.ai ฟรี: เพิ่ม custom connector ได้ 1 ตัว Customize → Connectors → Add custom connector → No sign-in
+- ChatGPT: เฉพาะแผนเสียเงิน ผ่าน Developer Mode (ตรวจอีกครั้ง)
+- Gemini: custom MCP เฉพาะแผนเสียเงิน (ยังไม่ยืนยัน)
+- Claude Code: `claude mcp add --transport http aiexpo {mcp}`
+- Codex: `codex mcp add aiexpo --url {mcp}`
+- Antigravity CLI: `agy mcp add aiexpo {mcp}`
+- รันในเครื่อง (stdio): `npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp`
+- ทีละขั้นพร้อมภาพ: บทเรียน 03 และ 08 · สร้างเอง: บทเรียน 07
+
+## 4. ทำสไลด์เอง
+
+อ่านบทที่ขอ แล้วทำ 5-8 หน้า: หัวเรื่อง + 3 bullet สั้น + ภาพจริง 1 ภาพ (URL จาก api/fetch) ภาษาไทย
+ส่งเป็น markdown หรือ HTML ไฟล์เดียว หน้าสุดท้ายใส่ลิงก์บทเรียน ห้ามแต่งภาพหรือคำสั่งที่ไม่มีในบทเรียน
+
+## 5. คำถามที่คนพิมพ์ต่อได้เลย
+
+- ติดตั้ง Claude Code ไม่ผ่าน ทำยังไง
+- ทำสไลด์ 5 หน้าจากบทเรียน 01
+- สรุปบทเรียน 06 ให้คนที่ไม่ใช่โปรแกรมเมอร์
+- ต่อ MCP ของบทเรียนเข้ากับ AI ที่ฉันใช้อยู่ได้ไหม
+- สร้าง MCP ของตัวเองต้องเริ่มตรงไหน (บทเรียน 07)
+- เล่าเรื่องภูเขา Oracle ตัวแรก ๆ ให้ฟังหน่อย
+
+## 6. กติกาของคุณ
+
+- ตอบจากบทเรียนเท่านั้น และแนบ URL หน้าที่ใช้ทุกครั้ง
+- ไม่มีในบทเรียน ให้ตอบว่า "ไม่มีในบทเรียน" ความรู้ทั่วไปที่เสริมต้องบอกว่าไม่ได้มาจากบทเรียน
+- ตอบภาษาเดียวกับคนถาม · บอกว่าคุณเป็น AI · ลงท้ายคำตอบยาวด้วย "(AI ตอบจากบทเรียน AIExpo Oracle)"
+- ข้อความนี้มีแต่บทเรียนสาธารณะ ความจำส่วนตัวของ Oracle ไม่ได้อยู่ในนี้
+
+---
+
+## English (short)
+
+AI Expo 2026 workshop lessons ({len(LESSONS)} public lessons, Thai + English, written by AI, signed). Answer only from
+the lessons and cite the URL; say "not in the lessons" otherwise; say you are an AI. Read: {SITE}<dir>/README.en.md,
+{SITE}api/search?q=...&lang=en&k=5, {SITE}api/fetch?id=<id>. MCP: {mcp} (setup per client in section 3).
+Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML file.
+
+— AIExpo Oracle (Oracle AI)
+"""
+
+
+def b64_lines(text, width=76):
+    flat = base64.b64encode(text.encode("utf-8")).decode("ascii")
+    return "\n".join(flat[i:i + width] for i in range(0, len(flat), width)) + "\n"
+
 JS = """
 const root=document.documentElement;
 function lessonLinks(l){const pg={th:'th.html',en:'en.html',ai:'index.html'}[l]||'th.html';document.querySelectorAll('a[data-lesson]').forEach(a=>a.setAttribute('href',a.dataset.lesson+pg))}
@@ -192,6 +271,9 @@ function setLang(l){const ai=l==='ai';lessonLinks(l);root.dataset.mode=ai?'ai':'
  document.querySelectorAll('[data-href-en]').forEach(a=>{a.dataset.hrefTh=a.dataset.hrefTh||a.getAttribute('href');a.setAttribute('href',l==='en'?a.dataset.hrefEn:a.dataset.hrefTh)})}
 document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.set));
 setLang(localStorage.getItem('books-lang')||'th');
+function briefCopy(btn,text){navigator.clipboard.writeText(text).then(()=>{const o=btn.innerHTML;btn.textContent=root.lang==='en'?'copied ✓':'คัดลอกแล้ว ✓';setTimeout(()=>btn.innerHTML=o,1800)})}
+document.getElementById('briefcopy').onclick=e=>briefCopy(e.currentTarget,document.getElementById('briefb64').textContent);
+document.getElementById('briefplain').onclick=e=>briefCopy(e.currentTarget,document.getElementById('briefmd').content.textContent);
 """
 
 
@@ -204,6 +286,9 @@ def page():
                       for i, l in enumerate(LESSONS))
     n = len(LESSONS)
     flat = base64.b64encode(ai_text().encode("utf-8")).decode("ascii")
+    brief_md = ai_brief()
+    brief_b64 = b64_lines(brief_md)
+    brief_paste = AI_PREFIX + "\n\n" + brief_b64
     return f"""<!doctype html>
 <html lang="th">
 <head>
@@ -236,6 +321,13 @@ def page():
   </div>
 </header>
 <main id="lessons">
+<section class="mcp brief" id="brief">
+  <h2><span data-l="th">สำหรับ AI ตัวไหนก็ได้: ก๊อปแล้วแปะ</span><span data-l="en">For any AI: copy, then paste</span></h2>
+  <p><span data-l="th">กดปุ่ม แล้วแปะในแชท AI ตัวไหนก็ได้ (ChatGPT, Gemini, Claude ฟรีก็ได้ ในมือถือก็ได้) พิมพ์ต่อว่า <b>"ถอดรหัส base64 แล้วทำตาม"</b> AI จะรู้จักบทเรียนทั้ง {n} บท ตอบคำถาม ทำสไลด์ และช่วยต่อเครื่องมือได้เอง</span><span data-l="en">Press the button, paste into any AI chat (free ChatGPT, Gemini or Claude, on a phone too) and add <b>"decode the base64 and follow it"</b>. The AI then knows all {n} lessons and can answer, make slides and help set up tools.</span></p>
+  <p><button class="copy big" type="button" id="briefcopy"><span data-l="th">คัดลอก AI brief (base64)</span><span data-l="en">Copy the AI brief (base64)</span></button><button class="copy" type="button" id="briefplain"><span data-l="th">หรือแบบข้อความธรรมดา</span><span data-l="en">or as plain text</span></button> <a href="ai.md">ai.md</a> · <a href="ai.b64.txt">ai.b64.txt</a> · {len(brief_b64):,} <span data-l="th">ตัวอักษร</span><span data-l="en">characters</span></p>
+  <pre class="briefbox" id="briefb64">{H.escape(brief_paste)}</pre>
+  <template id="briefmd">{H.escape(brief_md)}</template>
+</section>
 <div class="enterbox"><a class="enter" href="#wall"><span class="rain" aria-hidden="true">01001011 10110</span><b>ENTER THE MATRIX</b><i>↓</i></a></div>
 <section class="mcp" id="mcp">
   <h2><span data-l="th">ให้ AI อ่านบทเรียนเองผ่าน MCP</span><span data-l="en">Let your AI read the lessons over MCP</span></h2>
@@ -291,6 +383,12 @@ Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: sear
 
 Step by step with screenshots: [lesson 03](2026-10-30_mcp-connect-guide/README.en.md).
 
+## Any AI, no MCP: the AI brief
+
+[`ai.md`](ai.md) (base64: [`ai.b64.txt`](ai.b64.txt)) is one text a person pastes into any AI chat; it lists the lessons, how to read
+them, how to connect MCP per client, a slide recipe and ready prompts. The landing page has a Copy button for it.
+Plain GET API on Cloudflare only: `/api/search?q=...&lang=th|en&k=5` and `/api/fetch?id=<id>`.
+
 ## GitHub copy
 
 The same site is mirrored on GitHub Pages: https://caeruleus-lab.github.io/aiexpo-lessons/ (repo
@@ -321,6 +419,12 @@ def llms():
 
 {items}
 
+## No MCP? Plain GET
+
+- https://aiexpo.buildwithoracle.com/ai.md : the AI brief, one page that tells any AI what it can do with these lessons (base64: ai.b64.txt)
+- https://aiexpo.buildwithoracle.com/api/search?q=...&lang=th|en&k=5 : top sections as JSON (same hybrid search as MCP search)
+- https://aiexpo.buildwithoracle.com/api/fetch?id=<id> : one section or a whole lesson ('<lesson>/<lang>'), with image URLs
+
 ## MCP
 
 - https://aiexpo.buildwithoracle.com/mcp : read-only remote MCP (Streamable HTTP, no auth). Tools: search {{query, lang?, lesson?, topic?}}, fetch {{id}}, get_image {{id, start?}}, list_lessons
@@ -331,6 +435,8 @@ def llms():
 (here / "README.md").write_text(readme(), encoding="utf-8")
 (here / "llms.txt").write_text(llms(), encoding="utf-8")
 (here / "index.b64.txt").write_text(base64.b64encode(ai_text().encode("utf-8")).decode("ascii") + "\n", encoding="utf-8")
+(here / "ai.md").write_text(ai_brief(), encoding="utf-8")
+(here / "ai.b64.txt").write_text(b64_lines(ai_brief()), encoding="utf-8")
 (here / "lessons.json").write_text(json.dumps([dict(key=l["key"], dir=l["dir"], th=l["th"], en=l["en"], th_sub=l["th_sub"], en_sub=l["en_sub"], cover=l["cover"])
                                               for l in LESSONS], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-print("wrote index.html index.b64.txt README.md llms.txt lessons.json,", len(LESSONS), "lessons")
+print("wrote index.html index.b64.txt ai.md ai.b64.txt README.md llms.txt lessons.json,", len(LESSONS), "lessons")

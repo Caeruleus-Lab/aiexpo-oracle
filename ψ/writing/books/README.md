@@ -26,6 +26,12 @@ Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: sear
 
 Step by step with screenshots: [lesson 03](2026-10-30_mcp-connect-guide/README.en.md).
 
+## Any AI, no MCP: the AI brief
+
+[`ai.md`](ai.md) (base64: [`ai.b64.txt`](ai.b64.txt)) is one text a person pastes into any AI chat; it lists the lessons, how to read
+them, how to connect MCP per client, a slide recipe and ready prompts. The landing page has a Copy button for it.
+Plain GET API on Cloudflare only: `/api/search?q=...&lang=th|en&k=5` and `/api/fetch?id=<id>`.
+
 ## GitHub copy
 
 The same site is mirrored on GitHub Pages: https://caeruleus-lab.github.io/aiexpo-lessons/ (repo
