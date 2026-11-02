@@ -13,7 +13,7 @@ TITLE = {"th": "ดูวิดีโอ", "en": "Watch", "b64": "Watch"}
 
 
 def watch_section(lang, videos):
-    """videos: dicts with src, poster, caption {th, en}, optional tall=True and alt=(href, {th, en}) for a second cut."""
+    """videos: dicts with src, poster, caption {th, en}, optional tall=True and alt=(href, {th, en}), or a list of them, for other cuts."""
     t = "th" if lang == "th" else "en"
     out = [f'<h2 id="watch-h">{TITLE[lang]}</h2>']
     for v in videos:
@@ -21,6 +21,7 @@ def watch_section(lang, videos):
         out.append(f'<figure class="{"tall" if v.get("tall") else ""}"><video controls preload="metadata" playsinline '
                    f'poster="{v["poster"]}" src="{v["src"]}" aria-label="{cap}"></video><figcaption>{cap}</figcaption></figure>')
         if v.get("alt"):
-            href, label = v["alt"]
-            out.append(f'<p class="alt"><a href="{href}">{H.escape(label[t])}</a></p>')
+            alts = v["alt"] if isinstance(v["alt"], list) else [v["alt"]]
+            links = " · ".join(f'<a href="{href}">{H.escape(label[t])}</a>' for href, label in alts)
+            out.append(f'<p class="alt">{links}</p>')
     return f'<div class="watch">{"".join(out)}</div>'
