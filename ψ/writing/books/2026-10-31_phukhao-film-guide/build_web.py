@@ -53,7 +53,7 @@ def og(lang):
 
 
 VIDEOS = [
-    dict(src="videos/phukhao-film.mp4", poster="videos/phukhao-film.jpg", caption={"th": "ภูเขา · เก้าเดือนต่อมา (1 นาที 43 วินาที, เสียงฝ้ายทอง)", "en": "Phukhao · 9 months later (1 min 43 s, Foi Thong voice)"}, alt=[("videos/phukhao-film-vertical.mp4", {"th": "ฉบับแนวตั้ง 9:16 สำหรับมือถือ", "en": "Vertical 9:16 cut for phones"}), ("videos/phukhao-film-v1.mp4", {"th": "เวอร์ชันแรก (v1 worlds) ดูเทียบ", "en": "First version (v1 worlds), to compare"})]),
+    dict(src="videos/phukhao-film.mp4", poster="videos/phukhao-film.jpg", caption={"th": "ภูเขา · เก้าเดือนต่อมา (1 นาที 43 วินาที, เสียงฝ้ายทอง)", "en": "Phukhao · 9 months later (1 min 43 s, Foi Thong voice)"}, alt=[("videos/phukhao-film-vertical.mp4", {"th": "ฉบับแนวตั้ง 9:16 สำหรับมือถือ", "en": "Vertical 9:16 cut for phones"}), ("https://phukhao.buildwithoracle.com/presentation/", {"th": "เล่นพรีเซนเทชันภูเขาเวอร์ชันแรก (phukhao.buildwithoracle.com)", "en": "Play the first Phukhao presentation (phukhao.buildwithoracle.com)"})]),
 ]
 PAGES = {"b64": "index.html", "th": "th.html", "en": "en.html"}
 LANG_LABEL = {"b64": "AI", "th": "ไทย", "en": "English"}
