@@ -1,0 +1,8 @@
+$ agy --sandbox --dangerously-skip-permissions --print-timeout 240s -p "Use ONLY the MCP server aiexpo-github ... list_lessons, then search"
+- **Lesson count**: 7
+- **Title of lesson 7**:
+  - **English**: Build your own MCP: turn lessons into tools for AI
+  - **Thai**: สร้าง MCP ของตัวเอง: จากบทเรียนเป็นเครื่องมือให้ AI
+- **Top hit ID**: `build-mcp/en/3`
+- **MCP tool names called** (on server `aiexpo-github`): `list_lessons`, `search`
+(exit 0)

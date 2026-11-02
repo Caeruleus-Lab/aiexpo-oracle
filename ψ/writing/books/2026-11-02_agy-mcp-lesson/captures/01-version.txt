@@ -1,0 +1,3 @@
+$ agy --version
+1.4.12
+(exit 0)

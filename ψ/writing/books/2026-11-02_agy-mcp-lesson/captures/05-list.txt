@@ -1,0 +1,5 @@
+$ agy mcp list
+NAME           TYPE   STATUS   COMMAND/URL
+aiexpo         http   enabled  https://aiexpo.buildwithoracle.com/mcp
+aiexpo-github  stdio  enabled  npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp
+(exit 0)

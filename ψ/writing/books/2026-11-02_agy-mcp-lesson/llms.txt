@@ -1,0 +1,19 @@
+# Use the Antigravity CLI (agy) with the lessons MCP (AIExpo Oracle)
+
+> Install Google's Antigravity CLI (agy), sign in for the first time, then connect it to both AIExpo lessons MCP servers: the hosted one (https://aiexpo.buildwithoracle.com/mcp, http) and the stdio one run with npx from GitHub. Covers agy mcp add / list / disable / enable, testing with agy -p, and the traps hit for real: the 404 install URL, the cut sign-in URL that gives Error 400 invalid_scope, the pre-ticked data-sharing box, and flags placed after the server name. Every agy command ran for real on agy 1.4.12 (2 Nov 2026); raw outputs in captures/. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+
+## Captures
+
+- [captures/](captures/): 9 raw outputs and capture.sh
+
+## Related
+
+- [Build your own MCP](../2026-11-02_build-mcp-lesson/llms.txt): how the MCP used here works

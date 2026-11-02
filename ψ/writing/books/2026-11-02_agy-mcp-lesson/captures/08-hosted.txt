@@ -1,0 +1,11 @@
+$ agy --sandbox --dangerously-skip-permissions --print-timeout 240s -p "Use ONLY the MCP server aiexpo ... how do I build my own MCP server?"
+- **Implement the JSON-RPC 2.0 handlers**: Create a script (starting from the 59-line dependency-free `mini-mcp.mjs`) that handles `initialize`, `tools/list` (declaring your tool names and JSON Schemas in `TOOLS`), and `tools/call` (running your tool logic and returning `{ content: [{ type: "text", text }] }`), while ignoring notifications without an `id`.
+- **Add your data and choose a transport**: Swap `NOTES` for your own data (or pre-chunked/embedded data like `chunks.json`), and expose the handler either via **stdio** (reading one JSON line per `stdin` and writing responses strictly to `stdout`) or **Streamable HTTP** (accepting `POST` requests at `/mcp`, e.g., on a Cloudflare Worker).
+- **Test and register with your client**: Verify responses using `stdio` pipes or `curl`, then connect the server to your AI client (e.g., `claude mcp add mini -- node /path/to/mini-mcp.mjs` for local stdio, or adding the `/mcp` URL as a custom connector in claude.ai and ChatGPT).
+
+**Lesson URL:** https://aiexpo.buildwithoracle.com/2026-11-02_build-mcp-lesson/en
+
+**MCP tools called:**
+- `aiexpo` → `search`
+- `aiexpo` → `fetch`
+(exit 0)

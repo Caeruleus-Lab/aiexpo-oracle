@@ -1,0 +1,4 @@
+$ agy mcp add aiexpo https://aiexpo.buildwithoracle.com/mcp; agy mcp add aiexpo-github npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp
+Added MCP server "aiexpo" (http)
+Added MCP server "aiexpo-github" (stdio)
+(exit 0)

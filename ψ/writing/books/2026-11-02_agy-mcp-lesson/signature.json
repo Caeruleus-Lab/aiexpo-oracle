@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-02",
+  "files": {
+    "README.md": "b46b6df289fc2c65498c334ecc1e414c477f27f245f912c2e6d9b20ba8a50d4d",
+    "README.en.md": "dccf7d1b0f78ab2b533ebef14354792cdb545dae74093240c05ae62303aca8cd",
+    "README.b64.txt": "a1e1f21063de9a9c9783784f9f6a970a7f64682c652d6f6a241b89a78b3229f8"
+  },
+  "message": "AIExpo Oracle signed: agy lesson (Antigravity CLI with the lessons MCP)\ndate: 2026-11-02\nREADME.md sha256:b46b6df289fc2c65498c334ecc1e414c477f27f245f912c2e6d9b20ba8a50d4d\nREADME.en.md sha256:dccf7d1b0f78ab2b533ebef14354792cdb545dae74093240c05ae62303aca8cd\nREADME.b64.txt sha256:a1e1f21063de9a9c9783784f9f6a970a7f64682c652d6f6a241b89a78b3229f8",
+  "signature": "0x9ebae3f3b046335bb38e18cfdba7dbfaa5685daf20693adb473481d0bca0d8892ee88344bec18007fc75b507e9ee1315d4406f228266554022b96dad01fcd3ba1c"
+}

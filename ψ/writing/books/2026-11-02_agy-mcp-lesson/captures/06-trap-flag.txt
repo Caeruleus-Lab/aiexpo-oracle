@@ -1,0 +1,3 @@
+$ agy mcp add try-x https://example.com/mcp --header 'X-Test: 1'   # flag after the name
+Error: http server type does not accept command arguments
+(exit 1)

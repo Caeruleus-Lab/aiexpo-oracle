@@ -74,6 +74,14 @@ LESSONS = [
          cover="images/01-architecture.png",
          facts_th=["ผลดิบ 14 ชิ้น · ไม่มี dependency", "Cloudflare + stdio · 4 เครื่องมือ"],
          facts_en=["14 raw outputs · no dependencies", "Cloudflare + stdio · 4 tools"]),
+    dict(key="agy-mcp", dir="2026-11-02_agy-mcp-lesson",
+         th="ใช้ Antigravity CLI (agy) กับ MCP ของบทเรียน",
+         en="Use the Antigravity CLI (agy) with the lessons MCP",
+         th_sub="ติดตั้ง agy ของ Google ล็อกอินครั้งแรก แล้วต่อ MCP ของบทเรียนทั้งตัวบน Cloudflare และตัวจาก GitHub พร้อมกับดัก invalid_scope และกล่องที่ติ๊กไว้ให้แล้ว",
+         en_sub="Install Google's agy, sign in once, then connect both lessons MCP servers, with the invalid_scope trap and the pre-ticked box",
+         cover="images/01-agy-mcp.png",
+         facts_th=["agy 1.4.12 · ผลดิบ 9 ชิ้น", "MCP สองตัว · กับดักจริง 7 อัน"],
+         facts_en=["agy 1.4.12 · 9 raw outputs", "2 MCP servers · 7 real traps"]),
 ]
 
 

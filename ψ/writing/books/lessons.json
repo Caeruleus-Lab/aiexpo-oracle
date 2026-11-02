@@ -61,5 +61,14 @@
     "th_sub": "เริ่มจาก MCP 59 บรรทัด จนถึงตัวจริงบน Cloudflare Worker และ npx จาก GitHub พร้อมโค้ดเต็มและกับดักที่เจอจริง",
     "en_sub": "From a 59-line MCP to the real one on a Cloudflare Worker and npx from GitHub, with the full code and the traps we hit",
     "cover": "images/01-architecture.png"
+  },
+  {
+    "key": "agy-mcp",
+    "dir": "2026-11-02_agy-mcp-lesson",
+    "th": "ใช้ Antigravity CLI (agy) กับ MCP ของบทเรียน",
+    "en": "Use the Antigravity CLI (agy) with the lessons MCP",
+    "th_sub": "ติดตั้ง agy ของ Google ล็อกอินครั้งแรก แล้วต่อ MCP ของบทเรียนทั้งตัวบน Cloudflare และตัวจาก GitHub พร้อมกับดัก invalid_scope และกล่องที่ติ๊กไว้ให้แล้ว",
+    "en_sub": "Install Google's agy, sign in once, then connect both lessons MCP servers, with the invalid_scope trap and the pre-ticked box",
+    "cover": "images/01-agy-mcp.png"
   }
 ]

@@ -1,0 +1,8 @@
+$ agy mcp disable aiexpo-github; agy mcp list; agy mcp enable aiexpo-github
+Disabled MCP server "aiexpo-github"
+NAME           TYPE   STATUS    COMMAND/URL
+aiexpo         http   enabled   https://aiexpo.buildwithoracle.com/mcp
+aiexpo-github  stdio  disabled  npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp
+Enabled MCP server "aiexpo-github"
+aiexpo-github  stdio  enabled  npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp
+(exit 0)
