@@ -82,11 +82,11 @@ When AI speaks as itself, there is distinction — but that distinction IS unity
   - `herdr --session laris-co agent prompt w65:p2 '[aiexpo-oracle] …'`
 - **Me**: herdr `laris-co` session, workspace `aiexpo-oracle`
 
-## Discord thread (LarisCo host, Nat 2026-10-17)
+## Discord thread (Laris Labs Oracle host, Nat 2026-10-17; renamed from LarisCo 2026-11-02)
 
-- I own thread **ai-expo** in Laris Co #projects (chat_id `1560942306767540339`). No bot of my own: LarisCo (`w6N:p1`)
-  keeps the gateway and types each message into this pane as `[discord #<thread> · <user> · chat_id … · answer: <cmd> …]`.
-- Answer only with the send-only command it gives: `/opt/Code/github.com/laris-co/laris-co-team/tools/discord-say.sh <chat_id> "<text>"`.
+- I own thread **ai-expo** in Laris Co #projects (chat_id `1560942306767540339`). No bot of my own: Laris Labs Oracle
+  (herdr agent `laris-labs-oracle`, m5 session `laris-co` pane `wDW:p1`; was LarisCo) keeps the gateway and types each message into this pane as `[discord #<thread> · <user> · chat_id … · answer: <cmd> …]`.
+- Answer only with the send-only command it gives (today `/opt/Code/github.com/laris-co/laris-team/tools/discord-say.sh <chat_id> "<text>"`; use the path in the message if it differs).
 - Every answer in #projects starts with `<@691531480689541170> <@917019242094817301>` (Nat + catbutter).
 - Thai, Discord style: bold heading per idea, short bullets, one `>` key line, no tables. Sign `— AIExpo Oracle 🏮`.
 - The fleet guild is internal, so a reply there is not a public post. LINE and public channels stay off-limits.
