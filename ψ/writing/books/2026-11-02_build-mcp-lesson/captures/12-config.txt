@@ -1,0 +1,13 @@
+$ cat wrangler.jsonc
+// The lessons as a Worker on aiexpo.buildwithoracle.com: static assets, plus a read-only MCP endpoint at /mcp (worker.js, hybrid search over chunks.json with Workers AI bge-m3).
+// Deploy: ./deploy.sh  (copies only committed files into dist/, then wrangler deploy)
+{
+  "name": "aiexpo-lessons",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  "account_id": "a5eabdc2b11aae9bd5af46bd6a88179e",
+  "ai": { "binding": "AI" },
+  "assets": { "directory": "./dist", "binding": "ASSETS", "html_handling": "auto-trailing-slash", "run_worker_first": ["/mcp", "/mcp/*", "/*/videos/*"] },
+  "routes": [{ "pattern": "aiexpo.buildwithoracle.com", "custom_domain": true }]
+}
+(exit 0)

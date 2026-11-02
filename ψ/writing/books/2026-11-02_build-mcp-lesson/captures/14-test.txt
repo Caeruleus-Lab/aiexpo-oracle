@@ -1,0 +1,18 @@
+$ node code/test-both.mjs     # the same 7 calls on the npx copy and the hosted copy
+STDIO  npx -y github:Caeruleus-Lab/aiexpo-lessons
+  initialize : server aiexpo-lessons 2026.10.31-1 proto 2025-06-18
+  tools/list : tools: search, fetch, get_image, list_lessons
+  tools/call list_lessons: text 12357 chars · {"lessons":[{"order":1,"id":"claude-chatgpt","title":{"th":"ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop",
+  tools/call search: text 3770 chars · {"results":[{"id":"herdr-room/en/5","title":"One room, many agents: herdr-room in / out · 5. Room out: everyon
+  tools/call search: text 3897 chars · {"results":[{"id":"ego-lite/th/4","title":"ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง · 4. ติดตั้งแ
+  tools/call fetch: text 25126 chars · {"id":"herdr-room/en/11","title":"One room, many agents: herdr-room in / out · 11. Full source of `herdr-room`
+  tools/call get_image: text 121 chars · image image/jpeg 65KB · ![herdr-room/01-room.png](https://caeruleus-lab.github.io/aiexpo-lessons/2026-10-31_herdr-room-lesson/images/0
+HOSTED https://aiexpo.buildwithoracle.com/mcp
+  initialize : server aiexpo-lessons 2026.10.30-3 proto 2025-06-18
+  tools/list : tools: search, fetch, get_image, list_lessons
+  tools/call list_lessons: text 11925 chars · {"lessons":[{"order":1,"id":"claude-chatgpt","title":{"th":"ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop",
+  tools/call search: text 3901 chars · {"results":[{"id":"herdr-room/en/5","title":"One room, many agents: herdr-room in / out · 5. Room out: everyon
+  tools/call search: text 3980 chars · {"results":[{"id":"ego-lite/th/4","title":"ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง · 4. ติดตั้งแ
+  tools/call fetch: text 25102 chars · {"id":"herdr-room/en/11","title":"One room, many agents: herdr-room in / out · 11. Full source of `herdr-room`
+  tools/call get_image: text 109 chars · image image/jpeg 65KB · ![herdr-room/01-room.png](https://aiexpo.buildwithoracle.com/2026-10-31_herdr-room-lesson/images/01-room.png)
+(exit 0)

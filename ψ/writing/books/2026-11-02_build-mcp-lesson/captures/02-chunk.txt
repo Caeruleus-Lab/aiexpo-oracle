@@ -1,0 +1,11 @@
+$ jq '.chunks[] | select(.id=="herdr-room/th/5") | {id, lesson, lang, title, url, text: .text[0:120], vec: (.vec|length)}' chunks.json
+{
+  "id": "herdr-room/th/5",
+  "lesson": "herdr-room",
+  "lang": "th",
+  "title": "5. room out: ทุกคนกลับ space ของตัวเอง",
+  "url": "https://aiexpo.buildwithoracle.com/2026-10-31_herdr-room-lesson/th#s6",
+  "text": "## 5. room out: ทุกคนกลับ space ของตัวเอง\n\n```bash\nherdr-room out team --session roomlab\n```\n\n```\n  run   herdr --sessio",
+  "vec": 1024
+}
+(exit 0)

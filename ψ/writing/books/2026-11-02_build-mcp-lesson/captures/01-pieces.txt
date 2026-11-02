@@ -1,0 +1,8 @@
+$ wc -l worker.js mcp/server.mjs build_chunks.py; jq '.chunks|length' chunks.json
+     343 worker.js
+     232 github/mcp/server.mjs
+     153 build_chunks.py
+     728 total
+chunks: 128
+model: @cf/baai/bge-m3
+(exit 0)

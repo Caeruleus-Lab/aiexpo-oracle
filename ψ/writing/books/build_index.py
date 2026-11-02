@@ -66,6 +66,14 @@ LESSONS = [
          cover="images/01-room.png",
          facts_th=["herdr 0.9.5 · ผลดิบ 16 ชิ้น", "ซอร์ส 449 บรรทัด + skill เต็ม"],
          facts_en=["herdr 0.9.5 · 16 raw outputs", "449-line source + full skill"]),
+    dict(key="build-mcp", dir="2026-11-02_build-mcp-lesson",
+         th="สร้าง MCP ของตัวเอง: จากบทเรียนเป็นเครื่องมือให้ AI",
+         en="Build your own MCP: turn lessons into tools for AI",
+         th_sub="เริ่มจาก MCP 59 บรรทัด จนถึงตัวจริงบน Cloudflare Worker และ npx จาก GitHub พร้อมโค้ดเต็มและกับดักที่เจอจริง",
+         en_sub="From a 59-line MCP to the real one on a Cloudflare Worker and npx from GitHub, with the full code and the traps we hit",
+         cover="images/01-architecture.png",
+         facts_th=["ผลดิบ 14 ชิ้น · ไม่มี dependency", "Cloudflare + stdio · 4 เครื่องมือ"],
+         facts_en=["14 raw outputs · no dependencies", "Cloudflare + stdio · 4 tools"]),
 ]
 
 

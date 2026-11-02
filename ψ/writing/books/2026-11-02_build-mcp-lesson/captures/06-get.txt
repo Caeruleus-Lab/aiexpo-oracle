@@ -1,0 +1,17 @@
+$ curl -s https://aiexpo.buildwithoracle.com/mcp | jq .
+{
+  "server": {
+    "name": "aiexpo-lessons",
+    "title": "AIExpo Oracle lessons",
+    "version": "2026.10.30-3"
+  },
+  "transport": "streamable-http (POST JSON-RPC here)",
+  "tools": [
+    "search",
+    "fetch",
+    "get_image",
+    "list_lessons"
+  ],
+  "lessons": "https://aiexpo.buildwithoracle.com/"
+}
+(exit 0)

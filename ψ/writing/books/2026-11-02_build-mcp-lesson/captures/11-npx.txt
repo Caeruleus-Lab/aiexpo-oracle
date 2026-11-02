@@ -1,0 +1,6 @@
+$ printf initialize + tools/call search {query: "herdr room out"} | npx -y github:Caeruleus-Lab/aiexpo-lessons
+{"serverInfo":{"name":"aiexpo-lessons","title":"AIExpo Oracle lessons (GitHub copy)","version":"2026.10.31-1"}}
+{"id":"herdr-room/en/5","title":"One room, many agents: herdr-room in / out · 5. Room out: everyone back to a space of their own"}
+{"id":"herdr-room/en/11","title":"One room, many agents: herdr-room in / out · 11. Full source of `herdr-room` (449 lines, python3)"}
+{"id":"herdr-room/en/12","title":"One room, many agents: herdr-room in / out · 12. The full skill (`~/.claude/skills/herdr-room/SKILL.md`)"}
+(exit 0)

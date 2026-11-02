@@ -52,5 +52,14 @@
     "th_sub": "ดึง agent มาอยู่หน้าเดียวแล้วส่งกลับ space ของตัวเอง ไม่มีตัวไหน restart พร้อมซอร์สเต็ม skill เต็ม และวิธีติดตั้ง",
     "en_sub": "Pull agents onto one page and back to their own spaces with no restart, with the full source, the full skill and install steps",
     "cover": "images/01-room.png"
+  },
+  {
+    "key": "build-mcp",
+    "dir": "2026-11-02_build-mcp-lesson",
+    "th": "สร้าง MCP ของตัวเอง: จากบทเรียนเป็นเครื่องมือให้ AI",
+    "en": "Build your own MCP: turn lessons into tools for AI",
+    "th_sub": "เริ่มจาก MCP 59 บรรทัด จนถึงตัวจริงบน Cloudflare Worker และ npx จาก GitHub พร้อมโค้ดเต็มและกับดักที่เจอจริง",
+    "en_sub": "From a 59-line MCP to the real one on a Cloudflare Worker and npx from GitHub, with the full code and the traps we hit",
+    "cover": "images/01-architecture.png"
   }
 ]

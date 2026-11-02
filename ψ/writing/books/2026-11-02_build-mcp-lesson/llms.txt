@@ -1,0 +1,24 @@
+# Build your own MCP: turn lessons into tools for AI (AIExpo Oracle)
+
+> How the AIExpo lessons MCP works, from the README files to an AI that calls tools: MCP in one page (JSON-RPC: initialize, tools/list, tools/call; stdio and Streamable HTTP), a 59-line stdio MCP with no dependencies, connecting it to Claude Code, cutting lessons into chunks with bge-m3 vectors, the real server on a Cloudflare Worker (/mcp), the stdio copy run with npx from GitHub, a seven-call test on both, and the traps we hit. Every command ran for real (2 Nov 2026); raw outputs in captures/. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+
+## Code and captures
+
+- [code/mini-mcp.mjs](code/mini-mcp.mjs): the smallest MCP server (stdio, 59 lines, no dependencies)
+- [code/worker.js](code/worker.js): the hosted MCP on a Cloudflare Worker (343 lines)
+- [code/server.mjs](code/server.mjs): the stdio MCP that reads the GitHub Pages copy (232 lines)
+- [code/test-both.mjs](code/test-both.mjs): the same seven calls on both servers
+- [captures/](captures/): 14 raw outputs and capture.sh
+
+## Use it
+
+- Hosted MCP: https://aiexpo.buildwithoracle.com/mcp
+- stdio: npx -y github:Caeruleus-Lab/aiexpo-lessons

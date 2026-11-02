@@ -1,0 +1,10 @@
+$ curl ... -d '{tools/call fetch {id: "mcp-connect/en/2"}}' | jq -r '.result.content[0].text | fromjson | .text' | head -8
+## 2. claude.ai
+
+**2.1 Add a connector.** Go to **Customize → Connectors**, press **Add**, then **Add custom connector**.
+
+![Customize, Connectors tab, with the Add menu open showing Add custom connector](https://aiexpo.buildwithoracle.com/2026-10-30_mcp-connect-guide/images/01-claude-add-connector-menu.png)
+
+**2.2 Name and URL.** Any name, for example `AIExpo lessons`, and the URL `https://aiexpo.buildwithoracle.com/mcp`. Press **Continue**.
+
+(exit 0)

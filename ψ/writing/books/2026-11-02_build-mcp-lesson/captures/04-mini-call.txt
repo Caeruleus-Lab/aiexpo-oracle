@@ -1,0 +1,5 @@
+$ printf tools/call search {query: "session memory"} | node code/mini-mcp.mjs
+{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"awaken: /awaken gives a new Oracle its name, its principles and its ψ memory folder.\nrrr: /rrr writes a retrospective at the end of a session, so the next session remembers."}]}}
+{"jsonrpc":"2.0","id":2,"error":{"code":-32602,"message":"unknown tool: nope"}}
+{"jsonrpc":"2.0","id":3,"error":{"code":-32601,"message":"Method not found: bogus"}}
+(exit 0)

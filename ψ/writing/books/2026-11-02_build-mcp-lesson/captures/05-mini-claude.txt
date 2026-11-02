@@ -1,0 +1,3 @@
+$ claude -p --mcp-config mini.json --allowedTools mcp__mini__search "..."
+`/rrr` writes the retrospective. The search returned the note's title, `rrr`, but no separate note id, so `rrr` is the closest identifier I have.
+(exit 0)
