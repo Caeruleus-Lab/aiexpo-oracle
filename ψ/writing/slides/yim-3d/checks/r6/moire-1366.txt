@@ -1,0 +1,1 @@
+{"viewport": "1366x768", "query": "?flat", "canvas": [1360, 765], "cell_device_px": 3, "runs": 41853, "runs_whole_cells": 0.9914, "per_slide": [0.999, 1.0, 1.0, 1.0, 1.0, 1.0, 0.967, 0.982]}

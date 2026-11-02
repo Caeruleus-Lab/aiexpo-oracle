@@ -1,0 +1,17 @@
+{
+ "fps": {
+  "cpu_x1": {
+   "hero": 60.3,
+   "scroll": 60.0
+  },
+  "cpu_x4": {
+   "hero": 60.0,
+   "scroll": 60.0
+  },
+  "cpu_x6": {
+   "hero": 60.0,
+   "scroll": 60.0
+  },
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)"
+ }
+}

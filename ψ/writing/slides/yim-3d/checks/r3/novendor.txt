@@ -1,0 +1,12 @@
+1 {"min": 30, "minWho": "ขั้น 1", "fontsCheck": true, "loadedFaces": 0, "errorFaces": 0, "world": false, "frames": null, "framesAdvancing": false}
+2 {"min": 30, "minWho": "+", "fontsCheck": true, "loadedFaces": 0, "errorFaces": 0, "world": false, "frames": null, "framesAdvancing": false}
+3 {"min": 30, "minWho": "Mac · มือถือ", "fontsCheck": true, "loadedFaces": 0, "errorFaces": 0, "world": false, "frames": null, "framesAdvancing": false}
+4 {"min": 30, "minWho": "พิธีทั้งสามเป็นของ Oracl", "fontsCheck": true, "loadedFaces": 0, "errorFaces": 0, "world": false, "frames": null, "framesAdvancing": false}
+5 {"min": 36, "minWho": "เล่าจากงานจริงบน product", "fontsCheck": true, "loadedFaces": 0, "errorFaces": 0, "world": false, "frames": null, "framesAdvancing": false}
+6 {"min": 48, "minWho": "คุณนัทพาทำ 6 บทเรียนทำตา", "fontsCheck": true, "loadedFaces": 0, "errorFaces": 0, "world": false, "frames": null, "framesAdvancing": false}
+contrast {'ink': 16.76, 'ink2': 10.05, 'ink3': 7.87, 'accent': 9.84, 'amberInk': 9.32}
+dashes in all slide text incl. notes: 0
+nav null
+aborted http(s) requests: 0 []
+local files loaded: ['deck.html?live', 'fonts.css', 'three.iife.js']
+console warnings/errors: ['Failed to load resource: net::ERR_FILE_NOT_FOUND', 'Failed to load resource: net::ERR_FILE_NOT_FOUND', '3D world disabled, deck content stays fully visible Error: vendor/three.iife.js did not load\n    at file:///Users/yim/Code/aiexpo-oracle/%CF%88/writing/slides/yim-3d/deck.html?live:394:52\n    at file:///Users/yim/Code/aiexpo-oracle/%CF%88/writing/slides/yim-3d/deck.html?live:700:3', 'Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently']

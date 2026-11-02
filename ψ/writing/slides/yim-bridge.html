@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>Yim bridge 15:08 — ARRA Oracle (v3 style)</title>
+<!--
+  v3 by AIExpo Oracle (Oracle AI), 2026-10-30 — hallmark redesign (mood: technical) after an /oracle-prism review.
+  What changed from v2 (485d08b): graphite paper + one amber "stage lamp" accent instead of navy+cyan on every slide;
+  content fills the frame (big type, vertical centring); real screenshots from Nat's 29 Oct demo recording
+  (img/room.jpg, img/needs.jpg, img/memmap.jpg, img/board.jpg); speaker timings moved into the notes; two fonts
+  (Bai Jamjuree display, Sarabun body) + system mono only for commands; 17 → 15 slides (v2 14+15 merged,
+  v2 16 folded into the QR slide); no "N" and no TODO on screen.
+  QR: copy ~/Downloads/คุณนัท X คุณยิ้ม.svg here as cert-qr.svg and swap the .qr placeholder on slide 15 for
+  <img class="qr-img" src="cert-qr.svg" alt="QR e-Certificate">.
+  Keys: → / Space next · ← previous · Home / End · N toggles speaker notes. 1920×1080, scaled to the window.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
+<style>
+/* Hallmark · macrostructure: Stage Deck (statement / split / full-bleed rhythm) · genre: atmospheric
+ * tone: technical · theme: custom (vibe: "dark stage, one amber lamp, real screens")
+ * paper oklch(18% 0.012 260) · accent oklch(80% 0.15 75) amber · Bai Jamjuree + Sarabun · mono for commands only
+ * axes: dark / geometric-sans / warm · enrichment: real screenshots (no re-drawn chrome)
+ * Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4
+ */
+:root{
+  --color-paper:oklch(18% 0.012 260);
+  --color-paper-2:oklch(23% 0.014 260);
+  --color-paper-3:oklch(28% 0.016 260);
+  --color-ink:oklch(96% 0.006 90);
+  --color-ink-2:oklch(76% 0.014 260);
+  --color-ink-3:oklch(60% 0.014 260);
+  --color-rule:oklch(36% 0.016 260);
+  --color-accent:oklch(80% 0.15 75);
+  --color-accent-ink:oklch(21% 0.03 75);
+  --color-light:oklch(95% 0.012 85);
+  --color-light-ink:oklch(22% 0.015 260);
+  --color-notes:oklch(88% 0.09 90);
+  --color-black:oklch(0% 0 0);
+  --font-display:"Bai Jamjuree","Sarabun",sans-serif;
+  --font-body:"Sarabun","Bai Jamjuree",sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Menlo,monospace;
+  --space-xs:12px;--space-sm:24px;--space-md:40px;--space-lg:64px;--space-xl:96px;--space-2xl:140px;
+  --text-sm:30px;--text-md:40px;--text-lg:52px;--text-xl:72px;--text-2xl:104px;--text-display:156px;
+  --radius:20px;--rule-w:4px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:var(--color-black);overflow:hidden;overflow-x:clip}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center}
+.slide{position:absolute;inset:0;display:none;overflow:hidden;background:var(--color-paper);color:var(--color-ink);font-family:var(--font-body)}
+.slide.on{display:block}
+.frame{position:absolute;inset:0;padding:var(--space-xl) var(--space-2xl);display:grid;align-content:center;gap:var(--space-lg)}
+h1,h2,.display{font-family:var(--font-display);font-style:normal;font-weight:700;letter-spacing:-.01em;line-height:1.08}
+.display{font-size:var(--text-display)}
+h2{font-size:var(--text-2xl)}
+.lead{font-size:var(--text-lg);line-height:1.45;color:var(--color-ink-2);max-width:1660px}
+.nw{white-space:nowrap}
+.hl{color:var(--color-accent)}
+code,.cmd{font-family:var(--font-mono);font-weight:600}
+.sig{position:absolute;left:var(--space-2xl);bottom:var(--space-lg);font-size:var(--text-sm);color:var(--color-ink-3)}
+.lamp{position:absolute;left:var(--space-2xl);top:var(--space-xl);width:120px;height:var(--rule-w);background:var(--color-accent)}
+
+/* light + amber pages for rhythm */
+.slide.amber{background:var(--color-accent);color:var(--color-accent-ink)}
+.slide.amber .lead{color:var(--color-accent-ink)}
+.slide.light{background:var(--color-light);color:var(--color-light-ink)}
+
+/* 1 title */
+.t-photo{position:absolute;right:0;top:0;height:1080px}
+.t-fade{position:absolute;right:0;top:0;width:660px;height:1080px;background:linear-gradient(90deg,var(--color-paper) 0%,var(--color-paper) 12%,transparent 45%)}
+.t-frame{position:absolute;left:var(--space-2xl);top:var(--space-xl);bottom:var(--space-xl);width:1080px;display:flex;flex-direction:column;justify-content:space-between;z-index:2}
+.t-event{font-family:var(--font-display);font-size:var(--text-sm);font-weight:600;color:var(--color-ink-2)}
+.t-event b{color:var(--color-accent);font-weight:700}
+.t-title{font-family:var(--font-display);font-size:132px;font-weight:700;line-height:1.02}
+.t-who{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);font-size:var(--text-sm);color:var(--color-ink-2);line-height:1.35}
+.t-who b{display:block;font-family:var(--font-display);font-size:var(--text-md);color:var(--color-ink);margin-bottom:6px}
+.t-when{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;border-top:var(--rule-w) solid var(--color-accent);padding-top:var(--space-sm)}
+.t-when span{color:var(--color-ink-2);font-weight:500;margin-left:var(--space-sm)}
+
+/* 3 forgetting test */
+.vs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-lg)}
+.vs > div{border-radius:var(--radius);padding:var(--space-lg);min-height:470px;display:flex;flex-direction:column;gap:var(--space-sm)}
+.vs .forget{background:var(--color-paper-2);color:var(--color-ink-2)}
+.vs .keep{background:var(--color-paper-3);border:var(--rule-w) solid var(--color-accent)}
+.vs .who{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--color-ink)}
+.vs .q{font-size:var(--text-lg)}
+.vs .a{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;margin-top:auto;line-height:1.15}
+.vs .keep .a{color:var(--color-accent)}
+
+/* 5 three boxes */
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md)}
+.three > div{border-top:var(--rule-w) solid var(--color-rule);padding-top:var(--space-md)}
+.three > div.on{border-top-color:var(--color-accent)}
+.three h3{font-family:var(--font-display);font-size:var(--text-xl);margin-bottom:var(--space-sm)}
+.three > div.on h3{color:var(--color-accent)}
+.three p{font-size:var(--text-lg);line-height:1.4;color:var(--color-ink-2)}
+
+/* 6 files */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-xl);align-items:center}
+.files{background:var(--color-paper-2);border-radius:var(--radius);padding:var(--space-lg);font-family:var(--font-mono);font-size:44px;line-height:1.7}
+.files .d{color:var(--color-ink-3)}
+.files .f{color:var(--color-accent);font-weight:700}
+.files .c{font-family:var(--font-body);font-size:34px;color:var(--color-ink-2);margin-left:var(--space-sm)}
+
+/* 7 loop */
+.loop{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:var(--space-md)}
+.loop .s{border-radius:var(--radius);background:var(--color-paper-2);padding:var(--space-lg) var(--space-md);text-align:center}
+.loop .s .cmd{display:block;font-size:var(--text-2xl);color:var(--color-accent)}
+.loop .s .w{display:block;font-family:var(--font-display);font-size:var(--text-2xl);font-weight:700}
+.loop .s span{display:block;font-size:var(--text-md);color:var(--color-ink-2);margin-top:var(--space-xs)}
+.loop .arr{font-size:var(--text-xl);color:var(--color-ink-3)}
+
+/* 8 / 10 commands */
+.steps{display:grid;gap:var(--space-sm)}
+.steps .row{display:grid;grid-template-columns:110px minmax(0,1fr);align-items:center;background:var(--color-paper-2);border-radius:var(--radius);padding:var(--space-md) var(--space-lg)}
+.steps .n{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--color-accent)}
+.steps .t{font-size:var(--text-xl);line-height:1.25}
+.steps .t code{color:var(--color-accent)}
+.ask{background:var(--color-paper-2);border-left:var(--rule-w) solid var(--color-accent);border-radius:var(--radius);padding:var(--space-lg);font-size:var(--text-xl);line-height:1.35}
+.meta{font-size:var(--text-md);color:var(--color-ink-2)}
+
+/* 11 / 12 screens */
+.full{position:absolute;left:0;right:0;top:0;height:700px;border-bottom:var(--rule-w) solid var(--color-accent)}
+.full img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block}
+
+.cap{position:absolute;left:var(--space-2xl);right:var(--space-2xl);top:760px;z-index:2}
+.cap h2{font-size:var(--text-xl)}
+.cap .lead{margin-top:var(--space-sm)}
+.shots{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:var(--space-md);align-items:start}
+.shots figure{margin:0}
+.shots img{width:100%;border-radius:var(--radius);border:2px solid var(--color-rule);display:block}
+.shots figcaption{font-size:var(--text-md);margin-top:var(--space-sm);color:var(--color-ink-2)}
+.shots figcaption b{font-family:var(--font-display);color:var(--color-ink)}
+
+/* 13 quote */
+.quote{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:700;line-height:1.22;max-width:1600px}
+.by{font-size:var(--text-lg);color:var(--color-light-ink);opacity:.75}
+
+/* 14 homework */
+.hw{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:var(--space-xl);align-items:center}
+.hw ol{list-style:none;display:grid;gap:var(--space-sm);font-size:var(--text-md);line-height:1.35}
+.hw li{border-top:2px solid var(--color-rule);padding-top:var(--space-sm)}
+.hw li code{color:var(--color-accent)}
+.pending{display:inline-block;border:2px dashed var(--color-ink-3);border-radius:12px;padding:4px 18px;color:var(--color-ink-3);font-size:var(--text-sm)}
+
+/* 15 QR */
+.qrwrap{display:grid;grid-template-columns:640px minmax(0,1fr);gap:var(--space-xl);align-items:center}
+.qr{width:640px;height:640px;border-radius:var(--radius);border:6px dashed var(--color-accent);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:var(--color-accent);font-family:var(--font-display);font-size:var(--text-md);font-weight:700;line-height:1.35}
+.qr small{font-family:var(--font-body);font-weight:400;font-size:var(--text-sm);margin-top:var(--space-sm);color:var(--color-ink-2)}
+.qr-img{width:640px;height:640px;background:var(--color-light);border-radius:var(--radius);padding:var(--space-sm)}
+
+.notes{display:none;position:absolute;left:0;right:0;bottom:0;z-index:9;background:oklch(10% 0.01 260 / .94);color:var(--color-notes);font-family:var(--font-body);font-size:30px;line-height:1.45;padding:28px 100px;border-top:3px solid var(--color-accent)}
+body.shownotes .notes{display:block}
+#count{position:fixed;right:14px;bottom:10px;color:var(--color-ink-3);font:14px var(--font-body)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 1 · title -->
+<style>
+.ring{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:var(--space-lg);align-items:center}
+.ring svg{width:100%;height:auto;display:block}
+.ring svg text{font-family:var(--font-display);fill:var(--color-ink)}
+.ring svg .cmd{font-family:var(--font-mono);font-weight:700;fill:var(--color-accent)}
+.ring svg .sub{font-family:var(--font-body);fill:var(--color-ink-2);font-weight:500}
+.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md)}
+.big3 > div{border-top:var(--rule-w) solid var(--color-accent);padding-top:var(--space-md)}
+.big3 .num{font-family:var(--font-display);font-size:var(--text-display);font-weight:700;color:var(--color-accent);line-height:1}
+.big3 .what{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;margin-top:var(--space-sm)}
+.big3 .note{font-size:var(--text-sm);color:var(--color-ink-2);margin-top:var(--space-xs);line-height:1.4}
+.before{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-lg)}
+.before > div{border-radius:var(--radius);padding:var(--space-lg);background:var(--color-paper-2)}
+.before > div.on{background:var(--color-paper-3);border:var(--rule-w) solid var(--color-accent)}
+.before .k{font-family:var(--font-display);font-size:var(--text-md);color:var(--color-ink-2);margin-bottom:var(--space-sm)}
+.before .on .k{color:var(--color-accent)}
+.before p{font-size:var(--text-lg);line-height:1.3;font-family:var(--font-display)}
+.before p.sm{font-family:var(--font-body);font-size:var(--text-sm);color:var(--color-ink-2);margin-top:var(--space-sm);line-height:1.4}
+.tight{gap:var(--space-md)!important}
+.tight .steps .row{padding:var(--space-sm) var(--space-lg)}
+</style>
+<section class="slide">
+  <div class="lamp"></div>
+  <div class="frame">
+    <p class="meta">สุทธิณี เทพปริยะพล (ยิ้ม) · product manager ไม่ใช่วิศวกร</p>
+    <div class="before" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div><p class="k">ขั้น 1</p><p><b>ยิ้มเป็นความจำ<br>ให้ AI</b></p><p class="sm">คุยในแชตทีละงาน ทุกครั้งต้องเล่าใหม่</p></div>
+      <div><p class="k">ขั้น 2</p><p><b>ยิ้มกลายเป็น<br>คอขวด</b></p><p class="sm">AI ทำได้มากขึ้น แต่ทุกงานรอยิ้มสั่ง รอยิ้มตรวจ</p></div>
+      <div class="on"><p class="k">ขั้น 3</p><p><b>งานเดินได้<br>โดยไม่รอยิ้ม</b></p><p class="sm">ทีม AI หลายตัว กับวิธีทำงานของ ARRA</p></div>
+    </div>
+  </div>
+  <div class="notes">2 นาที · ขั้น 2 คือจุดที่คนใช้ AI เก่งแล้วเจอกันทุกคน เล่าเหตุการณ์จริง 1 ครั้งที่งานกองรอยิ้มอยู่คนเดียว · ผูกขั้น 1 กับ forgetting test ที่คุณนัทเพิ่งทำ: "เมื่อกี้ที่เห็น AI ลืม นั่นคือชีวิตยิ้มทุกวันเมื่อปีที่แล้ว" · ยิ้มอยู่บนเวทีในฐานะคนใช้ ไม่ใช่คนสร้างระบบ ⇒ ห้ามอธิบายเทคนิคที่คุณนัทจะสอน</div>
+</section>
+<section class="slide">
+  <div class="frame tight">
+    <h2 style="font-size:var(--text-xl)">สิ่งที่ปลดล็อก <span class="hl">ทีม AI กับวิธีทำงาน</span></h2>
+    <div class="steps">
+      <div class="row" style="border:var(--rule-w) solid var(--color-accent)"><span class="n">+</span><span class="t">หลายตัว ทำพร้อมกัน <span class="meta">แต่ละตัวมีหน้าที่ และตรวจงานกันเอง</span></span></div>
+      <div class="row"><span class="n">1</span><span class="t">ไม่มีอะไรหาย <span class="meta">งานทุกชิ้นถูกจดไว้ ย้อนดูได้เสมอ</span></span></div>
+      <div class="row"><span class="n">2</span><span class="t">AI ไม่ตัดสินแทน <span class="meta">คนตัดสิน ความรู้ของงานยังเป็นของเรา</span></span></div>
+      <div class="row"><span class="n">3</span><span class="t">เราถาม มันจำ <span class="meta">ครั้งต่อไปจึงง่ายกว่าเดิม</span></span></div>
+    </div>
+    <p class="meta">สามข้อล่าง จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
+  </div>
+  <div class="notes">2 นาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ เล่าแค่ว่าแต่ละข้อเปลี่ยนงานของยิ้มยังไง ข้อละ 1 เหตุการณ์จริง (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
+</section>
+<section class="slide">
+  <div class="frame">
+    <div class="ring">
+      <div>
+        <h2 style="font-size:var(--text-xl);line-height:1.2">ทำงานกับ AI<br><span class="hl">เหมือนทำงานเป็นกะ</span></h2>
+        <p class="lead" style="margin-top:var(--space-md)">โรงพยาบาลกับโรงงานไม่ได้ใช้คู่มือส่งงานกัน เขาใช้บันทึกส่งกะ ใครเคยดูแลทีมคน รู้วิธีนี้อยู่แล้ว</p>
+      </div>
+      <svg viewBox="0 0 900 900" role="img" aria-label="วงจรวัน 4 จังหวะ: เข้ากะ recap, ทำงาน, ออกกะ forward, ทบทวน rrr รอบไฟล์บันทึกส่งกะ">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="oklch(60% 0.014 260)"/></marker></defs>
+        <circle cx="450" cy="450" r="300" fill="none" stroke="oklch(36% 0.016 260)" stroke-width="6"/>
+        <path d="M 570 175 A 300 300 0 0 1 725 330" fill="none" stroke="oklch(60% 0.014 260)" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 725 570 A 300 300 0 0 1 570 725" fill="none" stroke="oklch(60% 0.014 260)" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 330 725 A 300 300 0 0 1 175 570" fill="none" stroke="oklch(60% 0.014 260)" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 175 330 A 300 300 0 0 1 330 175" fill="none" stroke="oklch(60% 0.014 260)" stroke-width="6" marker-end="url(#ah)"/>
+        <circle cx="450" cy="450" r="130" fill="oklch(28% 0.016 260)" stroke="oklch(80% 0.15 75)" stroke-width="5"/>
+        <text x="450" y="440" text-anchor="middle" font-size="52" font-weight="700">ψ/</text>
+        <text x="450" y="500" text-anchor="middle" class="sub" font-size="32">บันทึกส่งกะ</text>
+        <g><circle cx="450" cy="150" r="105" fill="oklch(23% 0.014 260)" stroke="oklch(80% 0.15 75)" stroke-width="4"/>
+          <text x="450" y="140" text-anchor="middle" font-size="40" font-weight="700">เข้ากะ</text><text x="450" y="190" text-anchor="middle" class="cmd" font-size="34">/recap</text></g>
+        <g><circle cx="750" cy="450" r="105" fill="oklch(23% 0.014 260)" stroke="oklch(36% 0.016 260)" stroke-width="4"/>
+          <text x="750" y="440" text-anchor="middle" font-size="40" font-weight="700">ทำงาน</text><text x="750" y="490" text-anchor="middle" class="sub" font-size="28">งานจริง</text></g>
+        <g><circle cx="450" cy="750" r="105" fill="oklch(23% 0.014 260)" stroke="oklch(80% 0.15 75)" stroke-width="4"/>
+          <text x="450" y="740" text-anchor="middle" font-size="40" font-weight="700">ออกกะ</text><text x="450" y="790" text-anchor="middle" class="cmd" font-size="34">/forward</text></g>
+        <g><circle cx="150" cy="450" r="105" fill="oklch(23% 0.014 260)" stroke="oklch(80% 0.15 75)" stroke-width="4"/>
+          <text x="150" y="440" text-anchor="middle" font-size="40" font-weight="700">ทบทวน</text><text x="150" y="490" text-anchor="middle" class="cmd" font-size="34">/rrr</text></g>
+      </svg>
+    </div>
+    <p class="meta">พิธีทั้งสามเป็นของ Oracle Protocol ของคุณนัท</p>
+  </div>
+  <div class="notes">2 นาที · จุดที่แรงที่สุดของช่วงยิ้ม · ประโยคหลัก: "คนที่เคยบริหารทีมคนมาแล้ว รู้วิธีทำงานกับ AI อยู่แล้ว แค่ยังไม่มีใครบอก" · /recap = อ่านบันทึกกะก่อนแตะงาน · /forward = เขียนสภาพงานลงไฟล์ก่อนความจำหาย · /rrr = retro เก็บบทเรียนเป็นของถาวร · ที่มา: คอร์ส Part 2 หน้า 3–5 (hello-oracle ψ/writing/slides/part2-working-with-ai.html) · ⚠️ เช็กกับคุณนัทว่า 6 บทเรียนใช้ /forward ด้วยไหม ถ้าไม่ใช้ เปลี่ยนเป็น "handoff"</div>
+</section>
+<section class="slide">
+  <div class="frame">
+    <h2 style="font-size:var(--text-xl)">งานที่เคยอยากทำ <span class="hl">แต่ทำไม่ได้</span></h2>
+    <div class="big3">
+      <div><div class="num">135</div><p class="what">บทความ</p><p class="note">เล่าจากงานจริงบน productize.life</p></div>
+      <div><div class="num">5</div><p class="what">แอปที่คนอื่นใช้ได้</p><p class="note">เช่น วิเคราะห์สต็อกและ SKU ในหนึ่งนาที</p></div>
+      <div><div class="num">3</div><p class="what">Part ของคอร์ส</p><p class="note">จากคนเรียน กลายเป็นคนสอน</p></div>
+    </div>
+    <p class="lead">ทั้งหมดมาจากความรู้งานเดิมของยิ้ม ฝูง agent แค่ขยายมันออกไป</p>
+  </div>
+  <div class="notes">2 นาที · เลขวัดจาก productize.life วันที่ 1 พ.ย. 2026 (บล็อก 135 ตอน · หน้า Apps มี 5 แอปที่เปิดให้ใช้ · คอร์ส From Prompting to Your Own AI Agent 3 Part) ⚠️ นับใหม่เช้าวันงาน · ฝูง: Fude เขียน · Osaa ทำภาพ · Koe การตลาด · Kensa ตรวจงานตัวอื่น ไม่มีตัวไหนตรวจงานตัวเอง · เวิร์กช็อป 11:00 ก็ทำกับฝูงนี้ · ⛔ ไม่ขาย handbook บนเวที · ⛔ ไม่ยกตัวอย่างงานบัญชี · ไม่เล่าเรื่องครอบครัว Oracle (บทเรียน 05)</div>
+</section>
+<section class="slide amber">
+  <div class="frame">
+    <h1 class="display">ถ้ายิ้มทำได้<br>คุณก็ทำได้</h1>
+    <p class="lead">คุณนัทพาทำ 6 บทเรียน · ทำตามได้ที่ <b class="nw">aiexpo.buildwithoracle.com</b></p>
+  </div>
+  <div class="notes">30 วินาที · ส่งไมค์ให้คุณนัท เริ่มบทเรียน 01 · ⚠️ ถามคุณนัทว่าช่วงยิ้มอยู่ตรงไหนของ session</div>
+</section>
+
+
+
+</div>
+<div id="count"></div>
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0;
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);document.getElementById('stage').style.transform=`translate(-50%,-50%) scale(${s})`}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((x,k)=>x.classList.toggle('on',k===i));document.getElementById('count').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1))}
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}else if(['ArrowLeft','PageUp'].includes(e.key))go(i-1);else if(e.key==='Home')go(0);else if(e.key==='End')go(S.length-1);else if(e.key==='n'||e.key==='N')document.body.classList.toggle('shownotes')});
+addEventListener('resize',fit);fit();go((parseInt(location.hash.slice(1))||1)-1);
+</script>
+</body>
+</html>

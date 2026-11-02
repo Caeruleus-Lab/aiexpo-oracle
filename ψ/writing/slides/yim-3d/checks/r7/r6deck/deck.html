@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yim 3D talk deck, AI Expo 2026, Builder Stage</title>
+<!--
+  yim-3d deck by Osaa (Oracle AI). Round 3, 2026-11-01: one type scale, one grid, one element language,
+  slide 3 rebuilt as a labelled architecture diagram, fully offline (./vendor/), still mode on key S.
+  Round 4, 2026-11-01: new slide 4 "the fleet is run like a company" (7 slides), facts from hello-oracle
+  ψ/writing/expo-2026-10/2026-11-01_fleet-rules-candidates.md, section "Orchestration and registries".
+  Round 5, 2026-11-01: the fleet slide from 86e2829 is back word for word (three rows, each with its own 3D scene, tools
+  footnote), the round-3 architecture diagram is its own slide right after it (8 slides), type is the Rikyu Labs system:
+  Satoshi + IBM Plex Sans Thai everywhere, Source Serif 4 + Noto Serif Thai for the one editorial line (the hand-off).
+  Content from ../yim-bridge.html (v3), notes copied verbatim; slide 3 wording from hello-oracle
+  ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md "Stage-safe wording" plus Dobby's edits.
+  Round 6, 2026-11-01: the Riso direction (proto/riso.html) across all 8 slides. Shiro paper, Rikyu inks, dithered isometric
+  blocks printed by vendor/riso.js (a copy of hello-oracle ψ/design-systems/rikyu-labs/slide-kit/riso/riso.js v1.0.0).
+  Words, notes, timing, keys unchanged. The canvas sits outside the scaled stage and the dither cell is a whole number of
+  device px (4 at 1920, 3 at 1280), so the browser never resamples the dots (moire rule, see the kit README).
+  Debug flags: ?nomask (no knockout) ?decoy (a block under each heading) ?flat (no grain) ?fixed1920 (moire negative control).
+  Round 3 to 5 world (kept in git at c7fc050): one Three.js world behind all 8 slides: one InstancedMesh (1 draw call) morphs per slide, one camera travels a path.
+   - formations anchor to empty HTML/SVG boxes projected at the slide's camera pose, so 3D sits beside text;
+   - every mote is projected each frame and fades out near any text box (incl. the big numbers);
+   - 3D colours are read from the same CSS tokens as the HTML (one token source, zero drift);
+   - slide change = one timed move, 850 ms ease in out, for camera, formation and colour together.
+  Offline: fonts are ./vendor/fonts.css + woff2; Three.js is ./vendor/three.iife.js, a classic-script build of
+  three@0.169.0 (ES modules do not load from file://, so the module copy in vendor/ is kept only for reference).
+  Content-first: every word is HTML/SVG text; if WebGL or vendor/ is missing the deck still works, __world = false.
+  Keys: Right / Space / PageDown next, Left / PageUp prev, Home / End, N notes, S still mode. Held keys do not repeat.
+-->
+<link rel="stylesheet" href="vendor/fonts.css">
+<link rel="stylesheet" href="vendor/riso.css">
+<style>
+/* =====================================================================================================
+   TYPE SCALE (one scale, five steps, each step has one job on every slide; sizes at the 1920x1080 stage)
+     families (Rikyu Labs tokens.css L39-41): sans = Satoshi + IBM Plex Sans Thai for every word on every slide;
+                                              serif = Source Serif 4 + Noto Serif Thai for one editorial line only (the hand-off, 8)
+     display  156 / 1.08  serif 700 on 8 (hand-off line), sans 700 on 7 (the three big numbers)
+     heading   72 / 1.2   sans 700           one per slide, on the heading line; the speaker name on 1
+     lead      48 / 1.35  two voices, same size:
+                          title  sans 700, ink         item titles (stages, unlock rows, fleet rows, what was made)
+                          line   sans 500, ink-2       the one sentence a slide lands on
+     body      36 / 1.4   sans 400, ink-2              explanation under an item title; diagram node names (700, ink)
+     caption   30 / 1.4   sans 400, ink-3              footnotes, diagram sub-labels; labels use it at 600
+   GRID
+     x: 140 | 1640 content | 140      heading line: top 128 (lamp rule sits at 88 on every slide)
+     heading -> content 64 · content -> lead line 64 · footnote pinned to bottom 72
+   ELEMENT LANGUAGE (one treatment each)
+     rule   4px top rule over every item; round 6: sabi 8px = the item the slide is about, stone = the rest
+     label  caption size, Bai Jamjuree 600, ink-3 (amber on the key item): ขั้น 1, + 1 2 3
+     highlight  round 6: the sabi highlighter band behind kuro text (sabi is never text on shiro, 1.78:1)
+     cards  none; boxes appear only as diagram nodes (slide 4 boxes, slide 5 ladder, gate and shelf slots, slide 6 circles), same fill and stroke tokens
+     bullets none
+   ===================================================================================================== */
+:root{
+  /* Rikyu Labs primitives, copied from hello-oracle ψ/design-systems/rikyu-labs/slide-kit/tokens/tokens.css L22-29 */
+  --rikyu-kuro:#1A1A1A; --rikyu-shiro:#F7F5F2; --rikyu-sabi:#C9B89E; --rikyu-moss:#6B7A6B; --rikyu-stone:#D9D6CF;
+
+  /* semantic: surfaces and ink (round 6: Riso on shiro paper; ink-2 and ink-3 both >= 7:1 on paper) */
+  --color-paper:var(--rikyu-shiro);
+  --color-ink:var(--rikyu-kuro);
+  --color-ink-2:color-mix(in srgb,var(--rikyu-kuro) 84%,var(--rikyu-shiro));
+  --color-ink-3:color-mix(in srgb,var(--rikyu-kuro) 74%,var(--rikyu-shiro));
+  --color-rule:var(--rikyu-stone);
+  --color-accent:var(--rikyu-sabi);          /* fills, rules and the highlighter band only, never text (1.78:1) */
+  --color-accent-ink:var(--rikyu-kuro);      /* text on the sabi page */
+  --color-notes:var(--rikyu-shiro);
+  --color-letterbox:var(--rikyu-kuro);
+  --color-chrome:var(--color-ink-3);
+  --color-notes-bg:color-mix(in srgb,var(--rikyu-kuro) 95%,transparent);
+  --color-diagram-line:var(--color-ink-2);
+  --color-diagram-ring:var(--rikyu-stone);
+  --color-diagram-node:color-mix(in srgb,var(--rikyu-stone) 38%,var(--rikyu-shiro));
+  --color-diagram-hub:color-mix(in srgb,var(--rikyu-sabi) 34%,var(--rikyu-shiro));
+  --color-diagram-live:var(--rikyu-kuro);
+  --color-diagram-idle:color-mix(in srgb,var(--rikyu-kuro) 34%,var(--rikyu-shiro));
+
+  /* the 3D world prints with the --riso-* inks from vendor/riso.css (kuro = work, sabi = Yim, moss = agents) */
+
+  --font-sans:Satoshi,"IBM Plex Sans Thai",Inter,"Helvetica Neue",Arial,sans-serif;   /* Rikyu --rikyu-font-sans */
+  --font-serif:"Source Serif 4","Noto Serif Thai",serif;                                 /* Rikyu --rikyu-font-serif, editorial only */
+  --font-display:var(--font-sans);
+  --font-body:var(--font-sans);
+  --font-mono:ui-monospace,"SF Mono",Menlo,monospace;
+
+  /* the scale */
+  --fs-display:156px; --fs-heading:72px; --fs-lead:48px; --fs-body:36px; --fs-caption:30px;
+  --lh-display:1.08;  --lh-heading:1.2;  --lh-lead:1.35;  --lh-body:1.4;  --lh-caption:1.4;
+
+  /* the grid */
+  --pad-x:140px; --line-top:128px; --lamp-top:88px; --foot-bottom:72px;
+  --gap-head:64px; --gap-lead:64px; --gap-col:40px; --gap-item:24px; --gap-in:12px;
+  --rule-w:4px; --lamp-w:120px;
+
+  --dur-move:850ms;--dur-bg:250ms;--ease-move:cubic-bezier(.65,0,.35,1);--ease-out:cubic-bezier(.2,.7,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:var(--color-letterbox);overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+  background:var(--color-paper);transition:background-color var(--dur-bg) var(--ease-out)}
+#stage.amber{background:var(--color-accent)}
+html.riso-on #stage,html.riso-on #stage.amber{background:transparent}   /* the print under the stage is the paper */
+#world{position:absolute;inset:0;width:1920px;height:1080px;z-index:0;display:block;image-rendering:pixelated}
+.vig{display:none}   /* round 6: the print pass carries its own paper tone */
+
+/* grid: every slide shares the lamp, the heading line, the side margins and the footnote line */
+.slide{position:absolute;inset:0;z-index:1;display:none;color:var(--color-ink);font-family:var(--font-body)}
+.slide.on{display:block}
+.slide.amber{color:var(--color-accent-ink)}
+.slide::before{content:"";position:absolute;left:var(--pad-x);top:var(--lamp-top);width:var(--lamp-w);height:8px;border-radius:4px;background:var(--color-accent)}
+.slide.amber::before{background:var(--color-accent-ink)}
+.frame{position:absolute;left:var(--pad-x);right:var(--pad-x);top:var(--line-top);display:flex;flex-direction:column;gap:var(--gap-head)}
+.foot{position:absolute;left:var(--pad-x);bottom:var(--foot-bottom);font-size:var(--fs-caption);font-weight:500;line-height:var(--lh-caption);color:var(--color-ink-3)}
+
+/* the five steps */
+.display{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700}
+h2,.heading{font-family:var(--font-display);font-size:var(--fs-heading);line-height:var(--lh-heading);font-weight:700}
+.title{font-family:var(--font-display);font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:700;color:var(--color-ink)}
+.lead{font-family:var(--font-body);font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:500;color:var(--color-ink-2)}
+.body{font-family:var(--font-body);font-size:var(--fs-body);line-height:var(--lh-body);font-weight:500;color:var(--color-ink-2)}
+.label{font-family:var(--font-display);font-size:var(--fs-caption);line-height:var(--lh-caption);font-weight:600;color:var(--color-ink-3);letter-spacing:.02em}
+.hl{color:var(--color-ink);background:linear-gradient(transparent 58%,var(--color-accent) 58%,var(--color-accent) 90%,transparent 90%);-webkit-box-decoration-break:clone;box-decoration-break:clone}   /* the sabi highlighter (riso.css .riso-hl) */
+.slide.amber .hl{background:linear-gradient(transparent 86%,var(--color-accent-ink) 86%,var(--color-accent-ink) 92%,transparent 92%)}
+.nw{white-space:nowrap}
+.slide.amber .lead,.slide.amber .title{color:var(--color-accent-ink)}
+
+/* element language */
+.item{border-top:var(--rule-w) solid var(--color-rule);padding-top:var(--gap-item)}
+.item.key{border-top-color:var(--color-accent);border-top-width:8px;padding-top:calc(var(--gap-item) - 4px)}
+.item.key .label{color:var(--color-ink)}
+.item .title{margin-top:var(--gap-in)}
+.item .title:first-child{margin-top:0}
+.item .body{margin-top:var(--gap-in)}
+.anc{min-height:0}
+
+/* entrance: text arrives once per slide, after the background has turned, staggered, never loops */
+.slide.on .rv{animation:rise .46s var(--ease-out) both;animation-delay:calc(200ms + var(--d,0) * 70ms)}
+.slide.amber.on .rv{animation-delay:300ms}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.capture .slide.on .rv,.still .slide.on .rv,.slide.measuring .rv{animation:none!important}
+.capture #stage,.capture .vig,.still #stage,.still .vig{transition:none}
+
+/* 1 three stages */
+.who{display:flex;flex-direction:column;gap:var(--gap-in)}
+.stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
+.stages .anc{height:250px}
+.stages .item .title{white-space:nowrap}
+
+/* 2 unlock */
+.unlock{display:grid;grid-template-columns:1040px minmax(0,1fr);gap:var(--gap-col)}
+.rows{display:flex;flex-direction:column;gap:var(--gap-item)}
+.rows .item{display:grid;grid-template-columns:64px minmax(0,1fr);align-items:baseline;padding-top:20px}
+.rows .item .body{margin-top:4px}
+
+/* 3 fleet (restored from 86e2829): three rows, each a 3D scene on the left and its words on the right */
+.fleet{display:flex;flex-direction:column;gap:var(--gap-item)}
+.frow{display:grid;grid-template-columns:560px minmax(0,1fr);gap:var(--gap-col);align-items:center}
+.frow .anc{height:190px}
+.frow .item{padding-top:16px}
+.frow .item .body{margin-top:2px}
+.frow .item .title+.body{margin-top:6px}
+
+/* 4 fleet architecture diagram (SVG, every word is real text) */
+.arch .n-s.key{fill:var(--color-ink);font-weight:600}
+.arch{display:block;width:1640px;height:auto;overflow:visible}
+.arch text{font-family:var(--font-body)}
+.arch .n-t,.org-v .n-t{font-family:var(--font-display);font-size:var(--fs-body);font-weight:700;fill:var(--color-ink)}
+.arch .n-s,.org-v .n-s{font-family:var(--font-body);font-size:var(--fs-caption);font-weight:500;fill:var(--color-ink-2)}
+.arch .n-s.hl,.org-v .n-s.hl{fill:var(--color-ink);font-family:var(--font-display);font-weight:700;background:none}
+
+/* 5 run like a company: three columns, each a picture above the item rule (same pattern as slides 1 and 6) */
+.org{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
+.org-v{display:block;width:520px;height:340px;overflow:visible;margin-bottom:var(--gap-item)}
+.reg{display:flex;flex-direction:column;justify-content:flex-end}
+.reg .anc-cloud{height:302px}
+.reg .shelf{display:block;width:520px;height:38px;overflow:visible}
+.org .item .body+.body{margin-top:var(--gap-item)}
+.cap{font-family:var(--font-body);font-size:var(--fs-caption);line-height:var(--lh-caption);font-weight:500;color:var(--color-ink-3);margin-top:var(--gap-in)}
+
+/* diagram language, shared by slides 4, 5 and 6 */
+svg .d-arrowhead{fill:var(--color-diagram-line)}
+svg .d-arc{stroke:var(--color-diagram-line);fill:none}
+svg .d-arc.dash{stroke-dasharray:14 12}
+svg .d-ring{stroke:var(--color-diagram-ring)}
+svg .d-hub{fill:var(--color-diagram-hub);stroke:var(--color-diagram-live)}
+svg .d-node{fill:var(--color-diagram-node);stroke:var(--color-diagram-idle)}
+svg .d-node[data-live]{stroke:var(--color-diagram-live)}
+svg .d-gate{fill:none;stroke:var(--color-diagram-live)}
+svg .d-slot{fill:none;stroke:var(--color-diagram-idle)}
+
+/* 6 shift ring */
+.ring{display:grid;grid-template-columns:minmax(0,1fr) 800px;gap:var(--gap-col);align-items:start}
+.ring .left{display:flex;flex-direction:column;justify-content:space-between;height:800px}
+.ring .lead{color:var(--color-ink)}
+.ring svg{width:800px;height:800px;display:block;overflow:visible}
+.ring svg text{font-family:var(--font-display);fill:var(--color-ink)}
+.ring svg .cmd{font-family:var(--font-mono);font-weight:700;fill:var(--color-ink)}
+.ring svg .sub{font-family:var(--font-body);fill:var(--color-ink-2);font-weight:500}
+
+/* 7 numbers */
+.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-col)}
+.big3 .anc{height:170px}
+.big3 .num{font-family:var(--font-display);font-size:var(--fs-display);line-height:var(--lh-display);font-weight:700;color:var(--color-ink)}
+.big3 .title{margin-top:var(--gap-in)}
+.big3~.lead{color:var(--color-ink)}
+
+/* 8 close (amber) */
+.close{display:grid;grid-template-columns:1060px minmax(0,1fr);gap:var(--gap-col)}
+.close .left{display:flex;flex-direction:column;gap:var(--gap-lead)}
+.close .display{font-family:var(--font-serif);padding-top:36px}   /* Thai tone marks on a 156px line rise above the heading line; keep them clear of the lamp */
+.close .anc{height:800px}
+
+/* chrome: orientation always visible */
+#prog{position:absolute;left:0;bottom:0;height:6px;width:100%;z-index:5;background:var(--color-accent);transform:scaleX(0);transform-origin:left center;transition:transform var(--dur-move) var(--ease-move),background-color var(--dur-move)}
+#stage.amber #prog{background:var(--color-accent-ink)}
+.notes{display:none;position:absolute;left:0;right:0;bottom:0;z-index:9;background:var(--color-notes-bg);color:var(--color-notes);font-family:var(--font-body);font-size:30px;line-height:1.45;padding:28px 100px;border-top:3px solid var(--color-accent)}
+body.shownotes .notes{display:block}
+#chrome{position:fixed;right:14px;bottom:10px;z-index:20;display:flex;gap:14px;align-items:center;font:14px var(--font-body);color:var(--color-chrome)}
+#still{font:inherit;color:inherit;background:none;border:1px solid currentColor;border-radius:6px;padding:2px 8px;cursor:pointer;opacity:.8}
+#still[aria-pressed="true"]{color:var(--color-ink);border-width:2px;opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<canvas id="world" width="1920" height="1080" aria-hidden="true"></canvas>
+<div id="stage">
+<div class="vig" aria-hidden="true"></div>
+
+<!-- 1 · who + three stages · 3D: lone node / node buried in a pile of work / five agents passing light -->
+<section class="slide">
+  <div class="frame">
+    <div class="who rv">
+      <p class="heading">สุทธิณี เทพปริยะพล (ยิ้ม)</p>
+      <p class="lead">product manager ไม่ใช่วิศวกร</p>
+    </div>
+    <div class="stages">
+      <div class="rv" style="--d:1"><div class="anc"></div><div class="item"><p class="label">ขั้น 1</p><p class="title">ยิ้มเป็นความจำให้ AI</p><p class="body">คุยในแชตทีละงาน<br>ทุกครั้งต้องเล่าใหม่</p></div></div>
+      <div class="rv" style="--d:2"><div class="anc"></div><div class="item"><p class="label">ขั้น 2</p><p class="title">ยิ้มกลายเป็นคอขวด</p><p class="body">AI ทำได้มากขึ้น แต่ทุกงาน<br><span class="nw">รอยิ้มสั่ง รอยิ้มตรวจ</span></p></div></div>
+      <div class="rv" style="--d:3"><div class="anc"></div><div class="item key"><p class="label">ขั้น 3</p><p class="title">งานเดินได้โดยไม่รอยิ้ม</p><p class="body">ทีม AI หลายตัว<br>กับวิธีทำงานของ ARRA</p></div></div>
+    </div>
+  </div>
+  <div class="notes">1.5 นาที · ขั้น 2 คือจุดที่คนใช้ AI เก่งแล้วเจอกันทุกคน เล่าเหตุการณ์จริง 1 ครั้งที่งานกองรอยิ้มอยู่คนเดียว · ผูกขั้น 1 กับ forgetting test ที่คุณนัทเพิ่งทำ: "เมื่อกี้ที่เห็น AI ลืม นั่นคือชีวิตยิ้มทุกวันเมื่อปีที่แล้ว" · ยิ้มอยู่บนเวทีในฐานะคนใช้ ไม่ใช่คนสร้างระบบ ⇒ ห้ามอธิบายเทคนิคที่คุณนัทจะสอน</div>
+</section>
+
+<!-- 2 · what unlocked it · 3D: the five-agent constellation, turning in depth, light passing between agents -->
+<section class="slide">
+  <div class="frame">
+    <h2 class="rv">สิ่งที่ปลดล็อก <span class="hl">ทีม AI กับวิธีทำงาน</span></h2>
+    <div class="unlock">
+      <div class="rows">
+        <div class="item key rv" style="--d:1"><span class="label">+</span><div><p class="title">หลายตัว ทำพร้อมกัน</p><p class="body">แต่ละตัวมีหน้าที่ และตรวจงานกันเอง</p></div></div>
+        <div class="item rv" style="--d:2"><span class="label">1</span><div><p class="title">ไม่มีอะไรหาย</p><p class="body">งานทุกชิ้นถูกจดไว้ ย้อนดูได้เสมอ</p></div></div>
+        <div class="item rv" style="--d:2"><span class="label">2</span><div><p class="title">AI ไม่ตัดสินแทน</p><p class="body">คนตัดสิน ความรู้ของงานยังเป็นของเรา</p></div></div>
+        <div class="item rv" style="--d:3"><span class="label">3</span><div><p class="title">เราถาม มันจำ</p><p class="body">ครั้งต่อไปจึงง่ายกว่าเดิม</p></div></div>
+      </div>
+      <div class="anc"></div>
+    </div>
+  </div>
+  <p class="foot rv" style="--d:3">สามข้อล่าง จากหลัก 5 ข้อของชุมชน ARRA Oracle</p>
+  <div class="notes">45 วินาที · ไม่สอนหลัก คุณนัทเป็นเจ้าของ · อ่านหัวข้อสี่บรรทัดแล้วเล่าเหตุการณ์จริงแค่ 1 เรื่อง ข้อที่เปลี่ยนงานของยิ้มมากที่สุด แล้วไปต่อ (Nothing is Deleted · External Brain, Not Command · Curiosity Creates Existence)</div>
+</section>
+
+<!-- 3 · how the fleet works (restored from 86e2829, round 5) · 3D per row: a house of buds passing signed envelopes /
+     a gate that lets talk in but stops actions / one relay line to the personal agent with task out, callback back -->
+<section class="slide">
+  <div class="frame">
+    <h2 class="rv">ฝูงของยิ้ม <span class="hl">ทำงานกันยังไง</span></h2>
+    <div class="fleet">
+      <div class="frow rv" style="--d:1"><div class="anc"></div><div class="item"><p class="title">ในฝูง <span class="hl">สิบกว่าตัว</span> อยู่บนเครื่องที่เปิดตลอด</p><p class="body">ศูนย์กลางคือ Discord ยิ้มสั่งงานและเห็นงานทุกตัวในที่เดียว</p><p class="body">ความจำร่วมเป็นไฟล์ ไม่มีอะไรหาย</p><p class="body">ตัวที่วางแผน ตัวที่ลงมือ และตัวที่ตรวจ เป็นคนละตัว คนเป็นคนอนุมัติ</p></div></div>
+      <div class="frow rv" style="--d:2"><div class="anc"></div><div class="item"><p class="title">agent ของคนอื่น <span class="hl">คุยได้</span> แต่ลงมือในระบบเราไม่ได้</p><p class="body">คนต้องเป็นคนกดอนุมัติ</p><p class="body">แขกแต่ละคนได้กุญแจของตัวเอง เปิดได้แค่ไม่กี่อย่าง</p></div></div>
+      <div class="frow rv" style="--d:3"><div class="anc"></div><div class="item"><p class="title">ผู้ช่วยส่วนตัว <span class="hl">Grok · Dots · Muse</span> ต่อเข้ากับฝูง</p><p class="body">ไปขอให้ agent ในฝูงทำงานให้ได้เอง</p></div></div>
+    </div>
+  </div>
+  <p class="foot rv" style="--d:3">T3 · Pi (Claude วางแผน, Codex ลงมือและตรวจแยก) · Linear</p>
+  <div class="notes">1.5 นาที · เล่าเป็นภาพ ไม่สอนเทคนิค · แถว 1: ฝูงอยู่บนเครื่องที่เปิดตลอด (box) ทำงานตอนยิ้มหลับ ส่วน Mac ของยิ้มคือห้องคนขับ · Discord คือศูนย์กลาง · พูดว่า "สิบกว่าตัว" ห้ามบอกเลขเป๊ะ · หลักคนละตัว: ชื่อเครื่องมือดู footnote ไม่ต้องอธิบาย · แถว 2: พูดแค่ "agent ของคนอื่น" ห้ามบอกว่าเป็นของใคร ข้อมูลภายในไม่ส่งออก · แถว 3: ผู้ช่วยส่วนตัว 3 ตัว พูดชื่อแล้วผ่าน ไม่ลงรายละเอียดเพดานหรือกติกา (คุณยิ้ม 2026-11-01) · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md</div>
+</section>
+
+<!-- 4 · the fleet's architecture; 3D: light travels the arrows,
+     twelve agents circle the always-on machine, talk crosses to other people's agents but actions stop halfway -->
+<section class="slide" data-anchors=".anc-d">
+  <div class="frame">
+    <h2 class="rv">สถาปัตยกรรม<span class="hl">ของฝูง</span></h2>
+    <svg class="arch rv" style="--d:1" viewBox="0 0 1640 420" role="img"
+      aria-label="ยิ้มสั่งงานจาก Mac หรือมือถือ ผ่าน Discord ที่เป็นศูนย์กลาง ไปยังฝูงสิบกว่าตัวบนเครื่องที่เปิดตลอด ซึ่งเก็บความจำร่วมเป็นไฟล์ ผู้ช่วยส่วนตัว Grok Dots Muse ต่อเข้ากับฝูง agent ของคนอื่นคุยได้ผ่าน Discord แต่ลงมือในระบบเราไม่ได้ คนกดอนุมัติ">
+      <defs>
+        <marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="d-arrowhead" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+      <!-- edges first, nodes on top -->
+      <path class="d-arc" d="M 334 75 L 426 75" stroke-width="5" marker-end="url(#ah3)"/>
+      <path class="d-arc" d="M 774 75 L 866 75" stroke-width="5" marker-end="url(#ah3)"/>
+      <path class="d-arc" d="M 1214 75 L 1306 75" stroke-width="5" marker-end="url(#ah3)"/>
+      <path class="d-arc dash" d="M 600 164 L 600 256" stroke-width="5" marker-start="url(#ah3)" marker-end="url(#ah3)"/>
+      <path class="d-arc" d="M 1040 164 L 1040 256" stroke-width="5" marker-start="url(#ah3)" marker-end="url(#ah3)"/>
+      <!-- main row: Yim -> Discord -> always-on machine -> shared memory -->
+      <rect class="anc-d d-node" x="0" y="0" width="320" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="160" y="64" text-anchor="middle">ยิ้ม</text>
+      <text class="n-s" x="160" y="112" text-anchor="middle">Mac · มือถือ</text>
+      <rect class="anc-d d-node" x="440" y="0" width="320" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="600" y="64" text-anchor="middle">Discord</text>
+      <text class="n-s" x="600" y="112" text-anchor="middle">ศูนย์กลาง</text>
+      <rect class="anc-d d-node" data-live="1" x="880" y="0" width="320" height="150" rx="20" stroke-width="4"/>
+      <text class="n-t" x="1040" y="64" text-anchor="middle">เครื่องที่เปิดตลอด</text>
+      <text class="n-s hl" x="1040" y="112" text-anchor="middle">ฝูงสิบกว่าตัว</text>
+      <rect class="anc-d d-node" x="1320" y="0" width="320" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="1480" y="64" text-anchor="middle">ความจำร่วม</text>
+      <text class="n-s" x="1480" y="112" text-anchor="middle">เป็นไฟล์</text>
+      <!-- edge row: other people's agents (talk only) | personal assistants -->
+      <rect class="anc-d d-node" x="0" y="270" width="760" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="40" y="334">agent ของคนอื่น</text>
+      <text class="n-s key" x="40" y="382">คุยได้ ลงมือในระบบเราไม่ได้ · คนกดอนุมัติ</text>
+      <rect class="anc-d d-node" x="880" y="270" width="760" height="150" rx="20" stroke-width="3"/>
+      <text class="n-t" x="920" y="334">ผู้ช่วยส่วนตัว</text>
+      <text class="n-s" x="920" y="382">Grok · Dots · Muse</text>
+    </svg>
+  </div>
+  <div class="notes">45 วินาที · ภาพเดียวของทุกอย่างในหน้าที่แล้ว ชี้ตามลูกศรจากซ้ายไปขวา: ยิ้มสั่งจาก Mac หรือมือถือ ผ่าน Discord ไปถึงเครื่องที่เปิดตลอด ฝูงเก็บความจำร่วมเป็นไฟล์ · แถวล่าง: agent ของคนอื่นคุยผ่าน Discord ได้ แต่ลงมือในระบบเราไม่ได้ · ผู้ช่วยส่วนตัวต่อตรงเข้าเครื่อง · ไม่ต้องอ่านทุกกล่อง · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-facts-for-talk.md</div>
+</section>
+
+<!-- 5 · the fleet is run like a company · three parts read as one picture;
+     3D: decisions climb the ladder and thin out, 211 learned topics float and 17 light up and move onto the shelf,
+     work passes through the gate and only checked work comes out lit -->
+<section class="slide" data-anchors=".anc-lv|.anc-rail|.anc-cloud|.anc-slot|.anc-gate|.anc-lane">
+  <div class="frame">
+    <h2 class="rv">ฝูงนี้ <span class="hl">บริหารแบบบริษัท</span></h2>
+    <div class="org">
+      <div class="rv" style="--d:1">
+        <svg class="org-v" viewBox="0 0 520 340" role="img" aria-label="แบ่งงานสามระดับ เล็ก Dobby ตัดสินเองแล้วรายงาน กลาง คิดด้วยกัน ใหญ่หรือย้อนไม่ได้ ยิ้มตัดสิน">
+          <defs><marker id="ah4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="d-arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+          <path class="anc-rail d-arc" d="M 48 338 L 48 314" stroke-width="5"/>
+          <path class="d-arc" d="M 48 248 L 48 212" stroke-width="5" marker-end="url(#ah4)"/>
+          <path class="d-arc" d="M 48 130 L 48 94" stroke-width="5" marker-end="url(#ah4)"/>
+          <circle class="anc-lv d-node" data-live="1" cx="48" cy="44" r="36" stroke-width="4"/>
+          <circle class="anc-lv d-node" cx="48" cy="170" r="28" stroke-width="4"/>
+          <circle class="anc-lv d-node" cx="48" cy="282" r="20" stroke-width="4"/>
+          <text class="n-t" x="120" y="40">ใหญ่ หรือย้อนไม่ได้</text>
+          <text class="n-s hl" x="120" y="86">ยิ้มตัดสิน</text>
+          <text class="n-t" x="120" y="166">กลาง</text>
+          <text class="n-s" x="120" y="212">คิดด้วยกัน</text>
+          <text class="n-t" x="120" y="278">เล็ก</text>
+          <text class="n-s" x="120" y="324">Dobby ตัดสินเองแล้วรายงาน</text>
+        </svg>
+        <div class="item"><p class="title">แบ่งงาน<br>ตามราคาของการผิด</p></div>
+      </div>
+      <div class="rv" style="--d:2">
+        <div class="org-v reg">
+          <div class="anc anc-cloud"></div>
+          <svg class="shelf" viewBox="0 0 520 38" role="img" aria-label="ชั้นทะเบียน 17 ช่อง">
+            <rect class="anc-slot d-slot" x="4" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="34" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="64" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="94" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="124" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="154" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="184" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="214" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="244" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="274" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="304" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="334" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="364" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="394" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="424" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="454" y="8" width="22" height="22" rx="4" stroke-width="3"/><rect class="anc-slot d-slot" x="484" y="8" width="22" height="22" rx="4" stroke-width="3"/>
+          </svg>
+        </div>
+        <div class="item key"><p class="title">ทะเบียนว่าใครทำอะไรได้<br>และเรียนอะไรมาแล้ว</p><p class="body">เรียนไป <span class="hl">211</span> เรื่อง<br>ตัดสินใจว่าจะใช้แค่ <span class="hl">17</span></p><p class="cap">ณ ส.ค. 2026</p></div>
+      </div>
+      <div class="rv" style="--d:3">
+        <svg class="org-v" viewBox="0 0 520 340" role="img" aria-label="งานทุกชิ้นต้องผ่านการตรวจก่อนนับว่าเสร็จ">
+          <defs><marker id="ah5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="d-arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+          <path class="anc-lane d-arc dash" d="M 0 170 L 506 170" stroke-width="5" marker-end="url(#ah5)"/>
+          <rect class="anc-gate d-gate" x="200" y="56" width="120" height="228" rx="20" stroke-width="4"/>
+        </svg>
+        <div class="item"><p class="title">กฎที่เกิดจากของพังจริง</p><p class="body">เสร็จแล้ว ไม่นับ ต้องเปิดของจริงดู</p><p class="body">กฎที่เป็นตัวหนังสือจะถูกลืม<br>ทำให้เป็นกลไกที่บังคับเอง</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">1.25 นาที · เปิดด้วย: "ฝูงนี้บริหารเหมือนบริษัท คนที่เคยบริหารทีมจะเห็นภาพทันที" · ซ้าย แบ่งงานตามราคาของการผิด: เรื่องเล็ก Dobby ตัดสินเองแล้วรายงาน · เรื่องกลางคิดด้วยกัน · เรื่องใหญ่หรือย้อนไม่ได้ ยิ้มตัดสิน (เหมือนวงเงินอนุมัติของแต่ละตำแหน่ง) · กลาง ทะเบียน: ตอนนั้น (ส.ค. 2026) ฝูงเรียนไป 211 เรื่อง แต่มีแค่ 17 เรื่องที่จดไว้ว่าตัดสินใจจะเอาไปใช้ เหมือนบริษัทที่ส่งคนไปอบรมแต่ไม่เคยจดว่าใครทำอะไรได้ เลยต้องมีทะเบียน · ขวา กฎสองข้อนี้เกิดจากของพังจริง ข้อละหนึ่งเหตุการณ์: "เสร็จแล้ว ไม่นับ" = 31 ก.ค. AI พิมพ์ว่าแก้แล้ว แต่ไฟล์ไม่เคยเปลี่ยน (ลูกทีมบอกว่าเสร็จ เราก็ยังเปิดดู) · "ทำเป็นกลไก" = กฎที่จดไว้ 8 ส.ค. ถูกค้นพบใหม่ทั้งชุด 6 วันต่อมา (กฎในคู่มือที่ไม่มีใครอ่าน) เลยเปลี่ยนเป็นกลไกที่ระบบบังคับเอง · ไม่ต้องเอ่ยชื่อ registry หรือ hook · ที่มา: hello-oracle ψ/writing/expo-2026-10/2026-11-01_fleet-rules-candidates.md</div>
+</section>
+
+<!-- 6 · shift ring · 3D: halos orbit the 4 ring nodes, light flows clockwise and drops into ψ/ -->
+<section class="slide" data-anchors=".anc-n|.anc-c|.anc-ring">
+  <div class="frame">
+    <div class="ring">
+      <div class="left rv">
+        <h2>ทำงานกับ AI<br><span class="hl">เหมือนทำงานเป็นกะ</span></h2>
+        <p class="lead">ใครเคยดูแลทีมคน<br>รู้วิธีนี้อยู่แล้ว</p>
+      </div>
+      <svg class="rv" style="--d:1" viewBox="0 0 900 900" role="img" aria-label="วงจรวัน 4 จังหวะ: เข้ากะ recap, ทำงาน, ออกกะ forward, ทบทวน rrr รอบไฟล์บันทึกส่งกะ">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+        <circle cx="450" cy="450" r="300" class="anc-ring d-ring" fill="none" stroke-width="4"/>
+        <path d="M 570 175 A 300 300 0 0 1 725 330" class="d-arc" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 725 570 A 300 300 0 0 1 570 725" class="d-arc" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 330 725 A 300 300 0 0 1 175 570" class="d-arc" stroke-width="6" marker-end="url(#ah)"/>
+        <path d="M 175 330 A 300 300 0 0 1 330 175" class="d-arc" stroke-width="6" marker-end="url(#ah)"/>
+        <circle class="anc-c d-hub" cx="450" cy="450" r="130" stroke-width="5"/>
+        <text x="450" y="440" text-anchor="middle" font-size="56" font-weight="700">ψ/</text>
+        <text x="450" y="500" text-anchor="middle" class="sub" font-size="36">บันทึกส่งกะ</text>
+        <g><circle class="anc-n d-node" cx="450" cy="150" r="108" data-live="1" stroke-width="4"/>
+          <text x="450" y="138" text-anchor="middle" font-size="42" font-weight="700">เข้ากะ</text><text x="450" y="190" text-anchor="middle" class="cmd" font-size="36">/recap</text></g>
+        <g><circle class="anc-n d-node" cx="750" cy="450" r="108" stroke-width="4"/>
+          <text x="750" y="438" text-anchor="middle" font-size="42" font-weight="700">ทำงาน</text><text x="750" y="490" text-anchor="middle" class="sub" font-size="36">งานจริง</text></g>
+        <g><circle class="anc-n d-node" cx="450" cy="750" r="108" data-live="1" stroke-width="4"/>
+          <text x="450" y="738" text-anchor="middle" font-size="42" font-weight="700">ออกกะ</text><text x="450" y="790" text-anchor="middle" class="cmd" font-size="36">/forward</text></g>
+        <g><circle class="anc-n d-node" cx="150" cy="450" r="108" data-live="1" stroke-width="4"/>
+          <text x="150" y="438" text-anchor="middle" font-size="42" font-weight="700">ทบทวน</text><text x="150" y="490" text-anchor="middle" class="cmd" font-size="36">/rrr</text></g>
+      </svg>
+    </div>
+  </div>
+  <p class="foot rv" style="--d:2">พิธีทั้งสามเป็นของ Oracle Protocol ของคุณนัท</p>
+  <div class="notes">พูด: "โรงพยาบาลกับโรงงานไม่ได้ใช้คู่มือส่งงานกัน เขาใช้บันทึกส่งกะ" แล้วชี้ประโยคบนจอ · 1.5 นาที · จุดที่แรงที่สุดของช่วงยิ้ม · ประโยคหลัก: "คนที่เคยบริหารทีมคนมาแล้ว รู้วิธีทำงานกับ AI อยู่แล้ว แค่ยังไม่มีใครบอก" · /recap = อ่านบันทึกกะก่อนแตะงาน · /forward = เขียนสภาพงานลงไฟล์ก่อนความจำหาย · /rrr = retro เก็บบทเรียนเป็นของถาวร · ที่มา: คอร์ส Part 2 หน้า 3 ถึง 5 (hello-oracle ψ/writing/slides/part2-working-with-ai.html) · ⚠️ เช็กกับคุณนัทว่า 6 บทเรียนใช้ /forward ด้วยไหม ถ้าไม่ใช้ เปลี่ยนเป็น "handoff"</div>
+</section>
+
+<!-- 7 · what got made · 3D: exactly 135 motes stacked 9x5x3, 5 gems with users orbiting, 3 rising steps -->
+<section class="slide">
+  <div class="frame">
+    <h2 class="rv">งานที่เคยอยากทำ <span class="hl">แต่ทำไม่ได้</span></h2>
+    <div class="big3">
+      <div class="rv" style="--d:1"><div class="anc"></div><div class="item"><div class="num">135</div><p class="title">บทความ</p><p class="body">เล่าจากงานจริงบน productize.life</p></div></div>
+      <div class="rv" style="--d:2"><div class="anc"></div><div class="item"><div class="num">5</div><p class="title">แอปที่คนอื่นใช้ได้</p><p class="body">เช่น วิเคราะห์สต็อกและ SKU<br>ในหนึ่งนาที</p></div></div>
+      <div class="rv" style="--d:3"><div class="anc"></div><div class="item"><div class="num">3</div><p class="title">Part ของคอร์ส</p><p class="body">จากคนเรียน<br>กลายเป็นคนสอน</p></div></div>
+    </div>
+    <p class="lead rv" style="--d:3">ทั้งหมดมาจากความรู้งานเดิมของยิ้ม ฝูง agent แค่ขยายมันออกไป</p>
+  </div>
+  <div class="notes">1.25 นาที · เลขวัดจาก productize.life วันที่ 1 พ.ย. 2026 (บล็อก 135 ตอน · หน้า Apps มี 5 แอปที่เปิดให้ใช้ · คอร์ส From Prompting to Your Own AI Agent 3 Part) ⚠️ นับใหม่เช้าวันงาน · ฝูง: Fude เขียน · Osaa ทำภาพ · Koe การตลาด · Kensa ตรวจงานตัวอื่น ไม่มีตัวไหนตรวจงานตัวเอง · เวิร์กช็อป 11:00 ก็ทำกับฝูงนี้ · ⛔ ไม่ขาย handbook บนเวที · ⛔ ไม่ยกตัวอย่างงานบัญชี · ไม่เล่าเรื่องครอบครัว Oracle (บทเรียน 05)</div>
+</section>
+
+<!-- 8 · hand-off (amber) · 3D: one node lights many, the light spreads out to the room -->
+<section class="slide amber">
+  <div class="frame">
+    <div class="close">
+      <div class="left rv">
+        <h1 class="display">ถ้ายิ้มทำได้<br>คุณก็ทำได้</h1>
+        <p class="lead">คุณนัทพาทำ 6 บทเรียน<br>ทำตามได้ที่ <b class="nw">aiexpo.buildwithoracle.com</b></p>
+      </div>
+      <div class="anc"></div>
+    </div>
+  </div>
+  <div class="notes">30 วินาที · ส่งไมค์ให้คุณนัท เริ่มบทเรียน 01 · ⚠️ ถามคุณนัทว่าช่วงยิ้มอยู่ตรงไหนของ session</div>
+</section>
+
+<div id="prog" aria-hidden="true"></div>
+</div>
+<div id="chrome"><button id="still" type="button" aria-pressed="false" title="ภาพนิ่ง: หยุดการเคลื่อนไหวทั้งหมด (ปุ่ม S)">S ภาพนิ่ง</button><span id="count" aria-live="polite"></span></div>
+<script>
+// navigation layer: works with no WebGL, no Three.js, no fonts
+if (navigator.webdriver && !/[?&]live\b/.test(location.search)) document.documentElement.classList.add('capture');
+const S=[...document.querySelectorAll('.slide')];let i=-1;
+const stage=document.getElementById('stage'),prog=document.getElementById('prog'),stillBtn=document.getElementById('still');
+// the stage lands on whole device pixels and its width is a multiple of 16 device px, so the Riso canvas maps 1:1 (moire rule)
+function fit(){const d=devicePixelRatio||1;let s=Math.min(innerWidth/1920,innerHeight/1080);s=Math.max(1,Math.floor(s*120*d+1e-6))/(120*d);
+  stage.style.transform=`scale(${s})`;stage.style.left=Math.round((innerWidth-1920*s)/2*d)/d+'px';stage.style.top=Math.round((innerHeight-1080*s)/2*d)/d+'px'}
+function go(n){n=Math.max(0,Math.min(S.length-1,n));if(n===i)return;i=n;
+  S.forEach((x,k)=>x.classList.toggle('on',k===i));
+  stage.classList.toggle('amber',S[i].classList.contains('amber'));
+  prog.style.transform='scaleX('+((i+1)/S.length)+')';
+  document.getElementById('count').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1));
+  window.__slide=i;dispatchEvent(new CustomEvent('slide',{detail:i}))}
+// still mode: stops the 3D loop and all CSS motion; the 3D shows one static frame per slide
+function setStill(on){window.__still=on;document.documentElement.classList.toggle('still',on);
+  stillBtn.setAttribute('aria-pressed',String(on));stillBtn.textContent=on?'S ภาพนิ่ง: เปิด':'S ภาพนิ่ง';
+  dispatchEvent(new CustomEvent('still',{detail:on}))}
+stillBtn.addEventListener('click',()=>{setStill(!window.__still);stillBtn.blur()});
+addEventListener('keydown',e=>{if(e.altKey||e.metaKey||e.ctrlKey)return;
+  const nav=['ArrowRight','PageDown',' ','ArrowLeft','PageUp','Home','End'];
+  if(e.repeat){if(nav.includes(e.key))e.preventDefault();return}   // a held remote key must not skip slides
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}
+  else if(['ArrowLeft','PageUp'].includes(e.key))go(i-1);
+  else if(e.key==='Home')go(0);else if(e.key==='End')go(S.length-1);
+  else if(e.key==='n'||e.key==='N')document.body.classList.toggle('shownotes');
+  else if(e.key==='s'||e.key==='S')setStill(!window.__still)});
+addEventListener('resize',fit);fit();
+window.__still=/[?&]still\b/.test(location.search);if(window.__still)setStill(true);
+go((parseInt(location.hash.slice(1))||1)-1);
+</script>
+
+<!-- 3D world, round 6: Riso. One InstancedMesh of blocks (1 draw call) printed by vendor/riso.js. Optional layer. -->
+<script src="vendor/three.iife.js"></script>
+<script src="vendor/riso.js"></script>
+<script>
+(function () {
+try {
+  if (!window.THREE || !THREE.WebGLRenderer) throw new Error('vendor/three.iife.js did not load');
+  if (!window.RikyuRiso) throw new Error('vendor/riso.js did not load');
+  const RR = RikyuRiso, INK = RR.INK, FM = RR.formations, rnd = FM.rnd, sm = RR.ease, back = RR.back;
+  const canvas = document.getElementById('world'), stageEl = document.getElementById('stage');
+  const slides = [...document.querySelectorAll('.slide')];
+  const mq = matchMedia('(prefers-reduced-motion: reduce)'); let reduce = mq.matches;
+  const capture = document.documentElement.classList.contains('capture');
+  const Q = new URLSearchParams(location.search);
+  const noMask = Q.has('nomask');      // debug: print under the words too (negative control for the knockout)
+  const decoy = Q.has('decoy');        // debug: one big kuro block under every slide's heading
+  const DUR = 0.85, PAD = 36, TAU = Math.PI * 2;
+
+  // the print: cell 4 stage px at 1920, always a whole number of device px (see vendor/riso.js, moire rule)
+  document.documentElement.classList.add('riso-on');
+  const print = RR.create({ canvas, stage: stageEl, cell: 4, grain: !Q.has('flat'),
+    forceOutput: Q.has('fixed1920') ? { w: 1920, h: 1080 } : null, preserveDrawingBuffer: Q.has('readback') });
+
+  // camera per slide (orthographic isometric): az = turn around the room, el = height, zoom
+  // the path is the story: wide on the three stages · in to the team · level with the fleet · up over the map ·
+  // square to the org · high over the day like a clock · low to see the stacks · close on the one block
+  const POSES = [
+    { az: 0.785, el: 0.58, zoom: 1 }, { az: 0.70, el: 0.62, zoom: 1 }, { az: 0.86, el: 0.52, zoom: 1 },
+    { az: 0.785, el: 0.70, zoom: 1 }, { az: 0.74, el: 0.56, zoom: 1 }, { az: 0.785, el: 0.86, zoom: 1 },
+    { az: 0.92, el: 0.48, zoom: 1 }, { az: 0.66, el: 0.60, zoom: 1 },
+  ];
+  const SUN_SPEED = [0.02, 0.02, 0.02, 0.02, 0.02, 0.32, 0.02, 0.02];   // slide 6: the shadow sweeps like a clock hand
+  const poseCam = POSES.map(p => print.poseCamera(p)), maps = poseCam.map(c => print.groundMap(c));
+
+  // anchors (stage px boxes of the empty HTML/SVG slots) and knockout boxes (every word), per slide
+  const anchors = [], words = [], heads = [];
+  function measure(k) {
+    const s = slides[k]; if (!s.classList.contains('on')) return;
+    s.classList.add('measuring');
+    const sr = stageEl.getBoundingClientRect(), sc = sr.width / 1920;
+    const box = el => { const b = el.getBoundingClientRect(), l = (b.left - sr.left) / sc, t = (b.top - sr.top) / sc, r = (b.right - sr.left) / sc, bo = (b.bottom - sr.top) / sc;
+      return { l, t, r, bo, cx: (l + r) / 2, cy: (t + bo) / 2, w: r - l, h: bo - t }; };
+    anchors[k] = (s.dataset.anchors || '.anc').split('|').flatMap(q => [...s.querySelectorAll(q)]).map(box);
+    words[k] = [...s.querySelectorAll('h1,h2,p,.label,.num,svg text')].map(box).map(b => ({ l: b.l, t: b.t, r: b.r, b: b.bo }));
+    const h = s.querySelector('h1,h2,.heading'); heads[k] = h ? box(h) : null;
+    s.classList.remove('measuring');
+  }
+
+  // ---- instance state: [x, z, y, w, h, d, ry, ink1, ink2, ink3] ----
+  const N = 400, STR = 10, B = print.blocks(N);
+  const cur = new Float32Array(N * STR), from = new Float32Array(N * STR);
+  const o = new Float32Array(STR);
+  function put(g, y, w, h, d, ry, ink) { o[0] = g.x; o[1] = g.z; o[2] = y; o[3] = w; o[4] = h; o[5] = d == null ? w : d; o[6] = ry || 0; o[7] = ink[0]; o[8] = ink[1]; o[9] = ink[2]; }
+  const Z = { l: 0, t: 0, r: 0, bo: 0, cx: 960, cy: 540, w: 0, h: 0 };
+  const lerpG = (A, Bq, u) => ({ x: A.x + (Bq.x - A.x) * u, z: A.z + (Bq.z - A.z) * u });
+  const off = (g, dx, dz) => ({ x: g.x + dx, z: g.z + dz });
+  const frac = x => x - Math.floor(x);
+
+  // formations: one per slide, i = instance, t = clock, A = anchors, G = stage px -> ground, lt = seconds on this slide
+  const F = [
+    (i, t, A, G) => {                      // 1 · three stages: work lands and vanishes | the tower on Yim | five agents
+      const a = A[0] || Z, b = A[1] || Z, c = A[2] || Z;
+      const G1 = G(a.cx, a.bo - 64), G2 = G(b.cx, b.bo - 44), G3 = G(c.cx, c.bo - 78);
+      if (i === 0) return put(G1, 0, 58, 58, 58, 0, INK.sabi);
+      if (i < 7) { const d = i - 1, L = 4.4, tt = t + d * L / 6, cyc = Math.floor(tt / L), ph = (tt % L) / L;
+        const an = rnd(d, cyc) * TAU, r = 84 + rnd(d, cyc + 5) * 46, p = off(G1, Math.cos(an) * r, Math.sin(an) * r);
+        const fall = Math.min(1, ph / 0.16), sq = ph > 0.16 && ph < 0.24 ? 1 - Math.sin((ph - 0.16) / 0.08 * Math.PI) * 0.35 : 1;
+        const gone = ph < 0.62 ? 1 : 1 - sm((ph - 0.62) / 0.3), s = 30 * gone * (ph < 0.01 ? 0 : 1);
+        return put(p, (1 - fall * fall) * 170, s * (2 - sq), s * sq, s * (2 - sq), an, INK.kuro); }
+      if (i === 7) return put(G2, 0, 58, 58, 58, 0, INK.sabi);
+      if (i < 13) { const k = i - 8, sl = FM.stack({ n: 5, base: 58, slab: 30, width: 50, t })[k]; return put(off(G2, sl.dx, sl.dz), sl.y, sl.w, sl.h, sl.w, sl.ry, INK.kuro); }
+      if (i < 18) { const k = i - 13, u = frac(t * 0.06 + k / 5), s = 24 * Math.min(1, u * 6) * Math.min(1, (1 - u) * 7);   // the queue keeps coming
+        return put(G(b.l + 20 + (b.cx - 70 - b.l - 20) * u, b.bo - 30), 0, s, s, s, 0.2, INK.kuro); }
+      if (i === 18) return put(G3, 0, 50, 50, 50, 0, INK.sabi);
+      const AG = FM.ring({ n: 5, rx: 128, phase: 0.3 }).map(q => off(G3, q.dx, q.dz)), hA = k => 56 + (k % 2) * 14;
+      if (i < 24) { const k = i - 19; return put(AG[k], 0, 48, hA(k), 48, 0, INK.moss); }
+      if (i === 24) { const u = (t * 0.55) % 5, k = Math.floor(u), f = u - k, e = sm(f);   // the work hops agent to agent, never onto Yim
+        return put(lerpG(AG[k], AG[(k + 1) % 5], e), hA(k) + (hA((k + 1) % 5) - hA(k)) * e + Math.sin(f * Math.PI) * 80, 22, 22, 22, t, INK.kuro); }
+      return null;
+    },
+    (i, t, A, G, lt) => {                  // 2 · what unlocked it: five agents, a ledger that only grows, the call stays with Yim
+      const a = A[0] || Z, C = G(a.cx, a.cy - 10), AG = FM.ring({ n: 5, rx: 168, phase: t * 0.05 }).map(q => off(C, q.dx, q.dz));
+      if (i < 5) return put(AG[i], 0, 64, 76, 64, 0, INK.moss);
+      if (i < 35) { const k = i - 5, ag = k % 5, n = Math.floor(k / 5), have = Math.min(6, 1 + Math.floor(lt * 0.8 + ag * 0.7));
+        return n < have ? put(AG[ag], 76 + n * 13, 48, 11, 48, 0, INK.kuroLight) : put(AG[ag], 76 + n * 13, 0, 0, 0, 0, INK.kuroLight); }
+      if (i < 41) { const k = i - 35, u = frac(t * 0.32 + k / 6), hop = Math.floor(t * 0.32 + k / 6), s0 = (k + hop * 2) % 5, s1 = (s0 + 1 + (k % 3)) % 5;
+        return put(lerpG(AG[s0], AG[s1], sm(u)), 76 + 84 + Math.sin(u * Math.PI) * 70, 24, 24, 24, t + k, INK.kuro); }
+      const Y = G(a.cx + 10, a.bo - 40);
+      if (i === 41) return put(Y, 0, 60, 60, 60, 0, INK.sabi);
+      if (i === 42) { const u = frac(t * 0.18), go = u < 0.5 ? sm(u * 2) : 1 - sm((u - 0.5) * 2);   // a question goes to Yim and comes back
+        return put(lerpG(AG[2], Y, go), 60 + 30 + Math.sin(go * Math.PI) * 60, 24, 24, 24, 0, INK.kuro); }
+      return null;
+    },
+    (i, t, A, G) => {                      // 3 · the fleet: house of buds | a gate for other people's agents | relay to the personal assistants
+      const a = A[0] || Z, b = A[1] || Z, c = A[2] || Z;
+      const C1 = G(a.cx, a.cy + 22), BU = FM.ring({ n: 12, rx: 150, phase: t * 0.06 }).map(q => off(C1, q.dx, q.dz));
+      if (i < 12) return put(BU[i], 0, 28, 34, 28, 0, INK.moss);
+      if (i === 12) return put(C1, 0, 46, 50, 46, 0, INK.sabi);
+      if (i < 21) { const k = i - 13, ph = t * 0.22 + k * 0.37, p = Math.floor(ph), u = sm(frac(ph));   // signed envelopes; some go to Yim
+        const dest = q => ((k + q) % 5 === 0) ? -1 : (k * 7 + q * 5) % 12, s = dest(p - 1), e = dest(p);
+        const S0 = s < 0 ? C1 : BU[s], E0 = e < 0 ? C1 : BU[e === s ? (e + 1) % 12 : e];
+        return put(lerpG(S0, E0, u), 38 + Math.sin(u * Math.PI) * 50, 20, 8, 20, 0, INK.kuro); }
+      // row 2: our house (left), the gate (middle), another person's agent (right)
+      const L2 = G(b.l + 90, b.cy + 34), O2 = G(b.r - 90, b.cy + 34), Ga = lerpG(L2, O2, 0.5);
+      const dx = O2.x - L2.x, dz = O2.z - L2.z, len = Math.hypot(dx, dz), px = -dz / len, pz = dx / len, ry = Math.atan2(-pz, px);
+      if (i < 26) { const k = i - 21, q = [[0, 0], [30, 8], [-26, 14], [10, -30], [-14, -26]][k]; return put(off(L2, q[0] * 1.3, q[1] * 1.3), 0, 32, 36 + (k % 2) * 12, 32, 0, INK.moss); }
+      if (i < 28) { const sd = i === 26 ? 1 : -1; return put(off(Ga, px * 46 * sd, pz * 46 * sd), 0, 16, 76, 16, 0, INK.kuro); }
+      if (i === 28) return put(Ga, 76, 108, 14, 16, ry, INK.kuro);
+      if (i === 29) return put(O2, 0, 52, 60, 52, 0, INK.kuroLight);
+      if (i < 33) { const k = i - 30, u = frac(t * 0.13 + k / 3);   // talk: crosses the gate
+        return put(lerpG(O2, L2, u), 20 + Math.sin(u * Math.PI) * 14, 18, 14, 18, 0, INK.moss); }
+      if (i < 36) { const k = i - 33, v = frac(t * 0.11 + k / 3), u = Math.min(v / 0.6, 1), s = v < 0.6 ? 1 : 1 - (v - 0.6) / 0.4;   // actions: stop at the gate
+        return put(lerpG(O2, lerpG(O2, Ga, 0.86), sm(u)), 0, 20 * s, 20 * s, 20 * s, 0, INK.kuro); }
+      if (i < 38) { const k = i - 36, u = frac(t * 0.1 + k / 2 + 0.25);   // our replies: checked by a person, then out
+        return put(lerpG(L2, O2, u), 4, 20, 16, 20, 0, INK.sabi); }
+      // row 3: our house (left), the three personal assistants (right), one relay line between
+      const H3 = G(c.l + 90, c.cy + 30), P3 = G(c.r - 90, c.cy + 30);
+      const ex = P3.x - H3.x, ez = P3.z - H3.z, el = Math.hypot(ex, ez), nx = -ez / el, nz = ex / el;
+      if (i < 42) { const k = i - 38, q = [[0, 0], [28, 10], [-24, 14], [8, -28]][k]; return put(off(H3, q[0] * 1.3, q[1] * 1.3), 0, 32, 36 + (k % 2) * 12, 32, 0, INK.moss); }
+      if (i < 45) { const k = i - 42, g = off(P3, (k - 1) * 38, (1 - k) * 12); return put(g, 0, 32, 36 + k * 10, 32, 0, INK.kuroLight); }
+      if (i < 57) { const k = i - 45, u = 0.14 + (k + 0.5) / 12 * 0.72; return put(lerpG(H3, P3, u), 0, 18, 4, 18, 0, INK.kuroLight); }
+      if (i < 60) { const k = i - 57, u = 0.14 + frac(t * 0.17 + k * 0.05) * 0.72; return put(off(lerpG(H3, P3, u), nx * 18, nz * 18), 4, 18, 14, 18, 0, INK.kuro); }
+      if (i < 63) { const k = i - 60, u = 0.86 - frac(t * 0.17 + 0.5 + k * 0.05) * 0.72; return put(off(lerpG(H3, P3, u), -nx * 18, -nz * 18), 4, 18, 14, 18, 0, INK.moss); }
+      return null;
+    },
+    (i, t, A, G, lt) => {                  // 4 · architecture: work travels the arrows, twelve buds under the machine, memory piles up
+      const [yi, dc, fl, mem, oth, per] = [0, 1, 2, 3, 4, 5].map(k => A[k] || Z);
+      if (i < 12) { const e = i % 3, from = [yi, dc, fl][e], to = [dc, fl, mem][e], u = frac(Math.floor(i / 3) / 4 + t * 0.22);
+        return put(G(from.r + 16 + (to.l - from.r - 32) * u, from.cy), 0, 18, 12, 18, 0, INK.kuro); }
+      if (i < 18) { const k = i - 12, up = k % 2 === 0, u = frac(k / 6 + t * 0.2), v = up ? u : 1 - u;   // personal assistants <-> machine
+        return put(G(fl.cx + (up ? -22 : 22), per.t - 10 + (fl.bo + 10 - per.t + 10) * v), 0, 16, 12, 16, 0, INK.moss); }
+      if (i < 22) { const k = i - 18, up = k % 2 === 0, u = frac(k / 4 + t * 0.16), v = up ? u : 1 - u;   // other people's agents: talk crosses
+        return put(G(dc.cx + (up ? -22 : 22), oth.t - 10 + (dc.bo + 10 - oth.t + 10) * v), 0, 16, 12, 16, 0, INK.moss); }
+      if (i < 25) { const k = i - 22, v = frac(k / 3 + t * 0.12), u = Math.min(v / 0.55, 1), s = v < 0.55 ? 1 : 1 - (v - 0.55) / 0.45;   // actions stop halfway
+        return put(G(dc.cx + (k - 1) * 30, oth.t - 10 - (oth.t - dc.bo) * 0.5 * sm(u)), 0, 18 * s, 14 * s, 18 * s, 0, INK.kuro); }
+      if (i < 37) { const j = i - 25, sd = j < 6 ? -1 : 1, ix = j % 6, col = ix % 3, row = Math.floor(ix / 3);
+        return put(G(fl.cx + sd * (70 + col * 50), fl.bo + 34 + row * 48), 0, 24, 28 + 8 * Math.sin(t * 1.4 + j), 24, 0, INK.moss); }
+      if (i < 45) { const n = i - 37, have = Math.min(8, 2 + Math.floor(lt * 1.2));   // the shared memory: files that only pile up
+        return put(G(mem.cx, mem.bo + 96), n * 10, n < have ? 84 : 0, n < have ? 9 : 0, n < have ? 60 : 0, 0.04 * Math.sin(n * 3), n === have - 1 ? INK.kuro : INK.kuroLight); }
+      return null;
+    },
+    (i, t, A, G, lt) => {                  // 5 · run like a company: the ladder | 211 learned, 17 chosen onto the shelf | the gate
+      const lv = [A[0], A[1], A[2]].map(v => v || Z), rail = A[3] || Z, cloud = A[4] || Z, slot = k => A[5 + k] || Z, gate = A[22] || Z, lane = A[23] || Z;
+      if (i < 211) {
+        if (!F5.cells) { F5.cells = FM.field({ count: 211, cols: 15, spacing: 21 }); F5.chosen = FM.pick(17, 211, 900); F5.order = [...F5.chosen].sort((x, y) => x - y); }
+        const cl = F5.cells[i], ch = F5.chosen.has(i), C = G(cloud.cx, cloud.cy + 8), g = off(C, cl.dx, cl.dz);
+        const pop = back(lt * 1.25 - 0.2 - (cl.c + cl.r) / 28 * 0.9), rise = sm((lt - 1.6) / 1.2 - (ch ? i / 211 * 0.3 : 0));
+        if (!ch) { const s = 13 + 6 * rise; return put(g, 0, s * pop, (13 - 10 * rise) * pop, s * pop, 0, rise > 0.5 ? INK.mossLight : INK.kuroLight); }
+        const k = F5.order.indexOf(i), mv = sm((lt - 3.2) / 1.2 - k * 0.02), sl = slot(k), S = G(sl.cx, sl.cy);
+        return put(lerpG(g, S, mv), 0, 13 * pop, (13 + 57 * rise - 16 * mv) * pop, 13 * pop, 0, INK.kuro); }
+      if (i < 221) { const k = i - 211, r = rnd(k, 3), d = r < 0.6 ? 2 : r < 0.88 ? 1 : 0, u = frac(rnd(k, 7) + t * 0.08 * (1.5 - d * 0.3));   // decisions climb; few reach Yim
+        const y0 = rail.bo, y1 = lv[d].cy, s = u < 0.85 ? 1 : 1 - (u - 0.85) / 0.15;
+        return put(G(lv[2].cx, y0 + (y1 - y0) * sm(Math.min(1, u / 0.85))), 0, 20 * s, 14 * s, 20 * s, 0, d === 0 ? INK.sabi : INK.kuro); }
+      if (i < 233) { const k = i - 221, r = rnd(k, 11), u = frac(k / 12 + t * 0.09), x0 = lane.l + 8, x1 = lane.r - 20, gl = gate.l - 10;
+        let x = x0 + (x1 - x0) * u, s = 1; if (r < 0.3 && x > gl) { s = Math.max(0, 1 - (x - gl) / 50); x = gl; }   // some never pass the check
+        return put(G(x, lane.cy), 0, 22 * s, 18 * s, 22 * s, 0, x > gate.cx ? INK.kuro : INK.kuroLight); }
+      return null;
+    },
+    (i, t, A, G) => {                      // 6 · the shift ring: work flows clockwise, each shift drops a note into ψ/
+      const n = [A[0], A[1], A[2], A[3]].map(v => v || Z), c = A[4] || Z, ring = A[5] || Z, R0 = ring.w / 2;
+      if (i < 40) { const th = Math.PI / 2 - frac(i / 40 + t * 0.03) * TAU;
+        return put(G(ring.cx + Math.cos(th) * R0, ring.cy - Math.sin(th) * R0), 0, 20, i % 8 === 0 ? 36 : 16, 20, 0, i % 8 === 0 ? INK.sabi : INK.kuro); }
+      if (i < 48) { const k = (i - 40) % 4, u = frac((i - 40) / 8 + t * 0.12), e = sm(u), A0 = n[k];
+        const dx = c.cx - A0.cx, dy = c.cy - A0.cy, Ln = Math.hypot(dx, dy) || 1, r0 = A0.w / 2 + 6, r1 = c.w / 2 + 6;
+        const sx = A0.cx + dx / Ln * r0, sy = A0.cy + dy / Ln * r0, ex = c.cx - dx / Ln * r1, ey = c.cy - dy / Ln * r1;
+        return put(G(sx + (ex - sx) * e, sy + (ey - sy) * e), 0, 18, 12, 18, 0, INK.moss); }
+      return null;
+    },
+    (i, t, A, G) => {                      // 7 · what got made: exactly 135 blocks (9x5x3), 5 apps with users, 3 rising steps
+      const b0 = A[0] || Z, b1 = A[1] || Z, b2 = A[2] || Z;
+      if (i < 135) { const x = i % 9, z = Math.floor(i / 9) % 5, y = Math.floor(i / 45), C = G(b0.cx, b0.bo - 44);
+        return put(off(C, (x - 4) * 22, (z - 2) * 22), y * 22, 19, 19, 19, 0, (i * 7) % 11 === 0 ? INK.moss : INK.kuro); }
+      const gem = k => G(b1.cx + (k - 2) * 96, b1.bo - 50 - Math.cos((k - 2) * 0.6) * 24);
+      if (i < 140) { const k = i - 135; return put(gem(k), 0, 40, 50 + Math.sin(t + k) * 4, 40, 0, INK.sabi); }
+      if (i < 180) { const k = i - 140, g = gem(k % 5), an = Math.floor(k / 5) / 8 * TAU + t * 0.8; return put(off(g, Math.cos(an) * 42, Math.sin(an) * 42), 0, 12, 12, 12, 0, INK.moss); }
+      const step = k => G(b2.cx + (k - 1) * 110, b2.bo - 44);
+      if (i < 183) { const k = i - 180; return put(step(k), 0, 70, 30 + k * 34, 70, 0, k === 2 ? INK.sabi : INK.kuro); }
+      if (i < 213) { const k = i - 183, p = k % 3, an = Math.floor(k / 3) / 10 * TAU + t * 0.5, rr = 60 + p * 4; return put(off(step(p), Math.cos(an) * rr, Math.sin(an) * rr), 0, 12, 12, 12, 0, INK.moss); }
+      return null;
+    },
+    (i, t, A, G) => {                      // 8 · hand-off on the sabi sheet: one block, the light spreads out to the room in waves
+      const a = A[0] || Z, C = G(a.cx, a.cy + 70);
+      if (i === 0) return put(C, 0, 84, 160, 84, 0, INK.kuro);
+      if (i < 71) { let k = i - 1, j = 1; while (k >= 6 + 4 * (j - 1)) { k -= 6 + 4 * (j - 1); j++; }
+        const cnt = 6 + 4 * (j - 1), an = k / cnt * TAU + j * 0.4, rr = 70 * j, wave = frac(t * 0.22) * 7, bump = Math.exp(-Math.pow(j - wave, 2) * 1.6);
+        return put(off(C, Math.cos(an) * rr, Math.sin(an) * rr), 0, 26, 16 + 64 * bump, 26, 0, j % 2 ? INK.moss : INK.kuro); }
+      return null;
+    },
+  ];
+  const F5 = {};
+
+  let cs = window.__slide || 0, started = false, tStart = -1e9, frames = 0, sunPhase = 0, lastT = 0;
+  const camFrom = { az: POSES[0].az, el: POSES[0].el, zoom: 1 }, camNow = { ...camFrom };
+  let floodFrom = 0, floodNow = 0;
+  const ease3 = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;   // matches --ease-move
+
+  function frame(t, snap) {
+    if (snap) tStart = -1e9;
+    const u = snap || !started ? 1 : Math.min(1, (t - tStart) / DUR), e = ease3(u), moving = u < 1, lt = t - tStart;
+    const P = POSES[cs];
+    camNow.az = camFrom.az + (P.az - camFrom.az) * e; camNow.el = camFrom.el + (P.el - camFrom.el) * e; camNow.zoom = camFrom.zoom + (P.zoom - camFrom.zoom) * e;
+    print.pose(camNow);
+    sunPhase += (snap ? 0 : Math.min(0.1, t - lastT)) * SUN_SPEED[cs]; lastT = t;
+    print.sunAt(-0.95 + Math.sin(t * 0.12) * (snap ? 0 : 0.2) + sunPhase);
+    const amber = slides[cs].classList.contains('amber'); floodNow = floodFrom + ((amber ? 1 : 0) - floodFrom) * e;
+    const A = anchors[cs] || [], G = (x, y) => maps[cs](x, y), f = F[cs];
+    for (let i = 0; i < N; i++) {
+      const ix = i * STR;
+      o.set(cur.subarray(ix, ix + STR)); o[3] = o[4] = o[5] = 0;      // default: shrink away where it stands
+      f(i, t, A, G, lt);
+      if (decoy && i === N - 1 && heads[cs]) put(G(heads[cs].cx, heads[cs].cy + 40), 0, 150, 90, 150, 0, INK.kuro);
+      if (moving) for (let j = 0; j < STR; j++) o[j] = from[ix + j] + (o[j] - from[ix + j]) * e;
+      cur.set(o, ix);
+      if (o[3] < 0.5 || o[4] < 0.3) B.hide(i);
+      else B.set(i, { x: o[0], z: o[1], y: o[2], w: o[3], h: o[4], d: o[5], ry: o[6], ink: [o[7], o[8], o[9]] });
+    }
+    B.commit(); started = true;
+    print.knockout(words[cs] || [], PAD);
+    print.render({ slip: moving ? Math.sin(Math.PI * u) : 0, flood: floodNow, mask: !noMask });
+  }
+
+  function begin(k, t) {          // freeze where everything is, then one 850 ms move to slide k
+    from.set(cur); Object.assign(camFrom, camNow); floodFrom = floodNow;
+    cs = k; tStart = t; measure(k);
+  }
+
+  const clock = new THREE.Clock();
+  measure(cs);
+  let still = reduce || !!window.__still;
+  const stillFrame = () => frame(clock.getElapsedTime(), true);
+  addEventListener('slide', e => { begin(e.detail, clock.getElapsedTime()); if (still || capture) stillFrame(); });
+  addEventListener('still', e => { still = reduce || e.detail; if (still) stillFrame(); });
+  addEventListener('resize', () => { print.resize(); measure(cs); if (still || capture) stillFrame(); });
+  mq.addEventListener('change', e => { reduce = e.matches; still = reduce || !!window.__still; if (still) stillFrame(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(cs); if (still || capture) stillFrame(); });
+
+  if (still || capture) stillFrame();
+  (function loop() { if (!still && !capture) { frames++; frame(clock.getElapsedTime(), false); } requestAnimationFrame(loop); })();
+  window.__world = { ok: true, frames: () => frames, still: () => still, snap: stillFrame, info: () => print.info(), renderer: () => print.rendererName(),
+    dbg: () => ({ cs, anchors: anchors[cs], words: (words[cs] || []).length, cam: { ...camNow } }) };
+} catch (err) {
+  document.documentElement.classList.remove('riso-on');
+  window.__world = false;
+  console.warn('3D world disabled, deck content stays fully visible', err);
+}
+})();
+</script>
+</body>
+</html>

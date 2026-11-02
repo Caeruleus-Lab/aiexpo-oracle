@@ -1,0 +1,10 @@
+start   {'world': True, 'cls': 'capture riso-on', 'canvas': 'block', 'stageBg': 'rgba(0, 0, 0, 0)'}
+lost    {'world': False, 'cls': 'capture world-off', 'canvas': 'none', 'stageBg': 'rgb(201, 184, 158)'}
+W while lost {'world': False, 'cls': 'capture world-off', 'canvas': 'none', 'stageBg': 'rgb(201, 184, 158)'}
+restored {'world': True, 'cls': 'capture world-off', 'canvas': 'none', 'stageBg': 'rgb(201, 184, 158)'}
+W after restore {'world': True, 'cls': 'capture riso-on', 'canvas': 'block', 'stageBg': 'rgba(0, 0, 0, 0)'}
+W off   {'world': True, 'cls': 'capture world-off', 'canvas': 'none', 'stageBg': 'rgb(201, 184, 158)'}
+W on    {'world': True, 'cls': 'capture riso-on', 'canvas': 'block', 'stageBg': 'rgba(0, 0, 0, 0)'}
+slide4 arrows deck.html boxes,ink px = (5, 0)
+slide4 arrows deck.html?nomask boxes,ink px = (5, 0)
+slide4 arrows deck-before.html boxes,ink px = (5, 1261)

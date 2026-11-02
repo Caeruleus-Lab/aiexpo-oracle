@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proto A · Sumi · Yim 3D deck, slide 1</title>
+<!--
+  Direction A "Sumi" (RESEARCH-3D.md §3.A) by Osaa (Oracle AI), 2026-11-01. One slide, prototype for Yim's choice.
+  Washi paper (procedural fibre shader) + ink blots (one Points draw call, normal blending, watercolour edge darkening).
+  Stage 1: chats land as ink drops, spread, dry and vanish; only Yim's sabi dot stays.
+  Stage 2: every drop pulls a thread back to Yim; the threads pinch into one neck over her.
+  Stage 3: an enso of five moss agents, the work light travels round the ring without touching Yim.
+  Key Right: the registry moment, 211 marks land, then resolve to 17 (the other 194 stay as pale ghosts: nothing is deleted).
+  Keys: Right/Space next, Left back. All text is HTML; no WebGL = text only. Offline: ../vendor/ only.
+-->
+<link rel="stylesheet" href="../vendor/fonts.css">
+<style>
+:root{
+  --rikyu-kuro:#1A1A1A; --rikyu-shiro:#F7F5F2; --rikyu-sabi:#C9B89E; --rikyu-moss:#6B7A6B; --rikyu-stone:#D9D6CF;
+  --ink:var(--rikyu-kuro); --ink-2:color-mix(in srgb,var(--rikyu-kuro) 78%,var(--rikyu-shiro)); --paper:var(--rikyu-shiro);
+  --sans:Satoshi,"IBM Plex Sans Thai",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--paper);overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0;background:var(--paper);overflow:hidden;font-family:var(--sans);color:var(--ink)}
+#world{position:absolute;inset:0;width:1920px;height:1080px}
+.layer{position:absolute;inset:0;transition:opacity .7s cubic-bezier(.6,0,.3,1),transform .9s cubic-bezier(.6,0,.3,1)}
+.who{position:absolute;left:120px;top:96px}
+.heading{font-size:72px;line-height:1.2;font-weight:700;letter-spacing:-.005em}
+.lead{font-size:48px;line-height:1.35;font-weight:500;color:var(--ink-2);margin-top:8px}
+.stages{position:absolute;left:120px;top:716px;display:grid;grid-template-columns:repeat(3,520px);column-gap:60px}
+.label{font-size:30px;line-height:1.4;font-weight:600;color:var(--rikyu-moss);display:flex;align-items:center;gap:16px}
+.key .label::after{content:"";width:72px;height:8px;border-radius:4px;background:var(--rikyu-sabi)}
+.title{font-size:48px;line-height:1.35;font-weight:700;margin-top:4px;white-space:nowrap}
+.body{font-size:36px;line-height:1.4;font-weight:400;color:var(--ink-2);margin-top:8px}
+.nw{white-space:nowrap}
+/* state 2 */
+.reg{opacity:0;pointer-events:none}
+.reg .col{position:absolute;left:120px;top:150px;width:640px}
+.reg .title{white-space:normal}
+.num{font-size:156px;line-height:1.08;font-weight:700;letter-spacing:-.02em;margin-top:56px;display:flex;align-items:baseline;gap:28px}
+.num .a{transition:color .9s,opacity .9s}
+.num .b{opacity:0;transition:opacity .9s}
+.reg .body{margin-top:24px}
+.reg .b-line{opacity:0;transition:opacity .9s}
+.cap{font-size:30px;line-height:1.4;color:var(--rikyu-moss);margin-top:40px}
+body.s1 .stg{opacity:0;transform:translateY(-24px)}
+body.s1 .reg{opacity:1}
+body.s2 .num .a{color:color-mix(in srgb,var(--rikyu-kuro) 28%,var(--rikyu-shiro))}
+body.s2 .num .b,body.s2 .reg .b-line{opacity:1}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="world" width="1920" height="1080" aria-hidden="true"></canvas>
+  <div class="layer stg">
+    <div class="who"><p class="heading">สุทธิณี เทพปริยะพล (ยิ้ม)</p><p class="lead">product manager ไม่ใช่วิศวกร</p></div>
+    <div class="stages">
+      <div class="item"><p class="label">ขั้น 1</p><p class="title">ยิ้มเป็นความจำให้ AI</p><p class="body">คุยในแชตทีละงาน<br>ทุกครั้งต้องเล่าใหม่</p></div>
+      <div class="item"><p class="label">ขั้น 2</p><p class="title">ยิ้มกลายเป็นคอขวด</p><p class="body">AI ทำได้มากขึ้น แต่ทุกงาน<br><span class="nw">รอยิ้มสั่ง รอยิ้มตรวจ</span></p></div>
+      <div class="item key"><p class="label">ขั้น 3</p><p class="title">งานเดินได้โดยไม่รอยิ้ม</p><p class="body">ทีม AI หลายตัว<br>กับวิธีทำงานของ ARRA</p></div>
+    </div>
+  </div>
+  <div class="layer reg">
+    <div class="col">
+      <p class="title">ทะเบียนว่าใครทำอะไรได้<br>และเรียนอะไรมาแล้ว</p>
+      <p class="num"><span class="a">211</span><span class="b">17</span></p>
+      <p class="body">เรียนไป 211 เรื่อง<br><span class="b-line">ตัดสินใจว่าจะใช้แค่ 17</span></p>
+      <p class="cap">ณ ส.ค. 2026</p>
+    </div>
+  </div>
+</div>
+<script src="../vendor/three.iife.js"></script>
+<script>
+// ---------- shell: scale, state machine ----------
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`scale(${s})`;stage.style.left=(innerWidth-1920*s)/2+'px';stage.style.top=(innerHeight-1080*s)/2+'px';window.__scale=s}
+fit();addEventListener('resize',fit);
+let state=0,stateAt=0,auto=null;
+function setState(n){n=Math.max(0,Math.min(1,n));if(n===state)return;state=n;stateAt=performance.now()/1000;
+  document.body.classList.toggle('s1',n===1);document.body.classList.remove('s2');clearTimeout(auto);
+  if(n===1)auto=setTimeout(()=>document.body.classList.add('s2'),2600)}
+addEventListener('keydown',e=>{if(e.repeat)return;if(['ArrowRight',' ','PageDown'].includes(e.key))setState(state+1);if(['ArrowLeft','PageUp'].includes(e.key))setState(state-1)});
+window.__proto={state:()=>state,go:setState,frames:()=>0,gl:false};
+
+// ---------- world ----------
+(function(){
+if(!window.THREE)return;
+let renderer;try{renderer=new THREE.WebGLRenderer({canvas:document.getElementById('world'),antialias:true,alpha:false})}catch(e){return}
+if(!renderer.getContext())return;
+const PR=()=>Math.min(2,(devicePixelRatio||1)*(window.__scale||1)*1.0);
+renderer.setPixelRatio(PR());renderer.setSize(1920,1080,false);
+addEventListener('resize',()=>{renderer.setPixelRatio(PR());renderer.setSize(1920,1080,false)});
+const scene=new THREE.Scene();
+const cam=new THREE.OrthographicCamera(0,1920,0,1080,-10,10); // screen pixels, y down
+const css=getComputedStyle(document.documentElement);
+const col=n=>new THREE.Color(css.getPropertyValue(n).trim());
+const KURO=col('--rikyu-kuro'),SHIRO=col('--rikyu-shiro'),SABI=col('--rikyu-sabi'),MOSS=col('--rikyu-moss'),STONE=col('--rikyu-stone');
+
+// paper: washi fibres, warm light crossing, parallax drift
+const paper=new THREE.Mesh(new THREE.PlaneGeometry(1920,1080),new THREE.ShaderMaterial({
+  uniforms:{uT:{value:0},uShiro:{value:SHIRO},uSabi:{value:SABI},uKuro:{value:KURO},uDrift:{value:new THREE.Vector2()}},
+  vertexShader:`varying vec2 vP;void main(){vP=position.xy+vec2(960.,540.);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+  fragmentShader:`precision highp float;varying vec2 vP;uniform float uT;uniform vec3 uShiro,uSabi,uKuro;uniform vec2 uDrift;
+  float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+  float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+  float fbm(vec2 p){float s=0.,a=.5;for(int i=0;i<5;i++){s+=a*n(p);p=p*2.03+17.1;a*=.5;}return s;}
+  void main(){vec2 p=vP+uDrift;
+    float cloud=fbm(p*.004)-.5;                         // large soft unevenness of handmade paper
+    float fib=n(vec2(p.x*.9,p.y*.035)+fbm(p*.01)*6.);   // long fibres
+    fib=smoothstep(.72,.98,fib)*.5+smoothstep(.8,1.,n(vec2(p.y*.7,p.x*.03)+3.))*.35;
+    float grain=h(floor(vP))-.5;
+    vec3 c=uShiro*(1.+cloud*.035+grain*.018)-fib*.022;
+    // warm sabi light crossing the sheet, very slow
+    vec2 g=vec2(-400.+mod(uT*22.,2800.),380.+sin(uT*.11)*120.);
+    float l=exp(-dot(vP-g,vP-g)/(2.*520.*520.));
+    c=mix(c,c*(uSabi/uShiro)*1.04,l*.22)+l*.012;
+    vec2 q=vP/vec2(1920.,1080.)-.5;c*=1.-dot(q,q)*.18;
+    gl_FragColor=vec4(c,1.);}`,
+  depthTest:false,depthWrite:false,side:THREE.DoubleSide}));
+paper.position.set(960,540,-5);scene.add(paper);
+
+// ink: one Points cloud, all marks
+const N=6000;
+const g=new THREE.BufferGeometry();
+const P=new Float32Array(N*3),S=new Float32Array(N),A=new Float32Array(N),C=new Float32Array(N*3),R=new Float32Array(N),K=new Float32Array(N);
+for(let i=0;i<N;i++)R[i]=Math.random();
+g.setAttribute('position',new THREE.BufferAttribute(P,3));g.setAttribute('aS',new THREE.BufferAttribute(S,1));g.setAttribute('aA',new THREE.BufferAttribute(A,1));
+g.setAttribute('aC',new THREE.BufferAttribute(C,3));g.setAttribute('aR',new THREE.BufferAttribute(R,1));g.setAttribute('aK',new THREE.BufferAttribute(K,1));
+const inkMat=new THREE.ShaderMaterial({transparent:true,depthTest:false,depthWrite:false,
+  uniforms:{uPR:{value:1}},
+  vertexShader:`attribute float aS,aA,aR,aK;attribute vec3 aC;uniform float uPR;varying float vA,vR,vK;varying vec3 vC;
+    void main(){vA=aA;vR=aR;vC=aC;vK=aK;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);gl_PointSize=aS*uPR;}`,
+  // aK: 0 = blot (wet edge, pooled rim), 1 = dry brush fleck (hard, grainy)
+  fragmentShader:`precision highp float;varying float vA,vR,vK;varying vec3 vC;
+    float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+    void main(){vec2 u=gl_PointCoord*2.-1.;float a=atan(u.y,u.x);float r=length(u);
+      float wob=vK>1.5?0.:1.;float edge=.86+wob*(.04*sin(a*2.+vR*40.)+.025*sin(a*5.+vR*13.)+.01*sin(a*11.+vR*7.));
+      float m=smoothstep(edge,edge-.09,r);
+      if(vK<.5||vK>1.5){float rim=smoothstep(edge-.36,edge-.03,r)*(vK>1.5?.22:.38);          // watercolour edge darkening
+        float bloom=smoothstep(1.,edge,r)*.10;                          // faint bleed halo
+        float body=(vK>1.5?.78:.6)+rim+(h(floor(gl_PointCoord*24.)+vR)-.5)*.05;
+        float al=max(m*body,bloom)*vA;if(al<.003)discard;gl_FragColor=vec4(vC,al);}
+      else{float gr=h(floor(gl_PointCoord*6.)+vR*9.);float al=m*vA*(.55+.45*gr);if(al<.003)discard;gl_FragColor=vec4(vC,al);} }`});
+const ink=new THREE.Points(g,inkMat);ink.frustumCulled=false;scene.add(ink);
+
+// ---------- layout ----------
+const CY=505, CX=[380,960,1540];
+const rnd=(i,k)=>{const x=Math.sin(i*127.1+k*311.7)*43758.5453;return x-Math.floor(x)};
+const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
+const eio=x=>x<0?0:x>1?1:(x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2);
+let n=0;
+function put(x,y,s,a,c,k){if(n>=N||a<=.004||s<=.3)return;P[n*3]=x;P[n*3+1]=y;S[n]=s;A[n]=a;C[n*3]=c.r;C[n*3+1]=c.g;C[n*3+2]=c.b;K[n]=k||0;n++}
+const SABI_D=new THREE.Color().copy(SABI).lerp(KURO,.3);
+function yim(x,y,a,sz){sz=sz||1;put(x,y,64*sz,.16*a,SABI,2);put(x,y,40*sz,a,SABI,2);put(x,y,14*sz,.7*a,SABI_D,2)}
+const grey=new THREE.Color().copy(KURO).lerp(SHIRO,.18);
+// brush stroke along a function, tapering, dry brush at the tail
+function stroke(f,count,w0,w1,a0,c,seed,prog,dry){for(let i=0;i<count;i++){const t=i/(count-1);if(t>prog)break;const [x,y]=f(t);
+  const w=w0+(w1-w0)*t;const d=dry?Math.max(0,(t-dry)/(1-dry)):0;if(rnd(i,seed)<d*.7)continue;
+  put(x+(rnd(i,seed+1)-.5)*w*.18,y+(rnd(i,seed+2)-.5)*w*.18,w*(.85+rnd(i,seed+3)*.3),a0*(1-d*.5),c,d>.15?1:0)}}
+
+// state-1 registry layout: 211 points in an organic cloud (right side), 17 chosen go to the shelf
+const REG=[];{let i=0,tries=0;while(REG.length<211&&tries<20000){tries++;const a=rnd(tries,1)*Math.PI*2,r=Math.sqrt(rnd(tries,2));
+  const x=1290+Math.cos(a)*r*470+Math.sin(a*3)*20,y=420+Math.sin(a)*r*220;if(REG.some(p=>Math.hypot(p.x-x,p.y-y)<26))continue;REG.push({x,y,s:14+rnd(tries,3)*12})}}
+const CHOSEN=new Set();while(CHOSEN.size<17)CHOSEN.add(Math.floor(rnd(CHOSEN.size+900,4)*211));
+const chosenIdx=[...CHOSEN].sort((a,b)=>REG[a].x-REG[b].x);const slotOf={};chosenIdx.forEach((k,j)=>slotOf[k]=j);
+
+let frames=0;const t0=performance.now()/1000;
+function frame(){
+  const now=performance.now()/1000,t=now-t0;n=0;
+  const into=state===1?eio((now-stateAt)/0.9):1-eio((now-stateAt)/0.9); // 0 = slide, 1 = registry
+  const st=1-into;  // stage visibility
+  const drift=Math.sin(t*.07)*6, driftY=Math.cos(t*.05)*3;
+  paper.material.uniforms.uT.value=t;paper.material.uniforms.uDrift.value.set(drift*.5,driftY*.5);
+  const ox=drift,oy=driftY;
+  if(st>0.01){
+    // ---- stage 1: drops land, spread, dry, vanish; Yim stays ----
+    {const cx=CX[0]+ox,cy=CY+oy;
+     for(let d=0;d<8;d++){const L=5.6,ph=((t+d*L/8)%L)/L,cyc=Math.floor((t+d*L/8)/L);
+       const a=rnd(d,cyc)*Math.PI*2,r=78+rnd(d,cyc+50)*120,x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r*.72;
+       const sp=ease(ph/.09),dry=ph<.25?1:1-ease((ph-.25)/.7),R0=26+rnd(d,cyc+9)*22;
+       put(x,y,R0*(.35+.65*sp)+ph*8,.92*dry*st,KURO,0);
+       for(let s=0;s<5;s++){const aa=a+(rnd(s,d*7+cyc)-.5)*2.4,rr=R0*.55+rnd(s,cyc+3)*R0*.9*sp;
+         put(x+Math.cos(aa)*rr,y+Math.sin(aa)*rr,(3+rnd(s,d+cyc)*6)*sp,.8*dry*st*(ph<.04?0:1),KURO,0)}
+       // stain ring left behind while drying
+       put(x,y,(R0+10)*1.15,.12*Math.max(0,1-Math.abs(ph-.6)/.35)*st,grey,0)}
+     yim(cx,cy,st)}
+    // ---- stage 2: threads from every waiting drop pinch into one neck over Yim ----
+    {const cx=CX[1]+ox,cy=CY+40+oy,nx=cx,ny=cy-46;
+     for(let d=0;d<24;d++){const a=Math.PI*(1.05+d/23*.9)+(rnd(d,2)-.5)*.12,r=150+rnd(d,1)*90+Math.sin(t*.6+d)*4;
+       const x=cx+Math.cos(a)*r*1.05,y=cy+Math.sin(a)*r*.95;
+       put(x,y,16+rnd(d,3)*12,.85*st,KURO,0);
+       // thread: quadratic toward neck, then into Yim
+       const mx=(x+nx)/2,my=ny-20+(y-ny)*.25;
+       const pulse=((t*.45+rnd(d,4))%1);
+       for(let i=0;i<46;i++){const u=i/45;const qx=(1-u)*(1-u)*x+2*(1-u)*u*mx+u*u*nx,qy=(1-u)*(1-u)*y+2*(1-u)*u*my+u*u*ny;
+         const near=Math.max(0,1-Math.abs(u-pulse)*10);
+         put(qx,qy,2.4+near*3.5,(.30+near*.5)*st,KURO,1)}}
+     // the pile pressing on her
+     for(let i=0;i<34;i++){const a=Math.PI*(1.12+rnd(i,7)*.76),r=30+rnd(i,8)*26;put(cx+Math.cos(a)*r,cy+Math.sin(a)*r*.8-8+Math.sin(t*1.3+i)*1.2,7+rnd(i,9)*8,.8*st,KURO,0)}
+     put(nx,ny+6,12,.6*st,KURO,0);
+     yim(cx,cy,st)}
+    // ---- stage 3: enso of five agents, work travels round the ring, Yim untouched ----
+    {const cx=CX[2]+ox,cy=CY+oy,R=150,a0=-Math.PI*.42;
+     const prog=Math.min(1,t/2.2);
+     stroke(u=>{const a=a0+u*Math.PI*1.86;return[cx+Math.cos(a)*R,cy+Math.sin(a)*R*.82]},620,9,3,.7*st,KURO,11,eio(prog),.7);
+     const lightA=a0+((t*.22)%1)*Math.PI*1.86;
+     for(let k=0;k<5;k++){const a=a0+Math.PI*1.86*(k+.5)/5,x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R*.82;
+       let da=Math.abs(lightA-a);const hit=Math.max(0,1-da/0.35);
+       const e=ease(prog*1.6-k*.12);put(x,y,(54+hit*14)*e,st,SHIRO,2);put(x,y,(38+hit*10)*e,st,MOSS,2);put(x,y,(12+hit*4)*e,.6*st,new THREE.Color().copy(MOSS).lerp(KURO,.4),2)}
+     const lx=cx+Math.cos(lightA)*R,ly=cy+Math.sin(lightA)*R*.82;
+     put(lx,ly,70,.22*st*ease(prog),SABI,2);put(lx,ly,16,.95*st*ease(prog),SABI,2);
+     yim(cx,cy,st)}
+  }
+  if(into>0.01){
+    // ---- registry: 211 land in a cascade, then 17 settle on a brushed shelf, 194 fade to ghosts ----
+    const te=state===1?now-stateAt:0.9-(now-stateAt);
+    const res=document.body.classList.contains('s2')?eio((now-stateAt-2.6)/1.4):0;
+    const shelfY=780,shelfX0=860,shelfW=860;
+    stroke(u=>[shelfX0-30+u*(shelfW+60),shelfY+44+Math.sin(u*5)*2],420,13,6,.75*ease(res*1.3)*into,KURO,77,eio(res),.8);
+    for(let k=0;k<211;k++){const p=REG[k];const land=ease((te-k*.0045)/.35);if(land<=0&&!res)continue;
+      const ch=CHOSEN.has(k);let x=p.x+ox,y=p.y+oy,s=p.s*(.4+.6*land),a=.9*land,c=KURO;
+      if(ch){const j=slotOf[k];const tx=shelfX0+(j+.5)*shelfW/17,ty=shelfY;const m=eio(res*1.15-j*.01);x+=(tx-x)*m;y+=(ty-y)*m;s=s+(34-s)*m;
+        if(m>.95){c=KURO}}
+      else{a=a*(1-res*.7);c=res>0?new THREE.Color().copy(KURO).lerp(STONE,res):KURO;s*=1-res*.25}
+      put(x,y,s,a*into,c,0)}
+    // Yim's dot rides above the shelf: the one who decides
+    yim(shelfX0-70+ox,shelfY+oy,into*ease(res*2),.8);
+  }
+  g.setDrawRange(0,n);for(const k of ['position','aS','aA','aC','aK'])g.attributes[k].needsUpdate=true;
+  inkMat.uniforms.uPR.value=renderer.getPixelRatio();
+  renderer.render(scene,cam);frames++;requestAnimationFrame(frame);
+}
+window.__proto.gl=true;window.__proto.frames=()=>frames;window.__proto.renderer=()=>{const gl=renderer.getContext();const e=gl.getExtension('WEBGL_debug_renderer_info');return e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER)};
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
