@@ -12,6 +12,9 @@ html[lang=th] [data-l=en],html[lang=en] [data-l=th]{display:none}
 .bar .mcplink{color:var(--ink-2);text-decoration:none;font-weight:700;font-size:15px;border:1px solid var(--rule);border-radius:999px;padding:4px 14px}
 .bar .mcplink:hover{border-color:var(--accent);color:var(--ink)}
 .langs{display:flex;gap:8px}
+.menu{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 clamp(10px,1.6vh,18px)}
+.menu a{color:var(--ink-2);text-decoration:none;font-weight:700;font-size:15px;border:1px solid var(--rule);border-radius:999px;padding:4px 14px}
+.menu a:hover{border-color:var(--accent);color:var(--ink)}
 .langs button{color:var(--ink-2);background:none;border:1px solid var(--rule);border-radius:999px;padding:4px 14px;font:700 15px var(--body);cursor:pointer}
 .theme{color:var(--ink-2);background:none;border:1px solid var(--rule);border-radius:999px;padding:4px 14px;font:700 15px var(--body);cursor:pointer}
 .theme:hover{border-color:var(--accent);color:var(--ink)}

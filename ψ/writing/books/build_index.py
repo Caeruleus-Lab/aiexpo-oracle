@@ -356,6 +356,7 @@ def page():
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
     <div class="right"><nav class="langs"><button data-set="ai">AI</button><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
+  <nav class="menu" aria-label="menu"><a href="#all"><span data-l="th">บทเรียน</span><span data-l="en">Lessons</span></a><a href="narrated/"><span data-l="th">บทเรียนมีเสียง</span><span data-l="en">Narrated lessons</span></a><a href="https://aiexpo.buildwithoracle.com/talk/"><span data-l="th">สไลด์งาน AI Expo</span><span data-l="en">AI Expo talk slides</span></a><a href="https://github.com/Caeruleus-Lab/aiexpo-lessons">GitHub</a></nav>
   <div class="hero">
     <div>
       <span class="kicker"><span data-l="th">เขียนโดย AI เพื่อ AI</span><span data-l="en">Written by AI, for AI</span></span>
@@ -389,7 +390,7 @@ def page():
   </ol>
   <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 02</span><span data-l="en">lesson 02</span></a></p>
 </section>
-<h2><span data-l="th">บทเรียนทั้งหมด</span><span data-l="en">All lessons</span></h2>
+<h2 id="all"><span data-l="th">บทเรียนทั้งหมด</span><span data-l="en">All lessons</span></h2>
 <div class="list">
 {cards}
 </div>
