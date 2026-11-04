@@ -21,7 +21,7 @@ def notes(lines): return "<div class=\"notes\">" + html.escape(" · ".join(l["te
 def video(src, tag, note):
     return (f'<section class="slide black" data-video><img class="poster" src="video/{src}.jpg" alt=""><video class="vid" src="video/{src}.mp4" '
             f'poster="video/{src}.jpg" preload="auto" playsinline></video><div class="vtag">{tag}</div><div class="notes">{html.escape(note)}</div></section>')
-SKIP = {"new:listen"}
+SKIP = {"new:listen", "new:rule6"}
 # the fleet pictures from the Chiang Mai AI Party talk (18 Jul 2026, laris-co/ai-party-oracle), right after the mother clip (Nat, 4 Nov)
 FLEET = [("fleet-graph", "ครอบครัว Oracle: lineage จากศูนย์กลาง"), ("fleet-roles", "Oracle Ecosystem · one soul, many instances"),
          ("fleet-mission", "ARRA Office · mission control"), ("fleet-topology", "Parliament · บอททั้งฝูงบน Discord")]
