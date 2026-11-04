@@ -14,7 +14,7 @@ import base64, json, pathlib, subprocess
 HERE = pathlib.Path(__file__).resolve().parent
 OUT = HERE / "oracle" / "full"; OUT.mkdir(parents=True, exist_ok=True)
 REPO = "Soul-Brews-Studio/arra-oracle-skills-cli"
-CARRIES = {"awaken": ["awaken"], "rrr": ["rrr"], "recap": ["recap"], "workshop": ["awaken", "rrr"], "awaken-app": ["awaken"]}
+CARRIES = {"awaken": ["awaken"], "rrr": ["rrr"], "forward": ["forward"], "recap": ["recap"], "workshop": ["awaken", "rrr"], "awaken-app": ["awaken"]}
 LANG = {".py": "python", ".ts": "ts", ".sh": "bash", ".mjs": "js", ".js": "js", ".json": "json"}
 
 

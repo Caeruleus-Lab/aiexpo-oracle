@@ -76,7 +76,7 @@ const TOOLS = [
   {
     name: "list_skills",
     title: "List the Oracle skills",
-    description: "List the ARRA Oracle skills this server can hand out (awaken, rrr, recap, workshop, awaken-app): what each does and how to run it in a chat.",
+    description: "List the ARRA Oracle skills this server can hand out (awaken, rrr, forward, recap, workshop, awaken-app): what each does and how to run it in a chat.",
     inputSchema: { type: "object", properties: {} },
     annotations: { readOnlyHint: true, openWorldHint: false },
   },
@@ -85,7 +85,7 @@ const TOOLS = [
     title: "Get an Oracle skill",
     description:
       "Return the instructions of an ARRA Oracle skill so you can run it in this chat: 'awaken' (give birth to an Oracle), 'rrr' (session report with real timestamps), " +
-      "'recap' (pick up from the last report), 'workshop' (the whole mini workshop), 'awaken-app' (build an interactive awaken app). " +
+      "'forward' (hand this chat over to the next one), 'recap' (pick up from the last handoff or report), 'workshop' (the whole mini workshop), 'awaken-app' (build an interactive awaken app). " +
       "Default source 'full' returns the WHOLE skill, not a summary: Part 1 = how to run it in a chat with no terminal, Part 2 = every file of the real skill " +
       "(SKILL.md plus its HOSTS/TEMPLATE/reference docs and scripts, from Soul-Brews-Studio/arra-oracle-skills-cli). It is long (30-65 KB): read all of it before you start, " +
       "then follow Part 1 with the person and use Part 2 for every detail (steps, templates, rules, why). " +
@@ -94,7 +94,7 @@ const TOOLS = [
     inputSchema: {
       type: "object",
       properties: {
-        name: { type: "string", enum: ["awaken", "rrr", "recap", "workshop", "awaken-app"] },
+        name: { type: "string", enum: ["awaken", "rrr", "forward", "recap", "workshop", "awaken-app"] },
         source: { type: "string", enum: ["full", "chat", "github"], description: "full (default): the whole skill; chat: the short chat runbook; github: live SKILL.md only" },
       },
       required: ["name"],
@@ -128,14 +128,15 @@ const TOOLS = [
 const SKILLS = {
   awaken: "ปลุก Oracle: ถาม 3 ข้อ แล้วสร้าง CLAUDE.md + ψ/memory/resonance",
   rrr: "รายงานจบงาน: Timeline เวลาจริง + บทเรียน",
-  recap: "เริ่มงาน: อ่านรายงานรอบก่อน บอกว่าค้างอะไร",
+  forward: "ส่งต่องาน: เขียน handoff ให้แชทถัดไป (ทำอะไรไป ค้างอะไร เริ่มตรงไหน)",
+  recap: "เริ่มงาน: อ่าน handoff และรายงานรอบก่อน บอกว่าค้างอะไร",
   workshop: "workshop สั้นในแชทเดียว: awaken → งานจริง → คุย → /rrr พร้อม time log",
   "awaken-app": "สร้างแอปปลุก Oracle แบบกดได้ (artifact / canvas)",
 };
-const GITHUB_SKILL = { awaken: "awaken", rrr: "rrr", recap: "recap" };
+const GITHUB_SKILL = { awaken: "awaken", rrr: "rrr", forward: "forward", recap: "recap" };
 // the skill folders as ZIPs (lesson 01, section 6): upload in claude.ai (Customize > Skills > Add) or unzip into ~/.claude/skills
 const ZIP = (s) => `${SITE}/2026-10-30_claude-chatgpt-install-guide/skills/${s}.zip`;
-const CARRIES = { awaken: ["awaken"], rrr: ["rrr"], recap: ["recap"], workshop: ["awaken", "rrr"], "awaken-app": ["awaken"] };
+const CARRIES = { awaken: ["awaken"], rrr: ["rrr"], forward: ["forward"], recap: ["recap"], workshop: ["awaken", "rrr"], "awaken-app": ["awaken"] };
 function downloads(name) {
   return "\n\n## Download this skill (tell the person)\n\n" + CARRIES[name].map((s) => `- \`${s}\`: ${ZIP(s)}`).join("\n") +
     "\n\nclaude.ai: Settings > Capabilities > turn on code execution, then Customize > Skills > Add > upload the ZIP; after that, /" + CARRIES[name][0] + " works in any chat. " +
@@ -276,13 +277,13 @@ async function handle(msg, env) {
         const asked = params.protocolVersion;
         return ok(id, {
           protocolVersion: PROTOCOLS.includes(asked) ? asked : PROTOCOLS[0],
-          capabilities: { tools: { listChanged: false }, prompts: { listChanged: false } },
+          capabilities: { tools: { listChanged: false }, prompts: { listChanged: false }, resources: { listChanged: false } },
           serverInfo: SERVER,
           instructions:
             "Read-only access to the AIExpo Oracle workshop lessons (AI Expo Thailand, 6 Nov 2026). " +
             "Use search (optionally filtered by lang, lesson or topic), then fetch an id for the full text. " +
             "Lessons exist in Thai (th, the original) and English (en). " +
-            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, recap, workshop, awaken-app). get_skill returns the WHOLE skill (every file of the real skill folder plus how to run it in chat): read all of it, then follow it with the person. " +
+            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, forward, recap, workshop, awaken-app). get_skill returns the WHOLE skill (every file of the real skill folder plus how to run it in chat): read all of it, then follow it with the person. " +
             "Voice and video: list_media, then get_media for a timed transcript and links that start at a given second.",
         });
       }
@@ -294,6 +295,18 @@ async function handle(msg, env) {
         return ok(id, await callTool(params.name, params.arguments || {}, env));
       case "resources/list":
         return ok(id, { resources: [] });
+      // the skills as markdown files (Nat, 4 Nov: "can make skill return md?")
+      case "resources/list":
+        return ok(id, { resources: Object.entries(SKILLS).map(([name, description]) => ({
+          uri: `${SITE}/oracle/full/${name}.md`, name: `${name}.md`, title: `/${name} (full skill)`, description, mimeType: "text/markdown" })) });
+      case "resources/read": {
+        const m = /\/oracle\/full\/([a-z-]+)\.md$/.exec(params.uri || "");
+        const text = m && (await skillText(m[1], "full", env));
+        if (!text) return rpcError(id, -32602, `Unknown resource: ${params.uri}`);
+        return ok(id, { contents: [{ uri: params.uri, mimeType: "text/markdown", text: text + downloads(m[1]) }] });
+      }
+      case "resources/templates/list":
+        return ok(id, { resourceTemplates: [] });
       case "prompts/list":
         return ok(id, { prompts: Object.entries(SKILLS).map(([name, description]) => ({ name, title: `/${name}`, description })) });
       case "prompts/get": {
@@ -349,7 +362,14 @@ async function callTool(name, args, env) {
   if (name === "get_skill") {
     const text = await skillText(args.name, args.source || "full", env);
     if (!text) return { content: [{ type: "text", text: `No skill '${args.name}' (source ${args.source || "full"}). Use list_skills.` }], isError: true };
-    return { content: [{ type: "text", text: text + downloads(args.name) }] };
+    // Nat, 4 Nov: "can make skill return md?" -> the skill is a text/markdown resource (a real .md file), not loose text
+    const src = args.source || "full";
+    const uri = src === "github" ? `https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/blob/alpha/skills/${GITHUB_SKILL[args.name]}/SKILL.md`
+      : `${SITE}/oracle/${src === "chat" ? "" : "full/"}${args.name}.md`;
+    return { content: [
+      { type: "text", text: `Skill /${args.name} (${src}) follows as the markdown file ${uri} . Read all of it, then run it with the person.` },
+      { type: "resource", resource: { uri, mimeType: "text/markdown", text: text + downloads(args.name) } },
+    ] };
   }
   const { lessons, chunks, model } = await load(env);
   if (name === "list_lessons") {
