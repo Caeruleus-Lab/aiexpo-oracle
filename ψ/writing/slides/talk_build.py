@@ -21,7 +21,13 @@ def notes(lines): return "<div class=\"notes\">" + html.escape(" · ".join(l["te
 def video(src, tag, note):
     return (f'<section class="slide black" data-video><img class="poster" src="video/{src}.jpg" alt=""><video class="vid" src="video/{src}.mp4" '
             f'poster="video/{src}.jpg" preload="auto" playsinline></video><div class="vtag">{tag}</div><div class="notes">{html.escape(note)}</div></section>')
-SKIP = {"new:listen"}   # cut from the talk deck (Nat, 4 Nov)
+SKIP = {"new:listen"}
+# the fleet pictures from the Chiang Mai AI Party talk (18 Jul 2026, laris-co/ai-party-oracle), right after the mother clip (Nat, 4 Nov)
+FLEET = [("fleet-graph", "ครอบครัว Oracle: lineage จากศูนย์กลาง"), ("fleet-roles", "Oracle Ecosystem · one soul, many instances"),
+         ("fleet-mission", "ARRA Office · mission control"), ("fleet-topology", "Parliament · บอททั้งฝูงบน Discord")]
+def fleet_slides():
+    return [f'<section class="slide black"><img class="vid" src="img/talk/{f}.png" alt=""><div class="vtag">{t} · ภาพจากงาน AI Party เชียงใหม่ 18 ก.ค. 2026</div>'
+            f'<div class="notes">ภาพจาก AI Party 18 ก.ค. 2026 · ตัวเลขบนภาพเป็นของวันนั้น · {t}</div></section>' for f, t in FLEET]   # cut from the talk deck (Nat, 4 Nov)
 out = []
 for g in script["segments"]:
     for sl in g["slides"]:
@@ -34,7 +40,9 @@ for g in script["segments"]:
                                   ("beat3", "ภูเขา · Beat 3 บทสรุป (38 วิ)"), ("beat4", "ภูเขา · Beat 4 อนัตตา (51 วิ)")]:
                     out.append(video(f"phukhao-{part}", tag, f"{tag} · เล่นเองเมื่อเข้าหน้านี้ · จบแล้วกด → ไปท่อนต่อไป · Space หยุด/เล่น"))
                 continue
-            out.append(video(name, html.escape(sl["label"]), "วิดีโอเล่นเองเมื่อเข้าหน้านี้ · Space หยุด/เล่น · → ไปต่อ")); continue
+            out.append(video(name, html.escape(sl["label"]), "วิดีโอเล่นเองเมื่อเข้าหน้านี้ · Space หยุด/เล่น · → ไปต่อ"))
+            if name == "oracle-family": out += fleet_slides()
+            continue
         kind, _, v = src.partition(":")
         if kind == "deck":
             out.append(secs[int(v) - 1])
