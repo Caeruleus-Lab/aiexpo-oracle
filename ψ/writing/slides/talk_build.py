@@ -76,6 +76,14 @@ out.append(mother)   # the mother clip is the very last slide, after the drama s
 ws_keys = ['img/talk/new-ws1.png', 'img/talk/new-ws2.png', '02-claude-custom-connector-filled.png', '07-claude-tool-approval.png',
            '08-claude-answer.png', 'img/talk/new-wsrun.png']
 ws = [out.pop(at(k)) for k in ws_keys]
+# Nat, 4 Nov: the tool-approval shot was mostly empty: zoom into the dialog and say what to press
+k = next(i for i, x in enumerate(ws) if "07-claude-tool-approval.png" in x)
+ws[k] = ('<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">ลงมือ 2 · ครั้งแรกที่ AI ใช้เครื่องมือ</span>'
+         '<h2 style="font-size:80px">Claude จะ<span class="hl">ขออนุญาต</span>ก่อนเปิดบทเรียน</h2>'
+         '<img src="img/talk/claude-allow-crop.png" alt="" style="width:1640px;border-radius:20px;border:2px solid var(--color-accent)">'
+         '<div class="rows" style="font-size:42px"><div><b class="hl">Allow once</b> อนุญาตครั้งนี้ · <b class="hl">Always allow</b> ไม่ต้องถามอีก</div><div>"Read a lesson section" = AI กำลังอ่านบทเรียนผ่าน MCP</div></div></div>'
+         '<div class="when">ภาพจริงจากบทเรียน 03 · claude.ai · 30 ต.ค. 2026</div>'
+         '<div class="notes">คนในห้องจะงงตรงนี้มากที่สุด · บอกว่ากด Always allow ได้ เพราะ MCP ของเราอ่านอย่างเดียว ไม่แก้อะไร</div></section>')
 # Nat, 4 Nov: the old "Claude answers" shot becomes two fresh captures of AI rebuilding lesson 03 as slides through the MCP
 LIVE = [("claude-mcp-slides", "claude.ai + AIExpo lessons connector: อ่านบทเรียน 03 แล้วสร้างสไลด์ HTML 5 หน้าเอง (4 พ.ย. 2026)"),
         ("chatgpt-mcp-slides", "ChatGPT + AIExpo lessons plugin: บทเรียน 03 เป็นสไลด์ 5 หน้า (4 พ.ย. 2026)")]
