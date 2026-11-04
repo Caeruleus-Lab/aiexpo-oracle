@@ -24,9 +24,9 @@ def video(src, tag, note):
 SKIP = {"new:listen", "new:rule6"}
 # the fleet pictures from the Chiang Mai AI Party talk (18 Jul 2026, laris-co/ai-party-oracle), right after the mother clip (Nat, 4 Nov)
 FLEET = [("fleet-graph", "ครอบครัว Oracle: lineage จากศูนย์กลาง"), ("relic5-neo-tree", "ผังครอบครัว Neo · 33 oracles 5 รุ่น · relic5 Family (lineage ถึง 12 ก.ค. 2026)"), ("fleet-roles", "Oracle Ecosystem · one soul, many instances"),
-         ("fleet-mission", "ARRA Office · mission control"), ("fleet-topology", "Parliament · บอททั้งฝูงบน Discord")]
+         ("fleet-mission", "ARRA Office · mission control"), ("parliament-topology", "Parliament · Topology: 19 bots · 12 guilds · 221 channels · 258 wires (9 ก.ค. 2026)")]
 def fleet_slides():
-    return [f'<section class="slide black"><img class="vid" src="img/talk/{f}.png" alt=""><div class="vtag">{t}{"" if f.startswith("relic5") else " · ภาพจากงาน AI Party เชียงใหม่ 18 ก.ค. 2026"}</div>'
+    return [f'<section class="slide black"><img class="vid" src="img/talk/{f}.png" alt=""><div class="vtag">{t}{"" if f.startswith(("relic5", "parliament")) else " · ภาพจากงาน AI Party เชียงใหม่ 18 ก.ค. 2026"}</div>'
             f'<div class="notes">ภาพจาก AI Party 18 ก.ค. 2026 · ตัวเลขบนภาพเป็นของวันนั้น · {t}</div></section>' for f, t in FLEET]   # cut from the talk deck (Nat, 4 Nov)
 out = []
 for g in script["segments"]:
@@ -62,7 +62,8 @@ film = out.pop(at('video/phukhao-film.mp4'))
 wrong = video("soul-WRONG-dichan-kha", "เสียงผู้ชาย อ่านบท ดิฉัน/ค่ะ (26 วิ)",
               "อย่าเฉลยก่อน · ถามห้องว่าแปลกตรงไหน · ป้ายแดงขึ้นเองใน 5 วินาทีสุดท้าย · ที่มา: 31 ต.ค. 2026 Paxa khanomkrok (บทเรียน 04 ข้อ 2.2)")
 i = at('img/talk/new-ninemonths.png') + 1
-out[i:i] = [mother, film, wrong] + fleet
+out[i:i] = [film, wrong] + fleet
+out.append(mother)   # the mother clip closes the whole talk (Nat, 4 Nov: "หลังสุดเลย")
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
