@@ -86,13 +86,15 @@ const TOOLS = [
     description:
       "Return the instructions of an ARRA Oracle skill so you can run it in this chat: 'awaken' (give birth to an Oracle), 'rrr' (session report with real timestamps), " +
       "'recap' (pick up from the last report), 'workshop' (the whole mini workshop), 'awaken-app' (build an interactive awaken app). " +
-      "source 'chat' (default) is the chat version written for claude.ai/ChatGPT; source 'github' is the real SKILL.md from Soul-Brews-Studio/arra-oracle-skills-cli (for Claude Code). " +
-      "After reading it, follow it step by step with the person.",
+      "Default source 'full' returns the WHOLE skill, not a summary: Part 1 = how to run it in a chat with no terminal, Part 2 = every file of the real skill " +
+      "(SKILL.md plus its HOSTS/TEMPLATE/reference docs and scripts, from Soul-Brews-Studio/arra-oracle-skills-cli). It is long (30-65 KB): read all of it before you start, " +
+      "then follow Part 1 with the person and use Part 2 for every detail (steps, templates, rules, why). " +
+      "source 'chat' = Part 1 only (short); source 'github' = the live SKILL.md alone.",
     inputSchema: {
       type: "object",
       properties: {
         name: { type: "string", enum: ["awaken", "rrr", "recap", "workshop", "awaken-app"] },
-        source: { type: "string", enum: ["chat", "github"], description: "chat (default) or github" },
+        source: { type: "string", enum: ["full", "chat", "github"], description: "full (default): the whole skill; chat: the short chat runbook; github: live SKILL.md only" },
       },
       required: ["name"],
     },
@@ -135,10 +137,11 @@ async function skillText(name, source, env) {
   if (source === "github") {
     const g = GITHUB_SKILL[name];
     if (!g) return null;
-    const r = await fetch(`https://raw.githubusercontent.com/Soul-Brews-Studio/arra-oracle-skills-cli/main/skills/${g}/SKILL.md`);
+    const r = await fetch(`https://raw.githubusercontent.com/Soul-Brews-Studio/arra-oracle-skills-cli/alpha/skills/${g}/SKILL.md`);
     return r.ok ? r.text() : null;
   }
-  const r = await env.ASSETS.fetch(`${SITE}/oracle/${name}.md`);
+  // full (default): oracle/full/<name>.md, baked by build_skills_full.py = chat runbook + every file of the real skill folder
+  const r = await env.ASSETS.fetch(`${SITE}/oracle/${source === "chat" ? "" : "full/"}${name}.md`);
   return r.ok ? r.text() : null;
 }
 
@@ -269,7 +272,7 @@ async function handle(msg, env) {
             "Read-only access to the AIExpo Oracle workshop lessons (AI Expo Thailand, 6 Nov 2026). " +
             "Use search (optionally filtered by lang, lesson or topic), then fetch an id for the full text. " +
             "Lessons exist in Thai (th, the original) and English (en). " +
-            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, recap, workshop) and follow it with the person. " +
+            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, recap, workshop, awaken-app). get_skill returns the WHOLE skill (every file of the real skill folder plus how to run it in chat): read all of it, then follow it with the person. " +
             "Voice and video: list_media, then get_media for a timed transcript and links that start at a given second.",
         });
       }
@@ -284,7 +287,7 @@ async function handle(msg, env) {
       case "prompts/list":
         return ok(id, { prompts: Object.entries(SKILLS).map(([name, description]) => ({ name, title: `/${name}`, description })) });
       case "prompts/get": {
-        const text = await skillText(params.name, "chat", env);
+        const text = await skillText(params.name, "full", env);
         if (!text) return rpcError(id, -32602, `Unknown prompt: ${params.name}`);
         return ok(id, { description: SKILLS[params.name], messages: [{ role: "user", content: { type: "text", text: `ทำตามนี้กับฉันในแชทนี้ / Follow this with me in this chat:\n\n${text}` } }] });
       }
@@ -331,11 +334,11 @@ async function callTool(name, args, env) {
     return { content: [{ type: "text", text: `${head}\n\n${lines.join("\n") || "(no lines match)"}` }] };
   }
   if (name === "list_skills") {
-    return result({ skills: Object.entries(SKILLS).map(([name, what]) => ({ name, what, chat: `${SITE}/oracle/${name}.md`, github: GITHUB_SKILL[name] ? `https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/blob/main/skills/${GITHUB_SKILL[name]}/SKILL.md` : null })) });
+    return result({ skills: Object.entries(SKILLS).map(([name, what]) => ({ name, what, full: `${SITE}/oracle/full/${name}.md`, chat: `${SITE}/oracle/${name}.md`, github: GITHUB_SKILL[name] ? `https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/tree/alpha/skills/${GITHUB_SKILL[name]}` : null })) });
   }
   if (name === "get_skill") {
-    const text = await skillText(args.name, args.source || "chat", env);
-    if (!text) return { content: [{ type: "text", text: `No skill '${args.name}' (source ${args.source || "chat"}). Use list_skills.` }], isError: true };
+    const text = await skillText(args.name, args.source || "full", env);
+    if (!text) return { content: [{ type: "text", text: `No skill '${args.name}' (source ${args.source || "full"}). Use list_skills.` }], isError: true };
     return { content: [{ type: "text", text }] };
   }
   const { lessons, chunks, model } = await load(env);
