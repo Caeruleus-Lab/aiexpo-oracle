@@ -90,6 +90,7 @@ def embed(texts, tok):
 
 
 IMG_RE = re.compile(r"!\[([^\]]*)\]\((images/[^)\s]+)\)")
+KEYLIKE = re.compile(r"AKID[0-9a-zA-Z]{32}|AKIA[0-9A-Z]{16}|ghp_[0-9A-Za-z]{36}|sk-[A-Za-z0-9]{32,}|xox[baprs]-[0-9A-Za-z-]{10,}|AIza[0-9A-Za-z_-]{35}")
 
 
 def build_images(lessons):
@@ -102,14 +103,19 @@ def build_images(lessons):
             raw = f.read_bytes()
             key = f'{l["key"]}/{f.name}'
             h = hashlib.sha256(b"1280/jpeg80\n" + raw).hexdigest()[:16]
-            if key in old and old[key]["hash"] == h:
+            if key in old and old[key]["hash"] == h and not KEYLIKE.search(old[key]["data"]):
                 out[key] = old[key]
                 continue
             im = Image.open(io.BytesIO(raw)).convert("RGB")
             if im.width > 1280:
                 im = im.resize((1280, round(im.height * 1280 / im.width)), Image.LANCZOS)
-            buf = io.BytesIO()
-            im.save(buf, "JPEG", quality=80, optimize=True)
+            # GitHub push protection reads base64 image bytes as key-shaped strings (a Tencent "AKID…" id in
+            # relic5-install/00-pipeline.png, 4 Nov 2026) and refuses the Pages push: step the quality down until none match
+            for q in range(80, 70, -1):
+                buf = io.BytesIO()
+                im.save(buf, "JPEG", quality=q, optimize=True)
+                if not KEYLIKE.search(base64.b64encode(buf.getvalue()).decode()):
+                    break
             out[key] = dict(url=f'{SITE}/{l["dir"]}/images/{f.name}', mimeType="image/jpeg", width=im.width, height=im.height,
                             bytes=buf.tell(), hash=h, data=base64.b64encode(buf.getvalue()).decode())
             made += 1
