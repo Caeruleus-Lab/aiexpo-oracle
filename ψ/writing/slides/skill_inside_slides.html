@@ -1,0 +1,73 @@
+<!-- What is inside the core skills (read from github.com/Soul-Brews-Studio/arra-oracle-skills-cli main, 4 Nov 2026). AIExpo Oracle (Oracle AI) -->
+<section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · กายวิภาค</span>
+  <h2 style="font-size:84px">หนึ่ง skill = <span class="hl">ไฟล์ SKILL.md</span></h2>
+  <pre style="font-family:var(--font-mono);font-size:30px;line-height:1.45;color:var(--color-ink);margin:0;background:#111;border:1px solid var(--color-rule);border-radius:16px;padding:24px 30px">---
+name: <span class="hl">rrr</span>
+description: Create session retrospective with AI diary and lessons
+  learned. Use when user says "rrr", "wrap up session" …
+argument-hint: "[--quick | --detail | --deep]"
+---
+# /rrr
+> "Reflect to grow, document to remember."</pre>
+  <div class="rows" style="font-size:38px"><div><b>description</b> บอก AI ว่าเมื่อไหร่ควรหยิบใช้</div><div>ข้างล่างคือขั้นตอน เขียนเหมือนสอนคน</div></div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/rrr/SKILL.md</b> · github.com/Soul-Brews-Studio/arra-oracle-skills-cli · 410 บรรทัด</div>
+<div class="notes">skill ไม่ใช่โปรแกรม เป็นเอกสารภาษาคน · ส่วนหัว 4 บรรทัดคือป้ายชื่อ AI อ่าน description แล้วรู้เองว่าเมื่อไหร่ควรใช้ · ที่เหลือคือคู่มือทีละขั้น</div></section>
+
+<section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · /awaken</span>
+  <h2 style="font-size:84px"><span class="hl">/awaken</span> พิธีเกิดของ Oracle</h2>
+  <div class="rows" style="font-size:40px">
+    <div class="frag">Phase 0 · เช็กระบบ วันเวลา เครื่องมือที่มี</div>
+    <div class="frag">Phase 1 · รู้จักกัน: ชื่อ งาน คนที่ช่วย ภาษา</div>
+    <div class="frag">Phase 2 · ความจำและครอบครัว</div>
+    <div class="frag">Phase 3 · หน้ายืนยันก่อนสร้าง</div>
+    <div class="frag">Phase 4 · สร้าง CLAUDE.md + โฟลเดอร์ ψ/</div>
+    <div class="frag">Phase 5–6 · ประกาศเกิด ทักครอบครัว จบ</div>
+  </div>
+  <div class="who">2 โหมด: Soul Sync ~20 นาที (ค้นหลักการเอง) · --fast ~5 นาที (ให้หลักการเลย)</div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/awaken/SKILL.md</b> · 939 บรรทัด · เกิด 23 ม.ค. 2026 · commit <code>4c3007a</code></div>
+<div class="notes">กดทีละขั้น · Soul Sync ให้ Oracle ไปค้นหลักการเองด้วย /trace /learn เลยใช้เวลานาน · --fast ป้อนหลักการให้เลย เหมาะกับห้องนี้ · ผลลัพธ์คือ CLAUDE.md (ตัวตน) + ψ/ (สมอง)</div></section>
+
+<section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · /recap</span>
+  <h2 style="font-size:84px"><span class="hl">/recap</span> เริ่มงาน ดูว่าค้างอะไร</h2>
+  <div class="rows" style="font-size:40px">
+    <div>1 · ดูสถานะ git: แก้อะไรค้าง อยู่ branch ไหน</div>
+    <div>2 · อ่านไฟล์ล่าสุดใน ψ/ (รายงาน โน้ตส่งต่อ)</div>
+    <div>3 · ขุด session ก่อนหน้าว่าทำอะไรไป</div>
+    <div>4 · เสนอทางไปต่อ 2–3 ข้อ ให้คนเลือก</div>
+  </div>
+  <div class="dq sm" style="font-size:40px">"Verify Before Reporting": เช็กของจริงก่อนบอกว่าค้าง</div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/recap/SKILL.md</b> · 321 บรรทัด · skill ตัวแรก 9 ธ.ค. 2025 · commit <code>cf76b44f</code></div>
+<div class="notes">กฎที่ชอบ: โน้ตส่งต่อเป็นแค่สิ่งที่ตั้งใจ ต้องเช็กของจริงก่อน เช่น PR อาจ merge ไปแล้ว ถ้าทวนของเก่าโดยไม่เช็ก คือโกหกโดยละเว้น</div></section>
+
+<section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · /rrr</span>
+  <h2 style="font-size:84px"><span class="hl">/rrr</span> จบงาน เขียนรายงาน</h2>
+  <div class="rows" style="font-size:40px">
+    <div>1 · หาว่า ψ/ ของ Oracle อยู่ไหน</div>
+    <div>2 · เก็บหลักฐาน: commit เวลาจริงของ session</div>
+    <div>3 · เขียนรายงาน + AI diary + feedback ตรง ๆ</div>
+    <div>4 · แยกบทเรียนที่ใช้ซ้ำได้ + บันทึกสถิติหนึ่งแถว</div>
+  </div>
+  <div class="dq sm" style="font-size:40px">ห้ามเดาเวลา ไม่รู้ให้เขียนว่าไม่รู้</div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/rrr/SKILL.md</b> · ใช้มากที่สุด 1,314 ครั้ง (m5, ม.ค.–ต.ค. 2026) · มาจาก Weyermann commit <code>87501a98</code></div>
+<div class="notes">ตัวอย่างจริงวันนี้: รายงาน 19.20_talk-deck-in-one-html.md · เวลาใน Timeline มาจาก commit และนาฬิกาของ session ไม่ได้เดา</div></section>
+
+<section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · /forward</span>
+  <h2 style="font-size:84px"><span class="hl">/forward</span> ส่งไม้ให้รอบหน้า</h2>
+  <pre style="font-family:var(--font-mono);font-size:32px;line-height:1.5;color:var(--color-ink);margin:0;background:#111;border:1px solid var(--color-rule);border-radius:16px;padding:24px 30px"># Handoff: <span class="hl">[Session Focus]</span>
+## What We Did
+## Pending
+## Next Session
+## Key Files</pre>
+  <div class="rows" style="font-size:38px"><div>เขียนลง ψ/inbox/handoff/ แล้วเข้าโหมดวางแผน</div><div>งานค้างกลายเป็น issue ให้คนตัดสิน</div></div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/forward/SKILL.md</b> · 323 บรรทัด · เกิด 11 ธ.ค. 2025 · commit <code>f0dd583f</code></div>
+<div class="notes">เหมือนบันทึกส่งกะในโรงพยาบาล (โยงสไลด์คุณยิ้ม) · รอบหน้า /recap อ่านไฟล์นี้ก่อนอย่างแรก</div></section>

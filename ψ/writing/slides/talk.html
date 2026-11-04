@@ -284,6 +284,79 @@ body.shownotes .notes{display:block}
 <div class="notes">skill คือสูตรที่เขียนเป็นไฟล์ · ตัวแรกคือ /recap 9 ธ.ค. 2025 อีก 10 นาทีต่อมาได้ /rrr · วันนี้เครื่องผมมี 316 skill</div></section>
 
 <section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · กายวิภาค</span>
+  <h2 style="font-size:84px">หนึ่ง skill = <span class="hl">ไฟล์ SKILL.md</span></h2>
+  <pre style="font-family:var(--font-mono);font-size:30px;line-height:1.45;color:var(--color-ink);margin:0;background:#111;border:1px solid var(--color-rule);border-radius:16px;padding:24px 30px">---
+name: <span class="hl">rrr</span>
+description: Create session retrospective with AI diary and lessons
+  learned. Use when user says "rrr", "wrap up session" …
+argument-hint: "[--quick | --detail | --deep]"
+---
+# /rrr
+> "Reflect to grow, document to remember."</pre>
+  <div class="rows" style="font-size:38px"><div><b>description</b> บอก AI ว่าเมื่อไหร่ควรหยิบใช้</div><div>ข้างล่างคือขั้นตอน เขียนเหมือนสอนคน</div></div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/rrr/SKILL.md</b> · github.com/Soul-Brews-Studio/arra-oracle-skills-cli · 410 บรรทัด</div>
+<div class="notes">skill ไม่ใช่โปรแกรม เป็นเอกสารภาษาคน · ส่วนหัว 4 บรรทัดคือป้ายชื่อ AI อ่าน description แล้วรู้เองว่าเมื่อไหร่ควรใช้ · ที่เหลือคือคู่มือทีละขั้น</div></section>
+
+<section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · /awaken</span>
+  <h2 style="font-size:84px"><span class="hl">/awaken</span> พิธีเกิดของ Oracle</h2>
+  <div class="rows" style="font-size:40px">
+    <div class="frag">Phase 0 · เช็กระบบ วันเวลา เครื่องมือที่มี</div>
+    <div class="frag">Phase 1 · รู้จักกัน: ชื่อ งาน คนที่ช่วย ภาษา</div>
+    <div class="frag">Phase 2 · ความจำและครอบครัว</div>
+    <div class="frag">Phase 3 · หน้ายืนยันก่อนสร้าง</div>
+    <div class="frag">Phase 4 · สร้าง CLAUDE.md + โฟลเดอร์ ψ/</div>
+    <div class="frag">Phase 5–6 · ประกาศเกิด ทักครอบครัว จบ</div>
+  </div>
+  <div class="who">2 โหมด: Soul Sync ~20 นาที (ค้นหลักการเอง) · --fast ~5 นาที (ให้หลักการเลย)</div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/awaken/SKILL.md</b> · 939 บรรทัด · เกิด 23 ม.ค. 2026 · commit <code>4c3007a</code></div>
+<div class="notes">กดทีละขั้น · Soul Sync ให้ Oracle ไปค้นหลักการเองด้วย /trace /learn เลยใช้เวลานาน · --fast ป้อนหลักการให้เลย เหมาะกับห้องนี้ · ผลลัพธ์คือ CLAUDE.md (ตัวตน) + ψ/ (สมอง)</div></section>
+
+<section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · /recap</span>
+  <h2 style="font-size:84px"><span class="hl">/recap</span> เริ่มงาน ดูว่าค้างอะไร</h2>
+  <div class="rows" style="font-size:40px">
+    <div>1 · ดูสถานะ git: แก้อะไรค้าง อยู่ branch ไหน</div>
+    <div>2 · อ่านไฟล์ล่าสุดใน ψ/ (รายงาน โน้ตส่งต่อ)</div>
+    <div>3 · ขุด session ก่อนหน้าว่าทำอะไรไป</div>
+    <div>4 · เสนอทางไปต่อ 2–3 ข้อ ให้คนเลือก</div>
+  </div>
+  <div class="dq sm" style="font-size:40px">"Verify Before Reporting": เช็กของจริงก่อนบอกว่าค้าง</div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/recap/SKILL.md</b> · 321 บรรทัด · skill ตัวแรก 9 ธ.ค. 2025 · commit <code>cf76b44f</code></div>
+<div class="notes">กฎที่ชอบ: โน้ตส่งต่อเป็นแค่สิ่งที่ตั้งใจ ต้องเช็กของจริงก่อน เช่น PR อาจ merge ไปแล้ว ถ้าทวนของเก่าโดยไม่เช็ก คือโกหกโดยละเว้น</div></section>
+
+<section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · /rrr</span>
+  <h2 style="font-size:84px"><span class="hl">/rrr</span> จบงาน เขียนรายงาน</h2>
+  <div class="rows" style="font-size:40px">
+    <div>1 · หาว่า ψ/ ของ Oracle อยู่ไหน</div>
+    <div>2 · เก็บหลักฐาน: commit เวลาจริงของ session</div>
+    <div>3 · เขียนรายงาน + AI diary + feedback ตรง ๆ</div>
+    <div>4 · แยกบทเรียนที่ใช้ซ้ำได้ + บันทึกสถิติหนึ่งแถว</div>
+  </div>
+  <div class="dq sm" style="font-size:40px">ห้ามเดาเวลา ไม่รู้ให้เขียนว่าไม่รู้</div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/rrr/SKILL.md</b> · ใช้มากที่สุด 1,314 ครั้ง (m5, ม.ค.–ต.ค. 2026) · มาจาก Weyermann commit <code>87501a98</code></div>
+<div class="notes">ตัวอย่างจริงวันนี้: รายงาน 19.20_talk-deck-in-one-html.md · เวลาใน Timeline มาจาก commit และนาฬิกาของ session ไม่ได้เดา</div></section>
+
+<section class="slide black"><div class="frame">
+  <span class="tag" style="font-size:30px;color:var(--color-ink-3)">ข้างใน skill · /forward</span>
+  <h2 style="font-size:84px"><span class="hl">/forward</span> ส่งไม้ให้รอบหน้า</h2>
+  <pre style="font-family:var(--font-mono);font-size:32px;line-height:1.5;color:var(--color-ink);margin:0;background:#111;border:1px solid var(--color-rule);border-radius:16px;padding:24px 30px"># Handoff: <span class="hl">[Session Focus]</span>
+## What We Did
+## Pending
+## Next Session
+## Key Files</pre>
+  <div class="rows" style="font-size:38px"><div>เขียนลง ψ/inbox/handoff/ แล้วเข้าโหมดวางแผน</div><div>งานค้างกลายเป็น issue ให้คนตัดสิน</div></div>
+</div>
+<div class="when">ไฟล์จริง <b>skills/forward/SKILL.md</b> · 323 บรรทัด · เกิด 11 ธ.ค. 2025 · commit <code>f0dd583f</code></div>
+<div class="notes">เหมือนบันทึกส่งกะในโรงพยาบาล (โยงสไลด์คุณยิ้ม) · รอบหน้า /recap อ่านไฟล์นี้ก่อนอย่างแรก</div></section>
+
+<section class="slide black"><div class="frame">
   <span class="tag" style="font-size:30px;color:var(--color-ink-3)">สอน 2 · Memory</span>
   <h2 style="font-size:96px">Memory <span class="hl">คืออะไร</span></h2>
   <div class="rows" style="font-size:46px"><div>ไฟล์ markdown ในโฟลเดอร์ <code class="hl">ψ/</code></div><div>เปิดอ่านได้ แก้ได้ เก็บใน git</div><div>ปิดหน้าต่างแล้วเปิดใหม่ ไฟล์ยังอยู่</div><div>ตัวค้นหาเป็นแค่ดัชนี ลบแล้วสร้างใหม่ได้</div></div>
@@ -336,11 +409,12 @@ mba ───┘    72,832 sessions · 1.31M ข้อความ · 158,962 co
   <div style="font-size:38px;font-weight:700">ทาง 1 · claude.ai / ChatGPT (ไม่ต้องติดตั้ง) ก๊อปไปวาง:</div>
   <div class="box" style="font-size:30px;font-family:var(--font-mono);background:var(--color-accent-ink);color:var(--color-accent);line-height:1.45">นี่คือ skill /awaken ของ ARRA Oracle บน GitHub อ่านแล้วทำตามในแชทนี้ (ไม่มีเทอร์มินัล ให้สร้างไฟล์เป็นเอกสารแทน ใช้โหมด --fast): https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/blob/main/skills/awaken/SKILL.md</div>
   <div style="font-size:34px">จบงานวางอีกบรรทัด เปลี่ยน <code>awaken</code> เป็น <code>rrr</code> · วันใหม่ใช้ <code>recap</code></div>
+  <div style="font-size:30px">Gemini เปิดลิงก์เองไม่ได้: เปิด <code>aiexpo.buildwithoracle.com/oracle/awaken.md</code> ก๊อปทั้งหน้าไปวางแทน</div>
   <div style="font-size:38px;font-weight:700;margin-top:12px">ทาง 2 · คอมที่มี Claude Code / Codex:</div>
   <div style="font-size:30px;font-family:var(--font-mono)">bunx --bun github:Soul-Brews-Studio/arra-oracle-skills-cli#alpha install -g -y → /awaken --fast</div>
 </div>
 <div class="when">ทดสอบจริง <b>4 พ.ย. 2026 · 19:16</b> · claude.ai อ่าน SKILL.md จาก GitHub แล้วเริ่ม /awaken --fast เอง</div>
-<div class="notes">claude.ai ติดตั้ง skill ด้วยคำสั่งไม่ได้ แต่อ่านไฟล์ skill จาก GitHub แล้วทำตามได้ · พิมพ์ /rrr เองในช่องจะติดเมนู slash ของ claude.ai ให้วางบรรทัดลิงก์แทน · ไฟล์ skill อยู่ที่ github.com/Soul-Brews-Studio/arra-oracle-skills-cli/tree/main/skills</div></section>
+<div class="notes">ทดสอบแล้ว: claude.ai อ่านลิงก์ GitHub ได้ · Gemini ตอบว่าเข้าเว็บไม่ได้ ให้ก๊อปเนื้อหาไปวาง · claude.ai ติดตั้ง skill ด้วยคำสั่งไม่ได้ แต่อ่านไฟล์ skill จาก GitHub แล้วทำตามได้ · พิมพ์ /rrr เองในช่องจะติดเมนู slash ของ claude.ai ให้วางบรรทัดลิงก์แทน · ไฟล์ skill อยู่ที่ github.com/Soul-Brews-Studio/arra-oracle-skills-cli/tree/main/skills</div></section>
 
 <section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">ลงมือ 3 · ลิงก์เดียว</span><h2 style="font-size:92px">ปลุก Oracle ใน <span class="hl">claude.ai</span></h2><div class="box" style="font-size:40px;font-family:var(--font-mono)">เริ่ม workshop: https://aiexpo.buildwithoracle.com/oracle/workshop.md</div><div class="rows" style="font-size:42px"><div>ถามชื่อ งาน และชื่อคุณ แล้วสร้าง CLAUDE.md</div><div>ช่วยงานจริงหนึ่งชิ้น คุยกันสองคำถาม</div><div>จบด้วย /rrr พร้อมเวลาจริงของทุกช่วง</div></div></div><div class="when">ทดสอบจริง <b>4 พ.ย. 2026 · 19:11–19:12</b> · claude.ai · ไม่ต้องติดตั้งอะไร</div><div class="notes">ให้ห้องก๊อปบรรทัดในกรอบไปวางใน claude.ai (หรือ ChatGPT / Gemini) · พิมพ์ /rrr เองใน claude.ai จะติดเมนู slash ของมัน ให้วางลิงก์ rrr.md แทน</div></section>
 

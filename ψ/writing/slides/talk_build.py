@@ -93,6 +93,8 @@ ws += ['<section class="slide black"><div class="frame"><span class="tag" style=
        '<div class="notes">ชี้ Timeline: ทุกบรรทัดมีเวลาและคำพูดจริง · Next steps เป็นช่องติ๊ก · บทเรียนแยกเป็นไฟล์</div></section>']
 # teaching set (skill, memory, how they work, a real round, relic5, 15→60→30, how to start) opens the workshop part (Nat, 4 Nov)
 teach = re.findall(r'<section class="slide[^"]*".*?</section>', (here / "skills_slides.html").read_text(encoding="utf-8"), re.S)
+# what is inside the core skills (anatomy, /awaken, /recap, /rrr, /forward) right after "Skill คืออะไร" (Nat, 4 Nov: "ใส่เนื้อหาของ skill")
+teach[1:1] = re.findall(r'<section class="slide[^"]*".*?</section>', (here / "skill_inside_slides.html").read_text(encoding="utf-8"), re.S)
 i = at('img/yim3d-09.png') + 1
 # order (Nat, 4 Nov): MCP hands-on first, then the teaching set, then the one-link awaken demo
 mcp, awaken_demo = ws[:-2], ws[-2:]
