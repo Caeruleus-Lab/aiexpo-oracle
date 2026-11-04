@@ -56,11 +56,13 @@ for g in script["segments"]:
 def at(key): return next(i for i, x in enumerate(out) if key in x)
 mother = out.pop(at('video/oracle-family.mp4'))
 fleet = [out.pop(at(f'img/talk/{f}.png')) for f, _ in FLEET]
-i = at('video/phukhao-film.mp4')
-out[i:i] = [mother] + fleet
-# the same mountain, card A again, but a male voice reading ดิฉัน/ค่ะ (the 31 Oct Paxa mistake), right after the film (Nat, 4 Nov)
-out.insert(at('video/phukhao-film.mp4') + 1, video("phukhao-wrong-gender", "ภูเขา · เสียงผู้ชาย อ่านบท ดิฉัน/ค่ะ (26 วิ)",
-    "อย่าเฉลยก่อน · ถามห้องว่าแปลกตรงไหน · ป้ายแดงขึ้นเองใน 5 วินาทีสุดท้าย · ที่มา: 31 ต.ค. 2026 Paxa khanomkrok (บทเรียน 04 ข้อ 2.2)"))
+# three videos back to back (Nat, 4 Nov): mother clip, Phukhao's film (female voice), then the male voice reading ดิฉัน/ค่ะ
+# over the soul light-figures (the take Nat picked); the family pictures follow the three videos
+film = out.pop(at('video/phukhao-film.mp4'))
+wrong = video("soul-WRONG-dichan-kha", "เสียงผู้ชาย อ่านบท ดิฉัน/ค่ะ (26 วิ)",
+              "อย่าเฉลยก่อน · ถามห้องว่าแปลกตรงไหน · ป้ายแดงขึ้นเองใน 5 วินาทีสุดท้าย · ที่มา: 31 ต.ค. 2026 Paxa khanomkrok (บทเรียน 04 ข้อ 2.2)")
+i = at('img/talk/new-ninemonths.png') + 1
+out[i:i] = [mother, film, wrong] + fleet
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
