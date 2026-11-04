@@ -52,6 +52,13 @@ for g in script["segments"]:
             out.append(f'<section class="slide yim3d"><img src="img/talk/new-{v}.png" alt="">{notes(sl["lines"])}</section>')
         elif kind == "lesson03":
             out.append(f'<section class="slide shot"><img src="{L03}{v}" alt="">{notes(sl["lines"])}</section>')
+# Nat, 4 Nov: the mother clip plays before Phukhao's film (it takes the film's place); the fleet pictures follow "อยากให้ AI เป็นแบบนี้"
+def at(key): return next(i for i, x in enumerate(out) if key in x)
+mother = out.pop(at('video/oracle-family.mp4'))
+fleet = [out.pop(at(f'img/talk/{f}.png')) for f, _ in FLEET]
+out.insert(at('video/phukhao-film.mp4'), mother)
+i = at('img/talk/new-want.png') + 1
+out[i:i] = fleet
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
