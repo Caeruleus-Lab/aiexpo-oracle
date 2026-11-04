@@ -94,7 +94,9 @@ ws += ['<section class="slide black"><div class="frame"><span class="tag" style=
 # teaching set (skill, memory, how they work, a real round, relic5, 15→60→30, how to start) opens the workshop part (Nat, 4 Nov)
 teach = re.findall(r'<section class="slide[^"]*".*?</section>', (here / "skills_slides.html").read_text(encoding="utf-8"), re.S)
 i = at('img/yim3d-09.png') + 1
-out[i:i] = teach + ws
+# order (Nat, 4 Nov): MCP hands-on first, then the teaching set, then the one-link awaken demo
+mcp, awaken_demo = ws[:-2], ws[-2:]
+out[i:i] = mcp + teach + awaken_demo
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
