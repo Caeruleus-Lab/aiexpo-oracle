@@ -63,11 +63,12 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-off
 .brief .copy.big{margin-left:0;padding:8px 18px;font-size:16px;background:var(--accent);color:var(--paper);border-color:var(--accent)}
 .briefbox{max-height:7.5em;overflow:auto;margin:12px 0 0;padding:10px 12px;background:var(--paper);border:1px solid var(--rule);border-radius:var(--r-sm);font:12px/1.5 var(--mono);color:var(--ink-2);white-space:pre-wrap;word-break:break-all}
 
-/* hero Matrix (4 Nov): replaces the hero lesson list; one click copies the AI brief */
-.herowall{position:relative;width:100%;min-height:clamp(300px,44vh,520px);border:1px solid var(--accent);border-radius:var(--r);overflow:hidden;background:#000;cursor:pointer;padding:0;font:inherit;color:inherit}
-.herowall canvas{position:absolute;inset:0;width:100%;height:100%}
-.herowall .hwlabel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(88%,560px);background:rgba(0,0,0,.78);border:1px solid var(--accent);border-radius:var(--r-sm);padding:22px 26px;color:#fff;text-align:center;line-height:1.5;font-size:clamp(15px,1.2vw,19px)}
-.herowall .hwlabel b{display:block;color:var(--accent);font-family:var(--display);font-size:clamp(26px,2.4vw,40px);margin-bottom:6px}
-.herowall:hover .hwlabel,.herowall:focus-visible .hwlabel{background:rgba(0,0,0,.88)}
-.herowall.done{border-color:#7ee2a8}.herowall.done .hwlabel b{color:#7ee2a8}
+/* hero Matrix (4 Nov): the real Matrix wall moved up from the bottom; one tap copies it all */
+.herobox{position:relative;border:1px solid #3dff8a55;border-radius:var(--r);overflow:hidden;height:clamp(300px,44vh,520px)}
+.herobox .wall{height:100%;overflow:hidden}
+.herobox .wall:not(.full) pre.matrix-block{min-height:100%;cursor:copy}
+.herobox .hwlabel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;pointer-events:none;width:min(88%,560px);background:rgba(0,6,2,.8);border:1px solid #3dff8a;border-radius:var(--r-sm);padding:20px 24px;color:#eafff0;text-align:center;line-height:1.5;font-size:clamp(14px,1.1vw,18px)}
+.herobox .hwlabel b{display:block;color:#3dff8a;font-family:var(--display);font-size:clamp(26px,2.4vw,40px);margin-bottom:6px}
+.herobox .hwlabel.done{border-color:#f2b544}.herobox .hwlabel.done b{color:#f2b544}
+.herobox .wallbtn{z-index:4}
 body.bigshake{animation:bigshake .6s cubic-bezier(.36,.07,.19,.97)}@keyframes bigshake{10%,90%{transform:translate(-3px,2px)}20%,80%{transform:translate(7px,-4px)}30%,50%,70%{transform:translate(-12px,6px)}40%,60%{transform:translate(12px,-6px)}}
