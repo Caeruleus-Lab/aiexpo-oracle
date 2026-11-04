@@ -90,12 +90,28 @@ LESSONS = [
          cover="images/04-proof-awaken.png",
          facts_th=["8 เครื่องมือ · ผลดิบ 8 ชิ้น", "ลองจริง 4 พ.ย. 2026 · 19:56–20:02"],
          facts_en=["8 tools · 8 raw outputs", "real run 4 Nov 2026 · 19:56–20:02"]),
+    dict(key="relic5-ui", dir="2026-11-04_relic5-ui-tour",
+         th="ทัวร์ relic5: หน้าเว็บของฮับประวัติ agent",
+         en="A tour of relic5: the agent-history hub's web UI",
+         th_sub="ค้นทุก session ทุกเครื่อง ดูสด ความรู้ของ agent ครอบครัว Oracle แผนที่ความหมาย และสุขภาพของฮับ จากหน้าจริงบน white",
+         en_sub="Search every session on every machine, live, agent knowledge, the Oracle family, a map by meaning and the hub's health, from the real UI on white",
+         cover="images/01-home.png",
+         facts_th=["14 หน้าจอจริง", "ข้อความส่วนตัวเบลอ"],
+         facts_en=["14 real screens", "private text blurred"]),
+    dict(key="relic5-install", dir="2026-11-04_relic5-install",
+         th="ติดตั้ง relic5: ประวัติทุกเครื่อง ในฮับเดียว",
+         en="Install relic5: every machine's history in one hub",
+         th_sub="จากซอร์สบน GitHub ถึง CLI, MCP 25 เครื่องมือ และ relic5 import ที่ส่งประวัติของเครื่องเข้าฮับ ทุกคำสั่งรันจริง",
+         en_sub="From the GitHub source to the CLI, 25 MCP tools and relic5 import, which sends a machine's history to the hub; every command ran",
+         cover="images/00-pipeline.png",
+         facts_th=["MCP 25 เครื่องมือ", "รันจริงบน m5 · ฮับบน white"],
+         facts_en=["25 MCP tools", "run on m5 · hub on white"]),
 ]
 
 
 # What people see on the landing page (Nat, 4 Nov): lesson 01 hidden (too basic), the skills MCP lesson first, the MCP connect
 # lesson second, ego-lite last, numbered 01.. in this order. The AI brief, llms.txt and lessons.json keep all 9 in workshop order.
-HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "ego-lite"]
+HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "relic5-ui", "relic5-install", "ego-lite"]
 HUMAN = [(n + 1, next(l for l in LESSONS if l["key"] == k)) for n, k in enumerate(HUMAN_ORDER)]
 
 

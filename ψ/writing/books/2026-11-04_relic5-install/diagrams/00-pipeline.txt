@@ -1,0 +1,23 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║  relic5 · one hub for every machine's agent history                        ║
+║  25 MCP tools · tailnet: no token · outside: token or OAuth · 4 Nov 2026   ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+  EACH MACHINE  (m5 · mba · white)                relic5 import = steps 1-6
+
+   ~/.claude  ~/.codex
+        │
+   1 relic-scan ──► 2 relic-extract ──► 3 relic5-push ──ssh/rsync──┐
+     finds every      cuts text,           only months that        │
+     transcript       thinking, tools      grew; never deletes     │
+                                                                   ▼
+  THE HUB  (white, port 8795)                                      │
+   parts/<machine>/  ◄─────────────────────────────────────────────┘
+        │
+   4 relic5 index ──► BM25 words + vectors      5 relic5 embed (Mac ANE / gb300)
+        │
+   relic5 serve ──┬── web UI      tour: Home · Search · Live · Map · ...
+                  ├── /api/*      the CLI: relic5 search · show · recap
+                  └── /mcp        agents: relic_search, relic_show, ...
+
+  6 sync: the hub holds what was pushed ─► SYNC OK, else MISMATCH

@@ -1,0 +1,8 @@
+$ claude mcp get relic5
+relic5:
+  Scope: User config (available in all your projects)
+  Status: ✔ Connected
+  Type: stdio
+  Command: /opt/Code/github.com/Soul-Brews-Studio/relic5/.venv/bin/relic5
+  Args: mcp
+  Environment:

@@ -1,0 +1,4 @@
+$ curl -s http://white.follow-rankine.ts.net:8795/health          # on the tailnet: no token
+$ curl -s -o /dev/null -w '%{http_code}' https://relic5-mcp.buildwithoracle.com/mcp   # outside: token or OAuth
+{"ok":true}
+401

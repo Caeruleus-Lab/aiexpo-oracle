@@ -1,0 +1,8 @@
+$ relic5 pending
+BM25: index 20261104-150654-1843183 (78 s ago); stale months: none
+vectors unsloth--embeddinggemma-300m@806f5f90: jsonl-truth-import 0 pending (embedded to 2026-09-23T02:02:01.925Z), m5 2,988 pending (embedded to 2026-11-02T12:50:27.139Z), mba 0 pending (embedded to 2026-10-31T12:11:13.296Z), relic3-codex-import 0 pending (embedded to 2026-09-30T01:09:34.135Z), white 4,525 pending (embedded to 2026-11-03T02:52:28.778Z)
+push jsonl-truth-import: newest row 2026-09-23T02:02:01.925Z, pushed 2026-10-23T22:38:43+0700, 3676093 s behind now
+push m5: newest row 2026-11-04T15:04:28.802Z, pushed 2026-11-04T22:06:28+0700, 346 s behind now
+push mba: newest row 2026-10-31T12:11:13.296Z, pushed 2026-11-02T12:28:17+0700, 356342 s behind now
+push relic3-codex-import: newest row 2026-09-30T01:09:34.135Z, pushed 2026-10-24T19:59:19+0700, 3074441 s behind now
+push white: newest row 2026-11-04T14:32:15.146Z, pushed 2026-11-04T22:04:52+0700, 2280 s behind now

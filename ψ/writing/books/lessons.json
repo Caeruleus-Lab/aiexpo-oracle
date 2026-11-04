@@ -79,5 +79,23 @@
     "th_sub": "skill ของ Oracle ฉบับเต็มเป็นไฟล์ .md คลิปพร้อมคำพูดและเวลา และลองจริงใน claude.ai: /awaken → งาน → /rrr → /forward",
     "en_sub": "Full Oracle skills as .md files, clips with words and times, and a real run in claude.ai: /awaken → work → /rrr → /forward",
     "cover": "images/04-proof-awaken.png"
+  },
+  {
+    "key": "relic5-ui",
+    "dir": "2026-11-04_relic5-ui-tour",
+    "th": "ทัวร์ relic5: หน้าเว็บของฮับประวัติ agent",
+    "en": "A tour of relic5: the agent-history hub's web UI",
+    "th_sub": "ค้นทุก session ทุกเครื่อง ดูสด ความรู้ของ agent ครอบครัว Oracle แผนที่ความหมาย และสุขภาพของฮับ จากหน้าจริงบน white",
+    "en_sub": "Search every session on every machine, live, agent knowledge, the Oracle family, a map by meaning and the hub's health, from the real UI on white",
+    "cover": "images/01-home.png"
+  },
+  {
+    "key": "relic5-install",
+    "dir": "2026-11-04_relic5-install",
+    "th": "ติดตั้ง relic5: ประวัติทุกเครื่อง ในฮับเดียว",
+    "en": "Install relic5: every machine's history in one hub",
+    "th_sub": "จากซอร์สบน GitHub ถึง CLI, MCP 25 เครื่องมือ และ relic5 import ที่ส่งประวัติของเครื่องเข้าฮับ ทุกคำสั่งรันจริง",
+    "en_sub": "From the GitHub source to the CLI, 25 MCP tools and relic5 import, which sends a machine's history to the hub; every command ran",
+    "cover": "images/00-pipeline.png"
   }
 ]

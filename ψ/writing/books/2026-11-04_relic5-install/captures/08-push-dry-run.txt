@@ -1,0 +1,11 @@
+$ bin/relic5-push -n      # dry run: what would move, nothing is sent
+stream text     files=0 sent=525
+stream thinking files=0 sent=523
+stream tools    files=0 sent=533
+stream vault    files=0 sent=82
+stream meta     files=0 sent=116
+stream memory:claude files=0 sent=719846
+stream config:beta files=0 sent=220883
+stream git      files=0 sent=50521
+stream discord  files=0 sent=786
+2026-11-04 22:10:31 relic5 push m5 -> nat@white.follow-rankine.ts.net:/home/nat/relic5/parts/m5 rc=0 6s (dry run)

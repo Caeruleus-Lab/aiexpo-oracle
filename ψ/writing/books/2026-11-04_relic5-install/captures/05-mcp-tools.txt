@@ -1,0 +1,27 @@
+$ curl -s -X POST http://white.follow-rankine.ts.net:8795/mcp -H 'content-type: application/json' \
+    -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'   # tool names only
+relic_search
+relic_show
+relic_sessions
+relic_session
+relic_conversation
+relic_readings
+relic_hours
+relic_month
+relic_activity
+relic_usage
+relic_files
+relic_team
+relic_oracles
+relic_trace
+relic_saved
+relic_asked
+relic_rule
+relic_searched
+relic_tag
+relic_tags
+relic_found
+relic_homes
+relic_status
+relic_artifact_put
+relic_artifacts

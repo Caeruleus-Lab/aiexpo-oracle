@@ -1,0 +1,22 @@
+# Install relic5: every machine's history in one hub (AIExpo Oracle)
+
+> How relic5 (https://github.com/Soul-Brews-Studio/relic5, public, AGPL v3, branch alpha) is installed and fed, run for real on m5 (macOS arm64) against the hub on white on 4 Nov 2026: clone + uv sync, the Rust CLI over the Python core (just cli), the hub's doors (tailnet: no token; outside: token or OAuth at https://relic5-mcp.buildwithoracle.com/mcp), the 25 MCP tools, Claude Code over HTTP or the Mac shim, relic5 import (scan, extract, push, index, embed, sync), relic5-push -n, relic5 pending. Raw outputs in captures/. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/](captures/): every command's raw output (capture.py runs them)
+
+## Key facts
+
+- Pipeline: relic-scan (public as relic4-scan) -> relic-extract (private) -> bin/relic5-push (rsync per machine) -> relic5 index -> relic5 serve (web UI, /api, /mcp)
+- MCP tools: relic_search, relic_show, relic_sessions, relic_session, relic_conversation, relic_readings, relic_hours, relic_month, relic_activity, relic_usage, relic_files, relic_team, relic_oracles, relic_trace, relic_saved, relic_asked, relic_rule, relic_searched, relic_tag, relic_tags, relic_found, relic_homes, relic_status, relic_artifact_put, relic_artifacts
+- Inside the tailnet there is no password: anyone on it can read everything
+
+## Related
+
+- [../2026-11-04_relic5-ui-tour/](../2026-11-04_relic5-ui-tour/): a tour of the web UI

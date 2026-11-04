@@ -1,0 +1,22 @@
+# A tour of relic5: the agent-history hub's web UI (AIExpo Oracle)
+
+> relic5 (https://github.com/Soul-Brews-Studio/relic5, AGPL v3) is one hub for every machine's Claude Code and Codex history: keyword (BM25, Thai-aware) and semantic search, a web UI, an HTTP API and an MCP server on port 8795. This lesson walks every page of the real UI on white (4 Nov 2026), captured with ego-browser; private text (session content, search words, project and people names, tokens) was blurred in the page before each screenshot. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/ui_capture_ego.mjs](captures/ui_capture_ego.mjs): the ego-browser script that took and blurred the screenshots
+
+## Pages covered
+
+- Home (machines, counts, embedded share, backup, the last 24 h of questions) · Search (layers Talk / tools / thinking / memory / git / everything, time, speaker, machine, home, hits by meaning) · Live (newest messages, every 15 s)
+- Knowledge (agents' memory notes) · Oracles (ψ vaults) · Map (sessions by meaning, 3D) · Family (lineage, working team) · Asked (query log, chains, saved searches)
+- Jobs · Performance · Quality (recall@10 of relic3/4/5) · Disk · Connect (MCP commands) · Incidents
+
+## Related
+
+- [../2026-11-04_relic5-install/](../2026-11-04_relic5-install/): installing relic5 and connecting its MCP

@@ -1,0 +1,6 @@
+$ uv sync --no-dev && .venv/bin/relic5 --version
+ + typing-inspection==0.4.4
+ + tzdata==2026.5
+ + urllib3==2.8.0
+ + uvicorn==0.54.0
+relic5 26.10.31-alpha.1151

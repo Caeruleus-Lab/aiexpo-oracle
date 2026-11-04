@@ -1,0 +1,22 @@
+$ git clone -b alpha https://github.com/Soul-Brews-Studio/relic5 && cd relic5 && git log --oneline -1 && ls
+8a1837b Merge pull request #275 from Soul-Brews-Studio/bump-26.10.31-alpha.1151
+bin
+BRIEF.md
+cli
+compose.yaml
+deploy
+Dockerfile
+docs
+embed
+feeder
+justfile
+LICENSE
+pet-studio
+PRODUCT.md
+pyproject.toml
+README.md
+site
+src
+tests
+uv.lock
+web

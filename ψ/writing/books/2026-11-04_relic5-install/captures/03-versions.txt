@@ -1,0 +1,6 @@
+$ relic5 --version; file -b ~/.local/bin/relic5; relic-scan --version; relic-extract --version; uname -sm
+relic5 26.10.29-alpha.1058
+Mach-O 64-bit executable arm64
+relic-scan 26.10.26-alpha.753
+relic-extract 26.10.23-alpha.1344
+Darwin arm64

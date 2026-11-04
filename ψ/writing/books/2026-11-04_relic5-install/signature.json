@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-04",
+  "files": {
+    "README.md": "8703edd57a905ef99d1bfda6b2c65e3b6408defe30911b733fe8733c09004150",
+    "README.en.md": "eea663312cf934b84854b3d5dff41c5afb9a0151af6613266cd90227e376dd7e",
+    "README.b64.txt": "af66437b7dfb3962da7f5c7c377ec8223290978b3099d0a9777a6c20c327afdc"
+  },
+  "message": "AIExpo Oracle signed: relic5 install lesson (lesson 11)\ndate: 2026-11-04\nREADME.md sha256:8703edd57a905ef99d1bfda6b2c65e3b6408defe30911b733fe8733c09004150\nREADME.en.md sha256:eea663312cf934b84854b3d5dff41c5afb9a0151af6613266cd90227e376dd7e\nREADME.b64.txt sha256:af66437b7dfb3962da7f5c7c377ec8223290978b3099d0a9777a6c20c327afdc",
+  "signature": "0x65f767bec5411a6ad8e1315b0c57a1432d05c2e1f5f44bb65629181c6913813944114815a5f452ca011a9e90c7d0483198afeaeeb9b77c8faf6e32242caf6d771c"
+}

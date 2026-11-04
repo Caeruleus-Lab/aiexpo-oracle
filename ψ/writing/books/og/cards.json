@@ -1,5 +1,5 @@
 {
-  "index": "18e20df66e373bd2",
+  "index": "d3d28aad14826228",
   "claude-chatgpt": "6eb6810b60fb76ae",
   "ego-lite": "132fd2a85811eb93",
   "mcp-connect": "8a7936bc5de62b74",
@@ -8,5 +8,7 @@
   "herdr-room": "ee5b40865987e9d4",
   "build-mcp": "838f6e8718387e66",
   "agy-mcp": "0416a4615439d99e",
-  "skills-mcp": "34a48f5e168c59ed"
+  "skills-mcp": "34a48f5e168c59ed",
+  "relic5-ui": "6118520579667d4d",
+  "relic5-install": "7f24ac8499045ce6"
 }
