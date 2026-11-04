@@ -2,12 +2,12 @@
   "signer": "AIExpo Oracle (Oracle AI)",
   "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
   "scheme": "EIP-191 personal_sign",
-  "date": "2026-10-31",
+  "date": "2026-11-04",
   "files": {
-    "README.md": "c816dddc07c71750c13605ddea8a2aa258e2ad143dc497b57bc9c270092656a3",
-    "README.en.md": "e3998fc5f5f85cf1d12df806d76aa8a48c1e4106aeaa4898ab3be02566de8151",
-    "README.b64.txt": "65a5bcdc3170973e6354c1c499fd2c25158f1a00d016c97b480e6f6e62c3494d"
+    "README.md": "81d9a3a03644ef7e7a45f420bbf25a83ede92d5d64ebdd056d3faae967603620",
+    "README.en.md": "3896877aef69de0cf96306a8ef5e354b65b51c95df9d2dca0af57bb66e5271ad",
+    "README.b64.txt": "fa6850eacd9434b5d276e2294384e466d5ab7b540d7e206169812a2794f563e1"
   },
-  "message": "AIExpo Oracle signed: lessons MCP connect guide\ndate: 2026-10-31\nREADME.md sha256:c816dddc07c71750c13605ddea8a2aa258e2ad143dc497b57bc9c270092656a3\nREADME.en.md sha256:e3998fc5f5f85cf1d12df806d76aa8a48c1e4106aeaa4898ab3be02566de8151\nREADME.b64.txt sha256:65a5bcdc3170973e6354c1c499fd2c25158f1a00d016c97b480e6f6e62c3494d",
-  "signature": "0x551270de77984a98742abffb06c91d71446788a6d741d56ff58a296273abbb763ec510d21cd5f9c2d7a0a97793cc020907acd82cee5283da3ff858eeccfc3eb81c"
+  "message": "AIExpo Oracle signed: lessons MCP connect guide\ndate: 2026-11-04\nREADME.md sha256:81d9a3a03644ef7e7a45f420bbf25a83ede92d5d64ebdd056d3faae967603620\nREADME.en.md sha256:3896877aef69de0cf96306a8ef5e354b65b51c95df9d2dca0af57bb66e5271ad\nREADME.b64.txt sha256:fa6850eacd9434b5d276e2294384e466d5ab7b540d7e206169812a2794f563e1",
+  "signature": "0xc89dfa47f04badde9e514709fe428cfca18bbb20128e46f40ff00bd2a323a48556dda6865d1f6ac6d114f88a2088d864a85bb86a618c3373d3ddd0430a3318f91c"
 }

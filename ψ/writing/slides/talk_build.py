@@ -90,6 +90,20 @@ LIVE = [("claude-mcp-slides", "claude.ai + AIExpo lessons connector: อ่า�
 k = next(i for i, x in enumerate(ws) if "08-claude-answer.png" in x)
 ws[k:k + 1] = [f'<section class="slide shot"><img src="img/talk/{f}.png" alt=""><div class="vtag">{t}</div>'
                f'<div class="notes">{t} · พิมพ์ขอสไลด์ แล้ว AI ไปอ่านบทเรียนผ่าน MCP เอง</div></section>' for f, t in LIVE]
+# Nat, 4 Nov: "mcp can act as a skills" + "we have voice and video": one MCP also hands out skills and timed media
+k += len(LIVE)
+ws[k:k] = ['<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">MCP ตัวเดียวกัน</span>'
+           '<h2 style="font-size:92px">ไม่ได้มีแค่<span class="hl">บทเรียน</span></h2>'
+           '<div class="rows" style="font-size:46px"><div><b class="hl">บทเรียน</b> ค้น อ่าน ดูภาพ</div>'
+           '<div><b class="hl">Skill</b> awaken · rrr · recap · workshop · awaken-app</div>'
+           '<div><b class="hl">เสียงและวิดีโอ</b> 4 คลิป · 8 บทเรียนมีเสียง · คำพูดพร้อมเวลา</div></div>'
+           '<div class="box" style="font-size:38px;font-family:var(--font-mono)">https://aiexpo.buildwithoracle.com/mcp</div></div>'
+           '<div class="when">8 เครื่องมือ · ทดสอบใน claude.ai 4 พ.ย. 2026</div>'
+           '<div class="notes">ต่อ connector ครั้งเดียว ได้ทั้งบทเรียน skill และสื่อ · ถ้าต่อไว้ก่อนหน้านี้ ให้ Disconnect แล้ว Connect ใหม่ claude.ai ถึงจะเห็นเครื่องมือใหม่</div></section>',
+           '<section class="slide shot"><img src="img/talk/claude-mcp-skills.png" alt=""><div class="vtag">claude.ai ขอ skill จาก MCP แล้วเริ่ม /awaken ในแชทเลย (4 พ.ย. 2026)</div>'
+           '<div class="notes">ถามว่ามี skill อะไร · AI เรียก list_skills แล้ว get_skill awaken · เริ่มถามข้อ 1 ทันที ไม่ต้องติดตั้งอะไร</div></section>',
+           '<section class="slide shot"><img src="img/talk/claude-mcp-media.png" alt=""><div class="vtag">claude.ai ถาม MCP เรื่องคลิปของแม่: ใครแนะนำตัวว่าอะไร กดเวลาแล้วเล่นตรงนั้น (4 พ.ย. 2026)</div>'
+           '<div class="notes">list_media แล้ว get_media · คำพูดมาจาก Paxa STT พร้อมเวลา · ลิงก์ #t=8 เปิดคลิปที่วินาทีที่ 8</div></section>']
 # Nat, 4 Nov: one link runs the whole mini workshop in claude.ai (awaken, teach, real work, talk, /rrr with real times)
 ws += ['<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">ลงมือ 3 · ลิงก์เดียว</span>'
        '<h2 style="font-size:92px">ปลุก Oracle ใน <span class="hl">claude.ai</span></h2>'

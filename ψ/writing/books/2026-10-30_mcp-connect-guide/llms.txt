@@ -13,7 +13,7 @@ Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D1
 ## Key facts
 
 - MCP URL: https://aiexpo.buildwithoracle.com/mcp (Streamable HTTP, stateless, no auth)
-- Tools: search {query, lang?, lesson?, topic?}, fetch {id}, get_image {id, start?}, list_lessons
+- Tools: search {query, lang?, lesson?, topic?}, fetch {id}, get_image {id, start?}, list_lessons, list_skills, get_skill {name, source?}, list_media, get_media {id, at?, q?}
 - claude.ai: Customize > Connectors > Add > Add custom connector, URL above, No sign-in
 - ChatGPT: Settings > Plugins > Browse directory > Add > Add custom MCP server, Authentication: No authentication
 - Claude Code: `claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp` (or the repo's .mcp.json)

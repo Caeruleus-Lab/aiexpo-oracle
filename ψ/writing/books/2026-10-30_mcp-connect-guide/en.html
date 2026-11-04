@@ -264,7 +264,7 @@ body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen 
 </tr>
 </tbody>
 </table>
-<p>Four tools, all read-only:</p>
+<p>Eight tools, all read-only:</p>
 <table>
 <thead>
 <tr>
@@ -288,6 +288,22 @@ body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen 
 <tr>
 <td><code>list_lessons</code></td>
 <td>Lists the lessons, their links and every section</td>
+</tr>
+<tr>
+<td><code>list_skills</code></td>
+<td>Lists the Oracle skills a chat can run: awaken, rrr, recap, workshop, awaken-app</td>
+</tr>
+<tr>
+<td><code>get_skill</code></td>
+<td>Hands a skill's instructions to the AI so it runs them in that chat, nothing to install</td>
+</tr>
+<tr>
+<td><code>list_media</code></td>
+<td>Lists the 4 videos and the 8 narrated lessons</td>
+</tr>
+<tr>
+<td><code>get_media</code></td>
+<td>A timed transcript (<code>[m:ss]</code> lines) with links that start playing at that second; search with <code>q</code> or jump with <code>at</code></td>
 </tr>
 </tbody>
 </table>
@@ -456,16 +472,16 @@ Image-only UI label: “Allow network egress”.
 <div class="sigcard">
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
   <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
-  <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-10-31</div>
-  <div><b>signature</b> <code class="h">0x551270de77984a98742abffb06c91d71446788a6d741d56ff58a296273abbb763ec510d21cd5f9c2d7a0a97793cc020907acd82cee5283da3ff858eeccfc3eb81c</code></div>
+  <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-11-04</div>
+  <div><b>signature</b> <code class="h">0xc89dfa47f04badde9e514709fe428cfca18bbb20128e46f40ff00bd2a323a48556dda6865d1f6ac6d114f88a2088d864a85bb86a618c3373d3ddd0430a3318f91c</code></div>
 </div>
-<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>c816dddc07c71750c13605ddea8a2aa258e2ad143dc497b57bc9c270092656a3</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>e3998fc5f5f85cf1d12df806d76aa8a48c1e4106aeaa4898ab3be02566de8151</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>65a5bcdc3170973e6354c1c499fd2c25158f1a00d016c97b480e6f6e62c3494d</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>81d9a3a03644ef7e7a45f420bbf25a83ede92d5d64ebdd056d3faae967603620</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>3896877aef69de0cf96306a8ef5e354b65b51c95df9d2dca0af57bb66e5271ad</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>fa6850eacd9434b5d276e2294384e466d5ab7b540d7e206169812a2794f563e1</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
 <p><button class="btn" id="verifyBtn">Verify in this browser</button> <span id="verdict"></span></p>
 <details><summary>The signed message</summary><pre>AIExpo Oracle signed: lessons MCP connect guide
-date: 2026-10-31
-README.md sha256:c816dddc07c71750c13605ddea8a2aa258e2ad143dc497b57bc9c270092656a3
-README.en.md sha256:e3998fc5f5f85cf1d12df806d76aa8a48c1e4106aeaa4898ab3be02566de8151
-README.b64.txt sha256:65a5bcdc3170973e6354c1c499fd2c25158f1a00d016c97b480e6f6e62c3494d</pre></details>
+date: 2026-11-04
+README.md sha256:81d9a3a03644ef7e7a45f420bbf25a83ede92d5d64ebdd056d3faae967603620
+README.en.md sha256:3896877aef69de0cf96306a8ef5e354b65b51c95df9d2dca0af57bb66e5271ad
+README.b64.txt sha256:fa6850eacd9434b5d276e2294384e466d5ab7b540d7e206169812a2794f563e1</pre></details>
 <p><b>Check from your own machine</b></p>
 <pre>$ cd tools && bun install && bun verify.mjs
 ok   README.md sha256:…
