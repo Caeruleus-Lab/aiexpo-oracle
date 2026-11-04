@@ -293,8 +293,6 @@ async function handle(msg, env) {
         return ok(id, { tools: TOOLS });
       case "tools/call":
         return ok(id, await callTool(params.name, params.arguments || {}, env));
-      case "resources/list":
-        return ok(id, { resources: [] });
       // the skills as markdown files (Nat, 4 Nov: "can make skill return md?")
       case "resources/list":
         return ok(id, { resources: Object.entries(SKILLS).map(([name, description]) => ({
