@@ -526,7 +526,8 @@ const SHC={a:'#f2b544',c:'#fff4cf',w:'#f6ead2',b:'#141414'};
 function shroom(ctx,x,y,px){SHROOM.forEach((row,r)=>[...row].forEach((ch,c)=>{if(ch!=='.'){ctx.fillStyle=SHC[ch];ctx.fillRect(x+(c-6)*px,y+(r-12)*px,px,px)}}))}
 const BC=document.createElement('canvas');BC.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:90';document.body.appendChild(BC);const BX=BC.getContext('2d');
 const GLY='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-function blast(x,y,label){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const d=devicePixelRatio||1,w=innerWidth,h=innerHeight;BC.width=w*d;BC.height=h*d;BC.style.width=w+'px';BC.style.height=h+'px';BX.setTransform(d,0,0,d,0,0);
+function blast(x,y,label){   // always blasts: Nat's Mac has Reduce Motion on and the blast vanished (4 Nov)
+const d=devicePixelRatio||1,w=innerWidth,h=innerHeight;BC.width=w*d;BC.height=h*d;BC.style.width=w+'px';BC.style.height=h+'px';BX.setTransform(d,0,0,d,0,0);
  const ps=[];for(let i=0;i<700;i++){const a=Math.random()*Math.PI*2,v=6+Math.random()*30;ps.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,c:GLY[Math.random()*GLY.length|0],s:14+Math.random()*34,r:Math.random()*6})}
  document.body.classList.remove('bigshake');void document.body.offsetWidth;document.body.classList.add('bigshake');const t0=performance.now(),R=Math.hypot(w,h);const m={x,y,vy:-17,vx:2.2,floor:y,b:0};
  (function fr(t){const k=Math.min(1,(t-t0)/2300);BX.clearRect(0,0,w,h);
