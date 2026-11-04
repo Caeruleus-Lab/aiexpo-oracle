@@ -1,0 +1,289 @@
+{
+ "lesson": "skills-mcp",
+ "dir": "2026-11-04_skills-media-mcp-lesson",
+ "title": "MCP ตัวเดียว ส่งได้ทั้ง skill เสียง และวิดีโอ",
+ "voice": "th-TH-NiwatNeural",
+ "slides": [
+  {
+   "title": "MCP ตัวเดียว ส่ง skill เสียง และวิดีโอ",
+   "sub": "บทเรียน 09 · ลองจริงใน claude.ai 4 พ.ย. 2026",
+   "image": "img/04-proof-awaken.png",
+   "audio": "slide-01.mp3",
+   "duration": 21.158,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.208,
+     "text": "สวัสดีครับ ผมคือ AIExpo Oracle ผู้ช่วย AI ของ workshop นี้"
+    },
+    {
+     "start": 5.558,
+     "end": 12.518,
+     "text": "บทนี้เล่าว่า MCP ของบทเรียน ตอนนี้ส่ง skill ของ Oracle ฉบับเต็ม และส่งคลิปพร้อมคำพูดได้ด้วย"
+    },
+    {
+     "start": 12.868,
+     "end": 20.692,
+     "text": "แล้วเราลองจริงใน claude.ai เมื่อคืนวันที่ 4 พฤศจิกายน ตั้งแต่ปลุก Oracle จนส่งต่องาน ในแชทเดียวครับ"
+    }
+   ]
+  },
+  {
+   "title": "1. เครื่องมือจาก 4 เป็น 8",
+   "bullets": [
+    "บทเรียน: search · fetch · get_image · list_lessons",
+    "skill: list_skills · get_skill",
+    "เสียงและวิดีโอ: list_media · get_media"
+   ],
+   "code": "https://aiexpo.buildwithoracle.com/mcp",
+   "audio": "slide-02.mp3",
+   "duration": 13.838,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 3.264,
+     "text": "URL เดิม ไม่ต้องล็อกอิน อ่านอย่างเดียวเหมือนเดิม"
+    },
+    {
+     "start": 3.614,
+     "end": 7.046,
+     "text": "จากเดิมสี่เครื่องมือสำหรับบทเรียน ตอนนี้มีแปด"
+    },
+    {
+     "start": 7.396,
+     "end": 13.372,
+     "text": "เพิ่ม list_skills กับ get_skill สำหรับ skill และ list_media กับ get_media สำหรับเสียงและวิดีโอ"
+    }
+   ]
+  },
+  {
+   "title": "2. กับดัก: ต่อไว้แล้วเห็นของเก่า",
+   "bullets": [
+    "claude.ai จำรายชื่อเครื่องมือตอนต่อครั้งแรก",
+    "แก้: Disconnect แล้ว Connect ใหม่",
+    "หลังต่อใหม่ ขึ้น 8 เครื่องมือ"
+   ],
+   "image": "img/01-connector-6-tools.png",
+   "audio": "slide-03.mp3",
+   "duration": 15.662,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.784,
+     "text": "ตอนแรก claude.ai ยังเห็นแค่หกเครื่องมือ ถามเรื่องคลิปของแม่ มันตอบว่าไม่มีคลิปนี้"
+    },
+    {
+     "start": 6.134,
+     "end": 9.686,
+     "text": "เพราะมันจำรายชื่อเครื่องมือไว้ตั้งแต่ตอนต่อครั้งแรก"
+    },
+    {
+     "start": 10.036,
+     "end": 15.196,
+     "text": "แก้ด้วยการกด Disconnect แล้ว Connect ใหม่ หน้านี้ก็ขึ้นแปดเครื่องมือ และตอบถูกครับ"
+    }
+   ]
+  },
+  {
+   "title": "3. skill ฉบับเต็ม เป็นไฟล์ .md",
+   "bullets": [
+    "get_skill ส่งไฟล์ text/markdown",
+    "ทุกไฟล์ในโฟลเดอร์ skill ตัวจริง",
+    "ท้ายไฟล์มีลิงก์ ZIP ไปติดตั้ง"
+   ],
+   "image": "img/03-claude-full-rrr.png",
+   "audio": "slide-04.mp3",
+   "duration": 21.614,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.184,
+     "text": "get_skill ไม่ได้ส่งบทสรุป มันส่งไฟล์ markdown หนึ่งไฟล์ ที่มี skill ทั้งโฟลเดอร์"
+    },
+    {
+     "start": 5.534,
+     "end": 13.79,
+     "text": "อย่าง rrr มีสี่ไฟล์ SKILL.md HOSTS.md TEMPLATE.md และสคริปต์ session-clock ขนาดราว 32 กิโลไบต์"
+    },
+    {
+     "start": 14.14,
+     "end": 21.148,
+     "text": "ส่วนแรกบอกวิธีทำในแชท ส่วนที่สองคือ skill ตัวจริงจาก GitHub ท้ายไฟล์มีลิงก์ ZIP ให้ติดตั้งต่อได้ครับ"
+    }
+   ]
+  },
+  {
+   "title": "4. ลองจริง: /awaken",
+   "bullets": [
+    "list_skills แล้ว get_skill awaken",
+    "ถาม 5 ข้อ เสนอ theme",
+    "โคมเล็ก Oracle เกิด 19:57 → 20:00"
+   ],
+   "image": "img/04-proof-awaken.png",
+   "audio": "slide-05.mp3",
+   "duration": 21.446,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.544,
+     "text": "เราพิมพ์ว่า มี skill อะไรบ้าง แล้วเปิด /awaken มาปลุก Oracle ให้ฉันเลย"
+    },
+    {
+     "start": 5.894,
+     "end": 11.534,
+     "text": "AI เปิด skill ฉบับเต็ม เช็กระบบ ถามภาษา ให้เลือกโหมด Fast แล้วถามห้าข้อ"
+    },
+    {
+     "start": 11.884,
+     "end": 20.98,
+     "text": "ได้โคมเล็ก Oracle พร้อม CLAUDE.md ไฟล์ใน ψ และ commit แรก ใช้เวลาตั้งแต่ 19:57 ถึง 20:00 ครับ"
+    }
+   ]
+  },
+  {
+   "title": "5. งานจริง แล้ว /rrr",
+   "bullets": [
+    "ร่างโครงเวิร์กช็อป 65 นาที",
+    "retro + บทเรียน + metrics",
+    "Timeline 19:56–20:01 เวลาจริง"
+   ],
+   "image": "img/05-proof-rrr.png",
+   "audio": "slide-06.mp3",
+   "duration": 23.15,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.328,
+     "text": "จากนั้นให้ทำงานจริงหนึ่งชิ้น ร่างโครงเวิร์กช็อป 65 นาที แบ่งห้าช่วง"
+    },
+    {
+     "start": 5.678,
+     "end": 10.694,
+     "text": "แล้วพิมพ์ว่า ทำ /rrr ให้หน่อย ได้รายงาน บทเรียน และ metrics เป็นไฟล์"
+    },
+    {
+     "start": 11.044,
+     "end": 17.14,
+     "text": "Timeline ทุกบรรทัดใช้เวลาจริง หา session clock ไม่เจอ ก็เขียนตรง ๆ ว่า evidence none ไม่เดาเวลา"
+    },
+    {
+     "start": 17.49,
+     "end": 22.626,
+     "text": "ขั้นนี้มีอยู่ใน skill ฉบับเต็มเท่านั้น แปลว่า AI อ่านไฟล์ทั้งก้อนจริงครับ"
+    }
+   ]
+  },
+  {
+   "title": "6. /forward ส่งต่องาน",
+   "bullets": [
+    "handoff: ทำอะไรไป ค้างอะไร เริ่มตรงไหน",
+    "ไฟล์ .md ดาวน์โหลดได้",
+    "20:02"
+   ],
+   "image": "img/06-proof-forward.png",
+   "audio": "slide-07.mp3",
+   "duration": 21.422,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.808,
+     "text": "ปิดท้ายด้วย /forward ได้ไฟล์ handoff บอกว่าทำอะไรไป ค้างอะไร รอบหน้าเริ่มตรงไหน"
+    },
+    {
+     "start": 6.158,
+     "end": 13.286,
+     "text": "skill ตัวจริงสั่งให้เข้า plan mode ต่อ claude.ai จึงถามว่าจะทำตามแผนไหม เรากดยังไม่ทำ"
+    },
+    {
+     "start": 13.636,
+     "end": 20.956,
+     "text": "เคล็ดลับ พิมพ์ /rrr กลางประโยค เพราะถ้าพิมพ์ต้นบรรทัด เมนูของ claude.ai จะกินคำสั่งครับ"
+    }
+   ]
+  },
+  {
+   "title": "7. /recap ใช้ได้เฉพาะ Claude Code",
+   "bullets": [
+    "อ่านไฟล์ ψ ในเครื่อง git และประวัติ session",
+    "ในแชท: แนบไฟล์ handoff แล้วบอกให้ทำต่อ",
+    "ใน Claude Code: รัน claude แล้วพิมพ์ /recap"
+   ],
+   "audio": "slide-08.mp3",
+   "duration": 16.67,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.992,
+     "text": "ส่วน /recap ใช้ในแชทไม่ได้ มันต้องอ่านไฟล์ในเครื่อง git และประวัติ session"
+    },
+    {
+     "start": 5.342,
+     "end": 10.646,
+     "text": "MCP จึงตอบตรง ๆ ว่าใช้ได้เฉพาะ Claude Code และไม่ทำเป็นว่ารันได้"
+    },
+    {
+     "start": 10.996,
+     "end": 16.204,
+     "text": "ในแชท ให้แนบไฟล์ handoff จาก /forward แล้วบอกให้ทำต่อจาก Next Session ครับ"
+    }
+   ]
+  },
+  {
+   "title": "8. เสียงและวิดีโอ",
+   "bullets": [
+    "12 ชิ้น: วิดีโอ 4 · บทเรียนมีเสียง 8",
+    "คำพูดพร้อมเวลา [m:ss]",
+    "ลิงก์ #t= เล่นตรงวินาทีนั้น"
+   ],
+   "image": "img/07-claude-media.png",
+   "audio": "slide-09.mp3",
+   "duration": 18.806,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.848,
+     "text": "list_media มีสิบสองชิ้น วิดีโอสี่คลิป และบทเรียนมีเสียงแปดบท"
+    },
+    {
+     "start": 5.198,
+     "end": 11.63,
+     "text": "เราถามเรื่องคลิปของแม่ AI ใช้ get_media ได้ตารางว่า Oracle แต่ละตัวพูดอะไร วินาทีไหน"
+    },
+    {
+     "start": 11.98,
+     "end": 18.34,
+     "text": "กดเวลาแล้ววิดีโอเล่นตรงนั้นเลย คำพูดมาจาก Paxa STT จึงอาจคลาดเล็กน้อยครับ"
+    }
+   ]
+  },
+  {
+   "title": "สิ่งที่อยากให้จำ",
+   "sub": "aiexpo.buildwithoracle.com/mcp",
+   "bullets": [
+    "ต่อ MCP ครั้งเดียว ได้ทั้งบทเรียน skill และสื่อ",
+    "แชท: /awaken → งาน → /rrr → /forward",
+    "/recap อยู่ใน Claude Code"
+   ],
+   "audio": "slide-10.mp3",
+   "duration": 16.19,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.184,
+     "text": "ต่อ MCP ตัวเดียว AI ก็ได้ทั้งบทเรียน skill ฉบับเต็ม และเสียงกับวิดีโอ"
+    },
+    {
+     "start": 5.534,
+     "end": 12.182,
+     "text": "ในแชท วงจรคือ /awaken งาน /rrr แล้ว /forward ส่วน /recap ไว้ใช้ใน Claude Code"
+    },
+    {
+     "start": 12.532,
+     "end": 15.724,
+     "text": "ลองต่อแล้วถามดูได้เลยครับ ขอบคุณครับ"
+    }
+   ]
+  }
+ ],
+ "duration": 190.0
+}

@@ -1,0 +1,26 @@
+$ curl -s -X POST https://aiexpo.buildwithoracle.com/mcp -H 'content-type: application/json' \
+    -d '{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "get_skill", "arguments": {"name": "rrr"}}}'
+content parts: ['text', 'resource']
+
+[text]     Skill /rrr (full) follows as the markdown file https://aiexpo.buildwithoracle.com/oracle/full/rrr.md . Read all of it, then run it with the person.
+
+[resource] uri:      https://aiexpo.buildwithoracle.com/oracle/full/rrr.md
+           mimeType: text/markdown
+           size:     32,103 bytes
+           files inside:
+             - skills/rrr/SKILL.md
+             - skills/rrr/HOSTS.md
+             - skills/rrr/TEMPLATE.md
+             - skills/rrr/scripts/session-clock.py
+
+... the last lines of the file (cut):
+
+    sys.exit(main())
+```
+
+
+## Download this skill (tell the person)
+
+- `rrr`: https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/skills/rrr.zip
+
+claude.ai: Settings > Capabilities > turn on code execution, then Customize > Skills > Add > upload the ZIP; after that, /rrr works in any chat. Claude Code / Codex: unzip into ~/.claude/skills/ (or ~/.codex/skills/). Or install all of them: bunx --bun github:Soul-Brews-Studio/arra-oracle-skills-cli#alpha install -g -y . Guide: https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/en.html

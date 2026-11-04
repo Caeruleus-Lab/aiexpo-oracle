@@ -57,7 +57,7 @@ def check_mcp():
     # lessons
     c, e = tool("list_lessons", {})
     lessons = json.loads(text_of(c))["lessons"] if c else []
-    (good(f"list_lessons {len(lessons)}") if len(lessons) == 8 else bad("list_lessons", e or len(lessons)))
+    (good(f"list_lessons {len(lessons)}") if len(lessons) == 9 else bad("list_lessons", e or len(lessons)))
     for q, lang in (("ติดตั้ง Claude Code", "th"), ("connect claude.ai to MCP", "en"), ("herdr room", None)):
         c, e = tool("search", {"query": q, **({"lang": lang} if lang else {})})
         hits = re.findall(r'"id":\s*"([^"]+)"', text_of(c)) if c else []
@@ -107,7 +107,7 @@ def check_mcp():
     # media: every item has a timed transcript and a link that answers
     c, e = tool("list_media", {})
     items = json.loads(text_of(c)).get("media", json.loads(text_of(c)).get("items", [])) if c else []
-    (good(f"list_media {len(items)}") if len(items) == 12 else bad("list_media", e or len(items)))
+    (good(f"list_media {len(items)}") if len(items) == 13 else bad("list_media", e or len(items)))
     for m in items:
         c, e = tool("get_media", {"id": m["id"]})
         t = text_of(c) if c else ""
@@ -125,7 +125,7 @@ def pages():
         d = l.get("dir") or l.get("path", "").strip("/")
         for f in ("", "th.html", "en.html", "llms.txt", "README.md", "README.en.md"):
             out.append(f"{BASE}/{d}/{f}")
-    for k in ("claude-chatgpt", "ego-lite", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp"):
+    for k in ("claude-chatgpt", "ego-lite", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "skills-mcp"):
         out.append(f"{BASE}/narrated/player.html?l={k}")
     for s in ("awaken", "rrr", "forward", "recap", "workshop", "awaken-app"):
         out += [f"{BASE}/oracle/{s}.md", f"{BASE}/oracle/full/{s}.md"]

@@ -1,0 +1,11 @@
+$ curl -s -X POST https://aiexpo.buildwithoracle.com/mcp -H 'content-type: application/json' \
+    -d '{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "list_skills", "arguments": {}}}'
+awaken      ปลุก Oracle: ถาม 3 ข้อ แล้วสร้าง CLAUDE.md + ψ/memory/resonance
+rrr         รายงานจบงาน: Timeline เวลาจริง + บทเรียน
+forward     ส่งต่องาน: เขียน handoff ให้แชทถัดไป (ทำอะไรไป ค้างอะไร เริ่มตรงไหน)
+recap       เริ่มงาน (Claude Code เท่านั้น ในแชทใช้ไม่ได้): อ่าน handoff และรายงานรอบก่อน บอกว่าค้างอะไร
+workshop    workshop สั้นในแชทเดียว: awaken → งานจริง → คุย → /rrr พร้อม time log
+awaken-app  สร้างแอปปลุก Oracle แบบกดได้ (artifact / canvas)
+
+full:     https://aiexpo.buildwithoracle.com/oracle/full/rrr.md
+download: https://aiexpo.buildwithoracle.com/2026-10-30_claude-chatgpt-install-guide/skills/rrr.zip

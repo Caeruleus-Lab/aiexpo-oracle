@@ -70,5 +70,14 @@
     "th_sub": "ติดตั้ง agy ของ Google ล็อกอินครั้งแรก แล้วต่อ MCP ของบทเรียนทั้งตัวบน Cloudflare และตัวจาก GitHub พร้อมกับดัก invalid_scope และกล่องที่ติ๊กไว้ให้แล้ว",
     "en_sub": "Install Google's agy, sign in once, then connect both lessons MCP servers, with the invalid_scope trap and the pre-ticked box",
     "cover": "images/01-agy-mcp.png"
+  },
+  {
+    "key": "skills-mcp",
+    "dir": "2026-11-04_skills-media-mcp-lesson",
+    "th": "MCP ตัวเดียว ส่งได้ทั้ง skill เสียง และวิดีโอ",
+    "en": "One MCP hands out skills, voice and video",
+    "th_sub": "skill ของ Oracle ฉบับเต็มเป็นไฟล์ .md คลิปพร้อมคำพูดและเวลา และลองจริงใน claude.ai: /awaken → งาน → /rrr → /forward",
+    "en_sub": "Full Oracle skills as .md files, clips with words and times, and a real run in claude.ai: /awaken → work → /rrr → /forward",
+    "cover": "images/04-proof-awaken.png"
   }
 ]

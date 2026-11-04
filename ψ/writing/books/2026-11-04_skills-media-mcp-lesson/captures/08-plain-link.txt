@@ -1,0 +1,3 @@
+$ curl -sI https://aiexpo.buildwithoracle.com/oracle/full/forward.md   (no MCP needed)
+HTTP/2 200 
+content-type: text/markdown

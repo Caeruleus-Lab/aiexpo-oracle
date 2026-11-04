@@ -1,0 +1,11 @@
+$ curl -s -X POST https://aiexpo.buildwithoracle.com/mcp -H 'content-type: application/json' \
+    -d '{"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}}'
+# name          title
+search          Search the lessons
+fetch           Read a lesson section
+get_image       Show a screenshot
+list_lessons    List the lessons
+list_skills     List the Oracle skills
+get_skill       Get an Oracle skill
+list_media      List the voice and video
+get_media       Watch or listen to a media item

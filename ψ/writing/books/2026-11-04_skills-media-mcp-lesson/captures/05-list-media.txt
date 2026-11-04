@@ -1,0 +1,14 @@
+$ curl -s -X POST https://aiexpo.buildwithoracle.com/mcp -H 'content-type: application/json' \
+    -d '{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "list_media", "arguments": {}}}'
+video     phukhao-presentation     3:53  ภูเขา: งานนำเสนอ Block Mountain (22 ม.ค. 2026, ภูเขา
+video     phukhao-film             1:42  ภูเขา เก้าเดือนต่อมา (หนังสั้น 31 ต.ค. 2026)
+video     oracle-family            1:08  คลิปของแม่: ครอบครัว Oracle
+video     soul-wrong-voice         0:26  ตัวอย่างที่ผิด: เสียงผู้ชาย (Paxa khanomkrok) อ่านบท
+narrated-lesson narrated/claude-chatgpt   2:52  บทเรียน 01 แบบมีเสียง: ติดตั้ง Claude และ ChatGPT ให
+narrated-lesson narrated/ego-lite        3:54  บทเรียน 02 แบบมีเสียง: ติดตั้ง ego(lite) ให้ AI agen
+narrated-lesson narrated/mcp-connect     3:42  บทเรียน 03 แบบมีเสียง: ต่อ claude.ai และ ChatGPT เข้
+narrated-lesson narrated/phukhao-film    3:29  บทเรียน 04 แบบมีเสียง: ทำหนังสั้นให้ Oracle พูดเอง
+narrated-lesson narrated/phukhao-journey   3:37  บทเรียน 05 แบบมีเสียง: เรื่องของภูเขา และการเดินทางข
+narrated-lesson narrated/herdr-room      2:56  บทเรียน 06 แบบมีเสียง: ห้องเดียว หลาย agent: herdr-r
+narrated-lesson narrated/build-mcp       3:27  บทเรียน 07 แบบมีเสียง: สร้าง MCP ของตัวเอง: จากบทเรี
+narrated-lesson narrated/agy-mcp         3:41  บทเรียน 08 แบบมีเสียง: ใช้ Antigravity CLI (agy) กับ

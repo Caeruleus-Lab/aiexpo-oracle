@@ -82,6 +82,14 @@ LESSONS = [
          cover="images/01-agy-mcp.png",
          facts_th=["agy 1.4.12 · ผลดิบ 9 ชิ้น", "MCP สองตัว · กับดักจริง 7 อัน"],
          facts_en=["agy 1.4.12 · 9 raw outputs", "2 MCP servers · 7 real traps"]),
+    dict(key="skills-mcp", dir="2026-11-04_skills-media-mcp-lesson",
+         th="MCP ตัวเดียว ส่งได้ทั้ง skill เสียง และวิดีโอ",
+         en="One MCP hands out skills, voice and video",
+         th_sub="skill ของ Oracle ฉบับเต็มเป็นไฟล์ .md คลิปพร้อมคำพูดและเวลา และลองจริงใน claude.ai: /awaken → งาน → /rrr → /forward",
+         en_sub="Full Oracle skills as .md files, clips with words and times, and a real run in claude.ai: /awaken → work → /rrr → /forward",
+         cover="images/04-proof-awaken.png",
+         facts_th=["8 เครื่องมือ · ผลดิบ 8 ชิ้น", "ลองจริง 4 พ.ย. 2026 · 19:56–20:02"],
+         facts_en=["8 tools · 8 raw outputs", "real run 4 Nov 2026 · 19:56–20:02"]),
 ]
 
 

@@ -1,5 +1,5 @@
 {
-  "index": "8c6f63973915e397",
+  "index": "18e20df66e373bd2",
   "claude-chatgpt": "6eb6810b60fb76ae",
   "ego-lite": "132fd2a85811eb93",
   "mcp-connect": "8a7936bc5de62b74",
@@ -7,5 +7,6 @@
   "phukhao-journey": "927393be20988be6",
   "herdr-room": "ee5b40865987e9d4",
   "build-mcp": "838f6e8718387e66",
-  "agy-mcp": "0416a4615439d99e"
+  "agy-mcp": "0416a4615439d99e",
+  "skills-mcp": "34a48f5e168c59ed"
 }

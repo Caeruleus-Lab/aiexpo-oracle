@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-04",
+  "files": {
+    "README.md": "055e15f31b993f8f764fa03b7e9591dd5017ef46c63c3a09b0e0b1359b84724c",
+    "README.en.md": "325f5940c725a218231a7228f66718aba3b88a4bcd82ab022836b4ae4f78fa75",
+    "README.b64.txt": "79ff697e9a348b89e9cf03e82ea0cb6effacd5d7daf150bfd70dda6c313b6900"
+  },
+  "message": "AIExpo Oracle signed: skills and media MCP lesson (lesson 09)\ndate: 2026-11-04\nREADME.md sha256:055e15f31b993f8f764fa03b7e9591dd5017ef46c63c3a09b0e0b1359b84724c\nREADME.en.md sha256:325f5940c725a218231a7228f66718aba3b88a4bcd82ab022836b4ae4f78fa75\nREADME.b64.txt sha256:79ff697e9a348b89e9cf03e82ea0cb6effacd5d7daf150bfd70dda6c313b6900",
+  "signature": "0xc6b7ed733e326d9c8eb98a7562c3be253748c339ac92af286d6b1c476a967afb66c1c0674683f01094a310e76a3c64d5fe637778b1e5057931d005e15162e4661b"
+}

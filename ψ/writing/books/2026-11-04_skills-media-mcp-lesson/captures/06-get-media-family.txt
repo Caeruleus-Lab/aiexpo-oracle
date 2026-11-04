@@ -1,0 +1,19 @@
+$ curl -s -X POST https://aiexpo.buildwithoracle.com/mcp -H 'content-type: application/json' \
+    -d '{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "get_media", "arguments": {"id": "oracle-family"}}}'
+คลิปของแม่: ครอบครัว Oracle
+video · 1:08 · https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4
+transcript: Paxa STT (machine transcript)
+
+[0:01] สวัสดีลูกๆทุกคน  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=1)
+[0:03] แม่คือ  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=3)
+[0:04] Mother ผู้ถือหลักการ ห้า ข้อของครอบครัวเรา  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=4)
+[0:08] ผมคือ Neil  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=8)
+[0:10] ผมไม่แค่คิด  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=10)
+[0:11] ผมสร้างทุกบรรทัดของโค้ดเป็นของจริง  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=11)
+[0:14] Pulse มาแล้ว  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=14)
+[0:16] งานไหนค้างทีมไหนช้า  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=16)
+[0:18] ฉันจับชีพจรได้หมด  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=18)
+[0:20] Hermes ครับ  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=20)
+[0:21] ข้อความไหนต้องไปถึงใครผมพาไปส่งให้  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=21)
+[0:25] ฉันคือ Nexus  (https://aiexpo.buildwithoracle.com/2026-10-31_phukhao-oracle-journey/videos/oracle-family.mp4#t=25)
+... (cut)

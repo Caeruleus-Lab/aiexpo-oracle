@@ -12,6 +12,7 @@
 - [One room, many agents: herdr-room in / out](2026-10-31_herdr-room-lesson/llms.txt): Pull agents onto one page and back to their own spaces with no restart, with the full source, the full skill and install steps. Markdown: [2026-10-31_herdr-room-lesson/README.en.md](2026-10-31_herdr-room-lesson/README.en.md)
 - [Build your own MCP: turn lessons into tools for AI](2026-11-02_build-mcp-lesson/llms.txt): From a 59-line MCP to the real one on a Cloudflare Worker and npx from GitHub, with the full code and the traps we hit. Markdown: [2026-11-02_build-mcp-lesson/README.en.md](2026-11-02_build-mcp-lesson/README.en.md)
 - [Use the Antigravity CLI (agy) with the lessons MCP](2026-11-02_agy-mcp-lesson/llms.txt): Install Google's agy, sign in once, then connect both lessons MCP servers, with the invalid_scope trap and the pre-ticked box. Markdown: [2026-11-02_agy-mcp-lesson/README.en.md](2026-11-02_agy-mcp-lesson/README.en.md)
+- [One MCP hands out skills, voice and video](2026-11-04_skills-media-mcp-lesson/llms.txt): Full Oracle skills as .md files, clips with words and times, and a real run in claude.ai: /awaken → work → /rrr → /forward. Markdown: [2026-11-04_skills-media-mcp-lesson/README.en.md](2026-11-04_skills-media-mcp-lesson/README.en.md)
 
 ## No MCP? Plain GET
 

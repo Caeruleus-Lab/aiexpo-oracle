@@ -1,0 +1,19 @@
+# One MCP hands out skills, voice and video (AIExpo Oracle)
+
+> The AIExpo lessons MCP (https://aiexpo.buildwithoracle.com/mcp, http, no auth, read-only) now has 8 tools: the lesson tools plus list_skills / get_skill (a full ARRA Oracle skill as one text/markdown resource: every file of the real skill folder, then ZIP links) and list_media / get_media (videos and narrated lessons with [m:ss] transcripts and #t= links). Tried for real in claude.ai on 4 Nov 2026: /awaken → work → /rrr → /forward in one chat (19:56–20:02 GMT+7). /recap runs only in Claude Code. Also covers the claude.ai trap (it keeps the old tool list until Disconnect + Connect). Raw outputs in captures/. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [videos/skills-mcp.mp4](videos/skills-mcp.mp4): the lesson narrated in Thai (AI voice, Edge TTS Niwat), 3 min 10 s
+- [../narrated/player.html?l=skills-mcp](../narrated/player.html?l=skills-mcp): the same narration as clickable slides with subtitles
+
+## Key facts
+
+- Tools: search, fetch, get_image, list_lessons, list_skills, get_skill {name, source?: full|chat|github}, list_media, get_media {id, at?, q?}
+- Skills: awaken, rrr, forward, recap (Claude Code only), workshop, awaken-app; plain files at /oracle/full/<skill>.md and /oracle/<skill>.md
+- Media: 4 videos + narrated lessons; transcripts by Paxa STT (videos) and the narration scripts (lessons)
