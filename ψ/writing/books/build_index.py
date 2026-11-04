@@ -93,10 +93,10 @@ LESSONS = [
 ]
 
 
-# What people see on the landing page: lesson 01 hidden, ego-lite moved to the end (Nat, 4 Nov). Cards keep their lesson number,
-# because the lessons, the MCP and the AI brief call them "lesson 03" and so on. The AI brief, llms.txt and lessons.json keep all of them.
-HUMAN = [(i + 1, l) for i, l in enumerate(LESSONS) if l.get("human", True) and l["key"] != "ego-lite"] + \
-        [(i + 1, l) for i, l in enumerate(LESSONS) if l["key"] == "ego-lite"]
+# What people see on the landing page (Nat, 4 Nov): lesson 01 hidden (too basic), the skills MCP lesson first, the MCP connect
+# lesson second, ego-lite last, numbered 01.. in this order. The AI brief, llms.txt and lessons.json keep all 9 in workshop order.
+HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "ego-lite"]
+HUMAN = [(n + 1, next(l for l in LESSONS if l["key"] == k)) for n, k in enumerate(HUMAN_ORDER)]
 
 
 def info(l):
