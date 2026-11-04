@@ -23,10 +23,10 @@ def video(src, tag, note):
             f'poster="video/{src}.jpg" preload="auto" playsinline></video><div class="vtag">{tag}</div><div class="notes">{html.escape(note)}</div></section>')
 SKIP = {"new:listen", "new:rule6"}
 # the fleet pictures from the Chiang Mai AI Party talk (18 Jul 2026, laris-co/ai-party-oracle), right after the mother clip (Nat, 4 Nov)
-FLEET = [("fleet-graph", "ครอบครัว Oracle: lineage จากศูนย์กลาง"), ("fleet-roles", "Oracle Ecosystem · one soul, many instances"),
+FLEET = [("fleet-graph", "ครอบครัว Oracle: lineage จากศูนย์กลาง"), ("relic5-neo-tree", "ผังครอบครัว Neo · 33 oracles 5 รุ่น · relic5 Family (lineage ถึง 12 ก.ค. 2026)"), ("fleet-roles", "Oracle Ecosystem · one soul, many instances"),
          ("fleet-mission", "ARRA Office · mission control"), ("fleet-topology", "Parliament · บอททั้งฝูงบน Discord")]
 def fleet_slides():
-    return [f'<section class="slide black"><img class="vid" src="img/talk/{f}.png" alt=""><div class="vtag">{t} · ภาพจากงาน AI Party เชียงใหม่ 18 ก.ค. 2026</div>'
+    return [f'<section class="slide black"><img class="vid" src="img/talk/{f}.png" alt=""><div class="vtag">{t}{"" if f.startswith("relic5") else " · ภาพจากงาน AI Party เชียงใหม่ 18 ก.ค. 2026"}</div>'
             f'<div class="notes">ภาพจาก AI Party 18 ก.ค. 2026 · ตัวเลขบนภาพเป็นของวันนั้น · {t}</div></section>' for f, t in FLEET]   # cut from the talk deck (Nat, 4 Nov)
 out = []
 for g in script["segments"]:
@@ -56,9 +56,8 @@ for g in script["segments"]:
 def at(key): return next(i for i, x in enumerate(out) if key in x)
 mother = out.pop(at('video/oracle-family.mp4'))
 fleet = [out.pop(at(f'img/talk/{f}.png')) for f, _ in FLEET]
-out.insert(at('video/phukhao-film.mp4'), mother)
-i = at('img/talk/new-want.png') + 1
-out[i:i] = fleet
+i = at('video/phukhao-film.mp4')
+out[i:i] = [mother] + fleet
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
