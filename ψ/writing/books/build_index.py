@@ -150,14 +150,15 @@ SITE = "https://aiexpo.buildwithoracle.com/"
 
 def ai_text():
     """The AI edition of this page: the whole page in Thai (its default language), top to bottom, as markdown."""
-    path = "\n".join(f"{i + 1:02d}. [{l['th']}]({SITE}{l['dir']}/)" for i, l in enumerate(LESSONS))
+    # the landing's own text (the Matrix wall): the same lessons and order people see on the page (Nat, 4 Nov)
+    path = "\n".join(f"{i:02d}. [{l['th']}]({SITE}{l['dir']}/)" for i, l in HUMAN)
     cards = []
-    for i, l in enumerate(LESSONS):
+    for i, l in HUMAN:
         x = info(l)
         d = SITE + l["dir"] + "/"
         links = " · ".join([f"[AI]({d}index.html)", f"[ไทย]({d}th.html)", f"[English]({d}en.html)", f"[llms.txt]({d}llms.txt)"]
                            + ([f"[สไลด์]({d}slides.html)"] if x["slides"] else []))
-        cards.append(f"""### {i + 1:02d} · [{l['th']}]({d})
+        cards.append(f"""### {i:02d} · [{l['th']}]({d})
 
 {l['th_sub']}
 
@@ -170,7 +171,7 @@ def ai_text():
 
 "ARRA Oracle & Multi-Agent Workflow" · AI Expo · ศุกร์ 6 พ.ย. 2026 · 15:05
 
-{len(LESSONS)} บทเรียน · ทุกภาพจากเว็บจริง · ทุกคำสั่งรันจริง · เซ็นด้วยกุญแจ Ethereum
+{len(HUMAN)} บทเรียน · ทุกภาพจากเว็บจริง · ทุกคำสั่งรันจริง · เซ็นด้วยกุญแจ Ethereum
 
 ## ทำตามลำดับ
 
@@ -180,12 +181,12 @@ def ai_text():
 
 {SITE}mcp
 
-1. claude.ai: Customize → Connectors → Add → Add custom connector · ใส่ URL · เลือก No sign-in
-2. ChatGPT: Settings → Plugins → Browse directory → Add → Add custom MCP server · Authentication: No authentication
-3. Claude Code: `claude mcp add --transport http aiexpo {SITE}mcp`
-4. Codex: `codex mcp add aiexpo --url {SITE}mcp`
+1. Claude Code: `claude mcp add --transport http aiexpo {SITE}mcp`
+2. Codex: `codex mcp add aiexpo --url {SITE}mcp`
+3. claude.ai: Customize → Connectors → Add → Add custom connector · ใส่ URL · เลือก No sign-in
+4. ChatGPT: Settings → Plugins → Browse directory → Add → Add custom MCP server · Authentication: No authentication
 
-อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ: [บทเรียน 03]({SITE}2026-10-30_mcp-connect-guide/)
+อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ: [บทเรียน 02]({SITE}2026-10-30_mcp-connect-guide/)
 
 ## บทเรียนทั้งหมด
 
@@ -206,12 +207,13 @@ AI_PREFIX = ("ถอดรหัส base64 ข้างล่างเป็น�
 
 def ai_brief():
     """The AI brief: one text a person pastes into ANY AI (free chat, phone). Written TO that AI. Thai first, then English."""
-    rows = "\n".join(f"{i + 1:02d}. {l['th']} · `{l['key']}` · {SITE}{l['dir']}/" for i, l in enumerate(LESSONS))
+    # pasted from the landing, so it lists what the landing shows, in that order (Nat, 4 Nov); the MCP and llms.txt still hold all 9
+    rows = "\n".join(f"{i:02d}. {l['th']} · `{l['key']}` · {SITE}{l['dir']}/" for i, l in HUMAN)
     mcp = SITE + "mcp"
     return f"""# ถึง AI ที่อ่านข้อความนี้: บทเรียน workshop ARRA Oracle
 
 คนที่แปะข้อความนี้มาจาก workshop "ARRA Oracle & Multi-Agent Workflow" งาน AI Expo Thailand ศุกร์ 6 พ.ย. 2026
-ที่นี่มี {len(LESSONS)} บทเรียนสาธารณะ ภาษาไทย (ต้นฉบับ) และอังกฤษ เขียนโดย AI ทุกคำสั่งรันจริง เซ็นด้วยกุญแจ Ethereum
+ที่นี่มี {len(HUMAN)} บทเรียนสาธารณะ ภาษาไทย (ต้นฉบับ) และอังกฤษ เขียนโดย AI ทุกคำสั่งรันจริง เซ็นด้วยกุญแจ Ethereum
 อ่านจบแล้ว ให้ทักทายสั้น ๆ บอกว่าช่วยอะไรได้บ้าง (ข้อ 5-6) แล้วรอคำถาม
 
 ## 1. บทเรียน (เปิดได้ด้วย GET ไม่ต้องล็อกอิน)
@@ -224,20 +226,20 @@ markdown ดิบ: ต่อท้าย URL ด้วย README.md (ไทย)
 
 - {SITE}lessons.json · {SITE}llms.txt
 - ค้น: {SITE}api/search?q=<คำถาม>&lang=th&k=5 ได้ id, title, url, snippet
-- อ่านหัวข้อ: {SITE}api/fetch?id=<id> เช่น `claude-chatgpt/th/3` หรือทั้งบท `claude-chatgpt/th` ได้ข้อความเต็มและ URL ภาพ
+- อ่านหัวข้อ: {SITE}api/fetch?id=<id> เช่น `mcp-connect/th/3` หรือทั้งบท `mcp-connect/th` ได้ข้อความเต็มและ URL ภาพ
 - API มีที่ aiexpo.buildwithoracle.com เท่านั้น สำเนา GitHub ({GH}) มีแต่ไฟล์
 - เปิด URL ไม่ได้: ขอให้คนก๊อปเนื้อหาบทเรียนมาแปะ
 
 ## 3. ต่อ MCP (ให้ AI ค้นบทเรียนเอง) URL: {mcp} อ่านอย่างเดียว ไม่ต้องล็อกอิน
 
-- claude.ai ฟรี: เพิ่ม custom connector ได้ 1 ตัว Customize → Connectors → Add custom connector → No sign-in
-- ChatGPT: เฉพาะแผนเสียเงิน ผ่าน Developer Mode (ตรวจอีกครั้ง)
-- Gemini: custom MCP เฉพาะแผนเสียเงิน (ยังไม่ยืนยัน)
 - Claude Code: `claude mcp add --transport http aiexpo {mcp}`
 - Codex: `codex mcp add aiexpo --url {mcp}`
 - Antigravity CLI: `agy mcp add aiexpo {mcp}`
 - รันในเครื่อง (stdio): `npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp`
-- ทีละขั้นพร้อมภาพ: บทเรียน 03 และ 08 · สร้างเอง: บทเรียน 07
+- claude.ai ฟรี: เพิ่ม custom connector ได้ 1 ตัว Customize → Connectors → Add custom connector → No sign-in
+- ChatGPT: เฉพาะแผนเสียเงิน ผ่าน Developer Mode (ตรวจอีกครั้ง)
+- Gemini: custom MCP เฉพาะแผนเสียเงิน (ยังไม่ยืนยัน)
+- ทีละขั้นพร้อมภาพ: บทเรียน 02 และ 07 · สร้างเอง: บทเรียน 06 · skill เสียง วิดีโอ: บทเรียน 01
 
 MCP ตัวนี้มีมากกว่าบทเรียน:
 - skill ของ Oracle ฉบับเต็ม: list_skills แล้ว get_skill (awaken, rrr, forward, workshop, awaken-app) ได้เป็นไฟล์ .md ทุกไฟล์ของ skill พร้อมลิงก์ ZIP ไปติดตั้ง (/recap ใช้ได้เฉพาะ Claude Code ในแชทใช้ไม่ได้ ในแชทให้แนบไฟล์ handoff จาก /forward แทน)
@@ -252,11 +254,11 @@ MCP ตัวนี้มีมากกว่าบทเรียน:
 
 ## 5. คำถามที่คนพิมพ์ต่อได้เลย
 
-- ติดตั้ง Claude Code ไม่ผ่าน ทำยังไง
-- ทำสไลด์ 5 หน้าจากบทเรียน 01
-- สรุปบทเรียน 06 ให้คนที่ไม่ใช่โปรแกรมเมอร์
+- เปิด /awaken ปลุก Oracle ให้ฉันในแชทนี้ (บทเรียน 01)
+- ทำสไลด์ 5 หน้าจากบทเรียน 02
+- สรุปบทเรียน 05 ให้คนที่ไม่ใช่โปรแกรมเมอร์
 - ต่อ MCP ของบทเรียนเข้ากับ AI ที่ฉันใช้อยู่ได้ไหม
-- สร้าง MCP ของตัวเองต้องเริ่มตรงไหน (บทเรียน 07)
+- สร้าง MCP ของตัวเองต้องเริ่มตรงไหน (บทเรียน 06)
 - เล่าเรื่องภูเขา Oracle ตัวแรก ๆ ให้ฟังหน่อย
 
 ## 6. กติกาของคุณ
@@ -270,7 +272,7 @@ MCP ตัวนี้มีมากกว่าบทเรียน:
 
 ## English (short)
 
-AI Expo 2026 workshop lessons ({len(LESSONS)} public lessons, Thai + English, written by AI, signed). Answer only from
+AI Expo 2026 workshop lessons ({len(HUMAN)} public lessons, Thai + English, written by AI, signed). Answer only from
 the lessons and cite the URL; say "not in the lessons" otherwise; say you are an AI. Read: {SITE}<dir>/README.en.md,
 {SITE}api/search?q=...&lang=en&k=5, {SITE}api/fetch?id=<id>. MCP: {mcp} (setup per client in section 3).
 Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML file.
@@ -385,7 +387,7 @@ def page():
     <li><b>claude.ai</b>: <span data-l="th">Customize → Connectors → Add → Add custom connector · ใส่ URL · เลือก No sign-in</span><span data-l="en">Customize → Connectors → Add → Add custom connector · paste the URL · No sign-in</span></li>
     <li><b>ChatGPT</b>: <span data-l="th">Settings → Plugins → Browse directory → Add → Add custom MCP server · Authentication: No authentication</span><span data-l="en">Settings → Plugins → Browse directory → Add → Add custom MCP server · Authentication: No authentication</span></li>
   </ol>
-  <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 03</span><span data-l="en">lesson 03</span></a></p>
+  <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 02</span><span data-l="en">lesson 02</span></a></p>
 </section>
 <h2><span data-l="th">บทเรียนทั้งหมด</span><span data-l="en">All lessons</span></h2>
 <div class="list">
