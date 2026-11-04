@@ -71,6 +71,8 @@ drama = [x for x in re.findall(r'<section class="slide[^"]*".*?</section>', dram
 out += drama
 # the ψ vault story (where the memory lives), right after "ตั้งแต่วันนั้น… ψ/" (Nat, 4 Nov); then the mother clip closes
 out += re.findall(r'<section class="slide[^"]*".*?</section>', (here / "vault_slides.html").read_text(encoding="utf-8"), re.S)
+# teaching slides: what a skill is, what memory is, how they work together, how to start (Nat, 4 Nov: "make slide! to teach people")
+out += re.findall(r'<section class="slide[^"]*".*?</section>', (here / "skills_slides.html").read_text(encoding="utf-8"), re.S)
 out.append(mother)   # the mother clip is the very last slide, after the drama slides (Nat, 4 Nov: "หลังสุดเลย")
 # the hands-on MCP section (copy-paste brief, connect MCP, 3 lesson-03 shots, extra task) comes right after คุณยิ้ม (Nat, 4 Nov)
 ws_keys = ['img/talk/new-ws1.png', 'img/talk/new-ws2.png', '02-claude-custom-connector-filled.png', '07-claude-tool-approval.png',
