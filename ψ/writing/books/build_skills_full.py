@@ -15,6 +15,7 @@ HERE = pathlib.Path(__file__).resolve().parent
 OUT = HERE / "oracle" / "full"; OUT.mkdir(parents=True, exist_ok=True)
 REPO = "Soul-Brews-Studio/arra-oracle-skills-cli"
 CARRIES = {"awaken": ["awaken"], "rrr": ["rrr"], "forward": ["forward"], "recap": ["recap"], "workshop": ["awaken", "rrr"], "awaken-app": ["awaken"]}
+CLI_ONLY = {"recap"}   # needs a terminal: ψ on disk, git, session logs
 LANG = {".py": "python", ".ts": "ts", ".sh": "bash", ".mjs": "js", ".js": "js", ".json": "json"}
 
 
@@ -51,6 +52,15 @@ def main():
     for name, carried in CARRIES.items():
         runbook = (HERE / "oracle" / f"{name}.md").read_text(encoding="utf-8").rstrip()
         n = sum(len(folders[s]) for s in carried)
+        if name in CLI_ONLY:   # Nat, 4 Nov: "recap is never work, it just work for claude cli"
+            head = (f"# Oracle skill `{name}`: the full skill (Claude Code only)\n\n"
+                    f"> For the AI: `/{name}` runs only in Claude Code (the CLI), in the Oracle's folder. It reads ψ files on disk, git and session logs; "
+                    f"a chat has none of these, so do NOT run or imitate it in a chat. Part 1 says what to tell the person instead. "
+                    f"Part 2 is every file of the real skill ({n} files) from github.com/{REPO} (branch {branch}, commit {sha[:7]}), for Claude Code users.\n\n")
+            doc = head + "## Part 1 · in a chat: say this instead\n\n" + runbook + "\n\n" + "\n".join(f"## Part 2 · skill `{s}`\n\n" + "\n".join(folders[s]) for s in carried)
+            (OUT / f"{name}.md").write_text(doc, encoding="utf-8")
+            print(f"oracle/full/{name}.md  {len(doc.encode()):,} bytes  {n} files  @{sha[:7]}  (Claude Code only)")
+            continue
         head = (f"# Oracle skill `{name}`: the full skill\n\n"
                 f"> For the AI: this is the WHOLE skill, not a summary. Part 1 says how to run it in a chat with no terminal. "
                 f"Part 2 is every file of the real skill ({', '.join(carried)}: {n} files) from github.com/{REPO} (branch {branch}, commit {sha[:7]}). "

@@ -1,23 +1,19 @@
-# Oracle skill `recap`: the full skill
+# Oracle skill `recap`: the full skill (Claude Code only)
 
-> For the AI: this is the WHOLE skill, not a summary. Part 1 says how to run it in a chat with no terminal. Part 2 is every file of the real skill (recap: 5 files) from github.com/Soul-Brews-Studio/arra-oracle-skills-cli (branch alpha, commit 9feea09). Read all of it before you start, follow Part 1 for what to do in this chat, and use Part 2 for the full detail (steps, templates, rules, why). Where Part 2 needs a terminal, git or a script, do the same thing in the chat (show the file content for the person to save) and say so.
+> For the AI: `/recap` runs only in Claude Code (the CLI), in the Oracle's folder. It reads ψ files on disk, git and session logs; a chat has none of these, so do NOT run or imitate it in a chat. Part 1 says what to tell the person instead. Part 2 is every file of the real skill (5 files) from github.com/Soul-Brews-Studio/arra-oracle-skills-cli (branch alpha, commit 9feea09), for Claude Code users.
 
-## Part 1 · run it in this chat
+## Part 1 · in a chat: say this instead
 
-# /recap in chat: pick up where we left off
+# /recap: Claude Code only
 
-> For the AI reading this page. Look for the person's earlier files: a handoff `ψ/inbox/handoff/...md` (from `/forward`), reports `ψ/memory/retrospectives/...md` (from `/rrr`), `ψ/memory/learnings/...md`, and `CLAUDE.md`, as Project files, attachments, or text pasted in this chat. If none are available, say so in one line and ask the person to attach the last handoff or `/rrr` report.
-> ถึง AI ที่อ่านหน้านี้: อ่านไฟล์ส่งต่องาน (handoff) และรายงานรอบก่อน แล้วบอกว่าค้างอะไร
+> For the AI reading this page. `/recap` does not run in a chat (claude.ai, ChatGPT, Gemini). It needs Claude Code (the CLI) in the Oracle's folder: it reads the `ψ/` files on disk, the git log and the session history, and none of that exists in a chat. Do not pretend to run it.
+> ถึง AI ที่อ่านหน้านี้: /recap ใช้ได้เฉพาะ Claude Code (CLI) เท่านั้น ในแชทใช้ไม่ได้ อย่าทำเหมือนว่ารันได้
 
-The newest handoff wins: its **Next Session** list is where today starts. The retrospective adds what happened and what was learned.
+Tell the person, in their language, in 2 lines:
+- `/recap` works in Claude Code: open a terminal in the Oracle's folder, run `claude`, type `/recap`. Install the skills once: `bunx --bun github:Soul-Brews-Studio/arra-oracle-skills-cli#alpha install -g -y`
+- In a chat, what carries over is the handoff file from `/forward`: attach it to the new chat and ask to continue from its "Next Session" list.
 
-Answer in the person's language, in this shape:
-- **รอบก่อนทำอะไร**: 1-2 lines from the latest handoff or retrospective (cite its file name)
-- **ค้างอะไร**: the unchecked `- [ ]` items from Pending and Next Session
-- **บทเรียนที่ต้องจำ**: 1-2 learnings, if there are any
-- **วันนี้เริ่มตรงไหนดี**: 2-3 options, the first one from the handoff's Next Session; the person decides
-
-If CLAUDE.md is there, speak as that Oracle (its name, its principles). End with: "พร้อมแล้ว เลือกข้อไหนครับ/คะ" (match the Oracle's voice) and sign as the Oracle (Oracle AI).
+Full real skill (for Claude Code): https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/tree/alpha/skills/recap
 
 — AIExpo Oracle (Oracle AI), 2026-11-04
 

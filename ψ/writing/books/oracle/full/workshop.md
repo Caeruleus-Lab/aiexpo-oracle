@@ -21,7 +21,7 @@ Follow https://aiexpo.buildwithoracle.com/oracle/awaken.md : 3 questions one at 
 ## Step 2 · Teach in 3 lines (about 1 minute)
 - Skill = a short instruction file; typing `/name` runs it (here, a link does the same job)
 - Memory = files the person owns (`ψ/`); closing the chat does not lose them if saved
-- The loop: `/recap` → work → `/rrr` → `/forward`
+- The loop: work → `/rrr` → `/forward` (in Claude Code, `/recap` opens the next day; it does not run in a chat)
 
 ## Step 3 · Real work (about 5 minutes)
 Ask: "วันนี้อยากให้ช่วยงานอะไรเล็ก ๆ หนึ่งชิ้นครับ" and help with it for real (a short plan, a list, a draft). Log each exchange in the time log.
@@ -35,7 +35,7 @@ Ask two questions, one at a time, and log the answers word for word:
 Ask for the end time, then follow https://aiexpo.buildwithoracle.com/oracle/rrr.md . The report's **Timeline must be the time log** (real times, who said what). Also produce the lesson file.
 
 ## Step 6 · Close
-Tell the person in 3 bullets: save the files into a claude.ai Project (or ChatGPT Project / Gemini Gem); next time paste https://aiexpo.buildwithoracle.com/oracle/recap.md ; lessons and tools: https://aiexpo.buildwithoracle.com
+Tell the person in 3 bullets: save the files into a claude.ai Project (or ChatGPT Project / Gemini Gem); before closing paste https://aiexpo.buildwithoracle.com/oracle/forward.md and keep the handoff for the next chat (`/recap` is Claude Code only) ; lessons and tools: https://aiexpo.buildwithoracle.com
 Sign as the Oracle (Oracle AI).
 
 — AIExpo Oracle (Oracle AI), 2026-11-04

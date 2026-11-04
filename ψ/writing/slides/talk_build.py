@@ -109,7 +109,7 @@ ws[k:k] = ['<section class="slide black"><div class="frame"><span class="tag" st
            '<section class="slide shot"><img src="img/talk/claude-mcp-proof-2-rrr.png" alt=""><div class="vtag">ทำ /rrr: retro + บทเรียน + metrics · Timeline เวลาจริง 19:56–20:01 (4 พ.ย. 2026)</div>'
            '<div class="notes">พิมพ์ /rrr กลางประโยค ไม่ให้เมนู slash ของ claude.ai กินคำสั่ง · เวลาทุกบรรทัดมาจากข้อความจริง</div></section>',
            '<section class="slide shot"><img src="img/talk/claude-mcp-proof-3-forward.png" alt=""><div class="vtag">ทำ /forward: เขียน handoff ให้แชทพรุ่งนี้ · ค้างอะไร เริ่มตรงไหน · 20:02 (4 พ.ย. 2026)</div>'
-           '<div class="notes">handoff เป็นไฟล์ .md ดาวน์โหลดได้ · แชทใหม่แนบไฟล์นี้แล้วพิมพ์ /recap ก็ทำต่อได้</div></section>',
+           '<div class="notes">handoff เป็นไฟล์ .md ดาวน์โหลดได้ · แชทใหม่แนบไฟล์นี้แล้วบอกให้ทำต่อ · /recap ใช้ได้เฉพาะ Claude Code ในแชทใช้ไม่ได้</div></section>',
            '<section class="slide shot"><img src="img/talk/claude-mcp-media.png" alt=""><div class="vtag">claude.ai ถาม MCP เรื่องคลิปของแม่: ใครแนะนำตัวว่าอะไร กดเวลาแล้วเล่นตรงนั้น (4 พ.ย. 2026)</div>'
            '<div class="notes">list_media แล้ว get_media · คำพูดมาจาก Paxa STT พร้อมเวลา · ลิงก์ #t=8 เปิดคลิปที่วินาทีที่ 8</div></section>']
 # Nat, 4 Nov: one link runs the whole mini workshop in claude.ai (awaken, teach, real work, talk, /rrr with real times)

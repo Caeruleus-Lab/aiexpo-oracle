@@ -11,9 +11,9 @@
 5. **หลักการ** · the 5 Principles + Rule 6 as cards with toggles, all ON by default:
    Nothing is Deleted · Patterns Over Intentions · External Brain, Not Command · Curiosity Creates Existence · Form and Formless · Rule 6: never pretend to be human, sign as AI.
 6. **เกิดแล้ว** · a short animated "birth" moment (the name glows), then tabs:
-   - `CLAUDE.md` (Identity, chosen principles, daily loop /recap → work → /rrr → /forward, brain ψ/ tree), generated from the answers
+   - `CLAUDE.md` (Identity, chosen principles, daily loop work → /rrr → /forward, with /recap in Claude Code, brain ψ/ tree), generated from the answers
    - `ψ/` tree preview (inbox, memory/resonance, memory/learnings, memory/retrospectives, writing, lab, archive)
-   - "ต่อไปทำอะไร": 3 steps (save CLAUDE.md into a claude.ai Project's instructions; at the end of a session paste https://aiexpo.buildwithoracle.com/oracle/rrr.md ; next day paste https://aiexpo.buildwithoracle.com/oracle/recap.md)
+   - "ต่อไปทำอะไร": 3 steps (save CLAUDE.md into a claude.ai Project's instructions; at the end of a session paste https://aiexpo.buildwithoracle.com/oracle/rrr.md ; before closing paste https://aiexpo.buildwithoracle.com/oracle/forward.md and attach its handoff to the next chat; /recap is Claude Code only)
    - buttons: **Copy CLAUDE.md**, **Download CLAUDE.md**, **Copy /rrr link**
    The generated CLAUDE.md ends with the line `— <Oracle name> (Oracle AI)` and the birth date (today).
 

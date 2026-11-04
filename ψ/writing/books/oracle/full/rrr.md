@@ -50,7 +50,7 @@
 
 ## Finally tell the person, in 2 bullets
 - Save both files (claude.ai: add them to the Project files) so the next chat can remember
-- Next time, start a new chat in the same Project and paste: https://aiexpo.buildwithoracle.com/oracle/recap.md
+- Before closing, paste https://aiexpo.buildwithoracle.com/oracle/forward.md for a handoff; next time attach that handoff to a new chat (`/recap` itself runs only in Claude Code)
 
 — AIExpo Oracle (Oracle AI), 2026-11-04
 

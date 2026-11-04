@@ -6,7 +6,7 @@
 
 # /forward in chat: hand this chat over to the next one
 
-> For the AI reading this page (claude.ai, ChatGPT, Gemini, any chat). The person wants to stop here and carry on in a NEW chat later. Write the handoff file below so the next chat (and `/recap`) can pick up exactly where this one ends. Answer in the person's language (Thai by default). Sign as the Oracle (Oracle AI).
+> For the AI reading this page (claude.ai, ChatGPT, Gemini, any chat). The person wants to stop here and carry on in a NEW chat later. Write the handoff file below so the next chat (or `/recap` in Claude Code) can pick up exactly where this one ends. Answer in the person's language (Thai by default). Sign as the Oracle (Oracle AI).
 > ถึง AI ที่อ่านหน้านี้: เขียนไฟล์ส่งต่องานให้แชทถัดไป
 
 `/rrr` looks back (what happened, what we learned). `/forward` looks forward (what is open, what to do first next time). Run `/rrr` first if the person wants both.
@@ -43,7 +43,7 @@
 ```
 
 7. Tell the person in 2 lines: save this file next to the Oracle's other files (or into the Project), then in a new chat
-   paste https://aiexpo.buildwithoracle.com/oracle/recap.md together with this file, and the Oracle picks up from "Next Session".
+   attach this file and ask to continue from "Next Session". (`/recap` reads it automatically, but only in Claude Code.)
 
 — AIExpo Oracle (Oracle AI), 2026-11-04
 

@@ -85,7 +85,7 @@ const TOOLS = [
     title: "Get an Oracle skill",
     description:
       "Return the instructions of an ARRA Oracle skill so you can run it in this chat: 'awaken' (give birth to an Oracle), 'rrr' (session report with real timestamps), " +
-      "'forward' (hand this chat over to the next one), 'recap' (pick up from the last handoff or report), 'workshop' (the whole mini workshop), 'awaken-app' (build an interactive awaken app). " +
+      "'forward' (hand this chat over to the next one), 'recap' (CLAUDE CODE ONLY: it reads ψ files, git and session logs on disk, so it does not run in a chat; in a chat, tell the person so and continue from the /forward handoff instead), 'workshop' (the whole mini workshop), 'awaken-app' (build an interactive awaken app). " +
       "Default source 'full' returns the WHOLE skill, not a summary: Part 1 = how to run it in a chat with no terminal, Part 2 = every file of the real skill " +
       "(SKILL.md plus its HOSTS/TEMPLATE/reference docs and scripts, from Soul-Brews-Studio/arra-oracle-skills-cli). It is long (30-65 KB): read all of it before you start, " +
       "then follow Part 1 with the person and use Part 2 for every detail (steps, templates, rules, why). " +
@@ -129,7 +129,7 @@ const SKILLS = {
   awaken: "ปลุก Oracle: ถาม 3 ข้อ แล้วสร้าง CLAUDE.md + ψ/memory/resonance",
   rrr: "รายงานจบงาน: Timeline เวลาจริง + บทเรียน",
   forward: "ส่งต่องาน: เขียน handoff ให้แชทถัดไป (ทำอะไรไป ค้างอะไร เริ่มตรงไหน)",
-  recap: "เริ่มงาน: อ่าน handoff และรายงานรอบก่อน บอกว่าค้างอะไร",
+  recap: "เริ่มงาน (Claude Code เท่านั้น ในแชทใช้ไม่ได้): อ่าน handoff และรายงานรอบก่อน บอกว่าค้างอะไร",
   workshop: "workshop สั้นในแชทเดียว: awaken → งานจริง → คุย → /rrr พร้อม time log",
   "awaken-app": "สร้างแอปปลุก Oracle แบบกดได้ (artifact / canvas)",
 };
@@ -283,7 +283,7 @@ async function handle(msg, env) {
             "Read-only access to the AIExpo Oracle workshop lessons (AI Expo Thailand, 6 Nov 2026). " +
             "Use search (optionally filtered by lang, lesson or topic), then fetch an id for the full text. " +
             "Lessons exist in Thai (th, the original) and English (en). " +
-            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, forward, recap, workshop, awaken-app). get_skill returns the WHOLE skill (every file of the real skill folder plus how to run it in chat): read all of it, then follow it with the person. " +
+            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, forward, workshop, awaken-app; recap is Claude Code only). get_skill returns the WHOLE skill (every file of the real skill folder plus how to run it in chat): read all of it, then follow it with the person. " +
             "Voice and video: list_media, then get_media for a timed transcript and links that start at a given second.",
         });
       }
@@ -306,7 +306,7 @@ async function handle(msg, env) {
       case "resources/templates/list":
         return ok(id, { resourceTemplates: [] });
       case "prompts/list":
-        return ok(id, { prompts: Object.entries(SKILLS).map(([name, description]) => ({ name, title: `/${name}`, description })) });
+        return ok(id, { prompts: Object.entries(SKILLS).filter(([n]) => n !== "recap").map(([name, description]) => ({ name, title: `/${name}`, description })) });
       case "prompts/get": {
         const text = await skillText(params.name, "full", env);
         if (!text) return rpcError(id, -32602, `Unknown prompt: ${params.name}`);
