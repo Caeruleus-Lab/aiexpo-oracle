@@ -21,10 +21,12 @@ def notes(lines): return "<div class=\"notes\">" + html.escape(" · ".join(l["te
 def video(src, tag, note):
     return (f'<section class="slide black" data-video><img class="poster" src="video/{src}.jpg" alt=""><video class="vid" src="video/{src}.mp4" '
             f'poster="video/{src}.jpg" preload="auto" playsinline></video><div class="vtag">{tag}</div><div class="notes">{html.escape(note)}</div></section>')
+SKIP = {"new:listen"}   # cut from the talk deck (Nat, 4 Nov)
 out = []
 for g in script["segments"]:
     for sl in g["slides"]:
         src = sl.get("src")
+        if src in SKIP: continue
         if "video" in sl:
             name = pathlib.Path(sl["video"]).stem
             if name == "phukhao-presentation":   # split into its own parts, so a slip or a skip loses one part only (Nat, 4 Nov)
