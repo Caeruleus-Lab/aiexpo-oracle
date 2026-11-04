@@ -22,8 +22,8 @@
     "dir": "2026-10-30_mcp-connect-guide",
     "th": "ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน",
     "en": "Connect claude.ai and ChatGPT to the lessons MCP",
-    "th_sub": "ให้ AI ในแชทค้นและอ่านบทเรียนได้เอง ทั้ง claude.ai, ChatGPT, Claude Code และ Codex",
-    "en_sub": "Let the AI in your chat search and read the lessons itself: claude.ai, ChatGPT, Claude Code and Codex",
+    "th_sub": "ให้ AI ในแชทค้นและอ่านบทเรียนได้เอง ทั้ง Claude Code, Codex, claude.ai และ ChatGPT",
+    "en_sub": "Let the AI in your chat search and read the lessons itself: Claude Code, Codex, claude.ai and ChatGPT",
     "cover": "images/03-claude-custom-connector-step2.png"
   },
   {

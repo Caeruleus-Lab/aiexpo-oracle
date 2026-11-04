@@ -1,6 +1,6 @@
 # Connect claude.ai and ChatGPT to the lessons MCP
 
-> **Written by AI, for AI**: let the AI in your chat search and read the workshop lessons by itself, through the MCP at `https://aiexpo.buildwithoracle.com/mcp`, from claude.ai, ChatGPT, Claude Code and Codex.
+> **Written by AI, for AI**: let the AI in your chat search and read the workshop lessons by itself, through the MCP at `https://aiexpo.buildwithoracle.com/mcp`, from Claude Code, Codex, claude.ai and ChatGPT.
 
 - Collected on 30 Oct 2026 with ego-browser on Nat's accounts
 - The MCP is read-only and needs no sign-in, because the lessons are public already
@@ -37,9 +37,49 @@ Eight tools, all read-only:
 | `list_media` | Lists the 4 videos and the 8 narrated lessons |
 | `get_media` | A timed transcript (`[m:ss]` lines) with links that start playing at that second; search with `q` or jump with `at` |
 
-> One URL works in claude.ai, ChatGPT, Claude Code and Codex
+> One URL works in Claude Code, Codex, claude.ai and ChatGPT
 
-## 2. claude.ai
+## 2. Claude Code
+
+One command ([`captures/01-claude-code-mcp-add.txt`](captures/01-claude-code-mcp-add.txt)):
+
+```
+$ claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp
+Added HTTP MCP server aiexpo with URL: https://aiexpo.buildwithoracle.com/mcp to local config
+
+$ claude mcp list
+aiexpo: https://aiexpo.buildwithoracle.com/mcp (HTTP) - ✔ Connected
+```
+
+**Already set up in this repo**: the [`.mcp.json`](../../../../.mcp.json) at the repo root. Open `claude` anywhere in the repo and approve it once ([`captures/02-repo-mcp-json.txt`](captures/02-repo-mcp-json.txt)):
+
+```
+$ claude mcp get aiexpo
+aiexpo:
+  Scope: Project config (shared via .mcp.json)
+  Status: ⏸ Pending approval (run `claude` to approve)
+  Type: http
+  URL: https://aiexpo.buildwithoracle.com/mcp
+```
+
+Test result ([`captures/03-claude-code-sees-images.txt`](captures/03-claude-code-sees-images.txt)): Claude Code saw all 4 images and read the menu item "Reflect", which appears only in the image.
+
+## 3. Codex CLI
+
+```
+codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp
+```
+
+A try without changing any config ([`captures/04-codex-sees-images.txt`](captures/04-codex-sees-images.txt)):
+
+```
+$ codex exec --skip-git-repo-check -c 'mcp_servers.aiexpo.url="https://aiexpo.buildwithoracle.com/mcp"' "Use the aiexpo MCP ..."
+Lessons listed: `claude-chatgpt`, `ego-lite`.
+Top result ID: `claude-chatgpt/th/6`.
+Image-only UI label: “Allow network egress”.
+```
+
+## 4. claude.ai
 
 **2.1 Add a connector.** Go to **Customize → Connectors**, press **Add**, then **Add custom connector**.
 
@@ -76,7 +116,7 @@ The answer comes from the real lesson, with links back to the sections it used:
 - For this guide we pressed **Always allow**, so these three read-only tools no longer ask
 - claude.ai keeps the tool list from when you connected: `get_image` came later, so Claude did not see it, yet the images still arrived through `fetch`. To get the new list, Disconnect and Connect again (not tried yet)
 
-## 3. ChatGPT
+## 5. ChatGPT
 
 **3.1 Open Plugins.** Go to **Settings → Plugins → Browse directory**, or open https://chatgpt.com/plugins
 
@@ -112,46 +152,6 @@ and reports what it **sees in the picture**, such as the line breaking just befo
 
 - The model sees the image, but ChatGPT's chat does not display it: you get an empty box and a link to the full image
 - A custom MCP plugin shows the status **dev mode** and works in your own account
-
-## 4. Claude Code
-
-One command ([`captures/01-claude-code-mcp-add.txt`](captures/01-claude-code-mcp-add.txt)):
-
-```
-$ claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp
-Added HTTP MCP server aiexpo with URL: https://aiexpo.buildwithoracle.com/mcp to local config
-
-$ claude mcp list
-aiexpo: https://aiexpo.buildwithoracle.com/mcp (HTTP) - ✔ Connected
-```
-
-**Already set up in this repo**: the [`.mcp.json`](../../../../.mcp.json) at the repo root. Open `claude` anywhere in the repo and approve it once ([`captures/02-repo-mcp-json.txt`](captures/02-repo-mcp-json.txt)):
-
-```
-$ claude mcp get aiexpo
-aiexpo:
-  Scope: Project config (shared via .mcp.json)
-  Status: ⏸ Pending approval (run `claude` to approve)
-  Type: http
-  URL: https://aiexpo.buildwithoracle.com/mcp
-```
-
-Test result ([`captures/03-claude-code-sees-images.txt`](captures/03-claude-code-sees-images.txt)): Claude Code saw all 4 images and read the menu item "Reflect", which appears only in the image.
-
-## 5. Codex CLI
-
-```
-codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp
-```
-
-A try without changing any config ([`captures/04-codex-sees-images.txt`](captures/04-codex-sees-images.txt)):
-
-```
-$ codex exec --skip-git-repo-check -c 'mcp_servers.aiexpo.url="https://aiexpo.buildwithoracle.com/mcp"' "Use the aiexpo MCP ..."
-Lessons listed: `claude-chatgpt`, `ego-lite`.
-Top result ID: `claude-chatgpt/th/6`.
-Image-only UI label: “Allow network egress”.
-```
 
 ## 6. Try it with curl
 

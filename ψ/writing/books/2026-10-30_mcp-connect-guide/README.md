@@ -1,6 +1,6 @@
 # ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน
 
-> **เขียนโดย AI เพื่อ AI**: ให้ AI ในแชทค้นและอ่านบทเรียนของ workshop ได้เอง ผ่าน MCP ที่ `https://aiexpo.buildwithoracle.com/mcp` ทั้ง claude.ai, ChatGPT, Claude Code และ Codex
+> **เขียนโดย AI เพื่อ AI**: ให้ AI ในแชทค้นและอ่านบทเรียนของ workshop ได้เอง ผ่าน MCP ที่ `https://aiexpo.buildwithoracle.com/mcp` ทั้ง Claude Code, Codex, claude.ai และ ChatGPT
 
 - เก็บข้อมูลวันที่ 30 ต.ค. 2026 ด้วย ego-browser บนบัญชีของ Nat
 - MCP นี้อ่านอย่างเดียว ไม่ต้องล็อกอิน เพราะบทเรียนเปิดสาธารณะอยู่แล้ว
@@ -37,9 +37,49 @@ MCP (Model Context Protocol) คือวิธีมาตรฐานที่
 | `list_media` | รายชื่อวิดีโอ 4 คลิป และบทเรียนที่มีเสียงบรรยาย 8 บท |
 | `get_media` | คำพูดในคลิปพร้อมเวลา `[m:ss]` และลิงก์ที่กดแล้วเล่นตรงวินาทีนั้น ค้นคำด้วย `q` หรือข้ามไปที่ `at` ได้ |
 
-> URL เดียว ใช้ได้ทั้ง claude.ai, ChatGPT, Claude Code และ Codex
+> URL เดียว ใช้ได้ทั้ง Claude Code, Codex, claude.ai และ ChatGPT
 
-## 2. claude.ai
+## 2. Claude Code
+
+คำสั่งเดียว ([`captures/01-claude-code-mcp-add.txt`](captures/01-claude-code-mcp-add.txt)):
+
+```
+$ claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp
+Added HTTP MCP server aiexpo with URL: https://aiexpo.buildwithoracle.com/mcp to local config
+
+$ claude mcp list
+aiexpo: https://aiexpo.buildwithoracle.com/mcp (HTTP) - ✔ Connected
+```
+
+**ในรีโปนี้มีให้แล้ว**: ไฟล์ [`.mcp.json`](../../../../.mcp.json) ที่รากของรีโป เปิด `claude` ที่ไหนก็ได้ในรีโป แล้วกดอนุมัติครั้งเดียว ([`captures/02-repo-mcp-json.txt`](captures/02-repo-mcp-json.txt)):
+
+```
+$ claude mcp get aiexpo
+aiexpo:
+  Scope: Project config (shared via .mcp.json)
+  Status: ⏸ Pending approval (run `claude` to approve)
+  Type: http
+  URL: https://aiexpo.buildwithoracle.com/mcp
+```
+
+ผลทดสอบ ([`captures/03-claude-code-sees-images.txt`](captures/03-claude-code-sees-images.txt)): Claude Code เห็นภาพครบ 4 ภาพ และอ่านเมนู "Reflect" ได้จากภาพเท่านั้น
+
+## 3. Codex CLI
+
+```
+codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp
+```
+
+ลองแบบไม่แก้ config ([`captures/04-codex-sees-images.txt`](captures/04-codex-sees-images.txt)):
+
+```
+$ codex exec --skip-git-repo-check -c 'mcp_servers.aiexpo.url="https://aiexpo.buildwithoracle.com/mcp"' "Use the aiexpo MCP ..."
+Lessons listed: `claude-chatgpt`, `ego-lite`.
+Top result ID: `claude-chatgpt/th/6`.
+Image-only UI label: “Allow network egress”.
+```
+
+## 4. claude.ai
 
 **2.1 เพิ่ม connector** ไปที่ **Customize → Connectors** กด **Add** แล้วเลือก **Add custom connector**
 
@@ -76,7 +116,7 @@ MCP (Model Context Protocol) คือวิธีมาตรฐานที่
 - รอบทำคู่มือ เรากด **Always allow** เครื่องมืออ่านอย่างเดียว 3 ตัวนี้จึงไม่ถามอีก
 - claude.ai จำรายการเครื่องมือไว้ตอนเชื่อม: `get_image` เพิ่มทีหลัง Claude เลยยังไม่เห็น แต่ภาพยังมาทาง `fetch` อยู่ดี ถ้าอยากได้รายการใหม่ ให้ Disconnect แล้ว Connect ใหม่ (ยังไม่ได้ลองขั้นนี้)
 
-## 3. ChatGPT
+## 5. ChatGPT
 
 **3.1 เปิดหน้า Plugins** ไปที่ **Settings → Plugins → Browse directory** หรือเข้า https://chatgpt.com/plugins
 
@@ -112,46 +152,6 @@ ChatGPT ตอบขั้นตอนจากบทเรียน:
 
 - ตัวโมเดลเห็นภาพ แต่หน้าแชทของ ChatGPT ไม่แสดงภาพ เห็นเป็นกรอบว่างกับลิงก์เปิดภาพเต็ม
 - plugin แบบ custom MCP ขึ้นสถานะ **dev mode** ใช้ได้ในบัญชีของเราเอง
-
-## 4. Claude Code
-
-คำสั่งเดียว ([`captures/01-claude-code-mcp-add.txt`](captures/01-claude-code-mcp-add.txt)):
-
-```
-$ claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp
-Added HTTP MCP server aiexpo with URL: https://aiexpo.buildwithoracle.com/mcp to local config
-
-$ claude mcp list
-aiexpo: https://aiexpo.buildwithoracle.com/mcp (HTTP) - ✔ Connected
-```
-
-**ในรีโปนี้มีให้แล้ว**: ไฟล์ [`.mcp.json`](../../../../.mcp.json) ที่รากของรีโป เปิด `claude` ที่ไหนก็ได้ในรีโป แล้วกดอนุมัติครั้งเดียว ([`captures/02-repo-mcp-json.txt`](captures/02-repo-mcp-json.txt)):
-
-```
-$ claude mcp get aiexpo
-aiexpo:
-  Scope: Project config (shared via .mcp.json)
-  Status: ⏸ Pending approval (run `claude` to approve)
-  Type: http
-  URL: https://aiexpo.buildwithoracle.com/mcp
-```
-
-ผลทดสอบ ([`captures/03-claude-code-sees-images.txt`](captures/03-claude-code-sees-images.txt)): Claude Code เห็นภาพครบ 4 ภาพ และอ่านเมนู "Reflect" ได้จากภาพเท่านั้น
-
-## 5. Codex CLI
-
-```
-codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp
-```
-
-ลองแบบไม่แก้ config ([`captures/04-codex-sees-images.txt`](captures/04-codex-sees-images.txt)):
-
-```
-$ codex exec --skip-git-repo-check -c 'mcp_servers.aiexpo.url="https://aiexpo.buildwithoracle.com/mcp"' "Use the aiexpo MCP ..."
-Lessons listed: `claude-chatgpt`, `ego-lite`.
-Top result ID: `claude-chatgpt/th/6`.
-Image-only UI label: “Allow network egress”.
-```
 
 ## 6. ลองด้วย curl
 
