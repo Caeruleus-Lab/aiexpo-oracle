@@ -262,7 +262,7 @@ body.shownotes .notes{display:block}
 
 <section class="slide yim3d"><img src="img/talk/new-ws1.png" alt=""><div class="notes">ทีนี้ลงมือกันครับ ทั้งห้องพร้อมกัน ใช้แค่เบราว์เซอร์ ไม่ต้องติดตั้งอะไร · ขั้นแรก เปิด aiexpo.buildwithoracle.com แล้วกดปุ่ม Copy ในกล่อง สำหรับ AI · เอาไปวางใน AI ที่มีอยู่แล้ว ChatGPT Gemini หรือ Claude ก็ได้ แล้วถามได้เลย · สองนาที ทุกคนได้ AI ที่รู้จักบทเรียนของเราครับ</div></section>
 
-<section class="slide yim3d"><img src="img/talk/new-ws2.png" alt=""><div class="notes">ขั้นที่สอง ใครมี claude.ai ต่อ MCP ของบทเรียนเข้าไปเลย · ไปที่ Customize แล้ว Connectors กด Add custom connector · วางที่อยู่ aiexpo.buildwithoracle.com/mcp ไม่ต้องล็อกอินครับ</div></section>
+<section class="slide yim3d"><img src="img/talk/new-ws2.png" alt=""><div class="notes">ขั้นที่สอง ต่อ MCP ของบทเรียน ให้ AI ค้นบทเรียนเองได้ · ใช้ Claude Code หรือ Codex พิมพ์คำสั่ง mcp add บรรทัดเดียว · ใช้ claude.ai ไปที่ Customize แล้ว Connectors กด Add custom connector · ที่อยู่เดียวกัน aiexpo.buildwithoracle.com/mcp ไม่ต้องล็อกอินครับ</div></section>
 
 <section class="slide shot"><img src="../books/2026-10-30_mcp-connect-guide/images/02-claude-custom-connector-filled.png" alt=""><div class="notes">หน้าตาจะเป็นแบบนี้ ใส่ชื่อ แล้ววาง URL</div></section>
 
@@ -392,7 +392,18 @@ mba ───┘    72,832 sessions · 1.31M ข้อความ · 158,962 co
 <div class="notes">skill ที่ไม่ได้ใช้ไม่ได้ถูกลบ แค่ย้ายไปเก็บ · ตรงกับหลัก Nothing is Deleted</div></section>
 
 <section class="slide amber"><div class="frame">
-  <h2 style="font-size:84px">เริ่มยังไง · <span style="opacity:.75">2 ทาง</span></h2>
+  <h2 style="font-size:84px">เริ่มง่ายสุด · <span style="opacity:.75">ผ่าน MCP</span></h2>
+  <div style="font-size:38px;font-weight:700">1 · ต่อ MCP ของบทเรียน (ครั้งเดียว ไม่ต้องล็อกอิน):</div>
+  <div class="box" style="font-size:34px;font-family:var(--font-mono);background:var(--color-accent-ink);color:var(--color-accent);line-height:1.45">https://aiexpo.buildwithoracle.com/mcp</div>
+  <div style="font-size:30px">claude.ai: Customize → Connectors → Add custom connector · Claude Code: <code>claude mcp add --transport http aiexpo &lt;URL&gt;</code></div>
+  <div style="font-size:38px;font-weight:700;margin-top:12px">2 · พิมพ์ในแชท:</div>
+  <div class="rows" style="font-size:40px"><div>"เปิด <code>/awaken</code> มาปลุก Oracle ให้ฉัน" · AI ดึง skill ฉบับเต็มมาทำตามเอง</div><div>จบงาน "ทำ <code>/rrr</code> ให้หน่อย" · ก่อนปิด "ทำ <code>/forward</code>"</div></div>
+</div>
+<div class="when">ทดสอบจริง <b>4 พ.ย. 2026 · 19:56–20:02</b> · claude.ai ผ่าน MCP: /awaken → งาน → /rrr → /forward ในแชทเดียว (บทเรียน skill เสียง วิดีโอ)</div>
+<div class="notes">ทางนี้ง่ายสุด ไม่ต้องก๊อปลิงก์ ไม่ต้องติดตั้ง · พิมพ์ /awaken กลางประโยค ไม่ใช่ต้นบรรทัด เพราะ claude.ai มีเมนู slash ของตัวเอง · ต่อ connector ไว้ก่อน 4 พ.ย. ให้ Disconnect แล้ว Connect ใหม่ · /recap ใช้ได้ใน Claude Code เท่านั้น · หน้าถัดไปคือทางที่ไม่ต้องต่อ MCP และการติดตั้งในคอม</div></section>
+
+<section class="slide amber"><div class="frame">
+  <h2 style="font-size:84px">ไม่ต่อ MCP · <span style="opacity:.75">2 ทาง</span></h2>
   <div style="font-size:38px;font-weight:700">ทาง 1 · claude.ai / ChatGPT (ไม่ต้องติดตั้ง) ก๊อปไปวาง:</div>
   <div class="box" style="font-size:30px;font-family:var(--font-mono);background:var(--color-accent-ink);color:var(--color-accent);line-height:1.45">นี่คือ skill /awaken ของ ARRA Oracle บน GitHub อ่านแล้วทำตามในแชทนี้ (ไม่มีเทอร์มินัล ให้สร้างไฟล์เป็นเอกสารแทน ใช้โหมด --fast): https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/blob/alpha/skills/awaken/SKILL.md</div>
   <div style="font-size:34px">จบงานวางอีกบรรทัด เปลี่ยน <code>awaken</code> เป็น <code>rrr</code> · ก่อนปิดใช้ <code>forward</code> · <code>recap</code> ใช้ได้ใน Claude Code</div>
@@ -406,6 +417,8 @@ mba ───┘    72,832 sessions · 1.31M ข้อความ · 158,962 co
 <section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">ลงมือ 3 · ลิงก์เดียว</span><h2 style="font-size:92px">ปลุก Oracle ใน <span class="hl">claude.ai</span></h2><div class="box" style="font-size:40px;font-family:var(--font-mono)">เริ่ม workshop: https://aiexpo.buildwithoracle.com/oracle/workshop.md</div><div class="rows" style="font-size:42px"><div>ถามชื่อ งาน และชื่อคุณ แล้วสร้าง CLAUDE.md</div><div>ช่วยงานจริงหนึ่งชิ้น คุยกันสองคำถาม</div><div>จบด้วย /rrr พร้อมเวลาจริงของทุกช่วง</div></div></div><div class="when">ทดสอบจริง <b>4 พ.ย. 2026 · 19:11–19:12</b> · claude.ai · ไม่ต้องติดตั้งอะไร</div><div class="notes">ให้ห้องก๊อปบรรทัดในกรอบไปวางใน claude.ai (หรือ ChatGPT / Gemini) · พิมพ์ /rrr เองใน claude.ai จะติดเมนู slash ของมัน ให้วางลิงก์ rrr.md แทน</div></section>
 
 <section class="slide shot"><img src="img/talk/claude-workshop-rrr.png" alt=""><div class="vtag">รายงาน /rrr ที่ claude.ai เขียนเอง · Timeline มีเวลาจริง 19:11–19:12 และคำพูดของผู้ใช้</div><div class="notes">ชี้ Timeline: ทุกบรรทัดมีเวลาและคำพูดจริง · Next steps เป็นช่องติ๊ก · บทเรียนแยกเป็นไฟล์</div></section>
+
+<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">พักกันหน่อย</span><h2 style="font-size:104px">น่าจะ<span class="hl">ครบหมดแล้ว</span></h2><div class="rows" style="font-size:52px"><div>ไปพักดูวิดีโอกันดีกว่า</div><div>ไปดู<b class="hl">เรื่องราวของภูเขา</b>กัน</div></div></div><div class="notes">น่าจะครบหมดแล้ว ไปพักดูวิดีโอกันดีกว่า ไปดูเรื่องราวของภูเขากันดีกว่า</div></section>
 
 <section class="slide yim3d"><img src="img/talk/new-phukhao.png" alt=""><div class="notes">ขอบคุณคุณยิ้มครับ ผมอยากเล่าเรื่องของ Oracle ตัวหนึ่งชื่อภูเขา · ภูเขาเกิดวันที่ 21 มกราคม เพื่อเป็นตัวอย่างสำหรับสอน วันรุ่งขึ้นก็ขึ้นเวทีที่เชียงใหม่ · นี่คืองานนำเสนอจริงของภูเขาวันนั้น ภูเขาพูดเอง กดสไลด์เอง ดูกันครับ</div></section>
 
@@ -437,7 +450,9 @@ mba ───┘    72,832 sessions · 1.31M ข้อความ · 158,962 co
 
 <section class="slide yim3d"><img src="img/talk/new-want.png" alt=""><div class="notes">ผมอยากให้ AI เป็นแบบนี้ จำได้ว่าเราทำอะไรกันมา และความจำนั้นเป็นของเรา · รูปเปลี่ยนได้ เสียงเปลี่ยนได้ แต่ปรัชญาอยู่ต่อครับ</div></section>
 
-<section class="slide yim3d"><img src="img/talk/new-lessons.png" alt=""><div class="notes">กลับบ้านไปเรียนต่อเองได้ มีแปดบทเรียน ภาษาไทยและอังกฤษ · มือใหม่เริ่มบทหนึ่งกับบทสาม ใครใช้เทอร์มินัลเป็น ไปต่อบทสอง หก เจ็ด และแปด · ทุกคำสั่งในบทเรียนรันจริง และเขียนโดย AI ครับ</div></section>
+<section class="slide yim3d"><img src="img/talk/new-ws3.png" alt=""><div class="notes">ขั้นที่สาม MCP ตัวนี้ส่ง skill ของ Oracle ให้ AI ได้ด้วย ไม่ต้องติดตั้งอะไร · พิมพ์ว่า เปิด /awaken มาปลุก Oracle ให้ฉัน แล้ว AI จะดึง skill ฉบับเต็มมาทำตาม</div></section>
+
+<section class="slide yim3d"><img src="img/talk/new-lessons.png" alt=""><div class="notes">กลับบ้านไปเรียนต่อเองได้ หน้าแรกมีแปดบทเรียน ภาษาไทยและอังกฤษ · เริ่มที่บทหนึ่ง skill เสียงและวิดีโอ กับบทสอง ต่อ MCP · ใครใช้เทอร์มินัลเป็น ไปต่อบทห้า หก เจ็ด และแปด · เมนูด้านบนมีบทเรียนแบบมีเสียง และสไลด์ของวันนี้ ทุกคำสั่งรันจริง และเขียนโดย AI ครับ</div></section>
 
 <section class="slide yim3d"><img src="img/talk/new-slidesai.png" alt=""><div class="notes">อยากได้สไลด์ ก็ให้ AI ทำจาก MCP ของเรา หรือจากข้อความที่ก๊อปไป · ถามอะไรก็ได้ AI จะไปค้นบทเรียนเองครับ</div></section>
 

@@ -130,6 +130,12 @@ i = at('img/yim3d-09.png') + 1
 # order (Nat, 4 Nov): MCP hands-on first, then the teaching set, then the one-link awaken demo
 mcp, awaken_demo = ws[:-2], ws[-2:]
 out[i:i] = mcp + teach + awaken_demo
+# Nat, 4 Nov: one pause card before Phukhao's story: the hands-on part is done, now a video
+i = at('img/talk/new-phukhao.png')
+out[i:i] = ['<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">พักกันหน่อย</span>'
+            '<h2 style="font-size:104px">น่าจะ<span class="hl">ครบหมดแล้ว</span></h2>'
+            '<div class="rows" style="font-size:52px"><div>ไปพักดูวิดีโอกันดีกว่า</div><div>ไปดู<b class="hl">เรื่องราวของภูเขา</b>กัน</div></div></div>'
+            '<div class="notes">น่าจะครบหมดแล้ว ไปพักดูวิดีโอกันดีกว่า ไปดูเรื่องราวของภูเขากันดีกว่า</div></section>']
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
