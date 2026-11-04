@@ -32,8 +32,8 @@ Eight tools, all read-only:
 | `fetch` | Reads a whole section or a whole lesson, with up to 3 screenshots attached |
 | `get_image` | Hands screenshots to the AI to look at |
 | `list_lessons` | Lists the lessons, their links and every section |
-| `list_skills` | Lists the Oracle skills a chat can run: awaken, rrr, recap, workshop, awaken-app |
-| `get_skill` | Hands a skill's instructions to the AI so it runs them in that chat, nothing to install |
+| `list_skills` | Lists the Oracle skills a chat can run: awaken, rrr, forward, recap, workshop, awaken-app |
+| `get_skill` | Hands the full skill to the AI as a `.md` file (every file of the skill, plus ZIP links) so it runs it in that chat, nothing to install |
 | `list_media` | Lists the 4 videos and the 8 narrated lessons |
 | `get_media` | A timed transcript (`[m:ss]` lines) with links that start playing at that second; search with `q` or jump with `at` |
 

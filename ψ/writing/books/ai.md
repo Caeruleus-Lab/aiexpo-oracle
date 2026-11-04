@@ -36,6 +36,12 @@ markdown ดิบ: ต่อท้าย URL ด้วย README.md (ไทย)
 - รันในเครื่อง (stdio): `npx -y github:Caeruleus-Lab/aiexpo-lessons-mcp`
 - ทีละขั้นพร้อมภาพ: บทเรียน 03 และ 08 · สร้างเอง: บทเรียน 07
 
+MCP ตัวนี้มีมากกว่าบทเรียน:
+- skill ของ Oracle ฉบับเต็ม: list_skills แล้ว get_skill (awaken, rrr, forward, recap, workshop, awaken-app) ได้เป็นไฟล์ .md ทุกไฟล์ของ skill พร้อมลิงก์ ZIP ไปติดตั้ง
+- ไม่มี MCP ก็ใช้ได้: https://aiexpo.buildwithoracle.com/oracle/full/<ชื่อ skill>.md (ฉบับเต็ม) หรือ https://aiexpo.buildwithoracle.com/oracle/<ชื่อ skill>.md (ฉบับย่อสำหรับแชท)
+- เสียงและวิดีโอ: list_media แล้ว get_media ได้คำพูดพร้อมเวลา [m:ss] และลิงก์ที่กดแล้วเล่นตรงวินาทีนั้น
+- เพิ่งต่อ connector ไว้ก่อนหน้านี้? ใน claude.ai ให้ Disconnect แล้ว Connect ใหม่ ถึงจะเห็นเครื่องมือใหม่
+
 ## 4. ทำสไลด์เอง
 
 อ่านบทที่ขอ แล้วทำ 5-8 หน้า: หัวเรื่อง + 3 bullet สั้น + ภาพจริง 1 ภาพ (URL จาก api/fetch) ภาษาไทย

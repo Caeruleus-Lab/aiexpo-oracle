@@ -104,6 +104,12 @@ ws[k:k] = ['<section class="slide black"><div class="frame"><span class="tag" st
            '<div class="notes">ถามว่ามี skill อะไร · AI เรียก list_skills แล้ว get_skill awaken · เริ่มถามข้อ 1 ทันที ไม่ต้องติดตั้งอะไร</div></section>',
            '<section class="slide shot"><img src="img/talk/claude-mcp-skill-full.png" alt=""><div class="vtag">claude.ai ขอ skill rrr ฉบับเต็มจาก MCP: เห็นครบ 4 ไฟล์ และได้ลิงก์ ZIP ไปติดตั้ง (4 พ.ย. 2026)</div>'
            '<div class="notes">get_skill ส่งทั้งโฟลเดอร์ skill: SKILL.md HOSTS.md TEMPLATE.md และสคริปต์ · ท้ายคำตอบมีลิงก์ ZIP กับวิธีอัปโหลดใน claude.ai หรือแตกไว้ใน ~/.claude/skills</div></section>',
+           '<section class="slide shot"><img src="img/talk/claude-mcp-proof-1-awaken.png" alt=""><div class="vtag">/awaken ผ่าน MCP: โคมเล็ก Oracle เกิดใน claude.ai · CLAUDE.md + ψ/ + commit แรก · 19:57–20:00 (4 พ.ย. 2026)</div>'
+           '<div class="notes">พิมพ์ว่า เปิด /awaken · AI ดึง skill เต็มจาก MCP · ถาม 5 ข้อ เสนอ theme แล้วสร้างไฟล์ให้ดาวน์โหลด</div></section>',
+           '<section class="slide shot"><img src="img/talk/claude-mcp-proof-2-rrr.png" alt=""><div class="vtag">ทำ /rrr: retro + บทเรียน + metrics · Timeline เวลาจริง 19:56–20:01 (4 พ.ย. 2026)</div>'
+           '<div class="notes">พิมพ์ /rrr กลางประโยค ไม่ให้เมนู slash ของ claude.ai กินคำสั่ง · เวลาทุกบรรทัดมาจากข้อความจริง</div></section>',
+           '<section class="slide shot"><img src="img/talk/claude-mcp-proof-3-forward.png" alt=""><div class="vtag">ทำ /forward: เขียน handoff ให้แชทพรุ่งนี้ · ค้างอะไร เริ่มตรงไหน · 20:02 (4 พ.ย. 2026)</div>'
+           '<div class="notes">handoff เป็นไฟล์ .md ดาวน์โหลดได้ · แชทใหม่แนบไฟล์นี้แล้วพิมพ์ /recap ก็ทำต่อได้</div></section>',
            '<section class="slide shot"><img src="img/talk/claude-mcp-media.png" alt=""><div class="vtag">claude.ai ถาม MCP เรื่องคลิปของแม่: ใครแนะนำตัวว่าอะไร กดเวลาแล้วเล่นตรงนั้น (4 พ.ย. 2026)</div>'
            '<div class="notes">list_media แล้ว get_media · คำพูดมาจาก Paxa STT พร้อมเวลา · ลิงก์ #t=8 เปิดคลิปที่วินาทีที่ 8</div></section>']
 # Nat, 4 Nov: one link runs the whole mini workshop in claude.ai (awaken, teach, real work, talk, /rrr with real times)
