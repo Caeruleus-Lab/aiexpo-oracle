@@ -18,7 +18,7 @@ here = pathlib.Path(__file__).resolve().parent
 
 # In workshop order: get an agent first, give it a browser, then let any chat AI read these lessons over MCP.
 LESSONS = [
-    dict(key="claude-chatgpt", dir="2026-10-30_claude-chatgpt-install-guide",
+    dict(key="claude-chatgpt", dir="2026-10-30_claude-chatgpt-install-guide", human=False,   # Nat, 4 Nov: too basic for the people's list; AI still gets it
          th="ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop",
          en="Install Claude and ChatGPT, ready for the workshop",
          th_sub="Claude Code, Codex CLI หรือ claude.ai บนเว็บ แล้วลงสกิล Oracle ให้ใช้ได้จริง",
@@ -91,6 +91,12 @@ LESSONS = [
          facts_th=["8 เครื่องมือ · ผลดิบ 8 ชิ้น", "ลองจริง 4 พ.ย. 2026 · 19:56–20:02"],
          facts_en=["8 tools · 8 raw outputs", "real run 4 Nov 2026 · 19:56–20:02"]),
 ]
+
+
+# What people see on the landing page: lesson 01 hidden, ego-lite moved to the end (Nat, 4 Nov). Cards keep their lesson number,
+# because the lessons, the MCP and the AI brief call them "lesson 03" and so on. The AI brief, llms.txt and lessons.json keep all of them.
+HUMAN = [(i + 1, l) for i, l in enumerate(LESSONS) if l.get("human", True) and l["key"] != "ego-lite"] + \
+        [(i + 1, l) for i, l in enumerate(LESSONS) if l["key"] == "ego-lite"]
 
 
 def info(l):
@@ -322,7 +328,7 @@ def page():
     OG_TAGS = og_tags(title="บทเรียน workshop ARRA Oracle · AIExpo Oracle",
                       description=f"คู่มือทีละขั้น {len(LESSONS)} บท สำหรับ workshop ARRA Oracle & Multi-Agent Workflow ที่งาน AI Expo วันศุกร์ 6 พ.ย. 2026",
                       path="", image="index.png", image_alt="บทเรียน workshop ARRA Oracle", lang="th", kind="website")
-    cards = "\n".join(card(i + 1, l) for i, l in enumerate(LESSONS))
+    cards = "\n".join(card(i, l) for i, l in HUMAN)
     path = "\n".join(f'      <a href="{l["dir"]}/" data-lesson="{l["dir"]}/"><b>{i + 1:02d}</b><span class="t"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></span></a>'
                       for i, l in enumerate(LESSONS))
     n = len(LESSONS)
@@ -353,7 +359,7 @@ def page():
       <span class="kicker"><span data-l="th">เขียนโดย AI เพื่อ AI</span><span data-l="en">Written by AI, for AI</span></span>
       <h1><span data-l="th">บทเรียน workshop<br><em>ARRA Oracle</em></span><span data-l="en">Workshop lessons<br><em>ARRA Oracle</em></span></h1>
       <p><span data-l="th">"ARRA Oracle &amp; Multi-Agent Workflow" · AI Expo · ศุกร์ 6 พ.ย. 2026 · 15:05</span><span data-l="en">"ARRA Oracle &amp; Multi-Agent Workflow" · AI Expo · Fri 6 Nov 2026 · 15:05</span></p>
-      <p><span data-l="th">{n} บทเรียน · ทุกภาพจากเว็บจริง · ทุกคำสั่งรันจริง · เซ็นด้วยกุญแจ Ethereum</span><span data-l="en">{n} lessons · real screenshots · commands that really ran · signed with an Ethereum key</span></p>
+      <p><span data-l="th">{len(HUMAN)} บทเรียน · ทุกภาพจากเว็บจริง · ทุกคำสั่งรันจริง · เซ็นด้วยกุญแจ Ethereum</span><span data-l="en">{len(HUMAN)} lessons · real screenshots · commands that really ran · signed with an Ethereum key</span></p>
     </div>
     <div class="herobox">
       <div class="wall" id="wall"><button class="wallbtn" id="wallbtn" type="button">pause</button><button class="wallbtn wallfs" id="wallfs" type="button">full screen</button><canvas id="wallc" aria-hidden="true"></canvas>
