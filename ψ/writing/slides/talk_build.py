@@ -74,6 +74,12 @@ out.append(mother)   # the mother clip is the very last slide, after the drama s
 ws_keys = ['img/talk/new-ws1.png', 'img/talk/new-ws2.png', '02-claude-custom-connector-filled.png', '07-claude-tool-approval.png',
            '08-claude-answer.png', 'img/talk/new-wsrun.png']
 ws = [out.pop(at(k)) for k in ws_keys]
+# Nat, 4 Nov: the old "Claude answers" shot becomes two fresh captures of AI rebuilding lesson 03 as slides through the MCP
+LIVE = [("claude-mcp-slides", "claude.ai + AIExpo lessons connector: อ่านบทเรียน 03 แล้วสร้างสไลด์ HTML 5 หน้าเอง (4 พ.ย. 2026)"),
+        ("chatgpt-mcp-slides", "ChatGPT + AIExpo lessons plugin: บทเรียน 03 เป็นสไลด์ 5 หน้า (4 พ.ย. 2026)")]
+k = next(i for i, x in enumerate(ws) if "08-claude-answer.png" in x)
+ws[k:k + 1] = [f'<section class="slide shot"><img src="img/talk/{f}.png" alt=""><div class="vtag">{t}</div>'
+               f'<div class="notes">{t} · พิมพ์ขอสไลด์ แล้ว AI ไปอ่านบทเรียนผ่าน MCP เอง</div></section>' for f, t in LIVE]
 i = at('img/yim3d-09.png') + 1
 out[i:i] = ws
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
