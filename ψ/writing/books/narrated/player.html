@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>บทเรียนแบบมีเสียง · AIExpo Oracle</title>
+<!--
+  Narrated lesson player, AIExpo Oracle (Oracle AI), 2026-11-02.
+  Loads out/<lesson>/talk.json (built by build.py): one MP3 per slide, subtitle cues with measured start/end.
+  Usage: player.html?l=claude-chatgpt   Keys: Space play/pause · ←/→ slide · C subtitles
+  Voice: Microsoft Edge TTS th-TH-NiwatNeural (AI-generated voice).
+-->
+<style>
+:root{--bg:#121417;--panel:#1b1e23;--ink:#eef0f3;--ink2:#a2a9b4;--accent:#f2b544;--line:#2b2f37}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,"Sarabun",sans-serif}
+#stage{position:fixed;inset:0;display:flex;flex-direction:column}
+#top{display:flex;align-items:center;gap:12px;padding:12px 20px;color:var(--ink2);font-size:14px}
+#top b{color:var(--accent);font-weight:600}
+#top .sp{flex:1}
+#slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:2vh 6vw 0;min-height:0;overflow:hidden}
+#slide h1{font-size:clamp(28px,4.4vw,64px);line-height:1.15;margin:0 0 1.2vh}
+#slide .sub{font-size:clamp(16px,2vw,28px);color:var(--ink2);margin:0}
+#slide ul{font-size:clamp(18px,2.2vw,32px);line-height:1.5;margin:1vh 0;padding-left:1.2em}
+#slide li::marker{color:var(--accent)}
+#slide pre{background:#0b0d10;border:1px solid var(--line);border-radius:12px;padding:14px 18px;font-size:clamp(13px,1.4vw,20px);color:var(--accent);white-space:pre-wrap;word-break:break-all;margin:1vh 0}
+#slide img{max-width:100%;max-height:40vh;min-height:0;flex-shrink:1;object-fit:contain;border-radius:12px;border:1px solid var(--line);align-self:flex-start;margin-top:1vh}
+#cc{flex:none;min-height:12vh;display:flex;align-items:center;justify-content:center;padding:1vh 6vw 2vh}
+#cc p{margin:0;background:rgba(0,0,0,.72);border-radius:12px;padding:12px 22px;font-size:clamp(18px,2.3vw,32px);line-height:1.45;text-align:center;max-width:1100px}
+#cc.off p{visibility:hidden}
+#bar{flex:none;display:flex;align-items:center;gap:10px;padding:10px 20px 16px}
+#bar button{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:15px;cursor:pointer}
+#bar button.on{border-color:var(--accent);color:var(--accent)}
+#prog{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden;cursor:pointer}
+#prog i{display:block;height:100%;width:0;background:var(--accent)}
+#time{font-variant-numeric:tabular-nums;color:var(--ink2);font-size:14px;min-width:96px;text-align:right}
+#start{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,11,13,.86);z-index:5}
+#start button{background:var(--accent);color:#1c1300;border:0;border-radius:14px;padding:18px 34px;font-size:22px;font-weight:700;cursor:pointer}
+#start small{display:block;color:var(--ink2);margin-top:14px;text-align:center;font-size:14px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="top"><a href="index.html" style="color:var(--ink2);text-decoration:none">← บทเรียนแบบมีเสียง</a><b id="ltitle"></b><span class="sp"></span><span id="count"></span></div>
+  <div id="slide"></div>
+  <div id="cc"><p id="cctext"></p></div>
+  <div id="bar">
+    <button id="prev" aria-label="previous slide">◀</button>
+    <button id="play" aria-label="play or pause">▶</button>
+    <button id="next" aria-label="next slide">▶▶</button>
+    <div id="prog" aria-label="progress"><i></i></div>
+    <span id="time">0:00</span>
+    <button id="ccbtn" class="on" aria-label="subtitles">CC</button>
+  </div>
+</div>
+<div id="start"><div><button id="go">▶ เริ่มฟังบทเรียน</button><small>เสียงพากย์โดย AI (Edge TTS · Niwat) · มีคำบรรยาย · กด C เปิด/ปิด</small></div></div>
+<script>
+const $ = (id) => document.getElementById(id);
+const lesson = new URLSearchParams(location.search).get("l") || "claude-chatgpt";
+const base = `out/${lesson}/`;
+const audio = new Audio();
+let talk, i = 0, before = [];
+const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+const esc = (t) => t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+
+function render() {
+  const s = talk.slides[i];
+  let h = `<h1>${esc(s.title)}</h1>`;
+  if (s.sub) h += `<p class="sub">${esc(s.sub)}</p>`;
+  if (s.bullets) h += `<ul>${s.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>`;
+  if (s.code) h += `<pre>${esc(s.code)}</pre>`;
+  if (s.image) h += `<img src="${base + s.image}" alt="">`;
+  $("slide").innerHTML = h;
+  $("count").textContent = `${i + 1} / ${talk.slides.length}`;
+  $("cctext").textContent = "";
+}
+function go(n, play = true) {
+  i = Math.max(0, Math.min(talk.slides.length - 1, n));
+  render(); audio.src = base + talk.slides[i].audio;
+  if (play) audio.play();
+}
+audio.ontimeupdate = () => {
+  const s = talk.slides[i], t = audio.currentTime;
+  const cue = s.cues.find((c) => t >= c.start && t < c.end + 0.3);
+  $("cctext").textContent = cue ? cue.text : "";
+  const done = before[i] + t;
+  $("prog").firstElementChild.style.width = `${(100 * done) / talk.duration}%`;
+  $("time").textContent = `${fmt(done)} / ${fmt(talk.duration)}`;
+};
+audio.onended = () => {
+  if (i < talk.slides.length - 1) return go(i + 1);
+  $("play").textContent = "▶"; $("cctext").textContent = "จบบทเรียน · — AIExpo Oracle (Oracle AI)";
+  fetch("out/lessons.json").then((r) => r.json()).then((L) => {
+    const k = L.findIndex((l) => l.lesson === lesson), nx = L[k + 1];
+    $("slide").insertAdjacentHTML("beforeend", nx
+      ? `<p class="sub" style="margin-top:3vh"><a style="color:var(--accent)" href="player.html?l=${nx.lesson}">▶ บทต่อไป ${nx.n}: ${esc(nx.title)}</a> · <a style="color:var(--ink2)" href="index.html">ทุกบท</a></p>`
+      : `<p class="sub" style="margin-top:3vh"><a style="color:var(--accent)" href="index.html">กลับไปหน้ารวมบทเรียน</a></p>`);
+  }).catch(() => {});
+};
+audio.onplay = () => ($("play").textContent = "❚❚");
+audio.onpause = () => ($("play").textContent = "▶");
+$("play").onclick = () => (audio.paused ? audio.play() : audio.pause());
+$("prev").onclick = () => go(i - 1);
+$("next").onclick = () => go(i + 1);
+$("ccbtn").onclick = () => { $("cc").classList.toggle("off"); $("ccbtn").classList.toggle("on"); };
+$("prog").onclick = (e) => {
+  const want = (e.offsetX / e.currentTarget.clientWidth) * talk.duration;
+  let k = before.findLastIndex((b) => b <= want); go(k); audio.currentTime = want - before[k];
+};
+addEventListener("keydown", (e) => {
+  if (e.key === " ") { e.preventDefault(); $("play").click(); }
+  else if (e.key === "ArrowRight") go(i + 1);
+  else if (e.key === "ArrowLeft") go(i - 1);
+  else if (e.key === "c" || e.key === "C") $("ccbtn").click();
+});
+fetch(base + "talk.json").then((r) => r.json()).then((t) => {
+  talk = t; $("ltitle").textContent = t.title; document.title = `${t.title} · บทเรียนแบบมีเสียง`;
+  let acc = 0; before = t.slides.map((s) => ((acc += s.duration), acc - s.duration));
+  go(0, false);
+  $("go").onclick = () => { $("start").remove(); audio.play(); };
+});
+</script>
+</body>
+</html>

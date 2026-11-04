@@ -1,0 +1,260 @@
+{
+ "lesson": "mcp-connect",
+ "dir": "2026-10-30_mcp-connect-guide",
+ "title": "ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน",
+ "voice": "th-TH-NiwatNeural",
+ "slides": [
+  {
+   "title": "ต่อ AI เข้ากับ MCP ของบทเรียน",
+   "sub": "บทเรียน 03 · ให้ AI ในแชทค้นและอ่านบทเรียนเอง",
+   "audio": "slide-01.mp3",
+   "duration": 20.774,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.208,
+     "text": "สวัสดีครับ ผมคือ AIExpo Oracle ผู้ช่วย AI ของ workshop นี้"
+    },
+    {
+     "start": 5.558,
+     "end": 14.894,
+     "text": "บทนี้ผมจะเล่าว่าวันที่ 30 ตุลาคม เราต่อ claude.ai ChatGPT Claude Code และ Codex เข้ากับ MCP ของเว็บบทเรียนได้อย่างไร"
+    },
+    {
+     "start": 15.244,
+     "end": 20.308,
+     "text": "เมื่อต่อเสร็จ AI จะค้นและอ่านบทเรียนได้เอง โดยคุณไม่ต้องก๊อปข้อความไปวาง"
+    }
+   ]
+  },
+  {
+   "title": "1. MCP นี้ให้อะไร",
+   "bullets": [
+    "URL เดียว ใช้ได้ทั้ง 4 ตัว",
+    "ไม่ต้องล็อกอิน · อ่านอย่างเดียว",
+    "เครื่องมือ 4 ตัว: search, fetch, get_image, list_lessons"
+   ],
+   "audio": "slide-02.mp3",
+   "duration": 28.454,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.792,
+     "text": "MCP คือวิธีมาตรฐานที่ให้ AI เรียกเครื่องมือภายนอกได้ เว็บบทเรียนของเรามี MCP ในตัว"
+    },
+    {
+     "start": 7.142,
+     "end": 12.398,
+     "text": "ตัวนี้อ่านอย่างเดียว และไม่ต้องล็อกอิน เพราะบทเรียนเปิดสาธารณะอยู่แล้ว"
+    },
+    {
+     "start": 12.748,
+     "end": 20.476,
+     "text": "มีเครื่องมือสี่ตัว คือ search ค้นบทเรียน fetch อ่านเนื้อหาเต็ม get_image ส่งภาพหน้าจอให้ AI ดู และ list_lessons ดูรายชื่อบทเรียน"
+    },
+    {
+     "start": 20.826,
+     "end": 27.93,
+     "text": "ที่อยู่ของมันคือ aiexpo.buildwithoracle.com/mcp ใช้ที่อยู่เดียวกันกับทุกโปรแกรมครับ"
+    }
+   ]
+  },
+  {
+   "title": "2. claude.ai: เพิ่ม connector",
+   "image": "img/02-claude-custom-connector-filled.png",
+   "audio": "slide-03.mp3",
+   "duration": 25.886,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.864,
+     "text": "เริ่มที่ claude.ai ไปที่ Customize แล้วเลือก Connectors กด Add แล้วเลือก Add custom connector"
+    },
+    {
+     "start": 7.214,
+     "end": 13.406,
+     "text": "ใส่ชื่ออะไรก็ได้ เราตั้งว่า AIExpo lessons แล้ววาง URL ของ MCP ลงไป กด Continue"
+    },
+    {
+     "start": 13.756,
+     "end": 20.596,
+     "text": "ในขั้นที่สอง เราเลือก No sign-in claude.ai ลองเรียกเซิร์ฟเวอร์ให้เอง แล้วติดป้าย Detected ที่ No sign-in ให้เลย"
+    },
+    {
+     "start": 20.946,
+     "end": 25.362,
+     "text": "กด Add แล้วหน้า connector จะขึ้นว่ายังไม่ได้เชื่อม ให้กด Connect ครับ"
+    }
+   ]
+  },
+  {
+   "title": "3. เห็นเครื่องมือครบ 4 ตัว",
+   "image": "img/05-claude-connector-tools.png",
+   "audio": "slide-04.mp3",
+   "duration": 20.822,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.456,
+     "text": "ตอนเรามาทำคู่มือ วันที่ 30 ตุลาคม หลังเชื่อมแล้ว claude.ai โชว์เครื่องมือแค่สามตัว"
+    },
+    {
+     "start": 6.806,
+     "end": 15.59,
+     "text": "วันที่ 1 พฤศจิกายน เราทดสอบซ้ำบน claude.ai จริง ตอนนี้ connector โชว์ครบสี่ตัว รวม Show a screenshot ที่คือ get_image"
+    },
+    {
+     "start": 15.94,
+     "end": 20.356,
+     "text": "เรื่องนี้ไม่ต้อง Disconnect แล้ว Connect ใหม่เลย มันขึ้นมาเองครับ"
+    }
+   ]
+  },
+  {
+   "title": "4. ลองถามในแชทใหม่",
+   "image": "img/08-claude-answer.png",
+   "audio": "slide-05.mp3",
+   "duration": 32.246,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.112,
+     "text": "เปิดแชทใหม่ แล้วบอกชื่อ connector ในคำถามด้วย Claude จะเลือกเครื่องมือเอง"
+    },
+    {
+     "start": 5.462,
+     "end": 11.654,
+     "text": "ครั้งแรก Claude จะขออนุญาตใช้เครื่องมือ เลือก Allow once หรือ Always allow รอบทำคู่มือเรากด Always allow"
+    },
+    {
+     "start": 12.004,
+     "end": 16.372,
+     "text": "คำตอบมาจากบทเรียนจริง พร้อมลิงก์กลับไปหัวข้อที่ใช้"
+    },
+    {
+     "start": 16.722,
+     "end": 24.498,
+     "text": "ตอนทดสอบวันที่ 1 พฤศจิกายน Claude แสดงภาพหน้าจอจริงสามภาพจากบทที่ 03 หัวข้อที่ 2 ไว้ในแชทเลย"
+    },
+    {
+     "start": 24.848,
+     "end": 31.664,
+     "text": "ส่วนบทที่ 06 เราลองให้เรียก get_image ได้คำตอบที่ถูกต้องว่า No screenshot เพราะบทนั้นไม่มีภาพ"
+    }
+   ]
+  },
+  {
+   "title": "5. ChatGPT: เพิ่ม plugin",
+   "image": "img/11-chatgpt-custom-mcp-filled.png",
+   "audio": "slide-06.mp3",
+   "duration": 23.414,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.24,
+     "text": "ฝั่ง ChatGPT ไปที่ Settings แล้ว Plugins กด Add แล้วเลือก Add custom MCP server"
+    },
+    {
+     "start": 6.59,
+     "end": 11.942,
+     "text": "กรอกชื่อ คำอธิบาย และ Server URL ช่อง Authentication เลือก No authentication"
+    },
+    {
+     "start": 12.292,
+     "end": 18.1,
+     "text": "ติ๊ก I understand and want to continue แล้วกด Create as a plugin จากนั้นกด Connect"
+    },
+    {
+     "start": 18.45,
+     "end": 22.89,
+     "text": "plugin แบบนี้ขึ้นสถานะ dev mode ใช้ได้ในบัญชีของเราเองครับ"
+    }
+   ]
+  },
+  {
+   "title": "6. ChatGPT เห็นภาพ แต่ไม่แสดงภาพ",
+   "image": "img/16-chatgpt-answer-sees-image.png",
+   "audio": "slide-07.mp3",
+   "duration": 18.182,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.216,
+     "text": "เราบอกชื่อ plugin ในคำถาม ChatGPT ตอบขั้นตอนจากบทเรียน และบอกสิ่งที่เห็นในภาพจริง"
+    },
+    {
+     "start": 6.566,
+     "end": 10.742,
+     "text": "เช่น บรรทัดตัดก่อนคำว่า reports ซึ่งรู้ได้จากภาพเท่านั้น"
+    },
+    {
+     "start": 11.092,
+     "end": 17.716,
+     "text": "แต่หน้าแชทของ ChatGPT ไม่แสดงภาพ เห็นเป็นกรอบว่างกับลิงก์เปิดภาพเต็ม โมเดลยังเห็นภาพอยู่ครับ"
+    }
+   ]
+  },
+  {
+   "title": "7. Claude Code และ Codex",
+   "code": "claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp",
+   "audio": "slide-08.mp3",
+   "duration": 26.246,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.24,
+     "text": "ฝั่ง Claude Code ใช้คำสั่งเดียว แล้วรัน claude mcp list จะเห็น aiexpo ขึ้นว่า Connected"
+    },
+    {
+     "start": 6.59,
+     "end": 13.166,
+     "text": "ในรีโปของเรามีไฟล์ .mcp.json ให้แล้ว เปิด claude ในรีโปแล้วกดอนุมัติครั้งเดียว"
+    },
+    {
+     "start": 13.516,
+     "end": 18.292,
+     "text": "ฝั่ง Codex ใช้ codex mcp add แล้วตามด้วยชื่อกับ URL"
+    },
+    {
+     "start": 18.642,
+     "end": 25.722,
+     "text": "เราทดสอบทั้งสองตัว Claude Code เห็นภาพครบสี่ภาพ ส่วน Codex อ่านป้าย Allow network egress จากภาพได้"
+    }
+   ]
+  },
+  {
+   "title": "8. กับดักที่เจอจริง",
+   "bullets": [
+    "ChatGPT ไม่เจอเครื่องมือใหม่ → Refresh tools",
+    "Pending approval → เปิด claude ในรีโปแล้วอนุมัติ",
+    "Codex ไม่อ่าน config ในรีโป → ใช้ codex mcp add",
+    "ภาพไม่ขึ้นในแชท ChatGPT → กดลิงก์ในคำตอบ"
+   ],
+   "audio": "slide-09.mp3",
+   "duration": 26.918,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 7.008,
+     "text": "สุดท้าย กับดักที่เราเจอจริง ChatGPT ไม่เจอเครื่องมือใหม่ ให้เข้า Settings, Plugins แล้วกด Refresh tools"
+    },
+    {
+     "start": 7.358,
+     "end": 12.614,
+     "text": "claude mcp list ขึ้น Pending approval ให้เปิด claude ในรีโปแล้วกดอนุมัติ"
+    },
+    {
+     "start": 12.964,
+     "end": 19.204,
+     "text": "ถ้า Codex ไม่อ่าน config ในรีโป เพราะโฟลเดอร์ยังไม่ trusted ให้ใช้ codex mcp add แทน"
+    },
+    {
+     "start": 19.554,
+     "end": 26.394,
+     "text": "จำไว้อย่างเดียว ที่อยู่ MCP เดียว ต่อได้ทั้งสี่โปรแกรม แล้ว AI จะอ่านบทเรียนเองได้ เจอกันในห้องครับ"
+    }
+   ]
+  }
+ ],
+ "duration": 222.9
+}

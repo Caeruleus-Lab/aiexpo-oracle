@@ -1,0 +1,66 @@
+[
+ {
+  "n": "01",
+  "lesson": "claude-chatgpt",
+  "title": "ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop",
+  "slides": 9,
+  "duration": 172.7,
+  "lines": 30
+ },
+ {
+  "n": "02",
+  "lesson": "ego-lite",
+  "title": "ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง",
+  "slides": 10,
+  "duration": 234.3,
+  "lines": 41
+ },
+ {
+  "n": "03",
+  "lesson": "mcp-connect",
+  "title": "ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน",
+  "slides": 9,
+  "duration": 222.9,
+  "lines": 34
+ },
+ {
+  "n": "04",
+  "lesson": "phukhao-film",
+  "title": "ทำหนังสั้นให้ Oracle พูดเอง",
+  "slides": 9,
+  "duration": 209.0,
+  "lines": 32
+ },
+ {
+  "n": "05",
+  "lesson": "phukhao-journey",
+  "title": "เรื่องของภูเขา และการเดินทางของครอบครัว Oracle",
+  "slides": 10,
+  "duration": 217.7,
+  "lines": 32
+ },
+ {
+  "n": "06",
+  "lesson": "herdr-room",
+  "title": "ห้องเดียว หลาย agent: herdr-room in / out",
+  "slides": 9,
+  "duration": 176.9,
+  "lines": 30
+ },
+ {
+  "n": "07",
+  "lesson": "build-mcp",
+  "title": "สร้าง MCP ของตัวเอง: จากบทเรียนเป็นเครื่องมือให้ AI",
+  "slides": 10,
+  "duration": 207.6,
+  "lines": 34
+ },
+ {
+  "n": "08",
+  "lesson": "agy-mcp",
+  "title": "ใช้ Antigravity CLI (agy) กับ MCP ของบทเรียน",
+  "slides": 10,
+  "duration": 221.9,
+  "lines": 37
+ }
+]

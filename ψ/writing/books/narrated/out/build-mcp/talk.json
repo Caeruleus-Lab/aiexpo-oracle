@@ -1,0 +1,281 @@
+{
+ "lesson": "build-mcp",
+ "dir": "2026-11-02_build-mcp-lesson",
+ "title": "สร้าง MCP ของตัวเอง: จากบทเรียนเป็นเครื่องมือให้ AI",
+ "voice": "th-TH-NiwatNeural",
+ "slides": [
+  {
+   "title": "สร้าง MCP ของตัวเอง",
+   "sub": "บทเรียน 07 · จากบทเรียนเป็นเครื่องมือให้ AI",
+   "audio": "slide-01.mp3",
+   "duration": 17.51,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.208,
+     "text": "สวัสดีครับ ผมคือ AIExpo Oracle ผู้ช่วย AI ของ workshop นี้"
+    },
+    {
+     "start": 5.558,
+     "end": 11.99,
+     "text": "บทนี้ผมจะเล่าว่าวันที่ 2 พฤศจิกายน เราสร้าง MCP ของบทเรียนเองอย่างไร"
+    },
+    {
+     "start": 12.34,
+     "end": 17.044,
+     "text": "จบบทนี้ คุณจะมี MCP ของตัวเองหนึ่งไฟล์ ที่ AI เรียกใช้ได้"
+    }
+   ]
+  },
+  {
+   "title": "1. MCP คืออะไร",
+   "bullets": [
+    "client = ฝั่ง AI",
+    "server = ฝั่งเครื่องมือ",
+    "JSON-RPC 2.0",
+    "initialize · tools/list · tools/call"
+   ],
+   "audio": "slide-02.mp3",
+   "duration": 24.134,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 3.552,
+     "text": "MCP คือภาษากลางระหว่าง AI กับเครื่องมือ"
+    },
+    {
+     "start": 3.902,
+     "end": 9.11,
+     "text": "ฝั่ง AI เรียกว่า client เช่น Claude Code หรือ Codex ฝั่งเครื่องมือเรียกว่า server"
+    },
+    {
+     "start": 9.46,
+     "end": 15.94,
+     "text": "ข้อความทุกอันเป็น JSON-RPC 2.0 server ที่มีแต่เครื่องมือ ตอบแค่สามคำสั่งก็พอ"
+    },
+    {
+     "start": 16.29,
+     "end": 23.61,
+     "text": "คือ initialize สำหรับทักทาย tools/list สำหรับบอกว่ามีเครื่องมืออะไร และ tools/call สำหรับเรียกใช้จริง"
+    }
+   ]
+  },
+  {
+   "title": "2. ภาพรวมของระบบ",
+   "image": "img/01-architecture.png",
+   "audio": "slide-03.mp3",
+   "duration": 16.838,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.12,
+     "text": "เราตัด README ของทุกบทเรียนเป็นชิ้น ได้ 128 ชิ้น เก็บไว้ในไฟล์ chunks.json"
+    },
+    {
+     "start": 6.47,
+     "end": 11.126,
+     "text": "แล้วเสิร์ฟด้วย server สองตัว ตัวหนึ่งอยู่บน Cloudflare อีกตัวรันในเครื่องเรา"
+    },
+    {
+     "start": 11.476,
+     "end": 16.372,
+     "text": "ทั้งสองตัวให้เครื่องมือชุดเดียวกัน คือ search, fetch, get_image และ list_lessons"
+    }
+   ]
+  },
+  {
+   "title": "3. MCP ที่เล็กที่สุด",
+   "code": "node mini-mcp.mjs",
+   "audio": "slide-04.mp3",
+   "duration": 24.158,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.28,
+     "text": "เราเริ่มจาก mini-mcp ไฟล์เดียว 59 บรรทัด ไม่มี dependency เลย"
+    },
+    {
+     "start": 5.63,
+     "end": 9.494,
+     "text": "มีเครื่องมือเดียวคือ search ค้นโน้ตสี่อันที่เขียนไว้ในไฟล์"
+    },
+    {
+     "start": 9.844,
+     "end": 16.852,
+     "text": "เราลองส่ง JSON เข้าไปทีละบรรทัด ถามว่า session memory มันตอบกลับโน้ต awaken กับ rrr"
+    },
+    {
+     "start": 17.202,
+     "end": 23.634,
+     "text": "ถ้าเรียกเครื่องมือที่ไม่มี หรือ method ที่ไม่มี มันตอบเป็น error มาตรฐานของ JSON-RPC ครับ"
+    }
+   ]
+  },
+  {
+   "title": "สามอย่างที่ต้องจำ",
+   "bullets": [
+    "stdout คือสายส่งข้อมูล",
+    "notification ไม่ต้องตอบ",
+    "error ตอบเป็น JSON-RPC error"
+   ],
+   "audio": "slide-05.mp3",
+   "duration": 16.79,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.72,
+     "text": "ข้อแรก stdout คือสายส่งข้อมูล ห้ามพิมพ์อย่างอื่นลงไป ข้อความ debug ให้ส่งไป stderr"
+    },
+    {
+     "start": 7.07,
+     "end": 11.654,
+     "text": "ข้อสอง ข้อความที่ไม่มี id เป็น notification server ไม่ต้องตอบ"
+    },
+    {
+     "start": 12.004,
+     "end": 16.324,
+     "text": "ข้อสาม ถ้าผิดพลาด ให้ตอบเป็น error พร้อมรหัสมาตรฐาน"
+    }
+   ]
+  },
+  {
+   "title": "4. ต่อเข้า Claude Code",
+   "code": "claude mcp add mini -- node /path/to/mini-mcp.mjs",
+   "audio": "slide-06.mp3",
+   "duration": 22.718,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.976,
+     "text": "ต่อไปบอก client ว่าจะเปิด server ยังไง เขียน config ไฟล์สั้น ๆ แล้วให้ Claude ใช้เครื่องมือ"
+    },
+    {
+     "start": 6.326,
+     "end": 13.07,
+     "text": "เรารัน claude -p กับ config นี้ แล้ว Claude เรียก search ได้จริง และตอบว่า /rrr เขียน retrospective"
+    },
+    {
+     "start": 13.42,
+     "end": 22.252,
+     "text": "ถ้าจะใช้ประจำ ลงทะเบียนครั้งเดียวด้วย claude mcp add ชื่อเครื่องมือจะเป็น mcp ขีดล่างสอง ชื่อ server ขีดล่างสอง ชื่อ tool"
+    }
+   ]
+  },
+  {
+   "title": "5. ของจริง: Cloudflare และ stdio",
+   "bullets": [
+    "Worker ตอบที่ /mcp",
+    "stateless · อ่านอย่างเดียว",
+    "npx -y github:Caeruleus-Lab/aiexpo-lessons"
+   ],
+   "audio": "slide-07.mp3",
+   "duration": 25.646,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.376,
+     "text": "ของจริงมีสองตัว ตัวแรกคือ Worker บน Cloudflare ตอบ POST ที่ path /mcp"
+    },
+    {
+     "start": 5.726,
+     "end": 11.39,
+     "text": "มันไม่เก็บ session และไม่มี auth เพราะบทเรียนเป็นของสาธารณะ เครื่องมือทุกตัวอ่านอย่างเดียว"
+    },
+    {
+     "start": 11.74,
+     "end": 19.396,
+     "text": "การค้นผสมสองอย่าง คือ vector ด้วยโมเดล bge-m3 กับคะแนนคำที่ตรงกัน ภาษาไทยตัดคำด้วย Intl.Segmenter"
+    },
+    {
+     "start": 19.746,
+     "end": 25.122,
+     "text": "ตัวที่สองรันในเครื่อง ดึงจาก GitHub ด้วย npx ไม่ต้อง publish ขึ้น npm ครับ"
+    }
+   ]
+  },
+  {
+   "title": "6. ทดสอบให้ครบ",
+   "code": "node code/test-both.mjs",
+   "audio": "slide-08.mp3",
+   "duration": 18.302,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.208,
+     "text": "เราเขียนสคริปต์ test-both ส่งคำสั่งชุดเดียวกัน เจ็ดอัน ให้ทั้งสอง server"
+    },
+    {
+     "start": 5.558,
+     "end": 11.03,
+     "text": "ผลออกมาตรงกัน ทั้ง initialize, tools/list, list_lessons, search สองครั้ง, fetch และ get_image"
+    },
+    {
+     "start": 11.38,
+     "end": 17.836,
+     "text": "แล้วเรายังลองกับ client จริงอีกสามตัว คือ Claude Code, Codex CLI และ session ที่เขียนบทเรียนนี้"
+    }
+   ]
+  },
+  {
+   "title": "7. กับดักที่เจอจริง",
+   "bullets": [
+    "Python-urllib ได้ 403 → ส่ง User-Agent เอง",
+    "claude -p Not logged in → ส่ง token",
+    "/mcp ได้ 404 → run_worker_first",
+    "ค้นไทยไม่เจอ → Intl.Segmenter"
+   ],
+   "audio": "slide-09.mp3",
+   "duration": 26.342,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 7.032,
+     "text": "กับดักแรก สคริปต์ Python เรียก /mcp ได้ 403 เพราะ Cloudflare บล็อก user agent ของ Python"
+    },
+    {
+     "start": 7.382,
+     "end": 12.494,
+     "text": "ทางแก้คือส่ง header User-Agent ของเราเอง ตอนทดสอบ browser ได้ 200"
+    },
+    {
+     "start": 12.844,
+     "end": 19.876,
+     "text": "กับดักที่สอง /mcp ตอบ 404 เพราะ assets ตอบก่อน Worker ให้ใส่ path นี้ใน run_worker_first"
+    },
+    {
+     "start": 20.226,
+     "end": 25.818,
+     "text": "กับดักที่สาม ค้นภาษาไทยไม่เจอ เพราะไทยไม่มีช่องว่างระหว่างคำ ต้องตัดคำก่อน"
+    }
+   ]
+  },
+  {
+   "title": "สิ่งที่ต้องจำ",
+   "bullets": [
+    "copy mini-mcp.mjs",
+    "เปลี่ยน NOTES เป็นข้อมูลคุณ",
+    "เพิ่ม tool ใน TOOLS"
+   ],
+   "audio": "slide-10.mp3",
+   "duration": 15.206,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.64,
+     "text": "อยากมี MCP ของตัวเอง copy ไฟล์ mini-mcp แล้วเปลี่ยน NOTES เป็นข้อมูลของคุณ"
+    },
+    {
+     "start": 5.99,
+     "end": 10.454,
+     "text": "เพิ่มเครื่องมือใน TOOLS และใน switch ของ tools/call แค่นั้นก็เสร็จ"
+    },
+    {
+     "start": 10.804,
+     "end": 14.74,
+     "text": "โค้ดทั้งหมดอยู่ในโฟลเดอร์ code ของบทเรียน เจอกันบทหน้าครับ"
+    }
+   ]
+  }
+ ],
+ "duration": 207.6
+}

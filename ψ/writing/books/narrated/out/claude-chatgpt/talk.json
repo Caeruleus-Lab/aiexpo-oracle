@@ -1,0 +1,242 @@
+{
+ "lesson": "claude-chatgpt",
+ "dir": "2026-10-30_claude-chatgpt-install-guide",
+ "title": "ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop",
+ "voice": "th-TH-NiwatNeural",
+ "slides": [
+  {
+   "title": "ติดตั้ง Claude และ ChatGPT",
+   "sub": "บทเรียน 01 · ให้พร้อมเข้า workshop",
+   "audio": "slide-01.mp3",
+   "duration": 17.006,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.208,
+     "text": "สวัสดีครับ ผมคือ AIExpo Oracle ผู้ช่วย AI ของ workshop นี้"
+    },
+    {
+     "start": 5.558,
+     "end": 12.134,
+     "text": "บทนี้ผมจะเล่าว่าวันที่ 30 ตุลาคม เราติดตั้งอะไรบ้างบนเครื่อง Mac ของคุณนัท ทีละขั้น"
+    },
+    {
+     "start": 12.484,
+     "end": 16.54,
+     "text": "เป้าหมายคือ มาถึงห้องแล้วพิมพ์ /awaken ได้ทันที"
+    }
+   ]
+  },
+  {
+   "title": "1. เลือกทางไหนดี",
+   "bullets": [
+    "A. Claude Code · Claude Pro ขึ้นไป",
+    "B. Codex CLI · ChatGPT ฟรีก็ได้",
+    "C. claude.ai บนเว็บ · ทางสำรอง"
+   ],
+   "audio": "slide-02.mp3",
+   "duration": 20.942,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 3.456,
+     "text": "เริ่มจากเลือกทาง มีสามทาง ตามบัญชีที่คุณมี"
+    },
+    {
+     "start": 3.806,
+     "end": 8.798,
+     "text": "ทาง A คือ Claude Code ต้องมี Claude Pro ขึ้นไป ได้ครบทุกช่วง รวมวงจรความจำ"
+    },
+    {
+     "start": 9.148,
+     "end": 14.188,
+     "text": "ทาง B คือ Codex CLI ใช้บัญชี ChatGPT ฟรีก็ได้ แต่โควตาน้อย"
+    },
+    {
+     "start": 14.538,
+     "end": 20.418,
+     "text": "ทาง C คือ claude.ai บนเว็บ ไม่ต้องติดตั้งอะไร แต่ความจำจะหายเมื่อเปิดแชทใหม่"
+    }
+   ]
+  },
+  {
+   "title": "2. แอป Claude (desktop)",
+   "image": "img/01-claude-download.png",
+   "audio": "slide-03.mp3",
+   "duration": 15.11,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.92,
+     "text": "ขั้นแรก เราเปิดหน้า claude.com/download แล้วกด Download for macOS"
+    },
+    {
+     "start": 5.27,
+     "end": 9.854,
+     "text": "แอปนี้ใช้บัญชีฟรีได้ แต่มันคือ Claude แบบแชท ยังไม่ใช่ Claude Code"
+    },
+    {
+     "start": 10.204,
+     "end": 14.644,
+     "text": "จะลงหรือไม่ลงก็ได้ เพราะ workshop ใช้ Claude Code ในขั้นถัดไป"
+    }
+   ]
+  },
+  {
+   "title": "3. ติดตั้ง Claude Code",
+   "code": "curl -fsSL https://claude.ai/install.sh | bash",
+   "image": "img/04-claude-code-install.png",
+   "audio": "slide-04.mp3",
+   "duration": 22.718,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.224,
+     "text": "ทาง A เราใช้ Claude Code ใน Terminal คำสั่งอยู่ในหน้า Quickstart"
+    },
+    {
+     "start": 4.574,
+     "end": 11.03,
+     "text": "ก่อนรันสคริปต์จากเน็ต เราเปิดอ่านก่อน มันลงทุกอย่างใต้โฟลเดอร์บ้านของเรา และห้ามรันด้วย sudo"
+    },
+    {
+     "start": 11.38,
+     "end": 16.708,
+     "text": "ติดตั้งเสร็จ เปิด terminal ใหม่ แล้วเช็กเวอร์ชัน เครื่องเราได้ 2.1.314"
+    },
+    {
+     "start": 17.058,
+     "end": 22.194,
+     "text": "ครั้งแรกที่รัน ถ้าเจอคำว่า Not logged in ให้พิมพ์ /login แล้วเลือกบัญชี Pro"
+    }
+   ]
+  },
+  {
+   "title": "4. ChatGPT และ Codex",
+   "code": "curl -fsSL https://chatgpt.com/codex/install.sh | sh",
+   "image": "img/06-codex-cli-install.png",
+   "audio": "slide-05.mp3",
+   "duration": 19.694,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.512,
+     "text": "ทาง B แอป ChatGPT desktop ตอนนี้รวม Codex ไว้ในตัวแล้ว"
+    },
+    {
+     "start": 4.862,
+     "end": 11.15,
+     "text": "แต่ workshop ใช้ Codex CLI ใน terminal เพราะทำงานกับไฟล์ในเครื่องแบบเดียวกับ Claude Code"
+    },
+    {
+     "start": 11.5,
+     "end": 19.228,
+     "text": "ติดตั้งด้วยคำสั่งเดียว แล้วรัน codex เลือก Sign in with ChatGPT เครื่องเราได้เวอร์ชัน 0.166.0"
+    }
+   ]
+  },
+  {
+   "title": "5. ลงสกิล Oracle ในเครื่อง",
+   "code": "/plugin marketplace add Soul-Brews-Studio/arra-oracle-skills-cli\n/plugin install oracle-skills@oracle-skills",
+   "audio": "slide-06.mp3",
+   "duration": 18.782,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.112,
+     "text": "ต่อไปลงสกิล Oracle ใน Claude Code พิมพ์สองบรรทัดนี้ ไม่ต้องลงอะไรเพิ่ม"
+    },
+    {
+     "start": 5.462,
+     "end": 13.502,
+     "text": "ฝั่ง Codex ใช้ installer ของ arra-oracle-skills-cli และต้องมีแฟล็ก --with-commands ถึงจะพิมพ์ /awaken ได้"
+    },
+    {
+     "start": 13.852,
+     "end": 18.316,
+     "text": "เราเช็กแล้วว่า Codex เห็นสกิล awaken จริง ตอบกลับมาว่า Yes"
+    }
+   ]
+  },
+  {
+   "title": "6. ทางสำรอง: สกิลบน claude.ai",
+   "image": "img/12-claude-upload-chosen.png",
+   "audio": "slide-07.mp3",
+   "duration": 25.166,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.232,
+     "text": "ถ้าติดตั้งในเครื่องไม่ผ่าน ใช้ทาง C บน claude.ai ได้ทุกแผน รวมแผนฟรี"
+    },
+    {
+     "start": 5.582,
+     "end": 10.118,
+     "text": "เปิด Run code in the cloud ในหน้า Capabilities ก่อน เพราะสกิลต้องใช้"
+    },
+    {
+     "start": 10.468,
+     "end": 16.78,
+     "text": "แล้วไปที่ Customize แท็บ Skills กด Add แล้ว Upload skill เลือกไฟล์ awaken.zip ที่เราเตรียมไว้ให้"
+    },
+    {
+     "start": 17.13,
+     "end": 24.642,
+     "text": "ข้อควรรู้ บนเว็บไฟล์ความจำจะหายเมื่อเปิดแชทใหม่ ช่วงสาธิตความจำจึงต้องดูบนจอ หรือใช้ทาง A กับ B"
+    }
+   ]
+  },
+  {
+   "title": "7. แล้ว ChatGPT บนเว็บล่ะ",
+   "image": "img/07-chatgpt-skills-where.png",
+   "audio": "slide-08.mp3",
+   "duration": 14.726,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.816,
+     "text": "เราอ่านเอกสารของ OpenAI แล้ว สกิลเดี่ยวใช้ได้ใน ChatGPT desktop และ Codex CLI"
+    },
+    {
+     "start": 7.166,
+     "end": 14.318,
+     "text": "บน chatgpt.com สกิลมาได้ทางเดียวคือผ่าน plugin ใครมีแค่บัญชี ChatGPT จึงไปทาง B ครับ"
+    }
+   ]
+  },
+  {
+   "title": "8. กับดักที่เจอจริง",
+   "bullets": [
+    "Not logged in → พิมพ์ /login",
+    "command not found → เปิด terminal ใหม่",
+    "สกิลบนเว็บไม่ทำงาน → เปิด Run code in the cloud",
+    "Codex ไม่เห็น /awaken → ใส่ --with-commands"
+   ],
+   "audio": "slide-09.mp3",
+   "duration": 18.542,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 2.592,
+     "text": "สุดท้าย กับดักที่เราเจอจริง"
+    },
+    {
+     "start": 2.942,
+     "end": 6.806,
+     "text": "ขึ้น command not found หลังติดตั้ง แค่เปิด terminal ใหม่"
+    },
+    {
+     "start": 7.156,
+     "end": 11.356,
+     "text": "สกิลบนเว็บไม่ทำงาน ให้เปิดสวิตช์ Run code in the cloud"
+    },
+    {
+     "start": 11.706,
+     "end": 18.018,
+     "text": "พร้อมแล้ว เปิดโฟลเดอร์ว่าง พิมพ์ /awaken --fast แล้วตั้งชื่อ Oracle ของคุณ เจอกันในห้องครับ"
+    }
+   ]
+  }
+ ],
+ "duration": 172.7
+}

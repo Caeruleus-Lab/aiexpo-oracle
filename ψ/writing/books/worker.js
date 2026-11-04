@@ -98,6 +98,27 @@ const TOOLS = [
     },
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
+  {
+    name: "list_media",
+    title: "List the voice and video",
+    description: "List every video and narrated (voiced) lesson: Phukhao's presentation and film, the mother clip, the wrong-voice example, and the 8 narrated lessons, with length and links.",
+    inputSchema: { type: "object", properties: {} },
+    annotations: { readOnlyHint: true, openWorldHint: false },
+  },
+  {
+    name: "get_media",
+    title: "Watch or listen to a media item",
+    description:
+      "Return one video or narrated lesson: its link, a timed transcript ([mm:ss] lines), and deep links that start playback at a time. " +
+      "id from list_media (e.g. 'phukhao-film', 'oracle-family', 'narrated/mcp-connect'). Optional 'at' (seconds) returns only the minute around that time; " +
+      "optional 'q' finds the lines that mention a word. Use it to answer what is said when, quote it, and give the person a link to that exact moment.",
+    inputSchema: {
+      type: "object",
+      properties: { id: { type: "string" }, at: { type: "number", description: "seconds" }, q: { type: "string", description: "word or phrase to find" } },
+      required: ["id"],
+    },
+    annotations: { readOnlyHint: true, openWorldHint: false },
+  },
 ];
 
 // Oracle skills served over MCP (Nat, 4 Nov 2026: "we can put our skill in the mcp"): as tools (every client) and as prompts (claude.ai + menu)
@@ -248,7 +269,8 @@ async function handle(msg, env) {
             "Read-only access to the AIExpo Oracle workshop lessons (AI Expo Thailand, 6 Nov 2026). " +
             "Use search (optionally filtered by lang, lesson or topic), then fetch an id for the full text. " +
             "Lessons exist in Thai (th, the original) and English (en). " +
-            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, recap, workshop) and follow it with the person.",
+            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, recap, workshop) and follow it with the person. " +
+            "Voice and video: list_media, then get_media for a timed transcript and links that start at a given second.",
         });
       }
       case "ping":
@@ -292,6 +314,22 @@ async function load(env) {
 }
 
 async function callTool(name, args, env) {
+  if (name === "list_media" || name === "get_media") {
+    const media = (await (await env.ASSETS.fetch(`${SITE}/media.json`)).json()).items;
+    const mmss = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
+    if (name === "list_media") {
+      return result({ media: media.map((m) => ({ id: m.id, kind: m.kind, title: m.title, length: mmss(m.duration), url: m.url })) });
+    }
+    const m = media.find((x) => x.id === args.id);
+    if (!m) return { content: [{ type: "text", text: `No media '${args.id}'. Use list_media.` }], isError: true };
+    let cues = m.cues;
+    if (typeof args.at === "number") cues = cues.filter((c) => c.end >= args.at - 30 && c.start <= args.at + 30);
+    if (args.q) cues = cues.filter((c) => c.text.toLowerCase().includes(String(args.q).toLowerCase()));
+    const link = (t) => (m.kind === "video" ? `${m.url}#t=${Math.floor(t)}` : (m.slides || []).reduce((u, s) => (s.start <= t ? s.audio : u), m.url));
+    const lines = cues.map((c) => `[${mmss(c.start)}] ${c.text}  (${link(c.start)})`);
+    const head = `${m.title}\n${m.kind} · ${mmss(m.duration)} · ${m.url}\ntranscript: ${m.transcript}` + (m.slides ? `\nslides: ${m.slides.map((s) => `${s.n}. ${s.title} [${mmss(s.start)}]`).join(" · ")}` : "");
+    return { content: [{ type: "text", text: `${head}\n\n${lines.join("\n") || "(no lines match)"}` }] };
+  }
   if (name === "list_skills") {
     return result({ skills: Object.entries(SKILLS).map(([name, what]) => ({ name, what, chat: `${SITE}/oracle/${name}.md`, github: GITHUB_SKILL[name] ? `https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/blob/main/skills/${GITHUB_SKILL[name]}/SKILL.md` : null })) });
   }

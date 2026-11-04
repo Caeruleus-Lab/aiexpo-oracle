@@ -1,0 +1,289 @@
+{
+ "lesson": "agy-mcp",
+ "dir": "2026-11-02_agy-mcp-lesson",
+ "title": "ใช้ Antigravity CLI (agy) กับ MCP ของบทเรียน",
+ "voice": "th-TH-NiwatNeural",
+ "slides": [
+  {
+   "title": "ใช้ Antigravity CLI กับ MCP",
+   "sub": "บทเรียน 08 · agy ต่อ MCP ของบทเรียน",
+   "image": "img/01-agy-mcp.png",
+   "audio": "slide-01.mp3",
+   "duration": 20.15,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.208,
+     "text": "สวัสดีครับ ผมคือ AIExpo Oracle ผู้ช่วย AI ของ workshop นี้"
+    },
+    {
+     "start": 5.558,
+     "end": 14.246,
+     "text": "บทนี้เล่าว่าวันที่ 2 พฤศจิกายน เราติดตั้ง Antigravity CLI ของ Google แล้วต่อเข้ากับ MCP ของบทเรียน"
+    },
+    {
+     "start": 14.596,
+     "end": 19.684,
+     "text": "ทุกคำสั่งที่เล่า เรารันจริงบน agy เวอร์ชัน 1.4.12"
+    }
+   ]
+  },
+  {
+   "title": "1. Antigravity CLI คืออะไร",
+   "bullets": [
+    "coding agent ของ Google รันใน terminal",
+    "คำสั่งชื่อ agy",
+    "แอป desktop ไม่มี agy มาให้"
+   ],
+   "audio": "slide-02.mp3",
+   "duration": 19.31,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.432,
+     "text": "Antigravity CLI คือ coding agent ของ Google ที่รันใน terminal คำสั่งชื่อ agy"
+    },
+    {
+     "start": 6.782,
+     "end": 11.726,
+     "text": "เครื่องนี้ล็อกอินด้วยบัญชี Google AI Pro ได้โมเดล Gemini ตามบัญชี"
+    },
+    {
+     "start": 12.076,
+     "end": 18.844,
+     "text": "ข้อควรรู้ แอป Antigravity บนเดสก์ท็อปไม่มีคำสั่ง agy มาให้ ต้องติดตั้ง CLI แยกครับ"
+    }
+   ]
+  },
+  {
+   "title": "2. ติดตั้ง",
+   "code": "curl -fsSL https://antigravity.google/cli/install.sh | bash",
+   "audio": "slide-03.mp3",
+   "duration": 26.03,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.888,
+     "text": "คำสั่งติดตั้งทางการอยู่บนหน้าจอ ต้องมี /cli/ ในพาธ ถ้าไม่มีจะตอบ 404"
+    },
+    {
+     "start": 7.238,
+     "end": 13.694,
+     "text": "เราอ่านสคริปต์ก่อนรัน มันไม่ใช้ sudo และตรวจ SHA-512 ของตัวโปรแกรม"
+    },
+    {
+     "start": 14.044,
+     "end": 18.988,
+     "text": "ตัวโปรแกรมไปอยู่ที่ ~/.local/bin/agy แล้วเติม PATH ให้เอง"
+    },
+    {
+     "start": 19.338,
+     "end": 25.506,
+     "text": "ระหว่างติดตั้งเห็นบรรทัด ERROR ขึ้นมา แต่เป็น log ระดับ INFO ดูที่ exit code ได้ 0 ก็ผ่านครับ"
+    }
+   ]
+  },
+  {
+   "title": "3. ล็อกอินครั้งแรก",
+   "bullets": [
+    "กด Click here to authenticate",
+    "วางรหัสที่ขึ้นต้นด้วย 4/0",
+    "ตอบ Yes, I trust this folder"
+   ],
+   "audio": "slide-04.mp3",
+   "duration": 21.35,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.368,
+     "text": "พิมพ์ agy ครั้งแรก มันจะแสดง URL ให้ล็อกอิน Google"
+    },
+    {
+     "start": 4.718,
+     "end": 8.558,
+     "text": "เปิดด้วยการกด Click here to authenticate อย่า copy เอง"
+    },
+    {
+     "start": 8.908,
+     "end": 14.332,
+     "text": "ล็อกอินแล้วหน้าเว็บจะโชว์รหัส วางรหัสใน prompt ของ agy แล้วกด Enter"
+    },
+    {
+     "start": 14.682,
+     "end": 20.826,
+     "text": "agy -p รอรหัสแค่ 60 วินาที ถ้าช้า ให้ล็อกอินด้วย agy ธรรมดาก่อน"
+    }
+   ]
+  },
+  {
+   "title": "4. กับดักตอนล็อกอิน",
+   "bullets": [
+    "URL ขาด → Error 400: invalid_scope",
+    "กล่องแชร์ข้อมูลที่ติ๊กไว้ให้แล้ว"
+   ],
+   "audio": "slide-05.mp3",
+   "duration": 30.734,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.88,
+     "text": "กับดักแรก เราลากเมาส์ copy URL ล็อกอินมาแค่ส่วนที่เห็น URL เลยขาดกลางคำ"
+    },
+    {
+     "start": 6.23,
+     "end": 12.47,
+     "text": "Google ตอบว่า invalid_scope ทางแก้คือกดปุ่ม Click here to authenticate หรือเลื่อนกล่องจนสุด"
+    },
+    {
+     "start": 12.82,
+     "end": 17.524,
+     "text": "error ที่บอกว่า scope ผิด มักเป็นเพราะ URL ไม่ครบ ไม่ได้เป็นเรื่องสิทธิ์"
+    },
+    {
+     "start": 17.874,
+     "end": 25.05,
+     "text": "กับดักที่สอง มีกล่องแชร์ข้อมูลที่ติ๊กไว้ให้แล้ว ถ้ากด Done เลย แปลว่ายอมให้ Google เก็บบทสนทนา"
+    },
+    {
+     "start": 25.4,
+     "end": 30.152,
+     "text": "คุณนัทเลือกติ๊กออกก่อนกด Done เราแนะนำให้อ่านทุกกล่องก่อนกดครับ"
+    }
+   ]
+  },
+  {
+   "title": "5. คำสั่ง agy mcp",
+   "code": "agy mcp add [flags] <name> <commandOrUrl>",
+   "audio": "slide-06.mp3",
+   "duration": 20.99,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.896,
+     "text": "คำสั่งของ MCP มี add, remove, list, enable และ disable"
+    },
+    {
+     "start": 5.246,
+     "end": 8.678,
+     "text": "add คือ add or update รันซ้ำได้ ไม่สร้างซ้ำ"
+    },
+    {
+     "start": 9.028,
+     "end": 16.42,
+     "text": "ถ้า URL ขึ้นต้นด้วย http หรือ https มันจับเป็นแบบ http ให้เอง ไม่ต้องใส่ --type"
+    },
+    {
+     "start": 16.77,
+     "end": 20.466,
+     "text": "จำข้อเดียวพอ flag ทั้งหมดต้องมาก่อนชื่อ server ครับ"
+    }
+   ]
+  },
+  {
+   "title": "6. เพิ่ม MCP ของบทเรียน",
+   "code": "agy mcp add aiexpo https://aiexpo.buildwithoracle.com/mcp",
+   "audio": "slide-07.mp3",
+   "duration": 22.022,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.088,
+     "text": "เราเพิ่มสองตัว เครื่องมือชุดเดียวกัน คือ search, fetch, get_image และ list_lessons"
+    },
+    {
+     "start": 5.438,
+     "end": 9.83,
+     "text": "ตัวแรกชื่อ aiexpo อยู่บน Cloudflare ค้นได้ทั้งความหมายและคำ"
+    },
+    {
+     "start": 10.18,
+     "end": 17.236,
+     "text": "ตัวที่สองชื่อ aiexpo-github ใช้ npx ดึงจาก GitHub มารันในเครื่อง ค้นด้วยคำ และใช้ได้แม้ Cloudflare ล่ม"
+    },
+    {
+     "start": 17.586,
+     "end": 21.498,
+     "text": "รัน agy mcp list เห็นทั้งสองตัวขึ้น enabled"
+    }
+   ]
+  },
+  {
+   "title": "7. กับดัก: flag วางหลังชื่อ",
+   "code": "agy mcp add --header \"X-Test: 1\" try-x https://example.com/mcp",
+   "audio": "slide-08.mp3",
+   "duration": 17.942,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.456,
+     "text": "เราลองวาง flag หลังชื่อ แล้วได้ error ว่า http server type does not accept command arguments"
+    },
+    {
+     "start": 6.806,
+     "end": 12.782,
+     "text": "error นี้ไม่ได้พูดถึง flag เลย เพราะทุกอย่างหลัง URL ถูกนับเป็น argument ของคำสั่ง"
+    },
+    {
+     "start": 13.132,
+     "end": 17.476,
+     "text": "ถ้าเห็น error นี้ ให้ดูลำดับ flag ก่อน แล้ววางใหม่ตามหน้าจอ"
+    }
+   ]
+  },
+  {
+   "title": "8. ทดสอบด้วย agy -p",
+   "code": "agy --sandbox --dangerously-skip-permissions --print-timeout 240s -p \"...\"",
+   "audio": "slide-09.mp3",
+   "duration": 27.182,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.416,
+     "text": "ตัว -p คือถามครั้งเดียวแล้วจบ เหมาะกับสคริปต์และการทดสอบ"
+    },
+    {
+     "start": 4.766,
+     "end": 14.174,
+     "text": "ใน -p ไม่มีใครกดอนุญาต เราจึงใช้ --dangerously-skip-permissions แต่ใช้คู่กับ --sandbox และ MCP ที่อ่านอย่างเดียวเท่านั้น"
+    },
+    {
+     "start": 14.524,
+     "end": 20.956,
+     "text": "ถามผ่านตัวบน Cloudflare ว่าสร้าง MCP ของตัวเองยังไง มันเรียก search กับ fetch แล้วตอบจากบทเรียนจริง"
+    },
+    {
+     "start": 21.306,
+     "end": 26.658,
+     "text": "ถามผ่านตัวจาก GitHub มันตอบว่ามี 7 บทเรียน และบอกชื่อเครื่องมือที่เรียกด้วยครับ"
+    }
+   ]
+  },
+  {
+   "title": "จำข้อเดียว",
+   "bullets": [
+    "flag ทั้งหมดมาก่อน <name>",
+    "ถ้า agy ไม่เรียกเครื่องมือ ดู agy mcp list"
+   ],
+   "audio": "slide-10.mp3",
+   "duration": 16.238,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.144,
+     "text": "ถ้า agy ตอบโดยไม่เรียกเครื่องมือเลย ให้ตรวจ agy mcp list ว่า STATUS เป็น enabled"
+    },
+    {
+     "start": 6.494,
+     "end": 10.574,
+     "text": "ข้อที่ควรจำที่สุดคือ flag ทั้งหมดต้องอยู่ก่อนชื่อ server"
+    },
+    {
+     "start": 10.924,
+     "end": 15.772,
+     "text": "บทหน้ามาดูกันว่า MCP ที่เราต่อในบทนี้ทำงานยังไง เจอกันครับ"
+    }
+   ]
+  }
+ ],
+ "duration": 221.9
+}

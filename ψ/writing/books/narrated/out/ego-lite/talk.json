@@ -1,0 +1,304 @@
+{
+ "lesson": "ego-lite",
+ "dir": "2026-10-30_ego-lite-guide",
+ "title": "ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง",
+ "voice": "th-TH-NiwatNeural",
+ "slides": [
+  {
+   "title": "ติดตั้ง ego(lite)",
+   "sub": "บทเรียน 02 · ให้ AI agent มีเบราว์เซอร์ของตัวเอง",
+   "image": "img/01-landing.png",
+   "audio": "slide-01.mp3",
+   "duration": 17.126,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.208,
+     "text": "สวัสดีครับ ผมคือ AIExpo Oracle ผู้ช่วย AI ของ workshop นี้"
+    },
+    {
+     "start": 5.558,
+     "end": 12.662,
+     "text": "บทนี้ผมจะเล่าว่าวันที่ 30 ตุลาคม เราทำให้ Claude Code สั่งเบราว์เซอร์ ego(lite) ได้อย่างไร"
+    },
+    {
+     "start": 13.012,
+     "end": 16.66,
+     "text": "ตั้งแต่โหลดไฟล์ จนถึงงานแรกที่ agent ทำเองครับ"
+    }
+   ]
+  },
+  {
+   "title": "1. ego(lite) คืออะไร",
+   "bullets": [
+    "สร้างบน Chromium · คนกับ agent ใช้ตัวเดียวกัน",
+    "ego-browser คือ skill ที่ให้ agent สั่งได้",
+    "agent ทำงานใน Space ของมันเอง"
+   ],
+   "audio": "slide-02.mp3",
+   "duration": 19.982,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.608,
+     "text": "ego(lite) คือเบราว์เซอร์ที่สร้างบน Chromium ใช้ได้ทั้งคนและ AI agent"
+    },
+    {
+     "start": 4.958,
+     "end": 10.502,
+     "text": "ส่วน ego-browser คือ skill ที่ทำให้ agent อย่าง Claude Code หรือ Codex สั่งเบราว์เซอร์นี้ได้"
+    },
+    {
+     "start": 10.852,
+     "end": 14.932,
+     "text": "agent ทำงานใน Space ของมันเอง ไม่แย่งแท็บและเมาส์ของเรา"
+    },
+    {
+     "start": 15.282,
+     "end": 19.458,
+     "text": "และได้สถานะล็อกอินเดียวกับเรา ไม่ต้องล็อกอินใหม่ทุกรอบครับ"
+    }
+   ]
+  },
+  {
+   "title": "2. ดาวน์โหลด",
+   "image": "img/02-download-page.png",
+   "audio": "slide-03.mp3",
+   "duration": 22.142,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 4.824,
+     "text": "เราเข้าหน้า lite.ego.app/download หน้านี้จะเริ่มดาวน์โหลดเอง"
+    },
+    {
+     "start": 5.174,
+     "end": 9.014,
+     "text": "หน้าเว็บตรวจชิปให้ว่าเป็น Intel หรือ Apple Silicon"
+    },
+    {
+     "start": 9.364,
+     "end": 16.252,
+     "text": "รอบนี้เราให้ ego-browser กดปุ่ม macOS เอง ได้ไฟล์ DMG ขนาด 143 เมกะไบต์ครับ"
+    },
+    {
+     "start": 16.602,
+     "end": 21.618,
+     "text": "ข้อควรระวัง ลิงก์ดาวน์โหลดมี ref_code ติดมา ถ้าจะแชร์หรือแคปจอ ให้ตัดออกก่อน"
+    }
+   ]
+  },
+  {
+   "title": "3. ตรวจไฟล์ก่อนติดตั้ง",
+   "code": "codesign -dv --verbose=2 \"ego lite.app\"",
+   "audio": "slide-04.mp3",
+   "duration": 25.958,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 5.664,
+     "text": "ไฟล์จากเน็ตเราตรวจก่อนเปิด คำสั่งชุดนี้แค่อ่าน DMG ไม่ได้รันโปรแกรมข้างใน"
+    },
+    {
+     "start": 6.014,
+     "end": 12.878,
+     "text": "เราดูลายเซ็นด้วย codesign แล้วถาม spctl ผลคือ accepted และ Notarized Developer ID"
+    },
+    {
+     "start": 13.228,
+     "end": 17.908,
+     "text": "แปลว่า Apple รับรองแล้ว ผู้เซ็นคือ CITRO LABS บริษัทที่ทำ ego"
+    },
+    {
+     "start": 18.258,
+     "end": 25.434,
+     "text": "รุ่นในไฟล์วันนี้คือ 0.6.2.5 แต่เครื่องเราลงรุ่น 0.6.1.13 ไว้แล้ว"
+    }
+   ]
+  },
+  {
+   "title": "4. ติดตั้งและ onboarding",
+   "image": "img/03-onboarding-doc.png",
+   "audio": "slide-05.mp3",
+   "duration": 22.526,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.456,
+     "text": "ติดตั้งง่ายมาก เปิด DMG แล้วดับเบิลคลิกไอคอน ego lite จากนั้นทำ onboarding ให้จบ"
+    },
+    {
+     "start": 6.806,
+     "end": 11.99,
+     "text": "ตอน onboarding มันสแกนหา agent ในเครื่อง แล้วเขียน skill ego-browser ลงให้"
+    },
+    {
+     "start": 12.34,
+     "end": 17.596,
+     "text": "มันถามด้วยว่าจะนำเข้าข้อมูลจากเบราว์เซอร์เดิมไหม ข้อมูลอยู่ในเครื่องเรา ไม่ขึ้นคลาวด์"
+    },
+    {
+     "start": 17.946,
+     "end": 22.002,
+     "text": "macOS อาจถามรหัส keychain หลายครั้ง ให้ใส่ทุกครั้งครับ"
+    }
+   ]
+  },
+  {
+   "title": "5. ตรวจว่าเครื่องพร้อม",
+   "code": "ego-browser --version",
+   "audio": "slide-06.mp3",
+   "duration": 23.102,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 3.552,
+     "text": "หลัง onboarding เราลองสามคำสั่งใน Terminal"
+    },
+    {
+     "start": 3.902,
+     "end": 9.638,
+     "text": "คำสั่งแรก ego-browser --version เครื่องเราตอบ 0.6.1.13"
+    },
+    {
+     "start": 9.988,
+     "end": 15.796,
+     "text": "คำสั่งที่สอง ดูโฟลเดอร์ skills แล้วเจอ ego-browser แปลว่า onboarding เขียนให้แล้ว"
+    },
+    {
+     "start": 16.146,
+     "end": 22.578,
+     "text": "คำสั่งที่สาม ego-browser skill บรรทัดสุดท้ายต้องเป็น end of guide ถ้าไม่เห็นแปลว่าผลถูกตัด"
+    }
+   ]
+  },
+  {
+   "title": "6. เชื่อมกับ Claude Code",
+   "image": "img/05-claude-code-doc.png",
+   "audio": "slide-07.mp3",
+   "duration": 26.054,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 3.24,
+     "text": "ตามเอกสารของ ego มีสามข้อที่ต้องถูก"
+    },
+    {
+     "start": 3.59,
+     "end": 8.318,
+     "text": "ข้อหนึ่ง ใช้โหมด Code ไม่ใช่ Cowork เพราะ skill นี้ทำมาให้ Claude Code"
+    },
+    {
+     "start": 8.668,
+     "end": 14.188,
+     "text": "ข้อสอง เปิดสิทธิ์ Bypass permissions หรือรัน claude --dangerously-skip-permissions"
+    },
+    {
+     "start": 14.538,
+     "end": 18.834,
+     "text": "ข้อสาม ถ้า Claude เปิดอยู่ตอน onboarding ให้ปิดแล้วเปิดใหม่"
+    },
+    {
+     "start": 19.184,
+     "end": 25.472,
+     "text": "คำเตือนคือ Bypass ทำให้ agent รันอะไรก็ได้โดยไม่ถาม ใช้ในโฟลเดอร์งานที่แยกไว้ครับ"
+    }
+   ]
+  },
+  {
+   "title": "7. งานแรก และสคริปต์แรก",
+   "image": "img/09-first-script-result.png",
+   "audio": "slide-08.mp3",
+   "duration": 25.142,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 7.08,
+     "text": "งานแรก พิมพ์ /ego-browser ตามด้วยงานในข้อความเดียวกัน เช่นให้เปิดบล็อกของ OpenAI กับ Anthropic แล้วสรุป"
+    },
+    {
+     "start": 7.43,
+     "end": 13.766,
+     "text": "เบื้องหลัง agent เขียนสคริปต์ Node สั้น ๆ ส่งให้ ego-browser nodejs เราลองเองแล้ว"
+    },
+    {
+     "start": 14.116,
+     "end": 18.652,
+     "text": "สคริปต์เปิด example.com ขอ snapshot แล้วกดลิงก์ Learn more"
+    },
+    {
+     "start": 19.002,
+     "end": 24.618,
+     "text": "ผลคือหน้า Example Domains ของ IANA เปิดขึ้นมา และเราได้ภาพหน้าจอกลับมา"
+    }
+   ]
+  },
+  {
+   "title": "8. ดูและรับช่วงต่อ",
+   "image": "img/07-space-panel.png",
+   "audio": "slide-09.mp3",
+   "duration": 23.27,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 6.456,
+     "text": "กดปุ่ม Space มุมขวาบน จะเห็นทุก Space ตัวที่เรืองแสงสีฟ้าคือตัวที่ agent กำลังทำงาน"
+    },
+    {
+     "start": 6.806,
+     "end": 11.27,
+     "text": "ถ้าเจอหน้าล็อกอิน agent จะเรียก handOff แล้วบอกให้เรามาทำเอง"
+    },
+    {
+     "start": 11.62,
+     "end": 17.428,
+     "text": "อย่าวางรหัสผ่านหรือรหัสยืนยันลงในแชต ล็อกอินใน Space เอง แล้วบอก agent ให้ทำต่อ"
+    },
+    {
+     "start": 17.778,
+     "end": 22.746,
+     "text": "งานเสร็จ agent ปิด Space ด้วย task.finish ครั้งนี้ได้ closedSpace เป็น true"
+    }
+   ]
+  },
+  {
+   "title": "9. กับดักที่เจอจริง",
+   "bullets": [
+    "/ego-browser ไม่ขึ้น → ใช้โหมด Code แล้วรีสตาร์ต Claude",
+    "คลิกด้วยข้อความที่เห็นแล้ว matched 0 → snapshot ก่อน",
+    "window.scrollTo ไม่เลื่อน → ใช้ scrollIntoView",
+    "มีแจ้งเตือน update → ego-browser upgrade"
+   ],
+   "audio": "slide-10.mp3",
+   "duration": 28.958,
+   "cues": [
+    {
+     "start": 0.0,
+     "end": 3.504,
+     "text": "สุดท้าย กับดักที่เราเจอจริงตอนทำคู่มือนี้"
+    },
+    {
+     "start": 3.854,
+     "end": 11.366,
+     "text": "กดปุ่ม macOS ด้วยข้อความที่เห็นแล้วได้ matched 0 elements เพราะชื่อจริงของปุ่มคือ Download for macOS"
+    },
+    {
+     "start": 11.716,
+     "end": 16.78,
+     "text": "ทางแก้คือทำ snapshot ก่อนทุกครั้ง แล้วใช้ selector ที่มันพิมพ์ให้"
+    },
+    {
+     "start": 17.13,
+     "end": 21.618,
+     "text": "ถ้า /ego-browser ไม่ขึ้น ให้เช็กว่าอยู่โหมด Code แล้วรีสตาร์ต Claude"
+    },
+    {
+     "start": 21.968,
+     "end": 28.376,
+     "text": "จำไว้อย่างเดียว ให้ agent มีเบราว์เซอร์ของตัวเอง แล้วเรายังดูและรับช่วงได้เสมอ เจอกันในห้องครับ"
+    }
+   ]
+  }
+ ],
+ "duration": 234.3
+}
