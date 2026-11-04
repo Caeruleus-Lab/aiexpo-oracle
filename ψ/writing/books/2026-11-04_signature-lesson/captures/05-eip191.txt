@@ -1,0 +1,8 @@
+$ bun -e '… hashMessage, recoverMessageAddress from viem …'   # EIP-191 by hand
+message bytes       326
+prefix              "\u0019Ethereum Signed Message:\n326"
+keccak256(prefix+m) 0x362f3906c79082b9d13eff713340b5ba5156af78cbd4c109423756171c90449b
+signature r         0x65f767bec5411a6ad8e1315b0c57a1432d05c2e1f5f44bb65629181c69138139
+signature s         0x44114815a5f452ca011a9e90c7d0483198afeaeeb9b77c8faf6e32242caf6d77
+signature v         28
+recovered address   0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78

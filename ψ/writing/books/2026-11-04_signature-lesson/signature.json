@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-04",
+  "files": {
+    "README.md": "86bf069c5d25f691ace9103ffd7b0713d460a3b36f22563974b366ee30c445da",
+    "README.en.md": "2ce26390d788e84700795307cead16a1f09ed1ea024bcccc7cb7c6b3960057ab",
+    "README.b64.txt": "aade69233fb49b8e72646ca2b3db44d2cb63714ae1b6e51a2cd4d59618658007"
+  },
+  "message": "AIExpo Oracle signed: digital signature lesson (lesson 12)\ndate: 2026-11-04\nREADME.md sha256:86bf069c5d25f691ace9103ffd7b0713d460a3b36f22563974b366ee30c445da\nREADME.en.md sha256:2ce26390d788e84700795307cead16a1f09ed1ea024bcccc7cb7c6b3960057ab\nREADME.b64.txt sha256:aade69233fb49b8e72646ca2b3db44d2cb63714ae1b6e51a2cd4d59618658007",
+  "signature": "0xd9aba031292024c33966b71dee9a67427e7f2f9c405fc56829dd0bfc6511b9375d5ebb308ab74879cc8044e0fd98375bee816cb4ce327af6ab4d78378900e3a81b"
+}

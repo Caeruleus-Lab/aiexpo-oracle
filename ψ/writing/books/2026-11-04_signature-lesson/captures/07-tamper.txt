@@ -1,0 +1,10 @@
+$ sed -i '' 's/relic5/relic6/' README.en.md      # change one word in the English edition
+$ bun verify.mjs
+ok   README.md sha256:8703edd57a905ef99d1bfda6b2c65e3b6408defe30911b733fe8733c09004150
+DIFF README.en.md sha256:2c181e50c3b17c07ce7538a80ddd4f5f6ee87683f4d84a9ed9d52921ba3cd246
+ok   README.b64.txt sha256:af66437b7dfb3962da7f5c7c377ec8223290978b3099d0a9777a6c20c327afdc
+ok   README.b64.txt decodes to README.md
+recovered 0xCe7a6Aa6276fD5723de3C781f93c37fB79547fA0
+claimed   0x813870e3EDED08F5BF6841167659314dc6827F3E
+INVALID
+(exit 1)

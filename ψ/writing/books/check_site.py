@@ -57,7 +57,7 @@ def check_mcp():
     # lessons
     c, e = tool("list_lessons", {})
     lessons = json.loads(text_of(c))["lessons"] if c else []
-    (good(f"list_lessons {len(lessons)}") if len(lessons) == 11 else bad("list_lessons", e or len(lessons)))
+    (good(f"list_lessons {len(lessons)}") if len(lessons) == 12 else bad("list_lessons", e or len(lessons)))
     for q, lang in (("ติดตั้ง Claude Code", "th"), ("connect claude.ai to MCP", "en"), ("herdr room", None)):
         c, e = tool("search", {"query": q, **({"lang": lang} if lang else {})})
         hits = re.findall(r'"id":\s*"([^"]+)"', text_of(c)) if c else []

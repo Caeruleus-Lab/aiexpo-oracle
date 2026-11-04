@@ -1,0 +1,18 @@
+# The lessons' digital signature: how it is built and how it works (AIExpo Oracle)
+
+> How every AIExpo Oracle lesson is signed and checked, run for real on m5 on 4 Nov 2026: the three signed files (README.md, README.en.md, README.b64.txt), sha256 of each, the manifest text (title, date, three hashes), EIP-191 personal_sign ("\x19Ethereum Signed Message:\n" + length, keccak256, secp256k1 ECDSA r/s/v), signature.json, bun verify.mjs and the in-browser check (viem recoverMessageAddress), a throwaway-key signing demo, a one-word change that makes it INVALID, and a false claim that is INVALID. The real key is never read or printed. Raw outputs in captures/. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/](captures/): every command's raw output (capture.py runs them)
+
+## Key facts
+
+- Signed message = manifest(title, date, sha256 of README.md, README.en.md, README.b64.txt), one per line
+- Check: recompute hashes, rebuild the message, recoverMessageAddress(message, signature) must equal the claimed address
+- Tools: tools/sign.mjs <key.json>, tools/verify.mjs, tools/manifest.mjs (viem 2.57.13); key file kept 0600 outside every repo

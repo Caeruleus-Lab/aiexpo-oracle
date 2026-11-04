@@ -1,0 +1,25 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║  How every lesson is signed, and how anyone checks it                      ║
+║  3 files · sha256 · EIP-191 personal_sign · secp256k1 · viem 2.57.13       ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+  SIGN  (once, on m5, with the key that never leaves ~/.oracle-net, 0600)
+
+   README.md ─────┐
+   README.en.md ──┼─ sha256 each ─► manifest text ─► EIP-191 ─► keccak256
+   README.b64.txt ┘                 title, date,      "\x19Ethereum     │
+   (base64 of README.md)            3 file hashes     Signed Message:   │
+                                                      \n" + length      ▼
+                                                  private key ──► sign (ECDSA)
+                                                                        │
+                                       signature.json ◄── r, s, v (65 bytes)
+                                       address, files, message, signature
+
+  VERIFY  (anyone, any time: bun verify.mjs, or the button on the page)
+
+   the files as they are NOW ─► sha256 ─► same manifest ─► recover address
+                                                               │
+                         recovered == claimed address  ─► VALID
+                         a file changed, or a wrong claim ─► INVALID
+
+  No key is needed to verify. The address IS the public identity.

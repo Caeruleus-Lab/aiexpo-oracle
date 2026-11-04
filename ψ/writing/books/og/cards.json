@@ -1,5 +1,5 @@
 {
-  "index": "d3d28aad14826228",
+  "index": "b655a3fe6dcb99fa",
   "claude-chatgpt": "6eb6810b60fb76ae",
   "ego-lite": "132fd2a85811eb93",
   "mcp-connect": "8a7936bc5de62b74",
@@ -10,5 +10,6 @@
   "agy-mcp": "0416a4615439d99e",
   "skills-mcp": "34a48f5e168c59ed",
   "relic5-ui": "6118520579667d4d",
-  "relic5-install": "7f24ac8499045ce6"
+  "relic5-install": "7f24ac8499045ce6",
+  "signature": "0d38447de2e57e64"
 }

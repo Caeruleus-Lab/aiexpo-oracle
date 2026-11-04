@@ -106,12 +106,20 @@ LESSONS = [
          cover="images/00-pipeline.png",
          facts_th=["MCP 25 เครื่องมือ", "รันจริงบน m5 · ฮับบน white"],
          facts_en=["25 MCP tools", "run on m5 · hub on white"]),
+    dict(key="signature", dir="2026-11-04_signature-lesson",
+         th="ลายเซ็นดิจิทัลของบทเรียน: สร้างยังไง ทำงานยังไง",
+         en="The lessons' digital signature: how it is built and how it works",
+         th_sub="sha256 สามไฟล์ EIP-191 ตรวจจากเครื่องและเบราว์เซอร์ ลองเซ็นด้วยกุญแจทดลอง แล้วแก้คำเดียวให้เห็นว่าลายเซ็นพัง",
+         en_sub="sha256 of three files, EIP-191, checks from a terminal and the browser, a throwaway-key signing, and one changed word that breaks it",
+         cover="images/00-flow.png",
+         facts_th=["EIP-191 · secp256k1", "ผลดิบ 9 ชิ้น · กุญแจจริงไม่ถูกแตะ"],
+         facts_en=["EIP-191 · secp256k1", "9 raw outputs · real key untouched"]),
 ]
 
 
 # What people see on the landing page (Nat, 4 Nov): lesson 01 hidden (too basic), the skills MCP lesson first, the MCP connect
 # lesson second, ego-lite last, numbered 01.. in this order. The AI brief, llms.txt and lessons.json keep all 9 in workshop order.
-HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "relic5-ui", "relic5-install", "ego-lite"]
+HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "relic5-ui", "relic5-install", "signature", "ego-lite"]
 HUMAN = [(n + 1, next(l for l in LESSONS if l["key"] == k)) for n, k in enumerate(HUMAN_ORDER)]
 
 

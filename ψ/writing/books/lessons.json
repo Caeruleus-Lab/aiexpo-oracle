@@ -97,5 +97,14 @@
     "th_sub": "จากซอร์สบน GitHub ถึง CLI, MCP 25 เครื่องมือ และ relic5 import ที่ส่งประวัติของเครื่องเข้าฮับ ทุกคำสั่งรันจริง",
     "en_sub": "From the GitHub source to the CLI, 25 MCP tools and relic5 import, which sends a machine's history to the hub; every command ran",
     "cover": "images/00-pipeline.png"
+  },
+  {
+    "key": "signature",
+    "dir": "2026-11-04_signature-lesson",
+    "th": "ลายเซ็นดิจิทัลของบทเรียน: สร้างยังไง ทำงานยังไง",
+    "en": "The lessons' digital signature: how it is built and how it works",
+    "th_sub": "sha256 สามไฟล์ EIP-191 ตรวจจากเครื่องและเบราว์เซอร์ ลองเซ็นด้วยกุญแจทดลอง แล้วแก้คำเดียวให้เห็นว่าลายเซ็นพัง",
+    "en_sub": "sha256 of three files, EIP-191, checks from a terminal and the browser, a throwaway-key signing, and one changed word that breaks it",
+    "cover": "images/00-flow.png"
   }
 ]

@@ -1,0 +1,9 @@
+$ cp -R README.md README.en.md tools /tmp/sig-demo/ && cd /tmp/sig-demo/tools
+$ bun -e '…generatePrivateKey…'   # a fresh demo key, never the real one
+$ bun sign.mjs /tmp/sig-demo-key.json && bun verify.mjs
+demo address 0x813870e3EDED08F5BF6841167659314dc6827F3E (private key kept in /tmp/sig-demo-key.json, 0600, not shown)
+address   0x813870e3EDED08F5BF6841167659314dc6827F3E
+signature 0x144bee0c9467752cd8d9d075fdc993cdcc98fddc835351d83db48bf6efd656850c528599711ebdaffc99a9bf613b9b9ca131d1c28f8dd32189b374dde116690a1c
+recovered 0x813870e3EDED08F5BF6841167659314dc6827F3E
+claimed   0x813870e3EDED08F5BF6841167659314dc6827F3E
+VALID: signed by 0x813870e3EDED08F5BF6841167659314dc6827F3E

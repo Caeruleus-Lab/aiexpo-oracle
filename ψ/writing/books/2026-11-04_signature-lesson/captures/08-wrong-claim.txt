@@ -1,0 +1,10 @@
+$ cp <the real README.en.md back> && edit signature.json: claim the AIExpo Oracle address instead of the demo one
+$ bun verify.mjs
+ok   README.md sha256:8703edd57a905ef99d1bfda6b2c65e3b6408defe30911b733fe8733c09004150
+ok   README.en.md sha256:eea663312cf934b84854b3d5dff41c5afb9a0151af6613266cd90227e376dd7e
+ok   README.b64.txt sha256:af66437b7dfb3962da7f5c7c377ec8223290978b3099d0a9777a6c20c327afdc
+ok   README.b64.txt decodes to README.md
+recovered 0x813870e3EDED08F5BF6841167659314dc6827F3E
+claimed   0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78
+INVALID
+(exit 1)

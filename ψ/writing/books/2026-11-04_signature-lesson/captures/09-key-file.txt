@@ -1,0 +1,3 @@
+$ ls -l ~/.oracle-net/oracles/aiexpo-oracle.json      # permissions only, never the content
+-rw-------@ /Users/beta/.oracle-net/oracles/aiexpo-oracle.json
+in the repo: no (it lives in ~/.oracle-net, outside every checkout)

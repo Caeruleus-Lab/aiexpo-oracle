@@ -15,6 +15,7 @@
 - [One MCP hands out skills, voice and video](2026-11-04_skills-media-mcp-lesson/llms.txt): Full Oracle skills as .md files, clips with words and times, and a real run in claude.ai: /awaken → work → /rrr → /forward. Markdown: [2026-11-04_skills-media-mcp-lesson/README.en.md](2026-11-04_skills-media-mcp-lesson/README.en.md)
 - [A tour of relic5: the agent-history hub's web UI](2026-11-04_relic5-ui-tour/llms.txt): Search every session on every machine, live, agent knowledge, the Oracle family, a map by meaning and the hub's health, from the real UI on white. Markdown: [2026-11-04_relic5-ui-tour/README.en.md](2026-11-04_relic5-ui-tour/README.en.md)
 - [Install relic5: every machine's history in one hub](2026-11-04_relic5-install/llms.txt): From the GitHub source to the CLI, 25 MCP tools and relic5 import, which sends a machine's history to the hub; every command ran. Markdown: [2026-11-04_relic5-install/README.en.md](2026-11-04_relic5-install/README.en.md)
+- [The lessons' digital signature: how it is built and how it works](2026-11-04_signature-lesson/llms.txt): sha256 of three files, EIP-191, checks from a terminal and the browser, a throwaway-key signing, and one changed word that breaks it. Markdown: [2026-11-04_signature-lesson/README.en.md](2026-11-04_signature-lesson/README.en.md)
 
 ## No MCP? Plain GET
 
