@@ -64,6 +64,12 @@ wrong = video("soul-WRONG-dichan-kha", "เสียงผู้ชาย อ่
 i = at('img/talk/new-ninemonths.png') + 1
 out[i:i] = [film, wrong] + fleet
 out.append(mother)
+# the "AI ประชดเราแบบเนียน" deck follows the mother clip (Nat, 4 Nov). Its 13 story slides come in; its last two (the
+# "next: video" card and the soul ดิฉัน/ค่ะ video) are left out because that video already plays after Phukhao's film.
+drama_html = (here / "ai-drama.html").read_text(encoding="utf-8")
+DRAMA_CSS = re.search(r"<style>\n/\* ai-drama.html.*?</style>", drama_html, re.S).group(0)
+drama = [x for x in re.findall(r'<section class="slide[^"]*".*?</section>', drama_html, re.S) if "video/" not in x]
+out += drama
 # the hands-on MCP section (copy-paste brief, connect MCP, 3 lesson-03 shots, extra task) comes right after คุณยิ้ม (Nat, 4 Nov)
 ws_keys = ['img/talk/new-ws1.png', 'img/talk/new-ws2.png', '02-claude-custom-connector-filled.png', '07-claude-tool-approval.png',
            '08-claude-answer.png', 'img/talk/new-wsrun.png']
@@ -71,7 +77,7 @@ ws = [out.pop(at(k)) for k in ws_keys]
 i = at('img/yim3d-09.png') + 1
 out[i:i] = ws   # the mother clip closes the whole talk (Nat, 4 Nov: "หลังสุดเลย")
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
-page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
+page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
 (here / "talk.html").write_text(page, encoding="utf-8")
 print(f"talk.html: {len(out)} slides, {sum('data-video' in s for s in out)} videos")
