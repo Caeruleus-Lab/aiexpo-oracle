@@ -129,7 +129,7 @@ WALL_JS = _src[_a:_b].replace("\\\\", "\\").replace("boom(e.clientX,e.clientY,'C
 
 
 # ไทย / English / AI is the page's language switch: AI presents the page as its AI edition (the wall alone)
-AI_MODE_CSS = "html[data-mode=ai] .hero>div:first-child,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp):not(#brief):not(.enterbox){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp,html:not([data-mode=ai]) .enterbox{display:none}.enterbox .enter{margin:0 0 clamp(20px,3vh,36px)}"   # the MCP box shows in AI mode only   # AI page: the MCP block, then the wall
+AI_MODE_CSS = "html[data-mode=ai] .hero{grid-template-columns:1fr}html[data-mode=ai] .herobox{height:clamp(360px,58vh,640px)}html[data-mode=ai] .hero>div:first-child,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp):not(#brief):not(.enterbox){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp,html:not([data-mode=ai]) .enterbox{display:none}.enterbox .enter{margin:0 0 clamp(20px,3vh,36px)}"   # the MCP box shows in AI mode only   # AI page: the MCP block, then the wall
 
 SITE = "https://aiexpo.buildwithoracle.com/"
 

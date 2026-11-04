@@ -72,3 +72,5 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-off
 .herobox .hwlabel.done{border-color:#f2b544}.herobox .hwlabel.done b{color:#f2b544}
 .herobox .wallbtn{z-index:4}
 body.bigshake{animation:bigshake .6s cubic-bezier(.36,.07,.19,.97)}@keyframes bigshake{10%,90%{transform:translate(-3px,2px)}20%,80%{transform:translate(7px,-4px)}30%,50%,70%{transform:translate(-12px,6px)}40%,60%{transform:translate(12px,-6px)}}
+/* phone header (4 Nov): brand and buttons stay on one line */
+@media (max-width:520px){.bar .brand{font-size:17px;white-space:nowrap}.bar .langs button,.bar .theme{padding:4px 9px;font-size:12px;white-space:nowrap}.bar .right{gap:6px}}
