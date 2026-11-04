@@ -226,7 +226,7 @@ if(vb)vb.onclick=async()=>{const out=document.getElementById('verdict');out.clas
 def page(lang):
     c = COVER[lang]
     sections = md_body({"th": "README.md", "en": "README.en.md"}[lang]) if lang != "b64" else b64_body()
-    sections.insert(0, watch_section(lang, VIDEOS))
+    sections.append(watch_section(lang, VIDEOS))   # Nat, 4 Nov: the video goes last
     sections.append(verify_section(lang))
     titles = [re.sub("<[^>]+>", "", (re.search(r"<h2[^>]*>(.*?)</h2>", x, re.S) or [None, ""])[1]).strip() for x in sections]
     def down(i):  # i = index of the section the button jumps to
