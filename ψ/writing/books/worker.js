@@ -73,7 +73,53 @@ const TOOLS = [
     inputSchema: { type: "object", properties: {} },
     annotations: { readOnlyHint: true, openWorldHint: false },
   },
+  {
+    name: "list_skills",
+    title: "List the Oracle skills",
+    description: "List the ARRA Oracle skills this server can hand out (awaken, rrr, recap, workshop, awaken-app): what each does and how to run it in a chat.",
+    inputSchema: { type: "object", properties: {} },
+    annotations: { readOnlyHint: true, openWorldHint: false },
+  },
+  {
+    name: "get_skill",
+    title: "Get an Oracle skill",
+    description:
+      "Return the instructions of an ARRA Oracle skill so you can run it in this chat: 'awaken' (give birth to an Oracle), 'rrr' (session report with real timestamps), " +
+      "'recap' (pick up from the last report), 'workshop' (the whole mini workshop), 'awaken-app' (build an interactive awaken app). " +
+      "source 'chat' (default) is the chat version written for claude.ai/ChatGPT; source 'github' is the real SKILL.md from Soul-Brews-Studio/arra-oracle-skills-cli (for Claude Code). " +
+      "After reading it, follow it step by step with the person.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        name: { type: "string", enum: ["awaken", "rrr", "recap", "workshop", "awaken-app"] },
+        source: { type: "string", enum: ["chat", "github"], description: "chat (default) or github" },
+      },
+      required: ["name"],
+    },
+    annotations: { readOnlyHint: true, openWorldHint: true },
+  },
 ];
+
+// Oracle skills served over MCP (Nat, 4 Nov 2026: "we can put our skill in the mcp"): as tools (every client) and as prompts (claude.ai + menu)
+const SKILLS = {
+  awaken: "ปลุก Oracle: ถาม 3 ข้อ แล้วสร้าง CLAUDE.md + ψ/memory/resonance",
+  rrr: "รายงานจบงาน: Timeline เวลาจริง + บทเรียน",
+  recap: "เริ่มงาน: อ่านรายงานรอบก่อน บอกว่าค้างอะไร",
+  workshop: "workshop สั้นในแชทเดียว: awaken → งานจริง → คุย → /rrr พร้อม time log",
+  "awaken-app": "สร้างแอปปลุก Oracle แบบกดได้ (artifact / canvas)",
+};
+const GITHUB_SKILL = { awaken: "awaken", rrr: "rrr", recap: "recap" };
+async function skillText(name, source, env) {
+  if (!SKILLS[name]) return null;
+  if (source === "github") {
+    const g = GITHUB_SKILL[name];
+    if (!g) return null;
+    const r = await fetch(`https://raw.githubusercontent.com/Soul-Brews-Studio/arra-oracle-skills-cli/main/skills/${g}/SKILL.md`);
+    return r.ok ? r.text() : null;
+  }
+  const r = await env.ASSETS.fetch(`${SITE}/oracle/${name}.md`);
+  return r.ok ? r.text() : null;
+}
 
 const CORS = {
   "access-control-allow-origin": "*",
@@ -196,12 +242,13 @@ async function handle(msg, env) {
         const asked = params.protocolVersion;
         return ok(id, {
           protocolVersion: PROTOCOLS.includes(asked) ? asked : PROTOCOLS[0],
-          capabilities: { tools: { listChanged: false } },
+          capabilities: { tools: { listChanged: false }, prompts: { listChanged: false } },
           serverInfo: SERVER,
           instructions:
             "Read-only access to the AIExpo Oracle workshop lessons (AI Expo Thailand, 6 Nov 2026). " +
             "Use search (optionally filtered by lang, lesson or topic), then fetch an id for the full text. " +
-            "Lessons exist in Thai (th, the original) and English (en).",
+            "Lessons exist in Thai (th, the original) and English (en). " +
+            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, recap, workshop) and follow it with the person.",
         });
       }
       case "ping":
@@ -213,7 +260,12 @@ async function handle(msg, env) {
       case "resources/list":
         return ok(id, { resources: [] });
       case "prompts/list":
-        return ok(id, { prompts: [] });
+        return ok(id, { prompts: Object.entries(SKILLS).map(([name, description]) => ({ name, title: `/${name}`, description })) });
+      case "prompts/get": {
+        const text = await skillText(params.name, "chat", env);
+        if (!text) return rpcError(id, -32602, `Unknown prompt: ${params.name}`);
+        return ok(id, { description: SKILLS[params.name], messages: [{ role: "user", content: { type: "text", text: `ทำตามนี้กับฉันในแชทนี้ / Follow this with me in this chat:\n\n${text}` } }] });
+      }
       default:
         return rpcError(id, -32601, `Method not found: ${method}`);
     }
@@ -240,6 +292,14 @@ async function load(env) {
 }
 
 async function callTool(name, args, env) {
+  if (name === "list_skills") {
+    return result({ skills: Object.entries(SKILLS).map(([name, what]) => ({ name, what, chat: `${SITE}/oracle/${name}.md`, github: GITHUB_SKILL[name] ? `https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/blob/main/skills/${GITHUB_SKILL[name]}/SKILL.md` : null })) });
+  }
+  if (name === "get_skill") {
+    const text = await skillText(args.name, args.source || "chat", env);
+    if (!text) return { content: [{ type: "text", text: `No skill '${args.name}' (source ${args.source || "chat"}). Use list_skills.` }], isError: true };
+    return { content: [{ type: "text", text }] };
+  }
   const { lessons, chunks, model } = await load(env);
   if (name === "list_lessons") {
     return result({
