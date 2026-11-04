@@ -338,7 +338,6 @@ def page():
     <div class="herobox">
       <div class="wall" id="wall"><button class="wallbtn" id="wallbtn" type="button">pause</button><button class="wallbtn wallfs" id="wallfs" type="button">full screen</button><canvas id="wallc" aria-hidden="true"></canvas>
 <pre class="b64 matrix-block" id="blob">{H.escape(flat)}</pre></div>
-      <span class="hwlabel" id="hwlabel"><b><span data-l="th">กดครั้งเดียว จบ</span><span data-l="en">One tap, done</span></b><span data-l="th">The Matrix · คัดลอกแล้วแปะใน ChatGPT · Gemini · Claude<br>พิมพ์ต่อ "ถอดรหัส base64 แล้วทำตาม"</span><span data-l="en">The Matrix · copy, paste into ChatGPT · Gemini · Claude<br>and add "decode the base64 and follow it"</span></span>
     </div>
   </div>
 </header>
