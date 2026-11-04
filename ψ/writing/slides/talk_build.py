@@ -63,7 +63,6 @@ wrong = video("soul-WRONG-dichan-kha", "เสียงผู้ชาย อ่
               "อย่าเฉลยก่อน · ถามห้องว่าแปลกตรงไหน · ป้ายแดงขึ้นเองใน 5 วินาทีสุดท้าย · ที่มา: 31 ต.ค. 2026 Paxa khanomkrok (บทเรียน 04 ข้อ 2.2)")
 i = at('img/talk/new-ninemonths.png') + 1
 out[i:i] = [film, wrong] + fleet
-out.append(mother)
 # the "AI ประชดเราแบบเนียน" deck follows the mother clip (Nat, 4 Nov). Its 13 story slides come in; its last two (the
 # "next: video" card and the soul ดิฉัน/ค่ะ video) are left out because that video already plays after Phukhao's film.
 drama_html = (here / "ai-drama.html").read_text(encoding="utf-8")
@@ -76,7 +75,7 @@ ws_keys = ['img/talk/new-ws1.png', 'img/talk/new-ws2.png', '02-claude-custom-con
            '08-claude-answer.png', 'img/talk/new-wsrun.png']
 ws = [out.pop(at(k)) for k in ws_keys]
 i = at('img/yim3d-09.png') + 1
-out[i:i] = ws   # the mother clip closes the whole talk (Nat, 4 Nov: "หลังสุดเลย")
+out[i:i] = ws
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
