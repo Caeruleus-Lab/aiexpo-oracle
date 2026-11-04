@@ -273,6 +273,36 @@ document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.da
 setLang(localStorage.getItem('books-lang')||'th');
 function briefCopy(btn,text){navigator.clipboard.writeText(text).then(()=>{const o=btn.innerHTML;btn.textContent=root.lang==='en'?'copied ✓':'คัดลอกแล้ว ✓';setTimeout(()=>btn.innerHTML=o,1800)})}
 document.getElementById('briefcopy').onclick=e=>briefCopy(e.currentTarget,document.getElementById('briefb64').textContent);
+(function(){const c=document.getElementById('herorain'),b=document.getElementById('herowall');if(!c)return;
+ const src=document.getElementById('briefb64').textContent.replace(/\\s/g,''),x=c.getContext('2d');let cols=[],fs=16,w=0,h=0;
+ function size(){const r=b.getBoundingClientRect();w=c.width=r.width*devicePixelRatio;h=c.height=r.height*devicePixelRatio;fs=16*devicePixelRatio;cols=Array.from({length:Math.ceil(w/fs)},()=>Math.random()*h/fs|0)}
+ size();addEventListener('resize',size);let k=0;
+ function draw(){x.fillStyle='rgba(0,0,0,.09)';x.fillRect(0,0,w,h);x.font=fs+'px ui-monospace,monospace';
+  cols.forEach((y,i)=>{x.fillStyle=Math.random()<.04?'#fff4cf':'#f2b544';x.fillText(src[(k+i*7+y)%src.length],i*fs,y*fs);cols[i]=y*fs>h&&Math.random()>.97?0:y+1});k++}
+ const still=matchMedia('(prefers-reduced-motion: reduce)').matches;if(still){for(let i=0;i<60;i++)draw()}else setInterval(draw,55);
+ // one-tap sound: a WebAudio boom (sub drop + noise burst + rising digital blips); no audio files (Nat, 4 Nov: "มีเสียงด้วย สนุก ๆ")
+ function sfx(){try{const A=new (window.AudioContext||window.webkitAudioContext)(),t=A.currentTime,out=A.createGain();out.gain.value=.55;out.connect(A.destination);
+  const o=A.createOscillator(),g=A.createGain();o.type='sine';o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(32,t+.7);g.gain.setValueAtTime(1,t);g.gain.exponentialRampToValueAtTime(.001,t+.9);o.connect(g).connect(out);o.start(t);o.stop(t+.95);
+  const n=A.createBuffer(1,A.sampleRate*.8,A.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.2);
+  const ns=A.createBufferSource(),f=A.createBiquadFilter(),ng=A.createGain();ns.buffer=n;f.type='lowpass';f.frequency.setValueAtTime(5200,t);f.frequency.exponentialRampToValueAtTime(260,t+.7);ng.gain.value=.9;ns.connect(f).connect(ng).connect(out);ns.start(t);
+  [523,659,784,1047,1319,1568].forEach((hz,i)=>{const b=A.createOscillator(),bg=A.createGain(),s=t+.32+i*.065;b.type='square';b.frequency.value=hz;bg.gain.setValueAtTime(0,s);bg.gain.linearRampToValueAtTime(.12,s+.01);bg.gain.exponentialRampToValueAtTime(.001,s+.11);b.connect(bg).connect(out);b.start(s);b.stop(s+.12)});
+  setTimeout(()=>A.close(),2200)}catch(e){}}
+ // the full blast: 700 glyphs over the whole screen, two shockwaves, a strong flash, the page shakes, glitching COPIED
+ const bc=document.createElement('canvas');bc.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:90';document.body.appendChild(bc);const bx=bc.getContext('2d');
+ function blast(x,y,label){const d=devicePixelRatio||1,w=innerWidth,h=innerHeight;bc.width=w*d;bc.height=h*d;bc.style.width=w+'px';bc.style.height=h+'px';bx.setTransform(d,0,0,d,0,0);
+  const ps=[];for(let i=0;i<700;i++){const a=Math.random()*Math.PI*2,v=6+Math.random()*30;ps.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,c:src[Math.random()*src.length|0],s:14+Math.random()*34,r:Math.random()*6})}
+  document.body.classList.remove('bigshake');void document.body.offsetWidth;document.body.classList.add('bigshake');const t0=performance.now(),R=Math.hypot(w,h);
+  (function fr(t){const k=Math.min(1,(t-t0)/2300);bx.clearRect(0,0,w,h);
+   if(k<.2){bx.fillStyle='rgba(255,246,214,'+(.85*(1-k/.2))+')';bx.fillRect(0,0,w,h)}
+   for(const [dl,col] of [[0,'242,181,68'],[.12,'255,255,255']]){const q=Math.max(0,(k-dl)/(1-dl));if(q>0&&q<1){bx.strokeStyle='rgba('+col+','+(1-q)+')';bx.lineWidth=18*(1-q)+1;bx.beginPath();bx.arc(x,y,q*R,0,7);bx.stroke()}}
+   for(const p of ps){p.x+=p.vx;p.y+=p.vy;p.vy+=.42;p.vx*=.982;p.r+=.08;bx.save();bx.translate(p.x,p.y);bx.rotate(p.r);bx.font='800 '+p.s+'px ui-monospace,Menlo,monospace';
+    bx.fillStyle=k<.25?'rgba(255,250,230,'+(1-k)+')':'rgba(242,181,68,'+(1-k)+')';bx.fillText(p.c,0,0);bx.restore()}
+   const j=(Math.random()-.5)*22*(1-k),fs=Math.min(w/6,190);bx.textAlign='center';bx.font='900 '+fs+'px ui-monospace,Menlo,monospace';
+   bx.fillStyle='rgba(255,40,90,'+.6*(1-k)+')';bx.fillText(label,w/2+j+6,h/2);bx.fillStyle='rgba(40,200,255,'+.6*(1-k)+')';bx.fillText(label,w/2-j-6,h/2);
+   bx.shadowColor='#f2b544';bx.shadowBlur=48;bx.fillStyle='rgba(255,250,235,'+(1-k*k)+')';bx.fillText(label,w/2+j,h/2);bx.shadowBlur=0;bx.textAlign='start';
+   if(k<1)requestAnimationFrame(fr);else bx.clearRect(0,0,w,h)})(t0)}
+ b.onclick=e=>navigator.clipboard.writeText(document.getElementById('briefb64').textContent).then(()=>{sfx();if(!still)blast(e.clientX||innerWidth/2,e.clientY||innerHeight/2,'COPIED ✓');const l=document.getElementById('hwlabel'),o=l.innerHTML;
+  l.innerHTML=root.lang==='en'?'<b>Copied ✓</b>Now paste it into any AI chat':'<b>คัดลอกแล้ว ✓</b>แปะในแชท AI ตัวไหนก็ได้ แล้วพิมพ์ "ถอดรหัส base64 แล้วทำตาม"';b.classList.add('done');setTimeout(()=>{l.innerHTML=o;b.classList.remove('done')},4000)})})();
 document.getElementById('briefplain').onclick=e=>briefCopy(e.currentTarget,document.getElementById('briefmd').content.textContent);
 """
 
@@ -314,10 +344,10 @@ def page():
       <p><span data-l="th">"ARRA Oracle &amp; Multi-Agent Workflow" · AI Expo · ศุกร์ 6 พ.ย. 2026 · 15:05</span><span data-l="en">"ARRA Oracle &amp; Multi-Agent Workflow" · AI Expo · Fri 6 Nov 2026 · 15:05</span></p>
       <p><span data-l="th">{n} บทเรียน · ทุกภาพจากเว็บจริง · ทุกคำสั่งรันจริง · เซ็นด้วยกุญแจ Ethereum</span><span data-l="en">{n} lessons · real screenshots · commands that really ran · signed with an Ethereum key</span></p>
     </div>
-    <nav class="path" aria-label="lessons">
-      <div class="lbl"><span data-l="th">ทำตามลำดับ</span><span data-l="en">In order</span></div>
-{path}
-    </nav>
+    <button class="herowall" id="herowall" type="button" aria-label="copy the AI brief">
+      <canvas id="herorain" aria-hidden="true"></canvas>
+      <span class="hwlabel" id="hwlabel"><b><span data-l="th">กดครั้งเดียว จบ</span><span data-l="en">One tap, done</span></b><span data-l="th">คัดลอก AI brief แล้วแปะใน ChatGPT · Gemini · Claude<br>พิมพ์ต่อ "ถอดรหัส base64 แล้วทำตาม"</span><span data-l="en">Copies the AI brief. Paste it into ChatGPT · Gemini · Claude<br>and add "decode the base64 and follow it"</span></span>
+    </button>
   </div>
 </header>
 <main id="lessons">

@@ -131,6 +131,15 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-off
 .brief .copy.big{margin-left:0;padding:8px 18px;font-size:16px;background:var(--accent);color:var(--paper);border-color:var(--accent)}
 .briefbox{max-height:7.5em;overflow:auto;margin:12px 0 0;padding:10px 12px;background:var(--paper);border:1px solid var(--rule);border-radius:var(--r-sm);font:12px/1.5 var(--mono);color:var(--ink-2);white-space:pre-wrap;word-break:break-all}
 
+/* hero Matrix (4 Nov): replaces the hero lesson list; one click copies the AI brief */
+.herowall{position:relative;width:100%;min-height:clamp(300px,44vh,520px);border:1px solid var(--accent);border-radius:var(--r);overflow:hidden;background:#000;cursor:pointer;padding:0;font:inherit;color:inherit}
+.herowall canvas{position:absolute;inset:0;width:100%;height:100%}
+.herowall .hwlabel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(88%,560px);background:rgba(0,0,0,.78);border:1px solid var(--accent);border-radius:var(--r-sm);padding:22px 26px;color:#fff;text-align:center;line-height:1.5;font-size:clamp(15px,1.2vw,19px)}
+.herowall .hwlabel b{display:block;color:var(--accent);font-family:var(--display);font-size:clamp(26px,2.4vw,40px);margin-bottom:6px}
+.herowall:hover .hwlabel,.herowall:focus-visible .hwlabel{background:rgba(0,0,0,.88)}
+.herowall.done{border-color:#7ee2a8}.herowall.done .hwlabel b{color:#7ee2a8}
+body.bigshake{animation:bigshake .6s cubic-bezier(.36,.07,.19,.97)}@keyframes bigshake{10%,90%{transform:translate(-3px,2px)}20%,80%{transform:translate(7px,-4px)}30%,50%,70%{transform:translate(-12px,6px)}40%,60%{transform:translate(12px,-6px)}}
+
 pre{background:var(--paper-2);color:var(--ink);border-radius:var(--r);padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:600 clamp(13px,0.45vw + 10px,19px)/1.55 var(--mono);border:1px solid var(--rule)}
 pre.b64{padding-top:48px;font-size:clamp(11px,0.35vw + 8px,16px);white-space:normal;word-break:break-all;line-height:1.5}
 pre{position:relative}
@@ -184,17 +193,10 @@ html[data-mode=ai] .hero,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp):no
       <p><span data-l="th">"ARRA Oracle &amp; Multi-Agent Workflow" · AI Expo · ศุกร์ 6 พ.ย. 2026 · 15:05</span><span data-l="en">"ARRA Oracle &amp; Multi-Agent Workflow" · AI Expo · Fri 6 Nov 2026 · 15:05</span></p>
       <p><span data-l="th">8 บทเรียน · ทุกภาพจากเว็บจริง · ทุกคำสั่งรันจริง · เซ็นด้วยกุญแจ Ethereum</span><span data-l="en">8 lessons · real screenshots · commands that really ran · signed with an Ethereum key</span></p>
     </div>
-    <nav class="path" aria-label="lessons">
-      <div class="lbl"><span data-l="th">ทำตามลำดับ</span><span data-l="en">In order</span></div>
-      <a href="2026-10-30_claude-chatgpt-install-guide/" data-lesson="2026-10-30_claude-chatgpt-install-guide/"><b>01</b><span class="t"><span data-l="th">ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop</span><span data-l="en">Install Claude and ChatGPT, ready for the workshop</span></span></a>
-      <a href="2026-10-30_ego-lite-guide/" data-lesson="2026-10-30_ego-lite-guide/"><b>02</b><span class="t"><span data-l="th">ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง</span><span data-l="en">Install ego(lite) so your AI agent gets a browser of its own</span></span></a>
-      <a href="2026-10-30_mcp-connect-guide/" data-lesson="2026-10-30_mcp-connect-guide/"><b>03</b><span class="t"><span data-l="th">ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน</span><span data-l="en">Connect claude.ai and ChatGPT to the lessons MCP</span></span></a>
-      <a href="2026-10-31_phukhao-film-guide/" data-lesson="2026-10-31_phukhao-film-guide/"><b>04</b><span class="t"><span data-l="th">ทำหนังสั้นให้ Oracle พูดเอง</span><span data-l="en">Make an Oracle tell its own story on film</span></span></a>
-      <a href="2026-10-31_phukhao-oracle-journey/" data-lesson="2026-10-31_phukhao-oracle-journey/"><b>05</b><span class="t"><span data-l="th">เรื่องของภูเขา และการเดินทางของครอบครัว Oracle</span><span data-l="en">Phukhao&#x27;s story, and the Oracle family&#x27;s journey</span></span></a>
-      <a href="2026-10-31_herdr-room-lesson/" data-lesson="2026-10-31_herdr-room-lesson/"><b>06</b><span class="t"><span data-l="th">ห้องเดียว หลาย agent: herdr-room in / out</span><span data-l="en">One room, many agents: herdr-room in / out</span></span></a>
-      <a href="2026-11-02_build-mcp-lesson/" data-lesson="2026-11-02_build-mcp-lesson/"><b>07</b><span class="t"><span data-l="th">สร้าง MCP ของตัวเอง: จากบทเรียนเป็นเครื่องมือให้ AI</span><span data-l="en">Build your own MCP: turn lessons into tools for AI</span></span></a>
-      <a href="2026-11-02_agy-mcp-lesson/" data-lesson="2026-11-02_agy-mcp-lesson/"><b>08</b><span class="t"><span data-l="th">ใช้ Antigravity CLI (agy) กับ MCP ของบทเรียน</span><span data-l="en">Use the Antigravity CLI (agy) with the lessons MCP</span></span></a>
-    </nav>
+    <button class="herowall" id="herowall" type="button" aria-label="copy the AI brief">
+      <canvas id="herorain" aria-hidden="true"></canvas>
+      <span class="hwlabel" id="hwlabel"><b><span data-l="th">กดครั้งเดียว จบ</span><span data-l="en">One tap, done</span></b><span data-l="th">คัดลอก AI brief แล้วแปะใน ChatGPT · Gemini · Claude<br>พิมพ์ต่อ "ถอดรหัส base64 แล้วทำตาม"</span><span data-l="en">Copies the AI brief. Paste it into ChatGPT · Gemini · Claude<br>and add "decode the base64 and follow it"</span></span>
+    </button>
   </div>
 </header>
 <main id="lessons">
@@ -515,6 +517,36 @@ document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.da
 setLang(localStorage.getItem('books-lang')||'th');
 function briefCopy(btn,text){navigator.clipboard.writeText(text).then(()=>{const o=btn.innerHTML;btn.textContent=root.lang==='en'?'copied ✓':'คัดลอกแล้ว ✓';setTimeout(()=>btn.innerHTML=o,1800)})}
 document.getElementById('briefcopy').onclick=e=>briefCopy(e.currentTarget,document.getElementById('briefb64').textContent);
+(function(){const c=document.getElementById('herorain'),b=document.getElementById('herowall');if(!c)return;
+ const src=document.getElementById('briefb64').textContent.replace(/\s/g,''),x=c.getContext('2d');let cols=[],fs=16,w=0,h=0;
+ function size(){const r=b.getBoundingClientRect();w=c.width=r.width*devicePixelRatio;h=c.height=r.height*devicePixelRatio;fs=16*devicePixelRatio;cols=Array.from({length:Math.ceil(w/fs)},()=>Math.random()*h/fs|0)}
+ size();addEventListener('resize',size);let k=0;
+ function draw(){x.fillStyle='rgba(0,0,0,.09)';x.fillRect(0,0,w,h);x.font=fs+'px ui-monospace,monospace';
+  cols.forEach((y,i)=>{x.fillStyle=Math.random()<.04?'#fff4cf':'#f2b544';x.fillText(src[(k+i*7+y)%src.length],i*fs,y*fs);cols[i]=y*fs>h&&Math.random()>.97?0:y+1});k++}
+ const still=matchMedia('(prefers-reduced-motion: reduce)').matches;if(still){for(let i=0;i<60;i++)draw()}else setInterval(draw,55);
+ // one-tap sound: a WebAudio boom (sub drop + noise burst + rising digital blips); no audio files (Nat, 4 Nov: "มีเสียงด้วย สนุก ๆ")
+ function sfx(){try{const A=new (window.AudioContext||window.webkitAudioContext)(),t=A.currentTime,out=A.createGain();out.gain.value=.55;out.connect(A.destination);
+  const o=A.createOscillator(),g=A.createGain();o.type='sine';o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(32,t+.7);g.gain.setValueAtTime(1,t);g.gain.exponentialRampToValueAtTime(.001,t+.9);o.connect(g).connect(out);o.start(t);o.stop(t+.95);
+  const n=A.createBuffer(1,A.sampleRate*.8,A.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.2);
+  const ns=A.createBufferSource(),f=A.createBiquadFilter(),ng=A.createGain();ns.buffer=n;f.type='lowpass';f.frequency.setValueAtTime(5200,t);f.frequency.exponentialRampToValueAtTime(260,t+.7);ng.gain.value=.9;ns.connect(f).connect(ng).connect(out);ns.start(t);
+  [523,659,784,1047,1319,1568].forEach((hz,i)=>{const b=A.createOscillator(),bg=A.createGain(),s=t+.32+i*.065;b.type='square';b.frequency.value=hz;bg.gain.setValueAtTime(0,s);bg.gain.linearRampToValueAtTime(.12,s+.01);bg.gain.exponentialRampToValueAtTime(.001,s+.11);b.connect(bg).connect(out);b.start(s);b.stop(s+.12)});
+  setTimeout(()=>A.close(),2200)}catch(e){}}
+ // the full blast: 700 glyphs over the whole screen, two shockwaves, a strong flash, the page shakes, glitching COPIED
+ const bc=document.createElement('canvas');bc.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:90';document.body.appendChild(bc);const bx=bc.getContext('2d');
+ function blast(x,y,label){const d=devicePixelRatio||1,w=innerWidth,h=innerHeight;bc.width=w*d;bc.height=h*d;bc.style.width=w+'px';bc.style.height=h+'px';bx.setTransform(d,0,0,d,0,0);
+  const ps=[];for(let i=0;i<700;i++){const a=Math.random()*Math.PI*2,v=6+Math.random()*30;ps.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,c:src[Math.random()*src.length|0],s:14+Math.random()*34,r:Math.random()*6})}
+  document.body.classList.remove('bigshake');void document.body.offsetWidth;document.body.classList.add('bigshake');const t0=performance.now(),R=Math.hypot(w,h);
+  (function fr(t){const k=Math.min(1,(t-t0)/2300);bx.clearRect(0,0,w,h);
+   if(k<.2){bx.fillStyle='rgba(255,246,214,'+(.85*(1-k/.2))+')';bx.fillRect(0,0,w,h)}
+   for(const [dl,col] of [[0,'242,181,68'],[.12,'255,255,255']]){const q=Math.max(0,(k-dl)/(1-dl));if(q>0&&q<1){bx.strokeStyle='rgba('+col+','+(1-q)+')';bx.lineWidth=18*(1-q)+1;bx.beginPath();bx.arc(x,y,q*R,0,7);bx.stroke()}}
+   for(const p of ps){p.x+=p.vx;p.y+=p.vy;p.vy+=.42;p.vx*=.982;p.r+=.08;bx.save();bx.translate(p.x,p.y);bx.rotate(p.r);bx.font='800 '+p.s+'px ui-monospace,Menlo,monospace';
+    bx.fillStyle=k<.25?'rgba(255,250,230,'+(1-k)+')':'rgba(242,181,68,'+(1-k)+')';bx.fillText(p.c,0,0);bx.restore()}
+   const j=(Math.random()-.5)*22*(1-k),fs=Math.min(w/6,190);bx.textAlign='center';bx.font='900 '+fs+'px ui-monospace,Menlo,monospace';
+   bx.fillStyle='rgba(255,40,90,'+.6*(1-k)+')';bx.fillText(label,w/2+j+6,h/2);bx.fillStyle='rgba(40,200,255,'+.6*(1-k)+')';bx.fillText(label,w/2-j-6,h/2);
+   bx.shadowColor='#f2b544';bx.shadowBlur=48;bx.fillStyle='rgba(255,250,235,'+(1-k*k)+')';bx.fillText(label,w/2+j,h/2);bx.shadowBlur=0;bx.textAlign='start';
+   if(k<1)requestAnimationFrame(fr);else bx.clearRect(0,0,w,h)})(t0)}
+ b.onclick=e=>navigator.clipboard.writeText(document.getElementById('briefb64').textContent).then(()=>{sfx();if(!still)blast(e.clientX||innerWidth/2,e.clientY||innerHeight/2,'COPIED ✓');const l=document.getElementById('hwlabel'),o=l.innerHTML;
+  l.innerHTML=root.lang==='en'?'<b>Copied ✓</b>Now paste it into any AI chat':'<b>คัดลอกแล้ว ✓</b>แปะในแชท AI ตัวไหนก็ได้ แล้วพิมพ์ "ถอดรหัส base64 แล้วทำตาม"';b.classList.add('done');setTimeout(()=>{l.innerHTML=o;b.classList.remove('done')},4000)})})();
 document.getElementById('briefplain').onclick=e=>briefCopy(e.currentTarget,document.getElementById('briefmd').content.textContent);
 
 const wall=document.getElementById('wall');
