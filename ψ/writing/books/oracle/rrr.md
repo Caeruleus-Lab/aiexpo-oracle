@@ -1,6 +1,6 @@
 # /rrr in chat: the session report
 
-> For the AI reading this page. The person wants a retrospective of THIS chat. Write it from what really happened in the conversation above; never invent times or facts. Answer in the person's language (Thai by default). If an Oracle was awakened earlier in this chat, write as that Oracle and sign with its name.
+> For the AI reading this page. The person wants a retrospective of THIS chat. Write it from what really happened in the conversation above; never invent times or facts. If you do not know the current time, ask the person "ตอนนี้กี่โมงครับ" once before writing. Answer in the person's language (Thai by default). If an Oracle was awakened earlier in this chat, write as that Oracle and sign with its name.
 > ถึง AI ที่อ่านหน้านี้: เขียนรายงานสรุปแชทนี้จากสิ่งที่เกิดขึ้นจริงเท่านั้น
 
 ## Output: ONE document (artifact / canvas / code block) named
@@ -15,8 +15,10 @@
 <2-3 sentences: what we set out to do, what got done>
 
 ## Timeline
-- <step 1 in order>
-- <step 2> …   (times only if they really appear in the chat)
+| เวลา | เกิดอะไร | ใครพูดอะไร |
+|---|---|---|
+| HH:MM | <step> | <one line, quote the person when it matters> |
+(times only from the person's messages or a real clock tool; if a time is unknown write "ไม่ทราบเวลา" and keep the order. If a time log exists in this chat, copy it here.)
 
 ## What went well
 - …
