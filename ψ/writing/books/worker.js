@@ -89,7 +89,8 @@ const TOOLS = [
       "Default source 'full' returns the WHOLE skill, not a summary: Part 1 = how to run it in a chat with no terminal, Part 2 = every file of the real skill " +
       "(SKILL.md plus its HOSTS/TEMPLATE/reference docs and scripts, from Soul-Brews-Studio/arra-oracle-skills-cli). It is long (30-65 KB): read all of it before you start, " +
       "then follow Part 1 with the person and use Part 2 for every detail (steps, templates, rules, why). " +
-      "source 'chat' = Part 1 only (short); source 'github' = the live SKILL.md alone.",
+      "source 'chat' = Part 1 only (short); source 'github' = the live SKILL.md alone. " +
+      "Every answer ends with ZIP download links so the person can install the skill (claude.ai Skills upload, or ~/.claude/skills).",
     inputSchema: {
       type: "object",
       properties: {
@@ -132,6 +133,15 @@ const SKILLS = {
   "awaken-app": "สร้างแอปปลุก Oracle แบบกดได้ (artifact / canvas)",
 };
 const GITHUB_SKILL = { awaken: "awaken", rrr: "rrr", recap: "recap" };
+// the skill folders as ZIPs (lesson 01, section 6): upload in claude.ai (Customize > Skills > Add) or unzip into ~/.claude/skills
+const ZIP = (s) => `${SITE}/2026-10-30_claude-chatgpt-install-guide/skills/${s}.zip`;
+const CARRIES = { awaken: ["awaken"], rrr: ["rrr"], recap: ["recap"], workshop: ["awaken", "rrr"], "awaken-app": ["awaken"] };
+function downloads(name) {
+  return "\n\n## Download this skill (tell the person)\n\n" + CARRIES[name].map((s) => `- \`${s}\`: ${ZIP(s)}`).join("\n") +
+    "\n\nclaude.ai: Settings > Capabilities > turn on code execution, then Customize > Skills > Add > upload the ZIP; after that, /" + CARRIES[name][0] + " works in any chat. " +
+    "Claude Code / Codex: unzip into ~/.claude/skills/ (or ~/.codex/skills/). Or install all of them: bunx --bun github:Soul-Brews-Studio/arra-oracle-skills-cli#alpha install -g -y . " +
+    "Guide: " + SITE + "/2026-10-30_claude-chatgpt-install-guide/en.html";
+}
 async function skillText(name, source, env) {
   if (!SKILLS[name]) return null;
   if (source === "github") {
@@ -334,12 +344,12 @@ async function callTool(name, args, env) {
     return { content: [{ type: "text", text: `${head}\n\n${lines.join("\n") || "(no lines match)"}` }] };
   }
   if (name === "list_skills") {
-    return result({ skills: Object.entries(SKILLS).map(([name, what]) => ({ name, what, full: `${SITE}/oracle/full/${name}.md`, chat: `${SITE}/oracle/${name}.md`, github: GITHUB_SKILL[name] ? `https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/tree/alpha/skills/${GITHUB_SKILL[name]}` : null })) });
+    return result({ skills: Object.entries(SKILLS).map(([name, what]) => ({ name, what, full: `${SITE}/oracle/full/${name}.md`, download: CARRIES[name].map(ZIP), chat: `${SITE}/oracle/${name}.md`, github: GITHUB_SKILL[name] ? `https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/tree/alpha/skills/${GITHUB_SKILL[name]}` : null })) });
   }
   if (name === "get_skill") {
     const text = await skillText(args.name, args.source || "full", env);
     if (!text) return { content: [{ type: "text", text: `No skill '${args.name}' (source ${args.source || "full"}). Use list_skills.` }], isError: true };
-    return { content: [{ type: "text", text }] };
+    return { content: [{ type: "text", text: text + downloads(args.name) }] };
   }
   const { lessons, chunks, model } = await load(env);
   if (name === "list_lessons") {
