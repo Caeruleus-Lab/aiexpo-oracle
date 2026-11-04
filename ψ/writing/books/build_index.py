@@ -274,20 +274,25 @@ setLang(localStorage.getItem('books-lang')||'th');
 function briefCopy(btn,text){navigator.clipboard.writeText(text).then(()=>{const o=btn.innerHTML;btn.textContent=root.lang==='en'?'copied ✓':'คัดลอกแล้ว ✓';setTimeout(()=>btn.innerHTML=o,1800)})}
 document.getElementById('briefcopy').onclick=e=>briefCopy(e.currentTarget,document.getElementById('briefb64').textContent);
 // one tap on the hero Matrix: a sound (noise burst + rising blips; the low "thump" removed, Nat 4 Nov) and a full-screen blast
-function sfx(){try{const A=new (window.AudioContext||window.webkitAudioContext)(),t=A.currentTime,out=A.createGain();out.gain.value=.5;out.connect(A.destination);
- const n=A.createBuffer(1,A.sampleRate*.6,A.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.4);
- const ns=A.createBufferSource(),f=A.createBiquadFilter(),ng=A.createGain();ns.buffer=n;f.type='highpass';f.frequency.value=900;ng.gain.value=.5;ns.connect(f).connect(ng).connect(out);ns.start(t);
- [523,659,784,1047,1319,1568].forEach((hz,i)=>{const b=A.createOscillator(),bg=A.createGain(),s=t+.05+i*.065;b.type='square';b.frequency.value=hz;bg.gain.setValueAtTime(0,s);bg.gain.linearRampToValueAtTime(.12,s+.01);bg.gain.exponentialRampToValueAtTime(.001,s+.11);b.connect(bg).connect(out);b.start(s);b.stop(s+.12)});
- setTimeout(()=>A.close(),1600)}catch(e){}}
+function sfx(){try{const A=new (window.AudioContext||window.webkitAudioContext)(),t=A.currentTime,out=A.createGain();out.gain.value=.35;out.connect(A.destination);
+ // an original 8-bit game sound (square waves): a "boing" jump sweep, then a rising power-up run. Our own notes, no game's tune (Nat, 4 Nov: "เสียงเหมือนมาริโอ้")
+ const j=A.createOscillator(),jg=A.createGain();j.type='square';j.frequency.setValueAtTime(260,t);j.frequency.exponentialRampToValueAtTime(980,t+.13);jg.gain.setValueAtTime(.5,t);jg.gain.exponentialRampToValueAtTime(.001,t+.16);j.connect(jg).connect(out);j.start(t);j.stop(t+.17);
+ [440,554,659,880,1109,1319,1760].forEach((hz,i)=>{const o=A.createOscillator(),g=A.createGain(),s=t+.2+i*.055;o.type=i%2?'square':'triangle';o.frequency.setValueAtTime(hz,s);o.frequency.linearRampToValueAtTime(hz*1.06,s+.05);g.gain.setValueAtTime(0,s);g.gain.linearRampToValueAtTime(.3,s+.006);g.gain.exponentialRampToValueAtTime(.001,s+.09);o.connect(g).connect(out);o.start(s);o.stop(s+.1)});
+ setTimeout(()=>A.close(),1400)}catch(e){}}
+// an 8-bit mushroom (our own pixel art, site colours) that pops out of the click and bounces twice
+const SHROOM=['....aaaa....','..aaccaaaa..','.aacccaaaaa.','.aaccaaacca.','aaaaaaacccaa','aaccaaaccaaa','acccaaaaaaaa','aaaaaaaaaaaa','..wwbwwbww..','..wwbwwbww..','..wwwwwwww..','...wwwwww...'];
+const SHC={a:'#f2b544',c:'#fff4cf',w:'#f6ead2',b:'#141414'};
+function shroom(ctx,x,y,px){SHROOM.forEach((row,r)=>[...row].forEach((ch,c)=>{if(ch!=='.'){ctx.fillStyle=SHC[ch];ctx.fillRect(x+(c-6)*px,y+(r-12)*px,px,px)}}))}
 const BC=document.createElement('canvas');BC.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:90';document.body.appendChild(BC);const BX=BC.getContext('2d');
 const GLY='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 function blast(x,y,label){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const d=devicePixelRatio||1,w=innerWidth,h=innerHeight;BC.width=w*d;BC.height=h*d;BC.style.width=w+'px';BC.style.height=h+'px';BX.setTransform(d,0,0,d,0,0);
  const ps=[];for(let i=0;i<700;i++){const a=Math.random()*Math.PI*2,v=6+Math.random()*30;ps.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,c:GLY[Math.random()*GLY.length|0],s:14+Math.random()*34,r:Math.random()*6})}
- document.body.classList.remove('bigshake');void document.body.offsetWidth;document.body.classList.add('bigshake');const t0=performance.now(),R=Math.hypot(w,h);
+ document.body.classList.remove('bigshake');void document.body.offsetWidth;document.body.classList.add('bigshake');const t0=performance.now(),R=Math.hypot(w,h);const m={x,y,vy:-17,vx:2.2,floor:y,b:0};
  (function fr(t){const k=Math.min(1,(t-t0)/2300);BX.clearRect(0,0,w,h);
   if(k<.2){BX.fillStyle='rgba(255,246,214,'+(.85*(1-k/.2))+')';BX.fillRect(0,0,w,h)}
   for(const [dl,col] of [[0,'242,181,68'],[.12,'255,255,255']]){const q=Math.max(0,(k-dl)/(1-dl));if(q>0&&q<1){BX.strokeStyle='rgba('+col+','+(1-q)+')';BX.lineWidth=18*(1-q)+1;BX.beginPath();BX.arc(x,y,q*R,0,7);BX.stroke()}}
   for(const p of ps){p.x+=p.vx;p.y+=p.vy;p.vy+=.42;p.vx*=.982;p.r+=.08;BX.save();BX.translate(p.x,p.y);BX.rotate(p.r);BX.font='800 '+p.s+'px ui-monospace,Menlo,monospace';BX.fillStyle=k<.25?'rgba(255,250,230,'+(1-k)+')':'rgba(61,255,138,'+(1-k)+')';BX.fillText(p.c,0,0);BX.restore()}
+  m.vy+=.9;m.x+=m.vx;m.y+=m.vy;if(m.y>m.floor&&m.vy>0&&m.b<2){m.y=m.floor;m.vy*=-.55;m.b++}if(k<.85){BX.globalAlpha=k<.7?1:(.85-k)/.15;shroom(BX,m.x,m.y,7);BX.globalAlpha=1}
   const j=(Math.random()-.5)*22*(1-k),fs=Math.min(w/6,190);BX.textAlign='center';BX.font='900 '+fs+'px ui-monospace,Menlo,monospace';
   BX.fillStyle='rgba(255,40,90,'+.6*(1-k)+')';BX.fillText(label,w/2+j+6,h/2);BX.fillStyle='rgba(40,200,255,'+.6*(1-k)+')';BX.fillText(label,w/2-j-6,h/2);
   BX.shadowColor='#3dff8a';BX.shadowBlur=48;BX.fillStyle='rgba(235,255,240,'+(1-k*k)+')';BX.fillText(label,w/2+j,h/2);BX.shadowBlur=0;BX.textAlign='start';
