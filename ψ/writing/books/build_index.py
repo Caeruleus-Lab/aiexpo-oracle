@@ -338,7 +338,7 @@ function setLang(l){const ai=l==='ai';lessonLinks(l);root.dataset.mode=ai?'ai':'
  setTimeout(()=>dispatchEvent(new Event('resize')),60);root.lang=l;if(window.aiexpoThemeLabel)aiexpoThemeLabel();localStorage.setItem('books-lang',l);document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
  document.querySelectorAll('[data-href-en]').forEach(a=>{a.dataset.hrefTh=a.dataset.hrefTh||a.getAttribute('href');a.setAttribute('href',l==='en'?a.dataset.hrefEn:a.dataset.hrefTh)})}
 document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.set));
-setLang(localStorage.getItem('books-lang')||'th');
+setLang(localStorage.getItem('books-lang')||'ai');   // Nat, 5 Nov: the site opens in AI mode by default
 function briefCopy(btn,text){navigator.clipboard.writeText(text).then(()=>{const o=btn.innerHTML;btn.textContent=root.lang==='en'?'copied ✓':'คัดลอกแล้ว ✓';setTimeout(()=>btn.innerHTML=o,1800)})}
 document.getElementById('briefcopy').onclick=e=>briefCopy(e.currentTarget,document.getElementById('briefb64').textContent);
 // one tap on the hero Matrix: a sound (noise burst + rising blips; the low "thump" removed, Nat 4 Nov) and a full-screen blast
