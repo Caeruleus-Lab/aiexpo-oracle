@@ -311,38 +311,29 @@ def _title(x):
                "new-slidesai": "ให้ AI ทำสไลด์จาก MCP"}
         t = next((v + (" " + f.split("-")[-1] if k == "yim3d" else "") for k, v in PIC.items() if f.startswith(k)), "ภาพ · " + f)
     return t[:90] + ("…" if len(t) > 90 else "")
-items = []
+# Nat, 5 Nov: "too much detail": the index is just the groups, one card each, click to open that part
+cards = {}
 for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
     name = f"talk-{g:02d}-{slug}.html"
     gpage = (head.replace("<title>", f"<title>{g:02d} {title} · Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS
              + "\n</head>\n<body>\n<div id=\"stage\">\n\n" + "\n\n".join(out[a0:a1]) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
     (here / name).write_text(gpage, encoding="utf-8")
-    rows = "".join(f'<li><a href="talk.html#{k + 1}"><span class="n">{k + 1}</span>{_h.escape(_title(out[k]))}</a></li>' for k in range(a0, a1))
-    items.append(f'<section class="grp"><h2><span class="g">{g:02d}</span>{_h.escape(title)} <small>สไลด์ {a0 + 1}–{a1} · {a1 - a0} หน้า</small></h2>'
-                 f'<p><a class="open" href="{name}">▶ เปิดเฉพาะส่วนนี้</a> <a class="open" href="talk.html#{a0 + 1}">เปิดในสไลด์เต็ม</a></p><ol>{rows}</ol></section>')
-# Nat, 5 Nov: "group": the 11 groups sit under 4 parts on the index (each part folds open/closed)
-PARTS = [("A", "คุณยิ้ม", [1]), ("B", "ลงมือทำ · Oracle, MCP, skill, awaken", [2, 3, 4, 5]),
-         ("C", "เรื่องเล่า · ภูเขา, ครอบครัว, โพสต์ของผม", [6, 7, 8]), ("D", "จุดเริ่มต้น · ψ · ปิดท้าย", [10, 11, 9])]
-def _part(letter, name, gs):
-    a0 = min(bounds[g - 1][0] for g in gs) + 1; n = sum(bounds[g - 1][1] - bounds[g - 1][0] for g in gs)
-    return (f'<details class="part" open><summary><span class="p">ส่วน {letter}</span> {_h.escape(name)} <small>{len(gs)} กลุ่ม · {n} หน้า</small></summary>'
-            + "".join(items[g - 1] for g in gs) + "</details>")
-parts_html = [_part(*p) for p in PARTS]
+    cards[g] = f'<a class="c" href="{name}"><span class="g">{g:02d}</span><b>{_h.escape(title)}</b><small>{a1 - a0} หน้า</small></a>'
+PARTS = [("A", "คุณยิ้ม", [1]), ("B", "ลงมือทำ", [2, 3, 4, 5]), ("C", "เรื่องเล่า", [6, 7, 8]), ("D", "จุดเริ่มต้น · ปิดท้าย", [10, 11, 9])]
 assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) + 1))
+body = "".join(f'<h2><span class="p">{l}</span>{_h.escape(n)}</h2><div class="grid">' + "".join(cards[g] for g in gs) + "</div>" for l, n, gs in PARTS)
 index = f"""<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Talk 6 Nov · สารบัญ · ARRA Oracle &amp; Multi-Agent Workflow</title>
+<title>Talk 6 Nov · ARRA Oracle &amp; Multi-Agent Workflow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=Sarabun:wght@400;600&display=swap">
-<style>body{{margin:0;background:#0b0c0e;color:#ece8e1;font:17px/1.6 Sarabun,sans-serif}}main{{max-width:980px;margin:0 auto;padding:36px 22px 80px}}
-h1{{font:700 38px "Bai Jamjuree",sans-serif;margin:0 0 6px}}.sub{{color:#9a958c;margin:0 0 26px}}.top a{{color:#f5a524;font-weight:600;margin-right:18px}}
-.grp{{border-top:1px solid #2a2c31;padding:18px 0}}h2{{font:700 24px "Bai Jamjuree",sans-serif;margin:0}}h2 .g{{color:#f5a524;margin-right:12px}}h2 small{{font:400 15px Sarabun;color:#9a958c;margin-left:8px}}
-.open{{display:inline-block;margin:8px 12px 4px 0;padding:6px 14px;border-radius:999px;background:#1b1d22;color:#f5a524;text-decoration:none;font-weight:600}}
-ol{{list-style:none;padding:0;margin:8px 0 0}}li a{{display:block;padding:5px 8px;border-radius:8px;color:#ece8e1;text-decoration:none}}li a:hover{{background:#1b1d22}}
-.n{{display:inline-block;width:42px;color:#9a958c;font-variant-numeric:tabular-nums}}
-.part{{margin:22px 0;border:1px solid #2a2c31;border-radius:16px;padding:6px 20px}}summary{{cursor:pointer;font:700 28px 'Bai Jamjuree',sans-serif;padding:12px 0}}summary .p{{color:#0b0c0e;background:#f5a524;border-radius:8px;padding:2px 10px;margin-right:10px;font-size:20px}}summary small{{font:400 15px Sarabun;color:#9a958c;margin-left:8px}}</style></head><body><main>
-<h1>Talk 6 พ.ย. 2026 · สารบัญ</h1><p class="sub">ARRA Oracle &amp; Multi-Agent Workflow · AI Expo Thailand 2026 · {len(out)} สไลด์ · 4 ส่วน · {len(GROUPS)} กลุ่ม · กดชื่อส่วนเพื่อพับ/เปิด · กดชื่อสไลด์เพื่อเปิดตรงหน้านั้น</p>
-<p class="top"><a href="talk.html">▶ สไลด์เต็มทั้งหมด</a><a href="https://aiexpo.buildwithoracle.com/">บทเรียน</a><a href="https://aiexpo.buildwithoracle.com/about/">เกี่ยวกับเรา</a></p>
-{"".join(parts_html)}
-<p class="sub">— AIExpo Oracle (Oracle AI)</p></main></body></html>
+<style>body{{margin:0;background:#0b0c0e;color:#ece8e1;font:17px/1.5 Sarabun,sans-serif}}main{{max-width:1000px;margin:0 auto;padding:40px 22px 70px}}
+h1{{font:700 40px "Bai Jamjuree",sans-serif;margin:0 0 18px}}.all{{display:inline-block;padding:12px 22px;border-radius:999px;background:#f5a524;color:#0b0c0e;font-weight:700;text-decoration:none;font-size:20px}}
+h2{{font:700 22px "Bai Jamjuree",sans-serif;margin:34px 0 12px;color:#9a958c}}h2 .p{{color:#0b0c0e;background:#f5a524;border-radius:6px;padding:0 9px;margin-right:10px}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}}
+.c{{display:block;padding:18px 20px;border-radius:16px;background:#16181c;color:#ece8e1;text-decoration:none;border:1px solid #23262b}}.c:hover{{border-color:#f5a524}}
+.c .g{{display:block;color:#f5a524;font:700 15px "Bai Jamjuree",sans-serif}}.c b{{display:block;font:700 21px/1.3 "Bai Jamjuree",sans-serif;margin:4px 0 6px}}.c small{{color:#9a958c}}</style></head><body><main>
+<h1>Talk 6 พ.ย. 2026</h1><a class="all" href="talk.html">▶ สไลด์เต็ม {len(out)} หน้า</a>
+{body}
+</main></body></html>
 """
 (here / "talk_index.html").write_text(index, encoding="utf-8")
 print(f"talk_index.html: {len(GROUPS)} groups · " + " ".join(f"{a1 - a0}" for a0, a1 in bounds))
