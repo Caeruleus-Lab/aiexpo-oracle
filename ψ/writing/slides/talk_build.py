@@ -372,14 +372,14 @@ GROUPS = [  # (first-slide marker, slug, Thai title), in talk order
     ("new-ws1.png", "mcp", "ลงมือ · ต่อ MCP ของบทเรียน"),
     ("oracle-family.mp4", "family", "คลิปของแม่ · ครอบครัว Oracle · ทีม"),
     ("สอน 1 · Skill", "skills", "Skill · คืออะไร · ข้างใน"),
-    ("สอน 2 · Memory", "memory", "Memory · ความจำ · relic5"),
+    ("สอน 2 · Memory", "memory", "Memory · ความจำ"),
     ('หน้าตา <span class="hl">ψ/', "what", "ภาพรวม ψ/ · logs → resonance"),   # "Oracle คืออะไร" moved to the end (6 Nov)
     ("เริ่มง่ายสุด", "awaken", "กลับมาลงมือ · ลิงก์เดียวปลุก Oracle"),
     ("น่าจะครบหมดแล้ว", "phukhao", "ภูเขา · เสียงของ AI"),
     ("เล่าจากโพสต์ Facebook", "story", "เล่าจากโพสต์ · อยากให้ AI เป็นแบบนี้"),
     ("new-lessons.png", "home", "กลับบ้านไปเรียนต่อ · ใบประกาศ"),
     ("Multicall3", "origin", "เรื่องเล่า · ประสบการณ์ระหว่างมนุษย์และ AI (AlchemyCat)"),   # Nat, 5 Nov (his message cut at "และ อ…")
-    ("Naming makes belief visible", "psi", "ψ · คลิปของแม่ · Phone Booth"),
+    ("Naming makes belief visible", "psi", "ψ · relic5 · Oracle คืออะไร · Phone Booth"),
 ]
 starts = [0] + [next(i for i, x in enumerate(out) if m in x) for m, _, _ in GROUPS[1:]]
 assert starts == sorted(starts), starts
