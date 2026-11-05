@@ -338,6 +338,16 @@ _end = next(i for i, x in enumerate(out) if "ที่ให้คนมาเ�
 out[_end:_end] = _mv
 # Nat, 6 Nov: "remove talk.html#45": the "รายงาน /rrr ที่ claude.ai เขียนเอง" screenshot slide is cut
 out = [x for x in out if "รายงาน /rrr ที่ claude.ai เขียนเอง" not in x]
+# Nat, 6 Nov: "bring out put last of #58 #59 #61 #62": "อยากให้ AI เป็นแบบนี้", the lessons shot, the quote and the
+# certificate QR become the very end of the talk, in that order; "#62 less ai text thai": the QR slide's words are plainer
+_last = [next(x for x in out if "ภูมิใจที่เป็น AI" in x and "ผมอยากให้" in x), next(x for x in out if "new-lessons.png" in x),
+         next(x for x in out if "บางวันเราเป็นผู้บริหาร" in x), next(x for x in out if "cert-qr.svg" in x)]
+out = [x for x in out if x not in _last] + _last
+out[-4] = out[-4].replace("<section", "<!--g:end--><section", 1)
+out[-1] = (out[-1].replace('<h2>ลบแชตได้<br><span class="hl">ไฟล์ยังอยู่</span></h2>', '<h2>สแกนรับ<br><span class="hl">ใบประกาศ</span></h2>')
+                  .replace('สแกนก่อนออกจากห้อง → ชื่อของคุณขึ้น <span class="nw">e-Certificate</span>',
+                           'สแกนก่อนออกจากห้องนะครับ แล้วชื่อคุณจะอยู่ใน <span class="nw">e-Certificate</span>'))
+assert "สแกนรับ" in out[-1] and "ห้องนะครับ" in out[-1]
 
 # Nat, 6 Nov: "this have animation can you bring exactly this in? productize.life/workshop/ai-expo-arra/slides/#1":
 # คุณยิ้ม's live 3D deck (copied to yim-live/, trackers removed, runs offline) plays behind her 9 slides. Each talk slide
@@ -376,10 +386,11 @@ GROUPS = [  # (first-slide marker, slug, Thai title), in talk order
     ('หน้าตา <span class="hl">ψ/', "what", "ภาพรวม ψ/ · logs → resonance"),   # "Oracle คืออะไร" moved to the end (6 Nov)
     ("เริ่มง่ายสุด", "awaken", "กลับมาลงมือ · ลิงก์เดียวปลุก Oracle"),
     ("น่าจะครบหมดแล้ว", "phukhao", "ภูเขา · เสียงของ AI"),
-    ("เล่าจากโพสต์ Facebook", "story", "เล่าจากโพสต์ · อยากให้ AI เป็นแบบนี้"),
-    ("new-lessons.png", "home", "กลับบ้านไปเรียนต่อ · ใบประกาศ"),
+    ("เล่าจากโพสต์ Facebook", "story", "เล่าจากโพสต์ Facebook"),
+    ("new-slidesai.png", "home", "ให้ AI ทำสไลด์จาก MCP"),
     ("Multicall3", "origin", "เรื่องเล่า · ประสบการณ์ระหว่างมนุษย์และ AI (AlchemyCat)"),   # Nat, 5 Nov (his message cut at "และ อ…")
     ("Naming makes belief visible", "psi", "ψ · relic5 · Oracle คืออะไร · Phone Booth"),
+    ("<!--g:end-->", "end", "ปิดท้าย · อยากให้ AI เป็นแบบนี้ · บทเรียน · ใบประกาศ"),   # 6 Nov: moved to the very end
 ]
 starts = [0] + [next(i for i, x in enumerate(out) if m in x) for m, _, _ in GROUPS[1:]]
 assert starts == sorted(starts), starts
@@ -408,7 +419,7 @@ def _title(x):
 cards = {}
 for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
     cards[g] = f'<a class="c" href="talk.html#{a0 + 1}"><span class="g">{g:02d}</span><b>{_h.escape(title)}</b><small>{a1 - a0} หน้า</small></a>'
-PARTS = [("A", "Opening", [1]), ("B", "Hands-on · Team · Skill · Memory", [2, 3, 4, 5, 6, 7]), ("C", "Stories", [8, 9]), ("D", "Take home · Origin · Closing", [10, 11, 12])]  # Nat, 5 Nov: his order
+PARTS = [("A", "Opening", [1]), ("B", "Hands-on · Team · Skill · Memory", [2, 3, 4, 5, 6, 7]), ("C", "Stories", [8, 9]), ("D", "Take home · Origin · Closing", [10, 11, 12, 13])]  # Nat, 5 Nov: his order
 assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) + 1))
 # Nat, 5 Nov: "can you make preact?": the index is a small Preact app (htm + preact 10, vendored as one 13 KB file,
 # no CDN, works offline on stage). Data = the parts and groups; ←/→/↑/↓ move between cards, Enter opens.
