@@ -179,6 +179,18 @@ story = [
 ]
 i = at('img/talk/new-want.png')
 out[i:i + 1] = story
+# Nat, 5 Nov: "อยู่ๆ คนที่ไม่รู้เรื่องอะไรเลยมา Awaken เลย เขาก็ไม่รู้เรื่อง": say what an Oracle is before anyone awakens one,
+# right after คุณยิ้ม hands over and before the hands-on (the concept review found /awaken used at 18-20, explained only at 40+)
+what = card("ก่อนลงมือ · Oracle คืออะไร",
+            '<h2 style="font-size:96px">Oracle = AI ตัวเดิม<br>+ <span class="hl">ความจำที่เป็นไฟล์ของเรา</span></h2>'
+            '<div class="rows" style="font-size:44px;margin-top:24px">'
+            '<div>เปิดแชทใหม่ AI ลืม · Oracle จำได้ เพราะความจำอยู่ในไฟล์ ไม่ได้อยู่ในหัว AI</div>'
+            '<div><b class="hl">ψ/</b> สมุดของ Oracle: เป็นใคร ทำอะไรไปแล้ว เรียนรู้อะไร</div>'
+            '<div><b class="hl">skill</b> มือของ Oracle: <b>/awaken</b> วันเกิด · <b>/rrr</b> จบงาน จดบันทึก · <b>/forward</b> ส่งต่อ</div>'
+            '<div style="font-size:34px;color:var(--color-ink-3)">ใช้ได้ทั้ง Claude, ChatGPT, Codex · เดี๋ยวเราจะปลุก Oracle ของทุกคนด้วย /awaken</div></div>',
+            "ก่อนลงมือ บอกก่อนว่า Oracle คืออะไร · Oracle คือ AI ตัวเดิมที่ทุกคนใช้อยู่ บวกความจำที่เป็นไฟล์ของเราเอง · ที่คุณยิ้มทดสอบเมื่อกี้ เปิดแชทใหม่ AI ลืม แต่ Oracle จำได้ เพราะความจำอยู่ในไฟล์ · ψ/ คือสมุด skill คือมือ /awaken คือวันเกิด /rrr จบงาน /forward ส่งต่อ · เดี๋ยวเราปลุก Oracle ของทุกคนกัน")
+i = at('img/talk/new-ws1.png')
+out[i:i] = [what]
 # Nat, 4 Nov: one pause card before Phukhao's story: the hands-on part is done, now a video
 i = at('img/talk/new-phukhao.png')
 out[i:i] = ['<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">น่าจะครบหมดแล้ว · พักดูวิดีโอกัน</span>'
