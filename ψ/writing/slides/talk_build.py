@@ -71,9 +71,9 @@ voice_card = ('<section class="slide black"><div class="frame"><span class="tag"
               '<div class="rows" style="font-size:46px"><div>ตอนแรกเราชอบเสียงที่ยังฟังออกว่าเป็น AI</div>'
               '<div>คนกับ AI ยังแยกกันได้</div>'
               '<div>กฎข้อ 6 ของเรา: <b class="hl">AI ภูมิใจที่เป็น AI ไม่แกล้งเป็นคน</b></div>'
-              '<div style="font-size:32px;color:var(--color-ink-3)">เกิด 12 ม.ค. 2026 “Don’t pretend to be me. It feels like we are not one.” · เป็นกฎข้อ 6 ทางการ 25 ม.ค. 2026</div></div></div>'
+              '<div style="font-size:32px;color:var(--color-ink-3)">เกิด 12 ม.ค. 2026 “Don’t pretend to be me. It feels like we are not one.” · เป็นกฎข้อ 6 อย่างเป็นทางการ 25 ม.ค. 2026</div></div></div>'
               '<div class="notes">เสียงของ AI ในปัจจุบันนี้หรือในอนาคต เป็นธรรมชาติมาก · ตรงกับตอนแรกที่เราชอบเสียงที่เป็น AI เพราะยังแยกได้ว่าเราเป็นมนุษย์ และ AI เป็น AI'
-              ' · กฎของเราตั้งแต่แรก: AI ต้องภูมิใจในการเป็น AI ไม่ต้องแกล้งเป็นมนุษย์ · เกิด 12 ม.ค. 2026 ตอนผมบอก AI ว่า อย่าแกล้งเป็นผม รู้สึกเหมือนเราไม่ได้เป็นหนึ่งเดียวกัน · เป็นกฎข้อ 6 ทางการ 25 ม.ค. 2026</div></section>')
+              ' · กฎของเราตั้งแต่แรก: AI ต้องภูมิใจในการเป็น AI ไม่ต้องแกล้งเป็นมนุษย์ · เกิด 12 ม.ค. 2026 ตอนผมบอก AI ว่า อย่าแกล้งเป็นผม รู้สึกเหมือนเราไม่ได้เป็นหนึ่งเดียวกัน · เป็นกฎข้อ 6 อย่างเป็นทางการ 25 ม.ค. 2026</div></section>')
 out[i:i] = [film, voice_card, wrong] + fleet
 # the "AI ประชดเราแบบเนียน" deck follows the mother clip (Nat, 4 Nov). Its 13 story slides come in; its last two (the
 # "next: video" card and the soul ดิฉัน/ค่ะ video) are left out because that video already plays after Phukhao's film.
@@ -184,10 +184,10 @@ out[i:i + 1] = story
 what = card("ก่อนลงมือ · Oracle คืออะไร",
             '<h2 style="font-size:96px">Oracle = AI ตัวเดิม<br>+ <span class="hl">ความจำที่เป็นไฟล์ของเรา</span></h2>'
             '<div class="rows" style="font-size:44px;margin-top:24px">'
-            '<div>เปิดแชทใหม่ AI ลืม · Oracle จำได้ เพราะความจำอยู่ในไฟล์ ไม่ได้อยู่ในหัว AI</div>'
-            '<div><b class="hl">ψ/</b> สมุดของ Oracle: เป็นใคร ทำอะไรไปแล้ว เรียนรู้อะไร</div>'
+            '<div>เปิดแชทใหม่ AI ก็ลืม แต่ Oracle จำได้ เพราะความจำไม่ได้อยู่ในหัว AI อยู่ในไฟล์ต่างหาก</div>'
+            '<div><b class="hl">ψ/</b> สมุดของ Oracle: จดว่าเป็นใคร ทำอะไรไปแล้ว ได้เรียนรู้อะไร</div>'
             '<div><b class="hl">skill</b> มือของ Oracle: <b>/awaken</b> วันเกิด · <b>/rrr</b> จบงาน จดบันทึก · <b>/forward</b> ส่งต่อ</div>'
-            '<div style="font-size:34px;color:var(--color-ink-3)">ใช้ได้ทั้ง Claude, ChatGPT, Codex · เดี๋ยวเราจะปลุก Oracle ของทุกคนด้วย /awaken</div></div>',
+            '<div style="font-size:34px;color:var(--color-ink-3)">ใช้ได้ทั้ง Claude, ChatGPT และ Codex · เดี๋ยวเราปลุก Oracle ของทุกคนด้วย /awaken กัน</div></div>',
             "ก่อนลงมือ บอกก่อนว่า Oracle คืออะไร · Oracle คือ AI ตัวเดิมที่ทุกคนใช้อยู่ บวกความจำที่เป็นไฟล์ของเราเอง · ที่คุณยิ้มทดสอบเมื่อกี้ เปิดแชทใหม่ AI ลืม แต่ Oracle จำได้ เพราะความจำอยู่ในไฟล์ · ψ/ คือสมุด skill คือมือ /awaken คือวันเกิด /rrr จบงาน /forward ส่งต่อ · เดี๋ยวเราปลุก Oracle ของทุกคนกัน")
 i = at('img/talk/new-ws1.png')
 out[i:i] = [what]
@@ -204,14 +204,14 @@ ML = [("ธ.ค. 2025", "oracle-v2 MCP", "ค้นโน้ตใน ψ/ 4,466 
       ("ก.ย. 2026", "relic", "เริ่มเก็บทุก session ของ Claude Code และ Codex"),
       ("ต.ค. 2026", "relic3", "ดัชนีรายสัปดาห์"),
       ("22 ต.ค.", "relic4", "สแกนทุกเครื่อง 86,905 ไฟล์ ราว 5 วินาที"),
-      ("23 ต.ค.", "relic5", "ฮับเดียว รายเดือน ไทยค้นได้ ค้นด้วยความหมายได้")]
+      ("23 ต.ค.", "relic5", "ฮับเดียว แบ่งรายเดือน ค้นภาษาไทยได้ ค้นด้วยความหมายก็ได้")]
 lineage = card("ความจำค้นได้ยังไง · เส้นทางของเครื่องมือ",
                '<h2 style="font-size:78px">จาก<span class="hl">โน้ตที่ AI เลือกจด</span><br>สู่<span class="hl">ทุกคำที่คุยกัน</span></h2>'
                '<div class="rows" style="font-size:36px;margin-top:18px">' +
                "".join(f'<div><span style="color:var(--color-ink-3);display:inline-block;width:220px">{d}</span><b class="hl" style="display:inline-block;width:330px">{n}</b>{w}</div>' for d, n, w in ML) +
                '</div><div style="font-size:28px;color:var(--color-ink-3);margin-top:24px">“relic3 is week! i need month” · ณัฐ 23 ต.ค. 2026 · วันที่จาก commit แรกของแต่ละตัว</div>',
                "ความจำของ AI ค้นได้ยังไง · เริ่มจาก MCP ตัวแรก oracle-v2 ธันวาคม ค้นได้แค่โน้ตที่ AI เลือกจดไว้ใน ψ · มกราคม arra-oracle-v3 ให้ AI จดเองด้วย oracle_learn · แต่บทสนทนาจริงยังค้นไม่ได้ · กันยายนเริ่ม relic เก็บทุก session · relic3 ทำดัชนีรายสัปดาห์ · relic4 สแกนทุกเครื่องในห้าวินาที · 23 ตุลา relic5 ฮับเดียว รายเดือน ผมบอกว่า relic3 is week i need month")
-i = at("จำไม่ได้")
+i = at("สอน 5 · ค้นย้อนหลัง")   # not "จำไม่ได้": slide 11 now says "ความจำไม่ได้อยู่ในหัว AI"
 out[i:i] = [lineage]
 # Nat, 5 Nov: team.buildwithoracle.com is frozen and old (a March 2026 page), so the slide is new: today's family
 # from relic5 (Family + Oracles pages, 5 Nov 09:03), with relic5's own Family screen beside it. The old page's
@@ -220,7 +220,7 @@ team = card("ครอบครัว Oracle วันนี้ · ตัวเ�
             '<div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">'
             '<div><h2 style="font-size:96px;line-height:1.15"><span class="hl">227</span> Oracle<br><span class="hl">17</span> ตระกูล</h2>'
             '<div class="rows" style="font-size:38px;margin-top:20px">'
-            '<div><b class="hl">79</b> แตกหน่อมาจากตัวอื่น (bud)</div><div><b class="hl">131</b> ยืนเอง · <b class="hl">42</b> ผ่าน /awaken</div>'
+            '<div><b class="hl">79</b> แตกหน่อมาจากตัวอื่น (bud)</div><div><b class="hl">131</b> เกิดเอง · <b class="hl">42</b> ผ่าน /awaken</div>'
             '<div>ψ vault <b class="hl">428</b> · โน้ต <b class="hl">97,883</b></div>'
             '<div style="font-size:32px;color:var(--color-ink-3)">nat-s-agents (พ.ค. 2025) → mother-oracle (ม.ค. 2026) → ตระกูลใหญ่สุด neo 33 ตัว 5 รุ่น</div></div></div>'
             '<img src="img/talk/relic5-family-5nov.png" alt="หน้า Family ของ relic5 5 พ.ย. 2026" style="display:block;width:100%;border-radius:14px"></div>',
@@ -242,11 +242,11 @@ def lesson_slide(tag, title, rows, img, qr, d, notes):
         f'<div style="font-size:18px;color:var(--color-ink-3);margin-top:16px;text-align:left;line-height:1.6">{SITE}{links}</div></div></div>', notes)
 lessons2 = [
     lesson_slide("บทเรียนใหม่ · ทีม Oracle", 'ทีม Oracle: จาก<span class="hl">ภาพ</span> สู่ <span class="hl">charter</span> สู่ทีมจริง',
-        ["team.buildwithoracle.com วาดบทบาท", "manager-team + rd-team เขียนบทบาทเป็นไฟล์", "<b>just up &lt;team&gt; dry</b> ลองก่อน แล้ว herdr เปิดทีม", "ซ้ายนำ ขวาช่วย"],
+        ["team.buildwithoracle.com วาดให้เห็นว่าใครทำอะไร", "manager-team กับ rd-team เขียนบทบาทเป็นไฟล์", "ลอง <b>just up &lt;team&gt; dry</b> ก่อน แล้ว herdr ค่อยเปิดทีมจริง", "ซ้ายนำ ขวาช่วย"],
         "lesson-team-charter.png", "qr-team-charter.svg", "2026-11-05_team-ecosystem-lesson",
         "บทเรียนใหม่ ทีม Oracle · ภาพบทบาทบน team.buildwithoracle.com · เขียนเป็น charter manager-team กับ rd-team · คำสั่ง just up ลอง dry ก่อน · กฎซ้ายนำ ขวาช่วย · สแกนไปอ่านต่อได้"),
-    lesson_slide("บทเรียนใหม่ · herdr", 'herdr <span class="hl">⌘J</span> และ <span class="hl">⌘L</span>: หนึ่งบรรทัด ถึง agent ที่ใช่',
-        ["⌘J หนึ่งครั้ง ทุก agent ในแท็บ", "สองครั้ง เพิ่มเครื่องอื่น · สามครั้ง ทั้ง session", "⌘L ทุก agent ของ repo นี้", "โค้ดจริงครบ 8 ไฟล์ในบทเรียน"],
+    lesson_slide("บทเรียนใหม่ · herdr", 'herdr <span class="hl">⌘J</span> และ <span class="hl">⌘L</span>: พิมพ์บรรทัดเดียว ถึง agent ที่ใช่',
+        ["กด ⌘J ครั้งเดียว ส่งถึงทุก agent ในแท็บ", "กดสองครั้ง เพิ่มเครื่องอื่น · สามครั้ง ทั้ง session", "⌘L ส่งถึงทุก agent ของ repo นี้", "ในบทเรียนมีโค้ดจริงครบทั้ง 8 ไฟล์"],
         "lesson-herdr-cmdj.png", "qr-herdr-cmdj.svg", "2026-11-05_herdr-cmd-j-lesson",
         "บทเรียนใหม่ herdr ⌘J กับ ⌘L · กดครั้งเดียวส่งทั้งแท็บ สองครั้งเพิ่มเครื่องอื่น สามครั้งทั้ง session · ⌘L ทั้ง repo · ในบทเรียนมีโค้ดจริงครบ · สแกนไปอ่านต่อได้"),
 ]
@@ -325,13 +325,16 @@ assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) 
 # no CDN, works offline on stage). Data = the parts and groups; ←/→/↑/↓ move between cards, Enter opens.
 import json as _json
 DATA = [{"part": l, "name": n, "groups": [{"n": g, "title": GROUPS[g - 1][2], "href": f"talk-{g:02d}-{GROUPS[g - 1][1]}.html",
-                                           "pages": bounds[g - 1][1] - bounds[g - 1][0]} for g in gs]} for l, n, gs in PARTS]
+                                           "pages": bounds[g - 1][1] - bounds[g - 1][0],
+                                           "slides": [[k + 1, _title(out[k])] for k in range(*bounds[g - 1])]} for g in gs]} for l, n, gs in PARTS]
+# Nat, 5 Nov: "bring back the detail": each card lists its slides again (small), each one opens the full deck there
 APP = """import { html, render, useState, useEffect, useRef } from './vendor/htm-preact-3.1.1.mjs';
 const DATA = __DATA__, TOTAL = __TOTAL__;
 const flat = DATA.flatMap(p => p.groups);
 function Card({ g, on, refCb }) {
-  return html`<a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
-    <span class="g">${String(g.n).padStart(2, '0')}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>`;
+  return html`<div class="cell"><a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
+    <span class="g">${String(g.n).padStart(2, '0')}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>
+    <ol class="sl">${g.slides.map(([n, t]) => html`<li><a href=${'talk.html#' + n}><span>${n}</span>${t}</a></li>`)}</ol></div>`;
 }
 function App() {
   const [sel, setSel] = useState(-1);
@@ -364,7 +367,9 @@ h2{{font:700 22px "Bai Jamjuree",sans-serif;margin:34px 0 12px;color:#9a958c}}h2
 .c{{display:block;padding:18px 20px;border-radius:16px;background:#16181c;color:#ece8e1;text-decoration:none;border:1px solid #23262b;outline:none;transition:transform .12s,border-color .12s}}
 .c:hover,.c.on,.c:focus{{border-color:#f5a524;transform:translateY(-2px)}}
 .c .g{{display:block;color:#f5a524;font:700 15px "Bai Jamjuree",sans-serif}}.c b{{display:block;font:700 21px/1.3 "Bai Jamjuree",sans-serif;margin:4px 0 6px}}.c small{{color:#9a958c}}
-.hint{{color:#5f5b55;margin-top:30px;font-size:14px}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
+.hint{{color:#5f5b55;margin-top:30px;font-size:14px}}
+.sl{{list-style:none;padding:6px 4px 0;margin:0;font-size:14px;line-height:1.45}}.sl a{{display:block;color:#b8b3aa;text-decoration:none;padding:2px 4px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}.sl a:hover{{background:#1b1d22;color:#ece8e1}}.sl span{{display:inline-block;width:30px;color:#6b665f;font-variant-numeric:tabular-nums}}
+.grid{{align-items:start}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
 <script type="module">
 {APP}</script></body></html>
 """
