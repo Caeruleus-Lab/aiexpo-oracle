@@ -326,6 +326,8 @@ out.insert(next(i for i, x in enumerate(out) if "fleet-graph.png" in x), _m)
 out = [x for x in out if "img/talk/new-wsrun.png" not in x]
 # Nat, 6 Nov: "remove cmd j cml slide": the herdr ⌘J / ⌘L lesson slide is cut (the lesson stays on the site)
 out = [x for x in out if "lesson-herdr-cmdj.png" not in x]
+# Nat, 6 Nov: "remove talk.html#38": the "สอน 4 · ของจริงหนึ่งรอบ" slide is cut
+out = [x for x in out if "สอน 4 · ของจริงหนึ่งรอบ" not in x]
 
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
