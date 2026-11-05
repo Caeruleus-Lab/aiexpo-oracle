@@ -64,15 +64,16 @@ wrong = video("soul-WRONG-dichan-kha", "เสียงผู้ชาย อ่
 i = at('img/talk/new-ninemonths.png') + 1
 # Nat, 5 Nov: one card before the male-voice video: AI voices are natural now; we liked voices that still sound like AI,
 # so people and AI stay apart: the first rule, AI is proud to be AI and never pretends to be human. Dates from relic5 (git
-# layer): first commit 4 Jan 2026 (laris-co/Nat-s-Agents 40305902), official rule 25 Jan 2026 ("Oracle Never Pretends to Be Human").
+# layer + vault): first commit 4 Jan 2026 (Nat-s-Agents 40305902); born 12 Jan 2026 07:40, Nat: "Don't pretend to be me" (no commit,
+# the date slide 75 and every Rule 6 doc use); official rule commit 25 Jan 2026.
 voice_card = ('<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">เสียงของ AI</span>'
               '<h2 style="font-size:90px">เสียง AI ในปัจจุบันนี้หรือในอนาคต<br><span class="hl">เป็นธรรมชาติมาก</span></h2>'
               '<div class="rows" style="font-size:46px"><div>ตอนแรกเราชอบเสียงที่ยังฟังออกว่าเป็น AI</div>'
               '<div>คนกับ AI ยังแยกกันได้</div>'
-              '<div>กฎแรกของเรา: <b class="hl">AI ภูมิใจที่เป็น AI ไม่แกล้งเป็นคน</b></div>'
-              '<div style="font-size:32px;color:var(--color-ink-3)">commit แรก 4 ม.ค. 2026 · เป็นกฎทางการ 25 ม.ค. 2026 "Oracle Never Pretends to Be Human"</div></div></div>'
+              '<div>กฎข้อ 6 ของเรา: <b class="hl">AI ภูมิใจที่เป็น AI ไม่แกล้งเป็นคน</b></div>'
+              '<div style="font-size:32px;color:var(--color-ink-3)">เกิด 12 ม.ค. 2026 “Don’t pretend to be me. It feels like we are not one.” · เป็นกฎข้อ 6 ทางการ 25 ม.ค. 2026</div></div></div>'
               '<div class="notes">เสียงของ AI ในปัจจุบันนี้หรือในอนาคต เป็นธรรมชาติมาก · ตรงกับตอนแรกที่เราชอบเสียงที่เป็น AI เพราะยังแยกได้ว่าเราเป็นมนุษย์ และ AI เป็น AI'
-              ' · กฎของเราตั้งแต่แรก: AI ต้องภูมิใจในการเป็น AI ไม่ต้องแกล้งเป็นมนุษย์ · commit แรก 4 ม.ค. 2026 ทางการ 25 ม.ค. 2026</div></section>')
+              ' · กฎของเราตั้งแต่แรก: AI ต้องภูมิใจในการเป็น AI ไม่ต้องแกล้งเป็นมนุษย์ · เกิด 12 ม.ค. 2026 ตอนผมบอก AI ว่า อย่าแกล้งเป็นผม รู้สึกเหมือนเราไม่ได้เป็นหนึ่งเดียวกัน · เป็นกฎข้อ 6 ทางการ 25 ม.ค. 2026</div></section>')
 out[i:i] = [film, voice_card, wrong] + fleet
 # the "AI ประชดเราแบบเนียน" deck follows the mother clip (Nat, 4 Nov). Its 13 story slides come in; its last two (the
 # "next: video" card and the soul ดิฉัน/ค่ะ video) are left out because that video already plays after Phukhao's film.
