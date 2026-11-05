@@ -337,7 +337,7 @@ def _title(x):
 cards = {}
 for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
     cards[g] = f'<a class="c" href="talk.html#{a0 + 1}"><span class="g">{g:02d}</span><b>{_h.escape(title)}</b><small>{a1 - a0} หน้า</small></a>'
-PARTS = [("A", "คุณยิ้ม", [1]), ("B", "ลงมือทำ", [2, 3, 4, 5]), ("C", "เรื่องเล่า", [6, 7, 8]), ("D", "กลับบ้าน · จุดเริ่มต้น · ปิดท้าย", [9, 10, 11])]  # /oracle-prism 5 Nov: talk order, so the page ranges only go forward
+PARTS = [("A", "Opening", [1]), ("B", "Hands-on", [2, 3, 4, 5]), ("C", "Stories", [6, 7, 8]), ("D", "Take home · Origin · Closing", [9, 10, 11])]  # Nat, 5 Nov: part titles in English  # /oracle-prism 5 Nov: talk order, so the page ranges only go forward
 assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) + 1))
 # Nat, 5 Nov: "can you make preact?": the index is a small Preact app (htm + preact 10, vendored as one 13 KB file,
 # no CDN, works offline on stage). Data = the parts and groups; ←/→/↑/↓ move between cards, Enter opens.
