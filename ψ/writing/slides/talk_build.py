@@ -330,7 +330,8 @@ out = [x for x in out if "lesson-herdr-cmdj.png" not in x]
 out = [x for x in out if "สอน 4 · ของจริงหนึ่งรอบ" not in x]
 # Nat, 6 Nov: "remove #42 … #39 put to same the like last section" + "remove #40": the relic5 search slides (สอน 5, relic5 ใช้จริง 1)
 # and "สอน 6 · เก็บที่ใช้จริง" leave the Memory part and join the last section, after the Neo memory map, before the closing slide
-_mv = [next(x for x in out if k in x) for k in ("สอน 5 · ค้นย้อนหลัง", "relic5 ใช้จริง 1", "relic5 ใช้จริง 2", "สอน 6 · เก็บที่ใช้จริง")   # ใช้จริง 2 too (Nat, 6 Nov: "move it to the end too")]
+# "relic5 ใช้จริง 2" too (Nat, 6 Nov: "move it to the end too")
+_mv = [next(x for x in out if k in x) for k in ("สอน 5 · ค้นย้อนหลัง", "relic5 ใช้จริง 1", "relic5 ใช้จริง 2", "สอน 6 · เก็บที่ใช้จริง")]
 out = [x for x in out if x not in _mv]
 _end = next(i for i, x in enumerate(out) if "ที่ให้คนมาเจอกันตัวจริง" in x)
 out[_end:_end] = _mv
