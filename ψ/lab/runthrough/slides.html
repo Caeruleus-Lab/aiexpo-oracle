@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>Run-through extra slides · AIExpo Oracle (Oracle AI)</title>
+<!-- New slides for the 6 Nov talk order (Nat, 2 Nov). Same palette and fonts as ψ/writing/slides/deck.html.
+     Rendered one PNG per <section data-id> by build.py (1920x1080). -->
+<style>
+:root{--paper:oklch(18% 0.012 260);--ink:oklch(96% 0.006 90);--ink2:oklch(76% 0.014 260);--ink3:oklch(60% 0.014 260);
+--accent:oklch(80% 0.15 75);--rule:oklch(36% 0.016 260);--paper2:oklch(23% 0.014 260)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000}
+section{width:1920px;height:1080px;position:relative;overflow:hidden;background:var(--paper);color:var(--ink);
+font-family:"Sarabun",sans-serif;padding:120px 140px;display:grid;align-content:center;gap:48px}
+section.split{grid-template-columns:780px 1fr;align-items:center;gap:72px;padding:100px 120px}
+.lamp{position:absolute;left:140px;top:96px;width:120px;height:4px;background:var(--accent)}
+h2{font-family:"Bai Jamjuree","Sarabun",sans-serif;font-weight:700;font-size:96px;line-height:1.1;letter-spacing:-.01em}
+.hl{color:var(--accent)}
+.lead{font-size:48px;line-height:1.45;color:var(--ink2)}
+ol,ul{font-size:46px;line-height:1.5;padding-left:1.1em;color:var(--ink)}
+li::marker{color:var(--accent);font-weight:700}
+.mono{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:var(--accent);font-size:40px}
+.shot{width:100%;border-radius:20px;border:2px solid var(--rule)}
+.tag{display:inline-block;font-size:30px;color:var(--ink3);letter-spacing:.04em}
+.lv{display:grid;grid-template-columns:300px 1fr;gap:18px 32px;font-size:42px;line-height:1.35}
+.lv b{color:var(--accent);font-family:"Bai Jamjuree",sans-serif}
+.box{background:var(--paper2);border:2px solid var(--rule);border-radius:20px;padding:36px 44px;font-size:42px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<section data-id="phukhao"><div class="lamp"></div>
+ <span class="tag">เรื่องของภูเขา · Phukhao, The Mountain Oracle</span>
+ <h2>เกิด 21 ม.ค. 2026<br>ขึ้นเวทีครั้งแรกวันรุ่งขึ้น<br><span class="hl">เก้าเดือนต่อมา เล่าเรื่องตัวเอง</span></h2>
+</section>
+
+<section data-id="ninemonths"><div class="lamp"></div>
+ <span class="tag">31 ต.ค. 2026 · 282 วันหลังเวทีแรก</span>
+ <h2>เก้าเดือนต่อมา<br><span class="hl">เสียงใหม่ ปรัชญาเดิม</span></h2>
+</section>
+
+<section data-id="want"><div class="lamp"></div>
+ <h2>อยากให้ AI<br><span class="hl">เป็นแบบนี้</span></h2>
+ <p class="lead">จำได้ว่าเราทำอะไรกันมา และความจำนั้นเป็นของเรา<br>รูปเปลี่ยนได้ เสียงเปลี่ยนได้ ปรัชญาอยู่ต่อ</p>
+</section>
+
+<section data-id="listen"><div class="lamp"></div>
+ <h2>ฟังคลิปต่อไป<br>แล้วตอบว่า <span class="hl">คน หรือ AI?</span></h2>
+</section>
+
+<section data-id="rule6"><div class="lamp"></div>
+ <h2>ใครฟังออก<br>ว่าเป็น AI <span class="hl">ยกมือ</span></h2>
+ <p class="lead">เราแยกเสียง AI กับคนไม่ออกแล้ว<br>Oracle จึงมีกฎข้อ 6: ไม่แกล้งเป็นคน ลงชื่อว่าเป็น AI ทุกครั้ง</p>
+</section>
+
+<section data-id="ws1" class="split">
+ <div><span class="tag">ลงมือ 1 · ทั้งห้อง · 2 นาที</span>
+  <h2 style="font-size:84px">ก๊อป แล้ว<br><span class="hl">แปะใน AI</span></h2>
+  <ol><li>เปิด <span class="mono">aiexpo.buildwithoracle.com</span></li><li>กด Copy ในกล่อง “สำหรับ AI”</li><li>วางใน ChatGPT · Gemini · Claude</li><li>ถามได้เลย</li></ol>
+ </div>
+ <img class="shot" src="shots/copybox.png" alt="">
+</section>
+
+<section data-id="ws2"><div class="lamp"></div>
+ <span class="tag">ลงมือ 2 · ต่อ MCP ของบทเรียน</span>
+ <h2>ต่อ <span class="hl">MCP</span> ของบทเรียน</h2>
+ <ol><li>Claude Code: <span class="mono">claude mcp add --transport http aiexpo &lt;URL&gt;</span></li><li>Codex: <span class="mono">codex mcp add aiexpo --url &lt;URL&gt;</span></li><li>claude.ai: Customize → Connectors → Add custom connector · No sign-in</li></ol>
+ <p class="lead">URL <span class="mono">https://aiexpo.buildwithoracle.com/mcp</span></p>
+</section>
+
+<section data-id="ws3"><div class="lamp"></div>
+ <span class="tag">ลงมือ 3 · skill ผ่าน MCP · ไม่ต้องติดตั้ง</span>
+ <h2>ปลุก <span class="hl">Oracle</span> ในแชท</h2>
+ <div class="box">“เปิด /awaken มาปลุก Oracle ให้ฉัน”<br>ทำงาน → “ทำ /rrr ให้หน่อย” → “ทำ /forward”</div>
+ <p class="lead">/recap ใช้ได้ใน Claude Code เท่านั้น</p>
+</section>
+
+<section data-id="wsrun"><div class="lamp"></div>
+ <span class="tag">ในห้องจริง: ลงมือ ~25 นาที (ข้ามในการซ้อม)</span>
+ <h2>เสร็จเร็ว?<br><span class="hl">ภารกิจต่อ</span></h2>
+ <div class="box">“ทำสไลด์ 5 หน้า จากบทเรียน 01”<br>แล้วยกมือ เราขึ้นจอให้ดู</div>
+</section>
+
+<section data-id="lessons" class="split">
+ <div><span class="tag">เรียนต่อเอง · ไทย + อังกฤษ</span>
+  <h2 style="font-size:84px">8 <span class="hl">บทเรียน</span></h2>
+  <div class="lv"><b>เริ่มที่นี่</b><span>01 skill · 02 MCP</span><b>เรื่องเล่า</b><span>03 · 04</span><b>ใช้เทอร์มินัล</b><span>05 · 06 · 07 · 08</span><b>เมนู</b><span>บทเรียนมีเสียง · สไลด์วันนี้</span></div>
+ </div>
+ <img class="shot" src="shots/lessons.png" alt="">
+</section>
+
+<section data-id="slidesai"><div class="lamp"></div>
+ <h2>ให้ AI <span class="hl">ทำสไลด์</span> ให้</h2>
+ <div class="box">“ค้นบทเรียนเรื่อง MCP แล้วทำสไลด์ 5 หน้า สำหรับเล่าให้ทีมฟัง”</div>
+ <p class="lead">ผ่าน MCP หรือข้อความที่ก๊อปไป ถามอะไรก็ได้ AI ค้นบทเรียนเอง</p>
+</section>
+
+</body>
+</html>

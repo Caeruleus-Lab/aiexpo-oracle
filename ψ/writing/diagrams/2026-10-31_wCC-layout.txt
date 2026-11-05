@@ -1,0 +1,37 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║  ROOM wCC "aiexpo-oracle" · herdr session laris-co · m5    31 Oct 20:08  ║
+║  3 columns -> 2 · body moved wt -> main · left talks, right reports      ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+ 1 ─ BEFORE (until ~20:00)
+   ┌────────────────────┐  ┌────────────────────┐
+   │ p3  aiexpo-oracle  │  │ p4  aiexpo-wt      │
+   │ course-team/wt/    │  │ wt/workshop-...    │   p3 = old body
+   │ aiexpo-oracle      │  │ lessons, deploy    │   sidebar showed wt
+   └────────────────────┘  └────────────────────┘
+
+ 2 ─ NEW BODY + FIRST `herdr-room in p5 p4`  -> 3 columns (!)
+   ┌──────────────┐  ┌──────────────┐  ┌ ─ ─ ─ ─ ─ ─ ─┐
+   │ p5  main     │  │ p4  wt       │  │ p3  old body │
+   └──────────────┘  └──────────────┘  └ ─ ─ ─ ─ ─ ─ ─┘
+     open room keeps every pane already inside      herdr-room:235-250
+     edit state file -> no effect, rebuilt from live space
+
+ 3 ─ p3 RETIRES ──close──► `herdr-room in` again  -> 2 columns
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓   ┌────────────────────────────┐
+   ┃ LEFT  wCC:p5  aiexpo-oracle┃   │ RIGHT wCC:p4  aiexpo-wt    │
+   ┃ Caeruleus-Lab/aiexpo-oracle┃◄──│ wt/workshop-for-ai-...     │
+   ┃ branch main                ┃   │ branch workshop-for-ai-... │
+   ┃ owns main, merges, deck,   ┃   │ owns ψ/writing/books,      │
+   ┃ issue #1, talks with Nat   ┃──►│ deploy site, asks to merge │
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛   └────────────────────────────┘
+     70 cols                          70 cols        layout cols
+     ◄── merge request      merged/pushed ──►        state saved 20:06
+
+ 4 ─ STILL OPEN
+   ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+     laris-team charter still points at course-team/wt/aiexpo-oracle
+     oracles/aiexpo-oracle/config.yaml:4 · teams/course-team.yaml:18
+   └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+
+  ┏━┓ me · ┌─┐ live · ┌ ─ ┐ gone or not done · (!) surprise

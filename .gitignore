@@ -16,3 +16,5 @@ node_modules/
 __pycache__/
 ψ/lab/narrated/.cache/
 ψ/lab/**/*.log
+ψ/lab/*/out/
+ψ/lab/*/*/out/

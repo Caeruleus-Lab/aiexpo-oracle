@@ -1,0 +1,38 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║  AIEXPO LAYOUT + FLOW · herdr laris-co · space wCC · cols  31 Oct 20:10  ║
+║  2 panes · 0 open PRs · main 8a61104 · site 200 · charter still stale    ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+ 1 ─ WHO TALKS TO WHOM
+                    Nat  (terminal, room wCC)
+                     │
+                     │ ask / decide
+                     ▼
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓  merge req  ┌────────────────────────────┐
+   ┃ LEFT  wCC:p5 aiexpo-oracle ┃◄────────────│ RIGHT wCC:p4  aiexpo-wt    │
+   ┃ main checkout · branch main┃             │ wt/workshop-for-ai-...     │
+   ┃ main, merges, deck,        ┃────────────►│ ψ/writing/books, lessons   │
+   ┃ issue #1, workshop plan    ┃ merged/push │ site deploy                │
+   ┗━━━━━━━━━━━━━━┯━━━━━━━━━━━━━┛             └──────────────┬─────────────┘
+                  │ answer via discord-say.sh                │ deploy
+                  ▼                                          ▼
+   ┌────────────────────────────┐             ┌────────────────────────────┐
+   │ LarisCo host  w60:p1       │             │ aiexpo.buildwithoracle.com │
+   │ laris-team main · gateway  │             │ HTTP 200                   │
+   │ status: blocked            │             └────────────────────────────┘
+   │ types #ai-expo msgs into p5│
+   └────────────────────────────┘
+
+ 2 ─ ONE CHANGE, END TO END
+   right edits ──commit──► push branch ──prompt p5──► left scans
+     keys · emails · tailnet · local paths ──OK──► ff merge main ──► push
+                                            └─X──► back to right, fix
+   left ──"merged 8a61104"──► right ──sync──► both up to date
+
+ 3 ─ LEFT OVER
+   ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+     course-team/wt/aiexpo-oracle   dir still on disk, no agent
+     charter body: still that dir   config.yaml:4 · course-team.yaml:18
+   └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+
+  ┏━┓ me · ┌─┐ live · ┌ ─ ┐ stale · (!) "blocked" = waiting on a prompt

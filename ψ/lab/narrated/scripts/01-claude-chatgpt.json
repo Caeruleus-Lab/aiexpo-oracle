@@ -1,0 +1,56 @@
+{
+  "lesson": "claude-chatgpt",
+  "dir": "2026-10-30_claude-chatgpt-install-guide",
+  "title": "ติดตั้ง Claude และ ChatGPT ให้พร้อมเข้า workshop",
+  "voice": "th-TH-NiwatNeural",
+  "slides": [
+    { "title": "ติดตั้ง Claude และ ChatGPT", "sub": "บทเรียน 01 · ให้พร้อมเข้า workshop", "lines": [
+      { "text": "สวัสดีครับ ผมคือ AIExpo Oracle ผู้ช่วย AI ของ workshop นี้" },
+      { "text": "บทนี้ผมจะเล่าว่าวันที่ 30 ตุลาคม เราติดตั้งอะไรบ้างบนเครื่อง Mac ของคุณนัท ทีละขั้น" },
+      { "text": "เป้าหมายคือ มาถึงห้องแล้วพิมพ์ /awaken ได้ทันที", "say": "เป้าหมายคือ มาถึงห้องแล้วพิมพ์ สแลช อะเวคเคน ได้ทันที" }
+    ]},
+    { "title": "1. เลือกทางไหนดี", "bullets": ["A. Claude Code · Claude Pro ขึ้นไป", "B. Codex CLI · ChatGPT ฟรีก็ได้", "C. claude.ai บนเว็บ · ทางสำรอง"], "lines": [
+      { "text": "เริ่มจากเลือกทาง มีสามทาง ตามบัญชีที่คุณมี" },
+      { "text": "ทาง A คือ Claude Code ต้องมี Claude Pro ขึ้นไป ได้ครบทุกช่วง รวมวงจรความจำ" },
+      { "text": "ทาง B คือ Codex CLI ใช้บัญชี ChatGPT ฟรีก็ได้ แต่โควตาน้อย" },
+      { "text": "ทาง C คือ claude.ai บนเว็บ ไม่ต้องติดตั้งอะไร แต่ความจำจะหายเมื่อเปิดแชทใหม่" }
+    ]},
+    { "title": "2. แอป Claude (desktop)", "image": "images/01-claude-download.png", "lines": [
+      { "text": "ขั้นแรก เราเปิดหน้า claude.com/download แล้วกด Download for macOS", "say": "ขั้นแรก เราเปิดหน้า claude ดอทคอม สแลช ดาวน์โหลด แล้วกด Download for macOS" },
+      { "text": "แอปนี้ใช้บัญชีฟรีได้ แต่มันคือ Claude แบบแชท ยังไม่ใช่ Claude Code" },
+      { "text": "จะลงหรือไม่ลงก็ได้ เพราะ workshop ใช้ Claude Code ในขั้นถัดไป" }
+    ]},
+    { "title": "3. ติดตั้ง Claude Code", "image": "images/04-claude-code-install.png", "code": "curl -fsSL https://claude.ai/install.sh | bash", "lines": [
+      { "text": "ทาง A เราใช้ Claude Code ใน Terminal คำสั่งอยู่ในหน้า Quickstart" },
+      { "text": "ก่อนรันสคริปต์จากเน็ต เราเปิดอ่านก่อน มันลงทุกอย่างใต้โฟลเดอร์บ้านของเรา และห้ามรันด้วย sudo", "say": "ก่อนรันสคริปต์จากเน็ต เราเปิดอ่านก่อน มันลงทุกอย่างใต้โฟลเดอร์บ้านของเรา และห้ามรันด้วย ซูดู" },
+      { "text": "ติดตั้งเสร็จ เปิด terminal ใหม่ แล้วเช็กเวอร์ชัน เครื่องเราได้ 2.1.314" },
+      { "text": "ครั้งแรกที่รัน ถ้าเจอคำว่า Not logged in ให้พิมพ์ /login แล้วเลือกบัญชี Pro", "say": "ครั้งแรกที่รัน ถ้าเจอคำว่า Not logged in ให้พิมพ์ สแลช ล็อกอิน แล้วเลือกบัญชี Pro" }
+    ]},
+    { "title": "4. ChatGPT และ Codex", "image": "images/06-codex-cli-install.png", "code": "curl -fsSL https://chatgpt.com/codex/install.sh | sh", "lines": [
+      { "text": "ทาง B แอป ChatGPT desktop ตอนนี้รวม Codex ไว้ในตัวแล้ว" },
+      { "text": "แต่ workshop ใช้ Codex CLI ใน terminal เพราะทำงานกับไฟล์ในเครื่องแบบเดียวกับ Claude Code" },
+      { "text": "ติดตั้งด้วยคำสั่งเดียว แล้วรัน codex เลือก Sign in with ChatGPT เครื่องเราได้เวอร์ชัน 0.166.0" }
+    ]},
+    { "title": "5. ลงสกิล Oracle ในเครื่อง", "code": "/plugin marketplace add Soul-Brews-Studio/arra-oracle-skills-cli\n/plugin install oracle-skills@oracle-skills", "lines": [
+      { "text": "ต่อไปลงสกิล Oracle ใน Claude Code พิมพ์สองบรรทัดนี้ ไม่ต้องลงอะไรเพิ่ม" },
+      { "text": "ฝั่ง Codex ใช้ installer ของ arra-oracle-skills-cli และต้องมีแฟล็ก --with-commands ถึงจะพิมพ์ /awaken ได้", "say": "ฝั่ง Codex ใช้ installer ของ อาร์รา ออราเคิล สกิลส์ ซีแอลไอ และต้องมีแฟล็ก วิธ คอมมานด์ส ถึงจะพิมพ์ สแลช อะเวคเคน ได้" },
+      { "text": "เราเช็กแล้วว่า Codex เห็นสกิล awaken จริง ตอบกลับมาว่า Yes" }
+    ]},
+    { "title": "6. ทางสำรอง: สกิลบน claude.ai", "image": "images/12-claude-upload-chosen.png", "lines": [
+      { "text": "ถ้าติดตั้งในเครื่องไม่ผ่าน ใช้ทาง C บน claude.ai ได้ทุกแผน รวมแผนฟรี" },
+      { "text": "เปิด Run code in the cloud ในหน้า Capabilities ก่อน เพราะสกิลต้องใช้" },
+      { "text": "แล้วไปที่ Customize แท็บ Skills กด Add แล้ว Upload skill เลือกไฟล์ awaken.zip ที่เราเตรียมไว้ให้" },
+      { "text": "ข้อควรรู้ บนเว็บไฟล์ความจำจะหายเมื่อเปิดแชทใหม่ ช่วงสาธิตความจำจึงต้องดูบนจอ หรือใช้ทาง A กับ B" }
+    ]},
+    { "title": "7. แล้ว ChatGPT บนเว็บล่ะ", "image": "images/07-chatgpt-skills-where.png", "lines": [
+      { "text": "เราอ่านเอกสารของ OpenAI แล้ว สกิลเดี่ยวใช้ได้ใน ChatGPT desktop และ Codex CLI" },
+      { "text": "บน chatgpt.com สกิลมาได้ทางเดียวคือผ่าน plugin ใครมีแค่บัญชี ChatGPT จึงไปทาง B ครับ", "say": "บน แชทจีพีที ดอทคอม สกิลมาได้ทางเดียวคือผ่าน plugin ใครมีแค่บัญชี ChatGPT จึงไปทาง B ครับ" }
+    ]},
+    { "title": "8. กับดักที่เจอจริง", "bullets": ["Not logged in → พิมพ์ /login", "command not found → เปิด terminal ใหม่", "สกิลบนเว็บไม่ทำงาน → เปิด Run code in the cloud", "Codex ไม่เห็น /awaken → ใส่ --with-commands"], "lines": [
+      { "text": "สุดท้าย กับดักที่เราเจอจริง" },
+      { "text": "ขึ้น command not found หลังติดตั้ง แค่เปิด terminal ใหม่" },
+      { "text": "สกิลบนเว็บไม่ทำงาน ให้เปิดสวิตช์ Run code in the cloud" },
+      { "text": "พร้อมแล้ว เปิดโฟลเดอร์ว่าง พิมพ์ /awaken --fast แล้วตั้งชื่อ Oracle ของคุณ เจอกันในห้องครับ", "say": "พร้อมแล้ว เปิดโฟลเดอร์ว่าง พิมพ์ สแลช อะเวคเคน ฟาสต์ แล้วตั้งชื่อ Oracle ของคุณ เจอกันในห้องครับ" }
+    ]}
+  ]
+}
