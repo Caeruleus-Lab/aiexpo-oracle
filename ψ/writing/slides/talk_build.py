@@ -191,6 +191,28 @@ what = card("ก่อนลงมือ · Oracle คืออะไร",
             "ก่อนลงมือ บอกก่อนว่า Oracle คืออะไร · Oracle คือ AI ตัวเดิมที่ทุกคนใช้อยู่ บวกความจำที่เป็นไฟล์ของเราเอง · ที่คุณยิ้มทดสอบเมื่อกี้ เปิดแชทใหม่ AI ลืม แต่ Oracle จำได้ เพราะความจำอยู่ในไฟล์ · ψ/ คือสมุด skill คือมือ /awaken คือวันเกิด /rrr จบงาน /forward ส่งต่อ · เดี๋ยวเราปลุก Oracle ของทุกคนกัน")
 i = at('img/talk/new-ws1.png')
 out[i:i] = [what]
+# Nat, 5 Nov: "หาที่เป็นภาพรวม ... เอาไปไว้ข้างหน้า ให้เห็นภาพรวม ไม่งั้นฟังแล้วไม่เข้าใจ": the ψ/ tree and the
+# memory flow (logs → retrospectives → learnings → resonance) move from the vault story at the end to right after
+# "Oracle คืออะไร", so the room sees the whole picture before the hands-on
+overview = [out.pop(at(k)) for k in ("├── inbox/", "logs → retrospectives")]
+i = at("ก่อนลงมือ · Oracle คืออะไร") + 1
+out[i:i] = overview
+# Nat, 5 Nov: between "ปิดหน้าต่างแล้ว ยังจำได้" and "จำไม่ได้ ก็ค้นได้", how memory search grew from the first Oracle MCP
+# (oracle-v2 / arra-oracle-v3 indexer) to relic5. Dates are first commits found through relic5's git layer and local clones.
+ML = [("ธ.ค. 2025", "oracle-v2 MCP", "ค้นโน้ตใน ψ/ 4,466 ไฟล์ · คำ + ความหมาย"),
+      ("ม.ค. 2026", "arra-oracle-v3", "MCP เดิม + oracle_learn ให้ AI จดเอง"),
+      ("ก.ย. 2026", "relic", "เริ่มเก็บทุก session ของ Claude Code และ Codex"),
+      ("ต.ค. 2026", "relic3", "ดัชนีรายสัปดาห์"),
+      ("22 ต.ค.", "relic4", "สแกนทุกเครื่อง 86,905 ไฟล์ ราว 5 วินาที"),
+      ("23 ต.ค.", "relic5", "ฮับเดียว รายเดือน ไทยค้นได้ ค้นด้วยความหมายได้")]
+lineage = card("ความจำค้นได้ยังไง · เส้นทางของเครื่องมือ",
+               '<h2 style="font-size:78px">จาก<span class="hl">โน้ตที่ AI เลือกจด</span><br>สู่<span class="hl">ทุกคำที่คุยกัน</span></h2>'
+               '<div class="rows" style="font-size:36px;margin-top:18px">' +
+               "".join(f'<div><span style="color:var(--color-ink-3);display:inline-block;width:220px">{d}</span><b class="hl" style="display:inline-block;width:330px">{n}</b>{w}</div>' for d, n, w in ML) +
+               '</div><div style="font-size:28px;color:var(--color-ink-3);margin-top:24px">“relic3 is week! i need month” · ณัฐ 23 ต.ค. 2026 · วันที่จาก commit แรกของแต่ละตัว</div>',
+               "ความจำของ AI ค้นได้ยังไง · เริ่มจาก MCP ตัวแรก oracle-v2 ธันวาคม ค้นได้แค่โน้ตที่ AI เลือกจดไว้ใน ψ · มกราคม arra-oracle-v3 ให้ AI จดเองด้วย oracle_learn · แต่บทสนทนาจริงยังค้นไม่ได้ · กันยายนเริ่ม relic เก็บทุก session · relic3 ทำดัชนีรายสัปดาห์ · relic4 สแกนทุกเครื่องในห้าวินาที · 23 ตุลา relic5 ฮับเดียว รายเดือน ผมบอกว่า relic3 is week i need month")
+i = at("จำไม่ได้")
+out[i:i] = [lineage]
 # Nat, 4 Nov: one pause card before Phukhao's story: the hands-on part is done, now a video
 i = at('img/talk/new-phukhao.png')
 out[i:i] = ['<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">น่าจะครบหมดแล้ว · พักดูวิดีโอกัน</span>'
