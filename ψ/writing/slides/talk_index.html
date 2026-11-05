@@ -2,7 +2,8 @@
 <title>Talk 6 Nov · ARRA Oracle &amp; Multi-Agent Workflow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=Sarabun:wght@400;600&display=swap">
 <style>/* Hallmark · audit polish 5 Nov: tokens, focus ring, contrast, 320 px grid, reduced motion
- * /oracle-prism + /impeccable 5 Nov: slide = its headline (2 lines max), no side-tab or top-stripe borders, type 14/16/21/28/44 */
+ * /oracle-prism + /impeccable 5 Nov: slide = its headline (2 lines max), no side-tab or top-stripe borders, type 14/16/21/28/44
+ * Nat 5 Nov "section bg color to guide": each part sits on a panel tinted with its colour */
 :root{--color-paper:oklch(15% 0.005 260);--color-card:oklch(20% 0.008 260);--color-line:oklch(28% 0.008 260);--color-ink:oklch(93% 0.01 80);
 --color-muted:oklch(70% 0.012 80);--color-soft:oklch(80% 0.012 80);--part-a:oklch(78% 0.16 70);--part-b:oklch(72% 0.14 250);--part-c:oklch(78% 0.15 160);--part-d:oklch(74% 0.14 305);
 --font-display:"Bai Jamjuree",sans-serif;--font-body:Sarabun,sans-serif;--ease-out:cubic-bezier(.2,.7,.2,1)}
@@ -10,7 +11,7 @@ html,body{overflow-x:clip}body{margin:0;background:var(--color-paper);color:var(
 h1{font:700 44px/1.15 var(--font-display);margin:0 0 6px}.sub{color:var(--color-muted);margin:0 0 18px}
 .all{display:inline-block;padding:12px 22px;border-radius:999px;background:var(--color-ink);color:var(--color-paper);font-weight:700;text-decoration:none;font-size:16px;white-space:nowrap}
 h2{font:700 28px var(--font-display);margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--color-line)}h2 .p{color:var(--c);margin-right:12px}
-.part{margin-top:44px}.part h2{color:var(--color-ink)}
+.part{margin-top:28px;padding:22px 22px 26px;border-radius:22px;background:color-mix(in oklab,var(--c) 18%,var(--color-paper));border:1px solid color-mix(in oklab,var(--c) 30%,var(--color-paper))}.part h2{color:var(--color-ink);border-bottom-color:color-mix(in oklab,var(--c) 35%,var(--color-paper))}.part .c{background:color-mix(in oklab,var(--c) 9%,var(--color-card))}@media (max-width:480px){.part{padding:16px 14px 18px;border-radius:16px}}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:14px;align-items:start}.cell{min-width:0}
 .c{display:block;padding:16px 20px;border-radius:14px;background:var(--color-card);color:var(--color-ink);text-decoration:none;border:1px solid var(--color-line);transition:transform .14s var(--ease-out),border-color .14s var(--ease-out)}
 .c:hover,.c.on{border-color:var(--c);transform:translateY(-2px)}
