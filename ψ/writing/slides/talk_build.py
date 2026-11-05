@@ -277,15 +277,16 @@ out[i:i] = ['<section class="slide black"><div class="frame"><span class="tag" s
 # workshop Sun 15 Nov locked (calliope poster check, 4 Nov).
 # Nat, 5 Nov: "same page with qr to about page of the web site": the shop and the follow on ONE closing page, with a QR to
 # /about/ (built from what relic5 holds: phonebooth-oracle's brand files, Atom's CRAFT BEER & COMMUNITY logo of 4 Nov, the address)
-out.append('<section class="slide black"><div class="frame" style="display:grid;grid-template-columns:1.25fr 0.75fr;gap:56px;align-items:center">'
-           '<div><img src="img/talk/phone-booth-logo.png" alt="Phone Booth · CRAFT BEER & COMMUNITY × ARRA ORACLE" style="display:block;width:640px;border-radius:16px">'
-           '<div class="rows" style="font-size:34px;margin-top:28px"><div>ที่ให้คนมาเจอกันตัวจริง แก้ภาวะเหงาจาก AI</div>'
+# Nat, 6 Nov: "image not balance!": logo and QR the same height on one line, each with its words centred under it
+out.append('<section class="slide black"><div class="frame" style="display:grid;grid-template-columns:880px 640px;column-gap:100px;row-gap:36px;justify-content:center;justify-items:center;align-items:start;text-align:center">'
+           '<img src="img/talk/phone-booth-logo.png" alt="Phone Booth · CRAFT BEER & COMMUNITY × ARRA ORACLE" style="display:block;height:444px;width:auto;border-radius:18px">'
+           '<div style="background:#fff;border-radius:18px;padding:22px"><img src="about-qr.svg" alt="QR aiexpo.buildwithoracle.com/about" style="display:block;width:400px;height:400px"></div>'
+           '<div style="font-size:34px;line-height:1.55"><div>ที่ให้คนมาเจอกันตัวจริง แก้ภาวะเหงาจาก AI</div>'
            '<div>35 ซอยลูกหลวง 7 นางเลิ้ง · ท่าเรือนครสวรรค์ ราว 200 ม.</div>'
-           '<div>workshop ครั้งถัดไปที่ร้าน: <b class="hl">อาทิตย์ 15 พ.ย. 2026</b></div></div></div>'
-           '<div style="text-align:center"><div style="background:#fff;border-radius:18px;padding:22px;display:inline-block"><img src="about-qr.svg" alt="QR aiexpo.buildwithoracle.com/about" style="display:block;width:400px;height:400px"></div>'
-           '<div style="font-size:30px;margin-top:18px">สแกน · <b class="hl">เกี่ยวกับเรา</b></div>'
+           '<div>workshop ครั้งถัดไปที่ร้าน: <b class="hl">อาทิตย์ 15 พ.ย. 2026</b></div></div>'
+           '<div style="line-height:1.45"><div style="font-size:34px">สแกน · <b class="hl">เกี่ยวกับเรา</b></div>'
            '<div style="font-size:24px;color:var(--color-ink-3)">aiexpo.buildwithoracle.com/about</div>'
-           '<div style="font-size:40px;margin-top:34px">ติดตามกันได้ที่</div><div style="font-size:42px" class="hl">facebook.com/nat.wrw</div></div></div>'
+           '<div style="font-size:34px;margin-top:22px">ติดตามกันได้ที่ <span class="hl">facebook.com/nat.wrw</span></div></div></div>'
            '<div class="notes">ขอบคุณครับ · แนะนำร้าน Phone Booth ที่นางเลิ้ง ที่ให้คนมาเจอกันตัวจริง มาเรือได้ ท่าเรือนครสวรรค์ 200 เมตร · workshop ครั้งถัดไป อาทิตย์ 15 พ.ย. · สแกน QR ไปหน้าเกี่ยวกับเรา · ติดตามกันได้ที่ Facebook Nat Weerawan</div></section>')
 # Nat, 5 Nov: "pick the result of /rrr for the demo of retrospective, easy to understand": a real retro from the
 # morning before the talk (ψ/memory/retrospectives/2026-11/05/10.18_…), its lines quoted as written, Thai labels beside them
