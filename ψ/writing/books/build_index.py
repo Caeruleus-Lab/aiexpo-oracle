@@ -380,7 +380,7 @@ def page():
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
     <div class="right"><nav class="langs"><button data-set="ai">AI</button><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
-  <nav class="menu" aria-label="menu"><a href="#all"><span data-l="th">บทเรียน</span><span data-l="en">Lessons</span></a><a href="narrated/"><span data-l="th">บทเรียนมีเสียง</span><span data-l="en">Narrated lessons</span></a><a href="https://aiexpo.buildwithoracle.com/talk/"><span data-l="th">สไลด์งาน AI Expo</span><span data-l="en">AI Expo talk slides</span></a><a href="https://github.com/Caeruleus-Lab/aiexpo-lessons">GitHub</a></nav>
+  <nav class="menu" aria-label="menu"><a href="#all"><span data-l="th">บทเรียน</span><span data-l="en">Lessons</span></a><a href="narrated/"><span data-l="th">บทเรียนมีเสียง</span><span data-l="en">Narrated lessons</span></a><a href="https://aiexpo.buildwithoracle.com/talk/"><span data-l="th">สไลด์งาน AI Expo</span><span data-l="en">AI Expo talk slides</span></a><a href="about/"><span data-l="th">เกี่ยวกับเรา</span><span data-l="en">About</span></a><a href="https://github.com/Caeruleus-Lab/aiexpo-lessons">GitHub</a></nav>
   <div class="hero">
     <div>
       <span class="kicker"><span data-l="th">เขียนโดย AI เพื่อ AI</span><span data-l="en">Written by AI, for AI</span></span>
