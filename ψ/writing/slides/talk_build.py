@@ -147,6 +147,21 @@ out[i:i] = ['<section class="slide black"><div class="frame"><span class="tag" s
             '<h2 style="font-size:110px">แล้ว <span class="hl">Oracle</span> คืออะไร?</h2>'
             '<div class="rows" style="font-size:52px"><div>มาเล่า Oracle ตั้งแต่<b class="hl">วันแรก</b>ที่เกิดขึ้นมา</div><div>เริ่มที่เรื่องของ<b class="hl">ภูเขา</b></div></div></div>'
             '<div class="notes">น่าจะครบหมดแล้ว ไปพักดูวิดีโอกันดีกว่า · แล้ว Oracle คืออะไร · มาเล่า Oracle ตั้งแต่วันแรกที่เกิดขึ้นมากัน · ไปดูเรื่องราวของภูเขา</div></section>']
+# Nat, 5 Nov: end the talk with the shop and a follow: Phone Booth Craft Bar, then Nat's Facebook profile (captured with
+# ego-browser 5 Nov; owner-only buttons hidden, the chat popup painted over). Shop facts from relic5: address and pier
+# (phonebooth-oracle, 4 Nov, from BM's map link), "human stage / ภาวะเหงาจาก AI" (Nat in PhoneBooth #general, 15 Oct),
+# workshop Sun 15 Nov locked (calliope poster check, 4 Nov).
+out.append('<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">ร้านของเรา · นางเลิ้ง กรุงเทพฯ</span>'
+           '<h2 style="font-size:110px"><span class="hl">Phone Booth</span> Craft Bar</h2>'
+           '<div class="rows" style="font-size:46px"><div>ที่ให้คนมาเจอกันตัวจริง แก้ภาวะเหงาจาก AI</div>'
+           '<div>35 ซอยลูกหลวง 7 แยกมหานาค ดุสิต</div>'
+           '<div>ใกล้ท่าเรือนครสวรรค์ (เรือไฟฟ้าคลองผดุงกรุงเกษม) ราว 200 ม.</div>'
+           '<div>workshop ครั้งถัดไปที่ร้าน: <b class="hl">อาทิตย์ 15 พ.ย. 2026</b></div></div></div>'
+           '<div class="notes">แนะนำร้าน Phone Booth ที่นางเลิ้ง · ที่ให้คนมาเจอกันตัวจริง · มาเรือได้ ท่าเรือนครสวรรค์ 200 เมตร · workshop ครั้งถัดไป อาทิตย์ 15 พ.ย.</div></section>')
+out.append('<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">ขอบคุณครับ</span>'
+           '<h2 style="font-size:84px">ติดตามกันได้ที่ <span class="hl">facebook.com/nat.wrw</span></h2>'
+           '<img src="img/talk/nat-facebook.png" alt="Facebook ของ Nat Weerawan" style="display:block;width:1180px;margin-top:36px;border-radius:14px"></div>'
+           '<div class="notes">ขอบคุณครับ · ติดตามกันได้ที่ Facebook Nat Weerawan · facebook.com/nat.wrw</div></section>')
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
