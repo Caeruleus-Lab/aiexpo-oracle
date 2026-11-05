@@ -81,22 +81,22 @@ def check_mcp():
     c, e = tool("list_skills", {})
     skills = json.loads(text_of(c))["skills"] if c else []
     names = [s["name"] for s in skills]
-    (good(f"list_skills {names}") if len(names) == 7 and "forward" in names and "where-we-are" in names else bad("list_skills", e or names))
+    (good(f"list_skills {names}") if len(names) == 30 and "forward" in names and "where-we-are" in names and "dig" in names and all(x.get("runs") in ("chat", "partial", "local") for x in skills) else bad("list_skills", e or names))
     for s in skills:
-        for src in ("full", "chat") + (("github",) if s.get("github") else ()):
+        for src in ("full",) + (("chat",) if s.get("chat") else ()) + (("github",) if s.get("github") else ()):   # the 23 lesson-01 extras have no chat runbook
             c, e = tool("get_skill", {"name": s["name"], "source": src})
             if not c: bad(f"get_skill {s['name']} {src}", e); continue
             r = next((x["resource"] for x in c if x["type"] == "resource"), None)
             if not r or r.get("mimeType") != "text/markdown": bad(f"get_skill {s['name']} {src}", "no text/markdown resource"); continue
             t = r["text"]
-            if src == "full" and ("### File: `skills/" not in t or ".zip" not in t): bad(f"get_skill {s['name']} full", "missing skill files or zip links"); continue
+            if src == "full" and ("### File: `" not in t or ".zip" not in t): bad(f"get_skill {s['name']} full", "missing skill files or zip links"); continue
             good(f"get_skill {s['name']} {src} {len(t)}B")
         for z in s.get("download", []):
             st, _, _ = http(z, "HEAD")
             (good(f"zip {z.rsplit('/', 1)[1]}") if st == 200 else bad(f"zip {z}", st))
     rl, e = rpc("resources/list")
     rs = rl["resources"] if rl else []
-    (good(f"resources/list {len(rs)}") if len(rs) == 7 else bad("resources/list", e or len(rs)))
+    (good(f"resources/list {len(rs)}") if len(rs) == 30 else bad("resources/list", e or len(rs)))
     for r in rs:
         rr, e = rpc("resources/read", {"uri": r["uri"]})
         (good(f"resources/read {r['name']}") if rr and rr["contents"][0]["mimeType"] == "text/markdown" else bad(f"resources/read {r['uri']}", e))
