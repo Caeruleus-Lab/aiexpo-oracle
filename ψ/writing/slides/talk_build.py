@@ -313,22 +313,31 @@ GROUPS = [  # (first-slide marker, slug, Thai title)
 starts = [0] + [next(i for i, x in enumerate(out) if m in x) for m, _, _ in GROUPS[1:]]
 assert starts == sorted(starts), starts
 bounds = list(zip(starts, starts[1:] + [len(out)]))
+def _txt(f):
+    return " ".join(_h.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"<br\s*/?>", " ", f))).split())
 def _title(x):
     body = re.sub(r'<div class="notes">.*?</div>', "", x, flags=re.S)
-    t = " ".join(_h.unescape(re.sub(r"<[^>]+>", " ", body)).split())
+    # /oracle-prism + /hallmark, 5 Nov: the index showed each slide's whole text (63 of 79 lines cut off with "…");
+    # a slide is named by its headline: h1/h2, else the big quote, else the caption on a picture
+    for pat in (r"<h[12][^>]*>(.*?)</h[12]>", r'<div class="dq[^"]*">(.*?)</div>', r'<div class="vtag">(.*?)</div>'):
+        m = re.search(pat, body, re.S)
+        if m and _txt(m.group(1)):
+            t = re.sub(r"\s*\([^()]*20\d\d\)$", "", _txt(m.group(1)))   # a caption's trailing "(4 พ.ย. 2026)"
+            return t[:70] + ("…" if len(t) > 70 else "")
+    t = _txt(body)
     if not t or t == "3D ↗":   # a picture slide: never show its speaker notes (they are stripped from the public deck)
         m = re.search(r'src="([^"]+)"', x)
         f = m.group(1).split("/")[-1].rsplit(".", 1)[0] if m else "slide"
         PIC = {"yim3d": "คุณยิ้ม · ภาพ", "new-ws1": "ลงมือ 1 · เปิดบทเรียน", "new-ws2": "ลงมือ 2 · ต่อ MCP", "new-wsrun": "ลงมือพร้อมกัน",
                "new-phukhao": "เรื่องของภูเขา · เกิด 21 ม.ค. 2026", "new-ninemonths": "เก้าเดือนต่อมา", "new-lessons": "กลับบ้านไปเรียนต่อ · บทเรียน",
-               "new-slidesai": "ให้ AI ทำสไลด์จาก MCP"}
+               "new-slidesai": "ให้ AI ทำสไลด์จาก MCP", "02-claude-custom-connector": "ลงมือ 2 · กรอก connector ใน claude.ai"}
         t = next((v + (" " + f.split("-")[-1] if k == "yim3d" else "") for k, v in PIC.items() if f.startswith(k)), "ภาพ · " + f)
     return t[:90] + ("…" if len(t) > 90 else "")
 # Nat, 5 Nov: "too much detail": the index is just the groups, one card each, click to open that part
 cards = {}
 for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
     cards[g] = f'<a class="c" href="talk.html#{a0 + 1}"><span class="g">{g:02d}</span><b>{_h.escape(title)}</b><small>{a1 - a0} หน้า</small></a>'
-PARTS = [("A", "คุณยิ้ม", [1]), ("B", "ลงมือทำ", [2, 3, 4, 5]), ("C", "เรื่องเล่า", [6, 7, 8]), ("D", "จุดเริ่มต้น · ปิดท้าย", [10, 11, 9])]
+PARTS = [("A", "คุณยิ้ม", [1]), ("B", "ลงมือทำ", [2, 3, 4, 5]), ("C", "เรื่องเล่า", [6, 7, 8]), ("D", "กลับบ้าน · จุดเริ่มต้น · ปิดท้าย", [9, 10, 11])]  # /oracle-prism 5 Nov: talk order, so the page ranges only go forward
 assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) + 1))
 # Nat, 5 Nov: "can you make preact?": the index is a small Preact app (htm + preact 10, vendored as one 13 KB file,
 # no CDN, works offline on stage). Data = the parts and groups; ←/→/↑/↓ move between cards, Enter opens.
@@ -345,7 +354,7 @@ const COLOR = { A: 'var(--part-a)', B: 'var(--part-b)', C: 'var(--part-c)', D: '
 function Card({ g, on, refCb }) {
   return html`<div class="cell"><a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
     <span class="g">หน้า ${g.first}–${g.last}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>
-    ${g.slides.length ? html`<ol class="sl">${g.slides.map(([n, t]) => html`<li><a href=${'talk.html#' + n}><span>${n}</span>${t}</a></li>`)}</ol>` : ''}</div>`;
+    ${g.slides.length ? html`<ol class="sl">${g.slides.map(([n, t]) => html`<li><a href=${'talk.html#' + n}><span>${n}</span><em>${t}</em></a></li>`)}</ol>` : ''}</div>`;
 }
 function App() {
   const [sel, setSel] = useState(-1);
@@ -371,24 +380,25 @@ render(html`<${App} />`, document.querySelector('main'));
 index = f"""<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Talk 6 Nov · ARRA Oracle &amp; Multi-Agent Workflow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=Sarabun:wght@400;600&display=swap">
-<style>/* Hallmark · audit polish 5 Nov: tokens, focus ring, contrast, 320 px grid, reduced motion */
+<style>/* Hallmark · audit polish 5 Nov: tokens, focus ring, contrast, 320 px grid, reduced motion
+ * /oracle-prism + /impeccable 5 Nov: slide = its headline (2 lines max), no side-tab or top-stripe borders, type 14/16/21/28/44 */
 :root{{--color-paper:oklch(15% 0.005 260);--color-card:oklch(20% 0.008 260);--color-line:oklch(28% 0.008 260);--color-ink:oklch(93% 0.01 80);
 --color-muted:oklch(70% 0.012 80);--color-soft:oklch(80% 0.012 80);--part-a:oklch(78% 0.16 70);--part-b:oklch(72% 0.14 250);--part-c:oklch(78% 0.15 160);--part-d:oklch(74% 0.14 305);
 --font-display:"Bai Jamjuree",sans-serif;--font-body:Sarabun,sans-serif;--ease-out:cubic-bezier(.2,.7,.2,1)}}
 html,body{{overflow-x:clip}}body{{margin:0;background:var(--color-paper);color:var(--color-ink);font:17px/1.5 var(--font-body)}}main{{max-width:1000px;margin:0 auto;padding:40px 22px 70px}}
-h1{{font:700 40px var(--font-display);margin:0 0 4px}}.sub{{color:var(--color-muted);margin:0 0 18px}}
-.all{{display:inline-block;padding:12px 22px;border-radius:999px;background:var(--part-a);color:var(--color-paper);font-weight:700;text-decoration:none;font-size:20px;white-space:nowrap}}
-h2{{font:700 22px var(--font-display);margin:0 0 12px}}h2 .p{{color:var(--color-paper);border-radius:6px;padding:0 9px;margin-right:10px}}
-.part{{border-left:4px solid var(--c);padding-left:18px;margin-top:34px}}.part h2{{color:var(--c)}}.part h2 .p{{background:var(--c)}}
+h1{{font:700 44px/1.15 var(--font-display);margin:0 0 6px}}.sub{{color:var(--color-muted);margin:0 0 18px}}
+.all{{display:inline-block;padding:12px 22px;border-radius:999px;background:var(--color-ink);color:var(--color-paper);font-weight:700;text-decoration:none;font-size:16px;white-space:nowrap}}
+h2{{font:700 28px var(--font-display);margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--color-line)}}h2 .p{{color:var(--c);margin-right:12px}}
+.part{{margin-top:44px}}.part h2{{color:var(--color-ink)}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:14px;align-items:start}}.cell{{min-width:0}}
-.c{{display:block;padding:16px 20px;border-radius:14px;background:var(--color-card);color:var(--color-ink);text-decoration:none;border:1px solid var(--color-line);border-top:3px solid var(--c);transition:transform .14s var(--ease-out),border-color .14s var(--ease-out)}}
+.c{{display:block;padding:16px 20px;border-radius:14px;background:var(--color-card);color:var(--color-ink);text-decoration:none;border:1px solid var(--color-line);transition:transform .14s var(--ease-out),border-color .14s var(--ease-out)}}
 .c:hover,.c.on{{border-color:var(--c);transform:translateY(-2px)}}
 .c:focus-visible,.sl a:focus-visible,.all:focus-visible{{outline:3px solid var(--color-ink);outline-offset:3px}}
-.c .g{{display:block;color:var(--c);font:700 15px var(--font-display);font-variant-numeric:tabular-nums}}.c b{{display:block;font:700 21px/1.3 var(--font-display);margin:4px 0 6px;overflow-wrap:anywhere}}.c small{{color:var(--color-muted)}}
-.sl{{list-style:none;padding:6px 4px 0;margin:0;font-size:14px;line-height:1.45}}.sl a{{display:block;color:var(--color-soft);text-decoration:none;padding:2px 4px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-.sl a:hover{{background:var(--color-card);color:var(--color-ink)}}.sl span{{display:inline-block;width:30px;color:var(--c);font-variant-numeric:tabular-nums}}
+.c .g{{display:block;color:var(--c);font:600 14px var(--font-body);font-variant-numeric:tabular-nums}}.c b{{display:block;font:700 21px/1.3 var(--font-display);margin:4px 0 6px;overflow-wrap:anywhere}}.c small{{color:var(--color-muted);font-size:14px}}
+.sl{{list-style:none;padding:8px 4px 0;margin:0;font-size:16px;line-height:1.5}}.sl a{{display:grid;grid-template-columns:30px minmax(0,1fr);color:var(--color-soft);text-decoration:none;padding:3px 4px;border-radius:6px}}.sl a em{{font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+.sl a:hover{{background:var(--color-card);color:var(--color-ink)}}.sl span{{color:var(--c);font-variant-numeric:tabular-nums}}
 .hint{{color:var(--color-muted);margin-top:30px;font-size:14px}}
-@media (prefers-reduced-motion:reduce){{.c{{transition:none}}.c:hover,.c.on{{transform:none}}}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
+@media (hover:none){{.hint{{display:none}}}}@media (prefers-reduced-motion:reduce){{.c{{transition:none}}.c:hover,.c.on{{transform:none}}}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
 <script type="module">
 {APP}</script></body></html>
 """
