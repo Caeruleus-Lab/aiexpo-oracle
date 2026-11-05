@@ -321,7 +321,39 @@ for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
     cards[g] = f'<a class="c" href="{name}"><span class="g">{g:02d}</span><b>{_h.escape(title)}</b><small>{a1 - a0} หน้า</small></a>'
 PARTS = [("A", "คุณยิ้ม", [1]), ("B", "ลงมือทำ", [2, 3, 4, 5]), ("C", "เรื่องเล่า", [6, 7, 8]), ("D", "จุดเริ่มต้น · ปิดท้าย", [10, 11, 9])]
 assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) + 1))
-body = "".join(f'<h2><span class="p">{l}</span>{_h.escape(n)}</h2><div class="grid">' + "".join(cards[g] for g in gs) + "</div>" for l, n, gs in PARTS)
+# Nat, 5 Nov: "can you make preact?": the index is a small Preact app (htm + preact 10, vendored as one 13 KB file,
+# no CDN, works offline on stage). Data = the parts and groups; ←/→/↑/↓ move between cards, Enter opens.
+import json as _json
+DATA = [{"part": l, "name": n, "groups": [{"n": g, "title": GROUPS[g - 1][2], "href": f"talk-{g:02d}-{GROUPS[g - 1][1]}.html",
+                                           "pages": bounds[g - 1][1] - bounds[g - 1][0]} for g in gs]} for l, n, gs in PARTS]
+APP = """import { html, render, useState, useEffect, useRef } from './vendor/htm-preact-3.1.1.mjs';
+const DATA = __DATA__, TOTAL = __TOTAL__;
+const flat = DATA.flatMap(p => p.groups);
+function Card({ g, on, refCb }) {
+  return html`<a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
+    <span class="g">${String(g.n).padStart(2, '0')}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>`;
+}
+function App() {
+  const [sel, setSel] = useState(-1);
+  const refs = useRef([]);
+  useEffect(() => {
+    const k = e => {
+      const cols = Math.max(1, Math.round(document.querySelector('.grid').clientWidth / 300));
+      const mv = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cols, ArrowUp: -cols }[e.key];
+      if (mv) { e.preventDefault(); setSel(s => Math.min(flat.length - 1, Math.max(0, (s < 0 ? 0 : s + mv)))); }
+      if (e.key === 'Enter' && sel >= 0) location.href = flat[sel].href;
+    };
+    addEventListener('keydown', k); return () => removeEventListener('keydown', k);
+  }, [sel]);
+  useEffect(() => { if (sel >= 0) refs.current[sel]?.focus(); }, [sel]);
+  let i = -1;
+  return html`<h1>Talk 6 พ.ย. 2026</h1><a class="all" href="talk.html">▶ สไลด์เต็ม ${TOTAL} หน้า</a>
+    ${DATA.map(p => html`<h2><span class="p">${p.part}</span>${p.name}</h2><div class="grid">
+      ${p.groups.map(g => { const k = flat.indexOf(g); return html`<${Card} g=${g} on=${k === sel} refCb=${el => (refs.current[k] = el)} />`; })}</div>`)}
+    <p class="hint">← → ↑ ↓ เลือก · Enter เปิด</p>`;
+}
+render(html`<${App} />`, document.querySelector('main'));
+""".replace("__DATA__", _json.dumps(DATA, ensure_ascii=False)).replace("__TOTAL__", str(len(out)))
 index = f"""<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Talk 6 Nov · ARRA Oracle &amp; Multi-Agent Workflow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=Sarabun:wght@400;600&display=swap">
@@ -329,11 +361,12 @@ index = f"""<!doctype html><html lang="th"><head><meta charset="utf-8"><meta nam
 h1{{font:700 40px "Bai Jamjuree",sans-serif;margin:0 0 18px}}.all{{display:inline-block;padding:12px 22px;border-radius:999px;background:#f5a524;color:#0b0c0e;font-weight:700;text-decoration:none;font-size:20px}}
 h2{{font:700 22px "Bai Jamjuree",sans-serif;margin:34px 0 12px;color:#9a958c}}h2 .p{{color:#0b0c0e;background:#f5a524;border-radius:6px;padding:0 9px;margin-right:10px}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}}
-.c{{display:block;padding:18px 20px;border-radius:16px;background:#16181c;color:#ece8e1;text-decoration:none;border:1px solid #23262b}}.c:hover{{border-color:#f5a524}}
-.c .g{{display:block;color:#f5a524;font:700 15px "Bai Jamjuree",sans-serif}}.c b{{display:block;font:700 21px/1.3 "Bai Jamjuree",sans-serif;margin:4px 0 6px}}.c small{{color:#9a958c}}</style></head><body><main>
-<h1>Talk 6 พ.ย. 2026</h1><a class="all" href="talk.html">▶ สไลด์เต็ม {len(out)} หน้า</a>
-{body}
-</main></body></html>
+.c{{display:block;padding:18px 20px;border-radius:16px;background:#16181c;color:#ece8e1;text-decoration:none;border:1px solid #23262b;outline:none;transition:transform .12s,border-color .12s}}
+.c:hover,.c.on,.c:focus{{border-color:#f5a524;transform:translateY(-2px)}}
+.c .g{{display:block;color:#f5a524;font:700 15px "Bai Jamjuree",sans-serif}}.c b{{display:block;font:700 21px/1.3 "Bai Jamjuree",sans-serif;margin:4px 0 6px}}.c small{{color:#9a958c}}
+.hint{{color:#5f5b55;margin-top:30px;font-size:14px}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
+<script type="module">
+{APP}</script></body></html>
 """
 (here / "talk_index.html").write_text(index, encoding="utf-8")
 print(f"talk_index.html: {len(GROUPS)} groups · " + " ".join(f"{a1 - a0}" for a0, a1 in bounds))

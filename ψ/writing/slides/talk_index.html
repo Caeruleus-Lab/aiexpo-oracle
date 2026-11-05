@@ -5,8 +5,36 @@
 h1{font:700 40px "Bai Jamjuree",sans-serif;margin:0 0 18px}.all{display:inline-block;padding:12px 22px;border-radius:999px;background:#f5a524;color:#0b0c0e;font-weight:700;text-decoration:none;font-size:20px}
 h2{font:700 22px "Bai Jamjuree",sans-serif;margin:34px 0 12px;color:#9a958c}h2 .p{color:#0b0c0e;background:#f5a524;border-radius:6px;padding:0 9px;margin-right:10px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-.c{display:block;padding:18px 20px;border-radius:16px;background:#16181c;color:#ece8e1;text-decoration:none;border:1px solid #23262b}.c:hover{border-color:#f5a524}
-.c .g{display:block;color:#f5a524;font:700 15px "Bai Jamjuree",sans-serif}.c b{display:block;font:700 21px/1.3 "Bai Jamjuree",sans-serif;margin:4px 0 6px}.c small{color:#9a958c}</style></head><body><main>
-<h1>Talk 6 พ.ย. 2026</h1><a class="all" href="talk.html">▶ สไลด์เต็ม 88 หน้า</a>
-<h2><span class="p">A</span>คุณยิ้ม</h2><div class="grid"><a class="c" href="talk-01-yim.html"><span class="g">01</span><b>คุณยิ้ม · เปิดงาน</b><small>10 หน้า</small></a></div><h2><span class="p">B</span>ลงมือทำ</h2><div class="grid"><a class="c" href="talk-02-what.html"><span class="g">02</span><b>Oracle คืออะไร · ภาพรวม ψ/</b><small>3 หน้า</small></a><a class="c" href="talk-03-mcp.html"><span class="g">03</span><b>ลงมือ · ต่อ MCP ของบทเรียน</b><small>14 หน้า</small></a><a class="c" href="talk-04-teach.html"><span class="g">04</span><b>สอน · skill · memory · relic5</b><small>12 หน้า</small></a><a class="c" href="talk-05-awaken.html"><span class="g">05</span><b>ไม่มี MCP ก็ได้ · ลิงก์เดียวปลุก Oracle</b><small>4 หน้า</small></a></div><h2><span class="p">C</span>เรื่องเล่า</h2><div class="grid"><a class="c" href="talk-06-phukhao.html"><span class="g">06</span><b>ภูเขา · เสียงของ AI</b><small>11 หน้า</small></a><a class="c" href="talk-07-family.html"><span class="g">07</span><b>ครอบครัว Oracle · ทีม · บทเรียนใหม่</b><small>8 หน้า</small></a><a class="c" href="talk-08-story.html"><span class="g">08</span><b>เล่าจากโพสต์ · อยากให้ AI เป็นแบบนี้</b><small>4 หน้า</small></a></div><h2><span class="p">D</span>จุดเริ่มต้น · ปิดท้าย</h2><div class="grid"><a class="c" href="talk-10-origin.html"><span class="g">10</span><b>จุดเริ่มต้น · AI ที่ลืม (AlchemyCat)</b><small>13 หน้า</small></a><a class="c" href="talk-11-psi.html"><span class="g">11</span><b>ψ · คลิปของแม่ · Phone Booth</b><small>5 หน้า</small></a><a class="c" href="talk-09-home.html"><span class="g">09</span><b>กลับบ้านไปเรียนต่อ · ใบประกาศ</b><small>4 หน้า</small></a></div>
-</main></body></html>
+.c{display:block;padding:18px 20px;border-radius:16px;background:#16181c;color:#ece8e1;text-decoration:none;border:1px solid #23262b;outline:none;transition:transform .12s,border-color .12s}
+.c:hover,.c.on,.c:focus{border-color:#f5a524;transform:translateY(-2px)}
+.c .g{display:block;color:#f5a524;font:700 15px "Bai Jamjuree",sans-serif}.c b{display:block;font:700 21px/1.3 "Bai Jamjuree",sans-serif;margin:4px 0 6px}.c small{color:#9a958c}
+.hint{color:#5f5b55;margin-top:30px;font-size:14px}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
+<script type="module">
+import { html, render, useState, useEffect, useRef } from './vendor/htm-preact-3.1.1.mjs';
+const DATA = [{"part": "A", "name": "คุณยิ้ม", "groups": [{"n": 1, "title": "คุณยิ้ม · เปิดงาน", "href": "talk-01-yim.html", "pages": 10}]}, {"part": "B", "name": "ลงมือทำ", "groups": [{"n": 2, "title": "Oracle คืออะไร · ภาพรวม ψ/", "href": "talk-02-what.html", "pages": 3}, {"n": 3, "title": "ลงมือ · ต่อ MCP ของบทเรียน", "href": "talk-03-mcp.html", "pages": 14}, {"n": 4, "title": "สอน · skill · memory · relic5", "href": "talk-04-teach.html", "pages": 12}, {"n": 5, "title": "ไม่มี MCP ก็ได้ · ลิงก์เดียวปลุก Oracle", "href": "talk-05-awaken.html", "pages": 4}]}, {"part": "C", "name": "เรื่องเล่า", "groups": [{"n": 6, "title": "ภูเขา · เสียงของ AI", "href": "talk-06-phukhao.html", "pages": 11}, {"n": 7, "title": "ครอบครัว Oracle · ทีม · บทเรียนใหม่", "href": "talk-07-family.html", "pages": 8}, {"n": 8, "title": "เล่าจากโพสต์ · อยากให้ AI เป็นแบบนี้", "href": "talk-08-story.html", "pages": 4}]}, {"part": "D", "name": "จุดเริ่มต้น · ปิดท้าย", "groups": [{"n": 10, "title": "จุดเริ่มต้น · AI ที่ลืม (AlchemyCat)", "href": "talk-10-origin.html", "pages": 13}, {"n": 11, "title": "ψ · คลิปของแม่ · Phone Booth", "href": "talk-11-psi.html", "pages": 5}, {"n": 9, "title": "กลับบ้านไปเรียนต่อ · ใบประกาศ", "href": "talk-09-home.html", "pages": 4}]}], TOTAL = 88;
+const flat = DATA.flatMap(p => p.groups);
+function Card({ g, on, refCb }) {
+  return html`<a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
+    <span class="g">${String(g.n).padStart(2, '0')}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>`;
+}
+function App() {
+  const [sel, setSel] = useState(-1);
+  const refs = useRef([]);
+  useEffect(() => {
+    const k = e => {
+      const cols = Math.max(1, Math.round(document.querySelector('.grid').clientWidth / 300));
+      const mv = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cols, ArrowUp: -cols }[e.key];
+      if (mv) { e.preventDefault(); setSel(s => Math.min(flat.length - 1, Math.max(0, (s < 0 ? 0 : s + mv)))); }
+      if (e.key === 'Enter' && sel >= 0) location.href = flat[sel].href;
+    };
+    addEventListener('keydown', k); return () => removeEventListener('keydown', k);
+  }, [sel]);
+  useEffect(() => { if (sel >= 0) refs.current[sel]?.focus(); }, [sel]);
+  let i = -1;
+  return html`<h1>Talk 6 พ.ย. 2026</h1><a class="all" href="talk.html">▶ สไลด์เต็ม ${TOTAL} หน้า</a>
+    ${DATA.map(p => html`<h2><span class="p">${p.part}</span>${p.name}</h2><div class="grid">
+      ${p.groups.map(g => { const k = flat.indexOf(g); return html`<${Card} g=${g} on=${k === sel} refCb=${el => (refs.current[k] = el)} />`; })}</div>`)}
+    <p class="hint">← → ↑ ↓ เลือก · Enter เปิด</p>`;
+}
+render(html`<${App} />`, document.querySelector('main'));
+</script></body></html>
