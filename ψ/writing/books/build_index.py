@@ -428,18 +428,42 @@ def page():
 
 
 def readme():
-    rows = "\n".join(f"| {i + 1:02d} | [{l['th']}]({l['dir']}/README.md) | [{l['en']}]({l['dir']}/README.en.md) | [index.html]({l['dir']}/index.html) · [th]({l['dir']}/th.html) · [en]({l['dir']}/en.html) |"
-                     for i, l in enumerate(LESSONS))
+    row = lambda n, l: (f"| {n} | [{l['th']}]({l['dir']}/README.md) | [{l['en']}]({l['dir']}/README.en.md) | "
+                        f"[web]({l['dir']}/index.html) · [th]({l['dir']}/th.html) · [en]({l['dir']}/en.html) | `{l['dir']}/` |")
+    # 5 Nov (Nat: "recheck and organize this"): the GitHub list follows the landing (HUMAN order and numbers); folders keep
+    # their dated names, because every URL, the MCP ids and the signatures point at them
+    rows = "\n".join(row(f"{n:02d}", l) for n, l in HUMAN)
+    extra = "\n".join(row("extra", l) for l in LESSONS if l not in [x for _, x in HUMAN])
     return f"""# บทเรียน AIExpo Oracle / Lessons
 
-Step-by-step guides for the AI Expo workshop "ARRA Oracle & Multi-Agent Workflow" (Fri 6 Nov 2026), in workshop order.
-Open [`index.html`](index.html) for the landing page. Agents: [`llms.txt`](llms.txt).
+Step-by-step guides for the AI Expo workshop "ARRA Oracle & Multi-Agent Workflow" (Fri 6 Nov 2026), numbered as on the
+landing page. Live: https://aiexpo.buildwithoracle.com · Agents: [`llms.txt`](llms.txt) · About us: [`about/`](about/index.html)
 
-| # | ไทย | English | Webpages |
-|---|---|---|---|
+## Lessons
+
+| # | ไทย | English | Webpages | Folder |
+|---|---|---|---|---|
 {rows}
+{extra}
 
-Each lesson's editions are signed together with AIExpo Oracle's key; see the lesson's `SIGNATURE.md`.
+- Folders keep their dated names (`YYYY-MM-DD_slug`), so every link, MCP id and signature stays valid; the number is the landing order.
+- "extra" is on the site and in the MCP, not on the landing.
+- Each lesson's three editions are signed together with AIExpo Oracle's key; see the lesson's `SIGNATURE.md`.
+
+## What else is in this repo
+
+| Path | What |
+|---|---|
+| `index.html`, `landing.css`, `theme*.{{js,html}}`, `tokens.css`, `guide.css` | the landing page and shared styles |
+| `about/` | who we are: Nat, ARRA Oracle, Phone Booth |
+| `narrated/` | the lessons read aloud, with timed transcripts |
+| `oracle/` | the ARRA Oracle skills as `.md` (chat runbook) and `oracle/full/` (every file of the real skill) |
+| `media/`, `media.json` | videos and their transcripts (MCP `list_media`, `get_media`) |
+| `og/` | link-preview cards |
+| `mcp/` | the MCP: `worker.js` (hosted) and `server.mjs` (local stdio) |
+| `ai.md`, `llms.txt`, `lessons.json`, `chunks.json`, `images.json` | for AI: the brief, the index, the search chunks |
+| `build_*.py`, `check_site.py`, `og_meta.py`, `site_links.py`, `video_html.py` | the build and the live check |
+
 ## Ask the lessons from your AI (MCP)
 
 Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: search, fetch, get_image, list_lessons, list_skills, get_skill, list_media, get_media). It also hands out the full Oracle skills (awaken, rrr, forward, workshop, awaken-app, where-we-are; recap runs in Claude Code only) as `.md` files with ZIP links, and the videos with timed transcripts.
@@ -449,7 +473,7 @@ Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: sear
 - **Claude Code**: `claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp` (this repo already ships `.mcp.json`)
 - **Codex**: `codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp`
 
-Step by step with screenshots: [lesson 03](2026-10-30_mcp-connect-guide/README.en.md).
+Step by step with screenshots: [lesson 02](2026-10-30_mcp-connect-guide/README.en.md).
 
 ## Any AI, no MCP: the AI brief
 
