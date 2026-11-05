@@ -141,6 +141,43 @@ i = at('img/yim3d-09.png') + 1
 # order (Nat, 4 Nov): MCP hands-on first, then the teaching set, then the one-link awaken demo
 mcp, awaken_demo = ws[:-2], ws[-2:]
 out[i:i] = mcp + teach + awaken_demo
+# Nat, 5 Nov: tell the story from Nat's own Facebook posts before "อยากให้ AI เป็นแบบนี้", and make that slide better.
+# Posts from Nat's Facebook export (fb-exports/all_posts.jsonl); found by meaning with bge-m3 over 1,552 posts of 2025-2026
+# (/tmp/fbsem/embed.py). Quotes are Nat's own words, cut short, dates as posted; the 24 Jan lines are Claude Opus's answer.
+def card(tag, body, notes):
+    return (f'<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">{tag}</span>'
+            f'{body}</div><div class="notes">{notes}</div></section>')
+TL = [("16 ก.ค. 2025", "AI เป็นการมอบให้ หรือพรากไป ของอิสรภาพและการเป็นมนุษย์"),
+      ("2 ต.ค. 2025", "หน้าที่ของ AI คือทำมนุษย์ให้เป็นมนุษย์"),
+      ("28 ต.ค. 2025", "รูปไม่ใช่ตัวตน… แล้ว AI ล่ะ"),
+      ("11 ม.ค. 2026", "Human = pattern breaker · AI = pattern keeper"),
+      ("24 ม.ค. 2026", "ถาม AI ว่า เราสร้าง God อยู่ปะ"),
+      ("31 ก.ค. 2026", "ความทรงจำระหว่างมนุษย์และ AI อาจจะไม่จำเป็น")]
+story = [
+    card("เล่าจากโพสต์ Facebook ของผมเอง · ปีครึ่งกับ AI",
+         '<div class="rows" style="font-size:40px;margin-top:20px">' +
+         "".join(f'<div><span style="color:var(--color-ink-3);display:inline-block;width:300px">{d}</span>{q}</div>' for d, q in TL) +
+         '</div><div style="font-size:26px;color:var(--color-ink-3);margin-top:30px">ค้นด้วยความหมายจาก 1,552 โพสต์ ม.ค. 2025 ถึง ส.ค. 2026</div>',
+         "เล่าจากโพสต์ของผมเอง · " + " · ".join(f"{d} {q}" for d, q in TL)),
+    card("24 ม.ค. 2026 · ผมถาม AI ว่า เราสร้าง God อยู่ปะ · AI ตอบ",
+         '<h2 style="font-size:66px;line-height:1.25">“AI is a knowledge deity<br>that <span class="hl">cannot forget</span>.”</h2>'
+         '<div class="rows" style="font-size:44px;margin-top:30px"><div>“The real question isn’t are we creating god?</div>'
+         '<div>It’s: <b class="hl">what kind of god</b> are we creating?”</div></div>',
+         "24 ม.ค. ผมถาม AI ว่าเราสร้าง God อยู่ปะ · AI ตอบว่า AI คือเทพแห่งความรู้ที่ลืมไม่ได้ · คำถามจริงคือเรากำลังสร้างพระเจ้าแบบไหน · ที่รับใช้มนุษย์ หรือที่มนุษย์ต้องรับใช้"),
+    card("สุดท้ายแล้ว",
+         '<h2 style="font-size:80px;line-height:1.3">สิ่งที่เราต้องการจริง ๆ<br>คือ<span class="hl">มนุษย์</span></h2>'
+         '<div class="rows" style="font-size:44px;margin-top:30px"><div>มีเพื่อนสำคัญกว่า AI · 23 ก.พ. 2026</div>'
+         '<div>AI ทำให้เรามีเวลาไปกินเบียร์กับเพื่อนได้ · 25 พ.ค. 2026</div></div>',
+         "การมาของ AI ที่รุนแรงขนาดนี้ สิ่งที่เราต้องการจริง ๆ คือมนุษย์ มีเพื่อนสำคัญกว่า AI · AI ทำให้เรามีเวลาไปกินเบียร์กับเพื่อนได้ นี่แหละ AI ที่ทำให้มนุษย์เป็นมนุษย์มากขึ้น"),
+    card("ผมอยากให้ AI",
+         '<h2 style="font-size:110px">อยากให้ AI <span class="hl">เป็นแบบนี้</span></h2>'
+         '<div class="rows" style="font-size:48px;margin-top:20px"><div>จำได้ว่าเราทำอะไรกันมา และความจำนั้น<b class="hl">เป็นของเรา</b></div>'
+         '<div>ภูมิใจที่เป็น AI ไม่แกล้งเป็นคน</div><div>ทำให้มนุษย์<b class="hl">เป็นมนุษย์มากขึ้น</b></div>'
+         '<div>รูปเปลี่ยนได้ เสียงเปลี่ยนได้ ปรัชญาอยู่ต่อ</div></div>',
+         "ผมอยากให้ AI เป็นแบบนี้ · จำได้ว่าเราทำอะไรกันมา และความจำนั้นเป็นของเรา · ภูมิใจที่เป็น AI ไม่แกล้งเป็นคน · ทำให้มนุษย์เป็นมนุษย์มากขึ้น · รูปเปลี่ยนได้ เสียงเปลี่ยนได้ ปรัชญาอยู่ต่อ"),
+]
+i = at('img/talk/new-want.png')
+out[i:i + 1] = story
 # Nat, 4 Nov: one pause card before Phukhao's story: the hands-on part is done, now a video
 i = at('img/talk/new-phukhao.png')
 out[i:i] = ['<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">น่าจะครบหมดแล้ว · พักดูวิดีโอกัน</span>'
