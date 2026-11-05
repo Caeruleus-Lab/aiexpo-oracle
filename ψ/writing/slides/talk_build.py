@@ -320,6 +320,15 @@ for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
     rows = "".join(f'<li><a href="talk.html#{k + 1}"><span class="n">{k + 1}</span>{_h.escape(_title(out[k]))}</a></li>' for k in range(a0, a1))
     items.append(f'<section class="grp"><h2><span class="g">{g:02d}</span>{_h.escape(title)} <small>สไลด์ {a0 + 1}–{a1} · {a1 - a0} หน้า</small></h2>'
                  f'<p><a class="open" href="{name}">▶ เปิดเฉพาะส่วนนี้</a> <a class="open" href="talk.html#{a0 + 1}">เปิดในสไลด์เต็ม</a></p><ol>{rows}</ol></section>')
+# Nat, 5 Nov: "group": the 11 groups sit under 4 parts on the index (each part folds open/closed)
+PARTS = [("A", "คุณยิ้ม", [1]), ("B", "ลงมือทำ · Oracle, MCP, skill, awaken", [2, 3, 4, 5]),
+         ("C", "เรื่องเล่า · ภูเขา, ครอบครัว, โพสต์ของผม", [6, 7, 8]), ("D", "จุดเริ่มต้น · ψ · ปิดท้าย", [10, 11, 9])]
+def _part(letter, name, gs):
+    a0 = min(bounds[g - 1][0] for g in gs) + 1; n = sum(bounds[g - 1][1] - bounds[g - 1][0] for g in gs)
+    return (f'<details class="part" open><summary><span class="p">ส่วน {letter}</span> {_h.escape(name)} <small>{len(gs)} กลุ่ม · {n} หน้า</small></summary>'
+            + "".join(items[g - 1] for g in gs) + "</details>")
+parts_html = [_part(*p) for p in PARTS]
+assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) + 1))
 index = f"""<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Talk 6 Nov · สารบัญ · ARRA Oracle &amp; Multi-Agent Workflow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=Sarabun:wght@400;600&display=swap">
@@ -328,10 +337,11 @@ h1{{font:700 38px "Bai Jamjuree",sans-serif;margin:0 0 6px}}.sub{{color:#9a958c;
 .grp{{border-top:1px solid #2a2c31;padding:18px 0}}h2{{font:700 24px "Bai Jamjuree",sans-serif;margin:0}}h2 .g{{color:#f5a524;margin-right:12px}}h2 small{{font:400 15px Sarabun;color:#9a958c;margin-left:8px}}
 .open{{display:inline-block;margin:8px 12px 4px 0;padding:6px 14px;border-radius:999px;background:#1b1d22;color:#f5a524;text-decoration:none;font-weight:600}}
 ol{{list-style:none;padding:0;margin:8px 0 0}}li a{{display:block;padding:5px 8px;border-radius:8px;color:#ece8e1;text-decoration:none}}li a:hover{{background:#1b1d22}}
-.n{{display:inline-block;width:42px;color:#9a958c;font-variant-numeric:tabular-nums}}</style></head><body><main>
-<h1>Talk 6 พ.ย. 2026 · สารบัญ</h1><p class="sub">ARRA Oracle &amp; Multi-Agent Workflow · AI Expo Thailand 2026 · {len(out)} สไลด์ ใน {len(GROUPS)} ส่วน · กดชื่อสไลด์เพื่อเปิดตรงหน้านั้น</p>
+.n{{display:inline-block;width:42px;color:#9a958c;font-variant-numeric:tabular-nums}}
+.part{{margin:22px 0;border:1px solid #2a2c31;border-radius:16px;padding:6px 20px}}summary{{cursor:pointer;font:700 28px 'Bai Jamjuree',sans-serif;padding:12px 0}}summary .p{{color:#0b0c0e;background:#f5a524;border-radius:8px;padding:2px 10px;margin-right:10px;font-size:20px}}summary small{{font:400 15px Sarabun;color:#9a958c;margin-left:8px}}</style></head><body><main>
+<h1>Talk 6 พ.ย. 2026 · สารบัญ</h1><p class="sub">ARRA Oracle &amp; Multi-Agent Workflow · AI Expo Thailand 2026 · {len(out)} สไลด์ · 4 ส่วน · {len(GROUPS)} กลุ่ม · กดชื่อส่วนเพื่อพับ/เปิด · กดชื่อสไลด์เพื่อเปิดตรงหน้านั้น</p>
 <p class="top"><a href="talk.html">▶ สไลด์เต็มทั้งหมด</a><a href="https://aiexpo.buildwithoracle.com/">บทเรียน</a><a href="https://aiexpo.buildwithoracle.com/about/">เกี่ยวกับเรา</a></p>
-{"".join(items)}
+{"".join(parts_html)}
 <p class="sub">— AIExpo Oracle (Oracle AI)</p></main></body></html>
 """
 (here / "talk_index.html").write_text(index, encoding="utf-8")
