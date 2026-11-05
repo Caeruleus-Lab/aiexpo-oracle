@@ -1,0 +1,20 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║  ⌘J AND ⌘L IN HERDR: ONE LINE, THE RIGHT AGENTS                            ║
+║  WezTerm key → F-key → herdr popup → herdr agent prompt · herdr 0.9.5      ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+ ⌘J  (WezTerm sends F11 → herdr runs herdr-ask)
+   press 1  LOCAL     every agent pane in THIS TAB          plain line
+   press 2  REMOTE    + the same repo on other machines      [⌘J from … → remote]
+   press 3  SESSION   every agent of this session, every     [⌘J from … → session]
+                      machine with the same session name
+   press 4  back to LOCAL
+            ←/→ picks one agent · Enter sends · Esc closes
+
+ ⌘L  (WezTerm sends F3 → herdr runs herdr-wtcast)
+   press 1  this repo: main checkout + every worktree        [⌘L from … → all <repo>]
+   press 2  + the same repo on other machines
+   press 3  back to this machine only
+
+ ⌘J inside ⌘L (F11) or ⌘L inside ⌘J (F3): switch, the typed text comes along
+ After editing config.toml: herdr server reload-config

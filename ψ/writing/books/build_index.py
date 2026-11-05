@@ -106,6 +106,14 @@ LESSONS = [
          cover="images/00-roles-to-team.png",
          facts_th=["2 ทีมตัวอย่าง · ทุกคำสั่งรันจริง", "5 พ.ย. 2026"],
          facts_en=["2 demo teams · every command ran", "5 Nov 2026"]),
+    dict(key="herdr-cmd-j", dir="2026-11-05_herdr-cmd-j-lesson",
+         th="herdr ⌘J และ ⌘L: ส่งข้อความหนึ่งบรรทัด ถึง agent ที่ใช่",
+         en="herdr ⌘J and ⌘L: one line, to the right agents",
+         th_sub="⌘J หนึ่งครั้ง ทั้งแท็บ สองครั้ง เครื่องอื่น สามครั้ง ทั้ง session ⌘L ทั้ง repo พร้อมโค้ดจริงครบทุกไฟล์",
+         en_sub="⌘J once for the tab, twice for other machines, three times for the whole session, ⌘L for the whole repo, with the full code",
+         cover="images/00-cmd-j-views.png",
+         facts_th=["โค้ดจริง 8 ไฟล์", "herdr 0.9.5 · 5 พ.ย. 2026"],
+         facts_en=["full code, 8 files", "herdr 0.9.5 · 5 Nov 2026"]),
     dict(key="relic5-install", dir="2026-11-04_relic5-install",
          th="ติดตั้ง relic5: ประวัติทุกเครื่อง ในฮับเดียว",
          en="Install relic5: every machine's history in one hub",
@@ -127,7 +135,7 @@ LESSONS = [
 
 # What people see on the landing page (Nat, 4 Nov): lesson 01 hidden (too basic), the skills MCP lesson first, the MCP connect
 # lesson second, ego-lite last, numbered 01.. in this order. The AI brief, llms.txt and lessons.json keep all 9 in workshop order.
-HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "relic5-ui", "relic5-install", "signature", "team-charter", "ego-lite"]
+HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "relic5-ui", "relic5-install", "signature", "team-charter", "herdr-cmd-j", "ego-lite"]
 HUMAN = [(n + 1, next(l for l in LESSONS if l["key"] == k)) for n, k in enumerate(HUMAN_ORDER)]
 
 

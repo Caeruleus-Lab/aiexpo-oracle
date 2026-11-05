@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+"""herdr-peers: the same repo's agents on OTHER machines that run a herdr session with the same name.
+
+Nat 2026-11-04: "i want to talk with arraxccdc-team on m6 like broadcast and to white too" -- from Local
+arraxccdc-team (m5), ⌘J / ⌘L also reach arraxccdc-team on white-arraxccdc and arra-arraxccdc.
+Used by herdr-ask (⌘J --layout) and herdr-wtcast (⌘L).
+
+  herdr-peers [<repo-name>]      # default: basename of $HERDR_ACTIVE_PANE_CWD (else $PWD)
+  herdr-peers --session          # EVERY agent of this session: this machine (machine "") + every same-named one
+                                 # (⌘J pressed a third time, Nat 2026-11-04: "broadcast to our session")
+
+Match rule: a saved machine (`herdr machine list`, enabled) whose session == $HERDR_SESSION, and an agent there whose
+cwd basename == <repo-name>. Matched by NAME, never by path or repo_key: the root is /opt/Code on m5/white but
+/Users/arraxccdc/Code on m6, and repo_key is a .git path (empty in sessions whose spaces scripts made).
+Pane ids are read at press time (they change on every restart). herdr has no network listener: every remote call is
+ssh through `herdr --machine <label>` (Tailscale), ~0.4 s, all machines in parallel.
+
+Output, one line per agent (machine "local" = this one): machine<TAB>pane<TAB>kind<TAB>status<TAB>repo
+"""
+import json, os, subprocess, sys
+from concurrent.futures import ThreadPoolExecutor
+
+herdr = os.environ.get("HERDR_BIN_PATH") or "herdr"
+session = os.environ.get("HERDR_SESSION") or ""
+if not session:   # a popup may not carry HERDR_SESSION: read it from the socket path .../sessions/<name>/herdr.sock
+    parts = (os.environ.get("HERDR_SOCKET_PATH") or "").split("/")
+    session = parts[parts.index("sessions") + 1] if "sessions" in parts[:-1] else ""
+cwd = os.environ.get("HERDR_ACTIVE_PANE_CWD") or os.getcwd()
+whole = len(sys.argv) > 1 and sys.argv[1] == "--session"
+repo = "" if whole else (sys.argv[1] if len(sys.argv) > 1 else os.path.basename(cwd.rstrip("/")))
+if not session or not (repo or whole):
+    sys.exit(0)
+try:
+    lines = subprocess.run([herdr, "machine", "list"], capture_output=True, text=True, timeout=5).stdout.splitlines()
+except Exception:
+    lines = []
+labels = [f[1] for f in (l.split("\t") for l in lines)
+          if len(f) >= 5 and f[3].strip() == session and f[4].strip() == "enabled"]
+# Machines herdr will not save yet (white -> m5: "remote server is not ready for saved machines" until m5's server
+# restarts) are listed in ~/.config/herdr/peers.tsv: label<TAB>ssh-target<TAB>session. Read and sent over plain ssh
+# (herdr-peer-send). A label herdr already knows wins.
+EXTRA = {}
+try:
+    for l in open(os.path.expanduser("~/.config/herdr/peers.tsv")):
+        f = l.rstrip("\n").split("\t")
+        if len(f) >= 3 and not l.startswith("#") and f[2] == session and f[0] not in labels:
+            EXTRA[f[0]] = f[1]
+except OSError:
+    pass
+labels += list(EXTRA)
+
+
+def agents(label):
+    try:
+        if label in EXTRA:   # plain ssh: herdr on the far side, this session by name
+            out = subprocess.run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=5", EXTRA[label],
+                                  "PATH=$HOME/.local/bin:/opt/homebrew/bin:$PATH herdr --session %s agent list" % session],
+                                 capture_output=True, text=True, timeout=8).stdout
+        else:
+            where = ["--machine", label] if label else ["--session", session]   # this machine: THIS session, by name
+            out = subprocess.run([herdr] + where + ["agent", "list"], capture_output=True, text=True, timeout=6).stdout
+        return json.loads(out)["result"]["agents"]
+    except Exception:
+        return []
+
+
+if whole:
+    labels = [""] + labels           # "" = this machine
+if labels:
+    with ThreadPoolExecutor(len(labels)) as ex:
+        found = list(ex.map(agents, labels))
+    for label, ags in zip(labels, found):
+        for a in sorted(ags, key=lambda a: a.get("pane_id", "")):
+            name = os.path.basename((a.get("cwd") or "").rstrip("/"))
+            if whole or name == repo:
+                print("\t".join([label or "local", a["pane_id"], a.get("agent") or "?", a.get("agent_status") or "?", name]))

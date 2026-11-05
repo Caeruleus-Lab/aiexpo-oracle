@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# herdr-ask for a `herdr --remote` client. herdr 0.9.1 runs no [[keys.command]]
+# popups for remote clients (measured 2026-10-05), so WezTerm's CMD+J opens a
+# split that ssh's here and runs this. It fills in the env a real popup gets
+# (HERDR_ACTIVE_PANE_ID/_WORKSPACE_ID) from the session's focused pane, then
+# hands over to herdr-ask --layout unchanged.
+#   herdr-ask-remote <session>
+set -uo pipefail
+export PATH="$HOME/.local/bin:$HOME/.bun/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin"
+export HERDR_SESSION="${1:-${HERDR_SESSION:-default}}"
+read -r pane ws < <(herdr pane list 2>/dev/null | python3 -c '
+import json,sys
+ps=json.load(sys.stdin)["result"]["panes"]
+f=[p for p in ps if p.get("focused")] or ps
+print(f[0]["pane_id"], f[0]["workspace_id"]) if f else print("", "")')
+[ -n "${pane:-}" ] || { echo "no pane in session $HERDR_SESSION"; sleep 3; exit 1; }
+export HERDR_ACTIVE_PANE_ID="$pane" HERDR_ACTIVE_WORKSPACE_ID="$ws"
+export HERDR_ASK_LABEL="ask @$(hostname -s)/$HERDR_SESSION"
+exec herdr-ask --layout

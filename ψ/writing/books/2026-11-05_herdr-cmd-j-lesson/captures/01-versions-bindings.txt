@@ -1,0 +1,19 @@
+$ herdr --version
+herdr 0.9.5
+
+$ rg -n "key = \"f11\"|key = \"f3\"" ~/.config/herdr/config.toml
+85:key = "f11"
+97:key = "f3"
+
+$ rg -n "key='j'|key='l'" ~/.wezterm.lua
+573:    key = 'j',
+625:    key = 'l',
+
+$ wc -l ~/.local/bin/herdr-{ask,wtcast,peers,peer-send,ask-remote,layout}
+     191 herdr-ask
+     192 herdr-wtcast
+      76 herdr-peers
+      14 herdr-peer-send
+      19 herdr-ask-remote
+     124 herdr-layout
+     616 total

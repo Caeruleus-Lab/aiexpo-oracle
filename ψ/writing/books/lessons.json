@@ -99,6 +99,15 @@
     "cover": "images/00-roles-to-team.png"
   },
   {
+    "key": "herdr-cmd-j",
+    "dir": "2026-11-05_herdr-cmd-j-lesson",
+    "th": "herdr ⌘J และ ⌘L: ส่งข้อความหนึ่งบรรทัด ถึง agent ที่ใช่",
+    "en": "herdr ⌘J and ⌘L: one line, to the right agents",
+    "th_sub": "⌘J หนึ่งครั้ง ทั้งแท็บ สองครั้ง เครื่องอื่น สามครั้ง ทั้ง session ⌘L ทั้ง repo พร้อมโค้ดจริงครบทุกไฟล์",
+    "en_sub": "⌘J once for the tab, twice for other machines, three times for the whole session, ⌘L for the whole repo, with the full code",
+    "cover": "images/00-cmd-j-views.png"
+  },
+  {
     "key": "relic5-install",
     "dir": "2026-11-04_relic5-install",
     "th": "ติดตั้ง relic5: ประวัติทุกเครื่อง ในฮับเดียว",

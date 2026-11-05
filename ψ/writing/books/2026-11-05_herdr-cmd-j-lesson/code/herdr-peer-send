@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# herdr-peer-send <machine-label> <pane> <text>: prompt an agent on another machine of this herdr session.
+# A saved herdr machine -> `herdr --machine`; else a line in ~/.config/herdr/peers.tsv (label, ssh target, session)
+# -> plain ssh running herdr there (white -> m5 until herdr lets white save m5). Used by herdr-ask and herdr-wtcast.
+set -uo pipefail
+HERDR="${HERDR_BIN_PATH:-herdr}"; label="$1"; pane="$2"; text="$3"
+if "$HERDR" machine list 2>/dev/null | awk -F'\t' -v l="$label" '$2==l {f=1} END {exit !f}'; then
+  exec "$HERDR" --machine "$label" agent prompt "$pane" "$text"
+fi
+line=$(awk -F'\t' -v l="$label" '!/^#/ && $1==l {print; exit}' "$HOME/.config/herdr/peers.tsv" 2>/dev/null)
+[ -n "$line" ] || { echo "unknown machine $label" >&2; exit 2; }
+target=$(printf '%s' "$line" | cut -f2); sess=$(printf '%s' "$line" | cut -f3)
+exec ssh -o BatchMode=yes -o ConnectTimeout=5 "$target" \
+  "PATH=\$HOME/.local/bin:/opt/homebrew/bin:\$PATH herdr --session $(printf %q "$sess") agent prompt $(printf %q "$pane") $(printf %q "$text")"

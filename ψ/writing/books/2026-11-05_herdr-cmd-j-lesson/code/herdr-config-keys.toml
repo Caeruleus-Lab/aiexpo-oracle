@@ -1,0 +1,25 @@
+# cannot hand a real Cmd chord to herdr (no kitty keyboard protocol on the host
+# terminal), so ~/.wezterm.lua translates CMD+J to F11 and herdr binds F11.
+# F11 chosen because f7/f8/f9/f10 are the LinearMouse buttons and f12 is goto.
+# popup, not plugin_action: a popup owns a TTY, so it can read stdin.
+[[keys.command]]
+key = "f11"
+type = "popup"
+command = "/usr/bin/env PATH=/Users/beta/.local/bin:/Users/beta/.bun/bin:/home/nat/.local/bin:/home/nat/.bun/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin herdr-ask --layout"
+width = "60%"
+height = 9
+description = "ask — type a line into the focused agent"
+
+# CMD+L (WezTerm sends F3) -- "wtcast": one line to every online agent of the focused repo's
+# family (its main checkout + every worktree space nested under it); <-/-> narrows to one.
+# 2026-10-31 (Nat's idea). Was herdr-larisco ("ask LarisCo", host only) earlier the same day.
+# After editing this file: herdr --session <s> server reload-config (the server does not watch it).
+[[keys.command]]
+key = "f3"
+type = "popup"
+command = "/usr/bin/env PATH=/Users/beta/.local/bin:/Users/beta/.bun/bin:/home/nat/.local/bin:/home/nat/.bun/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin herdr-wtcast"
+width = "60%"
+height = 14
+description = "wtcast — one line to this repo's main + worktree agents"
+
+# CMD+I (WezTerm sends F2) -- herdr-status: every agent of this session on every same-named machine, online or not

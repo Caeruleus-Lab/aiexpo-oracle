@@ -1,0 +1,124 @@
+#!/usr/bin/env python3
+"""Draw the current herdr tab as an ASCII box diagram, from live layout data.
+
+    herdr-layout            # current tab, scaled to the terminal width
+    herdr-layout -w 100     # fixed width
+    herdr-layout --pane wD:p1   # the tab holding that pane
+    herdr-layout --mark wV:pA   # flag that pane as "target" (used by herdr-ask)
+    herdr-layout --no-head      # diagram only, no header lines
+    herdr-layout --mini         # tiny: one label per pane, just the agent kind
+    herdr-layout --json     # the raw layout, for scripting
+
+Everything drawn comes from `herdr pane layout --current` (rects, focus,
+splits) joined with `herdr pane list` (which agent sits in each pane). The
+sidebar is herdr chrome, not a pane, so it is not in the API and not drawn.
+"""
+import json, os, shutil, subprocess, sys
+
+HERDR = os.environ.get("HERDR_BIN_PATH", "herdr")
+
+def api(*args):
+    out = subprocess.run([HERDR, *args], capture_output=True, text=True).stdout
+    d = json.loads(out)
+    if "error" in d:
+        sys.exit(f"herdr {' '.join(args)}: {d['error'].get('message', d['error'])}")
+    return d["result"]
+
+def main():
+    argv = sys.argv[1:]
+    width = None
+    if "-w" in argv:
+        width = int(argv[argv.index("-w") + 1])
+    sel = ["--pane", argv[argv.index("--pane") + 1]] if "--pane" in argv else ["--current"]
+    marks = set((argv[argv.index("--mark") + 1] if "--mark" in argv else "").split(",")) - {""}
+    mini = "--mini" in argv
+    lay = api("pane", "layout", *sel)["layout"]
+    if "--json" in argv:
+        print(json.dumps(lay, indent=2)); return
+
+    area = lay["area"]; aw, ah = area["width"], area["height"]
+    panes = api("pane", "list", "--workspace", lay["workspace_id"])["panes"]
+    kind = {p["pane_id"]: (p.get("agent") or "shell") for p in panes}
+    if "all" in marks:   # every pane that holds an agent
+        marks = {pid for pid, k in kind.items() if k != "shell"}
+
+    # Scale: fit the area into `width` columns; rows keep a 2.2:1 cell aspect.
+    width = width or min(shutil.get_terminal_size().columns - 2, 60 if mini else 120)
+    sx = width / aw
+    thin = min(p["rect"]["height"] for p in lay["panes"]) / ah
+    if mini:
+        # Just tall enough that every pane gets one label row.
+        height = max(4, min(int(1 / thin) + 2, 12))
+    else:
+        height = max(8, round(ah * sx / 2.2))
+        # Give the thinnest pane at least 4 rows, or its label has nowhere to go.
+        height = max(height, min(int(4 / thin) + 1, 48))
+    sy = height / ah
+    W, H = width + 1, height + 1
+    canvas = [[" "] * W for _ in range(H)]
+
+    def put(y, x, s):
+        for i, ch in enumerate(s):
+            if 0 <= y < H and 0 <= x + i < W: canvas[y][x + i] = ch
+
+    def box(x0, y0, x1, y1):
+        for x in range(x0, x1 + 1): canvas[y0][x] = canvas[y1][x] = "─"
+        for y in range(y0, y1 + 1): canvas[y][x0] = canvas[y][x1] = "│"
+
+    rects = []
+    for p in lay["panes"]:
+        r = p["rect"]
+        x0 = round(r["x"] * sx); y0 = round(r["y"] * sy)
+        x1 = round((r["x"] + r["width"]) * sx); y1 = round((r["y"] + r["height"]) * sy)
+        x1 = min(x1, W - 1); y1 = min(y1, H - 1)
+        box(x0, y0, x1, y1)
+        rects.append((p, r, x0, y0, x1, y1))
+
+    # Junctions: pick the box char from which neighbours are lines.
+    for y in range(H):
+        for x in range(W):
+            if canvas[y][x] not in "─│": continue
+            u = y > 0 and canvas[y-1][x] in "│┼├┤┬┌┐"
+            d = y < H-1 and canvas[y+1][x] in "│┼├┤┴└┘"
+            l = x > 0 and canvas[y][x-1] in "─┼┬┴┐┘"
+            r = x < W-1 and canvas[y][x+1] in "─┼┬┴┌└"
+            key = (u, d, l, r)
+            ch = {
+                (1,1,1,1):"┼", (0,1,1,1):"┬", (1,0,1,1):"┴", (1,1,0,1):"├", (1,1,1,0):"┤",
+                (0,1,0,1):"┌", (0,1,1,0):"┐", (1,0,0,1):"└", (1,0,1,0):"┘",
+            }.get(tuple(int(v) for v in key))
+            if ch: canvas[y][x] = ch
+
+    for p, r, x0, y0, x1, y1 in rects:
+        pid = p["pane_id"]; inner = x1 - x0 - 3
+        if inner < 4: continue
+        rows = y1 - y0 - 1
+        if mini:
+            tag = kind.get(pid, "?")
+            if pid in marks: tag = "▶ " + tag
+            elif p.get("focused"): tag = "● " + tag
+            if rows >= 1: put(y0 + 1 + (rows - 1) // 2, x0 + 2, tag[:inner + 1])
+            continue
+        if rows < 4:                      # too short for the block: one compact line
+            if rows >= 1: put(y0 + 1, x0 + 3, (f"{pid} · {kind.get(pid, '?')}" + ("  ▶ target" if pid in marks else ""))[:inner])
+            continue
+        lines = [
+            f"{pid}" + ("  ●focused" if p.get("focused") else "") + ("  ▶ target" if pid in marks else ""),
+            kind.get(pid, "?"),
+            "",
+            f"x={r['x']}  y={r['y']}",
+            f"{r['width']} × {r['height']}",
+            f"{r['width']/aw*100:.1f}% wide",
+        ]
+        for i, s in enumerate(lines):
+            if y0 + 2 + i < y1: put(y0 + 2 + i, x0 + 3, s[:inner])
+
+    splits = " · ".join(f"{s['id']} {s['direction']} {s['ratio']:.3f}" for s in lay.get("splits", []))
+    if "--no-head" not in argv:
+        print(f"tab {lay['tab_id']} · area {aw} × {ah} · focus {lay['focused_pane_id']}"
+              f" · zoomed={str(lay.get('zoomed', False)).lower()}")
+        if splits: print(splits)
+        print()
+    for row in canvas: print("".join(row).rstrip())
+
+main()

@@ -1,0 +1,191 @@
+#!/usr/bin/env bash
+# A herdr popup that is an input box -- optionally with the tab's layout drawn
+# above it so you can SEE which pane the line will go to, and pick another.
+#
+#   herdr-ask                          # prints what you typed
+#   herdr-ask --to-focused             # send to the pane that was focused
+#   herdr-ask --layout                 # draw the tab, ←/→ picks the target, Enter sends
+#   herdr-ask <cmd...>                 # run <cmd> "<text>"
+#
+# Bind as type = "popup" (never plugin_action -- that never fires from the
+# client in 0.9.0). A popup owns a TTY, so it can read stdin and query size.
+#
+# Facts this script depends on, all measured 2026-09-20 from inside a popup:
+#   - the popup gets HERDR_ACTIVE_PANE_ID / _WORKSPACE_ID / _TAB_ID / _PANE_CWD;
+#     HERDR_PLUGIN_CONTEXT_JSON is <unset> there (plugin-action only)
+#   - `tput cols` answers 80 (its fallback) while the popup was 107 wide;
+#     `stty size </dev/tty` is the truth
+#   - interior is height-2 rows: no decorative blank lines
+set -uo pipefail
+HERDR="${HERDR_BIN_PATH:-herdr}"
+# every press is logged, like herdr-wtcast: which machine ran the popup, which session and pane it saw
+asklog="$HOME/.local/state/herdr-ask/presses.log"; mkdir -p "${asklog%/*}"
+printf '%s host=%s session=%s ws=%s pane=%s cwd=%s mode=%s\n' "$(date '+%F %T')" "$(hostname -s)" "${HERDR_SESSION:-}" \
+  "${HERDR_ACTIVE_WORKSPACE_ID:-}" "${HERDR_ACTIVE_PANE_ID:-}" "${HERDR_ACTIVE_PANE_CWD:-}" "${1:-}" >> "$asklog"
+
+DIM=$'\033[2m'; OFF=$'\033[0m'; CYAN=$'\033[38;5;75m'; CLR=$'\033[2J\033[H'
+read -r rows cols < <(stty size </dev/tty 2>/dev/null || echo "0 0")
+[ "${cols:-0}" -gt 0 ] 2>/dev/null || cols=$(tput cols 2>/dev/null || echo 80)
+
+focused="${HERDR_ACTIVE_PANE_ID:-}"
+target="$focused"
+kinds=""   # "<pane>\t<kind>" lines: /bin/bash 3.2 (macOS) has no associative arrays
+kind_of() { printf '%s\n' "$kinds" | awk -F'\t' -v id="$1" '$1==id {print $2; f=1; exit} END {if (!f) print "shell"}'; }
+label="${HERDR_ASK_LABEL:-ask}"
+mode="${1:-}"
+
+# --layout: panes of this tab in left-to-right, top-to-bottom order.
+panes=()
+if [ "$mode" = "--layout" ] && [ -n "$focused" ]; then
+  while IFS=$'\t' read -r id k; do panes+=("$id"); kinds="$kinds$id"$'\t'"$k"$'\n'; done < <(
+    { "$HERDR" pane layout --pane "$focused"; "$HERDR" pane list --workspace "${HERDR_ACTIVE_WORKSPACE_ID:-}"; } 2>/dev/null | python3 -c '
+import json,sys
+lay, lst = [json.loads(l)["result"] for l in sys.stdin if l.strip()]
+kind = {p["pane_id"]: (p.get("agent") or "shell") for p in lst["panes"]}
+for p in sorted(lay["layout"]["panes"], key=lambda p:(p["rect"]["x"],p["rect"]["y"])):
+    print(p["pane_id"], kind.get(p["pane_id"], "?"), sep="\t")' 2>/dev/null)
+  [ ${#panes[@]} -gt 0 ] || mode="--to-focused"
+  lpanes=("${panes[@]}")
+  target="all"                     # ⌘J is a broadcast; ←/→ narrows to one pane
+fi
+
+# ⌘J again inside the box flips to REMOTE (Nat 2026-11-04: "cmd j to open the prev and cmd j again to show remote
+# toggle"): the same repo on other machines whose herdr session has the same name (herdr-peers, matched by folder
+# name, sent with --machine over ssh). ⌘J once more flips back to this tab. ⌘L still switches to herdr-wtcast.
+# ⌘J a THIRD time: the whole session -- every agent of this session on this machine and on every machine whose herdr
+# session has the same name (Nat 2026-11-04: "cmd j cmd j and more again to like broadcast to our session").
+# The caller's own pane IS included (Nat 2026-11-04: "the message not send to this session the caller session?"), so
+# the session that sent it holds the same line as everyone else. ⌘J once more: back to this tab.
+view=local; rpanes=(); rinfo=""; rloaded=0; spanes=(); sloaded=0
+toggle_view() {
+  if [ "$view" = remote ]; then
+    if [ "$sloaded" = 0 ]; then
+      sloaded=1
+      while IFS=$'\t' read -r pm pp pk ps pr; do
+        [ -n "$pp" ] || continue
+        local id; [ "$pm" = local ] && id="$pp" || id="$pm/$pp"
+        spanes+=("$id"); kinds="$kinds$id"$'\t'"$pk"$'\n'; rinfo="$id"$'\t'"$pr · $pk $ps"$'\n'"$rinfo"
+      done < <(command -v herdr-peers >/dev/null && herdr-peers --session 2>/dev/null)
+    fi
+    view=session; panes=(); [ ${#spanes[@]} -eq 0 ] || panes=("${spanes[@]}")
+  elif [ "$view" = local ]; then
+    if [ "$rloaded" = 0 ]; then
+      rloaded=1
+      [ -n "$focused" ] && { rpanes+=("$focused"); rinfo="$rinfo$focused"$'\t'"you (caller)"$'\n'; }   # Nat: "not send here"
+      while IFS=$'\t' read -r pm pp pk ps _; do
+        [ -n "$pp" ] || continue; rpanes+=("$pm/$pp"); kinds="$kinds$pm/$pp"$'\t'"$pk"$'\n'; rinfo="$rinfo$pm/$pp"$'\t'"$pk $ps"$'\n'
+      done < <(command -v herdr-peers >/dev/null && herdr-peers 2>/dev/null)
+    fi
+    view=remote; panes=(); [ ${#rpanes[@]} -eq 0 ] || panes=("${rpanes[@]}")   # bash 3.2 + set -u: no "${empty[@]}"
+  else
+    view=local; panes=("${lpanes[@]}")
+  fi
+  target="all"
+}
+
+draw() {
+  local text="$1"
+  if [ "$mode" = "--layout" ] && [ "$view" != local ]; then
+    printf '%s' "$CLR"
+    if [ "$view" = remote ]; then printf '  %sremote · session %s · same folder on other machines%s\n' "$CYAN" "${HERDR_SESSION:-?}" "$OFF"
+    else printf '  %sSESSION %s · every agent, every machine (%d)%s\n' "$CYAN" "${HERDR_SESSION:-?}" "${#panes[@]}" "$OFF"; fi
+    if [ ${#panes[@]} -eq 0 ]; then printf '  %sno peer (no saved machine with this session, or none reachable)%s\n' "$DIM" "$OFF"; fi
+    local p mark on
+    for p in "${panes[@]}"; do
+      if [ "$target" = "all" ] || [ "$target" = "$p" ]; then mark="●"; on="$CYAN"; else mark="○"; on="$DIM"; fi
+      printf '  %s%s %-34s %s%s\n' "$on" "$mark" "$(case "$p" in */*) echo "@$p";; *) echo "local $p";; esac)" "$(printf '%s' "$rinfo" | awk -F'\t' -v id="$p" '$1==id {print $2; exit}')" "$OFF"
+    done
+    printf '  %s/ %s @%s%s' "$DIM" "$label" "$view" "$OFF"
+    local right nxt; [ "$view" = remote ] && nxt="⌘J session" || nxt="⌘J back"
+    [ "$target" = "all" ] && right="→ one · Enter send ALL $view · $nxt · Esc" || right="←/→ target · Enter send · $nxt · Esc"
+    printf '%s%*s%s\n' "$DIM" $(( cols - 13 - ${#label} )) "$right" "$OFF"
+  elif [ "$mode" = "--layout" ]; then
+    printf '%s' "$CLR"
+    herdr-layout --mini --no-head --pane "$focused" --mark "$target" -w $(( cols - 4 )) 2>/dev/null | sed 's/^/  /'
+    printf '  %s/ %s%s' "$DIM" "$label" "$OFF"
+    local right; [ "$target" = "all" ] && right="→ one pane · Enter send ALL · Esc" || right="←/→ target · Enter send · Esc"
+    printf '%s%*s%s\n' "$DIM" $(( cols - 5 - ${#label} )) "$right" "$OFF"
+  else
+    printf '  %s/ %s%s' "$DIM" "$label" "$OFF"
+    printf '%s%*s%s\n' "$DIM" $(( cols - 5 - ${#label} )) "$target" "$OFF"
+  fi
+  printf '  %s%s%s\n' "$DIM" "$(printf '─%.0s' $(seq 1 $(( cols - 4 ))))" "$OFF"
+  printf '  %s>%s %s' "$CYAN" "$OFF" "$text"
+}
+
+cycle() {  # $1 = +1 | -1  -- ring: all -> pane1 -> pane2 -> ... -> all
+  local i=-1 n=${#panes[@]}
+  [ "$n" -gt 0 ] || return
+  for j in "${!panes[@]}"; do [ "${panes[$j]}" = "$target" ] && i=$j; done
+  i=$(( (i + 1 + $1 + n + 1) % (n + 1) ))       # slot 0 = all
+  [ "$i" -eq 0 ] && target="all" || target="${panes[$((i - 1))]}"
+}
+
+# the wait for the rest of an arrow key (ESC [ C): bash 3.2 (macOS /bin/bash) takes whole seconds only
+# ("read: 0.05: invalid timeout specification"), and then every arrow fell to the lone-Esc branch
+ESC_WAIT=0.05; [ "${BASH_VERSINFO[0]:-3}" -ge 4 ] || ESC_WAIT=1
+text="${HERDR_ASK_TEXT:-}"                     # carried over when ⌘L-popup switched here with ⌘J
+draw "$text"
+while IFS= read -rsn1 c; do
+  case "$c" in
+    $'\e')
+      seq=""                                      # rest of the key: [C [D, OR or [13~ (F3), [23~ (F11) ...
+      if IFS= read -rsn1 -t "$ESC_WAIT" k; then
+        seq="$k"
+        if [ "$k" = "[" ]; then
+          while IFS= read -rsn1 -t "$ESC_WAIT" k; do seq="$seq$k"; case "$k" in [0-9\;]) ;; *) break ;; esac; done
+        elif [ "$k" = "O" ]; then
+          IFS= read -rsn1 -t "$ESC_WAIT" k && seq="$seq$k"
+        fi
+      fi
+      case "$seq" in
+        "") exit 0 ;;                             # lone Esc: close, do nothing
+        "[C") cycle +1; draw "$text" ;;           # →
+        "[D") cycle -1; draw "$text" ;;           # ←
+        "[23~")                                   # F11 = ⌘J again: flip this tab <-> remote
+          [ "$mode" = "--layout" ] && { toggle_view; draw "$text"; } ;;
+        "OR"|"[13~")                              # F3 = ⌘L: switch to herdr-wtcast, keep the text (LarisCo 2026-10-31)
+          command -v herdr-wtcast >/dev/null && { export HERDR_WTCAST_TEXT="$text"; exec herdr-wtcast; } ;;
+      esac
+      continue ;;
+    "") break ;;                                  # Enter
+    $'\x7f'|$'\b') [ -n "$text" ] && { text="${text%?}"; printf '\b \b'; } ;;
+    $'\x03'|$'\x04') exit 130 ;;
+    $'\x15') while [ -n "$text" ]; do text="${text%?}"; printf '\b \b'; done ;;
+    *) text="$text$c"; printf '%s' "$c" ;;
+  esac
+done
+[ -n "${text// }" ] || exit 0
+
+prompt_to() {  # <pane> or <machine>/<pane> (a peer on another machine)
+  # Remote and session sends carry the caller (Nat 2026-11-04: "the caller?"): the receiver on another machine must
+  # know who wrote and where to answer. This tab's own panes get the plain line, as before.
+  local msg="$2"
+  [ "$view" = local ] || msg="[⌘J from $(hostname -s) ${HERDR_SESSION:-?} ${focused:-?} → $view] $2"
+  set -- "$1" "$msg"
+  printf '  send view=%s to=%s\n' "$view" "$1" >> "$asklog"
+  case "$1" in */*) herdr-peer-send "${1%%/*}" "${1#*/}" "$2" >/dev/null 2>&1 ;;
+               *)   "$HERDR" agent prompt "$1" "$2" >/dev/null 2>&1 ;; esac
+}
+case "$mode" in
+  --to-focused|--layout)
+    [ -n "$target" ] || { printf '\n  no target pane in context\n'; sleep 3; exit 1; }
+    if [ "$target" = "all" ]; then
+      # Per-pane results, never all-or-nothing: one refused pane must not hide
+      # the ones that took it. Shells are skipped up front -- agent prompt
+      # would refuse them anyway, and the box already showed them as "shell".
+      out=""; bad=0
+      for id in "${panes[@]}"; do
+        if [ "$(kind_of "$id")" = "shell" ]; then out="$out $id:skip"; continue; fi
+        if prompt_to "$id" "$text"; then out="$out $id:ok"; else out="$out $id:FAIL"; bad=1; fi
+      done
+      printf '\n  %s->%s%s\n' "$DIM" "$out" "$OFF"; sleep $(( bad ? 3 : 1 )); exit $bad
+    fi
+    if prompt_to "$target" "$text"; then
+      printf '\n  %s-> %s%s\n' "$DIM" "$target" "$OFF"; sleep 1
+    else
+      printf '\n  could not prompt %s (bare shell? blocked?)\n' "$target"; sleep 3; exit 1
+    fi ;;
+  "") printf '\n  %s%s%s\n' "$CYAN" "$text" "$OFF"; sleep 2 ;;
+  *)  "$@" "$text" || { printf '\n  action failed (rc=%d)\n' $?; sleep 3; exit 1; } ;;
+esac

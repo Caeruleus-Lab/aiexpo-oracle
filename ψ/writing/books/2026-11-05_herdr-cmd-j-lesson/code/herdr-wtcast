@@ -1,0 +1,192 @@
+#!/usr/bin/env bash
+# ⌘L "wtcast": one line to every online agent of the focused repo's family: its main checkout and every
+# worktree space nested under it in the sidebar (laris-team: main, larisco-email, wt/duang-oracle).
+# ←/→ narrows to one agent, Enter sends, Esc closes. Default target: all.
+#
+#   herdr-wtcast                     # popup (bound to F3 = WezTerm CMD+L)
+#   HERDR_ACTIVE_WORKSPACE_ID=w60 HERDR_ACTIVE_PANE_ID=w60:p1 herdr-wtcast --dry   # print the family, send nothing
+#   HERDR_WTCAST_MACHINE=white-laris-co ... --dry    # force a saved machine (else found from the focused pane)
+#
+# Works on saved machines too (white in the same sidebar): if the focused pane is not in this herdr, every enabled
+# `herdr machine list` entry is asked in parallel, and the sends go out as `herdr --machine <label> agent prompt`.
+#
+#   ⌘L --WezTerm CMD+L -> F3--> herdr [[keys.command]] f3 popup --> this script --> herdr agent prompt (each target)
+#
+# Family = herdr workspaces whose worktree.repo_key equals the focused workspace's (`herdr workspace list`).
+# Targets = the agents in those workspaces (`herdr agent list`, any kind: claude, codex), read at press time:
+# pane ids change on every move and reboot, so nothing is stored. A space with no repo info is its own family.
+# Built 2026-10-31 by LarisCo from Nat's idea ("change cmd l to send all or wt online"); replaces herdr-larisco
+# (kept, unbound) on F3. Key handling as herdr-ask: one key at a time, so a lone Esc closes (readline would not).
+set -uo pipefail
+export LC_CTYPE="${LC_CTYPE:-$([ "$(uname)" = Darwin ] && echo en_US.UTF-8 || echo C.UTF-8)}"   # one character per read, Thai too
+HERDR="${HERDR_BIN_PATH:-herdr}"
+from="${HERDR_ACTIVE_PANE_ID:-}"
+ws="${HERDR_ACTIVE_WORKSPACE_ID:-}"
+dry=0; [ "${1:-}" = "--dry" ] && dry=1
+DIM=$'\033[2m'; OFF=$'\033[0m'; GOLD=$'\033[38;5;214m'; CLR=$'\033[2J\033[H'
+
+# every press is logged (what env the popup really gets: local vs a saved machine)
+log="$HOME/.local/state/herdr-wtcast/presses.log"; mkdir -p "${log%/*}"
+printf '%s host=%s ws=%s pane=%s tab=%s cwd=%s\n' "$(date '+%F %T')" "$(hostname -s)" "$ws" "$from" \
+  "${HERDR_ACTIVE_TAB_ID:-}" "${HERDR_ACTIVE_PANE_CWD:-}" >> "$log"
+
+# Discovery, one python pass. Which herdr holds the focused pane? This one if its pane list has that
+# pane in that workspace; else ask every enabled saved machine at once (`herdr --machine <label> pane list`,
+# ~0.4 s each, in parallel) and take the one that has the same workspace + pane (+ cwd when the env gives it).
+# Output: "repo<TAB>machine" (machine empty = local), then "pane<TAB>kind<TAB>space<TAB>status" per agent.
+out=$(python3 - "$HERDR" "$ws" "$from" "${HERDR_ACTIVE_PANE_CWD:-}" "${HERDR_WTCAST_MACHINE:-}" <<'PYEOF'
+import json, subprocess, sys
+from concurrent.futures import ThreadPoolExecutor
+herdr, me_ws, me_pane, me_cwd, forced = sys.argv[1:6]
+
+def api(machine, *args, timeout=6):
+    cmd = [herdr] + (["--machine", machine] if machine else []) + list(args)
+    try:
+        return json.loads(subprocess.run(cmd, capture_output=True, text=True, timeout=timeout).stdout)["result"]
+    except Exception:
+        return None
+
+def owns(res):
+    panes = (res or {}).get("panes") or []
+    return any(p.get("pane_id") == me_pane and p.get("workspace_id") == me_ws
+               and (not me_cwd or p.get("cwd") in (None, me_cwd)) for p in panes)
+
+machine = forced
+if not forced and me_pane and not owns(api("", "pane", "list")):
+    try:
+        lines = subprocess.run([herdr, "machine", "list"], capture_output=True, text=True, timeout=6).stdout.splitlines()
+    except Exception:
+        lines = []
+    labels = [l.split("\t")[1] for l in lines if l.count("\t") >= 4 and l.split("\t")[-1].strip() == "enabled"]
+    if labels:
+        with ThreadPoolExecutor(len(labels)) as ex:
+            hits = [m for m, r in zip(labels, ex.map(lambda m: api(m, "pane", "list", timeout=5), labels)) if owns(r)]
+        if len(hits) > 1:      # same ids in several sessions: the one whose workspace is focused there
+            focused = [m for m in hits if any(w.get("workspace_id") == me_ws and w.get("focused")
+                       for w in ((api(m, "workspace", "list") or {}).get("workspaces") or []))]
+            hits = focused or hits
+        machine = hits[0] if hits else ""
+
+wss = (api(machine, "workspace", "list") or {}).get("workspaces") or []
+ags = (api(machine, "agent", "list") or {}).get("agents") or []
+if not me_ws:                                   # no workspace in the env: the one holding the focused pane
+    me_ws = next((a.get("workspace_id") for a in ags if a.get("pane_id") == me_pane), "") or ""
+byid = {w["workspace_id"]: w for w in wss}
+wt = (byid.get(me_ws) or {}).get("worktree") or {}
+key = wt.get("repo_key")
+fam = [w["workspace_id"] for w in wss if key and (w.get("worktree") or {}).get("repo_key") == key] or [me_ws]
+fam.sort(key=lambda i: (1 if ((byid.get(i) or {}).get("worktree") or {}).get("is_linked_worktree") else 0,
+                        (byid.get(i) or {}).get("label") or ""))
+print((wt.get("repo_name") or (byid.get(me_ws) or {}).get("label") or me_ws or "?") + "\t" + machine)
+for wid in fam:
+    w = byid.get(wid) or {}
+    t = w.get("worktree") or {}
+    lab = "main" if key and not t.get("is_linked_worktree") else (w.get("label") or wid)
+    for a in sorted((a for a in ags if a.get("workspace_id") == wid), key=lambda a: a["pane_id"]):
+        print("\t".join([a["pane_id"], a.get("agent") or "?", lab, a.get("agent_status") or "?"]))
+PYEOF
+)
+printf '  -> machine=%s\n' "$(printf '%s' "$out" | head -1 | cut -f2)" >> "$log"
+
+repo=""; machine=""; ids=(); kinds=(); spaces=(); stats=(); mach=(); first=1
+while IFS=$'\t' read -r a b c d; do
+  [ -n "$a" ] || continue
+  if [ "$first" = 1 ]; then repo="$a"; machine="$b"; first=0; continue; fi
+  ids+=("$a"); kinds+=("$b"); spaces+=("$c"); stats+=("$d"); mach+=("$machine")
+done <<< "$out"
+n=${#ids[@]}; nlocal=$n
+# ⌘L again inside the box adds the REMOTE family and takes it away again (Nat 2026-11-04): the same repo on other
+# machines whose herdr session has the same name (herdr-peers, matched by folder name, sent with --machine).
+remote=0; rloaded=0; r_ids=(); r_kinds=(); r_spaces=(); r_stats=(); r_mach=()
+toggle_remote() {
+  if [ "$rloaded" = 0 ]; then
+    rloaded=1
+    while IFS=$'\t' read -r pm pp pk ps _; do
+      [ -n "$pp" ] && [ "$pm" != "$machine" ] || continue
+      r_ids+=("$pp"); r_kinds+=("$pk"); r_spaces+=("@$pm"); r_stats+=("$ps"); r_mach+=("$pm")
+    done < <(command -v herdr-peers >/dev/null && herdr-peers 2>/dev/null)
+  fi
+  ids=("${ids[@]:0:$nlocal}"); kinds=("${kinds[@]:0:$nlocal}"); spaces=("${spaces[@]:0:$nlocal}"); stats=("${stats[@]:0:$nlocal}"); mach=("${mach[@]:0:$nlocal}")
+  if [ "$remote" = 0 ]; then
+    remote=1
+    [ ${#r_ids[@]} -gt 0 ] && { ids+=("${r_ids[@]}"); kinds+=("${r_kinds[@]}"); spaces+=("${r_spaces[@]}"); stats+=("${r_stats[@]}"); mach+=("${r_mach[@]}"); }
+  else
+    remote=0
+  fi
+  n=${#ids[@]}; sel=-1
+}
+[ "${HERDR_WTCAST_REMOTE:-0}" = 1 ] && toggle_remote
+
+if [ "$dry" = 1 ]; then
+  printf 'family of %s on %s (workspace %s): %d agent(s)\n' "$repo" "${machine:-local}" "${ws:-?}" "$n"
+  for i in "${!ids[@]}"; do printf '  %-20s %-8s %-7s %s\n' "${spaces[$i]}" "${ids[$i]}" "${kinds[$i]}" "${stats[$i]}"; done
+  exit 0
+fi
+if [ "$n" -eq 0 ]; then
+  printf ' %sno agent online in %s%s\n' "$GOLD" "${repo:-this space}" "$OFF"; read -rsn1 _ </dev/tty; exit 1
+fi
+
+read -r rows cols < <(stty size </dev/tty 2>/dev/null || echo "0 0")
+[ "${rows:-0}" -gt 3 ] 2>/dev/null || rows=12
+sel=-1        # -1 = all; 0..n-1 = one agent
+line="${HERDR_WTCAST_TEXT:-}"     # carried over when the ⌘J popup switched here with ⌘L
+draw() {
+  printf '%s' "$CLR"
+  local who i mark on max=$(( rows - 3 ))
+  [ "$sel" -lt 0 ] && who="all $n agents" || who="${spaces[$sel]} ${ids[$sel]}"
+  printf ' %s/ wtcast %s%s%s%s → %s%s\n' "$GOLD" "$repo" "${machine:+ @$machine}" "$([ "$remote" = 1 ] && echo " +remote")" "$DIM" "$who" "$OFF"
+  for i in "${!ids[@]}"; do
+    if [ "$i" -ge "$max" ]; then printf '  %s… +%d more%s\n' "$DIM" $(( n - i )) "$OFF"; break; fi
+    if [ "$sel" -lt 0 ] || [ "$sel" -eq "$i" ]; then mark="●"; on="$GOLD"; else mark=" "; on="$DIM"; fi
+    printf '  %s%s %-20s %-8s %-6s %s%s\n' "$on" "$mark" "${spaces[$i]:0:20}" "${ids[$i]}" "${kinds[$i]}" "${stats[$i]}" "$OFF"
+  done
+  printf ' %s←/→ pick · Enter send · ⌘L %s · Esc close%s\n' "$DIM" "$([ "$remote" = 1 ] && echo "this machine only" || echo "+ other machines")" "$OFF"
+  printf ' > %s' "$line"
+}
+cycle() { sel=$(( (sel + 1 + $1 + n + 1) % (n + 1) - 1 )); }   # ring: all -> 0 -> 1 -> ... -> n-1 -> all
+
+ESC_WAIT=0.05; [ "${BASH_VERSINFO[0]:-3}" -ge 4 ] || ESC_WAIT=1
+draw
+while IFS= read -rsn1 c </dev/tty; do
+  case "$c" in
+    $'\e')
+      seq=""                                                          # rest of the key: [C [D, OR (F3), [23~ (F11)
+      if IFS= read -rsn1 -t "$ESC_WAIT" k </dev/tty; then
+        seq="$k"
+        if [ "$k" = "[" ]; then
+          while IFS= read -rsn1 -t "$ESC_WAIT" k </dev/tty; do seq="$seq$k"; case "$k" in [0-9\;]) ;; *) break ;; esac; done
+        elif [ "$k" = "O" ]; then
+          IFS= read -rsn1 -t "$ESC_WAIT" k </dev/tty && seq="$seq$k"
+        fi
+      fi
+      case "$seq" in
+        "") exit 0 ;;                                                 # lone Esc: close, send nothing
+        "[C") cycle +1; draw ;;                                       # →
+        "[D") cycle -1; draw ;;                                       # ←
+        "[23~")                                                       # F11 = ⌘J: switch to herdr-ask, keep the text
+          printf '  switch -> herdr-ask\n' >> "$log"
+          command -v herdr-ask >/dev/null && { export HERDR_ASK_TEXT="$line"; exec herdr-ask --layout; } ;;
+        "OR"|"[13~") toggle_remote; draw ;;                           # F3 = ⌘L again: + / - other machines
+        *) printf '  key seq=%q\n' "$seq" >> "$log" ;;               # unknown key: logged, ignored
+      esac
+      continue ;;
+    "") break ;;                                                      # Enter
+    $'\x7f'|$'\b') [ -n "$line" ] && { line="${line%?}"; printf '\b \b'; } ;;
+    $'\x03'|$'\x04') exit 130 ;;
+    $'\x15') while [ -n "$line" ]; do line="${line%?}"; printf '\b \b'; done ;;
+    *) line="$line$c"; printf '%s' "$c" ;;
+  esac
+done
+[ -n "${line// /}" ] || exit 0
+
+src="${machine:+$machine }${from:-?}"; [ "$remote" = 1 ] && src="$(hostname -s) ${HERDR_SESSION:-?} $src"   # other machines must know the caller
+if [ "$sel" -lt 0 ]; then tgt=("${!ids[@]}"); tag="[⌘L from $src → all $repo]"
+else tgt=("$sel"); tag="[⌘L from $src]"; fi
+res=""; bad=0
+for i in "${tgt[@]}"; do
+  m="${mach[$i]}"; who="${m:+$m/}${ids[$i]}"
+  if { if [ -n "$m" ]; then herdr-peer-send "$m" "${ids[$i]}" "$tag $line"; else "$HERDR" agent prompt "${ids[$i]}" "$tag $line"; fi; } >/dev/null 2>&1; then res="$res $who:ok"
+  else res="$res $who:FAIL"; bad=1; fi
+done
+printf '\n %s→%s%s\n' "$DIM" "$res" "$OFF"
+sleep $(( bad ? 3 : 1 )); exit "$bad"
