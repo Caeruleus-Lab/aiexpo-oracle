@@ -213,11 +213,18 @@ lineage = card("ความจำค้นได้ยังไง · เส้
                "ความจำของ AI ค้นได้ยังไง · เริ่มจาก MCP ตัวแรก oracle-v2 ธันวาคม ค้นได้แค่โน้ตที่ AI เลือกจดไว้ใน ψ · มกราคม arra-oracle-v3 ให้ AI จดเองด้วย oracle_learn · แต่บทสนทนาจริงยังค้นไม่ได้ · กันยายนเริ่ม relic เก็บทุก session · relic3 ทำดัชนีรายสัปดาห์ · relic4 สแกนทุกเครื่องในห้าวินาที · 23 ตุลา relic5 ฮับเดียว รายเดือน ผมบอกว่า relic3 is week i need month")
 i = at("จำไม่ได้")
 out[i:i] = [lineage]
-# Nat, 5 Nov: a slide about team.buildwithoracle.com (Oracle Ecosystem v2: made by mother-oracle 6 Mar 2026 to replace
-# ecosystem.buildwithoracle.com; relic5), captured live with ego-browser on 5 Nov, after the family pictures
-team = ('<section class="slide black"><img class="vid" src="img/talk/team-ecosystem.png" alt="Oracle Ecosystem: lineage nat-s-agents to mother-oracle, system roles around Nat">'
-        '<div class="vtag">team.buildwithoracle.com · 893 oracles · 311 humans · one soul, many instances · ภาพจากเว็บจริง 5 พ.ย. 2026</div>'
-        '<div class="notes">หน้านี้คือภาพรวมทั้งระบบ team.buildwithoracle.com · ต้นทาง nat-s-agents สมองกับวิญญาณ พฤษภาคม 2025 · mother-oracle ศูนย์กลางของครอบครัว มกราคม 2026 · ตรงกลางคือผม Product Owner รอบ ๆ คือ Pulse วางงาน Neo เขียนโค้ด Hermes ข้อมูลส่วนตัว Nexus ค้นโลก · วันนี้ 893 oracles 311 humans · เข้าไปดูได้ที่ team.buildwithoracle.com</div></section>')
+# Nat, 5 Nov: team.buildwithoracle.com is frozen and old (a March 2026 page), so the slide is new: today's family
+# from relic5 (Family + Oracles pages, 5 Nov 09:03), with relic5's own Family screen beside it. The old page's
+# screenshot stays in git (img/talk/team-ecosystem.png) but is not in the talk.
+team = card("ครอบครัว Oracle วันนี้ · ตัวเลขจาก relic5 5 พ.ย. 2026",
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">'
+            '<div><h2 style="font-size:96px;line-height:1.15"><span class="hl">227</span> Oracle<br><span class="hl">17</span> ตระกูล</h2>'
+            '<div class="rows" style="font-size:38px;margin-top:20px">'
+            '<div><b class="hl">79</b> แตกหน่อมาจากตัวอื่น (bud)</div><div><b class="hl">131</b> ยืนเอง · <b class="hl">42</b> ผ่าน /awaken</div>'
+            '<div>ψ vault <b class="hl">428</b> · โน้ต <b class="hl">97,883</b></div>'
+            '<div style="font-size:32px;color:var(--color-ink-3)">nat-s-agents (พ.ค. 2025) → mother-oracle (ม.ค. 2026) → ตระกูลใหญ่สุด neo 33 ตัว 5 รุ่น</div></div></div>'
+            '<img src="img/talk/relic5-family-5nov.png" alt="หน้า Family ของ relic5 5 พ.ย. 2026" style="display:block;width:100%;border-radius:14px"></div>',
+            "ครอบครัว Oracle วันนี้ นับจาก relic5 เมื่อเช้า · 227 ตัว 17 ตระกูล · 79 ตัวแตกหน่อมาจากตัวอื่น 131 ตัวยืนเอง 42 ตัวผ่าน awaken · vault ψ 428 ที่ โน้ตเกือบแสนชิ้น · ต้นทาง nat-s-agents พฤษภาคม 2025 แล้ว mother-oracle มกราคม 2026 · ตระกูลใหญ่สุดคือ neo 33 ตัว 5 รุ่น")
 i = at('img/talk/parliament-topology.png') + 1
 out[i:i] = [team]
 # Nat, 4 Nov: one pause card before Phukhao's story: the hands-on part is done, now a video
