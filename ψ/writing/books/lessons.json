@@ -6,7 +6,7 @@
     "en": "Install Claude and ChatGPT, ready for the workshop",
     "th_sub": "Claude Code, Codex CLI หรือ claude.ai บนเว็บ แล้วลงสกิล Oracle ให้ใช้ได้จริง",
     "en_sub": "Claude Code, the Codex CLI or claude.ai on the web, then the Oracle skills that really load",
-    "cover": "images/01-claude-download.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "ego-lite",
@@ -15,7 +15,7 @@
     "en": "Install ego(lite) so your AI agent gets a browser of its own",
     "th_sub": "จาก lite.ego.app ถึง Claude Code สั่งเบราว์เซอร์ได้งานแรก",
     "en_sub": "From lite.ego.app to Claude Code finishing its first browser task",
-    "cover": "images/02-download-page.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "mcp-connect",
@@ -24,7 +24,7 @@
     "en": "Connect claude.ai and ChatGPT to the lessons MCP",
     "th_sub": "ให้ AI ในแชทค้นและอ่านบทเรียนได้เอง ทั้ง Claude Code, Codex, claude.ai และ ChatGPT",
     "en_sub": "Let the AI in your chat search and read the lessons itself: Claude Code, Codex, claude.ai and ChatGPT",
-    "cover": "images/03-claude-custom-connector-step2.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "phukhao-film",
@@ -33,7 +33,7 @@
     "en": "Make an Oracle tell its own story on film",
     "th_sub": "เสียง Paxa ทีละบรรทัด ภาพฉากจาก Codex วิดีโอวนลูปบน GB300 ทุกพรอมต์อยู่ในบท",
     "en_sub": "Paxa voice line by line, Codex scene images, seamless loops on GB300, with every prompt",
-    "cover": "images/01-codex-scenes-1.jpg"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "phukhao-journey",
@@ -42,7 +42,7 @@
     "en": "Phukhao's story, and the Oracle family's journey",
     "th_sub": "จากวันเกิด 21 ม.ค. 2026 ถึงเวที AI Expo 6 พ.ย. 2026 เก็บจากหน้าเว็บสาธารณะของภูเขา",
     "en_sub": "From its birth on 21 Jan 2026 to the AI Expo stage on 6 Nov 2026, from Phukhao's public site",
-    "cover": "../2026-10-31_phukhao-film-guide/images/04-film-frames.jpg"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "herdr-room",
@@ -51,7 +51,7 @@
     "en": "One room, many agents: herdr-room in / out",
     "th_sub": "ดึง agent มาอยู่หน้าเดียวแล้วส่งกลับ space ของตัวเอง ไม่มีตัวไหน restart พร้อมซอร์สเต็ม skill เต็ม และวิธีติดตั้ง",
     "en_sub": "Pull agents onto one page and back to their own spaces with no restart, with the full source, the full skill and install steps",
-    "cover": "images/01-room.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "build-mcp",
@@ -60,7 +60,7 @@
     "en": "Build your own MCP: turn lessons into tools for AI",
     "th_sub": "เริ่มจาก MCP 59 บรรทัด จนถึงตัวจริงบน Cloudflare Worker และ npx จาก GitHub พร้อมโค้ดเต็มและกับดักที่เจอจริง",
     "en_sub": "From a 59-line MCP to the real one on a Cloudflare Worker and npx from GitHub, with the full code and the traps we hit",
-    "cover": "images/01-architecture.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "agy-mcp",
@@ -69,7 +69,7 @@
     "en": "Use the Antigravity CLI (agy) with the lessons MCP",
     "th_sub": "ติดตั้ง agy ของ Google ล็อกอินครั้งแรก แล้วต่อ MCP ของบทเรียนทั้งตัวบน Cloudflare และตัวจาก GitHub พร้อมกับดัก invalid_scope และกล่องที่ติ๊กไว้ให้แล้ว",
     "en_sub": "Install Google's agy, sign in once, then connect both lessons MCP servers, with the invalid_scope trap and the pre-ticked box",
-    "cover": "images/01-agy-mcp.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "skills-mcp",
@@ -78,7 +78,7 @@
     "en": "One MCP hands out skills, voice and video",
     "th_sub": "skill ของ Oracle ฉบับเต็มเป็นไฟล์ .md คลิปพร้อมคำพูดและเวลา และลองจริงใน claude.ai: /awaken → งาน → /rrr → /forward",
     "en_sub": "Full Oracle skills as .md files, clips with words and times, and a real run in claude.ai: /awaken → work → /rrr → /forward",
-    "cover": "images/04-proof-awaken.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "relic5-ui",
@@ -87,7 +87,7 @@
     "en": "A tour of relic5: the agent-history hub's web UI",
     "th_sub": "ค้นทุก session ทุกเครื่อง ดูสด ความรู้ของ agent ครอบครัว Oracle แผนที่ความหมาย และสุขภาพของฮับ จากหน้าจริงบน white",
     "en_sub": "Search every session on every machine, live, agent knowledge, the Oracle family, a map by meaning and the hub's health, from the real UI on white",
-    "cover": "images/01-home.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "team-charter",
@@ -96,7 +96,7 @@
     "en": "An Oracle team: from a picture on the web, to a charter, to a team at work",
     "th_sub": "team.buildwithoracle.com วาดบทบาท charter manager-team และ rd-team เขียนบทบาทเป็นไฟล์ แล้ว herdr เปิดเป็นทีม",
     "en_sub": "team.buildwithoracle.com draws the roles, the manager-team and rd-team charters write them down, herdr opens them as a team",
-    "cover": "images/00-roles-to-team.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "herdr-cmd-j",
@@ -105,7 +105,7 @@
     "en": "herdr ⌘J and ⌘L: one line, to the right agents",
     "th_sub": "⌘J หนึ่งครั้ง ทั้งแท็บ สองครั้ง เครื่องอื่น สามครั้ง ทั้ง session ⌘L ทั้ง repo พร้อมโค้ดจริงครบทุกไฟล์",
     "en_sub": "⌘J once for the tab, twice for other machines, three times for the whole session, ⌘L for the whole repo, with the full code",
-    "cover": "images/00-cmd-j-views.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "relic5-install",
@@ -114,7 +114,7 @@
     "en": "Install relic5: every machine's history in one hub",
     "th_sub": "จากซอร์สบน GitHub ถึง CLI, MCP 25 เครื่องมือ และ relic5 import ที่ส่งประวัติของเครื่องเข้าฮับ ทุกคำสั่งรันจริง",
     "en_sub": "From the GitHub source to the CLI, 25 MCP tools and relic5 import, which sends a machine's history to the hub; every command ran",
-    "cover": "images/00-pipeline.png"
+    "cover": "images/cover-ai.jpg"
   },
   {
     "key": "signature",
@@ -123,6 +123,6 @@
     "en": "The lessons' digital signature: how it is built and how it works",
     "th_sub": "sha256 สามไฟล์ EIP-191 ตรวจจากเครื่องและเบราว์เซอร์ ลองเซ็นด้วยกุญแจทดลอง แล้วแก้คำเดียวให้เห็นว่าลายเซ็นพัง",
     "en_sub": "sha256 of three files, EIP-191, checks from a terminal and the browser, a throwaway-key signing, and one changed word that breaks it",
-    "cover": "images/00-flow.png"
+    "cover": "images/cover-ai.jpg"
   }
 ]
