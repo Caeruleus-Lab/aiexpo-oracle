@@ -287,6 +287,19 @@ out.append('<section class="slide black"><div class="frame" style="display:grid;
            '<div style="font-size:24px;color:var(--color-ink-3)">aiexpo.buildwithoracle.com/about</div>'
            '<div style="font-size:40px;margin-top:34px">ติดตามกันได้ที่</div><div style="font-size:42px" class="hl">facebook.com/nat.wrw</div></div></div>'
            '<div class="notes">ขอบคุณครับ · แนะนำร้าน Phone Booth ที่นางเลิ้ง ที่ให้คนมาเจอกันตัวจริง มาเรือได้ ท่าเรือนครสวรรค์ 200 เมตร · workshop ครั้งถัดไป อาทิตย์ 15 พ.ย. · สแกน QR ไปหน้าเกี่ยวกับเรา · ติดตามกันได้ที่ Facebook Nat Weerawan</div></section>')
+# Nat, 5 Nov: "yim opening then mcp / then team / then skills / then memory / then what is oracle / then back to
+# hands on": cut the talk at these markers and put the pieces in his order (the rest keeps its place after them)
+SEG = [("yim", None), ("what", "ก่อนลงมือ · Oracle คืออะไร"), ("mcp", "new-ws1.png"), ("skills", "สอน 1 · Skill"),
+       ("memory", "สอน 2 · Memory"), ("awaken", "เริ่มง่ายสุด"), ("phukhao", "น่าจะครบหมดแล้ว"), ("family", "fleet-graph.png"),
+       ("story", "เล่าจากโพสต์ Facebook"), ("home", "new-lessons.png"), ("origin", "Multicall3"), ("psi", "Naming makes belief visible")]
+_st = [0] + [next(i for i, x in enumerate(out) if m in x) for _, m in SEG[1:]]
+assert _st == sorted(_st), _st
+_piece = {k: out[a:b] for (k, _), a, b in zip(SEG, _st, _st[1:] + [len(out)])}
+ORDER = ["yim", "mcp", "family", "skills", "memory", "what", "awaken", "phukhao", "story", "home", "origin", "psi"]
+assert sorted(ORDER) == sorted(_piece)
+_n = len(out); out = [x for k in ORDER for x in _piece[k]]; assert len(out) == _n
+out = [x.replace("ก่อนลงมือ · Oracle คืออะไร", "รวมกัน · Oracle คืออะไร") for x in out]   # it now comes after skill + memory
+
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
@@ -297,14 +310,15 @@ print(f"talk.html: {len(out)} slides, {sum('data-video' in s for s in out)} vide
 # the same slides split into groups (one small deck each, talk-NN-slug.html) and talk_index.html, a clickable list
 # of every group and every slide (published as /talk/index.html). talk.html stays the whole talk.
 import html as _h
-GROUPS = [  # (first-slide marker, slug, Thai title)
+GROUPS = [  # (first-slide marker, slug, Thai title), in talk order
     (None, "yim", "คุณยิ้ม · เปิดงาน"),
-    ("ก่อนลงมือ · Oracle คืออะไร", "what", "Oracle คืออะไร · ภาพรวม ψ/"),
     ("new-ws1.png", "mcp", "ลงมือ · ต่อ MCP ของบทเรียน"),
-    ("สอน 1 · Skill", "teach", "สอน · skill · memory · relic5"),
-    ("เริ่มง่ายสุด", "awaken", "ไม่มี MCP ก็ได้ · ลิงก์เดียวปลุก Oracle"),
-    ("น่าจะครบหมดแล้ว", "phukhao", "ภูเขา · เสียงของ AI"),
     ("fleet-graph.png", "family", "ครอบครัว Oracle · ทีม · บทเรียนใหม่"),
+    ("สอน 1 · Skill", "skills", "Skill · คืออะไร · ข้างใน"),
+    ("สอน 2 · Memory", "memory", "Memory · ความจำ · relic5"),
+    ("รวมกัน · Oracle คืออะไร", "what", "Oracle คืออะไร · ภาพรวม ψ/"),
+    ("เริ่มง่ายสุด", "awaken", "กลับมาลงมือ · ลิงก์เดียวปลุก Oracle"),
+    ("น่าจะครบหมดแล้ว", "phukhao", "ภูเขา · เสียงของ AI"),
     ("เล่าจากโพสต์ Facebook", "story", "เล่าจากโพสต์ · อยากให้ AI เป็นแบบนี้"),
     ("new-lessons.png", "home", "กลับบ้านไปเรียนต่อ · ใบประกาศ"),
     ("Multicall3", "origin", "จุดเริ่มต้น · AI ที่ลืม (AlchemyCat)"),
@@ -337,7 +351,7 @@ def _title(x):
 cards = {}
 for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
     cards[g] = f'<a class="c" href="talk.html#{a0 + 1}"><span class="g">{g:02d}</span><b>{_h.escape(title)}</b><small>{a1 - a0} หน้า</small></a>'
-PARTS = [("A", "Opening", [1]), ("B", "Hands-on", [2, 3, 4, 5]), ("C", "Stories", [6, 7, 8]), ("D", "Take home · Origin · Closing", [9, 10, 11])]  # Nat, 5 Nov: part titles in English  # /oracle-prism 5 Nov: talk order, so the page ranges only go forward
+PARTS = [("A", "Opening", [1]), ("B", "Hands-on · Team · Skill · Memory", [2, 3, 4, 5, 6, 7]), ("C", "Stories", [8, 9]), ("D", "Take home · Origin · Closing", [10, 11, 12])]  # Nat, 5 Nov: his order
 assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) + 1))
 # Nat, 5 Nov: "can you make preact?": the index is a small Preact app (htm + preact 10, vendored as one 13 KB file,
 # no CDN, works offline on stage). Data = the parts and groups; ←/→/↑/↓ move between cards, Enter opens.
