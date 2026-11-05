@@ -15,6 +15,7 @@
 // at most 3 per call, from images.json (prebuilt by build_chunks.py: max 1280 px, JPEG 80). The text also carries each
 // image as a markdown link to its https URL, for chat UIs that render markdown.
 
+import { EXTRA } from "./skills_extra.js";   // the rest of lesson 01's skills (build_skills_all.py; Nat, 5 Nov: "you just put it in mcp?")
 const SITE = "https://aiexpo.buildwithoracle.com";
 const SERVER = { name: "aiexpo-lessons", title: "AIExpo Oracle lessons", version: "2026.11.02-1" };
 const PROTOCOLS = ["2025-06-18", "2025-03-26", "2024-11-05"];
@@ -76,7 +77,7 @@ const TOOLS = [
   {
     name: "list_skills",
     title: "List the Oracle skills",
-    description: "List the ARRA Oracle skills this server can hand out (awaken, rrr, forward, recap, workshop, awaken-app, where-we-are): what each does and how to run it in a chat.",
+    description: "List every ARRA Oracle skill this server hands out: the 7 made for a chat (awaken, rrr, forward, recap, workshop, awaken-app, where-we-are) plus the rest of the full set from lesson 01 (dig, trace, learn, oracle-prism, philosophy, …). Each says what it does and where it runs (runs: chat | partial | local = needs Claude Code or Codex on your own machine), with its download ZIP.",
     inputSchema: { type: "object", properties: {} },
     annotations: { readOnlyHint: true, openWorldHint: false },
   },
@@ -90,11 +91,12 @@ const TOOLS = [
       "(SKILL.md plus its HOSTS/TEMPLATE/reference docs and scripts, from Soul-Brews-Studio/arra-oracle-skills-cli). It is long (30-65 KB): read all of it before you start, " +
       "then follow Part 1 with the person and use Part 2 for every detail (steps, templates, rules, why). " +
       "source 'chat' = Part 1 only (short); source 'github' = the live SKILL.md alone. " +
-      "Every answer ends with ZIP download links so the person can install the skill (claude.ai Skills upload, or ~/.claude/skills).",
+      "Every answer ends with ZIP download links so the person can install the skill (claude.ai Skills upload, or ~/.claude/skills). " +
+      "Any other name from list_skills (the rest of the full set) returns that whole skill folder; its first lines say whether it works in a chat, and a skill marked local must not be run or imitated in a chat.",
     inputSchema: {
       type: "object",
       properties: {
-        name: { type: "string", enum: ["awaken", "rrr", "forward", "recap", "workshop", "awaken-app", "where-we-are"] },
+        name: { type: "string", enum: ["awaken", "rrr", "forward", "recap", "workshop", "awaken-app", "where-we-are", ...Object.keys(EXTRA)] },
         source: { type: "string", enum: ["full", "chat", "github"], description: "full (default): the whole skill; chat: the short chat runbook; github: live SKILL.md only" },
       },
       required: ["name"],
@@ -138,6 +140,8 @@ const GITHUB_SKILL = { awaken: "awaken", rrr: "rrr", forward: "forward", recap: 
 // the skill folders as ZIPs (lesson 01, section 6): upload in claude.ai (Customize > Skills > Add) or unzip into ~/.claude/skills
 const ZIP = (s) => `${SITE}/2026-10-30_claude-chatgpt-install-guide/skills/${s}.zip`;
 const CARRIES = { awaken: ["awaken"], rrr: ["rrr"], forward: ["forward"], recap: ["recap"], workshop: ["awaken", "rrr"], "awaken-app": ["awaken"], "where-we-are": ["where-we-are"] };
+const RUNS = { awaken: "chat", rrr: "chat", forward: "chat", recap: "local", workshop: "chat", "awaken-app": "chat", "where-we-are": "chat" };
+for (const [n, v] of Object.entries(EXTRA)) { SKILLS[n] = v.what; CARRIES[n] = [n]; RUNS[n] = v.web === "ok" ? "chat" : v.web; }
 function downloads(name) {
   return "\n\n## Download this skill (tell the person)\n\n" + CARRIES[name].map((s) => `- \`${s}\`: ${ZIP(s)}`).join("\n") +
     "\n\nclaude.ai: Settings > Capabilities > turn on code execution, then Customize > Skills > Add > upload the ZIP; after that, /" + CARRIES[name][0] + " works in any chat. " +
@@ -284,7 +288,7 @@ async function handle(msg, env) {
             "Read-only access to the AIExpo Oracle workshop lessons (AI Expo Thailand, 6 Nov 2026). " +
             "Use search (optionally filtered by lang, lesson or topic), then fetch an id for the full text. " +
             "Lessons exist in Thai (th, the original) and English (en). " +
-            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, forward, workshop, awaken-app, where-we-are; recap is Claude Code only). get_skill returns the WHOLE skill (every file of the real skill folder plus how to run it in chat): read all of it, then follow it with the person. " +
+            "It also hands out ARRA Oracle skills: list_skills, then get_skill (made for a chat: awaken, rrr, forward, workshop, awaken-app, where-we-are; recap is Claude Code only; list_skills also lists the rest of the full ARRA set, each marked chat, partial or local). get_skill returns the WHOLE skill (every file of the real skill folder plus how to run it in chat): read all of it, then follow it with the person. " +
             "Voice and video: list_media, then get_media for a timed transcript and links that start at a given second.",
         });
       }
@@ -307,7 +311,7 @@ async function handle(msg, env) {
       case "resources/templates/list":
         return ok(id, { resourceTemplates: [] });
       case "prompts/list":
-        return ok(id, { prompts: Object.entries(SKILLS).filter(([n]) => n !== "recap").map(([name, description]) => ({ name, title: `/${name}`, description })) });
+        return ok(id, { prompts: Object.entries(SKILLS).filter(([n]) => n !== "recap" && !EXTRA[n]).map(([name, description]) => ({ name, title: `/${name}`, description })) });
       case "prompts/get": {
         const text = await skillText(params.name, "full", env);
         if (!text) return rpcError(id, -32602, `Unknown prompt: ${params.name}`);
@@ -356,7 +360,7 @@ async function callTool(name, args, env) {
     return { content: [{ type: "text", text: `${head}\n\n${lines.join("\n") || "(no lines match)"}` }] };
   }
   if (name === "list_skills") {
-    return result({ skills: Object.entries(SKILLS).map(([name, what]) => ({ name, what, full: `${SITE}/oracle/full/${name}.md`, download: CARRIES[name].map(ZIP), chat: `${SITE}/oracle/${name}.md`, github: GITHUB_SKILL[name] ? `https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/tree/alpha/skills/${GITHUB_SKILL[name]}` : null })) });
+    return result({ note: "runs: chat = works in this chat; partial = partly (files are shown to save, gone next chat); local = needs Claude Code or Codex on your own machine. Install all: bunx --bun github:Soul-Brews-Studio/arra-oracle-skills-cli#alpha install -g -y", skills: Object.entries(SKILLS).map(([name, what]) => ({ name, what, runs: RUNS[name], full: `${SITE}/oracle/full/${name}.md`, download: CARRIES[name].map(ZIP), chat: EXTRA[name] ? null : `${SITE}/oracle/${name}.md`, github: GITHUB_SKILL[name] ? `https://github.com/Soul-Brews-Studio/arra-oracle-skills-cli/tree/alpha/skills/${GITHUB_SKILL[name]}` : null })) });
   }
   if (name === "get_skill") {
     const text = await skillText(args.name, args.source || "full", env);
