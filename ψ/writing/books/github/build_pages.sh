@@ -25,4 +25,20 @@ for f in build_index.py build_chunks.py build_media.py build_og.py build_skills_
   [ -f "$out/$f" ] && mv "$out/$f" "$out/tools/$f"
 done
 touch "$out/.nojekyll"
+# Nat, 5 Nov ("why i still see this?"): GitHub Pages serves the site from docs/, so the repo front page shows only
+# docs/ (the whole site, same URLs as before), mcp/, tools/, package.json and README.md. Pages source = main /docs.
+mkdir -p "$out/docs"
+find "$out" -mindepth 1 -maxdepth 1 ! -name .git ! -name docs ! -name mcp ! -name tools ! -name package.json -exec mv {} "$out/docs/" \;
+python3 - "$out" <<'PYEOF'
+import pathlib, re, sys
+out = pathlib.Path(sys.argv[1])
+src = (out / "docs" / "README.md").read_text(encoding="utf-8")
+# links to site files now live under docs/; leave web URLs, anchors and the repo-level folders alone
+src = re.sub(r"\]\((?!https?://|#|docs/|mcp/|tools/)([^)]+)\)", r"](docs/\1)", src)
+note = ("> On GitHub the site's files are in [`docs/`](docs/) (GitHub Pages serves that folder, same URLs as before); "
+        "[`mcp/`](mcp/) and [`tools/`](tools/) sit beside it.\n\n")
+src = src.replace("\n## Lessons\n", "\n" + note + "## Lessons\n", 1)
+(out / "README.md").write_text(src, encoding="utf-8")
+(out / "docs" / "README.md").unlink()
+PYEOF
 echo "files: $(find "$out" -type f ! -path '*/.git/*' | wc -l | tr -d ' ')  size: $(du -sh "$out" | cut -f1)"

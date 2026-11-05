@@ -14,11 +14,14 @@
 //   AIEXPO_DIR=/path/to/a/clone                                    (read files from disk instead)
 
 import { readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { join } from "node:path";
 
 const LIVE = "https://aiexpo.buildwithoracle.com";
 const BASE = (process.env.AIEXPO_BASE || "https://caeruleus-lab.github.io/aiexpo-lessons").replace(/\/$/, "");
-const DIR = process.env.AIEXPO_DIR || "";
+const CLONE = process.env.AIEXPO_DIR || "";
+// a clone of aiexpo-lessons keeps the site in docs/ since 5 Nov 2026; older clones (or the site folder itself) have it at the top
+const DIR = CLONE && existsSync(join(CLONE, "docs", "lessons.json")) ? join(CLONE, "docs") : CLONE;
 const SERVER = { name: "aiexpo-lessons", title: "AIExpo Oracle lessons (GitHub copy)", version: "2026.10.31-1" };
 const PROTOCOLS = ["2025-06-18", "2025-03-26", "2024-11-05"];
 const LANG_FILE = { en: "README.en.md", th: "README.md" };
