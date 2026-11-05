@@ -331,10 +331,13 @@ out = [x for x in out if "สอน 4 · ของจริงหนึ่งร
 # Nat, 6 Nov: "remove #42 … #39 put to same the like last section" + "remove #40": the relic5 search slides (สอน 5, relic5 ใช้จริง 1)
 # and "สอน 6 · เก็บที่ใช้จริง" leave the Memory part and join the last section, after the Neo memory map, before the closing slide
 # "relic5 ใช้จริง 2" too (Nat, 6 Nov: "move it to the end too")
-_mv = [next(x for x in out if k in x) for k in ("สอน 5 · ค้นย้อนหลัง", "relic5 ใช้จริง 1", "relic5 ใช้จริง 2", "สอน 6 · เก็บที่ใช้จริง")]
+# Nat, 6 Nov: "move #38 #39 #40": "ความจำค้นได้ยังไง" leads the moved relic5 slides, "รวมกัน · Oracle คืออะไร" follows them
+_mv = [next(x for x in out if k in x) for k in ("ความจำค้นได้ยังไง", "สอน 5 · ค้นย้อนหลัง", "relic5 ใช้จริง 1", "relic5 ใช้จริง 2", "สอน 6 · เก็บที่ใช้จริง", "รวมกัน · Oracle คืออะไร")]
 out = [x for x in out if x not in _mv]
 _end = next(i for i, x in enumerate(out) if "ที่ให้คนมาเจอกันตัวจริง" in x)
 out[_end:_end] = _mv
+# Nat, 6 Nov: "remove talk.html#45": the "รายงาน /rrr ที่ claude.ai เขียนเอง" screenshot slide is cut
+out = [x for x in out if "รายงาน /rrr ที่ claude.ai เขียนเอง" not in x]
 
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
@@ -352,7 +355,7 @@ GROUPS = [  # (first-slide marker, slug, Thai title), in talk order
     ("oracle-family.mp4", "family", "คลิปของแม่ · ครอบครัว Oracle · ทีม"),
     ("สอน 1 · Skill", "skills", "Skill · คืออะไร · ข้างใน"),
     ("สอน 2 · Memory", "memory", "Memory · ความจำ · relic5"),
-    ("รวมกัน · Oracle คืออะไร", "what", "Oracle คืออะไร · ภาพรวม ψ/"),
+    ('หน้าตา <span class="hl">ψ/', "what", "ภาพรวม ψ/ · logs → resonance"),   # "Oracle คืออะไร" moved to the end (6 Nov)
     ("เริ่มง่ายสุด", "awaken", "กลับมาลงมือ · ลิงก์เดียวปลุก Oracle"),
     ("น่าจะครบหมดแล้ว", "phukhao", "ภูเขา · เสียงของ AI"),
     ("เล่าจากโพสต์ Facebook", "story", "เล่าจากโพสต์ · อยากให้ AI เป็นแบบนี้"),
