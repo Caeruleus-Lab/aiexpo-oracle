@@ -314,17 +314,13 @@ def _title(x):
 # Nat, 5 Nov: "too much detail": the index is just the groups, one card each, click to open that part
 cards = {}
 for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
-    name = f"talk-{g:02d}-{slug}.html"
-    gpage = (head.replace("<title>", f"<title>{g:02d} {title} · Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS
-             + "\n</head>\n<body>\n<div id=\"stage\">\n\n" + "\n\n".join(out[a0:a1]) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
-    (here / name).write_text(gpage, encoding="utf-8")
-    cards[g] = f'<a class="c" href="{name}"><span class="g">{g:02d}</span><b>{_h.escape(title)}</b><small>{a1 - a0} หน้า</small></a>'
+    cards[g] = f'<a class="c" href="talk.html#{a0 + 1}"><span class="g">{g:02d}</span><b>{_h.escape(title)}</b><small>{a1 - a0} หน้า</small></a>'
 PARTS = [("A", "คุณยิ้ม", [1]), ("B", "ลงมือทำ", [2, 3, 4, 5]), ("C", "เรื่องเล่า", [6, 7, 8]), ("D", "จุดเริ่มต้น · ปิดท้าย", [10, 11, 9])]
 assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) + 1))
 # Nat, 5 Nov: "can you make preact?": the index is a small Preact app (htm + preact 10, vendored as one 13 KB file,
 # no CDN, works offline on stage). Data = the parts and groups; ←/→/↑/↓ move between cards, Enter opens.
 import json as _json
-DATA = [{"part": l, "name": n, "groups": [{"n": g, "title": GROUPS[g - 1][2], "href": f"talk-{g:02d}-{GROUPS[g - 1][1]}.html",
+DATA = [{"part": l, "name": n, "groups": [{"n": g, "title": GROUPS[g - 1][2], "href": f"talk.html#{bounds[g - 1][0] + 1}",   # Nat, 5 Nov: one talk, the card jumps to its first page
                                            "pages": bounds[g - 1][1] - bounds[g - 1][0],
                                            "slides": [] if g == 1 else [[k + 1, _title(out[k])] for k in range(*bounds[g - 1])]} for g in gs]} for l, n, gs in PARTS]
 # Nat, 5 Nov: คุณยิ้ม's part shows only its card, no list of "ภาพ 01 … 09"
