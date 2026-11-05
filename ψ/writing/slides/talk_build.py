@@ -340,7 +340,7 @@ GROUPS = [  # (first-slide marker, slug, Thai title), in talk order
     ("น่าจะครบหมดแล้ว", "phukhao", "ภูเขา · เสียงของ AI"),
     ("เล่าจากโพสต์ Facebook", "story", "เล่าจากโพสต์ · อยากให้ AI เป็นแบบนี้"),
     ("new-lessons.png", "home", "กลับบ้านไปเรียนต่อ · ใบประกาศ"),
-    ("Multicall3", "origin", "จุดเริ่มต้น · AI ที่ลืม (AlchemyCat)"),
+    ("Multicall3", "origin", "เรื่องเล่า · ประสบการณ์ระหว่างมนุษย์และ AI (AlchemyCat)"),   # Nat, 5 Nov (his message cut at "และ อ…")
     ("Naming makes belief visible", "psi", "ψ · คลิปของแม่ · Phone Booth"),
 ]
 starts = [0] + [next(i for i, x in enumerate(out) if m in x) for m, _, _ in GROUPS[1:]]
