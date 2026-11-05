@@ -314,7 +314,7 @@ SEG = [("yim", None), ("what", "ก่อนลงมือ · Oracle คือ�
 _st = [0] + [next(i for i, x in enumerate(out) if m in x) for _, m in SEG[1:]]
 assert _st == sorted(_st), _st
 _piece = {k: out[a:b] for (k, _), a, b in zip(SEG, _st, _st[1:] + [len(out)])}
-ORDER = ["yim", "mcp", "family", "skills", "memory", "what", "awaken", "phukhao", "story", "home", "origin", "psi"]
+ORDER = ["yim", "mcp", "family", "skills", "memory", "what", "awaken", "phukhao", "origin", "story", "home", "psi"]   # 6 Nov: AlchemyCat before the Facebook story
 assert sorted(ORDER) == sorted(_piece)
 _n = len(out); out = [x for k in ORDER for x in _piece[k]]; assert len(out) == _n
 out = [x.replace("ก่อนลงมือ · Oracle คืออะไร", "รวมกัน · Oracle คืออะไร") for x in out]   # it now comes after skill + memory
@@ -386,9 +386,9 @@ GROUPS = [  # (first-slide marker, slug, Thai title), in talk order
     ('หน้าตา <span class="hl">ψ/', "what", "ภาพรวม ψ/ · logs → resonance"),   # "Oracle คืออะไร" moved to the end (6 Nov)
     ("เริ่มง่ายสุด", "awaken", "กลับมาลงมือ · ลิงก์เดียวปลุก Oracle"),
     ("น่าจะครบหมดแล้ว", "phukhao", "ภูเขา · เสียงของ AI"),
+    ("Multicall3", "origin", "เรื่องเล่า · ประสบการณ์ระหว่างมนุษย์และ AI (AlchemyCat)"),   # Nat, 5 Nov (his message cut at "และ อ…")
     ("เล่าจากโพสต์ Facebook", "story", "เล่าจากโพสต์ Facebook"),
     ("new-slidesai.png", "home", "ให้ AI ทำสไลด์จาก MCP"),
-    ("Multicall3", "origin", "เรื่องเล่า · ประสบการณ์ระหว่างมนุษย์และ AI (AlchemyCat)"),   # Nat, 5 Nov (his message cut at "และ อ…")
     ("Naming makes belief visible", "psi", "ψ · relic5 · Oracle คืออะไร · Phone Booth"),
     ("<!--g:end-->", "end", "ปิดท้าย · อยากให้ AI เป็นแบบนี้ · บทเรียน · ใบประกาศ"),   # 6 Nov: moved to the very end
 ]
@@ -419,7 +419,7 @@ def _title(x):
 cards = {}
 for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
     cards[g] = f'<a class="c" href="talk.html#{a0 + 1}"><span class="g">{g:02d}</span><b>{_h.escape(title)}</b><small>{a1 - a0} หน้า</small></a>'
-PARTS = [("A", "Opening", [1]), ("B", "Hands-on · Team · Skill · Memory", [2, 3, 4, 5, 6, 7]), ("C", "Stories", [8, 9]), ("D", "Take home · Origin · Closing", [10, 11, 12, 13])]  # Nat, 5 Nov: his order
+PARTS = [("A", "Opening", [1]), ("B", "Hands-on · Team · Skill · Memory", [2, 3, 4, 5, 6, 7]), ("C", "Stories", [8, 9, 10]), ("D", "Take home · Closing", [11, 12, 13])]  # Nat, 5 Nov: his order
 assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) + 1))
 # Nat, 5 Nov: "can you make preact?": the index is a small Preact app (htm + preact 10, vendored as one 13 KB file,
 # no CDN, works offline on stage). Data = the parts and groups; ←/→/↑/↓ move between cards, Enter opens.
@@ -438,7 +438,7 @@ const COLOR = { A: 'var(--part-a)', B: 'var(--part-b)', C: 'var(--part-c)', D: '
 function Card({ g, on, refCb, all }) {
   const show = all && g.slides.length;
   return html`<div class="cell"><a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
-    <span class="g">หน้า ${g.first}–${g.last}</span><b>${g.title.split(' · ').map((w, i) => html`${i ? ' · ' : ''}<span class="nw">${w}</span>`)}</b><small>${g.pages} หน้า</small></a>
+    <span class="g">หน้า ${g.first}–${g.last}</span><b>${g.title.split(' · ').map((w, i) => html`${i ? ' · ' : ''}<span class=${w.length > 22 ? '' : 'nw'}>${w}</span>`)}</b><small>${g.pages} หน้า</small></a>
     ${show ? html`<ol class="sl">${g.slides.map(([n, t]) => html`<li><a href=${'talk.html#' + n}><span>${n}</span><em>${t}</em></a></li>`)}</ol>` : ''}</div>`;
 }
 function App() {
