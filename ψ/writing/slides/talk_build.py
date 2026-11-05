@@ -339,9 +339,27 @@ out[_end:_end] = _mv
 # Nat, 6 Nov: "remove talk.html#45": the "รายงาน /rrr ที่ claude.ai เขียนเอง" screenshot slide is cut
 out = [x for x in out if "รายงาน /rrr ที่ claude.ai เขียนเอง" not in x]
 
+# Nat, 6 Nov: "this have animation can you bring exactly this in? productize.life/workshop/ai-expo-arra/slides/#1":
+# คุณยิ้ม's live 3D deck (copied to yim-live/, trackers removed, runs offline) plays behind her 9 slides. Each talk slide
+# keeps its still as a fallback and says which of her slides to show (data-yim); the talk sends {yimGo:n} to the frame.
+def _yim(x):
+    m = re.search(r'img/yim3d-0(\d)\.png', x)
+    if not m: return x
+    x = re.sub(r'<a class="live3d".*?</a>', '', x, flags=re.S)
+    return x.replace('<section class="slide yim3d">', f'<section class="slide yim3d" data-yim="{int(m.group(1)) - 1}">', 1)
+out = [_yim(x) for x in out]
+YIM_LIVE = ('<iframe id="yimlive" src="yim-live/index.html#1" title="คุณยิ้ม · 3D" tabindex="-1" '
+            'style="position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;z-index:5;pointer-events:none;visibility:hidden"></iframe>\n')
+YIM_JS = ('<script>/* drive คุณยิ้ม\'s live deck from the talk (6 Nov) */\n'
+          '(function(){const f=document.getElementById("yimlive");if(!f)return;let last=-1;\n'
+          'function sync(){const on=document.querySelector(".slide.on");const k=on&&on.dataset.yim;\n'
+          ' if(k==null){f.style.visibility="hidden";last=-1;return}\n'
+          ' f.style.visibility="visible";if(+k!==last){last=+k;try{f.contentWindow.postMessage({yimGo:+k},"*")}catch(e){}}}\n'
+          'new MutationObserver(sync).observe(document.getElementById("stage"),{subtree:true,attributes:true,attributeFilter:["class"]});\n'
+          'f.addEventListener("load",()=>{last=-1;sync()});sync()})();\n</script>')
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
-        + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
+        + "\n\n".join(out) + "\n\n" + YIM_LIVE + "</div>\n<div id=\"count\"></div>\n" + js + "\n" + YIM_JS + "\n</body>\n</html>\n")
 (here / "talk.html").write_text(page, encoding="utf-8")
 print(f"talk.html: {len(out)} slides, {sum('data-video' in s for s in out)} videos")
 
