@@ -146,10 +146,15 @@ def info(l):
                 images=len(list((d / "images").glob("*.png"))))
 
 
+NO_TH = {"team-charter", "herdr-cmd-j"}
+
+
 def card(i, l):
     x = info(l)
     d = l["dir"] + "/"
     links = [("index.html", "AI"), ("th.html", "ไทย"), ("en.html", "English"), ("llms.txt", "llms.txt")]
+    if l["key"] in NO_TH:   # Nat, 5 Nov: these lessons show AI and English only
+        links = [x for x in links if x[0] != "th.html"]
     if x["slides"]:
         links.append(("slides.html", '<span data-l="th">สไลด์</span><span data-l="en">slides</span>'))
     chips = "".join(f'<a class="chip" href="{d}{h}">{t}</a>' for h, t in links)

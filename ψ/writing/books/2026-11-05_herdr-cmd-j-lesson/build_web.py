@@ -224,7 +224,7 @@ def page(lang):
         return f'<a class="down" href="#s{i + 2}" aria-label="next: {H.escape(titles[i])}"><b>↓</b> {H.escape(titles[i])}</a>'
     body = "".join(f'<section id="s{i + 2}">{x}{down(i + 1) if i + 1 < len(sections) else ""}</section>' for i, x in enumerate(sections))
     # AI / ไทย / English: the same language switch as the landing page; the choice is remembered for every page
-    langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}" data-set="{"ai" if k == "b64" else k}">{LANG_LABEL[k]}</a>' for k in ("b64", "th", "en"))
+    langs = "".join(f'<a href="{PAGES[k]}" class="{"on" if k == lang else ""}" data-set="{"ai" if k == "b64" else k}">{LANG_LABEL[k]}</a>' for k in ("b64", "en"))   # Nat, 5 Nov: hide the ไทย button on this lesson; th.html stays reachable by link
     langs_end = f'<button class="theme" id="themebtn" type="button">{"☀ โหมดสว่าง" if lang == "th" else "☀ Light"}</button>'
     langs = f'<a href="../index.html" class="home">{"← บทเรียนทั้งหมด" if lang == "th" else "← All lessons"}</a>' + langs
     facts = ('<span>herdr <b>0.9.5</b></span><span>code <b>8 files</b></span>'

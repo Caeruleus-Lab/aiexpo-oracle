@@ -227,6 +227,31 @@ team = card("ครอบครัว Oracle วันนี้ · ตัวเ�
             "ครอบครัว Oracle วันนี้ นับจาก relic5 เมื่อเช้า · 227 ตัว 17 ตระกูล · 79 ตัวแตกหน่อมาจากตัวอื่น 131 ตัวยืนเอง 42 ตัวผ่าน awaken · vault ψ 428 ที่ โน้ตเกือบแสนชิ้น · ต้นทาง nat-s-agents พฤษภาคม 2025 แล้ว mother-oracle มกราคม 2026 · ตระกูลใหญ่สุดคือ neo 33 ตัว 5 รุ่น")
 i = at('img/talk/parliament-topology.png') + 1
 out[i:i] = [team]
+# Nat, 5 Nov: "make slide please but 2 and make index the multi links": one slide per new lesson, each with its
+# picture, what it teaches, and its links (AI · English · llms.txt) plus a QR to the English page; after the family slide
+SITE = "aiexpo.buildwithoracle.com"
+def lesson_slide(tag, title, rows, img, qr, d, notes):
+    links = "".join(f'<div><b class="hl">{t}</b> /{d}/{f}</div>' for t, f in (("AI", ""), ("English", "en.html"), ("llms.txt", "llms.txt")))
+    return card(tag,
+        f'<h2 style="font-size:54px;line-height:1.2">{title}</h2>'
+        '<div style="display:grid;grid-template-columns:1.3fr 0.7fr;gap:40px;align-items:start;margin-top:14px">'
+        f'<div><img src="img/talk/{img}" alt="" style="display:block;max-height:470px;max-width:100%;border-radius:12px">'
+        '<div class="rows" style="font-size:28px;margin-top:12px">' + "".join(f"<div>{r}</div>" for r in rows) + '</div></div>'
+        f'<div style="text-align:center"><div style="background:#fff;border-radius:16px;padding:14px;display:inline-block"><img src="{qr}" alt="QR" style="display:block;width:260px;height:260px"></div>'
+        '<div style="font-size:24px;margin-top:10px">สแกน · บทเรียนภาษาอังกฤษ</div>'
+        f'<div style="font-size:18px;color:var(--color-ink-3);margin-top:16px;text-align:left;line-height:1.6">{SITE}{links}</div></div></div>', notes)
+lessons2 = [
+    lesson_slide("บทเรียนใหม่ · ทีม Oracle", 'ทีม Oracle: จาก<span class="hl">ภาพ</span> สู่ <span class="hl">charter</span> สู่ทีมจริง',
+        ["team.buildwithoracle.com วาดบทบาท", "manager-team + rd-team เขียนบทบาทเป็นไฟล์", "<b>just up &lt;team&gt; dry</b> ลองก่อน แล้ว herdr เปิดทีม", "ซ้ายนำ ขวาช่วย"],
+        "lesson-team-charter.png", "qr-team-charter.svg", "2026-11-05_team-ecosystem-lesson",
+        "บทเรียนใหม่ ทีม Oracle · ภาพบทบาทบน team.buildwithoracle.com · เขียนเป็น charter manager-team กับ rd-team · คำสั่ง just up ลอง dry ก่อน · กฎซ้ายนำ ขวาช่วย · สแกนไปอ่านต่อได้"),
+    lesson_slide("บทเรียนใหม่ · herdr", 'herdr <span class="hl">⌘J</span> และ <span class="hl">⌘L</span>: หนึ่งบรรทัด ถึง agent ที่ใช่',
+        ["⌘J หนึ่งครั้ง ทุก agent ในแท็บ", "สองครั้ง เพิ่มเครื่องอื่น · สามครั้ง ทั้ง session", "⌘L ทุก agent ของ repo นี้", "โค้ดจริงครบ 8 ไฟล์ในบทเรียน"],
+        "lesson-herdr-cmdj.png", "qr-herdr-cmdj.svg", "2026-11-05_herdr-cmd-j-lesson",
+        "บทเรียนใหม่ herdr ⌘J กับ ⌘L · กดครั้งเดียวส่งทั้งแท็บ สองครั้งเพิ่มเครื่องอื่น สามครั้งทั้ง session · ⌘L ทั้ง repo · ในบทเรียนมีโค้ดจริงครบ · สแกนไปอ่านต่อได้"),
+]
+i = at("ครอบครัว Oracle วันนี้") + 1
+out[i:i] = lessons2
 # Nat, 4 Nov: one pause card before Phukhao's story: the hands-on part is done, now a video
 i = at('img/talk/new-phukhao.png')
 out[i:i] = ['<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">น่าจะครบหมดแล้ว · พักดูวิดีโอกัน</span>'
