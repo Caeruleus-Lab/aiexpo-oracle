@@ -287,6 +287,25 @@ out.append('<section class="slide black"><div class="frame" style="display:grid;
            '<div style="font-size:24px;color:var(--color-ink-3)">aiexpo.buildwithoracle.com/about</div>'
            '<div style="font-size:40px;margin-top:34px">ติดตามกันได้ที่</div><div style="font-size:42px" class="hl">facebook.com/nat.wrw</div></div></div>'
            '<div class="notes">ขอบคุณครับ · แนะนำร้าน Phone Booth ที่นางเลิ้ง ที่ให้คนมาเจอกันตัวจริง มาเรือได้ ท่าเรือนครสวรรค์ 200 เมตร · workshop ครั้งถัดไป อาทิตย์ 15 พ.ย. · สแกน QR ไปหน้าเกี่ยวกับเรา · ติดตามกันได้ที่ Facebook Nat Weerawan</div></section>')
+# Nat, 5 Nov: "pick the result of /rrr for the demo of retrospective, easy to understand": a real retro from the
+# morning before the talk (ψ/memory/retrospectives/2026-11/05/10.18_…), its lines quoted as written, Thai labels beside them
+_R = lambda k, v: ('<div style="display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;align-items:baseline;padding:12px 0;border-top:1px solid var(--color-rule)">'
+                   f'<b class="hl" style="font-size:36px">{k}</b><div>{v}</div></div>')
+_C = lambda t: f'<code style="font-family:var(--font-mono);font-size:27px;line-height:1.45;color:var(--color-ink)">{t}</code>'
+rrr_demo = card("สอน 4 · ตัวอย่าง /rrr ของจริง",
+    '<h2 style="font-size:76px;margin-bottom:18px">เมื่อวานเช้า Oracle <span class="hl">จดบันทึกเอง</span></h2>'
+    '<div style="font-size:36px;line-height:1.35">'
+    + _R("ไฟล์", _C("ψ/memory/retrospectives/2026-11/05/10.18_day-before-stage….md"))
+    + _R("เวลาจริง", _C("08:44 – 10:18 GMT+7 · 94 min") + ' <span style="color:var(--color-ink-3)">· 21 commits</span>')
+    + _R("ทำอะไร", _C("09:10 Phukhao slide: \"ขึ้นเวทีครั้งแรก\"<br>09:15 Phone Booth + Facebook closing slides<br>09:20 Facebook-posts story slides<br>10:05 repo made public"))
+    + _R("AI Diary", _C("The Rule 6 date I gave at 09:12 (4 Jan) was the first<br>commit, not the birth … I corrected it within the hour.")
+         + '<div style="color:var(--color-ink-3);font-size:32px;margin-top:6px">AI ยอมรับเองว่าตอบวันที่ผิด แล้วแก้ภายในชั่วโมง</div>')
+    + _R("บทเรียน", _C("When \"first\" or a date is asked, look for the steps;<br>one date is usually one of several true ones."))
+    + '</div>',
+    "ไฟล์จริงจาก /rrr เมื่อเช้าวันที่ 5 พ.ย. ก่อนขึ้นเวทีหนึ่งวัน · ทุกเวลาในไฟล์มาจาก commit และนาฬิกาของ session ไม่ได้เดา · "
+    "ส่วนที่อยากให้ห้องเห็นคือ AI Diary: AI เขียนเองว่าตอบผิดตรงไหน แล้วแก้ยังไง · บทเรียนข้อนี้จะถูกเปิดอ่านในงานถัดไป")
+out.insert(at("สอน 4 · ของจริงหนึ่งรอบ") + 1, rrr_demo)
+
 # Nat, 5 Nov: "yim opening then mcp / then team / then skills / then memory / then what is oracle / then back to
 # hands on": cut the talk at these markers and put the pieces in his order (the rest keeps its place after them)
 SEG = [("yim", None), ("what", "ก่อนลงมือ · Oracle คืออะไร"), ("mcp", "new-ws1.png"), ("skills", "สอน 1 · Skill"),
