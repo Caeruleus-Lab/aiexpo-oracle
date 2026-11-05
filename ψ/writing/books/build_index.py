@@ -375,7 +375,18 @@ def page():
     OG_TAGS = og_tags(title="บทเรียน workshop ARRA Oracle · AIExpo Oracle",
                       description=f"คู่มือทีละขั้น {len(LESSONS)} บท สำหรับ workshop ARRA Oracle & Multi-Agent Workflow ที่งาน AI Expo วันศุกร์ 6 พ.ย. 2026",
                       path="", image="index.png", image_alt="บทเรียน workshop ARRA Oracle", lang="th", kind="website")
-    cards = "\n".join(card(i, l) for i, l in HUMAN)
+    # Nat, 5 Nov: "group lesson?": the landing shows the lessons in five groups; each lesson keeps its number
+    # (slides and notes already say "บทเรียน 02"), so numbers run in order inside a group, not across groups
+    GROUPS_L = [("เริ่มต้น · ต่อ AI เข้ากับบทเรียน", "Start · connect your AI", ["skills-mcp", "mcp-connect", "agy-mcp", "ego-lite"]),
+                ("สร้างเอง · MCP และลายเซ็น", "Build · your own MCP, signatures", ["build-mcp", "signature"]),
+                ("ความจำ · relic5", "Memory · relic5", ["relic5-install", "relic5-ui"]),
+                ("ทีม agent · herdr", "Agent teams · herdr", ["team-charter", "herdr-room", "herdr-cmd-j"]),
+                ("เรื่องเล่า · ภูเขา", "Stories · Phukhao", ["phukhao-journey", "phukhao-film"])]
+    num = {l["key"]: i for i, l in HUMAN}
+    assert sorted(k for _, _, ks in GROUPS_L for k in ks) == sorted(num), "every public lesson in exactly one group"
+    cards = "\n".join(f'<section class="lgroup"><h3><span data-l="th">{th}</span><span data-l="en">{en}</span> <small>{len(ks)}</small></h3>'
+                      f'<div class="list">' + "\n".join(card(num[k], next(l for _, l in HUMAN if l["key"] == k)) for k in sorted(ks, key=num.get)) + '</div></section>'
+                      for th, en, ks in GROUPS_L)
     path = "\n".join(f'      <a href="{l["dir"]}/" data-lesson="{l["dir"]}/"><b>{i + 1:02d}</b><span class="t"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></span></a>'
                       for i, l in enumerate(LESSONS))
     n = len(LESSONS)
@@ -436,9 +447,7 @@ def page():
   <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 02</span><span data-l="en">lesson 02</span></a></p>
 </section>
 <h2 id="all"><span data-l="th">บทเรียนทั้งหมด</span><span data-l="en">All lessons</span></h2>
-<div class="list">
 {cards}
-</div>
 <p class="note"><span data-l="th">แต่ละบทเซ็นรวมกันทุกฉบับ กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Every edition of each lesson is signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
 </main>
 <script>{JS}\n{WALL_JS}</script>
