@@ -32,7 +32,7 @@ MCP (Model Context Protocol) คือวิธีมาตรฐานที่
 | `fetch` | อ่านเนื้อหาเต็มของหัวข้อ หรือทั้งบท พร้อมแนบภาพหน้าจอได้ถึง 3 ภาพ |
 | `get_image` | ส่งภาพหน้าจอให้ AI ดูเอง |
 | `list_lessons` | รายชื่อบทเรียน ลิงก์ และหัวข้อทั้งหมด |
-| `list_skills` | รายชื่อ skill ของ Oracle ที่ใช้ในแชทได้: awaken, rrr, forward, workshop, awaken-app (recap ใช้ได้เฉพาะ Claude Code) |
+| `list_skills` | รายชื่อ skill ของ Oracle ที่ใช้ในแชทได้: awaken, rrr, forward, workshop, awaken-app, where-we-are (recap ใช้ได้เฉพาะ Claude Code) |
 | `get_skill` | ส่ง skill ฉบับเต็มเป็นไฟล์ `.md` (ทุกไฟล์ใน skill พร้อมลิงก์ ZIP) ให้ AI ทำตามในแชทนั้นเลย ไม่ต้องติดตั้ง |
 | `list_media` | รายชื่อวิดีโอ 4 คลิป และบทเรียนที่มีเสียงบรรยาย 8 บท |
 | `get_media` | คำพูดในคลิปพร้อมเวลา `[m:ss]` และลิงก์ที่กดแล้วเล่นตรงวินาทีนั้น ค้นคำด้วย `q` หรือข้ามไปที่ `at` ได้ |

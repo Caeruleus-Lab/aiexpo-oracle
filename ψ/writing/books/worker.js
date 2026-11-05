@@ -76,7 +76,7 @@ const TOOLS = [
   {
     name: "list_skills",
     title: "List the Oracle skills",
-    description: "List the ARRA Oracle skills this server can hand out (awaken, rrr, forward, recap, workshop, awaken-app): what each does and how to run it in a chat.",
+    description: "List the ARRA Oracle skills this server can hand out (awaken, rrr, forward, recap, workshop, awaken-app, where-we-are): what each does and how to run it in a chat.",
     inputSchema: { type: "object", properties: {} },
     annotations: { readOnlyHint: true, openWorldHint: false },
   },
@@ -85,7 +85,7 @@ const TOOLS = [
     title: "Get an Oracle skill",
     description:
       "Return the instructions of an ARRA Oracle skill so you can run it in this chat: 'awaken' (give birth to an Oracle), 'rrr' (session report with real timestamps), " +
-      "'forward' (hand this chat over to the next one), 'recap' (CLAUDE CODE ONLY: it reads ψ files, git and session logs on disk, so it does not run in a chat; in a chat, tell the person so and continue from the /forward handoff instead), 'workshop' (the whole mini workshop), 'awaken-app' (build an interactive awaken app). " +
+      "'forward' (hand this chat over to the next one), 'recap' (CLAUDE CODE ONLY: it reads ψ files, git and session logs on disk, so it does not run in a chat; in a chat, tell the person so and continue from the /forward handoff instead), 'workshop' (the whole mini workshop), 'awaken-app' (build an interactive awaken app), 'where-we-are' (where are we in this chat: what was done, what is now, what is open; works in a chat because it reads the conversation). " +
       "Default source 'full' returns the WHOLE skill, not a summary: Part 1 = how to run it in a chat with no terminal, Part 2 = every file of the real skill " +
       "(SKILL.md plus its HOSTS/TEMPLATE/reference docs and scripts, from Soul-Brews-Studio/arra-oracle-skills-cli). It is long (30-65 KB): read all of it before you start, " +
       "then follow Part 1 with the person and use Part 2 for every detail (steps, templates, rules, why). " +
@@ -94,7 +94,7 @@ const TOOLS = [
     inputSchema: {
       type: "object",
       properties: {
-        name: { type: "string", enum: ["awaken", "rrr", "forward", "recap", "workshop", "awaken-app"] },
+        name: { type: "string", enum: ["awaken", "rrr", "forward", "recap", "workshop", "awaken-app", "where-we-are"] },
         source: { type: "string", enum: ["full", "chat", "github"], description: "full (default): the whole skill; chat: the short chat runbook; github: live SKILL.md only" },
       },
       required: ["name"],
@@ -132,11 +132,12 @@ const SKILLS = {
   recap: "เริ่มงาน (Claude Code เท่านั้น ในแชทใช้ไม่ได้): อ่าน handoff และรายงานรอบก่อน บอกว่าค้างอะไร",
   workshop: "workshop สั้นในแชทเดียว: awaken → งานจริง → คุย → /rrr พร้อม time log",
   "awaken-app": "สร้างแอปปลุก Oracle แบบกดได้ (artifact / canvas)",
+  "where-we-are": "เราอยู่ตรงไหน: สรุปแชทนี้ ทำอะไรไป ตอนนี้ทำอะไร อะไรยังค้าง (ใช้ในแชทได้ ไม่เหมือน /recap)",
 };
-const GITHUB_SKILL = { awaken: "awaken", rrr: "rrr", forward: "forward", recap: "recap" };
+const GITHUB_SKILL = { awaken: "awaken", rrr: "rrr", forward: "forward", recap: "recap", "where-we-are": "where-we-are" };
 // the skill folders as ZIPs (lesson 01, section 6): upload in claude.ai (Customize > Skills > Add) or unzip into ~/.claude/skills
 const ZIP = (s) => `${SITE}/2026-10-30_claude-chatgpt-install-guide/skills/${s}.zip`;
-const CARRIES = { awaken: ["awaken"], rrr: ["rrr"], forward: ["forward"], recap: ["recap"], workshop: ["awaken", "rrr"], "awaken-app": ["awaken"] };
+const CARRIES = { awaken: ["awaken"], rrr: ["rrr"], forward: ["forward"], recap: ["recap"], workshop: ["awaken", "rrr"], "awaken-app": ["awaken"], "where-we-are": ["where-we-are"] };
 function downloads(name) {
   return "\n\n## Download this skill (tell the person)\n\n" + CARRIES[name].map((s) => `- \`${s}\`: ${ZIP(s)}`).join("\n") +
     "\n\nclaude.ai: Settings > Capabilities > turn on code execution, then Customize > Skills > Add > upload the ZIP; after that, /" + CARRIES[name][0] + " works in any chat. " +
@@ -283,7 +284,7 @@ async function handle(msg, env) {
             "Read-only access to the AIExpo Oracle workshop lessons (AI Expo Thailand, 6 Nov 2026). " +
             "Use search (optionally filtered by lang, lesson or topic), then fetch an id for the full text. " +
             "Lessons exist in Thai (th, the original) and English (en). " +
-            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, forward, workshop, awaken-app; recap is Claude Code only). get_skill returns the WHOLE skill (every file of the real skill folder plus how to run it in chat): read all of it, then follow it with the person. " +
+            "It also hands out ARRA Oracle skills: list_skills, then get_skill (awaken, rrr, forward, workshop, awaken-app, where-we-are; recap is Claude Code only). get_skill returns the WHOLE skill (every file of the real skill folder plus how to run it in chat): read all of it, then follow it with the person. " +
             "Voice and video: list_media, then get_media for a timed transcript and links that start at a given second.",
         });
       }

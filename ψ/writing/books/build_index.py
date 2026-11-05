@@ -266,7 +266,7 @@ markdown ดิบ: ต่อท้าย URL ด้วย README.md (ไทย)
 - ทีละขั้นพร้อมภาพ: บทเรียน 02 และ 07 · สร้างเอง: บทเรียน 06 · skill เสียง วิดีโอ: บทเรียน 01
 
 MCP ตัวนี้มีมากกว่าบทเรียน:
-- skill ของ Oracle ฉบับเต็ม: list_skills แล้ว get_skill (awaken, rrr, forward, workshop, awaken-app) ได้เป็นไฟล์ .md ทุกไฟล์ของ skill พร้อมลิงก์ ZIP ไปติดตั้ง (/recap ใช้ได้เฉพาะ Claude Code ในแชทใช้ไม่ได้ ในแชทให้แนบไฟล์ handoff จาก /forward แทน)
+- skill ของ Oracle ฉบับเต็ม: list_skills แล้ว get_skill (awaken, rrr, forward, workshop, awaken-app, where-we-are) ได้เป็นไฟล์ .md ทุกไฟล์ของ skill พร้อมลิงก์ ZIP ไปติดตั้ง (/recap ใช้ได้เฉพาะ Claude Code ในแชทใช้ไม่ได้ ในแชทให้แนบไฟล์ handoff จาก /forward แทน)
 - ไม่มี MCP ก็ใช้ได้: {SITE}oracle/full/<ชื่อ skill>.md (ฉบับเต็ม) หรือ {SITE}oracle/<ชื่อ skill>.md (ฉบับย่อสำหรับแชท)
 - เสียงและวิดีโอ: list_media แล้ว get_media ได้คำพูดพร้อมเวลา [m:ss] และลิงก์ที่กดแล้วเล่นตรงวินาทีนั้น
 - เพิ่งต่อ connector ไว้ก่อนหน้านี้? ใน claude.ai ให้ Disconnect แล้ว Connect ใหม่ ถึงจะเห็นเครื่องมือใหม่
@@ -442,7 +442,7 @@ Open [`index.html`](index.html) for the landing page. Agents: [`llms.txt`](llms.
 Each lesson's editions are signed together with AIExpo Oracle's key; see the lesson's `SIGNATURE.md`.
 ## Ask the lessons from your AI (MCP)
 
-Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: search, fetch, get_image, list_lessons, list_skills, get_skill, list_media, get_media). It also hands out the full Oracle skills (awaken, rrr, forward, workshop, awaken-app; recap runs in Claude Code only) as `.md` files with ZIP links, and the videos with timed transcripts.
+Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: search, fetch, get_image, list_lessons, list_skills, get_skill, list_media, get_media). It also hands out the full Oracle skills (awaken, rrr, forward, workshop, awaken-app, where-we-are; recap runs in Claude Code only) as `.md` files with ZIP links, and the videos with timed transcripts.
 
 - **claude.ai**: Customize → Connectors → Add → Add custom connector, paste the URL, choose No sign-in
 - **ChatGPT**: Settings → Plugins → Browse directory → Add → Add custom MCP server, Authentication: No authentication
@@ -491,7 +491,7 @@ def llms():
 
 - https://aiexpo.buildwithoracle.com/ai.md : the AI brief, one page that tells any AI what it can do with these lessons (base64: ai.b64.txt)
 - https://aiexpo.buildwithoracle.com/api/search?q=...&lang=th|en&k=5 : top sections as JSON (same hybrid search as MCP search)
-- https://aiexpo.buildwithoracle.com/oracle/full/<skill>.md : a whole ARRA Oracle skill (awaken, rrr, forward, workshop, awaken-app; recap is Claude Code only), every file of it, with ZIP links (MCP: get_skill)
+- https://aiexpo.buildwithoracle.com/oracle/full/<skill>.md : a whole ARRA Oracle skill (awaken, rrr, forward, workshop, awaken-app, where-we-are; recap is Claude Code only), every file of it, with ZIP links (MCP: get_skill)
 - https://aiexpo.buildwithoracle.com/media.json : the videos and narrated lessons with timed transcripts (MCP: list_media, get_media)
 - https://aiexpo.buildwithoracle.com/api/fetch?id=<id> : one section or a whole lesson ('<lesson>/<lang>'), with image URLs
 

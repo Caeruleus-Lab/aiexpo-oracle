@@ -14,7 +14,7 @@ import base64, json, pathlib, subprocess
 HERE = pathlib.Path(__file__).resolve().parent
 OUT = HERE / "oracle" / "full"; OUT.mkdir(parents=True, exist_ok=True)
 REPO = "Soul-Brews-Studio/arra-oracle-skills-cli"
-CARRIES = {"awaken": ["awaken"], "rrr": ["rrr"], "forward": ["forward"], "recap": ["recap"], "workshop": ["awaken", "rrr"], "awaken-app": ["awaken"]}
+CARRIES = {"awaken": ["awaken"], "rrr": ["rrr"], "forward": ["forward"], "recap": ["recap"], "workshop": ["awaken", "rrr"], "awaken-app": ["awaken"], "where-we-are": ["where-we-are", "recap"]}
 CLI_ONLY = {"recap"}   # needs a terminal: ψ on disk, git, session logs
 LANG = {".py": "python", ".ts": "ts", ".sh": "bash", ".mjs": "js", ".js": "js", ".json": "json"}
 
@@ -37,10 +37,13 @@ def order(p):  # SKILL.md, other markdown, then code
 
 
 def main():
+    import sys
+    only = set(sys.argv[1:])   # build only these (default: all); 5 Nov: add where-we-are without re-pinning the others
     branch = gh(f"repos/{REPO}")["default_branch"]   # alpha: the skills main ships are older (Jul vs Aug 2026)
     sha = gh(f"repos/{REPO}/commits/{branch}")["sha"]
     folders = {}
-    for skill in sorted({s for v in CARRIES.values() for s in v}):
+    names = [n for n in CARRIES if not only or n in only]
+    for skill in sorted({s for n in names for s in CARRIES[n]}):
         parts = []
         for p in sorted(walk(f"skills/{skill}", sha), key=order):
             text = base64.b64decode(gh(f"repos/{REPO}/contents/{p}?ref={sha}")["content"]).decode("utf-8")
@@ -49,7 +52,7 @@ def main():
             body = text if ext == ".md" else f"```{LANG.get(ext, '')}\n{text.rstrip()}\n```"
             parts.append(f"<!-- file: skills/{rel} -->\n### File: `skills/{rel}`\n\n{body.rstrip()}\n")
         folders[skill] = parts
-    for name, carried in CARRIES.items():
+    for name, carried in ((n, CARRIES[n]) for n in names):
         runbook = (HERE / "oracle" / f"{name}.md").read_text(encoding="utf-8").rstrip()
         n = sum(len(folders[s]) for s in carried)
         if name in CLI_ONLY:   # Nat, 4 Nov: "recap is never work, it just work for claude cli"

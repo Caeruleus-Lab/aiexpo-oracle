@@ -127,7 +127,7 @@ def pages():
             out.append(f"{BASE}/{d}/{f}")
     for k in ("claude-chatgpt", "ego-lite", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "skills-mcp"):
         out.append(f"{BASE}/narrated/player.html?l={k}")
-    for s in ("awaken", "rrr", "forward", "recap", "workshop", "awaken-app"):
+    for s in ("awaken", "rrr", "forward", "recap", "workshop", "awaken-app", "where-we-are"):
         out += [f"{BASE}/oracle/{s}.md", f"{BASE}/oracle/full/{s}.md"]
     return out
 

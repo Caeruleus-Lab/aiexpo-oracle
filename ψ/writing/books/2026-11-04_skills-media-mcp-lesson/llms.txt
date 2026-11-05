@@ -15,5 +15,5 @@ Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D1
 ## Key facts
 
 - Tools: search, fetch, get_image, list_lessons, list_skills, get_skill {name, source?: full|chat|github}, list_media, get_media {id, at?, q?}
-- Skills: awaken, rrr, forward, recap (Claude Code only), workshop, awaken-app; plain files at /oracle/full/<skill>.md and /oracle/<skill>.md
+- Skills: awaken, rrr, forward, recap (Claude Code only), workshop, awaken-app, where-we-are; plain files at /oracle/full/<skill>.md and /oracle/<skill>.md
 - Media: 4 videos + narrated lessons; transcripts by Paxa STT (videos) and the narration scripts (lessons)
