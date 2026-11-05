@@ -318,6 +318,10 @@ ORDER = ["yim", "mcp", "family", "skills", "memory", "what", "awaken", "phukhao"
 assert sorted(ORDER) == sorted(_piece)
 _n = len(out); out = [x for k in ORDER for x in _piece[k]]; assert len(out) == _n
 out = [x.replace("ก่อนลงมือ · Oracle คืออะไร", "รวมกัน · Oracle คืออะไร") for x in out]   # it now comes after skill + memory
+# Nat, 5 Nov 17:4x: "install mcp first / then clip mother then oracle family ... skills and memory ... same":
+# the mother's clip (was near the end) now opens the family group, right after the MCP hands-on
+_mom = next(i for i, x in enumerate(out) if "oracle-family.mp4" in x); _m = out.pop(_mom)
+out.insert(next(i for i, x in enumerate(out) if "fleet-graph.png" in x), _m)
 
 js = re.search(r"<script>\nconst S=.*?</script>", (here / "ai-drama.html").read_text(encoding="utf-8"), re.S).group(0)  # same keys + video play/pause
 page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS + "\n</head>\n<body>\n<div id=\"stage\">\n\n"
@@ -332,7 +336,7 @@ import html as _h
 GROUPS = [  # (first-slide marker, slug, Thai title), in talk order
     (None, "yim", "คุณยิ้ม · เปิดงาน"),
     ("new-ws1.png", "mcp", "ลงมือ · ต่อ MCP ของบทเรียน"),
-    ("fleet-graph.png", "family", "ครอบครัว Oracle · ทีม · บทเรียนใหม่"),
+    ("oracle-family.mp4", "family", "คลิปของแม่ · ครอบครัว Oracle · ทีม"),
     ("สอน 1 · Skill", "skills", "Skill · คืออะไร · ข้างใน"),
     ("สอน 2 · Memory", "memory", "Memory · ความจำ · relic5"),
     ("รวมกัน · Oracle คืออะไร", "what", "Oracle คืออะไร · ภาพรวม ψ/"),
