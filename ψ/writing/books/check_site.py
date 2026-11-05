@@ -81,7 +81,7 @@ def check_mcp():
     c, e = tool("list_skills", {})
     skills = json.loads(text_of(c))["skills"] if c else []
     names = [s["name"] for s in skills]
-    (good(f"list_skills {names}") if len(names) == 6 and "forward" in names else bad("list_skills", e or names))
+    (good(f"list_skills {names}") if len(names) == 7 and "forward" in names and "where-we-are" in names else bad("list_skills", e or names))
     for s in skills:
         for src in ("full", "chat") + (("github",) if s.get("github") else ()):
             c, e = tool("get_skill", {"name": s["name"], "source": src})
@@ -96,7 +96,7 @@ def check_mcp():
             (good(f"zip {z.rsplit('/', 1)[1]}") if st == 200 else bad(f"zip {z}", st))
     rl, e = rpc("resources/list")
     rs = rl["resources"] if rl else []
-    (good(f"resources/list {len(rs)}") if len(rs) == 6 else bad("resources/list", e or len(rs)))
+    (good(f"resources/list {len(rs)}") if len(rs) == 7 else bad("resources/list", e or len(rs)))
     for r in rs:
         rr, e = rpc("resources/read", {"uri": r["uri"]})
         (good(f"resources/read {r['name']}") if rr and rr["contents"][0]["mimeType"] == "text/markdown" else bad(f"resources/read {r['uri']}", e))
