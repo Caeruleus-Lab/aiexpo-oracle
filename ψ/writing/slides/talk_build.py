@@ -351,14 +351,12 @@ APP = """import { html, render, useState, useEffect, useRef } from './vendor/htm
 const DATA = __DATA__, TOTAL = __TOTAL__;
 const flat = DATA.flatMap(p => p.groups);
 const COLOR = { A: 'var(--part-a)', B: 'var(--part-b)', C: 'var(--part-c)', D: 'var(--part-d)' };   // one colour per part (Nat, 5 Nov: "colorized")
-// Nat, 5 Nov: "toggle the detail, default no detail, bullet in the box": the slide list is folded by default;
-// "รายชื่อสไลด์" opens one card, the top button (or the D key) opens every card
+// Nat, 5 Nov: "toggle the detail, default no detail" then "one button toggle all": the slide lists are folded
+// by default; one button at the top (or the D key) shows or hides every list
 function Card({ g, on, refCb, all }) {
-  const [open, setOpen] = useState(false);
-  const show = g.slides.length && (open || all);
-  return html`<div class=${'cell' + (show ? ' open' : '')}><a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
+  const show = all && g.slides.length;
+  return html`<div class="cell"><a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
     <span class="g">หน้า ${g.first}–${g.last}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>
-    ${g.slides.length ? html`<button class="more" aria-expanded=${show ? 'true' : 'false'} onClick=${() => setOpen(!show)}>${show ? 'ซ่อนรายชื่อ ▴' : 'รายชื่อสไลด์ ▾'}</button>` : ''}
     ${show ? html`<ol class="sl">${g.slides.map(([n, t]) => html`<li><a href=${'talk.html#' + n}><span>${n}</span><em>${t}</em></a></li>`)}</ol>` : ''}</div>`;
 }
 function App() {
@@ -379,7 +377,7 @@ function App() {
   let i = -1;
   return html`<h1>Talk 6 พ.ย. 2026</h1><p class="sub">ARRA Oracle & Multi-Agent Workflow · 15:05–16:10 · Builder Stage, AI Expo</p><div class="top"><a class="all" href="talk.html">▶ สไลด์เต็ม ${TOTAL} หน้า</a><button class="tog" aria-pressed=${all ? 'true' : 'false'} onClick=${() => setAll(!all)}>${all ? 'ซ่อนรายชื่อทั้งหมด' : 'แสดงรายชื่อทั้งหมด'}</button></div>
     ${DATA.map(p => html`<section class="part" style=${'--c:' + COLOR[p.part]}><h2><span class="p">${p.part}</span>${p.name}</h2><div class="grid">
-      ${p.groups.map(g => { const k = flat.indexOf(g); return html`<${Card} g=${g} on=${k === sel} refCb=${el => (refs.current[k] = el)} all=${all} key=${g.n + (all ? 'a' : '')} />`; })}</div></section>`)}
+      ${p.groups.map(g => { const k = flat.indexOf(g); return html`<${Card} g=${g} on=${k === sel} refCb=${el => (refs.current[k] = el)} all=${all} />`; })}</div></section>`)}
     <p class="hint">← → ↑ ↓ เลือก · Enter เปิด · D แสดง/ซ่อนรายชื่อ</p>`;
 }
 render(html`<${App} />`, document.querySelector('main'));
@@ -405,7 +403,7 @@ h2{{font:700 28px var(--font-display);margin:0 0 14px;padding-bottom:10px;border
 .c .g{{display:block;color:var(--c);font:600 14px var(--font-body);font-variant-numeric:tabular-nums}}.c b{{display:block;font:700 21px/1.3 var(--font-display);margin:4px 0 6px;overflow-wrap:anywhere}}.c small{{color:var(--color-muted);font-size:14px}}
 .sl{{list-style:none;padding:8px 4px 0;margin:0;font-size:16px;line-height:1.5}}.sl a{{display:grid;grid-template-columns:30px minmax(0,1fr);color:var(--color-soft);text-decoration:none;padding:3px 4px;border-radius:6px}}.sl a em{{font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 .sl a:hover{{background:var(--color-card);color:var(--color-ink)}}.sl span{{color:var(--c);font-variant-numeric:tabular-nums}}
-.hint{{color:var(--color-muted);margin-top:30px;font-size:14px}}.top{{display:flex;flex-wrap:wrap;gap:12px;align-items:center}}.tog,.more{{font:600 14px var(--font-body);color:var(--color-soft);background:none;border:1px solid var(--color-line);border-radius:999px;cursor:pointer;white-space:nowrap}}.tog{{padding:11px 18px;font-size:16px}}.more{{margin:8px 0 0 4px;padding:4px 12px}}.tog:hover,.more:hover{{color:var(--color-ink);border-color:var(--color-soft)}}.tog[aria-pressed=true]{{color:var(--color-ink);border-color:var(--color-ink)}}.tog:focus-visible,.more:focus-visible{{outline:3px solid var(--color-ink);outline-offset:2px}}
+.hint{{color:var(--color-muted);margin-top:30px;font-size:14px}}.top{{display:flex;flex-wrap:wrap;gap:12px;align-items:center}}.tog{{font:600 14px var(--font-body);color:var(--color-soft);background:none;border:1px solid var(--color-line);border-radius:999px;cursor:pointer;white-space:nowrap}}.tog{{padding:11px 18px;font-size:16px}}.tog:hover{{color:var(--color-ink);border-color:var(--color-soft)}}.tog[aria-pressed=true]{{color:var(--color-ink);border-color:var(--color-ink)}}.tog:focus-visible{{outline:3px solid var(--color-ink);outline-offset:2px}}
 @media (hover:none){{.hint{{display:none}}}}@media (prefers-reduced-motion:reduce){{.c{{transition:none}}.c:hover,.c.on{{transform:none}}}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
 <script type="module">
 {APP}</script></body></html>
