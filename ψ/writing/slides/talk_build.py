@@ -326,15 +326,17 @@ assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) 
 import json as _json
 DATA = [{"part": l, "name": n, "groups": [{"n": g, "title": GROUPS[g - 1][2], "href": f"talk-{g:02d}-{GROUPS[g - 1][1]}.html",
                                            "pages": bounds[g - 1][1] - bounds[g - 1][0],
-                                           "slides": [[k + 1, _title(out[k])] for k in range(*bounds[g - 1])]} for g in gs]} for l, n, gs in PARTS]
+                                           "slides": [] if g == 1 else [[k + 1, _title(out[k])] for k in range(*bounds[g - 1])]} for g in gs]} for l, n, gs in PARTS]
+# Nat, 5 Nov: คุณยิ้ม's part shows only its card, no list of "ภาพ 01 … 09"
 # Nat, 5 Nov: "bring back the detail": each card lists its slides again (small), each one opens the full deck there
 APP = """import { html, render, useState, useEffect, useRef } from './vendor/htm-preact-3.1.1.mjs';
 const DATA = __DATA__, TOTAL = __TOTAL__;
 const flat = DATA.flatMap(p => p.groups);
+const COLOR = { A: '#f5a524', B: '#4fa3ff', C: '#3ecf8e', D: '#c084fc' };   // one colour per part (Nat, 5 Nov: "colorized")
 function Card({ g, on, refCb }) {
   return html`<div class="cell"><a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
     <span class="g">${String(g.n).padStart(2, '0')}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>
-    <ol class="sl">${g.slides.map(([n, t]) => html`<li><a href=${'talk.html#' + n}><span>${n}</span>${t}</a></li>`)}</ol></div>`;
+    ${g.slides.length ? html`<ol class="sl">${g.slides.map(([n, t]) => html`<li><a href=${'talk.html#' + n}><span>${n}</span>${t}</a></li>`)}</ol>` : ''}</div>`;
 }
 function App() {
   const [sel, setSel] = useState(-1);
@@ -351,8 +353,8 @@ function App() {
   useEffect(() => { if (sel >= 0) refs.current[sel]?.focus(); }, [sel]);
   let i = -1;
   return html`<h1>Talk 6 พ.ย. 2026</h1><a class="all" href="talk.html">▶ สไลด์เต็ม ${TOTAL} หน้า</a>
-    ${DATA.map(p => html`<h2><span class="p">${p.part}</span>${p.name}</h2><div class="grid">
-      ${p.groups.map(g => { const k = flat.indexOf(g); return html`<${Card} g=${g} on=${k === sel} refCb=${el => (refs.current[k] = el)} />`; })}</div>`)}
+    ${DATA.map(p => html`<section class="part" style=${'--c:' + COLOR[p.part]}><h2><span class="p">${p.part}</span>${p.name}</h2><div class="grid">
+      ${p.groups.map(g => { const k = flat.indexOf(g); return html`<${Card} g=${g} on=${k === sel} refCb=${el => (refs.current[k] = el)} />`; })}</div></section>`)}
     <p class="hint">← → ↑ ↓ เลือก · Enter เปิด</p>`;
 }
 render(html`<${App} />`, document.querySelector('main'));
@@ -368,6 +370,9 @@ h2{{font:700 22px "Bai Jamjuree",sans-serif;margin:34px 0 12px;color:#9a958c}}h2
 .c:hover,.c.on,.c:focus{{border-color:#f5a524;transform:translateY(-2px)}}
 .c .g{{display:block;color:#f5a524;font:700 15px "Bai Jamjuree",sans-serif}}.c b{{display:block;font:700 21px/1.3 "Bai Jamjuree",sans-serif;margin:4px 0 6px}}.c small{{color:#9a958c}}
 .hint{{color:#5f5b55;margin-top:30px;font-size:14px}}
+.part{{--c:#f5a524;border-left:4px solid var(--c);padding-left:18px;margin-top:30px}}.part h2{{color:var(--c)}}.part h2 .p{{background:var(--c)}}
+.part .c{{border-top:3px solid var(--c);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 14%,#16181c),#16181c 70%)}}.part .c .g{{color:var(--c)}}
+.part .c:hover,.part .c.on,.part .c:focus{{border-color:var(--c)}}.part .sl span{{color:var(--c);opacity:.8}}
 .sl{{list-style:none;padding:6px 4px 0;margin:0;font-size:14px;line-height:1.45}}.sl a{{display:block;color:#b8b3aa;text-decoration:none;padding:2px 4px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}.sl a:hover{{background:#1b1d22;color:#ece8e1}}.sl span{{display:inline-block;width:30px;color:#6b665f;font-variant-numeric:tabular-nums}}
 .grid{{align-items:start}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
 <script type="module">
