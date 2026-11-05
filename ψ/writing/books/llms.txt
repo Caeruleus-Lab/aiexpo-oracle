@@ -21,7 +21,7 @@
 
 - https://aiexpo.buildwithoracle.com/ai.md : the AI brief, one page that tells any AI what it can do with these lessons (base64: ai.b64.txt)
 - https://aiexpo.buildwithoracle.com/api/search?q=...&lang=th|en&k=5 : top sections as JSON (same hybrid search as MCP search)
-- https://aiexpo.buildwithoracle.com/oracle/full/<skill>.md : a whole ARRA Oracle skill (awaken, rrr, forward, workshop, awaken-app; recap is Claude Code only), every file of it, with ZIP links (MCP: get_skill)
+- https://aiexpo.buildwithoracle.com/oracle/full/<skill>.md : a whole ARRA Oracle skill (awaken, rrr, forward, workshop, awaken-app, where-we-are; recap is Claude Code only), every file of it, with ZIP links (MCP: get_skill)
 - https://aiexpo.buildwithoracle.com/media.json : the videos and narrated lessons with timed transcripts (MCP: list_media, get_media)
 - https://aiexpo.buildwithoracle.com/api/fetch?id=<id> : one section or a whole lesson ('<lesson>/<lang>'), with image URLs
 

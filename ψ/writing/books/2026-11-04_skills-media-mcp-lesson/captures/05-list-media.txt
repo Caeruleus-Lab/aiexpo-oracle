@@ -12,3 +12,4 @@ narrated-lesson narrated/phukhao-journey   3:37  บทเรียน 05 แบ
 narrated-lesson narrated/herdr-room      2:56  บทเรียน 06 แบบมีเสียง: ห้องเดียว หลาย agent: herdr-r
 narrated-lesson narrated/build-mcp       3:27  บทเรียน 07 แบบมีเสียง: สร้าง MCP ของตัวเอง: จากบทเรี
 narrated-lesson narrated/agy-mcp         3:41  บทเรียน 08 แบบมีเสียง: ใช้ Antigravity CLI (agy) กับ
+narrated-lesson narrated/skills-mcp      3:10  บทเรียน 09 แบบมีเสียง: MCP ตัวเดียว ส่งได้ทั้ง skill

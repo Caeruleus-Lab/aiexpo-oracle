@@ -6,3 +6,4 @@ forward.md     text/markdown  https://aiexpo.buildwithoracle.com/oracle/full/for
 recap.md       text/markdown  https://aiexpo.buildwithoracle.com/oracle/full/recap.md
 workshop.md    text/markdown  https://aiexpo.buildwithoracle.com/oracle/full/workshop.md
 awaken-app.md  text/markdown  https://aiexpo.buildwithoracle.com/oracle/full/awaken-app.md
+where-we-are.md text/markdown  https://aiexpo.buildwithoracle.com/oracle/full/where-we-are.md

@@ -298,6 +298,7 @@ forward     ส่งต่องาน: เขียน handoff ให้แช
 recap       เริ่มงาน (Claude Code เท่านั้น ในแชทใช้ไม่ได้): อ่าน handoff และรายงานรอบก่อน บอกว่าค้างอะไร
 workshop    workshop สั้นในแชทเดียว: awaken → งานจริง → คุย → /rrr พร้อม time log
 awaken-app  สร้างแอปปลุก Oracle แบบกดได้ (artifact / canvas)
+where-we-are เราอยู่ตรงไหน: สรุปแชทนี้ ทำอะไรไป ตอนนี้ทำอะไร อะไรยังค้าง (ใช้ในแชทได้ ไม่เหมือน /recap)
 </code></pre>
 <p><code>get_skill {name: "rrr"}</code> ตอบสองส่วน: ข้อความหนึ่งบรรทัด กับไฟล์ <code>text/markdown</code> หนึ่งไฟล์</p>
 <pre><code>content parts: ['text', 'resource']
@@ -357,6 +358,23 @@ awaken-app  สร้างแอปปลุก Oracle แบบกดได้
 <li>ในแชท: แนบไฟล์ handoff จาก <code>/forward</code> แล้วบอกให้ทำต่อจาก "Next Session"</li>
 </ul>
 <p>ผลเต็ม: <a href="captures/04-recap-cli-only.txt">captures/04-recap-cli-only.txt</a></p>
+<h3>/where-we-are ใช้ในแชทได้ (เพิ่ม 5 พ.ย. 2026)</h3>
+<p><code>/where-we-are</code> คือ <code>/recap --now deep</code> ถามกลางงานว่า "เราอยู่ตรงไหน" ต่างจาก <code>/recap</code> ตรงที่มันอ่านจาก<strong>บทสนทนานี้เอง</strong> ไม่ต้องมีไฟล์ในเครื่อง จึงใช้ในแชทได้ <code>get_skill where-we-are</code> ส่งมาทั้งก้อน 6 ไฟล์ (skill where-we-are กับ recap ที่มันเรียกใช้):</p>
+<pre><code>[resource] uri:      https://aiexpo.buildwithoracle.com/oracle/full/where-we-are.md
+           files inside:
+             - skills/where-we-are/SKILL.md
+             - skills/recap/SKILL.md
+             - skills/recap/references/rich-paths.md
+             - skills/recap/recap-rich.ts
+             - skills/recap/recap.ts
+             - skills/recap/skills-staleness.ts
+</code></pre>
+<ul>
+<li>AI ตอบเป็น 4 ส่วน: ตาราง session นี้ (หัวข้อ และป้าย spark / complete / park / return / escape) · สถานะ (ตอนนี้ · เสร็จ · ค้าง · พักไว้) · ภาพใหญ่ · ความเห็นของ AI แล้วถามว่าไปต่อตรงไหน</li>
+<li>ห้ามแต่งเวลา ไฟล์ หรือผลลัพธ์ ใช้เฉพาะสิ่งที่อยู่ในแชท</li>
+<li>ใน claude.ai ถ้าต่อ MCP ไว้ก่อนวันที่ 5 พ.ย. ให้ตัดแล้วต่อใหม่ (กับดักข้อ 2) จึงจะเห็น skill นี้</li>
+</ul>
+<p>ผลเต็ม: <a href="captures/09-get-skill-where-we-are.txt">captures/09-get-skill-where-we-are.txt</a></p>
 <a class="down" href="#s7" aria-label="next: 6. เสียงและวิดีโอ"><b>↓</b> 6. เสียงและวิดีโอ</a></section><section id="s7"><h2>6. เสียงและวิดีโอ</h2>
 <p><code>list_media</code> มี 12 ชิ้น: วิดีโอ 4 คลิป และบทเรียนมีเสียง 8 บท (บทนี้เป็นบทที่ 9)</p>
 <pre><code>video     phukhao-presentation     3:53  ภูเขา: งานนำเสนอ Block Mountain (22 ม.ค. 2026 ...
@@ -399,16 +417,16 @@ content-type: text/markdown
 <div class="sigcard">
   <div><b>signer</b> AIExpo Oracle (Oracle AI)</div>
   <div><b>address</b> <code id="addr">0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78</code></div>
-  <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-11-04</div>
-  <div><b>signature</b> <code class="h">0xc6b7ed733e326d9c8eb98a7562c3be253748c339ac92af286d6b1c476a967afb66c1c0674683f01094a310e76a3c64d5fe637778b1e5057931d005e15162e4661b</code></div>
+  <div><b>scheme</b> EIP-191 personal_sign · <b>date</b> 2026-11-05</div>
+  <div><b>signature</b> <code class="h">0x2d386d979153404f32545571e533fde34553338fc2e6238aaa6a67da5b4656e659a663fe99a3f5f201b4e2fd48ef944bf933fc34620f08dc38d482dd50bf504e1b</code></div>
 </div>
-<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>055e15f31b993f8f764fa03b7e9591dd5017ef46c63c3a09b0e0b1359b84724c</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>325f5940c725a218231a7228f66718aba3b88a4bcd82ab022836b4ae4f78fa75</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>79ff697e9a348b89e9cf03e82ea0cb6effacd5d7daf150bfd70dda6c313b6900</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
+<table class="files"><tr><th>file</th><th>sha256 (signed)</th><th>now</th></tr><tr><td><code>README.md</code></td><td><code class='h'>cd4490653cd7b6e964dc99b453cd987dabf69924103fe59e53f45a6418d665d7</code></td><td class='st' data-f='README.md'>…</td></tr><tr><td><code>README.en.md</code></td><td><code class='h'>8d8566ed87b8742cb9c9efd4b1e8d991ad0772136f99b46a891e9c7faea79861</code></td><td class='st' data-f='README.en.md'>…</td></tr><tr><td><code>README.b64.txt</code></td><td><code class='h'>1655639d967f92140569edc7ef0994b5ed6d035018c47dbaea1a2eb68e42d3d6</code></td><td class='st' data-f='README.b64.txt'>…</td></tr></table>
 <p><button class="btn" id="verifyBtn">ตรวจในเบราว์เซอร์</button> <span id="verdict"></span></p>
 <details><summary>ข้อความที่ถูกเซ็น (message)</summary><pre>AIExpo Oracle signed: skills and media MCP lesson (lesson 09)
-date: 2026-11-04
-README.md sha256:055e15f31b993f8f764fa03b7e9591dd5017ef46c63c3a09b0e0b1359b84724c
-README.en.md sha256:325f5940c725a218231a7228f66718aba3b88a4bcd82ab022836b4ae4f78fa75
-README.b64.txt sha256:79ff697e9a348b89e9cf03e82ea0cb6effacd5d7daf150bfd70dda6c313b6900</pre></details>
+date: 2026-11-05
+README.md sha256:cd4490653cd7b6e964dc99b453cd987dabf69924103fe59e53f45a6418d665d7
+README.en.md sha256:8d8566ed87b8742cb9c9efd4b1e8d991ad0772136f99b46a891e9c7faea79861
+README.b64.txt sha256:1655639d967f92140569edc7ef0994b5ed6d035018c47dbaea1a2eb68e42d3d6</pre></details>
 <p><b>ตรวจจากเครื่องตัวเอง</b></p>
 <pre>$ cd tools && bun install && bun verify.mjs
 ok   README.md sha256:…

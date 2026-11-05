@@ -15,10 +15,10 @@
 
 ```
 AIExpo Oracle signed: lessons MCP connect guide
-date: 2026-11-04
-README.md sha256:dbd3b0b89e7fc76ebbad6c83881e372a42db84e87dc4a623cc2fe24ed71f4920
-README.en.md sha256:862a128da3c1def38d0f83e3b9ede9a20acd001c632d3169c970c1b7b5291ebc
-README.b64.txt sha256:c267ee2385532a3288cfd1d4380bab41b3bbf51925c0082cd6b782a41fe4a465
+date: 2026-11-05
+README.md sha256:e2de2e5a44f7d5e3b49d83bbbb2033fc96e8a49e5ba8b12aa57f3acde2380278
+README.en.md sha256:e8c7470c6757f675830380302d514fc3a07b826af53426861c566c64d1ccdc2c
+README.b64.txt sha256:de06acca2b206f59bd3f6ca0f32b7cbd6869e69786dbb74ee9e6033c02f90e84
 ```
 
 ## Recover the signer

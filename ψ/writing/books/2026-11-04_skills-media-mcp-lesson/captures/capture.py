@@ -41,6 +41,16 @@ p = {"name": "get_skill", "arguments": {"name": "recap", "source": "chat"}}
 t = rpc("tools/call", p)["content"][1]["resource"]["text"].split("## Download")[0].strip()
 save("04", "recap-cli-only", "tools/call", p, t.split("\n"))
 
+# 5 Nov (Nat): /where-we-are joins the skills; unlike /recap it runs in a chat, because it reads the conversation
+p = {"name": "get_skill", "arguments": {"name": "where-we-are"}}
+c = rpc("tools/call", p)["content"]
+res = c[1]["resource"]
+files = re.findall(r"### File: `([^`]+)`", res["text"])
+part1 = res["text"].split("## Part 1 · run it in this chat")[1].split("## Part 2")[0].strip().split("\n")
+save("09", "get-skill-where-we-are", "tools/call", p,
+     [f"[resource] uri:      {res['uri']}", f"           size:     {len(res['text'].encode()):,} bytes", "           files inside:"]
+     + [f"             - {f}" for f in files] + ["", "Part 1 (run it in this chat), first lines:", ""] + part1[:22])
+
 r = rpc("tools/call", {"name": "list_media", "arguments": {}})
 d = json.loads(r["content"][0]["text"])
 items = d.get("media", d.get("items", []))

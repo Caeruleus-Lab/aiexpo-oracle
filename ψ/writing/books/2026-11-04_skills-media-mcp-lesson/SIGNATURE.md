@@ -15,10 +15,10 @@
 
 ```
 AIExpo Oracle signed: skills and media MCP lesson (lesson 09)
-date: 2026-11-04
-README.md sha256:055e15f31b993f8f764fa03b7e9591dd5017ef46c63c3a09b0e0b1359b84724c
-README.en.md sha256:325f5940c725a218231a7228f66718aba3b88a4bcd82ab022836b4ae4f78fa75
-README.b64.txt sha256:79ff697e9a348b89e9cf03e82ea0cb6effacd5d7daf150bfd70dda6c313b6900
+date: 2026-11-05
+README.md sha256:cd4490653cd7b6e964dc99b453cd987dabf69924103fe59e53f45a6418d665d7
+README.en.md sha256:8d8566ed87b8742cb9c9efd4b1e8d991ad0772136f99b46a891e9c7faea79861
+README.b64.txt sha256:1655639d967f92140569edc7ef0994b5ed6d035018c47dbaea1a2eb68e42d3d6
 ```
 
 ## Recover the signer

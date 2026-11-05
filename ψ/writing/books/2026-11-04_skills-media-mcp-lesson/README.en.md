@@ -55,6 +55,7 @@ forward     ส่งต่องาน: เขียน handoff ให้แช
 recap       เริ่มงาน (Claude Code เท่านั้น ในแชทใช้ไม่ได้): อ่าน handoff และรายงานรอบก่อน บอกว่าค้างอะไร
 workshop    workshop สั้นในแชทเดียว: awaken → งานจริง → คุย → /rrr พร้อม time log
 awaken-app  สร้างแอปปลุก Oracle แบบกดได้ (artifact / canvas)
+where-we-are เราอยู่ตรงไหน: สรุปแชทนี้ ทำอะไรไป ตอนนี้ทำอะไร อะไรยังค้าง (ใช้ในแชทได้ ไม่เหมือน /recap)
 ```
 
 `get_skill {name: "rrr"}` answers in two parts: one line of text and one `text/markdown` file.
@@ -127,6 +128,27 @@ One chat, nothing installed. All times are real, 4 Nov 2026 (GMT+7).
 - In a chat: attach the `/forward` handoff and ask to continue from "Next Session"
 
 Full output: [captures/04-recap-cli-only.txt](captures/04-recap-cli-only.txt)
+
+### /where-we-are works in a chat (added 5 Nov 2026)
+
+`/where-we-are` is `/recap --now deep`: a mid-session "where are we". Unlike `/recap`, it reads **this conversation**, not files on disk, so it runs in a chat. `get_skill where-we-are` hands over the whole thing, 6 files (the where-we-are skill and the recap skill it calls):
+
+```
+[resource] uri:      https://aiexpo.buildwithoracle.com/oracle/full/where-we-are.md
+           files inside:
+             - skills/where-we-are/SKILL.md
+             - skills/recap/SKILL.md
+             - skills/recap/references/rich-paths.md
+             - skills/recap/recap-rich.ts
+             - skills/recap/recap.ts
+             - skills/recap/skills-staleness.ts
+```
+
+- The AI answers in four parts: a table of this session (topics, tagged spark / complete / park / return / escape), status (now · done · open · parked), the bigger picture, and its own read, then asks what next
+- It must not invent times, files or results: only what is in the chat
+- In claude.ai, if you connected the MCP before 5 Nov, disconnect and connect again (trap 2) to see this skill
+
+Full output: [captures/09-get-skill-where-we-are.txt](captures/09-get-skill-where-we-are.txt)
 
 ## 6. Voice and video
 

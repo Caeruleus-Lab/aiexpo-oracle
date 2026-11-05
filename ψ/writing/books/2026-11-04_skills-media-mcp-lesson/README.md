@@ -55,6 +55,7 @@ forward     ส่งต่องาน: เขียน handoff ให้แช
 recap       เริ่มงาน (Claude Code เท่านั้น ในแชทใช้ไม่ได้): อ่าน handoff และรายงานรอบก่อน บอกว่าค้างอะไร
 workshop    workshop สั้นในแชทเดียว: awaken → งานจริง → คุย → /rrr พร้อม time log
 awaken-app  สร้างแอปปลุก Oracle แบบกดได้ (artifact / canvas)
+where-we-are เราอยู่ตรงไหน: สรุปแชทนี้ ทำอะไรไป ตอนนี้ทำอะไร อะไรยังค้าง (ใช้ในแชทได้ ไม่เหมือน /recap)
 ```
 
 `get_skill {name: "rrr"}` ตอบสองส่วน: ข้อความหนึ่งบรรทัด กับไฟล์ `text/markdown` หนึ่งไฟล์
@@ -127,6 +128,27 @@ content parts: ['text', 'resource']
 - ในแชท: แนบไฟล์ handoff จาก `/forward` แล้วบอกให้ทำต่อจาก "Next Session"
 
 ผลเต็ม: [captures/04-recap-cli-only.txt](captures/04-recap-cli-only.txt)
+
+### /where-we-are ใช้ในแชทได้ (เพิ่ม 5 พ.ย. 2026)
+
+`/where-we-are` คือ `/recap --now deep` ถามกลางงานว่า "เราอยู่ตรงไหน" ต่างจาก `/recap` ตรงที่มันอ่านจาก**บทสนทนานี้เอง** ไม่ต้องมีไฟล์ในเครื่อง จึงใช้ในแชทได้ `get_skill where-we-are` ส่งมาทั้งก้อน 6 ไฟล์ (skill where-we-are กับ recap ที่มันเรียกใช้):
+
+```
+[resource] uri:      https://aiexpo.buildwithoracle.com/oracle/full/where-we-are.md
+           files inside:
+             - skills/where-we-are/SKILL.md
+             - skills/recap/SKILL.md
+             - skills/recap/references/rich-paths.md
+             - skills/recap/recap-rich.ts
+             - skills/recap/recap.ts
+             - skills/recap/skills-staleness.ts
+```
+
+- AI ตอบเป็น 4 ส่วน: ตาราง session นี้ (หัวข้อ และป้าย spark / complete / park / return / escape) · สถานะ (ตอนนี้ · เสร็จ · ค้าง · พักไว้) · ภาพใหญ่ · ความเห็นของ AI แล้วถามว่าไปต่อตรงไหน
+- ห้ามแต่งเวลา ไฟล์ หรือผลลัพธ์ ใช้เฉพาะสิ่งที่อยู่ในแชท
+- ใน claude.ai ถ้าต่อ MCP ไว้ก่อนวันที่ 5 พ.ย. ให้ตัดแล้วต่อใหม่ (กับดักข้อ 2) จึงจะเห็น skill นี้
+
+ผลเต็ม: [captures/09-get-skill-where-we-are.txt](captures/09-get-skill-where-we-are.txt)
 
 ## 6. เสียงและวิดีโอ
 

@@ -21,7 +21,7 @@ Open [`index.html`](index.html) for the landing page. Agents: [`llms.txt`](llms.
 Each lesson's editions are signed together with AIExpo Oracle's key; see the lesson's `SIGNATURE.md`.
 ## Ask the lessons from your AI (MCP)
 
-Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: search, fetch, get_image, list_lessons, list_skills, get_skill, list_media, get_media). It also hands out the full Oracle skills (awaken, rrr, forward, workshop, awaken-app; recap runs in Claude Code only) as `.md` files with ZIP links, and the videos with timed transcripts.
+Read-only MCP, no sign-in: `https://aiexpo.buildwithoracle.com/mcp` (tools: search, fetch, get_image, list_lessons, list_skills, get_skill, list_media, get_media). It also hands out the full Oracle skills (awaken, rrr, forward, workshop, awaken-app, where-we-are; recap runs in Claude Code only) as `.md` files with ZIP links, and the videos with timed transcripts.
 
 - **claude.ai**: Customize → Connectors → Add → Add custom connector, paste the URL, choose No sign-in
 - **ChatGPT**: Settings → Plugins → Browse directory → Add → Add custom MCP server, Authentication: No authentication
