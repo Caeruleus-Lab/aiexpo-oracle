@@ -304,7 +304,7 @@ rrr_demo = card("สอน 4 · ตัวอย่าง /rrr ของจริ
     + '</div>',
     "ไฟล์จริงจาก /rrr เมื่อเช้าวันที่ 5 พ.ย. ก่อนขึ้นเวทีหนึ่งวัน · ทุกเวลาในไฟล์มาจาก commit และนาฬิกาของ session ไม่ได้เดา · "
     "ส่วนที่อยากให้ห้องเห็นคือ AI Diary: AI เขียนเองว่าตอบผิดตรงไหน แล้วแก้ยังไง · บทเรียนข้อนี้จะถูกเปิดอ่านในงานถัดไป")
-out.insert(at("สอน 4 · ของจริงหนึ่งรอบ") + 1, rrr_demo)
+# out.insert(at("สอน 4 · ของจริงหนึ่งรอบ") + 1, rrr_demo)   # cut (Nat, 6 Nov: "remove …talk.html#39"); kept here, not deleted
 
 # Nat, 5 Nov: "yim opening then mcp / then team / then skills / then memory / then what is oracle / then back to
 # hands on": cut the talk at these markers and put the pieces in his order (the rest keeps its place after them)
