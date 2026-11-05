@@ -394,7 +394,7 @@ function Card({ g, on, refCb, all }) {
 }
 function App() {
   const [sel, setSel] = useState(-1);
-  const [all, setAll] = useState(false);
+  const [all, setAll] = useState(true);   // Nat, 5 Nov: "expand by default now"
   const refs = useRef([]);
   useEffect(() => {
     const k = e => {
