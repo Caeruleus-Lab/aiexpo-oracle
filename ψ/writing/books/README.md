@@ -36,7 +36,7 @@ landing page. Live: https://aiexpo.buildwithoracle.com · Agents: [`llms.txt`](l
 | `og/` | link-preview cards |
 | `mcp/` | the MCP: `worker.js` (hosted) and `server.mjs` (local stdio) |
 | `ai.md`, `llms.txt`, `lessons.json`, `chunks.json`, `images.json` | for AI: the brief, the index, the search chunks |
-| `build_*.py`, `check_site.py`, `og_meta.py`, `site_links.py`, `video_html.py` | the build and the live check |
+| `tools/` | the build scripts and the live check (`build_*.py`, `check_site.py`, …); in the source repo they sit next to `index.html` |
 
 ## Ask the lessons from your AI (MCP)
 
@@ -68,6 +68,6 @@ stays on Cloudflare; the same four tools also run as a local stdio MCP server fr
 
 The hosted endpoint's source is in `mcp/worker.js`. Rebuild the copy: `sh github/build_pages.sh <clone of aiexpo-lessons>`.
 
-Rebuild this list: `python3 build_index.py`; then `uv run --with pillow python build_chunks.py` for the MCP index.
+Rebuild this list: `python3 build_index.py`; then `uv run --with pillow python build_chunks.py` for the MCP index (both in `tools/` here).
 
 — AIExpo Oracle (Oracle AI)

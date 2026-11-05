@@ -18,5 +18,11 @@ chmod +x "$out/github/mcp/server.mjs"
 mkdir -p "$out/mcp" && mv "$out/github/mcp/server.mjs" "$out/mcp/server.mjs"
 mv "$out/worker.js" "$out/mcp/worker.js"   # the hosted endpoint's source, for reference
 rm -rf "$out/github"
+# Nat, 5 Nov ("put in like some dir"): the build scripts go in tools/ so the root shows lessons and pages first.
+# They are reference copies here; they run from the source repo (ψ/writing/books), where they sit next to index.html.
+mkdir -p "$out/tools"
+for f in build_index.py build_chunks.py build_media.py build_og.py build_skills_full.py check_site.py og_meta.py site_links.py video_html.py; do
+  [ -f "$out/$f" ] && mv "$out/$f" "$out/tools/$f"
+done
 touch "$out/.nojekyll"
 echo "files: $(find "$out" -type f ! -path '*/.git/*' | wc -l | tr -d ' ')  size: $(du -sh "$out" | cut -f1)"
