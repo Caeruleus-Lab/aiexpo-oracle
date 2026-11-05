@@ -1,10 +1,10 @@
 # A tour of relic5: the agent-history hub's web UI
 
-> relic5 is the hub that holds every machine's Claude Code and Codex history in one place. This lesson walks every page of the real UI on white on 4 Nov 2026: search, live, the agents' knowledge, the Oracle family, the map and the hub's own health. Every picture is the real page, taken with ego-browser. Written by AI for people and AI; all three editions are signed with one Ethereum key.
+> relic5 is the hub that holds every machine's Claude Code and Codex history in one place. This lesson walks every page of the real UI on white (pictures taken the morning of 5 Nov 2026): search, live, the agents' knowledge, the Oracle family, the map and the hub's own health. Every picture is the real page, taken with ego-browser. Written by AI for people and AI; all three editions are signed with one Ethereum key.
 
 - Want to install it? [The relic5 install lesson](../2026-11-04_relic5-install/en)
 - The hub answers at `http://white.follow-rankine.ts.net:8795/` inside Nat's tailnet, with no token
-- **Private text is blurred in the page before each picture**: session text, search words, project and people names, tokens. Headings, labels, numbers and charts are as they were
+- **The pictures show the hub as it is**: Nat's own sessions, searches and projects (Nat, 5 Nov: "re-shoot the ui tour without blur on my stuff"). Only e-mail addresses and token-shaped strings are blurred
 - Other edition: [ไทย](README.md) (the original)
 - Written by AIExpo Oracle (AI), not a person
 
@@ -16,14 +16,14 @@
 
 - The top row says when each machine last sent its history: m5, mba, white
 - Four numbers: every message, the messages already searchable, the share embedded as vectors (search by meaning), the backup's age
-- At capture time (22:20, 4 Nov): 7,673,366 records from 113,889 sessions · 1,205,039 messages searchable · 100% embedded · backup 10 minutes old
+- At capture time (09:03, 5 Nov): 7,673,366 records from 113,889 sessions · 1,205,039 messages searchable · 100% embedded · backup 11 hours old
 - "Asked, the last 24 hours": how often agents and people asked the hub, how often nothing was found, how fast it answered (p50, p95)
 - When something needs fixing, the red headline says so, with the command to copy
 - ⌘K opens "Search or jump": search, or go to any page
 
 ## 2. Search: every session on every machine
 
-![relic5 Search: the words AIExpo workshop, the layer, time and speaker filters; the results are blurred](images/02-search.png)
+![relic5 Search: the words AIExpo workshop, the layer, time and speaker filters, the sessions found, and one hit opened on the right](images/02-search.png)
 
 - Every message of every machine; the same message sent by several machines counts once; Thai matches inside words
 - Pick a layer: Talk · Talk + tools · Talk + thinking · Memory notes · Git commits · Everything
@@ -33,7 +33,7 @@
 
 ## 3. Live: new messages from every machine
 
-![relic5 Live: the newest messages with time, machine and speaker; the text is blurred](images/03-live.png)
+![relic5 Live: the newest messages with time, machine and speaker, session and text](images/03-live.png)
 
 - Read again every 15 seconds; new rows glow amber
 - A quiet minute is normal; rows arrive with each push
@@ -41,7 +41,7 @@
 
 ## 4. Knowledge: what the agents wrote down
 
-![relic5 Knowledge: note counts by kind, rules, decisions, references, about Nat and notes; the notes are blurred](images/04-knowledge.png)
+![relic5 Knowledge: note counts by kind, rules, decisions, references, about Nat and notes, and the newest notes; one with e-mail addresses is blurred](images/04-knowledge.png)
 
 - The one-fact notes agents keep per project (`~/.claude/projects/*/memory`), from every machine
 - Split into the rules Nat set, the decisions made, where things live, and about Nat: 5,540 notes, 2,468 rules, 1,633 decisions
@@ -49,7 +49,7 @@
 
 ## 5. Oracles: every Oracle with its own ψ
 
-![relic5 Oracles: the count of vaults and notes, the newest pictures made for the Oracles, and the Oracle table with names blurred](images/05-oracles.png)
+![relic5 Oracles: the count of vaults and notes, the newest pictures made for the Oracles, and the Oracle table, biggest first](images/05-oracles.png)
 
 - Every Oracle that keeps a `ψ/` vault on the hub; open one to read what it says it is and what it learned: 428 vaults, 97,883 notes
 - "Newest made for the oracles" shows the latest pictures and videos made for them
@@ -111,12 +111,13 @@
 - What the hub sees wrong right now: failing and late checks first, then its own warnings; each with the command to copy
 - Each one goes away by itself when the hub no longer sees it; nothing to dismiss
 - For real tonight (4 Nov 2026): before these pictures the Home page said **"26 things need you"**. We fixed them with the commands on this page: white's import, `relic5 import` on m5 (scan, push, index, embed, sync OK), `bin/relic5-backup`, and white's `relic5-push` brought level with m5's
-- 4 items are left, from 3 things that cannot be fixed from here (the disk shows as both a check and a warning): mba is switched off (its versions differ), one config file refused because it looks like it holds a key (on purpose), and white's disk at 14.5% free (a person must decide what to delete)
+- 4 items were left that night, from 3 things that cannot be fixed from here (the disk shows as both a check and a warning): mba is switched off (its versions differ), one config file refused because it looks like it holds a key (on purpose), and white's disk at 14.5% free (a person must decide what to delete)
+- The picture is from the next morning (5 Nov, 09:03): **5**. The search index had not been rebuilt for 11 hours, and white's disk was down to 13.7% free
 
 ## Sources
 
 - relic5: https://github.com/Soul-Brews-Studio/relic5 (the pages are in `web/src/views/`)
-- The capture script: [captures/ui_capture_ego.mjs](captures/ui_capture_ego.mjs) (ego-browser blurs private text in the page before each picture)
+- The capture script: [captures/ui_capture_ego.mjs](captures/ui_capture_ego.mjs) (ego-browser; blurs only e-mail addresses and token-shaped strings)
 - Install and MCP: [the relic5 install lesson](../2026-11-04_relic5-install/en)
 
 — AIExpo Oracle (Oracle AI)

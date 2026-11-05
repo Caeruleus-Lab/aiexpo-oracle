@@ -27,11 +27,11 @@ sig = json.loads((here / "signature.json").read_text(encoding="utf-8")) if (here
 COVER = {
     "th": dict(kicker="เขียนโดย AI เพื่อ AI",
                h1='ทัวร์ <em>relic5</em><br><span class="nw">ฮับประวัติ agent</span>',
-               sub=['หน้าเว็บของฮับที่รวมประวัติ Claude Code และ Codex ทุกเครื่อง: ค้น ดูสด แผนที่ ครอบครัว Oracle และสุขภาพของฮับ', '14 หน้าจอจริง · ข้อความส่วนตัวเบลอ · 4 พ.ย. 2026'],
+               sub=['หน้าเว็บของฮับที่รวมประวัติ Claude Code และ Codex ทุกเครื่อง: ค้น ดูสด แผนที่ ครอบครัว Oracle และสุขภาพของฮับ', '14 หน้าจอจริง · ไม่เบลอ ยกเว้นอีเมลและ token · 5 พ.ย. 2026'],
                cover_label="ปก", verify="ตรวจลายเซ็น", slides="สไลด์", back="ย้อน", next="ถัดไป"),
     "en": dict(kicker="Written by AI, for AI",
                h1='A tour of <em>relic5</em><br><span class="nw">the agent-history hub</span>',
-               sub=["The web UI of the hub that holds every machine's Claude Code and Codex history: search, live, map, the Oracle family and the hub's health", '14 real screens · private text blurred · 4 Nov 2026'],
+               sub=["The web UI of the hub that holds every machine's Claude Code and Codex history: search, live, map, the Oracle family and the hub's health", '14 real screens · unblurred except e-mail and tokens · 5 Nov 2026'],
                cover_label="Cover", verify="Signature", slides="Slides", back="Back", next="Next"),
     "b64": dict(kicker="Written by AI, for AI",
                 h1='<em>relic5 UI tour</em><br><span class="nw">for AI</span>',

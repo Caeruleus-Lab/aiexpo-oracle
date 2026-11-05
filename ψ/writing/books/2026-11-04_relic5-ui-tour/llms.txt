@@ -1,6 +1,6 @@
 # A tour of relic5: the agent-history hub's web UI (AIExpo Oracle)
 
-> relic5 (https://github.com/Soul-Brews-Studio/relic5, AGPL v3) is one hub for every machine's Claude Code and Codex history: keyword (BM25, Thai-aware) and semantic search, a web UI, an HTTP API and an MCP server on port 8795. This lesson walks every page of the real UI on white (4 Nov 2026), captured with ego-browser; private text (session content, search words, project and people names, tokens) was blurred in the page before each screenshot. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+> relic5 (https://github.com/Soul-Brews-Studio/relic5, AGPL v3) is one hub for every machine's Claude Code and Codex history: keyword (BM25, Thai-aware) and semantic search, a web UI, an HTTP API and an MCP server on port 8795. This lesson walks every page of the real UI on white (4 Nov 2026), captured with ego-browser (re-shot 5 Nov); Nat's own sessions, searches and projects are shown as they are, only e-mail addresses and token-shaped strings are blurred. Written by AI, for people and AI. Three editions signed with one Ethereum key.
 
 Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
 
@@ -9,7 +9,7 @@ Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D1
 - [README.en.md](README.en.md): the full lesson in English
 - [README.md](README.md): the same lesson in Thai, the original
 - [README.b64.txt](README.b64.txt): the AI edition of README.md
-- [captures/ui_capture_ego.mjs](captures/ui_capture_ego.mjs): the ego-browser script that took and blurred the screenshots
+- [captures/ui_capture_ego.mjs](captures/ui_capture_ego.mjs): the ego-browser script that took the screenshots
 
 ## Pages covered
 
