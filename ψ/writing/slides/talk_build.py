@@ -279,3 +279,60 @@ page = (head.replace("<title>", "<title>Talk 6 Nov · ").rstrip() + "\n" + CSS +
         + "\n\n".join(out) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
 (here / "talk.html").write_text(page, encoding="utf-8")
 print(f"talk.html: {len(out)} slides, {sum('data-video' in s for s in out)} videos")
+
+# Nat, 5 Nov: "slide too much can we sepeate to each group and we have index link to let me click like list":
+# the same slides split into groups (one small deck each, talk-NN-slug.html) and talk_index.html, a clickable list
+# of every group and every slide (published as /talk/index.html). talk.html stays the whole talk.
+import html as _h
+GROUPS = [  # (first-slide marker, slug, Thai title)
+    (None, "yim", "คุณยิ้ม · เปิดงาน"),
+    ("ก่อนลงมือ · Oracle คืออะไร", "what", "Oracle คืออะไร · ภาพรวม ψ/"),
+    ("new-ws1.png", "mcp", "ลงมือ · ต่อ MCP ของบทเรียน"),
+    ("สอน 1 · Skill", "teach", "สอน · skill · memory · relic5"),
+    ("เริ่มง่ายสุด", "awaken", "ไม่มี MCP ก็ได้ · ลิงก์เดียวปลุก Oracle"),
+    ("น่าจะครบหมดแล้ว", "phukhao", "ภูเขา · เสียงของ AI"),
+    ("fleet-graph.png", "family", "ครอบครัว Oracle · ทีม · บทเรียนใหม่"),
+    ("เล่าจากโพสต์ Facebook", "story", "เล่าจากโพสต์ · อยากให้ AI เป็นแบบนี้"),
+    ("new-lessons.png", "home", "กลับบ้านไปเรียนต่อ · ใบประกาศ"),
+    ("Multicall3", "origin", "จุดเริ่มต้น · AI ที่ลืม (AlchemyCat)"),
+    ("Naming makes belief visible", "psi", "ψ · คลิปของแม่ · Phone Booth"),
+]
+starts = [0] + [next(i for i, x in enumerate(out) if m in x) for m, _, _ in GROUPS[1:]]
+assert starts == sorted(starts), starts
+bounds = list(zip(starts, starts[1:] + [len(out)]))
+def _title(x):
+    body = re.sub(r'<div class="notes">.*?</div>', "", x, flags=re.S)
+    t = " ".join(_h.unescape(re.sub(r"<[^>]+>", " ", body)).split())
+    if not t or t == "3D ↗":   # a picture slide: never show its speaker notes (they are stripped from the public deck)
+        m = re.search(r'src="([^"]+)"', x)
+        f = m.group(1).split("/")[-1].rsplit(".", 1)[0] if m else "slide"
+        PIC = {"yim3d": "คุณยิ้ม · ภาพ", "new-ws1": "ลงมือ 1 · เปิดบทเรียน", "new-ws2": "ลงมือ 2 · ต่อ MCP", "new-wsrun": "ลงมือพร้อมกัน",
+               "new-phukhao": "เรื่องของภูเขา · เกิด 21 ม.ค. 2026", "new-ninemonths": "เก้าเดือนต่อมา", "new-lessons": "กลับบ้านไปเรียนต่อ · บทเรียน",
+               "new-slidesai": "ให้ AI ทำสไลด์จาก MCP"}
+        t = next((v + (" " + f.split("-")[-1] if k == "yim3d" else "") for k, v in PIC.items() if f.startswith(k)), "ภาพ · " + f)
+    return t[:90] + ("…" if len(t) > 90 else "")
+items = []
+for g, ((_, slug, title), (a0, a1)) in enumerate(zip(GROUPS, bounds), 1):
+    name = f"talk-{g:02d}-{slug}.html"
+    gpage = (head.replace("<title>", f"<title>{g:02d} {title} · Talk 6 Nov · ").rstrip() + "\n" + CSS + "\n" + DRAMA_CSS
+             + "\n</head>\n<body>\n<div id=\"stage\">\n\n" + "\n\n".join(out[a0:a1]) + "\n\n</div>\n<div id=\"count\"></div>\n" + js + "\n</body>\n</html>\n")
+    (here / name).write_text(gpage, encoding="utf-8")
+    rows = "".join(f'<li><a href="talk.html#{k + 1}"><span class="n">{k + 1}</span>{_h.escape(_title(out[k]))}</a></li>' for k in range(a0, a1))
+    items.append(f'<section class="grp"><h2><span class="g">{g:02d}</span>{_h.escape(title)} <small>สไลด์ {a0 + 1}–{a1} · {a1 - a0} หน้า</small></h2>'
+                 f'<p><a class="open" href="{name}">▶ เปิดเฉพาะส่วนนี้</a> <a class="open" href="talk.html#{a0 + 1}">เปิดในสไลด์เต็ม</a></p><ol>{rows}</ol></section>')
+index = f"""<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talk 6 Nov · สารบัญ · ARRA Oracle &amp; Multi-Agent Workflow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=Sarabun:wght@400;600&display=swap">
+<style>body{{margin:0;background:#0b0c0e;color:#ece8e1;font:17px/1.6 Sarabun,sans-serif}}main{{max-width:980px;margin:0 auto;padding:36px 22px 80px}}
+h1{{font:700 38px "Bai Jamjuree",sans-serif;margin:0 0 6px}}.sub{{color:#9a958c;margin:0 0 26px}}.top a{{color:#f5a524;font-weight:600;margin-right:18px}}
+.grp{{border-top:1px solid #2a2c31;padding:18px 0}}h2{{font:700 24px "Bai Jamjuree",sans-serif;margin:0}}h2 .g{{color:#f5a524;margin-right:12px}}h2 small{{font:400 15px Sarabun;color:#9a958c;margin-left:8px}}
+.open{{display:inline-block;margin:8px 12px 4px 0;padding:6px 14px;border-radius:999px;background:#1b1d22;color:#f5a524;text-decoration:none;font-weight:600}}
+ol{{list-style:none;padding:0;margin:8px 0 0}}li a{{display:block;padding:5px 8px;border-radius:8px;color:#ece8e1;text-decoration:none}}li a:hover{{background:#1b1d22}}
+.n{{display:inline-block;width:42px;color:#9a958c;font-variant-numeric:tabular-nums}}</style></head><body><main>
+<h1>Talk 6 พ.ย. 2026 · สารบัญ</h1><p class="sub">ARRA Oracle &amp; Multi-Agent Workflow · AI Expo Thailand 2026 · {len(out)} สไลด์ ใน {len(GROUPS)} ส่วน · กดชื่อสไลด์เพื่อเปิดตรงหน้านั้น</p>
+<p class="top"><a href="talk.html">▶ สไลด์เต็มทั้งหมด</a><a href="https://aiexpo.buildwithoracle.com/">บทเรียน</a><a href="https://aiexpo.buildwithoracle.com/about/">เกี่ยวกับเรา</a></p>
+{"".join(items)}
+<p class="sub">— AIExpo Oracle (Oracle AI)</p></main></body></html>
+"""
+(here / "talk_index.html").write_text(index, encoding="utf-8")
+print(f"talk_index.html: {len(GROUPS)} groups · " + " ".join(f"{a1 - a0}" for a0, a1 in bounds))

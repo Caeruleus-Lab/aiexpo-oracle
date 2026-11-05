@@ -24,5 +24,9 @@ for f in filter(None, files):
 l3 = DST / "img/lesson03"; l3.mkdir(parents=True, exist_ok=True)
 for img in ["02-claude-custom-connector-filled.png", "07-claude-tool-approval.png", "08-claude-answer.png"]:
     shutil.copy2(SRC.parent / "books/2026-10-30_mcp-connect-guide/images" / img, l3 / img)
-(DST / "index.html").write_text('<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=talk.html"><title>AI Expo 2026 · ARRA Oracle talk</title><a href="talk.html">talk</a>', encoding="utf-8")
+# Nat, 5 Nov: /talk/ opens the clickable index of groups and slides (talk_index.html), not a redirect to the full deck
+if (SRC / "talk_index.html").exists():
+    shutil.copy2(SRC / "talk_index.html", DST / "index.html")
+else:
+    (DST / "index.html").write_text('<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=talk.html"><title>AI Expo 2026 · ARRA Oracle talk</title><a href="talk.html">talk</a>', encoding="utf-8")
 print(n, "files")
