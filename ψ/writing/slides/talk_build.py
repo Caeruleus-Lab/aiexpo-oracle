@@ -356,7 +356,7 @@ const COLOR = { A: 'var(--part-a)', B: 'var(--part-b)', C: 'var(--part-c)', D: '
 function Card({ g, on, refCb, all }) {
   const show = all && g.slides.length;
   return html`<div class="cell"><a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
-    <span class="g">หน้า ${g.first}–${g.last}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>
+    <span class="g">หน้า ${g.first}–${g.last}</span><b>${g.title.split(' · ').map((w, i) => html`${i ? ' · ' : ''}<span class="nw">${w}</span>`)}</b><small>${g.pages} หน้า</small></a>
     ${show ? html`<ol class="sl">${g.slides.map(([n, t]) => html`<li><a href=${'talk.html#' + n}><span>${n}</span><em>${t}</em></a></li>`)}</ol>` : ''}</div>`;
 }
 function App() {
@@ -403,7 +403,7 @@ h2{{font:700 28px var(--font-display);margin:0 0 14px;padding-bottom:10px;border
 .c .g{{display:block;color:var(--c);font:600 14px var(--font-body);font-variant-numeric:tabular-nums}}.c b{{display:block;font:700 21px/1.3 var(--font-display);margin:4px 0 6px;overflow-wrap:anywhere}}.c small{{color:var(--color-muted);font-size:14px}}
 .sl{{list-style:none;padding:8px 4px 0;margin:0;font-size:16px;line-height:1.5}}.sl a{{display:grid;grid-template-columns:30px minmax(0,1fr);color:var(--color-soft);text-decoration:none;padding:3px 4px;border-radius:6px}}.sl a em{{font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 .sl a:hover{{background:var(--color-card);color:var(--color-ink)}}.sl span{{color:var(--c);font-variant-numeric:tabular-nums}}
-.hint{{color:var(--color-muted);margin-top:30px;font-size:14px}}.top{{display:flex;flex-wrap:wrap;gap:12px;align-items:center}}.tog{{font:600 14px var(--font-body);color:var(--color-soft);background:none;border:1px solid var(--color-line);border-radius:999px;cursor:pointer;white-space:nowrap}}.tog{{padding:11px 18px;font-size:16px}}.tog:hover{{color:var(--color-ink);border-color:var(--color-soft)}}.tog[aria-pressed=true]{{color:var(--color-ink);border-color:var(--color-ink)}}.tog:focus-visible{{outline:3px solid var(--color-ink);outline-offset:2px}}
+.hint{{color:var(--color-muted);margin-top:30px;font-size:14px}}.nw{{white-space:nowrap}}@media (max-width:360px){{.nw{{white-space:normal}}}}.top{{display:flex;flex-wrap:wrap;gap:12px;align-items:center}}.tog{{font:600 14px var(--font-body);color:var(--color-soft);background:none;border:1px solid var(--color-line);border-radius:999px;cursor:pointer;white-space:nowrap}}.tog{{padding:11px 18px;font-size:16px}}.tog:hover{{color:var(--color-ink);border-color:var(--color-soft)}}.tog[aria-pressed=true]{{color:var(--color-ink);border-color:var(--color-ink)}}.tog:focus-visible{{outline:3px solid var(--color-ink);outline-offset:2px}}
 @media (hover:none){{.hint{{display:none}}}}@media (prefers-reduced-motion:reduce){{.c{{transition:none}}.c:hover,.c.on{{transform:none}}}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
 <script type="module">
 {APP}</script></body></html>
