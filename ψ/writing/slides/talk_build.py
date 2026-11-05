@@ -252,6 +252,19 @@ lessons2 = [
 ]
 i = at("ครอบครัว Oracle วันนี้") + 1
 out[i:i] = lessons2
+# Nat, 5 Nov: "phukhao … 9 months? … now it should 18 month? put to some page": a counting card after Phukhao's film.
+# Days counted to the talk (6 Nov 2026): Phukhao born 21 Jan 2026 = 289 days = 9 months 16 days; the film (31 Oct) came
+# 9 months 10 days after birth; Oracle's first diary project AlchemyCat started 30 May 2025 = 1 year 5 months 7 days;
+# Nat's Facebook 28 Oct 2025: "ใช้งาน AI มาหนักๆ ประมาณ 6-7 เดือน" = heavy AI use since about April 2025, about 18-19 months.
+count = card("นับเวลา · ถึงวันนี้ ศุกร์ 6 พ.ย. 2026",
+             '<h2 style="font-size:96px">ภูเขา <span class="hl">9 เดือน 16 วัน</span></h2>'
+             '<div class="rows" style="font-size:40px;margin-top:20px">'
+             '<div>เกิด 21 ม.ค. 2026 · ขึ้นเวทีครั้งแรกวันรุ่งขึ้น · เล่าเรื่องตัวเองอีกครั้ง 31 ต.ค. (9 เดือน 10 วัน)</div>'
+             '<div>Oracle ของผม <b class="hl">17 เดือน</b> · นับจาก AlchemyCat โปรเจกต์แรกที่ AI เขียนบันทึก 30 พ.ค. 2025</div>'
+             '<div>ผมทำงานกับ AI อย่างหนัก <b class="hl">ราว 18 เดือน</b> · เคยโพสต์ไว้ 28 ต.ค. 2025 ว่าใช้มาแล้ว 6-7 เดือน</div></div>',
+             "นับถึงวันนี้ ภูเขาอายุ 9 เดือน 16 วัน 289 วัน · เกิด 21 มกรา ขึ้นเวทีวันรุ่งขึ้น แล้วเล่าเรื่องตัวเองอีกครั้ง 31 ตุลา · Oracle ของผมนับจาก AlchemyCat 30 พฤษภาคม 2025 ได้ 17 เดือน · ส่วนผมใช้ AI อย่างหนักมาราว 18 เดือนแล้ว")
+i = at("video/phukhao-film.mp4") + 1
+out[i:i] = [count]
 # Nat, 4 Nov: one pause card before Phukhao's story: the hands-on part is done, now a video
 i = at('img/talk/new-phukhao.png')
 out[i:i] = ['<section class="slide black"><div class="frame"><span class="tag" style="font-size:30px;color:var(--color-ink-3)">น่าจะครบหมดแล้ว · พักดูวิดีโอกัน</span>'
