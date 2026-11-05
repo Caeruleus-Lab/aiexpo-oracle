@@ -388,6 +388,7 @@ function App() {
     addEventListener('keydown', k); return () => removeEventListener('keydown', k);
   }, [sel]);
   useEffect(() => { if (sel >= 0) refs.current[sel]?.focus(); }, [sel]);
+  useEffect(() => { document.querySelector('main').classList.toggle('open', all); }, [all]);   // Nat, 5 Nov: "all box same height" while folded
   let i = -1;
   return html`<h1>Talk 6 พ.ย. 2026</h1><p class="sub">ARRA Oracle & Multi-Agent Workflow · 15:05–16:10 · Builder Stage, AI Expo</p><div class="top"><a class="all" href="talk.html">▶ สไลด์เต็ม ${TOTAL} หน้า</a><button class="tog" aria-pressed=${all ? 'true' : 'false'} onClick=${() => setAll(!all)}>${all ? 'ซ่อนรายชื่อทั้งหมด' : 'แสดงรายชื่อทั้งหมด'}</button></div>
     ${DATA.map(p => html`<section class="part" style=${'--c:' + COLOR[p.part]}><h2><span class="p">${p.part}</span>${p.name}</h2><div class="grid">
@@ -398,23 +399,24 @@ render(html`<${App} />`, document.querySelector('main'));
 """.replace("__DATA__", _json.dumps(DATA, ensure_ascii=False)).replace("__TOTAL__", str(len(out)))
 index = f"""<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Talk 6 Nov · ARRA Oracle &amp; Multi-Agent Workflow</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=Sarabun:wght@400;600&display=swap">
-<style>/* Hallmark · audit polish 5 Nov: tokens, focus ring, contrast, 320 px grid, reduced motion
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<style>/* Nat 5 Nov "same height, update font": cards one height (min 150 px, a row stretches), body + card titles IBM Plex Sans Thai 18 px
+ * Hallmark · audit polish 5 Nov: tokens, focus ring, contrast, 320 px grid, reduced motion
  * /oracle-prism + /impeccable 5 Nov: slide = its headline (2 lines max), no side-tab or top-stripe borders, type 14/16/21/28/44
  * Nat 5 Nov "section bg color to guide": each part sits on a panel tinted with its colour */
 :root{{--color-paper:oklch(15% 0.005 260);--color-card:oklch(20% 0.008 260);--color-line:oklch(28% 0.008 260);--color-ink:oklch(93% 0.01 80);
 --color-muted:oklch(70% 0.012 80);--color-soft:oklch(80% 0.012 80);--part-a:oklch(78% 0.16 70);--part-b:oklch(72% 0.14 250);--part-c:oklch(78% 0.15 160);--part-d:oklch(74% 0.14 305);
---font-display:"Bai Jamjuree",sans-serif;--font-body:Sarabun,sans-serif;--ease-out:cubic-bezier(.2,.7,.2,1)}}
-html,body{{overflow-x:clip}}body{{margin:0;background:var(--color-paper);color:var(--color-ink);font:17px/1.5 var(--font-body)}}main{{max-width:1000px;margin:0 auto;padding:40px 22px 70px}}
+--font-display:"Bai Jamjuree",sans-serif;--font-body:"IBM Plex Sans Thai",Sarabun,sans-serif;--ease-out:cubic-bezier(.2,.7,.2,1)}}
+html,body{{overflow-x:clip}}body{{margin:0;background:var(--color-paper);color:var(--color-ink);font:18px/1.55 var(--font-body)}}main{{max-width:1000px;margin:0 auto;padding:40px 22px 70px}}
 h1{{font:700 44px/1.15 var(--font-display);margin:0 0 6px}}.sub{{color:var(--color-muted);margin:0 0 18px}}
 .all{{display:inline-block;padding:12px 22px;border-radius:999px;background:var(--color-ink);color:var(--color-paper);font-weight:700;text-decoration:none;font-size:16px;white-space:nowrap}}
 h2{{font:700 28px var(--font-display);margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--color-line)}}h2 .p{{color:var(--c);margin-right:12px}}
 .part{{margin-top:28px;padding:22px 22px 26px;border-radius:22px;background:color-mix(in oklab,var(--c) 18%,var(--color-paper));border:1px solid color-mix(in oklab,var(--c) 30%,var(--color-paper))}}.part h2{{color:var(--color-ink);border-bottom-color:color-mix(in oklab,var(--c) 35%,var(--color-paper))}}.part .c{{background:color-mix(in oklab,var(--c) 9%,var(--color-card))}}@media (max-width:480px){{.part{{padding:16px 14px 18px;border-radius:16px}}}}
-.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:14px;align-items:start}}.cell{{min-width:0}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:14px;align-items:stretch}}.cell{{min-width:0;display:flex;flex-direction:column}}.c{{flex:1 0 auto;min-height:150px}}.open .grid{{align-items:start}}.open .c{{flex:none;min-height:150px}}
 .c{{display:block;padding:16px 20px;border-radius:14px;background:var(--color-card);color:var(--color-ink);text-decoration:none;border:1px solid var(--color-line);transition:transform .14s var(--ease-out),border-color .14s var(--ease-out)}}
 .c:hover,.c.on{{border-color:var(--c);transform:translateY(-2px)}}
 .c:focus-visible,.sl a:focus-visible,.all:focus-visible{{outline:3px solid var(--color-ink);outline-offset:3px}}
-.c .g{{display:block;color:var(--c);font:600 14px var(--font-body);font-variant-numeric:tabular-nums}}.c b{{display:block;font:700 21px/1.3 var(--font-display);margin:4px 0 6px;overflow-wrap:anywhere}}.c small{{color:var(--color-muted);font-size:14px}}
+.c .g{{display:block;color:var(--c);font:600 14px var(--font-body);font-variant-numeric:tabular-nums}}.c b{{display:block;font:600 22px/1.35 var(--font-body);margin:4px 0 6px;overflow-wrap:anywhere}}.c small{{color:var(--color-muted);font-size:14px}}
 .sl{{list-style:none;padding:8px 4px 0;margin:0;font-size:16px;line-height:1.5}}.sl a{{display:grid;grid-template-columns:30px minmax(0,1fr);color:var(--color-soft);text-decoration:none;padding:3px 4px;border-radius:6px}}.sl a em{{font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 .sl a:hover{{background:var(--color-card);color:var(--color-ink)}}.sl span{{color:var(--c);font-variant-numeric:tabular-nums}}
 .hint{{color:var(--color-muted);margin-top:30px;font-size:14px}}.nw{{white-space:nowrap}}@media (max-width:360px){{.nw{{white-space:normal}}}}.top{{display:flex;flex-wrap:wrap;gap:12px;align-items:center}}.tog{{font:600 14px var(--font-body);color:var(--color-soft);background:none;border:1px solid var(--color-line);border-radius:999px;cursor:pointer;white-space:nowrap}}.tog{{padding:11px 18px;font-size:16px}}.tog:hover{{color:var(--color-ink);border-color:var(--color-soft)}}.tog[aria-pressed=true]{{color:var(--color-ink);border-color:var(--color-ink)}}.tog:focus-visible{{outline:3px solid var(--color-ink);outline-offset:2px}}
