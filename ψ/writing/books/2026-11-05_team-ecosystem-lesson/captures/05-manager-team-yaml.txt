@@ -1,0 +1,35 @@
+$ cat teams/manager-team.yaml   # desk_token and remote lines left out
+# Team charter — manager-team · mirrored into the laris-team control plane 2026-10-17
+# Source format: laris-co/pulse-oracle/teams/README.md (discussion 315)
+name: manager
+issue: https://github.com/laris-co/pulse-oracle/issues/311   # Athena orchestrates the fleet; Pulse runs the board
+repo: laris-co/manager-team    # team desk, same shape as media-team (Nat 2026-10-27); board + original teams/ stay in laris-co/pulse-oracle
+session: laris-co            # herdr session laris-co on white (Nat 2026-10-29)
+bodies: wt                   # `just up manager-team`: every member in manager-team/wt/<oracle> (Nat 2026-10-27)
+host: formless               # manager-team main runs a formless agent: no soul, no Discord
+room: manager-team           # herdr-room: athena-left left, pulse right
+label: team:manager
+lead: athena-oracle
+members:
+  - name: athena-oracle      # was athena-left (athena-right shares the repo but is NOT a member)
+    seat: left · lead
+    path: /opt/Code/github.com/laris-co/athena-oracle
+    role: orchestrator — plans with Nat, files issues, routes work to teams, reports back
+  - name: pulse-oracle
+    seat: right · supporter
+    path: /opt/Code/github.com/laris-co/pulse-oracle
+    role: board — Master Board (Project #6), labels, chasing, close-out, owns pulse-oracle/teams/
+  - name: hermes-oracle      # moved from support-team (Nat 2026-10-29: "bring to manager team? wt?")
+    seat: right · messenger
+    path: /opt/Code/github.com/laris-co/hermes-oracle
+    role: messenger — relays #portal ↔ herdr for the team; "the message arrives intact"
+discord: none
+# white bodies. worker = body name (maps to the member of the same base name); checkout = main|<worktree>.
+# conversation ids are runtime and drift — not tracked in the charter.
+autostart: []
+rules:
+  - one-soul-one-body
+  - each-oracle-own-worktree      # wt/<oracle> in laris-co/manager-team, soul from its own repo (Nat 2026-10-27)
+  - no-channels-on-workers
+  - left-leads-right-supports   # Nat, 2026-10-12: "right support left" — Athena leads, Pulse supports
+  - managers-route-not-execute   # build work goes to the owning team (code → Neo, media → media team)

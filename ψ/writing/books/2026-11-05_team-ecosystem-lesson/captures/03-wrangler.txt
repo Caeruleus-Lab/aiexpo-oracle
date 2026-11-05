@@ -1,0 +1,18 @@
+$ python3 -c (wrangler.json without account_id)
+{
+  "name": "team-buildwithoracle",
+  "compatibility_date": "2024-12-01",
+  "assets": {
+    "directory": "site"
+  },
+  "routes": [
+    {
+      "pattern": "team.buildwithoracle.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "ecosystem.buildwithoracle.com",
+      "custom_domain": true
+    }
+  ]
+}

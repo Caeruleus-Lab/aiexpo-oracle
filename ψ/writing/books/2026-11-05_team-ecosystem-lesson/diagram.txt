@@ -1,0 +1,25 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║  ROLES ON A PAGE  →  A CHARTER  →  A LIVE TEAM            5 Nov 2026         ║
+║  team.buildwithoracle.com · laris-team/teams/*.yaml (20) · herdr laris-co    ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+ 1 ─ THE PICTURE   team.buildwithoracle.com (mother-oracle, 6 Mar 2026)
+     Nat · Product Owner
+       ├── Pulse   PM / sprint          ┐
+       ├── Hermes  personal data, LINE   ├─► manager-team.yaml
+       ├── Neo     code                  ┐
+       └── Nexus   world research        ├─► rd-team.yaml
+
+ 2 ─ THE CHARTER   laris-co/laris-team/teams/<team>.yaml
+     name · repo · session · bodies: wt · host: formless · lead
+     members: name + seat (left leads, right supports) + role
+     rules:   one-soul-one-body · each-oracle-own-worktree
+
+ 3 ─ THE TEAM      just up <team> dry   (prints, creates nothing)
+     herdr session laris-co
+       ├── desk          laris-co/manager-team        (formless)
+       ├── athena-oracle manager-team/wt/athena-oracle  left · lead
+       ├── pulse-oracle  manager-team/wt/pulse-oracle   right
+       └── hermes-oracle manager-team/wt/hermes-oracle  right
+
+ Nat talks to the left. The right supports the left.  (Nat, 28 Oct 2026)

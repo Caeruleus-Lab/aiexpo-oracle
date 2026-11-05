@@ -1,0 +1,6 @@
+$ git -C laris-co/mother-oracle log --format="%h %ad %s" --date=short -- site/index.html wrangler.json
+29a46e5 2026-08-16 fix(site): correct fleet numbers on team.buildwithoracle.com (190→893)
+c4462f3 2026-03-16 rebrand: oracle-v2 → arra-oracle across registry and docs
+26763f0 2026-03-06 fix: ecosystem v2 polish — zoom→scale, soft popups, stats update
+6b39b23 2026-03-06 fix: add ecosystem.buildwithoracle.com route to override old deployment
+0a05421 2026-03-06 add: deploy ecosystem v2 to team.buildwithoracle.com

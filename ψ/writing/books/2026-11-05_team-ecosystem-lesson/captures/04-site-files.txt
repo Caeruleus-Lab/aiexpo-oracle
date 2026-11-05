@@ -1,0 +1,3 @@
+$ wc -c site/index.html; ls site/
+   69793 site/index.html
+index.html

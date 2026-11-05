@@ -1,0 +1,6 @@
+$ herdr --machine white-laris-co agent list   # manager-team and rd-team panes only, read-only, 5 Nov 2026
+w2G:p1   (desk)          done   laris-co/manager-team
+w2H:p1   athena-oracle   done   laris-co/manager-team/wt/athena-oracle
+w2J:p1   pulse-oracle    done   laris-co/manager-team/wt/pulse-oracle
+w2K:p1   hermes-oracle   done   laris-co/manager-team/wt/hermes-oracle
+(rd-team: no panes live today; neo and nexus run in their own repos)

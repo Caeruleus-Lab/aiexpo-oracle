@@ -1,0 +1,12 @@
+# An Oracle team: from a picture on the web, to a charter, to a team at work (AIExpo Oracle)
+
+> team.buildwithoracle.com (mother-oracle, 6 Mar 2026, frozen since 16 Aug 2026) draws the Oracles' roles around Nat: Pulse (sprint), Neo (code), Hermes (personal data), Nexus (research). This lesson shows those roles written as team charters (laris-co/laris-team/teams/manager-team.yaml: Athena lead, Pulse, Hermes; rd-team.yaml: Neo lead, Nexus) and how `just up <team> dry` and herdr turn a charter into a live team (manager-team runs on white, one body each in wt/<oracle>). Rule: the left leads, the right supports. Every command ran on 5 Nov 2026. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/](captures/): raw output: curl head, the page's git log, wrangler.json (no account id), both charters, both dry runs, the live panes on white, the laris-co command

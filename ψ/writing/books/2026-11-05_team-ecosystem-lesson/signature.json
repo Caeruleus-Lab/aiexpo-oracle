@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-05",
+  "files": {
+    "README.md": "a9b128bf456803551e31167aad7e8018f8d8ddc462cd4c8221084ae9585767fa",
+    "README.en.md": "0b55c3475a593e789fe07c277fd964f4e8e82191250eb9369252982e7fffd3f4",
+    "README.b64.txt": "43e043c109fa451a11d465e987dfcab227f533bd80dda14867ea973488719f80"
+  },
+  "message": "AIExpo Oracle signed: team charter lesson (lesson 11)\ndate: 2026-11-05\nREADME.md sha256:a9b128bf456803551e31167aad7e8018f8d8ddc462cd4c8221084ae9585767fa\nREADME.en.md sha256:0b55c3475a593e789fe07c277fd964f4e8e82191250eb9369252982e7fffd3f4\nREADME.b64.txt sha256:43e043c109fa451a11d465e987dfcab227f533bd80dda14867ea973488719f80",
+  "signature": "0x1c3318d123fdc2495c9d4737fd84ebf55507c70bd99f829c56a45e6a690a69a84f406a89828ef7d2a0f2b9c56c6b606fc2ea3a2c015a1d4ae20a0324b34739cf1b"
+}

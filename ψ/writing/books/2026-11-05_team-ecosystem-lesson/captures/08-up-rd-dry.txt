@@ -1,0 +1,8 @@
+$ just up rd-team dry
+team rd-team · session 'laris-co' · main /opt/Code/github.com/laris-co/rd-team · 2 members
+
+  (main)                 /opt/Code/github.com/laris-co/rd-team  [formless agent, no soul, no Discord]
+  skip neo-oracle             (its body runs on white, not m5)
+  skip nexus-oracle           (its body runs on white, not m5)
+
+(dry run — nothing created)

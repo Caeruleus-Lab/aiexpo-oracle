@@ -1,0 +1,22 @@
+$ cat ~/.local/bin/laris-co
+#!/bin/sh
+# Open the herdr session named after this link: `ln -s herdr-by-name ~/.local/bin/laris-co`
+# then `laris-co` = `herdr --session laris-co` (starts it, or attaches if it is running).
+name=$(basename "$0")
+if [ "$name" = herdr-by-name ]; then
+  echo "✗ run me through a link named after the session" >&2
+  echo "  ln -s herdr-by-name ~/.local/bin/laris-co && laris-co" >&2
+  exit 1
+fi
+exec herdr --session "$name" "$@"
+
+$ herdr session list
+name status
+default running
+arkkra stopped
+arraxccdc stopped
+cmmc-avengers stopped
+humanist-art stopped
+iso-mo stopped
+laris-co running
+nsm stopped

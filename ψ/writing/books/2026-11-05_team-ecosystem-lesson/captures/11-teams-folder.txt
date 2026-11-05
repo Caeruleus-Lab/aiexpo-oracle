@@ -1,0 +1,7 @@
+$ ls teams/
+apps-team.yaml archive-team.yaml arraxccdc-team.yaml ccdc-team.yaml cmmc-avengers.yaml course-team.yaml embedded-team.yaml governor-team.yaml humanist-art.yaml iso-mo.yaml laris-team.yaml manager-team.yaml media-team.yaml mycelium-team.yaml nsm-team.yaml phd-team.yaml phonebooth-team.yaml projects.yaml rd-team.yaml support-team.yaml 
+
+$ git log --format="%h %ad %s" --date=short -- teams/ | sed -n "1p;\$p"; git log --oneline -- teams/ | wc -l
+3ebc1ae 2026-11-04 phonebooth-team: retire neo-phonebooth and nexus-phonebooth
+7bf10e5 2026-10-27 import: laris-co/laris-co-team at 0d6eef5 (without ψ, which moved to larisco-oracle)
+69

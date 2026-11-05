@@ -1,0 +1,20 @@
+$ cat teams/rd-team.yaml   # discord_role left out
+# Team charter — rd-team · Nat 2026-10-27 ("setup more team? course and ? the rest?"); members from oracles/roles.yaml
+name: rd
+purpose: "we research relic and support the left (Nat, 2026-10-12)"
+repo: laris-co/rd-team           # team desk, same shape as media-team and manager-team
+session: laris-co            # herdr session on m5
+bodies: wt                   # `just up rd-team`: every member in rd-team/wt/<oracle>
+host: formless               # rd-team main runs a formless agent: no soul, no Discord
+room: rd-team
+label: team:rd
+lead: neo-oracle                  # first member; change when Nat names the lead
+members:
+  - name: neo-oracle
+    role: code for R&D experiments (left, lead)
+  - name: nexus-oracle
+    role: research (relic first), digs, read-only verification (right, supports)
+rules:
+  - one-soul-one-body
+  - each-oracle-own-worktree      # wt/<oracle> in laris-co/rd-team, soul from its own repo (Nat 2026-10-27)
+  - no-channels-on-workers

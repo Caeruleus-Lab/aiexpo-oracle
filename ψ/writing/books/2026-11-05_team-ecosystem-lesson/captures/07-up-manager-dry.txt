@@ -1,0 +1,9 @@
+$ just up manager-team dry
+team manager-team · session 'laris-co' · main /opt/Code/github.com/laris-co/manager-team · 3 members
+
+  (main)                 /opt/Code/github.com/laris-co/manager-team  [formless agent, no soul, no Discord]
+  skip athena-oracle          (its body runs on white, not m5)
+  skip pulse-oracle           (its body runs on white, not m5)
+  skip hermes-oracle          (its body runs on white, not m5)
+
+(dry run — nothing created)

@@ -98,6 +98,14 @@ LESSONS = [
          cover="images/01-home.png",
          facts_th=["14 หน้าจอจริง", "ไม่เบลอ ยกเว้นอีเมลและ token"],
          facts_en=["14 real screens", "unblurred except e-mail and tokens"]),
+    dict(key="team-charter", dir="2026-11-05_team-ecosystem-lesson",
+         th="ทีม Oracle: จากภาพบนเว็บ สู่ charter สู่ทีมที่ทำงานจริง",
+         en="An Oracle team: from a picture on the web, to a charter, to a team at work",
+         th_sub="team.buildwithoracle.com วาดบทบาท charter manager-team และ rd-team เขียนบทบาทเป็นไฟล์ แล้ว herdr เปิดเป็นทีม",
+         en_sub="team.buildwithoracle.com draws the roles, the manager-team and rd-team charters write them down, herdr opens them as a team",
+         cover="images/00-roles-to-team.png",
+         facts_th=["2 ทีมตัวอย่าง · ทุกคำสั่งรันจริง", "5 พ.ย. 2026"],
+         facts_en=["2 demo teams · every command ran", "5 Nov 2026"]),
     dict(key="relic5-install", dir="2026-11-04_relic5-install",
          th="ติดตั้ง relic5: ประวัติทุกเครื่อง ในฮับเดียว",
          en="Install relic5: every machine's history in one hub",
@@ -119,7 +127,7 @@ LESSONS = [
 
 # What people see on the landing page (Nat, 4 Nov): lesson 01 hidden (too basic), the skills MCP lesson first, the MCP connect
 # lesson second, ego-lite last, numbered 01.. in this order. The AI brief, llms.txt and lessons.json keep all 9 in workshop order.
-HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "relic5-ui", "relic5-install", "signature", "ego-lite"]
+HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "relic5-ui", "relic5-install", "signature", "team-charter", "ego-lite"]
 HUMAN = [(n + 1, next(l for l in LESSONS if l["key"] == k)) for n, k in enumerate(HUMAN_ORDER)]
 
 
