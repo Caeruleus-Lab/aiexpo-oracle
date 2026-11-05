@@ -334,17 +334,17 @@ assert sorted(g for _, _, gs in PARTS for g in gs) == list(range(1, len(GROUPS) 
 # no CDN, works offline on stage). Data = the parts and groups; ←/→/↑/↓ move between cards, Enter opens.
 import json as _json
 DATA = [{"part": l, "name": n, "groups": [{"n": g, "title": GROUPS[g - 1][2], "href": f"talk.html#{bounds[g - 1][0] + 1}",   # Nat, 5 Nov: one talk, the card jumps to its first page
-                                           "pages": bounds[g - 1][1] - bounds[g - 1][0],
+                                           "pages": bounds[g - 1][1] - bounds[g - 1][0], "first": bounds[g - 1][0] + 1, "last": bounds[g - 1][1],
                                            "slides": [] if g == 1 else [[k + 1, _title(out[k])] for k in range(*bounds[g - 1])]} for g in gs]} for l, n, gs in PARTS]
 # Nat, 5 Nov: คุณยิ้ม's part shows only its card, no list of "ภาพ 01 … 09"
 # Nat, 5 Nov: "bring back the detail": each card lists its slides again (small), each one opens the full deck there
 APP = """import { html, render, useState, useEffect, useRef } from './vendor/htm-preact-3.1.1.mjs';
 const DATA = __DATA__, TOTAL = __TOTAL__;
 const flat = DATA.flatMap(p => p.groups);
-const COLOR = { A: '#f5a524', B: '#4fa3ff', C: '#3ecf8e', D: '#c084fc' };   // one colour per part (Nat, 5 Nov: "colorized")
+const COLOR = { A: 'var(--part-a)', B: 'var(--part-b)', C: 'var(--part-c)', D: 'var(--part-d)' };   // one colour per part (Nat, 5 Nov: "colorized")
 function Card({ g, on, refCb }) {
   return html`<div class="cell"><a class=${'c' + (on ? ' on' : '')} href=${g.href} ref=${refCb}>
-    <span class="g">${String(g.n).padStart(2, '0')}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>
+    <span class="g">หน้า ${g.first}–${g.last}</span><b>${g.title}</b><small>${g.pages} หน้า</small></a>
     ${g.slides.length ? html`<ol class="sl">${g.slides.map(([n, t]) => html`<li><a href=${'talk.html#' + n}><span>${n}</span>${t}</a></li>`)}</ol>` : ''}</div>`;
 }
 function App() {
@@ -361,7 +361,7 @@ function App() {
   }, [sel]);
   useEffect(() => { if (sel >= 0) refs.current[sel]?.focus(); }, [sel]);
   let i = -1;
-  return html`<h1>Talk 6 พ.ย. 2026</h1><a class="all" href="talk.html">▶ สไลด์เต็ม ${TOTAL} หน้า</a>
+  return html`<h1>Talk 6 พ.ย. 2026</h1><p class="sub">ARRA Oracle & Multi-Agent Workflow · 15:05–16:10 · Builder Stage, AI Expo</p><a class="all" href="talk.html">▶ สไลด์เต็ม ${TOTAL} หน้า</a>
     ${DATA.map(p => html`<section class="part" style=${'--c:' + COLOR[p.part]}><h2><span class="p">${p.part}</span>${p.name}</h2><div class="grid">
       ${p.groups.map(g => { const k = flat.indexOf(g); return html`<${Card} g=${g} on=${k === sel} refCb=${el => (refs.current[k] = el)} />`; })}</div></section>`)}
     <p class="hint">← → ↑ ↓ เลือก · Enter เปิด</p>`;
@@ -371,19 +371,24 @@ render(html`<${App} />`, document.querySelector('main'));
 index = f"""<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Talk 6 Nov · ARRA Oracle &amp; Multi-Agent Workflow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=Sarabun:wght@400;600&display=swap">
-<style>body{{margin:0;background:#0b0c0e;color:#ece8e1;font:17px/1.5 Sarabun,sans-serif}}main{{max-width:1000px;margin:0 auto;padding:40px 22px 70px}}
-h1{{font:700 40px "Bai Jamjuree",sans-serif;margin:0 0 18px}}.all{{display:inline-block;padding:12px 22px;border-radius:999px;background:#f5a524;color:#0b0c0e;font-weight:700;text-decoration:none;font-size:20px}}
-h2{{font:700 22px "Bai Jamjuree",sans-serif;margin:34px 0 12px;color:#9a958c}}h2 .p{{color:#0b0c0e;background:#f5a524;border-radius:6px;padding:0 9px;margin-right:10px}}
-.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}}
-.c{{display:block;padding:18px 20px;border-radius:16px;background:#16181c;color:#ece8e1;text-decoration:none;border:1px solid #23262b;outline:none;transition:transform .12s,border-color .12s}}
-.c:hover,.c.on,.c:focus{{border-color:#f5a524;transform:translateY(-2px)}}
-.c .g{{display:block;color:#f5a524;font:700 15px "Bai Jamjuree",sans-serif}}.c b{{display:block;font:700 21px/1.3 "Bai Jamjuree",sans-serif;margin:4px 0 6px}}.c small{{color:#9a958c}}
-.hint{{color:#5f5b55;margin-top:30px;font-size:14px}}
-.part{{--c:#f5a524;border-left:4px solid var(--c);padding-left:18px;margin-top:30px}}.part h2{{color:var(--c)}}.part h2 .p{{background:var(--c)}}
-.part .c{{border-top:3px solid var(--c);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 14%,#16181c),#16181c 70%)}}.part .c .g{{color:var(--c)}}
-.part .c:hover,.part .c.on,.part .c:focus{{border-color:var(--c)}}.part .sl span{{color:var(--c);opacity:.8}}
-.sl{{list-style:none;padding:6px 4px 0;margin:0;font-size:14px;line-height:1.45}}.sl a{{display:block;color:#b8b3aa;text-decoration:none;padding:2px 4px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}.sl a:hover{{background:#1b1d22;color:#ece8e1}}.sl span{{display:inline-block;width:30px;color:#6b665f;font-variant-numeric:tabular-nums}}
-.grid{{align-items:start}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
+<style>/* Hallmark · audit polish 5 Nov: tokens, focus ring, contrast, 320 px grid, reduced motion */
+:root{{--color-paper:oklch(15% 0.005 260);--color-card:oklch(20% 0.008 260);--color-line:oklch(28% 0.008 260);--color-ink:oklch(93% 0.01 80);
+--color-muted:oklch(70% 0.012 80);--color-soft:oklch(80% 0.012 80);--part-a:oklch(78% 0.16 70);--part-b:oklch(72% 0.14 250);--part-c:oklch(78% 0.15 160);--part-d:oklch(74% 0.14 305);
+--font-display:"Bai Jamjuree",sans-serif;--font-body:Sarabun,sans-serif;--ease-out:cubic-bezier(.2,.7,.2,1)}}
+html,body{{overflow-x:clip}}body{{margin:0;background:var(--color-paper);color:var(--color-ink);font:17px/1.5 var(--font-body)}}main{{max-width:1000px;margin:0 auto;padding:40px 22px 70px}}
+h1{{font:700 40px var(--font-display);margin:0 0 4px}}.sub{{color:var(--color-muted);margin:0 0 18px}}
+.all{{display:inline-block;padding:12px 22px;border-radius:999px;background:var(--part-a);color:var(--color-paper);font-weight:700;text-decoration:none;font-size:20px;white-space:nowrap}}
+h2{{font:700 22px var(--font-display);margin:0 0 12px}}h2 .p{{color:var(--color-paper);border-radius:6px;padding:0 9px;margin-right:10px}}
+.part{{border-left:4px solid var(--c);padding-left:18px;margin-top:34px}}.part h2{{color:var(--c)}}.part h2 .p{{background:var(--c)}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:14px;align-items:start}}.cell{{min-width:0}}
+.c{{display:block;padding:16px 20px;border-radius:14px;background:var(--color-card);color:var(--color-ink);text-decoration:none;border:1px solid var(--color-line);border-top:3px solid var(--c);transition:transform .14s var(--ease-out),border-color .14s var(--ease-out)}}
+.c:hover,.c.on{{border-color:var(--c);transform:translateY(-2px)}}
+.c:focus-visible,.sl a:focus-visible,.all:focus-visible{{outline:3px solid var(--color-ink);outline-offset:3px}}
+.c .g{{display:block;color:var(--c);font:700 15px var(--font-display);font-variant-numeric:tabular-nums}}.c b{{display:block;font:700 21px/1.3 var(--font-display);margin:4px 0 6px;overflow-wrap:anywhere}}.c small{{color:var(--color-muted)}}
+.sl{{list-style:none;padding:6px 4px 0;margin:0;font-size:14px;line-height:1.45}}.sl a{{display:block;color:var(--color-soft);text-decoration:none;padding:2px 4px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+.sl a:hover{{background:var(--color-card);color:var(--color-ink)}}.sl span{{display:inline-block;width:30px;color:var(--c);font-variant-numeric:tabular-nums}}
+.hint{{color:var(--color-muted);margin-top:30px;font-size:14px}}
+@media (prefers-reduced-motion:reduce){{.c{{transition:none}}.c:hover,.c.on{{transform:none}}}}</style></head><body><main><noscript><a href="talk.html">สไลด์เต็ม</a></noscript></main>
 <script type="module">
 {APP}</script></body></html>
 """
