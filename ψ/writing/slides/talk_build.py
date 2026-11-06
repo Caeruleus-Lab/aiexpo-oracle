@@ -324,6 +324,9 @@ out = [x.replace("ก่อนลงมือ · Oracle คืออะไร", 
 # the mother's clip (was near the end) now opens the family group, right after the MCP hands-on
 _mom = next(i for i, x in enumerate(out) if "oracle-family.mp4" in x); _m = out.pop(_mom)
 out.insert(next(i for i, x in enumerate(out) if "fleet-graph.png" in x), _m)
+# Nat, 6 Nov: "ถัดจากเสียงของแม่ต้อง team agent ปะ": the team slide (team.buildwithoracle.com, charter) comes right after the mother clip
+_tm = out.pop(next(i for i, x in enumerate(out) if "lesson-team-charter.png" in x))
+out.insert(next(i for i, x in enumerate(out) if "oracle-family.mp4" in x) + 1, _tm)
 # Nat, 5 Nov: "remove this page": the "เสร็จเร็ว? ภารกิจต่อ" extra-task slide (new-wsrun.png) is cut from the talk
 out = [x for x in out if "img/talk/new-wsrun.png" not in x]
 # Nat, 6 Nov: "remove cmd j cml slide": the herdr ⌘J / ⌘L lesson slide is cut (the lesson stays on the site)
