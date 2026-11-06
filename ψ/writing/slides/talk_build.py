@@ -232,6 +232,11 @@ out[i:i] = [team]
 SITE = "aiexpo.buildwithoracle.com"
 def lesson_slide(tag, title, rows, img, qr, d, notes):
     links = "".join(f'<div><b class="hl">{t}</b> /{d}/{f}</div>' for t, f in (("AI", ""), ("English", "en.html"), ("llms.txt", "llms.txt")))
+    if qr is None:   # Nat, 6 Nov: "remove qr" on the team slide: picture and rows only
+        return card(tag, f'<h2 style="font-size:54px;line-height:1.2">{title}</h2>'
+            '<div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,0.75fr);gap:56px;align-items:center;margin-top:14px">'
+            f'<img src="img/talk/{img}" alt="" style="display:block;max-height:680px;max-width:100%;border-radius:12px">'
+            '<div class="rows" style="font-size:34px;line-height:1.5">' + "".join(f"<div>{r}</div>" for r in rows) + '</div></div>', notes)
     return card(tag,
         f'<h2 style="font-size:54px;line-height:1.2">{title}</h2>'
         '<div style="display:grid;grid-template-columns:1.3fr 0.7fr;gap:40px;align-items:start;margin-top:14px">'
@@ -243,8 +248,8 @@ def lesson_slide(tag, title, rows, img, qr, d, notes):
 lessons2 = [
     lesson_slide("บทเรียนใหม่ · ทีม Oracle", 'ทีม Oracle: จาก<span class="hl">ภาพ</span> สู่ <span class="hl">charter</span> สู่ทีมจริง',
         ["team.buildwithoracle.com วาดให้เห็นว่าใครทำอะไร", "manager-team กับ rd-team เขียนบทบาทเป็นไฟล์", "ลอง <b>just up &lt;team&gt; dry</b> ก่อน แล้ว herdr ค่อยเปิดทีมจริง", "ซ้ายนำ ขวาช่วย"],
-        "lesson-team-charter.png", "qr-team-charter.svg", "2026-11-05_team-ecosystem-lesson",
-        "บทเรียนใหม่ ทีม Oracle · ภาพบทบาทบน team.buildwithoracle.com · เขียนเป็น charter manager-team กับ rd-team · คำสั่ง just up ลอง dry ก่อน · กฎซ้ายนำ ขวาช่วย · สแกนไปอ่านต่อได้"),
+        "lesson-team-charter.png", None, "2026-11-05_team-ecosystem-lesson",
+        "บทเรียนใหม่ ทีม Oracle · ภาพบทบาทบน team.buildwithoracle.com · เขียนเป็น charter manager-team กับ rd-team · คำสั่ง just up ลอง dry ก่อน · กฎซ้ายนำ ขวาช่วย"),
     lesson_slide("บทเรียนใหม่ · herdr", 'herdr <span class="hl">⌘J</span> และ <span class="hl">⌘L</span>: พิมพ์บรรทัดเดียว ถึง agent ที่ใช่',
         ["กด ⌘J ครั้งเดียว ส่งถึงทุก agent ในแท็บ", "กดสองครั้ง เพิ่มเครื่องอื่น · สามครั้ง ทั้ง session", "⌘L ส่งถึงทุก agent ของ repo นี้", "ในบทเรียนมีโค้ดจริงครบทั้ง 8 ไฟล์"],
         "lesson-herdr-cmdj.png", "qr-herdr-cmdj.svg", "2026-11-05_herdr-cmd-j-lesson",
