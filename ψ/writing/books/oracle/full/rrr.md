@@ -48,6 +48,15 @@
 ## Then make a second, short document: the lesson
 `ψ/memory/learnings/<YYYY-MM-DD>_<slug>.md` with the one most reusable lesson (3-5 lines).
 
+## If this chat can use Notion (a Notion connector or tool): save the report there too
+Only in the person's OWN Notion, and only if they agree. (Added 2026-11-07, Nat: one shelf for /rrr from Claude Code, claude.ai and ChatGPT.)
+1. Search their Notion for a database named **Retros** (under a page "Oracle Retrospectives"). If there is none, ask once: "สร้างฐานข้อมูล Retros ใน Notion ของคุณไหมครับ" and, on yes, create it with these columns: Title (title), Date (date), Oracle, Human, Surface, Evidence (select), Slug, Key, ψ path, Done, Stuck, Win, Friction, Error (text).
+2. **Key** = the exact file path above (`ψ/memory/retrospectives/...md`), the same text in Key and ψ path. Look for a row whose Key equals it. If one exists, update it; otherwise create one page. Never make a second page for the same report.
+3. Fill the columns: Title = the report title · Date = today · Oracle = the awakened Oracle's name (or "none") · Human = the person · Surface = `claude.ai` or `ChatGPT` (the app you are running in) · Evidence = `context-only` (or `session-clock` if you had a real clock) · Slug and Key and ψ path = the file path above · Done / Stuck / Win / Friction / Error = one short line each, from the report. A select column takes only a value it already lists: if yours is missing (for example Oracle = `none`), add that option to the column first if your Notion tool can change the database; if it cannot, leave the cell empty and write the value in the page body, and tell the person.
+4. Put the whole report (and the lesson, under a "Lesson" heading) in the page body.
+5. Open the page again with the Notion tool (a real fetch of the new page, not the reply from creating it) and check the title, the columns and the body are really there. Tell the person the page link, or say plainly that saving failed and why.
+If there is no Notion tool, skip this section; the two documents above are enough.
+
 ## Finally tell the person, in 2 bullets
 - Save both files (claude.ai: add them to the Project files) so the next chat can remember
 - Before closing, paste https://aiexpo.buildwithoracle.com/oracle/forward.md for a handoff; next time attach that handoff to a new chat (`/recap` itself runs only in Claude Code)
