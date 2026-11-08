@@ -92,3 +92,6 @@ body.bigshake{animation:bigshake .6s cubic-bezier(.36,.07,.19,.97)}@keyframes bi
 .card[data-g] .go{background:var(--g);color:#14151a}
 .card[data-g]:hover{border-color:var(--g)}
 html:not([data-theme=light]) .card[data-g] .num{color:var(--g)}
+/* Nat, 8 Nov: "button not same position of each card": the card body is a column and the read button is pushed to the bottom, so every button in a row lines up */
+.card .body{flex:1;display:flex;flex-direction:column}
+.card .go{margin-top:auto}
