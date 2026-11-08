@@ -1,0 +1,22 @@
+$ sed -n 266,285p ~/.claude/skills/herdr-pr/herdr-sign.sh
+# a line added to the full block silently never reached the public one.
+# Groups answer the four questions a reviewer actually asks in order — who built
+# it, from which tree, against which repo, and how do I reach them.
+
+sess_private=""
+herdr_private=""
+if [ "$redact" = "0" ]; then
+    sess_private="
+  transcript: >-
+    ${transcript/#$HOME/\~}
+  memory: >-
+    ${memory}"
+    herdr_private="
+  socket: >-
+    ${HERDR_SOCKET_PATH:-~/.config/herdr/herdr.sock (default; not run from a pane)}"
+fi
+
+# The incubated group only exists when the PR's repo is not the session's own:
+# a different repo, not just a different worktree of the same one.
+incubated_group=""
+(exit 0 · 0.0 s)

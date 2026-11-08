@@ -15,10 +15,10 @@
 
 ```
 AIExpo Oracle signed: herdr machines lesson
-date: (filled at signing)
-README.md sha256:(filled at signing)
-README.en.md sha256:(filled at signing)
-README.b64.txt sha256:(filled at signing)
+date: 2026-11-08
+README.md sha256:763d2847959770abcb65c04c15d03b9ffea94b8020909b8e0e9892005213031e
+README.en.md sha256:244b0b1c414923ab12ea9e976ff9b2ff9b8039775b778e6a8d94631274c1b2f8
+README.b64.txt sha256:6fa763bfc560ff50ec07f54c01895d94e30e3039c90b7a99a3ced3736459adf3
 ```
 
 ## Recover the signer

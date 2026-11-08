@@ -1,0 +1,33 @@
+$ gh pr view 7 --comments | rg -A30 'Built by' | head -36
+## Built by
+
+```yaml
+agent:
+  who:        'aiexpo — Caeruleus-Lab/aiexpo-oracle'
+  model:      'claude-opus-5-5'
+  runtime:    'claude'
+
+worktree:
+  cwd:        '/opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle/wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026'
+  branch:     '5de0408'
+  wt:         'worktree of /opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle'
+  head:       '5de0408 feat(rrr): rrr_notion.py mirrors one /rrr retro into the Notion Retros database'
+
+session:
+  id:         'bfe79650-99a9-4fde-a64c-c7dfe596dc1f'
+
+herdr:
+  address:    'aiexpo-right'
+  pane:       'wCM:p2'
+  tab:        'wCM:t1'
+  space:      'aiexpo-oracle'
+  title:      'ego-lite-install-guide'
+```
+
+Agent-private storage — transcript, memory dir, herdr socket — is omitted: this
+repo is public.
+
+**Reach this session** — from any pane, agent, or machine with the herdr CLI:
+
+```bash
+(exit 0 · 1.4 s)

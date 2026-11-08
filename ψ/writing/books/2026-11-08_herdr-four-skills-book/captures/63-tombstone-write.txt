@@ -1,0 +1,12 @@
+$ rg -n 'write|exists|never' ~/.claude/skills/herdr-dissolve/tombstone.py
+2:"""tombstone: write the record of a worktree BEFORE it is removed (ดับไป != deleted).
+5:where its record lives must survive it. Dry run unless --write. Never overwrites a
+8:  tombstone.py <worktree-path> [--reason TEXT] [--write]
+20:    write = "--write" in args
+24:    args = [a for a in args if a != "--write"]
+37:        print("refusing: not a linked worktree (a main checkout is never tombstoned)"); sys.exit(2)
+110:    while os.path.exists(dest):
+116:    if write:
+118:        open(dest, "x", encoding="utf-8").write(text)
+121:        print("dry run - add --write to save it")
+(exit 0 · 0.0 s)

@@ -1,0 +1,15 @@
+$ ls ~/.herdr/tombstones/laris-team | tail -12
+2026-11-02_wake-token-laris-team-issue93-2nov-mon2026.md
+2026-11-03_demo-hello-world-laris-team-issue129-3nov-tue2026.md
+2026-11-03_larisco-email.md
+2026-11-03_old-bodies
+2026-11-03_white-fan-surge-laris-team-3nov-tue2026.md
+2026-11-04_herdr-relic5-talk-laris-team-3nov-tue2026-2.md
+2026-11-04_herdr-relic5-talk-laris-team-3nov-tue2026.md
+2026-11-05_relic-timetravel-laris-team-5nov-thu2026.md
+fast-remove-clear-cloud-374a.log
+finish-relic-timetravel.sh
+RETIRED.md
+worktree-clear-cloud-374a.playwright-mcp
+      17
+(exit 0 · 0.0 s)

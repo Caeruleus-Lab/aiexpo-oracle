@@ -15,10 +15,10 @@
 
 ```
 AIExpo Oracle signed: herdr wt lifecycle lesson
-date: (filled at signing)
-README.md sha256:(filled at signing)
-README.en.md sha256:(filled at signing)
-README.b64.txt sha256:(filled at signing)
+date: 2026-11-08
+README.md sha256:fbe96c96152bf4e287cffd7e4e8750e23281092c17cc987c6b85f091e549043f
+README.en.md sha256:d5abb6707e0c946ecf9eb70e96500463b5eceaf24cbfb1a366bde4d6643a303f
+README.b64.txt sha256:5856ac0da56306df92b7635e2710086a449c436a514f4f505b39f6930fbce18d
 ```
 
 ## Recover the signer

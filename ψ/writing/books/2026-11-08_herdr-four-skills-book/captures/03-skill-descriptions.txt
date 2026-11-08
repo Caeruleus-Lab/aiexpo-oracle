@@ -1,0 +1,6 @@
+$ for s in wt bring pr dissolve; do printf '%s: ' herdr-$s; rg -m1 '^description:' ~/.claude/skills/herdr-$s/SKILL.md | cut -c14-300; done
+herdr-wt: Create a git worktree for a distinct piece of work in ANY repo, placed at <repo>/wt/<slug>-<oracle>-<date> and opened as its own herdr space (or, with --here, as a split pane in the current tab). The SPACE always belongs to the repo you run it FROM (your oracle or team): when the code l
+herdr-bring: Ensure a herdr presence for any maw handle — resolves it via `maw locate`, opens its own herdr space, and resumes local Claude history when there is any, live or not. Kills a live maw tmux session only when one genuinely exists and is idle. Self-contained; works in any repo on any machi
+herdr-pr: Sign a PR, issue, or comment with a "Built by" block — which oracle and model built it, from which worktree and branch, the session transcript holding the reasoning, and the herdr address a human or another agent can talk back to. Use when opening or commenting on a PR from a herdr pane
+herdr-dissolve: The reverse of /herdr-wt, and the one skill for winding herdr down — from a single worktree up to the whole machine. A worktree whose agent did work gets saved first (its own agent commits, pushes, opens a signed PR and reports to its PARENT, the repo's main-checkout agent); a worktree 
+(exit 0 · 0.0 s)

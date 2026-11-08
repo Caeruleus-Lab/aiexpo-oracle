@@ -1,0 +1,29 @@
+$ cat ../2026-11-08_herdr-wt-lifecycle/captures/01-relic5-timeline.txt
+# What happened, from relic5 (m5, 3 Nov 2026; UTC, local = UTC+7). Read 8 Nov 2026.
+
+14:28:57Z  Nat in host pane wDW:p1 (Laris Labs Oracle, laris-team main, session 51fdd0de): /herdr-wt demo-hello-world
+14:29:15Z  issue laris-co/laris-team#129 created (gh): "demo-hello-world: smoke-test the /herdr-wt flow with a hello-world script"
+14:29:29+07 is 'born' in the tombstone = worktree cut 21:29:29 local
+14:30:45Z  2nd worktree (right-click herdr worktree, worktree-calm-field-2991, session 59a9b212): Nat "investigte fan on white machine"
+14:31:44Z  PR #130 opened by the demo agent (session 0b82f9e8, pane wFA:p1), head c689d8e, body "Closes #129" + Built by block
+14:32:29Z  fan pane, after /herdr-rename:
+           "Renamed `worktree/calm-field-2991` to `white-fan-surge-laris-team-3nov-tue2026`. The sidebar now shows
+            the new name, and the space label was renamed to match. The pane had no label, so nothing to change there."
+14:33:11Z  fan pane, Nat: "/herdr-pr for demo"
+           AI: "There's nothing to sign yet. This branch has no commits and no open PR."
+14:33:32Z  demo pane tool call: ~/.claude/skills/herdr-pr/herdr-sign.sh claude-opus-5-5 | gh pr comment 130 --repo laris-co/laris-team --body-file -
+14:35:15Z  host receives: "DISSOLVE-READY no-changes — worktree white-fan-surge-laris-team-3nov-tue2026 (wFB:p1) ... please: /herdr-dissolve worktree-calm-field-2991"
+14:36:02Z  host receives: "DISSOLVE-READY https://github.com/laris-co/laris-team/pull/130 — please: /herdr-dissolve demo-hello-world-laris-team-issue129-3nov-tue2026 (clean, pushed, 1 commit c689d8e, PR open not merged)"
+14:36:10Z  demo agent: "I ran `/herdr-dissolve` in self mode, so the work is saved but this worktree still exists.
+            An agent can't remove the worktree it is running in, so the host pane does that last step."
+14:37:00Z  host: "I removed the fan-check worktree. The demo worktree stays until PR #130 merges."
+           "The dissolve check stops on two things: the PR isn't merged yet; the worktree is locked on purpose,
+            so it can't be cleaned up by accident."
+15:01:53Z  Nat: "merge PR #130 and dissolve it"
+15:04:27Z  PR #130 merged; issue #129 closed 15:04:28Z
+15:05:09Z  host: "PR #130 is merged and the demo worktree is dissolved. ... Kept: the branch; the conversation 0b82f9e8;
+            the tombstone ... That was the whole `/herdr-wt` cycle end to end: issue, worktree, agent, PR, merge, dissolve."
+
+relic5 links: relic5://2026-11/9f1a2138336652b8d5b0dd41e269af5d (rename) · cb568d8b7d67546cb58c62b53dba3291 (sign)
+ · 324a2b3dfc72d9408112bd8702a88616 (self dissolve) · 058b89f5d4f8c9dfca4766ab51a7110f · a81eb6565dba0f8678447b465c3998a5
+(exit 0 · 0.0 s)

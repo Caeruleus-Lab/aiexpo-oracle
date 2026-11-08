@@ -16,9 +16,9 @@
 ```
 AIExpo Oracle signed: herdr bring promote lesson
 date: 2026-11-08
-README.md sha256:(filled at signing)
-README.en.md sha256:(filled at signing)
-README.b64.txt sha256:(filled at signing)
+README.md sha256:d6165b45fbf9b696cf764afa557864c37efb14cb1c96beef246a146455aac1e3
+README.en.md sha256:efc42af3cce1e517074f27c4685dc807f20ddb92e955666be1d65a5cd592ded2
+README.b64.txt sha256:103c292ab1c1a5070b85d7d95a54a202c5bc5b4c68f68c4308d1e50d9c42b37b
 ```
 
 ## Recover the signer

@@ -15,10 +15,10 @@
 
 ```
 AIExpo Oracle signed: herdr sleep and wake lesson
-date: (filled at signing)
-README.md sha256:(filled at signing)
-README.en.md sha256:(filled at signing)
-README.b64.txt sha256:(filled at signing)
+date: 2026-11-08
+README.md sha256:8a8e86b5339d48f71d88318130cac4f42e7affb55110627a86be104b177dd8ff
+README.en.md sha256:de9463cbce9af30f78cdc525ea76f6e706f11db298d45e91a9a6ad387e8aa20b
+README.b64.txt sha256:600a240345b31251e18e1792c7574f9aee87bb7612d097421243edc2e19cbe2b
 ```
 
 ## Recover the signer

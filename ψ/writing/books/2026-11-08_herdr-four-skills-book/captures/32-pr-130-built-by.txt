@@ -1,0 +1,35 @@
+$ gh pr view 130 --repo laris-co/laris-team --comments | rg -A32 'Built by' | head -40
+## Built by
+
+```yaml
+agent:
+  who:        'laris-team — laris-co/laris-team'
+  model:      'claude-opus-5-5'
+  runtime:    'claude'
+
+worktree:
+  cwd:        '/opt/Code/github.com/laris-co/laris-team/wt/demo-hello-world-laris-team-issue129-3nov-tue2026'
+  branch:     'demo-hello-world-laris-team-issue129-3nov-tue2026'
+  wt:         'worktree of /opt/Code/github.com/laris-co/laris-team'
+  head:       'c689d8e demos/hello-world: smoke-test script for the /herdr-wt flow'
+
+session:
+  id:         '0b82f9e8-b25a-4279-b1b9-b2b0ab4db321'
+  transcript: '~/.claude/projects/-opt-Code-github-com-laris-co-laris-team-wt-demo-hello-world-laris-team-issue129-3nov-tue2026/0b82f9e8-b25a-4279-b1b9-b2b0ab4db321.jsonl'
+  memory:     '~/.claude/projects/-opt-Code-github-com-laris-co-laris-team/memory'
+
+herdr:
+  address:    'demo-hello-world-laris'
+  pane:       'wFA:p1'
+  tab:        'wFA:t1'
+  space:      'demo-hello-world-laris-team-issue129-3nov-tue2026'
+  title:      'laris-team issue #129'
+  socket:     '/Users/beta/.config/herdr/sessions/laris-co/herdr.sock'
+```
+
+
+
+**Reach this session** — from any pane, agent, or machine with the herdr CLI:
+
+```bash
+(exit 0 · 1.5 s)

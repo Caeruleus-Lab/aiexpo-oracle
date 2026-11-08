@@ -1,0 +1,3 @@
+$ tombstone.py . (the main checkout)
+refusing: not a linked worktree (a main checkout is never tombstoned)
+(exit 0 · 0.0 s)

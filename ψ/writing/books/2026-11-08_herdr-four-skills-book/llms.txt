@@ -1,0 +1,11 @@
+# herdr, four skills: open, bring, sign, close (AIExpo Oracle)
+
+> A hands-on Thai book (with an English web edition) about four of Nat's herdr skills: /herdr-wt (cut a worktree from an issue, its own herdr space, an agent briefed), /herdr-bring (find an oracle with maw locate, open its space, resume its history), /herdr-pr (sign a PR with a "Built by" block; a public repo gets a redacted block), /herdr-dissolve (save, write a tombstone, report to the parent, remove; tombstone.py is a dry run unless --write and refuses the main checkout). Every capture ran on m5 on 8 Nov 2026, read-only; what happened when the skills ran comes from relic5, GitHub (laris-co/laris-team issue #129 / PR #130, Caeruleus-Lab/aiexpo-oracle PR #7) and two real tombstones. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+## Book
+- [README.en.md](README.en.md): the whole book in English
+- [README.md](README.md): the whole book in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [book.pdf](book.pdf): the 100-page PDF
+- [09-code.md](09-code.md): the full code of the four skills (2,211 lines, 6 files)
+- [captures/](captures/): every raw capture the book quotes

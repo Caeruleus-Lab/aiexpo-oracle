@@ -1,0 +1,25 @@
+$ sed -n 18,40p ~/.claude/skills/herdr-dissolve/tombstone.py
+def main():
+    args = [a for a in sys.argv[1:]]
+    write = "--write" in args
+    reason = ""
+    if "--reason" in args:
+        i = args.index("--reason"); reason = args[i + 1]; del args[i:i + 2]
+    args = [a for a in args if a != "--write"]
+    if not args: print(__doc__); sys.exit(2)
+    path = os.path.realpath(args[0])
+
+    wts, cur = [], {}
+    for line in run(["git", "-C", path, "worktree", "list", "--porcelain"]).split("\n"):
+        if not line:
+            if cur: wts.append(cur); cur = {}
+            continue
+        k, _, v = line.partition(" "); cur[k] = v or True
+    if cur: wts.append(cur)
+    me = next((w for w in wts if os.path.realpath(w["worktree"]) == path), None)
+    if not me or me is wts[0]:
+        print("refusing: not a linked worktree (a main checkout is never tombstoned)"); sys.exit(2)
+    main_path, main_sha = wts[0]["worktree"], wts[0]["HEAD"]
+    repo = os.path.basename(main_path)
+    branch = (me.get("branch") or "").replace("refs/heads/", "") or "(detached)"
+(exit 0 · 0.0 s)

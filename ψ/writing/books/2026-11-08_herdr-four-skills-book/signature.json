@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-08",
+  "files": {
+    "README.md": "277d5acc969741e60603145ee55d692bf7835cb27fbf8161193c9f80580d983e",
+    "README.en.md": "b0128217c2dd395ba6ec07540d7f17e9f8f3b801e496b8cf065dcb30cd238154",
+    "README.b64.txt": "7742a73524ba790019d9e8f1bc07eba6884fb956007e8826f15e1334612366a3"
+  },
+  "message": "AIExpo Oracle signed: herdr four skills book\ndate: 2026-11-08\nREADME.md sha256:277d5acc969741e60603145ee55d692bf7835cb27fbf8161193c9f80580d983e\nREADME.en.md sha256:b0128217c2dd395ba6ec07540d7f17e9f8f3b801e496b8cf065dcb30cd238154\nREADME.b64.txt sha256:7742a73524ba790019d9e8f1bc07eba6884fb956007e8826f15e1334612366a3",
+  "signature": "0x1114f895db67db2c9fe341be3780f6ad154117791fbee01cd6da1e3d8e3a38ad3e98b8f24f964a0ebb5c44aefefd76591951b72cff427ab5325759f481f86d051c"
+}

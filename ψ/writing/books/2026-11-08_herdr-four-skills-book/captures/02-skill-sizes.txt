@@ -1,0 +1,7 @@
+$ wc -l ~/.claude/skills/herdr-{wt,bring,pr,dissolve}/SKILL.md
+     861 ~/.claude/skills/herdr-wt/SKILL.md
+     270 ~/.claude/skills/herdr-bring/SKILL.md
+     268 ~/.claude/skills/herdr-pr/SKILL.md
+     295 ~/.claude/skills/herdr-dissolve/SKILL.md
+    1694 total
+(exit 0 · 0.0 s)

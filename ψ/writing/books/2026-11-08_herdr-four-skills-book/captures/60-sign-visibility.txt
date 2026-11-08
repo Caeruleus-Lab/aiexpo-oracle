@@ -1,0 +1,20 @@
+$ sed -n 205,222p ~/.claude/skills/herdr-pr/herdr-sign.sh
+    incubate_link="$root/ψ/incubate/$work_slug/origin"
+fi
+
+# Redact by default, open up only on proof of privacy. Guessing "private" wrong
+# publishes a machine layout to the internet, and GitHub has already mailed it out
+# by the time anyone notices.
+visibility="unknown"
+if [ -n "$work_slug" ]; then
+    case "$(gh repo view "$work_slug" --json isPrivate --jq .isPrivate 2>/dev/null)" in
+        true)  visibility="private" ;;
+        false) visibility="public"  ;;
+    esac
+fi
+redact=1
+[ "$visibility" = "private" ] && redact=0
+[ "$force_full" = "1" ] && redact=0
+
+# Each agent stores transcripts under its own scheme, and the cwd encodings differ
+(exit 0 · 0.0 s)

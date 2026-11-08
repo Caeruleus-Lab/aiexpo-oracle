@@ -1,0 +1,4 @@
+$ ls -lh ~/.herdr/tombstones/aiexpo-oracle/
+total 112432
+-rw-r--r--@ 1 beta  staff    55M Nov  8 09:48 2026-11-08_wt-issue3_books-dist.tgz
+(exit 0 · 0.0 s)

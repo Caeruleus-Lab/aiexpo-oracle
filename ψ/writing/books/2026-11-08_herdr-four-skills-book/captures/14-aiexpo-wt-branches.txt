@@ -1,0 +1,11 @@
+$ git branch -a | rg 'aiexpo|issue|soul'
+  ego-lite-guide-aiexpo-30oct-fri2026
+  event-research-aiexpo-28oct-wed2026
+  rrr-notion-mirror-aiexpo-07nov-sat2026
++ soul/calliope-oracle
+  workshop-for-ai-aiexpo-issue3-30oct-fri2026
+  remotes/origin/ego-lite-guide-aiexpo-30oct-fri2026
+  remotes/origin/event-research-aiexpo-28oct-wed2026
+  remotes/origin/rrr-notion-mirror-aiexpo-07nov-sat2026
+  remotes/origin/workshop-for-ai-aiexpo-issue3-30oct-fri2026
+(exit 0 · 0.0 s)

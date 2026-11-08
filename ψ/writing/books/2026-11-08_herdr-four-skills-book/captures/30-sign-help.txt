@@ -1,0 +1,17 @@
+$ herdr-sign.sh --help
+# Emit the "Built by" signature block for a PR/issue comment.
+# Describes a herdr SESSION (the pane), not whatever directory the shell is in,
+# and addresses it by agent name.
+#
+#   herdr-sign.sh <model-id> [pane-id] [--work <path>] [--ref <committish>]
+#                  [--full] [--tall]
+#
+# Output is compact by default — one line per field, ~28 lines. --tall emits the
+# same YAML with every value as a folded block scalar on its own line (~47
+# lines), which needs no quoting and survives any value verbatim.
+#
+# --ref reports a commit the working tree is not sitting on: a merged PR whose
+# SHA the rebase rewrote, or a second PR in the same repo. Without it a signature
+# can only describe whatever branch happens to be checked out, so signing PR B
+# while working PR A meant checking B out first — on a repo with a server running
+(exit 0 · 0.0 s)

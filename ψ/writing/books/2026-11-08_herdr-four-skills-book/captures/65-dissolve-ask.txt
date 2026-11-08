@@ -1,0 +1,18 @@
+$ rg -n -i 'ask|confirm|never close' ~/.claude/skills/herdr-dissolve/SKILL.md | head -16
+3:description: The reverse of /herdr-wt, and the one skill for winding herdr down — from a single worktree up to the whole machine. A worktree whose agent did work gets saved first (its own agent commits, pushes, opens a signed PR and reports to its PARENT, the repo's main-checkout agent); a worktree with nothing in it, a merged or pushed one, or a space on a missing folder is removed straight away through herdr so the sidebar and git agree; idle agents on the main checkout are quit and their panes closed; checkouts that are only behind are fast-forwarded. Always shows the plan and asks before anything is closed or removed, and never closes the pane running it. Modes — `<wt|pane ...>` (named), `--all-but-me` (this repo down to one pane), `--sweep` (whole machine, was /herdr-clean-up-sync), `--sync`, `self`. Use when the user says "dissolve", "wind down this worktree", "finish and close", "commit push pr and close", "done with this wt", "close all panes and wt, only me", "clean up herdr", "clean up the sidebar", "sync", "too many ✓", "close the done ones", "everything is ↓", /herdr-dissolve or /herdr-clean-up-sync. Do NOT use to check whether ONE session is safe to close (use /herdr-done), to create worktrees (/herdr-wt), or to move sessions between machines (/herdr-bring).
+21:| call | scope | typical ask |
+27:| `/herdr-dissolve self` | the worktree you are running in | an agent finishing its own task |
+29:`--sweep` runs sync's plan too, as the old `/herdr-clean-up-sync` did. Every mode goes
+30:through the same four steps: **survey, plan, ask, act**.
+35:installed as `fleet` by `just fleet-install`). Every command prints a plan until `--go`.
+49:ran a full-machine `clean` plan (2026-10-08, stopped at repo 445/1278). Without `--go` it
+94:**✓ is not done.** ✓ means the agent finished its turn, not its task. An agent that ended
+95:on a question ("A or B?"), a plan waiting for approval, an AskUserQuestion popup, or "want
+107:| D with no agent | rescue to a draft PR (step 4c), only if asked |
+115:## 3. Show the plan, then ask
+128:Then AskUserQuestion (multiSelect), one option per group that has rows. Put the row
+149:prefix-matches names). The brief asks it to:
+159:confirm the `DISSOLVE-READY` line. If one fails, don't stop the others. It is now a B/C
+204:### 4c. Rescue D with no agent (only if asked)
+270:   in the plan.
+(exit 0 · 0.0 s)

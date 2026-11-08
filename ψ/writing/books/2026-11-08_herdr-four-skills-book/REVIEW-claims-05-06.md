@@ -1,0 +1,8 @@
+05-dissolve.md:158 | severe | says issue3 tombstone has no agent session "because the pane was closed earlier"; FACTS: main agent removed wt first, THEN closed pane wCM:p2 | capture 43:36 | drop the cause, say only "none found"
+06-inside.md:127 | severe | "no remove or rmtree anywhere in the file, per rg" but the rg pattern was write|exists|never, so it cannot show that | capture 63:1 | say rg did not search for remove; or cite a run of rg 'remove|rmtree'
+05-dissolve.md:117 | minor | says main "is not in the linked worktree group"; ch6 and the code show main IS wts[0] of the list and is refused by `me is wts[0]` | capture 62:35 | say main is the first entry, not a linked one
+05-dissolve.md:164 | minor | says herdr tombstones all gather in ~/.herdr/tombstones/<repo>/; the two shown from this repo sit in ψ/memory/tombstones/ | capture 42:dest, 43:1 | say two shelves: home dir and repo vault
+05-dissolve.md:173 | minor | says the two 2026-11-03 tombstones sit "adjacent" and names two; between them are larisco-email and old-bodies (four 11-03 entries) | capture 45:3-6 | say "close together", count four entries
+05-dissolve.md:176 | minor | gives a reason ("a place for everything retired") for the non-tombstone files on the shelf; the ls shows only names | capture 45:9-12 | cut the "because" clause
+05-dissolve.md:126 | minor | "two leftovers" omits og/src copied to main, which the tombstone reason lists as a third | capture 43:12 | say three, or add og/src
+06-inside.md:94 | minor | says both refusals end with sys.exit(2); the main-checkout run in ch5 shows exit 0 (wrapper), a visible mismatch for readers | capture 66:2 | note the shown exit is the wrapper's, not the script's

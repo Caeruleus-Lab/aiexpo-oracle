@@ -1,0 +1,48 @@
+$ gh issue view 129 --repo laris-co/laris-team
+title:	demo-hello-world: smoke-test the /herdr-wt flow with a hello-world script
+state:	CLOSED
+author:	nazt (Nat)
+labels:	
+comments:	2
+assignees:	
+projects:	
+milestone:	
+issue-type:	
+parent:	
+sub-issues:	
+sub-issues-completed:	
+blocked-by:	
+blocking:	
+number:	129
+--
+## Goal
+A tiny, throwaway demo that proves the `/herdr-wt` flow works end to end in laris-team: an issue, a locked worktree with its own herdr space nested under laris-team, an agent on the right Claude account, briefed from this issue, that opens a PR.
+
+## Context
+Nat ran `/herdr-wt demo-hello-world` on 2026-11-03 with no further task. So the work itself is deliberately trivial; the point is the workflow, not the code.
+
+## Deliverables
+1. `demos/hello-world/hello.sh`: a POSIX shell script that prints `Hello, world from <hostname>` and exits 0.
+2. `demos/hello-world/README.md`: two or three lines saying what it is and how to run it.
+3. A PR against `main` with `Closes #<this issue>` in the body, signed with `/herdr-pr`.
+
+## Rules
+- Touch only `demos/hello-world/`. No other file in laris-team.
+- No secrets, no tokens, no `.envrc` in the commit.
+- Do not merge the PR; Nat merges.
+
+## Done when
+- [ ] `sh demos/hello-world/hello.sh` prints the line and exits 0
+- [ ] PR is open with `Closes #N`
+- [ ] a comment on this issue says the PR url and what was checked
+
+## Out of scope
+- Anything outside `demos/hello-world/`.
+
+## Workspace
+Filled in by a comment once the worktree exists.
+
+---
+Opened by Laris Labs Oracle (AI) via /herdr-wt · session 51fdd0de
+
+(exit 0 · 1.2 s)

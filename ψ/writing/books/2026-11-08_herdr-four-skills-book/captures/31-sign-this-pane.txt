@@ -1,0 +1,41 @@
+$ herdr-sign.sh claude-opus-5-5 wCM:p1
+## Built by
+
+```yaml
+agent:
+  who:        'aiexpo — Caeruleus-Lab/aiexpo-oracle'
+  model:      'claude-opus-5-5'
+  runtime:    'claude'
+
+worktree:
+  cwd:        '/opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle'
+  branch:     'main'
+  wt:         'main checkout'
+  head:       '61a0818 feat(site): six herdr lessons, from the 3 Nov "Herdr part 1/2" videos, relic5 and the skills themselves'
+
+session:
+  id:         '2969076e-029b-45c8-9507-fb2158763f97'
+
+herdr:
+  address:    'wCM:p1'
+  pane:       'wCM:p1'
+  tab:        'wCM:t1'
+  space:      'aiexpo-oracle'
+  title:      'AIExpo Oracle main checkout'
+```
+
+Agent-private storage — transcript, memory dir, herdr socket — is omitted: this
+repo is public.
+
+**Reach this session** — from any pane, agent, or machine with the herdr CLI:
+
+```bash
+herdr agent prompt wCM:p1 "question about this PR"
+herdr agent read   wCM:p1
+herdr agent focus  wCM:p1
+herdr agent attach wCM:p1
+```
+herdr-sign: Caeruleus-Lab/aiexpo-oracle is public — printed the redacted block (no local paths).
+warning: this agent has no name, so the block addresses a pane id that dies with the herdr server.
+  herdr agent rename wCM:p1 aiexpo-oracle
+(exit 0 · 0.7 s)

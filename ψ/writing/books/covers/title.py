@@ -17,14 +17,14 @@ T = {"claude-chatgpt": "Install your AI,|load the skills", "ego-lite": "Your age
      "team-charter": "Sketch a team,|watch it work", "herdr-cmd-j": "One line to the|right agents",
      "relic5-install": "Every machine's|history, one hub", "signature": "Change one word,|the seal breaks",
      "herdr-map": "52 skills,|one map", "herdr-wt-life": "One job, from|branch to PR", "herdr-sleep": "Sleep now, wake|where it was",
-     "herdr-bring": "Move agents,|keep the chat", "herdr-machines": "One herdr,|many machines", "herdr-full": "Every skill,|word for word"}
+     "herdr-bring": "Move agents,|keep the chat", "herdr-machines": "One herdr,|many machines", "herdr-full": "Every skill,|word for word", "herdr-book": "Four skills,|one whole book"}
 # v2 (Nat, 8 Nov: "make cover easy to scan, make it different"): each landing group has its own colour world (gen2.sh)
 # and a small group tag above the title in that colour; the scrim behind the title takes the picture's own dark tone
 GROUP = {"skills-mcp": "start", "mcp-connect": "start", "agy-mcp": "start", "ego-lite": "start", "claude-chatgpt": "start",
          "build-mcp": "build", "signature": "build", "relic5-install": "memory", "relic5-ui": "memory",
          "team-charter": "team", "herdr-room": "team", "herdr-cmd-j": "team", "phukhao-journey": "story", "phukhao-film": "story",
          # the herdr skills series (8 Nov, covers/gen3.sh)
-         "herdr-map": "herdr", "herdr-wt-life": "herdr", "herdr-sleep": "herdr", "herdr-bring": "herdr", "herdr-machines": "herdr", "herdr-full": "herdr"}
+         "herdr-map": "herdr", "herdr-wt-life": "herdr", "herdr-sleep": "herdr", "herdr-bring": "herdr", "herdr-machines": "herdr", "herdr-full": "herdr", "herdr-book": "herdr"}
 TAG = {"start": ("START · CONNECT", (110, 231, 222)), "build": ("BUILD", (178, 236, 120)), "memory": ("MEMORY", (196, 176, 255)),
        "team": ("AGENT TEAMS", (255, 150, 140)), "story": ("STORIES", (255, 200, 130)), "herdr": ("HERDR SKILLS", (125, 190, 255))}
 # Thai covers (Nat, 8 Nov: "thai cover a"): same picture, Thai summary title and Thai group tag; COVER_LANG=th
@@ -36,7 +36,7 @@ T_TH = {"claude-chatgpt": "ติดตั้ง AI|ลงสกิลให้�
         "team-charter": "วาดทีมบนเว็บ|แล้วทีมทำงานจริง", "herdr-cmd-j": "พิมพ์บรรทัดเดียว|ถึง agent ที่ใช่",
         "relic5-install": "ประวัติทุกเครื่อง|รวมที่ฮับเดียว", "signature": "แก้คำเดียว|ลายเซ็นก็พัง",
         "herdr-map": "52 สกิล|ในแผนที่เดียว", "herdr-wt-life": "งานหนึ่งชิ้น|จาก branch ถึง PR", "herdr-sleep": "พักก่อน|ตื่นมาทำต่อที่เดิม",
-        "herdr-bring": "ย้าย agent|บทสนทนาไม่หาย", "herdr-machines": "herdr เดียว|หลายเครื่อง", "herdr-full": "ทุกสกิล|ครบทุกบรรทัด"}
+        "herdr-bring": "ย้าย agent|บทสนทนาไม่หาย", "herdr-machines": "herdr เดียว|หลายเครื่อง", "herdr-full": "ทุกสกิล|ครบทุกบรรทัด", "herdr-book": "4 สกิล|หนังสือทั้งเล่ม"}
 TAG_TH = {"start": "เริ่มต้น · ต่อ AI", "build": "สร้างเอง", "memory": "ความจำ", "team": "ทีม agent", "story": "เรื่องเล่า", "herdr": "สกิล herdr"}
 import os
 TH = os.environ.get("COVER_LANG") == "th"

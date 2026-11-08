@@ -24,6 +24,7 @@
 - [herdr bring, move, promote: move agents between sessions without losing the conversation](2026-11-08_herdr-bring-promote/llms.txt): Move agents between herdr sessions: end it where it runs, resume it elsewhere with the same id. Real Neo round trip. Markdown: [2026-11-08_herdr-bring-promote/README.en.md](2026-11-08_herdr-bring-promote/README.en.md)
 - [herdr on many machines: add a machine, move a team to white, talk across](2026-11-08_herdr-machines/llms.txt): Local on top, machines below, over tailscale: files cross machines, and ccdc-team moves to white in one command. Markdown: [2026-11-08_herdr-machines/README.en.md](2026-11-08_herdr-machines/README.en.md)
 - [Every herdr skill, full text](2026-11-08_herdr-skills-full/llms.txt): All 52 /herdr-* skills word for word in 7 groups, with every script, ready to copy into ~/.claude/skills/. Markdown: [2026-11-08_herdr-skills-full/README.en.md](2026-11-08_herdr-skills-full/README.en.md)
+- [Book: herdr, four skills: open, bring, sign, close](2026-11-08_herdr-four-skills-book/llms.txt): /herdr-wt /herdr-bring /herdr-pr /herdr-dissolve as a 100-page book: every capture ran for real, full code included; read on the web or get the PDF. Markdown: [2026-11-08_herdr-four-skills-book/README.en.md](2026-11-08_herdr-four-skills-book/README.en.md)
 
 ## No MCP? Plain GET
 

@@ -1,0 +1,16 @@
+$ rg '^#+ ' ~/.claude/skills/herdr-bring/SKILL.md
+7:# /herdr-bring — land a maw handle into herdr
+22:## Before anything
+30:## Socket targeting
+42:## Step 1 — list candidates
+59:## Step 2 — resolve
+70:## Step 3 — bring one
+102:# Newest transcript for that repo. Encoded path: leading / becomes -, then / and . become -.
+142:## Step 4 — several
+154:## After landing
+166:## Conflict = exit 2 = ASK, never decide
+196:## Moving a body to ANOTHER herdr session (herdr to herdr, not tmux)
+223:## Traps
+254:## What this does NOT do
+263:## Related
+(exit 0 · 0.0 s)

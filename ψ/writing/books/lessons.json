@@ -178,5 +178,14 @@
     "th_sub": "สกิล /herdr-* ครบ 52 ตัวแบบคำต่อคำ แบ่ง 7 กลุ่ม พร้อมสคริปต์ทุกไฟล์ คัดลอกไปใส่ ~/.claude/skills/ ได้",
     "en_sub": "All 52 /herdr-* skills word for word in 7 groups, with every script, ready to copy into ~/.claude/skills/",
     "cover": "images/cover-ai.jpg"
+  },
+  {
+    "key": "herdr-book",
+    "dir": "2026-11-08_herdr-four-skills-book",
+    "th": "หนังสือ herdr 4 สกิล: เปิดงาน ดึง agent เซ็น PR ปิดงาน",
+    "en": "Book: herdr, four skills: open, bring, sign, close",
+    "th_sub": "/herdr-wt /herdr-bring /herdr-pr /herdr-dissolve หนังสือ 100 หน้า ทุก capture รันจริง พร้อมโค้ดเต็ม 2,211 บรรทัด อ่านบนเว็บหรือโหลด PDF",
+    "en_sub": "/herdr-wt /herdr-bring /herdr-pr /herdr-dissolve as a 100-page book: every capture ran for real, full code included; read on the web or get the PDF",
+    "cover": "images/cover-ai.jpg"
   }
 ]

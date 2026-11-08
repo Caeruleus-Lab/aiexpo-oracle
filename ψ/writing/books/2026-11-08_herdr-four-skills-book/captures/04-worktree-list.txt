@@ -1,0 +1,4 @@
+$ git worktree list
+/opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle                         61a0818 [main]
+/opt/Code/github.com/Caeruleus-Lab/aiexpo-oracle/wt/calliope-oracle-soul 7facb18 [soul/calliope-oracle]
+(exit 0 · 0.0 s)

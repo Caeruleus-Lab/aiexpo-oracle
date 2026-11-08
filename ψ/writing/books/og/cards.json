@@ -1,5 +1,5 @@
 {
-  "index": "dbb4036e8815ef4e",
+  "index": "566605cbcf1abb20",
   "claude-chatgpt": "eed2ac3f303bdabe",
   "ego-lite": "ad451b07a986994b",
   "mcp-connect": "fe768881bdef6fa6",
@@ -19,5 +19,6 @@
   "herdr-sleep": "4acffc3bab483e71",
   "herdr-bring": "b161b302e8bc0216",
   "herdr-machines": "dbd5c2d6386b226b",
-  "herdr-full": "900b7b195b9edf67"
+  "herdr-full": "900b7b195b9edf67",
+  "herdr-book": "c4dba269b8566f56"
 }

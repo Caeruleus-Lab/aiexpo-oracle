@@ -1,0 +1,41 @@
+$ rg '^#+ ' ~/.claude/skills/herdr-wt/SKILL.md
+7:# /herdr-wt — worktree per piece of work
+11:## Step 0 — whose space? Decide before anything (Nat, 2026-10-30)
+41:## `--list` — what already exists
+65:## The flow (Nat, 2026-09-28)
+88:## Step 1 — open the issue in the current repo
+113:## Goal
+116:## Context
+119:## Sources
+122:## Deliverables
+125:## Rules
+128:## Done when
+131:## Out of scope
+134:## Workspace
+159:## Run it
+167:# Step 0 guard: home = the repo of YOUR pane (not $PWD). Another repo → "Under the oracle".
+260:### Brief the agent from the issue (step 5)
+303:## `--here` — new worktree, opened as a split in THIS tab (Nat, 2026-10-08)
+353:### `--here` with no slug: the agent names it, then a popup (Nat, 2026-10-08)
+425:## Working on ANOTHER repo the oracle cares for (Nat, 2026-10-10)
+440:### Under the oracle — space from the oracle, pane in the target (Nat, 2026-10-21)
+448:# 1. the code worktree in the TARGET repo — plain git, no herdr space
+451:# 2. the SPACE: a worktree of the ORACLE repo, same slug  →  nests under the oracle
+456:# 3. the agent pane: split INSIDE that space, cwd = the target worktree
+492:## `--repo [org]` — a new repo instead of a lab folder
+537:## Before first use on a new machine — one prerequisite
+556:# want: re.sub(r'-(wt|agents)-.*$', '', base)
+557:# NOT:  re.sub(r'-wt-\d+.*$', '', base)
+565:## Why the name is shaped this way
+629:## Always `maw token use` the new worktree
+675:### Verify the process, not the statusline
+715:## Trap: `pane run` is not enough on a fresh worktree
+741:# expect in the pane: direnv: loading .../.envrc   then   TOK=<assigned>
+748:## Cleanup
+771:## Trap: never `git worktree move` a worktree with a live agent in it
+791:## Trap: worktree identity lives on the SPACE, not the pane
+820:## Trap: don't branch in a shared checkout
+826:## Boundary with `/incubate --wt`
+850:## Boundary with `/herdr-ticket`
+857:## Related
+(exit 0 · 0.0 s)

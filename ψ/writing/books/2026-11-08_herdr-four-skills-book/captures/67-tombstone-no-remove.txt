@@ -1,0 +1,5 @@
+$ rg -n 'remove|rmtree|unlink|os\.rm|shutil' ~/.claude/skills/herdr-dissolve/tombstone.py
+2:"""tombstone: write the record of a worktree BEFORE it is removed (ดับไป != deleted).
+6:tombstone. Never removes anything.
+88:        f"removed_path: {path}", "---", ""]
+(exit 0 · 0.0 s)

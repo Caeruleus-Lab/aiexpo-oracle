@@ -1,0 +1,29 @@
+$ gh issue view 129 --repo laris-co/laris-team --comments | tail -40
+author:	nazt
+association:	member
+edited:	false
+status:	none
+--
+Workspace
+- branch: `demo-hello-world-laris-team-issue129-3nov-tue2026`
+- path: `wt/demo-hello-world-laris-team-issue129-3nov-tue2026`
+- herdr space: `wFA` · pane: `wFA:p1` (m5, session laris-co)
+- agent: `demo-hello-world-laris`
+- lab: none (no ψ/ in this repo)
+--
+author:	nazt
+association:	member
+edited:	false
+status:	none
+--
+PR open: https://github.com/laris-co/laris-team/pull/130 (not merged; Nat merges).
+
+Checked:
+- `sh demos/hello-world/hello.sh` prints `Hello, world from m5` and exits 0
+- `shellcheck` clean, `dash -n` parses (POSIX)
+- diff touches only `demos/hello-world/` (2 files); no secrets, no `.envrc`
+- PR body has `Closes #129` and the `/herdr-pr` signature block
+
+— demo-hello-world-laris (claude-opus-5-5, pane wFA:p1)
+--
+(exit 0 · 1.2 s)

@@ -1,0 +1,10 @@
+$ tombstone.py
+tombstone: write the record of a worktree BEFORE it is removed (ดับไป != deleted).
+
+A worktree ceases as an active thing; what it was, why it ended, who succeeds it and
+where its record lives must survive it. Dry run unless --write. Never overwrites a
+tombstone. Never removes anything.
+
+  tombstone.py <worktree-path> [--reason TEXT] [--write]
+
+(exit 0 · 0.0 s)

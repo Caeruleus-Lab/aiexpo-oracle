@@ -1,0 +1,12 @@
+$ rg -n -e '--sweep' -e '--all-but-me' -e '--sync' -e 'self' ~/.claude/skills/herdr-dissolve/SKILL.md | sed 1d | head -10
+4:argument-hint: "[<wt|pane> ...] | --all-but-me | --sweep [--host <ssh>]... | --sync [--all] | self"
+24:| `/herdr-dissolve --all-but-me` | every pane and worktree of the CURRENT repo, except the pane running this | "close all panes and wt, just only 1 here" |
+25:| `/herdr-dissolve --sweep [--host H]` | every repo on the machine (`ghq list -p`) | "clean up the sidebar", "too many ✓" |
+26:| `/herdr-dissolve --sync [--all]` | checkouts that are only behind | "everything is ↓" |
+27:| `/herdr-dissolve self` | the worktree you are running in | an agent finishing its own task |
+29:`--sweep` runs sync's plan too, as the old `/herdr-clean-up-sync` did. Every mode goes
+56:repo on the machine** (1278 on m5, 2026-10-08). Only `--sweep` may run unscoped.
+59:# named / --all-but-me: this repo only
+63:# --sweep
+68:For `--all-but-me`, also list the panes on the main checkout, since `fleet audit` covers
+(exit 0 · 0.0 s)

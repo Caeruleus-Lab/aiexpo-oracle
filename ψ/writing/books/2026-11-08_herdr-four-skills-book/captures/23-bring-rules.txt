@@ -1,0 +1,22 @@
+$ rg -n -i 'kill|resume|never' ~/.claude/skills/herdr-bring/SKILL.md | head -20
+3:description: Ensure a herdr presence for any maw handle — resolves it via `maw locate`, opens its own herdr space, and resumes local Claude history when there is any, live or not. Kills a live maw tmux session only when one genuinely exists and is idle. Self-contained; works in any repo on any machine, no justfile recipe needed. Use when the user says "bring X into herdr", "move X from maw to herdr", "adopt X", or gives you a `maw ls` listing and asks to land some or all of it. Do NOT use to fork a session already inside herdr (use `just herdr-fork`), to cut a worktree (use /herdr-wt), or to take a GitHub issue (use /herdr-ticket).
+13:- **live + transcript** → verify idle, kill the maw session, resume the same
+15:- **not live + transcript** → resume it directly. Nothing to kill.
+45:Confirming it exists costs nothing and catches typos before a kill.
+56:read `active` while sitting idle, or `stale` while a long turn runs. Never decide
+68:report and skip; never guess a path.
+112:  test -n "$claude_sess" || { echo "REFUSING: $maw_session is live but no transcript for $repo — investigate before killing"; exit 1; }
+113:  maw kill "$maw_session"; sleep 2
+114:  herdr pane run "$pane" "claude --resume $claude_sess"
+115:  echo "mode      : resumed (killed live maw session first)"
+117:  herdr pane run "$pane" "claude --resume $claude_sess"
+118:  echo "mode      : resumed local history — nothing was live, nothing was killed"
+135:**Kill before resume, never the other order.** Resuming while the old process
+137:happened for real. `sleep 2` lets the kill settle.
+147:**Never sweep every name from step 1 without the user naming them or explicitly
+148:confirming a bulk sweep.** Landing a handle that turns out to be live still kills
+150:herdr copy is a resume of the same transcript, not a backup. You cannot know
+152:in a batch as a potential live-kill.
+161:State plainly which of the three modes happened — resumed a killed live session,
+162:resumed local history with nothing killed, or started fresh with no prior history
+(exit 0 · 0.0 s)

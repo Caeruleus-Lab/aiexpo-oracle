@@ -1,0 +1,16 @@
+ one piece of work, four skills  (herdr 0.9.5 · ~/.claude/skills on m5)
+
+ +-------------------+-----------------------------------------------+
+ | 1  /herdr-wt      | /herdr-wt <slug>                              |
+ |    open           | issue first -> wt/<slug>-<oracle>-<date>      |
+ |                   | -> its own herdr space -> agent briefed       |
+ +-------------------+-----------------------------------------------+
+ | 2  /herdr-bring   | /herdr-bring <oracle>                         |
+ |    bring          | maw locate -> its own space -> resume history |
+ +-------------------+-----------------------------------------------+
+ | 3  /herdr-pr      | /herdr-pr   (in the pane that did the work)   |
+ |    sign           | "Built by": who, model, tree, session, reach  |
+ +-------------------+-----------------------------------------------+
+ | 4  /herdr-dissolve| /herdr-dissolve <wt>                          |
+ |    close          | save -> tombstone -> report parent -> remove  |
+ +-------------------+-----------------------------------------------+

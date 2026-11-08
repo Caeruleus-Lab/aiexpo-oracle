@@ -1,0 +1,32 @@
+$ rg -n -A12 '^## Step 0' ~/.claude/skills/herdr-wt/SKILL.md
+11:## Step 0 — whose space? Decide before anything (Nat, 2026-10-30)
+12-
+13-Two repos can be in play, and they are not the same thing:
+14-
+15-| | what it is | where it comes from |
+16-|---|---|---|
+17-| **home** | the repo you run `/herdr-wt` FROM: your oracle, or your team's desk repo (`rd-team`, `laris-team`, …) | the cwd of YOUR pane (`herdr pane get "$HERDR_PANE_ID"`), never `$PWD` — you may have `cd`'d into the target |
+18-| **target** | the repo the code and the PR live in | the task |
+19-
+20-**The herdr space is always a worktree of HOME.** herdr groups the sidebar by the SPACE's
+21-`worktree.repo_key` and never by a pane's cwd, so a space created with
+22-`herdr worktree create --cwd <target>` lands in the target's group, away from the team that
+23-owns the work. Home ≠ target → use *Under the oracle* below (code worktree in the target, space
+24-in home, agent pane split into the code worktree). Home = target → *Run it* as written.
+25-
+--
+167:# Step 0 guard: home = the repo of YOUR pane (not $PWD). Another repo → "Under the oracle".
+168-HOME_REPO=${HOME_REPO:-$(herdr pane get "$HERDR_PANE_ID" | python3 -c "import json,sys;print(json.load(sys.stdin)['result']['pane']['cwd'])")}
+169-home=$(dirname "$(git -C "$HOME_REPO" rev-parse --path-format=absolute --git-common-dir)")
+170-[ "$repo" = "$home" ] || { echo "STOP: code is in $repo, you run from $home — use 'Under the oracle' so the space nests under $(basename "$home")"; exit 2; }
+171-day=$(TZ='Asia/Bangkok' date +%-d%b-%a%Y | tr '[:upper:]' '[:lower:]')
+172-owner=$(basename "$repo" | sed 's/-oracle$//')
+173-name="$SLUG-$owner${ISSUE:+-issue$ISSUE}-$day"   # register-free-cloud-homelab-issue23-28sep-mon2026
+174-dest="$repo/wt/$name"
+175-test ! -e "$dest" || { echo "already exists: $dest"; exit 1; }
+176-herdr worktree create --cwd "$repo" --branch "$name" --base "$BASE" --path "$dest" --no-focus \
+177-  | python3 -c "import json,sys; print('space', json.load(sys.stdin)['result']['workspace']['workspace_id'], '->', sys.argv[1])" "$name"
+178-git -C "$repo" worktree lock --reason "herdr|$(whoami)@$(hostname -s)|$(date -Iseconds)|$SLUG${ISSUE:+|#$ISSUE}" "$dest"
+179-[ -f "$dest/.envrc" ] || [ ! -f "$repo/.envrc" ] || cp -a "$repo/.envrc" "$dest/.envrc"   # untracked: not in a new worktree
+180-(cd "$dest" && maw token use "$(maw token resolve)")   # see below — token AND direnv trust, in one step
+(exit 0 · 0.0 s)
