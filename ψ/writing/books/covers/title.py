@@ -7,11 +7,15 @@ def face(size):
     for i in range(16):
         f = ImageFont.truetype(str(P), size, index=i, layout_engine=ImageFont.Layout.RAQM)
         if f.getname()[1] == "Bold": return f
-T = {"claude-chatgpt": "Install|Claude & ChatGPT", "ego-lite": "A Browser|for Your Agent", "mcp-connect": "Connect the|Lessons MCP",
-     "phukhao-film": "An Oracle Films|Its Own Story", "phukhao-journey": "Phukhao's|Journey", "herdr-room": "One Room,|Many Agents",
-     "build-mcp": "Build Your|Own MCP", "agy-mcp": "Antigravity CLI|+ MCP", "skills-mcp": "Skills, Voice|and Video",
-     "relic5-ui": "A Tour of|relic5", "team-charter": "From Picture|to Team", "herdr-cmd-j": "Cmd J|and Cmd L",
-     "relic5-install": "Every Machine,|One Hub", "signature": "The Lessons'|Signature"}
+# v3 (Nat, 8 Nov: "the title can we use like sumarize from the content"): each cover says what the lesson gives you,
+# taken from its content, not its name (v1/v2 names are in git history)
+T = {"claude-chatgpt": "Install your AI,|load the skills", "ego-lite": "Your agent gets|its own browser",
+     "mcp-connect": "Your chat AI|reads the lessons", "phukhao-film": "An Oracle films|its own story",
+     "phukhao-journey": "From its birth|to the stage", "herdr-room": "Many agents,|one page",
+     "build-mcp": "Turn lessons|into AI tools", "agy-mcp": "Google's agy|reads the lessons",
+     "skills-mcp": "One MCP: skills,|voice and video", "relic5-ui": "Every session,|searchable",
+     "team-charter": "Sketch a team,|watch it work", "herdr-cmd-j": "One line to the|right agents",
+     "relic5-install": "Every machine's|history, one hub", "signature": "Change one word,|the seal breaks"}
 # v2 (Nat, 8 Nov: "make cover easy to scan, make it different"): each landing group has its own colour world (gen2.sh)
 # and a small group tag above the title in that colour; the scrim behind the title takes the picture's own dark tone
 GROUP = {"skills-mcp": "start", "mcp-connect": "start", "agy-mcp": "start", "ego-lite": "start", "claude-chatgpt": "start",
