@@ -149,6 +149,13 @@ body.bigshake{animation:bigshake .6s cubic-bezier(.36,.07,.19,.97)}@keyframes bi
 /* Nat, 5 Nov: lessons in groups */
 .lgroup{margin-top:clamp(28px,4vh,48px)}.lgroup h3{font:700 clamp(22px,2.4vw,30px)/1.3 var(--display);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--rule)}.lgroup h3 small{color:var(--ink-3);font-weight:500;font-size:.7em;margin-left:8px}
 
+/* Nat, 8 Nov: "show easy to understand to choose click": one big button that reads the lesson in the language you picked; the rest are smaller, under a label */
+.go{display:flex;justify-content:center;align-items:center;gap:.4em;background:var(--accent);color:var(--accent-ink);border-radius:var(--r-sm);padding:12px 18px;margin:0 0 14px;font:700 1.05em var(--display);text-decoration:none;min-height:48px;transition:filter .15s}
+.go:hover{filter:brightness(1.08)}
+.chips{align-items:center}
+.chips .lab{color:var(--ink-3);font-size:.8em;font-weight:700;margin-right:2px}
+.chip{font-size:.8em;padding:3px 12px}
+
 pre{background:var(--paper-2);color:var(--ink);border-radius:var(--r);padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:600 clamp(13px,0.45vw + 10px,19px)/1.55 var(--mono);border:1px solid var(--rule)}
 pre.b64{padding-top:48px;font-size:clamp(11px,0.35vw + 8px,16px);white-space:normal;word-break:break-all;line-height:1.5}
 pre{position:relative}
@@ -482,133 +489,146 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
 </section>
 <h2 id="all"><span data-l="th">บทเรียนทั้งหมด</span><span data-l="en">All lessons</span></h2>
 <section class="lgroup"><h3><span data-l="th">เริ่มต้น · ต่อ AI เข้ากับบทเรียน</span><span data-l="en">Start · connect your AI</span> <small>4</small></h3><div class="list"><article class="card">
-  <a class="thumb" href="2026-11-04_skills-media-mcp-lesson/" data-lesson="2026-11-04_skills-media-mcp-lesson/"><img src="2026-11-04_skills-media-mcp-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-11-04_skills-media-mcp-lesson/" data-lesson="2026-11-04_skills-media-mcp-lesson/"><img data-l="th" src="2026-11-04_skills-media-mcp-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-04_skills-media-mcp-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">01</div>
     <h2><a href="2026-11-04_skills-media-mcp-lesson/" data-lesson="2026-11-04_skills-media-mcp-lesson/"><span data-l="th">MCP ตัวเดียว ส่งได้ทั้ง skill เสียง และวิดีโอ</span><span data-l="en">One MCP hands out skills, voice and video</span></a></h2>
     <p><span data-l="th">skill ของ Oracle ฉบับเต็มเป็นไฟล์ .md คลิปพร้อมคำพูดและเวลา และลองจริงใน claude.ai: /awaken → งาน → /rrr → /forward</span><span data-l="en">Full Oracle skills as .md files, clips with words and times, and a real run in claude.ai: /awaken → work → /rrr → /forward</span></p>
     <div class="facts"><span><span data-l="th">8 เครื่องมือ · ผลดิบ 8 ชิ้น</span><span data-l="en">8 tools · 8 raw outputs</span></span><span><span data-l="th">ลองจริง 4 พ.ย. 2026 · 19:56–20:02</span><span data-l="en">real run 4 Nov 2026 · 19:56–20:02</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-11-05</span></div>
-    <div class="chips"><a class="chip" href="2026-11-04_skills-media-mcp-lesson/index.html">AI</a><a class="chip" href="2026-11-04_skills-media-mcp-lesson/th.html">ไทย</a><a class="chip" href="2026-11-04_skills-media-mcp-lesson/en.html">English</a><a class="chip" href="2026-11-04_skills-media-mcp-lesson/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-11-04_skills-media-mcp-lesson/" data-lesson="2026-11-04_skills-media-mcp-lesson/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-04_skills-media-mcp-lesson/th.html">ไทย</a><a class="chip" href="2026-11-04_skills-media-mcp-lesson/en.html">English</a><a class="chip" href="2026-11-04_skills-media-mcp-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-04_skills-media-mcp-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
 <article class="card">
-  <a class="thumb" href="2026-10-30_mcp-connect-guide/" data-lesson="2026-10-30_mcp-connect-guide/"><img src="2026-10-30_mcp-connect-guide/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-10-30_mcp-connect-guide/" data-lesson="2026-10-30_mcp-connect-guide/"><img data-l="th" src="2026-10-30_mcp-connect-guide/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-30_mcp-connect-guide/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">02</div>
     <h2><a href="2026-10-30_mcp-connect-guide/" data-lesson="2026-10-30_mcp-connect-guide/"><span data-l="th">ต่อ claude.ai และ ChatGPT เข้ากับ MCP ของบทเรียน</span><span data-l="en">Connect claude.ai and ChatGPT to the lessons MCP</span></a></h2>
     <p><span data-l="th">ให้ AI ในแชทค้นและอ่านบทเรียนได้เอง ทั้ง Claude Code, Codex, claude.ai และ ChatGPT</span><span data-l="en">Let the AI in your chat search and read the lessons itself: Claude Code, Codex, claude.ai and ChatGPT</span></p>
     <div class="facts"><span><span data-l="th">MCP: aiexpo.buildwithoracle.com/mcp</span><span data-l="en">MCP: aiexpo.buildwithoracle.com/mcp</span></span><span><span data-l="th">4 เครื่องมือ · ไม่ต้องล็อกอิน</span><span data-l="en">4 tools · no sign-in</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-11-05</span></div>
-    <div class="chips"><a class="chip" href="2026-10-30_mcp-connect-guide/index.html">AI</a><a class="chip" href="2026-10-30_mcp-connect-guide/th.html">ไทย</a><a class="chip" href="2026-10-30_mcp-connect-guide/en.html">English</a><a class="chip" href="2026-10-30_mcp-connect-guide/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-10-30_mcp-connect-guide/" data-lesson="2026-10-30_mcp-connect-guide/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-10-30_mcp-connect-guide/th.html">ไทย</a><a class="chip" href="2026-10-30_mcp-connect-guide/en.html">English</a><a class="chip" href="2026-10-30_mcp-connect-guide/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-10-30_mcp-connect-guide/llms.txt">llms.txt</a></div>
   </div>
 </article>
 <article class="card">
-  <a class="thumb" href="2026-11-02_agy-mcp-lesson/" data-lesson="2026-11-02_agy-mcp-lesson/"><img src="2026-11-02_agy-mcp-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-11-02_agy-mcp-lesson/" data-lesson="2026-11-02_agy-mcp-lesson/"><img data-l="th" src="2026-11-02_agy-mcp-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-02_agy-mcp-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">07</div>
     <h2><a href="2026-11-02_agy-mcp-lesson/" data-lesson="2026-11-02_agy-mcp-lesson/"><span data-l="th">ใช้ Antigravity CLI (agy) กับ MCP ของบทเรียน</span><span data-l="en">Use the Antigravity CLI (agy) with the lessons MCP</span></a></h2>
     <p><span data-l="th">ติดตั้ง agy ของ Google ล็อกอินครั้งแรก แล้วต่อ MCP ของบทเรียนทั้งตัวบน Cloudflare และตัวจาก GitHub พร้อมกับดัก invalid_scope และกล่องที่ติ๊กไว้ให้แล้ว</span><span data-l="en">Install Google&#x27;s agy, sign in once, then connect both lessons MCP servers, with the invalid_scope trap and the pre-ticked box</span></p>
     <div class="facts"><span><span data-l="th">agy 1.4.12 · ผลดิบ 9 ชิ้น</span><span data-l="en">agy 1.4.12 · 9 raw outputs</span></span><span><span data-l="th">MCP สองตัว · กับดักจริง 7 อัน</span><span data-l="en">2 MCP servers · 7 real traps</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-11-02</span></div>
-    <div class="chips"><a class="chip" href="2026-11-02_agy-mcp-lesson/index.html">AI</a><a class="chip" href="2026-11-02_agy-mcp-lesson/th.html">ไทย</a><a class="chip" href="2026-11-02_agy-mcp-lesson/en.html">English</a><a class="chip" href="2026-11-02_agy-mcp-lesson/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-11-02_agy-mcp-lesson/" data-lesson="2026-11-02_agy-mcp-lesson/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-02_agy-mcp-lesson/th.html">ไทย</a><a class="chip" href="2026-11-02_agy-mcp-lesson/en.html">English</a><a class="chip" href="2026-11-02_agy-mcp-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-02_agy-mcp-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
 <article class="card">
-  <a class="thumb" href="2026-10-30_ego-lite-guide/" data-lesson="2026-10-30_ego-lite-guide/"><img src="2026-10-30_ego-lite-guide/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-10-30_ego-lite-guide/" data-lesson="2026-10-30_ego-lite-guide/"><img data-l="th" src="2026-10-30_ego-lite-guide/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-30_ego-lite-guide/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">13</div>
     <h2><a href="2026-10-30_ego-lite-guide/" data-lesson="2026-10-30_ego-lite-guide/"><span data-l="th">ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง</span><span data-l="en">Install ego(lite) so your AI agent gets a browser of its own</span></a></h2>
     <p><span data-l="th">จาก lite.ego.app ถึง Claude Code สั่งเบราว์เซอร์ได้งานแรก</span><span data-l="en">From lite.ego.app to Claude Code finishing its first browser task</span></p>
     <div class="facts"><span><span data-l="th">DMG 0.6.2.5 · Notarized</span><span data-l="en">DMG 0.6.2.5 · Notarized</span></span><span><span data-l="th">skill ประจำรีโป 3 agent</span><span data-l="en">repo skill for 3 agents</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-10-31</span></div>
-    <div class="chips"><a class="chip" href="2026-10-30_ego-lite-guide/index.html">AI</a><a class="chip" href="2026-10-30_ego-lite-guide/th.html">ไทย</a><a class="chip" href="2026-10-30_ego-lite-guide/en.html">English</a><a class="chip" href="2026-10-30_ego-lite-guide/llms.txt">llms.txt</a><a class="chip" href="2026-10-30_ego-lite-guide/slides.html"><span data-l="th">สไลด์</span><span data-l="en">slides</span></a></div>
+    <a class="go" href="2026-10-30_ego-lite-guide/" data-lesson="2026-10-30_ego-lite-guide/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-10-30_ego-lite-guide/th.html">ไทย</a><a class="chip" href="2026-10-30_ego-lite-guide/en.html">English</a><a class="chip" href="2026-10-30_ego-lite-guide/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-10-30_ego-lite-guide/llms.txt">llms.txt</a><a class="chip" href="2026-10-30_ego-lite-guide/slides.html"><span data-l="th">สไลด์</span><span data-l="en">slides</span></a></div>
   </div>
 </article></div></section>
 <section class="lgroup"><h3><span data-l="th">สร้างเอง · MCP และลายเซ็น</span><span data-l="en">Build · your own MCP, signatures</span> <small>2</small></h3><div class="list"><article class="card">
-  <a class="thumb" href="2026-11-02_build-mcp-lesson/" data-lesson="2026-11-02_build-mcp-lesson/"><img src="2026-11-02_build-mcp-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-11-02_build-mcp-lesson/" data-lesson="2026-11-02_build-mcp-lesson/"><img data-l="th" src="2026-11-02_build-mcp-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-02_build-mcp-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">06</div>
     <h2><a href="2026-11-02_build-mcp-lesson/" data-lesson="2026-11-02_build-mcp-lesson/"><span data-l="th">สร้าง MCP ของตัวเอง: จากบทเรียนเป็นเครื่องมือให้ AI</span><span data-l="en">Build your own MCP: turn lessons into tools for AI</span></a></h2>
     <p><span data-l="th">เริ่มจาก MCP 59 บรรทัด จนถึงตัวจริงบน Cloudflare Worker และ npx จาก GitHub พร้อมโค้ดเต็มและกับดักที่เจอจริง</span><span data-l="en">From a 59-line MCP to the real one on a Cloudflare Worker and npx from GitHub, with the full code and the traps we hit</span></p>
     <div class="facts"><span><span data-l="th">ผลดิบ 14 ชิ้น · ไม่มี dependency</span><span data-l="en">14 raw outputs · no dependencies</span></span><span><span data-l="th">Cloudflare + stdio · 4 เครื่องมือ</span><span data-l="en">Cloudflare + stdio · 4 tools</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-11-02</span></div>
-    <div class="chips"><a class="chip" href="2026-11-02_build-mcp-lesson/index.html">AI</a><a class="chip" href="2026-11-02_build-mcp-lesson/th.html">ไทย</a><a class="chip" href="2026-11-02_build-mcp-lesson/en.html">English</a><a class="chip" href="2026-11-02_build-mcp-lesson/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-11-02_build-mcp-lesson/" data-lesson="2026-11-02_build-mcp-lesson/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-02_build-mcp-lesson/th.html">ไทย</a><a class="chip" href="2026-11-02_build-mcp-lesson/en.html">English</a><a class="chip" href="2026-11-02_build-mcp-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-02_build-mcp-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
 <article class="card">
-  <a class="thumb" href="2026-11-04_signature-lesson/" data-lesson="2026-11-04_signature-lesson/"><img src="2026-11-04_signature-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-11-04_signature-lesson/" data-lesson="2026-11-04_signature-lesson/"><img data-l="th" src="2026-11-04_signature-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-04_signature-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">10</div>
     <h2><a href="2026-11-04_signature-lesson/" data-lesson="2026-11-04_signature-lesson/"><span data-l="th">ลายเซ็นดิจิทัลของบทเรียน: สร้างยังไง ทำงานยังไง</span><span data-l="en">The lessons&#x27; digital signature: how it is built and how it works</span></a></h2>
     <p><span data-l="th">sha256 สามไฟล์ EIP-191 ตรวจจากเครื่องและเบราว์เซอร์ ลองเซ็นด้วยกุญแจทดลอง แล้วแก้คำเดียวให้เห็นว่าลายเซ็นพัง</span><span data-l="en">sha256 of three files, EIP-191, checks from a terminal and the browser, a throwaway-key signing, and one changed word that breaks it</span></p>
     <div class="facts"><span><span data-l="th">EIP-191 · secp256k1</span><span data-l="en">EIP-191 · secp256k1</span></span><span><span data-l="th">ผลดิบ 9 ชิ้น · กุญแจจริงไม่ถูกแตะ</span><span data-l="en">9 raw outputs · real key untouched</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-11-04</span></div>
-    <div class="chips"><a class="chip" href="2026-11-04_signature-lesson/index.html">AI</a><a class="chip" href="2026-11-04_signature-lesson/th.html">ไทย</a><a class="chip" href="2026-11-04_signature-lesson/en.html">English</a><a class="chip" href="2026-11-04_signature-lesson/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-11-04_signature-lesson/" data-lesson="2026-11-04_signature-lesson/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-04_signature-lesson/th.html">ไทย</a><a class="chip" href="2026-11-04_signature-lesson/en.html">English</a><a class="chip" href="2026-11-04_signature-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-04_signature-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article></div></section>
 <section class="lgroup"><h3><span data-l="th">ความจำ · relic5</span><span data-l="en">Memory · relic5</span> <small>2</small></h3><div class="list"><article class="card">
-  <a class="thumb" href="2026-11-04_relic5-ui-tour/" data-lesson="2026-11-04_relic5-ui-tour/"><img src="2026-11-04_relic5-ui-tour/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-11-04_relic5-ui-tour/" data-lesson="2026-11-04_relic5-ui-tour/"><img data-l="th" src="2026-11-04_relic5-ui-tour/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-04_relic5-ui-tour/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">08</div>
     <h2><a href="2026-11-04_relic5-ui-tour/" data-lesson="2026-11-04_relic5-ui-tour/"><span data-l="th">ทัวร์ relic5: หน้าเว็บของฮับประวัติ agent</span><span data-l="en">A tour of relic5: the agent-history hub&#x27;s web UI</span></a></h2>
     <p><span data-l="th">ค้นทุก session ทุกเครื่อง ดูสด ความรู้ของ agent ครอบครัว Oracle แผนที่ความหมาย และสุขภาพของฮับ จากหน้าจริงบน white</span><span data-l="en">Search every session on every machine, live, agent knowledge, the Oracle family, a map by meaning and the hub&#x27;s health, from the real UI on white</span></p>
     <div class="facts"><span><span data-l="th">14 หน้าจอจริง</span><span data-l="en">14 real screens</span></span><span><span data-l="th">ไม่เบลอ ยกเว้นอีเมลและ token</span><span data-l="en">unblurred except e-mail and tokens</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-11-05</span></div>
-    <div class="chips"><a class="chip" href="2026-11-04_relic5-ui-tour/index.html">AI</a><a class="chip" href="2026-11-04_relic5-ui-tour/th.html">ไทย</a><a class="chip" href="2026-11-04_relic5-ui-tour/en.html">English</a><a class="chip" href="2026-11-04_relic5-ui-tour/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-11-04_relic5-ui-tour/" data-lesson="2026-11-04_relic5-ui-tour/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-04_relic5-ui-tour/th.html">ไทย</a><a class="chip" href="2026-11-04_relic5-ui-tour/en.html">English</a><a class="chip" href="2026-11-04_relic5-ui-tour/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-04_relic5-ui-tour/llms.txt">llms.txt</a></div>
   </div>
 </article>
 <article class="card">
-  <a class="thumb" href="2026-11-04_relic5-install/" data-lesson="2026-11-04_relic5-install/"><img src="2026-11-04_relic5-install/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-11-04_relic5-install/" data-lesson="2026-11-04_relic5-install/"><img data-l="th" src="2026-11-04_relic5-install/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-04_relic5-install/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">09</div>
     <h2><a href="2026-11-04_relic5-install/" data-lesson="2026-11-04_relic5-install/"><span data-l="th">ติดตั้ง relic5: ประวัติทุกเครื่อง ในฮับเดียว</span><span data-l="en">Install relic5: every machine&#x27;s history in one hub</span></a></h2>
     <p><span data-l="th">จากซอร์สบน GitHub ถึง CLI, MCP 25 เครื่องมือ และ relic5 import ที่ส่งประวัติของเครื่องเข้าฮับ ทุกคำสั่งรันจริง</span><span data-l="en">From the GitHub source to the CLI, 25 MCP tools and relic5 import, which sends a machine&#x27;s history to the hub; every command ran</span></p>
     <div class="facts"><span><span data-l="th">MCP 25 เครื่องมือ</span><span data-l="en">25 MCP tools</span></span><span><span data-l="th">รันจริงบน m5 · ฮับบน white</span><span data-l="en">run on m5 · hub on white</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-11-04</span></div>
-    <div class="chips"><a class="chip" href="2026-11-04_relic5-install/index.html">AI</a><a class="chip" href="2026-11-04_relic5-install/th.html">ไทย</a><a class="chip" href="2026-11-04_relic5-install/en.html">English</a><a class="chip" href="2026-11-04_relic5-install/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-11-04_relic5-install/" data-lesson="2026-11-04_relic5-install/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-04_relic5-install/th.html">ไทย</a><a class="chip" href="2026-11-04_relic5-install/en.html">English</a><a class="chip" href="2026-11-04_relic5-install/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-04_relic5-install/llms.txt">llms.txt</a></div>
   </div>
 </article></div></section>
 <section class="lgroup"><h3><span data-l="th">ทีม agent · herdr</span><span data-l="en">Agent teams · herdr</span> <small>3</small></h3><div class="list"><article class="card">
-  <a class="thumb" href="2026-10-31_herdr-room-lesson/" data-lesson="2026-10-31_herdr-room-lesson/"><img src="2026-10-31_herdr-room-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-10-31_herdr-room-lesson/" data-lesson="2026-10-31_herdr-room-lesson/"><img data-l="th" src="2026-10-31_herdr-room-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-31_herdr-room-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">05</div>
     <h2><a href="2026-10-31_herdr-room-lesson/" data-lesson="2026-10-31_herdr-room-lesson/"><span data-l="th">ห้องเดียว หลาย agent: herdr-room in / out</span><span data-l="en">One room, many agents: herdr-room in / out</span></a></h2>
     <p><span data-l="th">ดึง agent มาอยู่หน้าเดียวแล้วส่งกลับ space ของตัวเอง ไม่มีตัวไหน restart พร้อมซอร์สเต็ม skill เต็ม และวิธีติดตั้ง</span><span data-l="en">Pull agents onto one page and back to their own spaces with no restart, with the full source, the full skill and install steps</span></p>
     <div class="facts"><span><span data-l="th">herdr 0.9.5 · ผลดิบ 16 ชิ้น</span><span data-l="en">herdr 0.9.5 · 16 raw outputs</span></span><span><span data-l="th">ซอร์ส 449 บรรทัด + skill เต็ม</span><span data-l="en">449-line source + full skill</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-10-31</span></div>
-    <div class="chips"><a class="chip" href="2026-10-31_herdr-room-lesson/index.html">AI</a><a class="chip" href="2026-10-31_herdr-room-lesson/th.html">ไทย</a><a class="chip" href="2026-10-31_herdr-room-lesson/en.html">English</a><a class="chip" href="2026-10-31_herdr-room-lesson/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-10-31_herdr-room-lesson/" data-lesson="2026-10-31_herdr-room-lesson/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-10-31_herdr-room-lesson/th.html">ไทย</a><a class="chip" href="2026-10-31_herdr-room-lesson/en.html">English</a><a class="chip" href="2026-10-31_herdr-room-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-10-31_herdr-room-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
 <article class="card">
-  <a class="thumb" href="2026-11-05_team-ecosystem-lesson/" data-lesson="2026-11-05_team-ecosystem-lesson/"><img src="2026-11-05_team-ecosystem-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-11-05_team-ecosystem-lesson/" data-lesson="2026-11-05_team-ecosystem-lesson/"><img data-l="th" src="2026-11-05_team-ecosystem-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-05_team-ecosystem-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">11</div>
     <h2><a href="2026-11-05_team-ecosystem-lesson/" data-lesson="2026-11-05_team-ecosystem-lesson/"><span data-l="th">ทีม Oracle: จากภาพบนเว็บ สู่ charter สู่ทีมที่ทำงานจริง</span><span data-l="en">An Oracle team: from a picture on the web, to a charter, to a team at work</span></a></h2>
     <p><span data-l="th">team.buildwithoracle.com วาดบทบาท charter manager-team และ rd-team เขียนบทบาทเป็นไฟล์ แล้ว herdr เปิดเป็นทีม</span><span data-l="en">team.buildwithoracle.com draws the roles, the manager-team and rd-team charters write them down, herdr opens them as a team</span></p>
     <div class="facts"><span><span data-l="th">2 ทีมตัวอย่าง · ทุกคำสั่งรันจริง</span><span data-l="en">2 demo teams · every command ran</span></span><span><span data-l="th">5 พ.ย. 2026</span><span data-l="en">5 Nov 2026</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-11-05</span></div>
-    <div class="chips"><a class="chip" href="2026-11-05_team-ecosystem-lesson/index.html">AI</a><a class="chip" href="2026-11-05_team-ecosystem-lesson/en.html">English</a><a class="chip" href="2026-11-05_team-ecosystem-lesson/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-11-05_team-ecosystem-lesson/" data-lesson="2026-11-05_team-ecosystem-lesson/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-05_team-ecosystem-lesson/en.html">English</a><a class="chip" href="2026-11-05_team-ecosystem-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-05_team-ecosystem-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
 <article class="card">
-  <a class="thumb" href="2026-11-05_herdr-cmd-j-lesson/" data-lesson="2026-11-05_herdr-cmd-j-lesson/"><img src="2026-11-05_herdr-cmd-j-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-11-05_herdr-cmd-j-lesson/" data-lesson="2026-11-05_herdr-cmd-j-lesson/"><img data-l="th" src="2026-11-05_herdr-cmd-j-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-05_herdr-cmd-j-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">12</div>
     <h2><a href="2026-11-05_herdr-cmd-j-lesson/" data-lesson="2026-11-05_herdr-cmd-j-lesson/"><span data-l="th">herdr ⌘J และ ⌘L: ส่งข้อความหนึ่งบรรทัด ถึง agent ที่ใช่</span><span data-l="en">herdr ⌘J and ⌘L: one line, to the right agents</span></a></h2>
     <p><span data-l="th">⌘J หนึ่งครั้ง ทั้งแท็บ สองครั้ง เครื่องอื่น สามครั้ง ทั้ง session ⌘L ทั้ง repo พร้อมโค้ดจริงครบทุกไฟล์</span><span data-l="en">⌘J once for the tab, twice for other machines, three times for the whole session, ⌘L for the whole repo, with the full code</span></p>
     <div class="facts"><span><span data-l="th">โค้ดจริง 8 ไฟล์</span><span data-l="en">full code, 8 files</span></span><span><span data-l="th">herdr 0.9.5 · 5 พ.ย. 2026</span><span data-l="en">herdr 0.9.5 · 5 Nov 2026</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-11-05</span></div>
-    <div class="chips"><a class="chip" href="2026-11-05_herdr-cmd-j-lesson/index.html">AI</a><a class="chip" href="2026-11-05_herdr-cmd-j-lesson/en.html">English</a><a class="chip" href="2026-11-05_herdr-cmd-j-lesson/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-11-05_herdr-cmd-j-lesson/" data-lesson="2026-11-05_herdr-cmd-j-lesson/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-05_herdr-cmd-j-lesson/en.html">English</a><a class="chip" href="2026-11-05_herdr-cmd-j-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-05_herdr-cmd-j-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article></div></section>
 <section class="lgroup"><h3><span data-l="th">เรื่องเล่า · ภูเขา</span><span data-l="en">Stories · Phukhao</span> <small>2</small></h3><div class="list"><article class="card">
-  <a class="thumb" href="2026-10-31_phukhao-film-guide/" data-lesson="2026-10-31_phukhao-film-guide/"><img src="2026-10-31_phukhao-film-guide/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-10-31_phukhao-film-guide/" data-lesson="2026-10-31_phukhao-film-guide/"><img data-l="th" src="2026-10-31_phukhao-film-guide/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-31_phukhao-film-guide/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">03</div>
     <h2><a href="2026-10-31_phukhao-film-guide/" data-lesson="2026-10-31_phukhao-film-guide/"><span data-l="th">ทำหนังสั้นให้ Oracle พูดเอง</span><span data-l="en">Make an Oracle tell its own story on film</span></a></h2>
     <p><span data-l="th">เสียง Paxa ทีละบรรทัด ภาพฉากจาก Codex วิดีโอวนลูปบน GB300 ทุกพรอมต์อยู่ในบท</span><span data-l="en">Paxa voice line by line, Codex scene images, seamless loops on GB300, with every prompt</span></p>
     <div class="facts"><span><span data-l="th">13 ฉาก · 13 บรรทัด · 103 วิ</span><span data-l="en">13 scenes · 13 lines · 103 s</span></span><span><span data-l="th">พรอมต์ครบทุกชิ้น</span><span data-l="en">every prompt included</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-10-31</span></div>
-    <div class="chips"><a class="chip" href="2026-10-31_phukhao-film-guide/index.html">AI</a><a class="chip" href="2026-10-31_phukhao-film-guide/th.html">ไทย</a><a class="chip" href="2026-10-31_phukhao-film-guide/en.html">English</a><a class="chip" href="2026-10-31_phukhao-film-guide/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-10-31_phukhao-film-guide/" data-lesson="2026-10-31_phukhao-film-guide/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-10-31_phukhao-film-guide/th.html">ไทย</a><a class="chip" href="2026-10-31_phukhao-film-guide/en.html">English</a><a class="chip" href="2026-10-31_phukhao-film-guide/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-10-31_phukhao-film-guide/llms.txt">llms.txt</a></div>
   </div>
 </article>
 <article class="card">
-  <a class="thumb" href="2026-10-31_phukhao-oracle-journey/" data-lesson="2026-10-31_phukhao-oracle-journey/"><img src="2026-10-31_phukhao-oracle-journey/images/cover-ai.jpg" alt="" loading="lazy"></a>
+  <a class="thumb" href="2026-10-31_phukhao-oracle-journey/" data-lesson="2026-10-31_phukhao-oracle-journey/"><img data-l="th" src="2026-10-31_phukhao-oracle-journey/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-31_phukhao-oracle-journey/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">04</div>
     <h2><a href="2026-10-31_phukhao-oracle-journey/" data-lesson="2026-10-31_phukhao-oracle-journey/"><span data-l="th">เรื่องของภูเขา และการเดินทางของครอบครัว Oracle</span><span data-l="en">Phukhao&#x27;s story, and the Oracle family&#x27;s journey</span></a></h2>
     <p><span data-l="th">จากวันเกิด 21 ม.ค. 2026 ถึงเวที AI Expo 6 พ.ย. 2026 เก็บจากหน้าเว็บสาธารณะของภูเขา</span><span data-l="en">From its birth on 21 Jan 2026 to the AI Expo stage on 6 Nov 2026, from Phukhao&#x27;s public site</span></p>
     <div class="facts"><span><span data-l="th">12 ตอน · 21 ม.ค. ถึง 6 พ.ย. 2026</span><span data-l="en">12 chapters · 21 Jan to 6 Nov 2026</span></span><span><span data-l="th">จากหน้าเว็บสาธารณะเท่านั้น</span><span data-l="en">public site only</span></span><span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> 0xaBF1…5f78</span><span>2026-10-31</span></div>
-    <div class="chips"><a class="chip" href="2026-10-31_phukhao-oracle-journey/index.html">AI</a><a class="chip" href="2026-10-31_phukhao-oracle-journey/th.html">ไทย</a><a class="chip" href="2026-10-31_phukhao-oracle-journey/en.html">English</a><a class="chip" href="2026-10-31_phukhao-oracle-journey/llms.txt">llms.txt</a></div>
+    <a class="go" href="2026-10-31_phukhao-oracle-journey/" data-lesson="2026-10-31_phukhao-oracle-journey/"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-10-31_phukhao-oracle-journey/th.html">ไทย</a><a class="chip" href="2026-10-31_phukhao-oracle-journey/en.html">English</a><a class="chip" href="2026-10-31_phukhao-oracle-journey/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-10-31_phukhao-oracle-journey/llms.txt">llms.txt</a></div>
   </div>
 </article></div></section>
 <p class="note"><span data-l="th">แต่ละบทเซ็นรวมกันทุกฉบับ กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Every edition of each lesson is signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>

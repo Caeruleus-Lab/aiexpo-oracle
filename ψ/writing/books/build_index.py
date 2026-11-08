@@ -153,7 +153,7 @@ NO_TH = {"team-charter", "herdr-cmd-j"}
 def card(i, l):
     x = info(l)
     d = l["dir"] + "/"
-    links = [("index.html", "AI"), ("th.html", "ไทย"), ("en.html", "English"), ("llms.txt", "llms.txt")]
+    links = [("th.html", "ไทย"), ("en.html", "English"), ("index.html", '<span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span>'), ("llms.txt", "llms.txt")]   # Nat, 8 Nov: "show easy to understand to choose click"
     if l["key"] in NO_TH:   # Nat, 5 Nov: these lessons show AI and English only
         links = [x for x in links if x[0] != "th.html"]
     if x["slides"]:
@@ -163,13 +163,14 @@ def card(i, l):
                     for a, b in zip(l["facts_th"], l["facts_en"]))
     addr = x["address"]
     return f'''<article class="card">
-  <a class="thumb" href="{d}" data-lesson="{d}"><img src="{d}{l["cover"]}" alt="" loading="lazy"></a>
+  <a class="thumb" href="{d}" data-lesson="{d}"><img data-l="th" src="{d}{l["cover"].replace(".jpg", "-th.jpg")}" alt="" loading="lazy"><img data-l="en" src="{d}{l["cover"]}" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">{i:02d}</div>
     <h2><a href="{d}" data-lesson="{d}"><span data-l="th">{H.escape(l["th"])}</span><span data-l="en">{H.escape(l["en"])}</span></a></h2>
     <p><span data-l="th">{H.escape(l["th_sub"])}</span><span data-l="en">{H.escape(l["en_sub"])}</span></p>
     <div class="facts">{facts}<span>✓ <span data-l="th">เซ็นแล้ว</span><span data-l="en">signed</span> {addr[:6]}…{addr[-4:]}</span><span>{x["date"]}</span></div>
-    <div class="chips">{chips}</div>
+    <a class="go" href="{d}" data-lesson="{d}"><span data-l="th">อ่านบทเรียน</span><span data-l="en">Read the lesson</span> →</a>
+    <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span>{chips}</div>
   </div>
 </article>'''
 

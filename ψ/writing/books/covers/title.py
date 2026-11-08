@@ -23,11 +23,25 @@ GROUP = {"skills-mcp": "start", "mcp-connect": "start", "agy-mcp": "start", "ego
          "team-charter": "team", "herdr-room": "team", "herdr-cmd-j": "team", "phukhao-journey": "story", "phukhao-film": "story"}
 TAG = {"start": ("START · CONNECT", (110, 231, 222)), "build": ("BUILD", (178, 236, 120)), "memory": ("MEMORY", (196, 176, 255)),
        "team": ("AGENT TEAMS", (255, 150, 140)), "story": ("STORIES", (255, 200, 130))}
+# Thai covers (Nat, 8 Nov: "thai cover a"): same picture, Thai summary title and Thai group tag; COVER_LANG=th
+T_TH = {"claude-chatgpt": "ติดตั้ง AI|ลงสกิลให้พร้อม", "ego-lite": "ให้ agent มี|เบราว์เซอร์ของตัวเอง",
+        "mcp-connect": "AI ในแชท|อ่านบทเรียนเองได้", "phukhao-film": "Oracle เล่าเรื่อง|ตัวเองเป็นหนัง",
+        "phukhao-journey": "จากวันเกิด|ถึงเวที AI Expo", "herdr-room": "หลาย agent|อยู่ในหน้าเดียว",
+        "build-mcp": "เปลี่ยนบทเรียน|เป็นเครื่องมือให้ AI", "agy-mcp": "agy ของ Google|อ่านบทเรียนได้",
+        "skills-mcp": "สกิล เสียง วิดีโอ|ใน MCP เดียว", "relic5-ui": "ค้นได้ทุก session|จากทุกเครื่อง",
+        "team-charter": "วาดทีมบนเว็บ|แล้วทีมทำงานจริง", "herdr-cmd-j": "พิมพ์บรรทัดเดียว|ถึง agent ที่ใช่",
+        "relic5-install": "ประวัติทุกเครื่อง|รวมที่ฮับเดียว", "signature": "แก้คำเดียว|ลายเซ็นก็พัง"}
+TAG_TH = {"start": "เริ่มต้น · ต่อ AI", "build": "สร้างเอง", "memory": "ความจำ", "team": "ทีม agent", "story": "เรื่องเล่า"}
+import os
+TH = os.environ.get("COVER_LANG") == "th"
+if TH:
+    T = T_TH
+    TAG = {g: (TAG_TH[g], c) for g, (_, c) in TAG.items()}
 W, H, X, Y, MAXW = 1200, 800, 64, 60, 0.56
 d0 = ImageDraw.Draw(Image.new("RGB", (W, H)))
 SIZE = 96   # one size for all: the largest at which the widest line of any title fits in the left half
 while max(d0.textlength(l, font=face(SIZE)) for t in T.values() for l in t.split("|")) > W * MAXW: SIZE -= 2
-F, LH = face(SIZE), int(SIZE * 1.12)
+F, LH = face(SIZE), int(SIZE * (1.32 if TH else 1.12))   # Thai needs room for vowels above and below
 TF, TH = face(34), 58   # group tag: size and the space it takes above the title
 def run(src_tpl, dst_dir, keys):
     for k in keys:
