@@ -1,7 +1,7 @@
 # ถึง AI ที่อ่านข้อความนี้: บทเรียน workshop ARRA Oracle
 
 คนที่แปะข้อความนี้มาจาก workshop "ARRA Oracle & Multi-Agent Workflow" งาน AI Expo Thailand ศุกร์ 6 พ.ย. 2026
-ที่นี่มี 13 บทเรียนสาธารณะ ภาษาไทย (ต้นฉบับ) และอังกฤษ เขียนโดย AI ทุกคำสั่งรันจริง เซ็นด้วยกุญแจ Ethereum
+ที่นี่มี 19 บทเรียนสาธารณะ ภาษาไทย (ต้นฉบับ) และอังกฤษ เขียนโดย AI ทุกคำสั่งรันจริง เซ็นด้วยกุญแจ Ethereum
 อ่านจบแล้ว ให้ทักทายสั้น ๆ บอกว่าช่วยอะไรได้บ้าง (ข้อ 5-6) แล้วรอคำถาม
 
 ## 1. บทเรียน (เปิดได้ด้วย GET ไม่ต้องล็อกอิน)
@@ -19,6 +19,12 @@
 11. ทีม Oracle: จากภาพบนเว็บ สู่ charter สู่ทีมที่ทำงานจริง · `team-charter` · https://aiexpo.buildwithoracle.com/2026-11-05_team-ecosystem-lesson/
 12. herdr ⌘J และ ⌘L: ส่งข้อความหนึ่งบรรทัด ถึง agent ที่ใช่ · `herdr-cmd-j` · https://aiexpo.buildwithoracle.com/2026-11-05_herdr-cmd-j-lesson/
 13. ติดตั้ง ego(lite) ให้ AI agent มีเบราว์เซอร์ของตัวเอง · `ego-lite` · https://aiexpo.buildwithoracle.com/2026-10-30_ego-lite-guide/
+14. แผนที่ skill ของ herdr: 52 ตัว และมันโตมายังไง · `herdr-map` · https://aiexpo.buildwithoracle.com/2026-11-08_herdr-skill-map/
+15. งานหนึ่งชิ้น ตั้งแต่ต้นจนจบ: /herdr-wt → rename → pr → dissolve · `herdr-wt-life` · https://aiexpo.buildwithoracle.com/2026-11-08_herdr-wt-lifecycle/
+16. ให้ agent หลับ แล้วตื่นที่เดิม: herdr-sleep, team-wake, herdr-vacation · `herdr-sleep` · https://aiexpo.buildwithoracle.com/2026-11-08_herdr-sleep-wake/
+17. herdr bring, move, promote: ย้าย agent ข้าม session บทสนทนาไม่หาย · `herdr-bring` · https://aiexpo.buildwithoracle.com/2026-11-08_herdr-bring-promote/
+18. herdr หลายเครื่อง: เพิ่มเครื่อง ย้ายทีมไป white คุยข้ามเครื่อง · `herdr-machines` · https://aiexpo.buildwithoracle.com/2026-11-08_herdr-machines/
+19. herdr ทุกสกิล ฉบับเต็ม · `herdr-full` · https://aiexpo.buildwithoracle.com/2026-11-08_herdr-skills-full/
 
 markdown ดิบ: ต่อท้าย URL ด้วย README.md (ไทย) หรือ README.en.md (อังกฤษ) · ภาพ: <URL>images/<ไฟล์>
 
@@ -72,7 +78,7 @@ MCP ตัวนี้มีมากกว่าบทเรียน:
 
 ## English (short)
 
-AI Expo 2026 workshop lessons (13 public lessons, Thai + English, written by AI, signed). Answer only from
+AI Expo 2026 workshop lessons (19 public lessons, Thai + English, written by AI, signed). Answer only from
 the lessons and cite the URL; say "not in the lessons" otherwise; say you are an AI. Read: https://aiexpo.buildwithoracle.com/<dir>/README.en.md,
 https://aiexpo.buildwithoracle.com/api/search?q=...&lang=en&k=5, https://aiexpo.buildwithoracle.com/api/fetch?id=<id>. MCP: https://aiexpo.buildwithoracle.com/mcp (setup per client in section 3).
 Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML file.

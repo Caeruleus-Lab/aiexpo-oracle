@@ -1,0 +1,27 @@
+  52 /herdr-* skills on m5, 8 Nov 2026, in 7 jobs
+  ==================================================================
+
+  1  WHERE AM I (7)          herdr  whoami  info  tree  structure
+                             neighbors  twin
+
+  2  ONE WORKTREE (14)       wt  fib-wt  idea  issue  ticket  work
+     start -> finish         rename  pr  wt-ship  done  finished
+                             dissolve  clean-up-sync(old name)  trinity
+
+  3  TALK TO AGENTS (9)      hey  peek  ask(cmd+J)  roomcast
+                             sessioncast  soulcast  send  handover
+                             pane-run
+
+  4  ROOMS & TEAMS (6)       room  team  team-ctl  lead-scouts
+                             buddy  bring-beside
+
+  5  MOVE AGENTS (6)         bring  move  promote  unpromote
+                             incubate  soul
+
+  6  MACHINES (7)            link  link-local  link-remote  link-talk
+                             link-teardown  link-check  machine-labels
+
+  7  SLEEP & CLEAN UP (3)    sleep  vacation  blank
+
+  ------------------------------------------------------------------
+  7 + 14 + 9 + 6 + 6 + 7 + 3 = 52        ls -d ~/.claude/skills/herdr*/

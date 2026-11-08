@@ -130,13 +130,62 @@ LESSONS = [
          cover="images/cover-ai.jpg",
          facts_th=["EIP-191 · secp256k1", "ผลดิบ 9 ชิ้น · กุญแจจริงไม่ถูกแตะ"],
          facts_en=["EIP-191 · secp256k1", "9 raw outputs · real key untouched"]),
+    # the herdr skills series (Nat, 8 Nov: "make 5 lessons" + "the 6th lesson do write full all skills"), from the 3 Nov videos + relic5
+    dict(key="herdr-map", dir="2026-11-08_herdr-skill-map",
+         th="แผนที่ skill ของ herdr: 52 ตัว และมันโตมายังไง",
+         en="The herdr skill map: 52 skills, and how they grew",
+         th_sub="skill /herdr-* ครบ 52 ตัว แบ่ง 7 กลุ่มตามงาน ตัวละบรรทัด ไทม์ไลน์จาก relic5 และงานไหนใช้ตัวไหน",
+         en_sub="All 52 /herdr-* skills in 7 groups by job, one line each, a relic5 timeline, and which skill to use when",
+         cover="images/cover-ai.jpg",
+         facts_th=["skill 52 ตัว", "วิดีโอ 3 พ.ย."],
+         facts_en=["52 skills", "video 3 Nov"]),
+    dict(key="herdr-wt-life", dir="2026-11-08_herdr-wt-lifecycle",
+         th="งานหนึ่งชิ้น ตั้งแต่ต้นจนจบ: /herdr-wt → rename → pr → dissolve",
+         en="One piece of work, start to finish: /herdr-wt → rename → pr → dissolve",
+         th_sub="issue ก่อน worktree ของมันเอง PR ที่เซ็นชื่อ เก็บงานก่อนปิด ตามเดโมจริง #129/#130 คืน 3 พ.ย.",
+         en_sub="Issue first, its own worktree, a signed PR, save before closing: the real 3 Nov demo, issue #129 to PR #130",
+         cover="images/cover-ai.jpg",
+         facts_th=["skill 4 ตัวต่องานหนึ่งชิ้น", "issue ถึง merge 35 นาที"],
+         facts_en=["4 skills per piece of work", "issue to merge: 35 min"]),
+    dict(key="herdr-sleep", dir="2026-11-08_herdr-sleep-wake",
+         th="ให้ agent หลับ แล้วตื่นที่เดิม: herdr-sleep, team-wake, herdr-vacation",
+         en="Put agents to sleep, wake them where they were: herdr-sleep, team-wake, herdr-vacation",
+         th_sub="สั่งทีม media หลับ คืน RAM แต่ช่องยังอยู่ ปลุก pigment ตัวเดียวพร้อม bookmark ของมันเอง ปลุกจาก Discord และ team-wake หลัง reboot",
+         en_sub="Put the media team to sleep to free RAM, keep their spaces, wake only Pigment with its own bookmark; Discord !wake; team-wake after a reboot",
+         cover="images/cover-ai.jpg",
+         facts_th=["bookmark 4 บรรทัด", "ปลุก 1 จาก 5"],
+         facts_en=["bookmark: 4 lines", "woke 1 of 5"]),
+    dict(key="herdr-bring", dir="2026-11-08_herdr-bring-promote",
+         th="herdr bring, move, promote: ย้าย agent ข้าม session บทสนทนาไม่หาย",
+         en="herdr bring, move, promote: move agents between sessions without losing the conversation",
+         th_sub="ย้าย agent ข้าม session: จบที่เดิม เปิดต่อด้วย session id เดิม เดโมจริง Neo ไปและกลับ 3 พ.ย.",
+         en_sub="Move agents between herdr sessions: end it where it runs, resume it elsewhere with the same id. Real Neo round trip",
+         cover="images/cover-ai.jpg",
+         facts_th=["skill 6 ตัว", "ย้าย 9 agent id เดิม"],
+         facts_en=["6 skills", "9 agents, same ids"]),
+    dict(key="herdr-machines", dir="2026-11-08_herdr-machines",
+         th="herdr หลายเครื่อง: เพิ่มเครื่อง ย้ายทีมไป white คุยข้ามเครื่อง",
+         en="herdr on many machines: add a machine, move a team to white, talk across",
+         th_sub="Local ข้างบน machine ข้างล่าง ต่อผ่าน tailscale ส่งไฟล์ข้ามเครื่องได้ และย้าย ccdc-team ไป white คำสั่งเดียว",
+         en_sub="Local on top, machines below, over tailscale: files cross machines, and ccdc-team moves to white in one command",
+         cover="images/cover-ai.jpg",
+         facts_th=["m5 ↔ white", "ย้ายทีม 51 วินาที"],
+         facts_en=["m5 ↔ white", "team move in 51 s"]),
+    dict(key="herdr-full", dir="2026-11-08_herdr-skills-full",
+         th="herdr ทุกสกิล ฉบับเต็ม",
+         en="Every herdr skill, full text",
+         th_sub="สกิล /herdr-* ครบ 52 ตัวแบบคำต่อคำ แบ่ง 7 กลุ่ม พร้อมสคริปต์ทุกไฟล์ คัดลอกไปใส่ ~/.claude/skills/ ได้",
+         en_sub="All 52 /herdr-* skills word for word in 7 groups, with every script, ready to copy into ~/.claude/skills/",
+         cover="images/cover-ai.jpg",
+         facts_th=["สกิลครบ 52 ตัว", "106 ไฟล์ ไม่มี secret"],
+         facts_en=["52 skills, full text", "106 files, no secrets"]),
 ]
 
 
 # What people see on the landing page (Nat, 4 Nov): lesson 01 hidden (too basic), the skills MCP lesson first, the MCP connect
 # lesson second, ego-lite last, numbered 01.. in this order. The AI brief, llms.txt and lessons.json keep all 9 in workshop order.
 # Nat, 5 Nov: "use codex draw text with image all": every card cover is a Codex image_gen picture with its title (images/cover-ai.jpg)
-HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "relic5-ui", "relic5-install", "signature", "team-charter", "herdr-cmd-j", "ego-lite"]
+HUMAN_ORDER = ["skills-mcp", "mcp-connect", "phukhao-film", "phukhao-journey", "herdr-room", "build-mcp", "agy-mcp", "relic5-ui", "relic5-install", "signature", "team-charter", "herdr-cmd-j", "ego-lite", "herdr-map", "herdr-wt-life", "herdr-sleep", "herdr-bring", "herdr-machines", "herdr-full"]
 HUMAN = [(n + 1, next(l for l in LESSONS if l["key"] == k)) for n, k in enumerate(HUMAN_ORDER)]
 
 
@@ -385,8 +434,9 @@ def page():
                 ("สร้างเอง · MCP และลายเซ็น", "Build · your own MCP, signatures", ["build-mcp", "signature"]),
                 ("ความจำ · relic5", "Memory · relic5", ["relic5-install", "relic5-ui"]),
                 ("ทีม agent · herdr", "Agent teams · herdr", ["team-charter", "herdr-room", "herdr-cmd-j"]),
-                ("เรื่องเล่า · ภูเขา", "Stories · Phukhao", ["phukhao-journey", "phukhao-film"])]
-    GROUP_OF.update({k: ("start", "build", "memory", "team", "story")[n] for n, (_, _, ks) in enumerate(GROUPS_L) for k in ks})
+                ("เรื่องเล่า · ภูเขา", "Stories · Phukhao", ["phukhao-journey", "phukhao-film"]),
+                ("สกิล herdr · 6 บทต่อกัน", "herdr skills · a 6-lesson series", ["herdr-map", "herdr-wt-life", "herdr-sleep", "herdr-bring", "herdr-machines", "herdr-full"])]
+    GROUP_OF.update({k: ("start", "build", "memory", "team", "story", "herdr")[n] for n, (_, _, ks) in enumerate(GROUPS_L) for k in ks})
     num = {l["key"]: i for i, l in HUMAN}
     assert sorted(k for _, _, ks in GROUPS_L for k in ks) == sorted(num), "every public lesson in exactly one group"
     cards = "\n".join(f'<section class="lgroup"><h3><span data-l="th">{th}</span><span data-l="en">{en}</span> <small>{len(ks)}</small></h3>'

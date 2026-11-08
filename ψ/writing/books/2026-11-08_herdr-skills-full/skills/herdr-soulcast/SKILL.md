@@ -1,0 +1,39 @@
+---
+name: herdr-soulcast
+description: Broadcast one line to EVERY body of one oracle on this machine -- all herdr sessions, spaces and worktrees -- with the origin stamped on it and a reply route back to the sender. Same idea as cmd+J (all agents in a tab) but across the whole soul; cmd+S opens it. Use when the user says "send to all pulse", "broadcast our soul", "tell every pulse", "cmd+s", "herdr-soulcast", or wants the same message to reach every running body of one oracle. Do NOT use to message ONE agent (use /herdr-hey), to hand a task to another oracle (use /herdr-send), or to list bodies without sending (use /herdr-info).
+argument-hint: '"<message>" [--oracle pulse] [--dry] [--include-origin]'
+---
+
+# /herdr-soulcast -- one line, every body
+
+Family, keys and setup: `docs/broadcast.md` (Soul-Brews-Studio/herdr-orca-oracle). Bodies come from `/herdr-info`
+(the oracle's own repo) plus team bodies (`<x>-team/wt/<oracle>`) from every running session.
+
+`/herdr-info <oracle>` finds every body. `herdr-soulcast` sends to them and tells each one where it came from.
+
+```bash
+herdr-soulcast --oracle pulse --dry                       # targets only, sends nothing  (always first)
+herdr-soulcast --oracle pulse --text "pull main before you push"
+```
+
+Keyboard: **cmd+S** -> WezTerm sends F4 -> herdr popup `herdr-soulcast` (oracle = repo of the focused pane;
+type, Enter sends, Esc cancels). Two sides, like cmd+J: `~/.wezterm.lua` and `~/.config/herdr/config.toml`.
+
+## What every body receives (one line, built per body)
+
+`[SOUL BROADCAST sb-MMDD-HHMMSS | from Nat via cmd+S | origin <session>:<pane> (<agent> <where>) | you are <session>:<pane> | to N pulse bodies] <text> | ANSWER ONLY THE ORIGIN, do not answer the other bodies, and tag your answer exactly [reply <id> from <you>]: herdr --session <s> agent prompt <origin pane> "[reply <id> from <you>] <your report>"`
+
+- **From where:** the origin session, pane, agent and worktree are in the header.
+- **You are:** each body is told its OWN `session:pane`. A body in the default session has no
+  `HERDR_SESSION`, so before this it guessed, and the omp buddy tagged "from omp:wA:p2" (2026-10-05).
+- **Back here:** the reply command is in the line, so a body answers the origin pane only, not the others.
+- `--dry --text "…"` prints the exact line the first body would get (id shown as `sb-DRY`).
+- **Not sent to the origin pane** unless `--include-origin`.
+
+## Rules
+
+- Per-pane results (`ok` / `FAIL`), never all-or-nothing. `herdr agent prompt` refuses a pane at an approval dialog; that one shows FAIL.
+- Every send is appended to `~/.local/state/herdr-soulcast/ledger.jsonl` (id, time, origin, target, agent, status, result). Append only.
+- Bodies outside herdr are not reached; `/herdr-info` lists them.
+- A broadcast interrupts idle agents and queues behind working ones. `--dry` first when unsure.
+- Never put secrets in the line: it is typed into every transcript.

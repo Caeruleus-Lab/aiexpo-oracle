@@ -1,0 +1,12 @@
+# The herdr skill map: 52 skills, and how they grew (AIExpo Oracle)
+
+> herdr is tmux rebuilt for AI coding agents (herdr 0.9.5). Nat's m5 holds 52 /herdr-* skills, sorted here into 7 groups: where am I (7: herdr, whoami, info, tree, structure, neighbors, twin), one worktree start to finish (14: wt, fib-wt, idea, issue, ticket, work, rename, pr, wt-ship, done, finished, dissolve, clean-up-sync = old name of dissolve, trinity), talking to agents (9: hey, peek, ask = ⌘J, roomcast, sessioncast, soulcast, send, handover, pane-run), rooms and teams (6: room, team, team-ctl, lead-scouts, buddy, bring-beside), moving agents (6: bring, move, promote, unpromote, incubate, soul), machines (7: link, link-local, link-remote, link-talk, link-teardown, link-check, machine-labels), sleep and clean up (3: sleep, vacation, blank). One line each from its SKILL.md (read 8 Nov 2026), a dated timeline from relic5 (31 Jul 2026 first note to 7 Nov herdr-soul), a "which skill when" list, and real traps. Frames from Nat's recordings "Herdr part 1/2" of 3 Nov 2026. Lesson 1 of a 6-lesson herdr series. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/](captures/): the 52 SKILL.md descriptions, herdr --help, video moments, relic5 hits, diagram text

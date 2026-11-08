@@ -1,0 +1,8 @@
+# herdr machine list, m5, read 2026-11-08 (read-only; herdr 0.9.5)
+# id (first 8) · label · ssh target · remote session · state
+83ef54c5	white-laris-co	nat@white.follow-rankine.ts.net	laris-co	enabled
+58f05059	white-nsm	nat@white.follow-rankine.ts.net	nsm	enabled
+932c2bd2	gb300	gb300	default	enabled
+b17ec972	white-arkkra	nat@white.follow-rankine.ts.net	arkkra	enabled
+c7cd7887	white-arraxccdc	nat@white.follow-rankine.ts.net	arraxccdc	enabled
+be7b3860	arra-arraxccdc	<user>@<another-tailnet>.ts.net	arraxccdc	enabled

@@ -1,0 +1,51 @@
+relic5, session 51fdd0de-67e7-498c-94a1-3a2e0afaf4f4 ("LarisCo host body in laris-team", m5, herdr session laris-co pane wDW:p1)
+Times are Bangkok (UTC+7), 3 Nov 2026. Agent replies shortened; tool calls quoted from their own one-line descriptions.
+
+22:06:40  Nat: /herdr-bring bring neo
+22:09:59  Nat: /herdr-bring bring neo            (typed again)
+22:10:06  tool: "Resolve neo and find every live neo body on m5 and white"
+22:10:13  agent: "`/herdr-bring` can't settle this one by itself. `maw locate neo` returns no repo path, and Neo already has several bodies."
+22:10:16  AskUserQuestion "bring neo":
+          "Neo already runs in 3 places: its Discord bot body on white (rd-team/wt/neo-oracle, pane wZ:p1, session laris-co),
+           and on m5 a separate herdr session 'neo' with 5 agents (2 on neo-oracle main: w1Y:p1, w1Z:p2; 3 in herdr worktrees,
+           none with the bot)."
+          options: 1 Fold m5 'neo' session in (herdr-unpromote session neo into m5 laris-co ... same conversations)
+                   2 Move bot body to m5
+                   3 Open main neo here
+          -> Nat chose 1 (agent at 22:10:58: "as you chose")
+22:10:26  tool: herdr-unpromote --session neo --to laris-co --dry
+22:10:33  agent: "Session `neo` holds more than Neo: 11 agents, including the relic5, relic-extract, relic4-scan and messenger-archive agents."
+22:10:45  tool: check which agents hold a bot token (names only) -> all token=0
+22:10:50  agent: "None of them holds a bot token, so losing `--channels` on resume changes nothing. Running the fold now."
+22:10:50  tool: herdr-unpromote --session neo --to laris-co
+22:11:20  agent: "`neo-oracle` main (`w1Y`) couldn't close because it has linked worktree spaces, so the tool stopped there."
+22:11:33  tool: herdr-move --workspace w1Z / w24 --from neo --to laris-co
+22:11:43  tool: maw herdr ticket open /opt/Code/github.com/laris-co/neo-oracle --session laris-co --session-id 08f33511-...
+22:11:50  tool: herdr agent rename wFK:p2 neo-oracle ; wFK:p1 builder-neo
+22:12:56  tool: back up session neo to ~/.herdr/tombstones/sessions/2026-11-03/neo-session.tgz, herdr session stop neo, delete neo
+          screen: "stopped session neo / deleted session neo / link removed / session neo gone"
+          screen (agent list): wFK:p1 idle builder-neo 840b12d9 · wFK:p2 idle neo-oracle 08f33511 · wFM wFN wFP neo worktrees ·
+                               wFQ people-oracle · wFR relic-extract · wFS relic5 · wFT relic4-scan
+22:13:07  Nat: /herdr-promote neo                 (screen: the running call shows "Interrupted"; next message came 10 s later)
+22:13:17  Nat: relic5 fidn about orca we did today
+22:13:47  agent (end of reply): "Moved to laris-co: all 11 agents ... Fresh starts: two panes that had never been prompted came
+          back as new Claude sessions (wFP, wFW). Session neo: stopped and deleted."
+22:14:36  Nat: /herdr-promote neo back session
+22:16:58  agent: "Undoing the fold: putting the agents from the old `neo` session back into their own session. Dry run first."
+22:17:00  tool: herdr-promote neo --to neo --from laris-co --dry
+22:17:20  tool: for w in wFM wFN wFP wFQ wFR wFS wFT wFK; do herdr-move --workspace $w --from laris-co --to neo; done
+22:17:27  agent: "Order: I'm moving one space at a time, worktrees first, so neo main's space isn't blocked by linked worktrees like last time."
+          "Left in laris-co: the webhook-relay worktree pane (wFW) ... stuck at 'Yes, I trust this folder' ... I won't answer that for you."
+22:17:54  agent: "Seven are back in `neo`. Neo main (`wFK`) hit the linked-worktree block again."
+22:18:02  agent: "Both neo main agents were ended but not resumed. Resuming them in `neo` now."
+22:18:04  tool: maw herdr ticket open ... --session neo --session-id 08f33511-1fc9-4407-98db-a4be2b20afd1 (and 840b12d9)
+22:18:11  agent: "Both resumes reported the same pane (`w1:p1`), so the second may have been typed into the first one's prompt."
+22:18:25  agent: "The stray command is sitting unsent in neo main's input box. Clearing it without sending."
+22:18:33  tool: pane split w1:p1 right; pane run "claude --dangerously-skip-permissions --resume 840b12d9-824a-469b-a02f-e94200cad0a0"
+22:18:56  tool: rename w5 people-oracle, w6 relic-extract, w7 relic5, w8 relic4-scan, ...; ln -s herdr-by-name ~/.local/bin/neo;
+          herdr --session laris-co workspace close wFK --group
+22:19:05  agent: "Neo is back in its own herdr session, `neo`, with all nine agents."
+          w1:p1 neo-oracle (main) · w1:p2 builder-neo · w2 w3 w4 the two neo worktrees (3 agents) · w5 people-oracle ·
+          w6 w7 w8 relic-extract, relic5, relic4-scan
+          "Fix needed: `herdr-move` has failed the same way three times today (phonebooth, and neo twice).
+           It should close the space with `--group`."

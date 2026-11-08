@@ -1,0 +1,30 @@
+ SLEEP  (herdr-sleep sleep <pane>=<label> --keep-space)
+ +--------------------------------------------------------------+
+ | 1. agent idle?      working / blocked -> SKIP, nothing stops |
+ | 2. bookmark         "[herdr-sleep] ... AT MOST 4 short lines |
+ |                      1) doing 2) git 3) next 4) question"    |
+ | 3. wake card        ~/.local/state/herdr-sleep/<day>/<label> |
+ | 4. /exit claude     transcript kept, RAM freed               |
+ | 5. space            --keep-space: stays in the sidebar       |
+ +------------------------------+-------------------------------+
+                                |
+                                v
+ WAKE CARD  <label>.json   (paths and names only, no secrets)
+ +--------------------------------------------------------------+
+ | slept, host, herdr_session                                   |
+ | space   id, label, cwd                                       |
+ | agent   pane, session id, argv, channel (Discord on/off)     |
+ | bookmark  the agent's own 4 lines                            |
+ | git     branch, ahead, dirty          woke  (set on wake)    |
+ +------------------------------+-------------------------------+
+                                |
+          +---------------------+----------------------+
+          v                     v                      v
+  "wake just pigment"   "!wake @bot" in Discord   reboot / herdr restart
+  sleeper.py wake       host bot (Laris Labs      herdr resumes panes,
+  <label>               Oracle) runs sleeper.py   team-wake (wake.py go)
+          |                     |                 relaunches bot owners,
+          +----------+----------+                 keeps sleepers asleep
+                     v
+ kept space (or a new one) -> claude --resume <session id>
+ -> rename -> "[sleeper] Woke from sleep. Your own bookmark ..."

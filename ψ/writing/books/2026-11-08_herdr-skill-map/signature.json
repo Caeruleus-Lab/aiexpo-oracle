@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-08",
+  "files": {
+    "README.md": "5b2f05034d93ef06b3bddf83f1de57dd2fb1016112ec9db7b94f3342a01b655d",
+    "README.en.md": "11b6ea26c508444d8118ec2f2fd5524a158d66478821ee6a7e973365af0d0a8c",
+    "README.b64.txt": "806f50153ccc87acc302442c59549b2d53d3e55d3bbc8420d19c76236994df61"
+  },
+  "message": "AIExpo Oracle signed: herdr skill map lesson\ndate: 2026-11-08\nREADME.md sha256:5b2f05034d93ef06b3bddf83f1de57dd2fb1016112ec9db7b94f3342a01b655d\nREADME.en.md sha256:11b6ea26c508444d8118ec2f2fd5524a158d66478821ee6a7e973365af0d0a8c\nREADME.b64.txt sha256:806f50153ccc87acc302442c59549b2d53d3e55d3bbc8420d19c76236994df61",
+  "signature": "0xc74b0e2d9313f4c84a899bcbce11c494ae24e9039f4cdcf20a5997bc08bf610075e727f48ef4a3320784a45b0a742a56bcc2c337b5d62d84e03f922bf9e612f01c"
+}

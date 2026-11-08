@@ -1,0 +1,67 @@
+# Every herdr skill, full text (AIExpo Oracle)
+
+> Lesson 6 of the herdr series: all 52 `/herdr-*` Claude Code skills exactly as they were on m5 on 8 Nov 2026, in 7 groups (base and where am I; one worktree start to finish; talking to agents; rooms and teams; moving agents; machines; sleep and clean-up). README.en.md and README.md hold every SKILL.md verbatim; skills/<name>/ holds every text file of each skill (106 files, 15,733 lines, scripts and .bak copies included). Install one by copying its folder into ~/.claude/skills/ (use cp -RL). Scanned with gitleaks and rg: no secrets, nothing redacted. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English, with every SKILL.md
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/scan.txt](captures/scan.txt): the secret scan of the copy
+
+## Skills (every SKILL.md)
+
+- [skills/herdr-ask/SKILL.md](skills/herdr-ask/SKILL.md)
+- [skills/herdr-blank/SKILL.md](skills/herdr-blank/SKILL.md)
+- [skills/herdr-bring-beside/SKILL.md](skills/herdr-bring-beside/SKILL.md)
+- [skills/herdr-bring/SKILL.md](skills/herdr-bring/SKILL.md)
+- [skills/herdr-buddy/SKILL.md](skills/herdr-buddy/SKILL.md)
+- [skills/herdr-clean-up-sync/SKILL.md](skills/herdr-clean-up-sync/SKILL.md)
+- [skills/herdr-dissolve/SKILL.md](skills/herdr-dissolve/SKILL.md)
+- [skills/herdr-done/SKILL.md](skills/herdr-done/SKILL.md)
+- [skills/herdr-fib-wt/SKILL.md](skills/herdr-fib-wt/SKILL.md)
+- [skills/herdr-finished/SKILL.md](skills/herdr-finished/SKILL.md)
+- [skills/herdr-handover/SKILL.md](skills/herdr-handover/SKILL.md)
+- [skills/herdr-hey/SKILL.md](skills/herdr-hey/SKILL.md)
+- [skills/herdr-idea/SKILL.md](skills/herdr-idea/SKILL.md)
+- [skills/herdr-incubate/SKILL.md](skills/herdr-incubate/SKILL.md)
+- [skills/herdr-info/SKILL.md](skills/herdr-info/SKILL.md)
+- [skills/herdr-issue/SKILL.md](skills/herdr-issue/SKILL.md)
+- [skills/herdr-lead-scouts/SKILL.md](skills/herdr-lead-scouts/SKILL.md)
+- [skills/herdr-link-check/SKILL.md](skills/herdr-link-check/SKILL.md)
+- [skills/herdr-link-local/SKILL.md](skills/herdr-link-local/SKILL.md)
+- [skills/herdr-link-remote/SKILL.md](skills/herdr-link-remote/SKILL.md)
+- [skills/herdr-link-talk/SKILL.md](skills/herdr-link-talk/SKILL.md)
+- [skills/herdr-link-teardown/SKILL.md](skills/herdr-link-teardown/SKILL.md)
+- [skills/herdr-link/SKILL.md](skills/herdr-link/SKILL.md)
+- [skills/herdr-machine-labels/SKILL.md](skills/herdr-machine-labels/SKILL.md)
+- [skills/herdr-move/SKILL.md](skills/herdr-move/SKILL.md)
+- [skills/herdr-neighbors/SKILL.md](skills/herdr-neighbors/SKILL.md)
+- [skills/herdr-pane-run/SKILL.md](skills/herdr-pane-run/SKILL.md)
+- [skills/herdr-peek/SKILL.md](skills/herdr-peek/SKILL.md)
+- [skills/herdr-pr/SKILL.md](skills/herdr-pr/SKILL.md)
+- [skills/herdr-promote/SKILL.md](skills/herdr-promote/SKILL.md)
+- [skills/herdr-rename/SKILL.md](skills/herdr-rename/SKILL.md)
+- [skills/herdr-room/SKILL.md](skills/herdr-room/SKILL.md)
+- [skills/herdr-roomcast/SKILL.md](skills/herdr-roomcast/SKILL.md)
+- [skills/herdr-send/SKILL.md](skills/herdr-send/SKILL.md)
+- [skills/herdr-sessioncast/SKILL.md](skills/herdr-sessioncast/SKILL.md)
+- [skills/herdr-sleep/SKILL.md](skills/herdr-sleep/SKILL.md)
+- [skills/herdr-soul/SKILL.md](skills/herdr-soul/SKILL.md)
+- [skills/herdr-soulcast/SKILL.md](skills/herdr-soulcast/SKILL.md)
+- [skills/herdr-structure/SKILL.md](skills/herdr-structure/SKILL.md)
+- [skills/herdr-team-ctl/SKILL.md](skills/herdr-team-ctl/SKILL.md)
+- [skills/herdr-team/SKILL.md](skills/herdr-team/SKILL.md)
+- [skills/herdr-ticket/SKILL.md](skills/herdr-ticket/SKILL.md)
+- [skills/herdr-tree/SKILL.md](skills/herdr-tree/SKILL.md)
+- [skills/herdr-trinity/SKILL.md](skills/herdr-trinity/SKILL.md)
+- [skills/herdr-twin/SKILL.md](skills/herdr-twin/SKILL.md)
+- [skills/herdr-unpromote/SKILL.md](skills/herdr-unpromote/SKILL.md)
+- [skills/herdr-vacation/SKILL.md](skills/herdr-vacation/SKILL.md)
+- [skills/herdr-whoami/SKILL.md](skills/herdr-whoami/SKILL.md)
+- [skills/herdr-work/SKILL.md](skills/herdr-work/SKILL.md)
+- [skills/herdr-wt-ship/SKILL.md](skills/herdr-wt-ship/SKILL.md)
+- [skills/herdr-wt/SKILL.md](skills/herdr-wt/SKILL.md)
+- [skills/herdr/SKILL.md](skills/herdr/SKILL.md)

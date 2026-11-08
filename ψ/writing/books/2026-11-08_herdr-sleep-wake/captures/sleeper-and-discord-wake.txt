@@ -1,0 +1,84 @@
+# laris-co/laris-team skills/team-wake/sleeper.py docstring + wake_one (commit 18a7bc6 2026-11-03 16:12 +0700; a928af9 2026-11-04)
+#!/usr/bin/env python3
+"""sleeper.py: list sleeping oracles and wake them in the space they slept in (Nat 2026-11-03).
+
+  python3 skills/team-wake/sleeper.py list                      # asleep cards on this machine
+  python3 skills/team-wake/sleeper.py list --all                # this machine + every machine in oracles/*/config.yaml
+  python3 skills/team-wake/sleeper.py wake duang-oracle ...     # wake (over ssh when the card's machine is another one)
+  just sleepers  ·  just wake-sleeper duang-oracle
+
+Cards are herdr-sleep's (~/.local/state/herdr-sleep/<day>/<label>.json). herdr-sleep's own `wake` always opens a NEW
+space at the bottom of the sidebar and runs the card's bare argv, which has no bot token and no Claude account. This
+wakes the way the fleet launches: in the KEPT space when it is still there with no agent in it (else a fresh one, a
+worktree nested under its team), with wake.launch() for a bot owner (bot token + claude_token from pass on the launch
+line, --channels) or the plain account launch for the rest, then renames the agent and hands it its own bookmark.
+"""
+import datetime, glob, json, os, sys, time
+...
+def wake_one(label):
+    got = cards().get(label)
+    if not got:
+        return f"{label}: no card on this machine"
+    path, c = got
+    if not asleep(c):
+        return f"{label}: not asleep (woke {c.get('woke')})"
+    cwd, sid = c["space"]["cwd"], c["agent"]["session"]
+    if w.claude_in(cwd):
+        return f"{label}: a Claude already runs in {cwd}; not starting a second body"
+    pane = kept_pane(c["space"]["id"], cwd) or open_space(label, cwd)
+    if not pane:
+        return f"{label}: could not find or open a space at {cwd}"
+    cfg = w.configs().get(label, {})
+    if c["agent"].get("channel") is not False and w.has_token(label) and "--channels" in " ".join(c["agent"]["argv"]):
+        cmd = w.launch(label, cfg, cwd, sid)                       # bot owner: token + account on the launch line
+    else:
+        tok = cfg.get("claude_token") or c["agent"].get("token") or "dd2"
+        cmd = (f"cd '{cwd}' && env -u DISCORD_BOT_TOKEN -u DISCORD_STATE_DIR "
+               f"CLAUDE_CODE_OAUTH_TOKEN=\"$(pass show claude/token-{tok} | head -1)\" CLAUDE_TOKEN_NAME={tok} "
+               f"claude --dangerously-skip-permissions --resume {sid}")
+    w.herdr("pane", "run", pane, cmd)
+    w.sh("herdr", "--session", w.SESSION, "pane", "wait-output", pane, "--match", "permissions", "--timeout", "90000")
+    time.sleep(6)
+    w.herdr("agent", "rename", pane, c["agent"].get("name") or label)
+    bm = (c.get("bookmark") or "").strip()
+    if bm:
+        w.herdr("agent", "prompt", pane, "[sleeper] Woke from sleep. Your own bookmark from before: " + " ".join(bm.split()))
+    c["woke"] = datetime.datetime.now().astimezone().isoformat(timespec="minutes")
+    c["woke_in"] = pane
+    json.dump(c, open(path, "w"), indent=2, ensure_ascii=False)
+    bot = w.discord_alive(cwd) if "--channels" in cmd else None
+    return f"{label}: awake in {pane}" + ("" if bot is None else f", bot {'on' if bot else 'NOT on'}")
+
+# justfile
+# sleeping oracles (herdr-sleep cards, "!sleep @bot" in Discord) and waking them in their kept space with their bot
+# usage: just sleepers    ·    just sleepers --all    ·    just wake-sleeper duang-oracle esp32-oracle
+sleepers *args="":
+    @python3 skills/team-wake/sleeper.py list {{args}}
+wake-sleeper +names:
+    @python3 skills/team-wake/sleeper.py wake {{names}}
+
+# plugin/discord/server.ts (laris-co patch)
+// laris-co patch (Nat 2026-11-03: "oh can we support !sleep !", then "if !wake should tell Laris Labs Oracle"):
+// "!sleep @bot" / "!sleep @role" from a trusted human puts each tagged bot to sleep the herdr-sleep way: it waits until
+// this agent is idle, asks it for its 4-line bookmark, writes a wake card, /exits Claude and KEEPS the herdr space, so
+// the sidebar layout stays. The host never sleeps this way (it is the one that wakes the others).
+// "!wake ..." cannot reach a sleeping bot (no process is listening), so it belongs to the host: every other bot drops
+// it here, and the host lets it through to its Claude, which wakes the cards with skills/team-wake/sleeper.py.
+// sleep:begin
+function sleepCommand(content: string): 'sleep' | 'wake' | null {
+
+18a7bc6 2026-11-03 16:12:26 +0700
+discord: !sleep puts tagged bots to sleep; !wake goes to the host (sleeper.py)
+
+Nat 2026-11-03: "oh can we support !sleep !", then "if !wake should tell Laris Labs Oracle".
+
+- plugin: "!sleep @bot|@role" from a trusted human. Each tagged bot waits until its agent is idle, then runs herdr-sleep
+  on its own pane with --keep-space (bookmark, wake card, /exit, space kept so the sidebar layout stays). Detached,
+  log in <state dir>/sleep.log. The host never sleeps by command.
+- plugin: "!wake ..." is dropped by every bot but the host, which passes it to its Claude.
+- skills/team-wake/sleeper.py (just sleepers / just wake-sleeper): list asleep cards, wake one in its KEPT space
+  (else a fresh one, worktrees nested under their team), with wake.launch() for bot owners so the bot token and
+  claude_token come back on the launch line, then rename and hand back the bookmark. Over ssh for another machine.
+- tools/sleep-test.ts: the command parser.
+
+

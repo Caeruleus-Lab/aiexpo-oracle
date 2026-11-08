@@ -1,0 +1,12 @@
+# herdr on many machines: add a machine, move a team to white, talk across (AIExpo Oracle)
+
+> herdr (0.9.5) shows Local (this machine) on top of the sidebar and saved machines below. Machines are joined over tailscale and named by *.ts.net (e.g. white.follow-rankine.ts.net). Add one with `herdr machine add <user@host.ts.net> --label <host-session> --remote-session <session>` (one machine = one remote session), then drive it with `herdr --machine <label> agent list | agent prompt <pane> | pane read <pane>`; the way back is a machine saved on the other box (`m5-laris-co`). A saved machine lets you drag files and paste screenshots across; herdr run inside ssh cannot. Real demo, 3 Nov 2026: `just team-move ccdc white --go --merge` moved ccdc-team's three members from m5 to white (PR laris-co/laris-team #128, rc=0, 51 s; the desk stayed on m5). Covers the herdr-link family (local, remote, talk, check, teardown), herdr-machine-labels, herdr-twin, team-ship and herdr-team-ctl, plus their real traps. Fleet rule: change another machine through its own agent; ssh only to look. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/](captures/): raw evidence (relic5 lines of the team move, transcript moments, `herdr machine list`, skill excerpts, the diagram text)

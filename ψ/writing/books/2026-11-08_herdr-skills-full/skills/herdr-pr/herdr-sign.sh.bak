@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+# Emit the "Built by" signature block for a PR/issue comment.
+# Describes a herdr SESSION (the pane), not whatever directory the shell is in,
+# and addresses it by agent name. Usage: herdr-sign.sh <model-id> [pane-id]
+set -uo pipefail
+
+MODEL="${1:-<your exact model id>}"
+pane="${2:-${HERDR_PANE_ID:-}}"
+
+facts=$(herdr agent get "$pane" 2>/dev/null | python3 -c '
+import json, sys
+try:
+    a = json.load(sys.stdin)["result"]["agent"]
+except Exception:
+    sys.exit(1)
+print("\x1f".join([
+    a.get("name") or "",
+    a.get("pane_id") or "",
+    a.get("tab_id") or "",
+    a.get("workspace_id") or "",
+    a.get("agent") or "",
+    a.get("terminal_title_stripped") or "",
+    (a.get("agent_session") or {}).get("value", ""),
+    a.get("cwd") or "",
+]))' 2>/dev/null)
+
+# \x1f, not tab: bash collapses runs of whitespace IFS chars, so an agent with no
+# session id or no name silently shifts every later field one column left.
+IFS=$'\x1f' read -r name pane_id tab wsid agent title sess pane_cwd <<<"$facts"
+
+# No pane means no session to point at. Emitting a block of "unknown" would be the
+# exact failure this block exists to prevent: authoritative-looking, reaching nobody.
+if [ -z "${pane_id:-}" ]; then
+    echo "herdr-sign: no herdr agent for pane '${pane:-<unset>}'." >&2
+    echo "  Run this from inside a herdr pane (HERDR_PANE_ID set), or pass one:" >&2
+    echo "    herdr-sign.sh <model-id> <pane-id>     # herdr agent list" >&2
+    exit 1
+fi
+
+# The block describes the session, so every path is resolved from the PANE's cwd.
+# Signing $PWD would describe whatever directory the shell wandered into.
+root="${pane_cwd:-$PWD}"
+
+# A named agent is addressable by name; an unnamed one only by pane id, which does
+# not survive a herdr restart. Claim a name before signing.
+addr="${name:-${pane_id:-<pane>}}"
+label=$(herdr workspace get "${wsid:-x}" 2>/dev/null |
+    python3 -c 'import json,sys; print(json.load(sys.stdin)["result"]["workspace"].get("label",""))' 2>/dev/null)
+
+repo_root=$(git -C "$root" rev-parse --show-toplevel 2>/dev/null || echo "$root")
+common=$(git -C "$root" rev-parse --git-common-dir 2>/dev/null)
+case "$common" in
+    /*) main=$(cd "$(dirname "$common")" && pwd) ;;
+    *)  main=$(cd "$repo_root/$(dirname "${common:-.git}")" 2>/dev/null && pwd || echo "$repo_root") ;;
+esac
+[ "$main" = "$repo_root" ] && where="main checkout" || where="worktree of ${main}"
+
+# Two passes: BSD sed has no lazy quantifier, so strip .git before matching org/repo.
+slug=$(git -C "$root" remote get-url origin 2>/dev/null | sed -E 's|\.git$||; s|.*[:/]([^/]+/[^/]+)$|\1|')
+oracle=$(basename "$main"); oracle=${oracle%-oracle}
+
+# Each agent stores transcripts under its own scheme, and the cwd encodings differ
+# in ways that look like typos but aren't. Claude replaces "/" AND "." with "-";
+# omp replaces only "/" and wraps the whole thing in "--". Guessing wrong prints a
+# path that does not exist, which is the one thing this block must never do.
+claude_key() { local p=${1//\//-}; echo "${p//./-}"; }             # /a/b.c -> -a-b-c
+omp_key()    { local p=${1#/}; echo "--${p//\//-}--"; }            # /a/b.c -> --a-b.c--
+memory="~/.claude/projects/$(claude_key "$main")/memory"
+
+case "$agent" in
+    claude)
+        transcript="${CODEX_COMPANION_TRANSCRIPT_PATH:-$HOME/.claude/projects/$(claude_key "$root")/${sess}.jsonl}"
+        ;;
+    omp)
+        # herdr reports no session id for omp, so take the newest transcript in the
+        # cwd's session dir and read the id back off its filename.
+        dir="$HOME/.omp/agent/sessions/$(omp_key "$root")"
+        transcript=$(ls -t "$dir"/*.jsonl 2>/dev/null | head -1)
+        [ -n "$transcript" ] && sess=$(basename "$transcript" .jsonl)
+        memory="— (omp: session dir is $dir)"
+        ;;
+    codex)
+        # Date-partitioned rollouts; herdr gives the uuid, the date is in the name.
+        transcript=$(find "$HOME/.codex/sessions" -name "rollout-*${sess}*.jsonl" 2>/dev/null | head -1)
+        memory="— (codex: rollouts only)"
+        ;;
+esac
+transcript="${transcript:-unknown}"
+sess="${sess:-unknown}"
+
+cat <<SIG
+## Built by
+
+\`\`\`
+who        ${oracle} — ${slug}
+model      ${MODEL}
+agent      ${agent:--}
+cwd        ${root}
+branch     $(git -C "$root" branch --show-current 2>/dev/null)
+wt         ${where}
+head       $(git -C "$root" log --oneline -1 2>/dev/null)
+
+session    ${sess}
+transcript ${transcript/#$HOME/\~}
+memory     ${memory}
+
+herdr      ${addr}  (pane ${pane_id:--} · tab ${tab:--} · space ${label:-${wsid:--}} · ${agent:--})
+title      ${title:--}
+socket     ${HERDR_SOCKET_PATH:-~/.config/herdr/herdr.sock (default; not run from a pane)}
+\`\`\`
+
+**Reach this session** — from any pane, agent, or machine with the herdr CLI:
+
+\`\`\`bash
+herdr agent prompt ${addr} "question about this PR"
+herdr agent read   ${addr}
+herdr agent focus  ${addr}
+herdr agent attach ${addr}
+\`\`\`
+SIG
+
+[ -f "${transcript/#\~/$HOME}" ] || echo "warning: transcript path does not exist: $transcript" >&2
+if [ -z "${name:-}" ]; then
+    echo "warning: this agent has no name, so the block addresses a pane id that dies with the herdr server." >&2
+    echo "  herdr agent rename ${pane_id:-\$HERDR_PANE_ID} ${label:-<name>}" >&2
+fi

@@ -1,0 +1,19 @@
+# herdr machine --help (m5, herdr 0.9.5)
+Manage saved SSH machines
+
+Usage: herdr machine [COMMAND]
+
+Commands:
+  list         List saved SSH machines
+  status       Check saved machines without prompting for authentication
+  reconnect    Authenticate a saved machine in this terminal and verify connectivity
+  add          Prepare the remote Herdr server and save an SSH machine
+  rename       Rename a saved SSH machine
+  remove       Remove a saved SSH machine
+  enable       Enable a saved SSH machine
+  disable      Disable a saved SSH machine
+  fold         Fold machines in this client's sidebar
+  unfold       Unfold machines in this client's sidebar
+  toggle       Fold or unfold machines in this client's sidebar
+  fold-others  Fold every other machine, or unfold all when the others are folded
+  folds        Show which machines this client's sidebar folds

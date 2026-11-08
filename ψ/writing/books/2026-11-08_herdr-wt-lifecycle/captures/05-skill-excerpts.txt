@@ -1,0 +1,21 @@
+# ~/.claude/skills/herdr-wt/SKILL.md (861 lines), herdr-rename (141), herdr-pr (268), herdr-dissolve (295). Read 8 Nov 2026.
+
+herdr-wt  "The flow (Nat, 2026-09-28)": 1 Issue first, 2 Worktree, 3 Record the workspace on the issue, 4 Agent, 5 Brief from the issue.
+  "Steps 1 and 5 are the ones people skip."
+  "a prompt typed into a pane lives in that agent's scrollback and dies with it."
+  name="$SLUG-$owner${ISSUE:+-issue$ISSUE}-$day"   day=$(TZ='Asia/Bangkok' date +%-d%b-%a%Y | tr upper lower)
+  owner = basename of MAIN checkout (--git-common-dir) without -oracle
+  lock: git worktree lock --reason "herdr|who@host|time|slug|#issue"  - not security, a "do not auto-clean me" flag
+  Date LAST: "maw writes single-digit days unpadded ... so 9sep sorts after 10sep"; trailing groups by topic.
+  Slug FIRST (2026-09-20): sidebar groups by repo and truncates from the right; collisions at 14 chars: owner-first 3, slug-first 0.
+  issue23 not i23: "reads without a legend".  Location <repo>/wt/ not ~/.herdr/worktrees/ (--path is the only lever).
+  Step 0 (2026-10-30): the space is always a worktree of HOME; missed five times (10-06 .. 10-30).
+  Traps: pane run "claude" not herdr agent start (direnv; token pb vs dd2, 2026-09-17); agent name max 32 chars;
+  warm direnv with a throwaway command; --timeout is ms; never git worktree move with a live agent.
+herdr-rename: branch only (git branch -m); folder unchanged; renames space label when still automatic;
+  unattended (inside a brief): no popup, list runner-ups; interactive: rename first, then one AskUserQuestion popup.
+herdr-pr: herdr-sign.sh <model> | gh pr comment N --body-file -; name the agent first ("the name is the address");
+  public repo: transcript, memory dir, socket omitted; unknown visibility treated as public.
+herdr-dissolve: survey, plan, ask, act; tiers A/B/C/D/K; "✓ is not done"; save first (commit, push, signed PR,
+  report to PARENT, DISSOLVE-READY line); tombstone.py before removal; fleet clean via herdr worktree remove;
+  self mode: you cannot remove the worktree you run in. Branch stays. Nothing merges here.

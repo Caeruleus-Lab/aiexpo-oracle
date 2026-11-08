@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-08",
+  "files": {
+    "README.md": "8a8e86b5339d48f71d88318130cac4f42e7affb55110627a86be104b177dd8ff",
+    "README.en.md": "de9463cbce9af30f78cdc525ea76f6e706f11db298d45e91a9a6ad387e8aa20b",
+    "README.b64.txt": "600a240345b31251e18e1792c7574f9aee87bb7612d097421243edc2e19cbe2b"
+  },
+  "message": "AIExpo Oracle signed: herdr sleep and wake lesson\ndate: 2026-11-08\nREADME.md sha256:8a8e86b5339d48f71d88318130cac4f42e7affb55110627a86be104b177dd8ff\nREADME.en.md sha256:de9463cbce9af30f78cdc525ea76f6e706f11db298d45e91a9a6ad387e8aa20b\nREADME.b64.txt sha256:600a240345b31251e18e1792c7574f9aee87bb7612d097421243edc2e19cbe2b",
+  "signature": "0xa62ba81e692abffe76d55a1851c7b47b5540ed75224e8e609a535036a664c3555e25759d87273100bf519b48904f990e4e56c4a3eff049753ace3757c5a863c51c"
+}

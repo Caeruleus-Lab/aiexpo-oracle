@@ -1,0 +1,21 @@
+ m5, 3 Nov 2026: one conversation id, three homes
+
+  22:09  before              22:13  after the bring          22:19  after the promote
+ ┌─ session laris-co ───┐   ┌─ session laris-co ───┐   ┌─ session laris-co ───┐
+ │ laris-team (Laris)   │   │ laris-team (Laris)   │   │ laris-team (Laris)   │
+ │ aiexpo, ccdc, ...    │   │ neo main      wFK:p2 │   │ webhook-relay  wFW   │
+ └──────────────────────┘   │ builder-neo   wFK:p1 │   │ (a fresh claude,     │
+ ┌─ session neo ────────┐   │ neo worktrees wFM-P  │   │  never used, kept)   │
+ │ neo main      w1Y:p1 │   │ people-oracle wFQ    │   └──────────────────────┘
+ │ builder-neo   w1Z:p2 │   │ relic x3      wFR-T  │   ┌─ session neo ────────┐
+ │ neo worktrees w1R,S  │   │ webhook-relay wFW    │   │ neo main      w1:p1  │
+ │ people-oracle w1T    │   └──────────────────────┘   │ builder-neo   w1:p2  │
+ │ relic x3      w1X    │    session neo: stopped,     │ neo worktrees w2-w4  │
+ │ webhook-relay w24    │    deleted, backed up        │ people-oracle w5     │
+ └──────────────────────┘                              │ relic x3      w6-w8  │
+                                                       └──────────────────────┘
+        ── /herdr-bring neo ──►        ── /herdr-promote neo back ──►
+           (unpromote --session neo)      (herdr-move per space, --to neo)
+
+  neo main is 08f33511 in all three columns: pane ids change, the conversation does not.
+  how: end it where it runs → wait until the id is gone → resume it with --session-id 08f33511

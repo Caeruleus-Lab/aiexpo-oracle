@@ -1,0 +1,18 @@
+# ~/.herdr/tombstones/laris-team/2026-11-03_demo-hello-world-laris-team-issue129-3nov-tue2026.md (front matter)
+worktree: demo-hello-world-laris-team-issue129-3nov-tue2026
+head: c689d8e2c2508c5c087f040be72730035abec5b4
+born: 2026-11-03 21:29:29 +0700
+ceased: 2026-11-03T22:04:34+07:00
+reason: merged PR #130 (closes #129)
+successor: https://github.com/laris-co/laris-team/pull/130
+"branch ... is NOT deleted by this step"
+(laris-team has no ψ/, so the tombstone went to ~/.herdr/tombstones/<repo>/)
+
+# aiexpo-oracle ψ/memory/tombstones/2026-11-08_workshop-for-ai-aiexpo-issue3-30oct-fri2026.md
+worktree: workshop-for-ai-aiexpo-issue3-30oct-fri2026
+branch: rrr-notion-mirror-aiexpo-07nov-sat2026        <- folder kept its first name, branch was renamed
+born: 2026-11-07 10:20:36 +0700
+ceased: 2026-11-08T09:48:09+07:00
+reason: merged PR #7 (f582893); right pane done. deck-shots copied to main ψ/writing/slides/deck-shots-2026-10-30,
+        og/src copied to main, books/dist tarred to ~/.herdr/tombstones/aiexpo-oracle/2026-11-08_wt-issue3_books-dist.tgz
+successor: https://github.com/Caeruleus-Lab/aiexpo-oracle/pull/7

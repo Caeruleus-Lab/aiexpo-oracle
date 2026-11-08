@@ -1,0 +1,9 @@
+## Traps
+
+| trap | avoid |
+|---|---|
+| `unknown machine 'efe95d03'` | full id or label |
+| `--machine cannot be combined with other launch options` | add another saved machine for the other session |
+| `machine add` on the remote ran as the wrong user (old herdr, `unknown option: --machine`) | run as the user the agent runs as (`phd-oracle`, `nat`) |
+| m5's machine list is ONE list for every session | relabel/disable affects every window; hide with `herdr machine fold`, never `disable` |
+| adding a machine on m5 that points at m5 | not needed: local sessions use `herdr --session <s>` |

@@ -1,0 +1,22 @@
+# relic5 hits used for the timeline (searched 2026-11-08, index built 2026-11-07T15:32Z)
+
+2026-07-31T07:23Z  relic5://2026-07/22f61bf7cbb9b1ffa1912e6623ab91c2
+  vault note "Herdr Quick Reference" (boon_v2-oracle): "**herdr** is a terminal workspace manager and runtime
+  for AI coding agents, built in Rust ... > The runtime your coding agents live on."
+2026-07-31T07:23Z  relic5://2026-07/a6ea43844deaf75fd74a35a9d0aa8a73
+  "Built the herdr quick reference at .../crew-master-oracle/ψ/learn/herdrdev/herdr/2026-07-31/1419_QUICK-REFERENCE.md"
+2026-10-29T01:33Z  relic5://2026-10/ee6e31e9cb496d2c63e3586f815bf05a  (git Soul-Brews-Studio/herdr-oracle)
+  "herdr-unpromote: bring a promoted team, oracle or session back ... The pair of herdr-promote (Nat: 'promote and unpromote')."
+2026-10-29T02:32Z  relic5://2026-10/1c005a62d691dd1af3454bcf47d15bc4  (git herdr-oracle)
+  "import the broadcast family verbatim from m5: herdr-ask (CMD+J), herdr-layout, herdr-ask-remote, herdr-soulcast (CMD+S), herdr-sessioncast, herdr-roomcast"
+2026-11-07T10:43+07  git laris-co/soul-in-repo, first commit of skills/herdr-soul:
+  "herdr-soul: one skill with verbs list/ls/check/in/out, backed by bin/herdr-soul; soul from config.yaml"
+
+# from the SKILL.md files themselves
+herdr-clean-up-sync: "Old name: merged into /herdr-dissolve on 2026-10-29."
+folder dates (ls -la ~/.claude/skills): herdr-hey/peek/neighbors/handover Sep 19; herdr-vacation Sep 24;
+herdr-sleep Oct 10 (dated 2026-09-24 inside); link-* Oct 11; machine-labels Oct 10; twin Oct 10; trinity Oct 26;
+ask/blank/promote/unpromote/roomcast/sessioncast/soulcast Oct 29; dissolve Oct 30; room Oct 31; soul Nov 7 (symlink).
+
+# timeline points given in the brief (from relic5 by the lead): 2026-09-13 herdr 0.9.0 cheat sheet;
+2026-09-14 neo-oracle worktree neo-herdr-14sep made herdr, herdr-wt, herdr-incubate global (herdr-bring still project-only).

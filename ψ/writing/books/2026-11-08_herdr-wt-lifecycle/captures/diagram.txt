@@ -1,0 +1,30 @@
+ one piece of work, start to finish  (laris-team, m5, 3 Nov 2026, local time)
+
+ 21:28  /herdr-wt demo-hello-world
+        +---------------------------------------------------------------+
+        | 1 issue #129     full brief: goal, rules, done-when           |
+        | 2 worktree       wt/demo-hello-world-laris-team-              |
+        |                     issue129-3nov-tue2026   (locked)          |
+        | 3 comment        branch, path, space wFA, pane wFA:p1         |
+        | 4 agent          pane run "claude" -> demo-hello-world-laris  |
+        | 5 brief          "Your task is GitHub issue #129 ..."         |
+        +---------------------------------------------------------------+
+                                   |
+ 21:31  agent opens PR #130        v   Closes #129, signed "Built by"
+                                   |
+ 21:32  /herdr-rename              v   worktree/calm-field-2991
+        (2nd worktree, fan check)      -> white-fan-surge-laris-team-3nov-tue2026
+                                   |
+ 21:33  /herdr-pr                  v   who, model, tree, session, address
+                                   |
+ 21:35  /herdr-dissolve            v
+        +---------------------------------------------------------------+
+        | each agent: save (self mode), DISSOLVE-READY -> parent wDW:p1 |
+        | fan check : 0 commits      -> tombstone, removed at 21:37     |
+        | demo      : PR not merged  -> kept (locked on purpose)        |
+        +---------------------------------------------------------------+
+                                   |
+ 22:01  Nat: "merge PR #130 and dissolve it"
+ 22:05  merged 04b87c5, #129 closed, tombstone, space wFA removed
+        kept: branch, session 0b82f9e8, tombstone file
+

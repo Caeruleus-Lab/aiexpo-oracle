@@ -1,0 +1,56 @@
+== herdr-move/SKILL.md: the trick
+20:herdr panes cannot cross sessions, so the tool ends each agent where it runs and resumes the same conversation in
+21:the target (`maw herdr ticket open … --session <to> --session-id <id>`). Order: end all → wait until every id is gone
+25:It refuses to move the pane that runs it, but only after it lists every member: `--dry` marks that pane
+28:`HERDR_PANE_ID` goes stale once herdr-room moves a pane. It exits 1 if any conversation was not resumed, and prints
+32:SIGHUP to the pane's foreground group, only when claude or codex leads it.
+36:Tested live 2026-10-09: maeon-craft's 3 idle agents (default:w5X:p1, laris-co:w2Z:p1, laris-co:w32:p1) → new
+
+== herdr-promote/SKILL.md: rules
+35:  header names the target: give `--to` when you want a fresh one.
+37:- Test only on throwaway agents in scratch sessions, never on live team bodies (desk, 2026-10-29).
+38:- The resumed agents come back with their conversations, but `maw` starts them on the default model (an agent
+40:- `maw herdr ticket open` needs the repo to have an `origin` remote.
+47:- **Discord bots:** the resume does NOT pass `--channels`. A body running with `--channels` (check
+52:1. **Names:** the resumed panes come back without herdr names. `herdr --session <to> agent rename <pane> <name>`
+54:2. **Room:** room state is saved per session, so the old room does not follow. Let the team's OWN desk rebuild it,
+71:Then names, room and charter as above, and clean up what is left of the promoted session:
+91:f41b88e8, Pulse 8d732eeb, all idle, no `--channels`) `laris-co` → `manager-team`, same ids; then back with
+94:bot with `--channels`, which the resume would drop.
+
+== herdr-unpromote/SKILL.md
+4:argument-hint: "<team|oracle|session> | --session <name> [--to <session>] [--keep] [--dry]"
+15:herdr-unpromote some-session --keep       # every agent of that session; keep the emptied session
+33:3. Each source session left with only plain shells and no agent is stopped and deleted, unless `--keep`; with it go
+46:- Right after a promote, wait a few seconds: an agent resumed but not yet detected makes the source look empty
+55:  `neo-up-team` was stopped and deleted, and its link and room state were removed.
+56:- **session, --keep**: one agent `neo-up-sess` → `neo-up-home`, named; `neo-up-sess` kept.
+57:- **session**: `neo-up-sess2` → `neo-up-home`; `neo-up-sess2` stopped and deleted.
+
+== herdr-bring/SKILL.md
+11:exception case, not the requirement — three landing modes:
+135:**Kill before resume, never the other order.** Resuming while the old process
+136:still lives puts two writers on one transcript and they interleave — this
+198:A herdr pane cannot cross sessions (`pane move` works inside one session). Moving a body means
+217:| `/exit` stops at "You have N unsent feedback draft(s). Enter to review & send, Esc to discard and exit": the process stays alive, the armed pane keeps waiting (atlas, 2026-10-05) | the human chooses; never press either for them (Enter sends feedback outward, Esc discards a draft) |
+218:| `/exit` stops at "Background work is running … 1. Exit and stop tasks · 2. Move to background and exit · 3. Stay" (homelab, 2026-10-05: a /loop every 15 min running /cpu-ram-doctor and /cpu-kill) | never pick 2: the old process keeps running, so the resumed copy becomes a second writer. Pick 1 only with the owner's OK, then re-create the same scheduled task in the new copy; to back out, pick 3 (Stay) and close the armed pane |
+220:| pane ids repeat across sessions (`w8:p2` existed in two) | always `--session`; address by folder or agent name |
+225:- **The agent name is cleared when the pane's occupant is replaced.** Measured
+
+== herdr-bring-beside/SKILL.md
+24:`herdr pane move <pane> --tab $HERDR_TAB_ID --target-pane $HERDR_PANE_ID --split <dir>`.
+25:The process and conversation keep running; the pane gets a new id (`w2:p1 → w1:p2`), and herdr closes
+27:(`herdr pane move <new> --new-workspace`).
+31:- **Same herdr session only.** One herdr server per session; `pane move` cannot cross. When the match
+
+== herdr-incubate/SKILL.md: which verb
+## Which verb do I want
+
+| Situation | Verb |
+|---|---|
+| Go work inside haos-oracle itself | `/herdr-bring haos` |
+| Build something for haos, from neo-oracle | `/herdr-incubate haos` |
+| A topic with no oracle behind it | `/herdr-wt <slug>` |
+| A third-party repo you must clone first | `/incubate <url>` |
+
+`/incubate` is the different one: it clones into the ghq root and places bodies OUTSIDE

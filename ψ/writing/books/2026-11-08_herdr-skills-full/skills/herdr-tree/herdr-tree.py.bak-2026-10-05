@@ -1,0 +1,188 @@
+#!/usr/bin/env python3
+"""herdr-tree: this repo's main checkout + every worktree, with herdr and git status
+and a lifecycle phase (trinity: arise / stand / cease).
+
+Reads `git worktree list` (so worktrees closed in herdr still appear), joins it with
+`herdr workspace list` / `pane list`, asks git about each worktree in parallel, and
+asks GitHub once for merged PRs.
+
+Phase, per worktree (main is never phased):
+  arise   no commit of its own yet
+  stand   has its own commits, not merged. stand! = main has moved on (drift)
+  cease   merged: a merged PR whose head IS this HEAD, or its commits are all in main
+          (local fast-forward). Ready to cease: tombstone first, then remove.
+"""
+import json, subprocess, sys, os, time
+from concurrent.futures import ThreadPoolExecutor
+
+def run(cmd, cwd=None, timeout=10):
+    try:
+        return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout).stdout.strip()
+    except Exception:
+        return ""
+
+def herdr_json(*args):
+    try:
+        return json.loads(run(["herdr", *args]))["result"]
+    except Exception:
+        return {}
+
+def worktrees(repo):
+    out, cur = [], {}
+    for line in run(["git", "-C", repo, "worktree", "list", "--porcelain"]).split("\n"):
+        if not line:
+            if cur: out.append(cur); cur = {}
+            continue
+        k, _, v = line.partition(" ")
+        cur[k] = v or True
+    if cur: out.append(cur)
+    return out
+
+def count(path, rng):
+    v = run(["git", "-C", path, "rev-list", "--count", rng])
+    return int(v) if v.isdigit() else 0
+
+def git_state(w, main_sha):
+    path = w["worktree"]
+    st = run(["git", "-C", path, "status", "--porcelain=v1", "-b"]).split("\n")
+    head = st[0] if st else ""
+    ahead = behind = 0
+    if "[" in head:
+        for part in head[head.index("[") + 1:head.rindex("]")].split(", "):
+            if part.startswith("ahead "): ahead = int(part[6:])
+            if part.startswith("behind "): behind = int(part[7:])
+    files = [l for l in st[1:] if l]
+    untracked = sum(1 for l in files if l.startswith("??"))
+    ref = (w.get("branch") or "HEAD")
+    reflog = run(["git", "-C", path, "reflog", "show", "--format=%gs", ref]).split("\n")
+    sha, _, ts = run(["git", "-C", path, "log", "-1", "--format=%h %ct"]).partition(" ")
+    return dict(
+        ahead=ahead, behind=behind, changed=len(files) - untracked, untracked=untracked,
+        sha=sha, ts=int(ts or 0), upstream=("..." in head),
+        own=count(path, f"{main_sha}..HEAD"),        # commits main does not have
+        behind_main=count(path, f"HEAD..{main_sha}"),
+        made_commits=any(l.startswith("commit") for l in reflog))
+
+def merged_prs(repo):
+    raw = run(["gh", "pr", "list", "--state", "merged", "--limit", "100", "--json",
+               "number,headRefName,headRefOid,mergedAt,url"], cwd=repo, timeout=8)
+    try: return json.loads(raw)
+    except Exception: return []
+
+def age(ts):
+    d = max(0, int(time.time()) - ts)
+    for n, u in ((86400, "d"), (3600, "h"), (60, "m")):
+        if d >= n: return f"{d // n}{u}"
+    return f"{d}s"
+
+def clip(s, n):
+    return s if len(s) <= n else s[:n - 1] + "~"
+
+def phase(r, prs):
+    """-> (phase, note). The PR check is authoritative; the local check covers ff merges."""
+    if r["is_main"]: return "main", ""
+    for p in prs:
+        if p["headRefName"] == r["branch"]:
+            if p["headRefOid"] == r["head"]:
+                return "cease", f"PR#{p['number']} merged {p['mergedAt'][:10]}"
+            return "stand!", f"PR#{p['number']} merged, but HEAD moved after it"
+    if r["own"] == 0:
+        if r["made_commits"]: return "cease", "commits are all in main (no PR)"
+        if r["behind_main"] == 0: return "arise", "no commits yet"
+        return "arise?", f"no commits of its own, base is {r['behind_main']} behind main: stale, or merged with its reflog lost"
+    return ("stand!", f"main moved on by {r['behind_main']}") if r["behind_main"] else ("stand", "")
+
+def main():
+    want_json = "--json" in sys.argv
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    start = os.path.abspath(args[0]) if args else os.getcwd()
+    top = run(["git", "-C", start, "rev-parse", "--show-toplevel"])
+    if not top:
+        print("not inside a git repo:", start); sys.exit(1)
+    wts = worktrees(top)
+    if not wts:
+        print("no worktrees found"); sys.exit(1)
+    main_path, main_sha = wts[0]["worktree"], wts[0].get("HEAD", "HEAD")
+
+    spaces = {}
+    for w in herdr_json("workspace", "list").get("workspaces", []):
+        p = (w.get("worktree") or {}).get("checkout_path")
+        if p: spaces[os.path.realpath(p)] = w
+    kinds = {}
+    for p in herdr_json("pane", "list").get("panes", []):
+        if p.get("agent"): kinds.setdefault(p.get("workspace_id"), []).append(p["agent"])
+
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        pr_f = ex.submit(merged_prs, main_path)
+        states = list(ex.map(lambda w: git_state(w, main_sha), wts))
+        prs = pr_f.result()
+
+    rows = []
+    for w, g in zip(wts, states):
+        path = w["worktree"]
+        sp = spaces.get(os.path.realpath(path))
+        branch = (w.get("branch") or "").replace("refs/heads/", "") or "(detached)"
+        r = dict(path=path, is_main=(path == main_path), branch=branch, head=w.get("HEAD", ""),
+                 label=(sp or {}).get("label") or os.path.basename(path),
+                 space=(sp or {}).get("workspace_id"), open=sp is not None,
+                 status=(sp or {}).get("agent_status", "closed"),
+                 agents=kinds.get((sp or {}).get("workspace_id"), []),
+                 locked=bool(w.get("locked")), prunable=bool(w.get("prunable")),
+                 here=(os.path.realpath(start) + "/").startswith(os.path.realpath(path) + "/"), **g)
+        r["phase"], r["phase_note"] = phase(r, prs)
+        rows.append(r)
+    if want_json:
+        print(json.dumps(rows, indent=2)); return
+
+    GLYPH = {"working": "*", "idle": "o", "done": "v", "blocked": "!", "unknown": "?", "closed": "-"}
+    main_row = next(r for r in rows if r["is_main"])
+    ordered = [main_row] + sorted((r for r in rows if not r["is_main"]), key=lambda r: r["label"])
+
+    def flags(r):
+        f = []
+        if r["ahead"]: f.append(f"^{r['ahead']}")
+        if r["behind"]: f.append(f"v{r['behind']}")
+        if r["changed"]: f.append(f"~{r['changed']}")
+        if r["untracked"]: f.append(f"+{r['untracked']}")
+        if not f: f.append("clean")
+        if r["locked"]: f.append("LOCKED")
+        if r["prunable"]: f.append("PRUNABLE")
+        return " ".join(f)
+
+    def cells(r):
+        br = "" if r["branch"] == r["label"] else f" [{clip(r['branch'], 14)}]"
+        n = len(r["agents"])
+        st = r["status"] + (f" x{n}" if n > 1 else "")
+        return (f"{GLYPH.get(r['status'], '?')} {clip(r['label'], 30)}{br}",
+                r["space"] or "-", st, r["phase"], flags(r),
+                f"{r['sha']} {age(r['ts'])}", "<- here" if r["here"] else "")
+    table = [cells(r) for r in ordered]
+    w = [max(len(c[i]) for c in table) for i in range(6)]
+    print(f"{os.path.basename(top)} - {len(rows)} checkouts, {sum(r['open'] for r in rows)} open in herdr\n")
+    for i, c in enumerate(table):
+        pre = "" if i == 0 else ("`- " if i == len(table) - 1 else "|- ")
+        print((pre + "  ".join(c[k].ljust(w[k]) for k in range(6)) + ("  " + c[6] if c[6] else "")).rstrip())
+
+    notes = []
+    for r in ordered:
+        n = clip(r["label"], 30)
+        if r["ahead"] and r["upstream"]: notes.append(f"{n}: {r['ahead']} commit(s) not pushed")
+        if r["changed"]: notes.append(f"{n}: {r['changed']} tracked file(s) changed")
+        if r["prunable"]: notes.append(f"{n}: PRUNABLE (directory gone)")
+        if r["phase"] == "cease":
+            how = f"{r['phase_note']}; " if r["phase_note"] else ""
+            lock = " Unlock first (LOCKED)." if r["locked"] else ""
+            dirty = " Uncommitted or untracked files present - look first." if (r["changed"] or r["untracked"]) else ""
+            notes.append(f"{n}: ready to CEASE - {how}write tombstone, then remove.{lock}{dirty}")
+        if r["phase"] == "stand!" and r["phase_note"]:
+            notes.append(f"{n}: drifting - {r['phase_note']}")
+        if r["phase"] == "arise?":
+            notes.append(f"{n}: {r['phase_note']}")
+    if notes:
+        print("\nattention")
+        for n in notes: print("  " + n)
+    print("\nphase: arise = no commits yet (arise? = unclear) | stand = own commits | stand! = drifting | "
+          "cease = merged, tombstone then remove")
+    print("flags: ~ changed  + untracked   status: * working  o idle  v done  ! blocked  ? unknown  - closed")
+
+main()

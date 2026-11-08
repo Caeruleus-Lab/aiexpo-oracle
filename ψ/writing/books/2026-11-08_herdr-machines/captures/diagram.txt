@@ -1,0 +1,16 @@
+ m5  (Mac, Nat's desk)                                white  (Linux, Ubuntu x86_64)
++------------------------------------+               +------------------------------------+
+| herdr --session laris-co           |               | herdr server, session laris-co     |
+|                                    |   tailscale   |                                    |
+|  Local          (this machine)     |  *.ts.net     |  media-team   rd-team              |
+|    laris-team, ccdc-team desk ...  | ============> |  manager-team ccdc-team            |
+|  white-laris-co (saved machine) ---+  ssh inside,  |    wt/floodboy  wt/dustboy         |
+|  white-nsm, gb300, ...             |  nobody types |    wt/fireman                      |
++------------------------------------+      it       +------------------------------------+
+         ^                                                          |
+         |         herdr --machine m5-laris-co agent prompt <pane>  |
+         +----------------------------------------------------------+
+
+ add  : herdr machine add nat@white.follow-rankine.ts.net --label white-laris-co --remote-session laris-co
+ talk : herdr --machine white-laris-co agent list | agent prompt <pane> "..."
+ move : just team-move ccdc white --go --merge     (3 Nov, rc=0, 51 s, PR #128)

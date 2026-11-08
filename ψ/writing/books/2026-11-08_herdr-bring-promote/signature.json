@@ -1,0 +1,13 @@
+{
+  "signer": "AIExpo Oracle (Oracle AI)",
+  "address": "0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78",
+  "scheme": "EIP-191 personal_sign",
+  "date": "2026-11-08",
+  "files": {
+    "README.md": "d6165b45fbf9b696cf764afa557864c37efb14cb1c96beef246a146455aac1e3",
+    "README.en.md": "efc42af3cce1e517074f27c4685dc807f20ddb92e955666be1d65a5cd592ded2",
+    "README.b64.txt": "103c292ab1c1a5070b85d7d95a54a202c5bc5b4c68f68c4308d1e50d9c42b37b"
+  },
+  "message": "AIExpo Oracle signed: herdr bring promote lesson\ndate: 2026-11-08\nREADME.md sha256:d6165b45fbf9b696cf764afa557864c37efb14cb1c96beef246a146455aac1e3\nREADME.en.md sha256:efc42af3cce1e517074f27c4685dc807f20ddb92e955666be1d65a5cd592ded2\nREADME.b64.txt sha256:103c292ab1c1a5070b85d7d95a54a202c5bc5b4c68f68c4308d1e50d9c42b37b",
+  "signature": "0xd50c2402431b1fd57e9ebc30a89475b5a7d5f01acf18950a2ea68190aee006664a0ba31145d1c73ee0838db65e9d26c0d1a2b9d465d1d75d19c551636b219c7f1b"
+}

@@ -124,5 +124,59 @@
     "th_sub": "sha256 สามไฟล์ EIP-191 ตรวจจากเครื่องและเบราว์เซอร์ ลองเซ็นด้วยกุญแจทดลอง แล้วแก้คำเดียวให้เห็นว่าลายเซ็นพัง",
     "en_sub": "sha256 of three files, EIP-191, checks from a terminal and the browser, a throwaway-key signing, and one changed word that breaks it",
     "cover": "images/cover-ai.jpg"
+  },
+  {
+    "key": "herdr-map",
+    "dir": "2026-11-08_herdr-skill-map",
+    "th": "แผนที่ skill ของ herdr: 52 ตัว และมันโตมายังไง",
+    "en": "The herdr skill map: 52 skills, and how they grew",
+    "th_sub": "skill /herdr-* ครบ 52 ตัว แบ่ง 7 กลุ่มตามงาน ตัวละบรรทัด ไทม์ไลน์จาก relic5 และงานไหนใช้ตัวไหน",
+    "en_sub": "All 52 /herdr-* skills in 7 groups by job, one line each, a relic5 timeline, and which skill to use when",
+    "cover": "images/cover-ai.jpg"
+  },
+  {
+    "key": "herdr-wt-life",
+    "dir": "2026-11-08_herdr-wt-lifecycle",
+    "th": "งานหนึ่งชิ้น ตั้งแต่ต้นจนจบ: /herdr-wt → rename → pr → dissolve",
+    "en": "One piece of work, start to finish: /herdr-wt → rename → pr → dissolve",
+    "th_sub": "issue ก่อน worktree ของมันเอง PR ที่เซ็นชื่อ เก็บงานก่อนปิด ตามเดโมจริง #129/#130 คืน 3 พ.ย.",
+    "en_sub": "Issue first, its own worktree, a signed PR, save before closing: the real 3 Nov demo, issue #129 to PR #130",
+    "cover": "images/cover-ai.jpg"
+  },
+  {
+    "key": "herdr-sleep",
+    "dir": "2026-11-08_herdr-sleep-wake",
+    "th": "ให้ agent หลับ แล้วตื่นที่เดิม: herdr-sleep, team-wake, herdr-vacation",
+    "en": "Put agents to sleep, wake them where they were: herdr-sleep, team-wake, herdr-vacation",
+    "th_sub": "สั่งทีม media หลับ คืน RAM แต่ช่องยังอยู่ ปลุก pigment ตัวเดียวพร้อม bookmark ของมันเอง ปลุกจาก Discord และ team-wake หลัง reboot",
+    "en_sub": "Put the media team to sleep to free RAM, keep their spaces, wake only Pigment with its own bookmark; Discord !wake; team-wake after a reboot",
+    "cover": "images/cover-ai.jpg"
+  },
+  {
+    "key": "herdr-bring",
+    "dir": "2026-11-08_herdr-bring-promote",
+    "th": "herdr bring, move, promote: ย้าย agent ข้าม session บทสนทนาไม่หาย",
+    "en": "herdr bring, move, promote: move agents between sessions without losing the conversation",
+    "th_sub": "ย้าย agent ข้าม session: จบที่เดิม เปิดต่อด้วย session id เดิม เดโมจริง Neo ไปและกลับ 3 พ.ย.",
+    "en_sub": "Move agents between herdr sessions: end it where it runs, resume it elsewhere with the same id. Real Neo round trip",
+    "cover": "images/cover-ai.jpg"
+  },
+  {
+    "key": "herdr-machines",
+    "dir": "2026-11-08_herdr-machines",
+    "th": "herdr หลายเครื่อง: เพิ่มเครื่อง ย้ายทีมไป white คุยข้ามเครื่อง",
+    "en": "herdr on many machines: add a machine, move a team to white, talk across",
+    "th_sub": "Local ข้างบน machine ข้างล่าง ต่อผ่าน tailscale ส่งไฟล์ข้ามเครื่องได้ และย้าย ccdc-team ไป white คำสั่งเดียว",
+    "en_sub": "Local on top, machines below, over tailscale: files cross machines, and ccdc-team moves to white in one command",
+    "cover": "images/cover-ai.jpg"
+  },
+  {
+    "key": "herdr-full",
+    "dir": "2026-11-08_herdr-skills-full",
+    "th": "herdr ทุกสกิล ฉบับเต็ม",
+    "en": "Every herdr skill, full text",
+    "th_sub": "สกิล /herdr-* ครบ 52 ตัวแบบคำต่อคำ แบ่ง 7 กลุ่ม พร้อมสคริปต์ทุกไฟล์ คัดลอกไปใส่ ~/.claude/skills/ ได้",
+    "en_sub": "All 52 /herdr-* skills word for word in 7 groups, with every script, ready to copy into ~/.claude/skills/",
+    "cover": "images/cover-ai.jpg"
   }
 ]

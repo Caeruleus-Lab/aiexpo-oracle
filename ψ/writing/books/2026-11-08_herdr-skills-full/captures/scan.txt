@@ -1,0 +1,41 @@
+Secret scan of skills/ (the copy), 8 Nov 2026, m5
+
+$ gitleaks detect --no-git --source skills -v
+11:09AM INF scanned ~835008 bytes (835.01 KB) in 38.3ms
+11:09AM INF no leaks found
+
+$ rg sk-[A-Za-z0-9]{16,} | sk-ant- | ghp_[A-Za-z0-9]{20,} | github_pat_ | AKIA[0-9A-Z]{16} | xox[bp]- | BEGIN .*PRIVATE KEY | Discord bot token
+(no matches)
+
+$ rg -i (password|secret|token|api_key)\s*[:=]\s*"<value>"
+(no matches)
+
+$ rg email-shaped strings
+skills/herdr-link-remote/SKILL.md:15:nat@white.follow-rankine.ts.net
+skills/herdr-link-remote/SKILL.md:16:nat@white.follow-rankine.ts.net
+skills/herdr-machine-labels/SKILL.md:17:nat@white.follow-rankine.ts.net
+skills/herdr-link-teardown/SKILL.md:12:nat@white.follow-rankine.ts.net
+skills/herdr-link-teardown/SKILL.md:13:nat@white.follow-rankine.ts.net
+skills/herdr-trinity/fast-remove.sh:51:git@github.com
+skills/herdr-trinity/fast-remove.sh:51:git@github.com
+skills/herdr-link-talk/SKILL.md:15:nat@white.follow-rankine.ts.net
+skills/herdr-link-talk/SKILL.md:16:nat@white.follow-rankine.ts.net
+skills/herdr-link-talk/SKILL.md:23:nat@white.follow-rankine.ts.net
+skills/herdr-link-talk/SKILL.md:27:beta@m5.follow-rankine.ts.net
+skills/herdr-link-talk/SKILL.md:33:beta@m5.follow-rankine.ts.net
+skills/herdr-link-check/SKILL.md:27:nat@white.follow-rankine.ts.net
+skills/herdr-link-check/SKILL.md:32:phd-oracle@black.follow-rankine.ts.net
+skills/herdr-link-check/SKILL.md:37:phd-oracle@black.follow-rankine.ts.net
+-> all are ssh targets (user@host.tailnet) or git@github.com, not email addresses; kept
+
+$ rg phone numbers (+66, 0[689]x-xxx-xxxx, (xxx) xxx-xxxx)
+(no matches)
+
+$ rg bearer / authorization / 40+ hex / PrivateKey / oauth
+skills/herdr-link-remote/SKILL.md:26:| 2 | `git worktree add -b agents/<worker> <repo>/wt/<worker>-athena-<date> origin/main`, `cp -p .envrc`, `direnv allow` | `direnv exec . sh -c 'printf %s "$CLAUDE_CODE_OAUTH_TOKEN" \| wc -c'` > 0 |
+skills/herdr-wt/SKILL.md:661:`CLAUDE_CODE_OAUTH_TOKEN`, `CLAUDE_TOKEN_NAME`, `ORACLE_URL` and `ORACLE_PROJECT` — a
+-> only the variable name CLAUDE_CODE_OAUTH_TOKEN, no value; kept
+
+Redactions: none (0). No real secret value was found.
+
+Skipped while copying: herdr-info/__pycache__/herdr-info.cpython-314.pyc (binary, 35606 bytes). No file over 200 KB, no node_modules.

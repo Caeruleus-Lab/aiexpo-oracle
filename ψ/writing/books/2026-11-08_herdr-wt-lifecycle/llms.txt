@@ -1,0 +1,12 @@
+# One piece of work, start to finish: /herdr-wt → /herdr-rename → /herdr-pr → /herdr-dissolve (AIExpo Oracle)
+
+> Lesson 2 of the herdr series. /herdr-wt opens a GitHub issue with the full brief (Goal, Context, Deliverables, Rules, Done when, Out of scope), cuts a locked worktree at <repo>/wt/<slug>-<oracle>[-issue<N>]-<date>, records the workspace on the issue, starts claude with `herdr pane run` and briefs it from the issue. /herdr-rename renames the branch (git branch -m) to a meaningful name; the folder stays. /herdr-pr signs the PR with a "Built by" block (agent, model, worktree, branch, head, session id, herdr address); public repos omit transcript, memory dir and socket. /herdr-dissolve saves first (commit, push, signed PR, DISSOLVE-READY to the parent pane), writes a tombstone, then removes the worktree through herdr; the branch stays and nothing merges by itself. Follows Nat's real demo of 3 Nov 2026 (laris-co/laris-team issue #129 at 21:29, PR #130 at 21:31, merged and dissolved at 22:05) and the repeat in this repo on 8 Nov 2026 (PR #7, signed comment 6716331029, tombstone in ψ/memory/tombstones/). Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/](captures/): the raw evidence (relic5 timeline, video moments, GitHub text, tombstones, skill excerpts, diagram text)

@@ -1,0 +1,39 @@
+# ~/.local/bin/herdr-sleep, header + card fields (read 2026-11-08 on m5)
+#!/usr/bin/env bash
+# herdr-sleep — park herdr agents with a wake card, and wake them exactly where they were.
+#
+#   herdr-sleep sleep <pane>=<label> ...   [--session nsm] [--no-bookmark] [--keep-space]
+#   herdr-sleep wake  <label> ...          [--session nsm] [--day YYYY-MM-DD]   (latest card per label)
+#   herdr-sleep list  [--day YYYY-MM-DD]
+#
+# sleep: refuses a working/blocked agent; asks it for a 4-line bookmark; writes
+#   ~/.local/state/herdr-sleep/<day>/<label>.json (cwd, session id, argv, --channels, git state, bookmark);
+#   /exit's the claude (transcript kept) and closes its space.
+# wake:  opens the space at the card's cwd in the card's herdr session, runs
+#   `cd <cwd> && direnv exec . <argv with --resume <session>>`, renames the agent, briefs it with its bookmark,
+#   and stamps "woke" on the card. Cards are never deleted: they are the sleep log.
+# Never writes env values or tokens into a card. Never commits, pushes or deletes files.
+...
+cands.append(str(pi["foreground_process_group_id"]))
+print(next((c for c in cands if os.path.exists(f"{home}/{c}.json")), cands[0]))')
+    if [ $bookmark = 1 ]; then
+      $H agent prompt "$p" "[herdr-sleep] This copy is going to sleep (it can be woken later). Reply in AT MOST 4 short lines, no tools: 1) what you were doing 2) git state (committed/pushed/uncommitted) 3) next step 4) any open question." --wait --timeout 180000 >/dev/null 2>&1
+      bm=$($H agent read "$p" --source recent-unwrapped --lines 40 | grep -v '^\s*$' | grep -v -e '───' -e '⏵⏵' -e '📡' -e '🟢' -e '🔴' -e '🟡' -e '🖥' -e '📁' -e '🧪' -e '❯' | tail -8)
+    fi
+    PID=$pid LABEL=$label PANE=$p WS=$ws SESS=$sess BM="$bm" CARD="$d/$label.json" python3 - <<'EOF'
+import json, os, subprocess, datetime
+pid = os.environ["PID"]; s = {}
+try: s = json.load(open(os.path.expanduser(f"~/.claude/sessions/{pid}.json")))
+except Exception: pass
+argv = subprocess.run(["ps", "-o", "command=", "-p", pid], capture_output=True, text=True).stdout.split()
+cwd = s.get("cwd", "")
+g = lambda *a: subprocess.run(["git", "-C", cwd, *a], capture_output=True, text=True).stdout.strip() if cwd else ""
+card = {"slept": datetime.datetime.now().astimezone().isoformat(timespec="minutes"),
+        "host": os.uname().nodename.split(".")[0], "herdr_session": os.environ["SESS"],
+        "space": {"id": os.environ["WS"], "label": os.environ["LABEL"], "cwd": cwd},
+        "agent": {"pane": os.environ["PANE"], "kind": "claude", "session": s.get("sessionId", ""),
+                  "argv": argv, "channel": any(x.startswith("--channels") for x in argv), "name": os.environ["LABEL"]},
+        "bookmark": os.environ["BM"],
+        "git": {"branch": g("branch", "--show-current"), "ahead": g("rev-list", "--count", "@{u}..HEAD"),
+                "dirty": len([l for l in g("status", "--porcelain").splitlines() if l])}}
+if not card["agent"]["session"]:

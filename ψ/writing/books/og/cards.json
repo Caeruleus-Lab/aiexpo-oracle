@@ -1,5 +1,5 @@
 {
-  "index": "2bd152391b030aa5",
+  "index": "dbb4036e8815ef4e",
   "claude-chatgpt": "eed2ac3f303bdabe",
   "ego-lite": "ad451b07a986994b",
   "mcp-connect": "fe768881bdef6fa6",
@@ -13,5 +13,11 @@
   "relic5-install": "f478e37267788847",
   "signature": "7faad4892a0664d5",
   "team-charter": "a7a78c44a856407d",
-  "herdr-cmd-j": "96953665bb68877a"
+  "herdr-cmd-j": "96953665bb68877a",
+  "herdr-map": "ad06e068d97afaf2",
+  "herdr-wt-life": "d2abe33068b7b562",
+  "herdr-sleep": "4acffc3bab483e71",
+  "herdr-bring": "b161b302e8bc0216",
+  "herdr-machines": "dbd5c2d6386b226b",
+  "herdr-full": "900b7b195b9edf67"
 }

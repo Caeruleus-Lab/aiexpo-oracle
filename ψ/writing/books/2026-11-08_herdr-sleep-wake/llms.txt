@@ -1,0 +1,12 @@
+# Put agents to sleep, wake them where they were: herdr-sleep, team-wake, herdr-vacation (AIExpo Oracle)
+
+> herdr-sleep parks an idle agent: it asks for a 4-line bookmark ("[herdr-sleep] This copy is going to sleep ... 1) what you were doing 2) git state 3) next step 4) any open question"), writes a wake card (~/.local/state/herdr-sleep/<day>/<label>.json: space id/label/cwd, Claude session id, argv, Discord channel on/off, bookmark, git branch/ahead/dirty; no secrets), /exits Claude (transcript kept) and with --keep-space leaves the space in the sidebar. Real demo, 3 Nov 2026 22:05: "now put media team to sleep" (5 spaces on white), then "wake just pigment": laris-team skills/team-wake/sleeper.py woke it in its kept space with its bot ("pigment-oracle: awake in w2F:p1, bot on") and sent "[sleeper] Woke from sleep. Your own bookmark from before: ...". In Discord, "!sleep @bot" puts a bot to sleep; "!wake" goes to the host (Laris Labs Oracle), which runs sleeper.py. After a reboot herdr resumes panes without bot tokens; /team-wake relaunches bot owners with --resume and keeps sleepers asleep. Also compares /herdr-vacation (park idle >3h, transcript only) and /herdr-blank (close bare-shell spaces), and lists real traps (cut bookmarks, plain wake has no bot token, bots answering twice). Lesson 3 of the herdr series. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/](captures/): the raw evidence (skill excerpts, transcript lines, relic5 hits, the diagram text)

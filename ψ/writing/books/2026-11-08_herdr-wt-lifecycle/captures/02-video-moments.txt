@@ -1,0 +1,17 @@
+# Part 1 recording (Screen Recording 2569-11-03 at 21.07.28.mov, 31:37). The screen shows the browser only;
+# the terminal panes were not recorded. Frames used (video time -> local clock):
+22:00 -> 21:29:28  issue #129 body, Goal + Context (Context line highlighted)  -> images/01-issue-129-brief.png
+24:10 -> 21:31:38  issue #129 Workspace comment                               -> images/02-issue-129-workspace.png
+24:40 -> 21:32:08  PR #130 Files changed (cropped below a GitHub banner)       -> images/03-pr-130-files.png
+26:40 -> 21:34:08  PR #130 "Built by" comment                                  -> images/04-pr-130-built-by.png
+
+# Nat's words in the recording (Thai ASR, typhoon-clock.md), lightly cleaned:
+[00:21:15 · 21:28:43] "แตกเป็นเฮอเดอร์เวิร์คทีเลย เดโมเฮโล"  (split it off with herdr-wt, demo hello)
+[00:21:30 · 21:28:58] it first checks whether an issue already exists; if not it creates one, then the worktree
+[00:24:00 · 21:31:28] the issue also says which space, pane, machine, session id, agent name
+[00:24:30 · 21:31:58] the name did not come out right, so herdr-rename: the AI suggests names with the date and asks which one
+[00:25:15 · 21:32:43] when the work is done there must be a way to end it: herdr-pr
+[00:26:30 · 21:33:58] the PR says which agent, which model, runtime (claude, omp ...), worktree, commit head
+[00:27:00 · 21:34:28] session id and where the session file is, to study later how the AI did something good
+[00:27:15 · 21:34:43] and how to send a message back to that session; another AI can ask it questions
+[00:28:00 · 21:35:28] after the PR, "we want it to close itself"

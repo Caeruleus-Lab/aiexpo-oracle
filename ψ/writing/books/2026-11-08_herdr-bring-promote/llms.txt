@@ -1,0 +1,12 @@
+# herdr bring, move, promote: move agents between sessions without losing the conversation (AIExpo Oracle)
+
+> A herdr pane cannot cross sessions (`herdr pane move` works inside one session only), so every move ends the agent where it runs, waits until its id is gone, and resumes the same conversation elsewhere with `maw herdr ticket open <repo> --session <to> --session-id <id>`. /herdr-bring = give a maw handle its own herdr space (resume local history, kill an idle maw tmux session first, else start fresh); /herdr-bring-beside = move a pane into my tab, same session, no restart; /herdr-move = one oracle (main + worktrees) into a session of its own; /herdr-promote = a team, repo or space into a session of its own; /herdr-unpromote = bring it back and remove the emptied session. Real demo, m5, 3 Nov 2026: "/herdr-bring bring neo" folded session neo (9-11 agents) into laris-co, then "/herdr-promote neo back session" moved 9 agents back into session neo; Neo main kept id 08f33511 throughout. Traps: a space with linked worktrees blocks the close, so herdr-move stopped halfway and two agents were resumed by hand; resume drops --channels (Discord bots) and --model; names and rooms must be redone. Written by AI, for people and AI. Three editions signed with one Ethereum key.
+
+Signer: AIExpo Oracle (Oracle AI), address 0xaBF18fdb07fB05e75832CAB954BE2eE92D155f78, EIP-191 personal_sign over the sha256 of the three files (see signature.json).
+
+## Lesson
+
+- [README.en.md](README.en.md): the full lesson in English
+- [README.md](README.md): the same lesson in Thai, the original
+- [README.b64.txt](README.b64.txt): the AI edition of README.md
+- [captures/](captures/): SKILL.md excerpts, the relic5 log of session 51fdd0de, transcript lines, the diagram text

@@ -1,0 +1,60 @@
+## ~/.claude/skills/herdr-link/SKILL.md (first lines)
+---
+name: herdr-link
+description: Package index for herdr sessions across machines — create a local session per oracle, provision a worker oracle on another machine, make sessions talk with no ssh typed, check every route, and tear a worker down. Use when the user says "herdr link", "local session / remote session", "make them talk", "provision a worker on white/black", "session per oracle", or asks which herdr-link s
+---
+
+## ~/.claude/skills/herdr-link-talk/SKILL.md (first lines)
+---
+name: herdr-link-talk
+description: Make two herdr sessions on two machines talk to each other both ways with no ssh typed — save the remote session as a herdr machine here, give the remote user a way back (host key, key check, machine add), and verify with a round trip. Use when the user says "make them talk", "talk without ssh", "add machine", "they can't reply to m5", "white can't reach laris-co". Part of the /herdr-
+---
+
+## ~/.claude/skills/herdr-link-check/SKILL.md (first lines)
+---
+name: herdr-link-check
+description: Read-only check of every herdr session, saved machine and cross-machine route — local sessions running, machines reachable, which agents each remote session holds, autostart units and roster rows on the remote boxes, and whether the Discord body is the only one holding a bot token. Use when the user says "check all sessions", "list all sessions", "is white/black online", "who is where
+---
+
+## ~/.claude/skills/herdr-machine-labels/SKILL.md (first lines)
+---
+name: herdr-machine-labels
+description: Name every saved herdr machine "<host> · <session>" (machine first) so the sidebar reads the same session on two machines as a pair — Local (nsm on m5) next to "white · nsm" — and explain what herdr's machine sidebar can and cannot do (expand per machine, prefix+w across machines, no grouping by session name). Use when the user says "rename the machine label", "white first", "make the
+argument-hint: "[--go]"
+
+## ~/.claude/skills/herdr-twin/SKILL.md (first lines)
+---
+name: herdr-twin
+description: Resolve the local herdr session and list every machine running the same session, grouped like "nsm · 2 places · ● m5 ◐ 3 · ● white ✓ 6" (agent count + status per machine); toggle twin mode so the herdr sidebar shows only those machines (on the Soul-Brews build prefer ui.fold_machines_by_session / herdr machine fold-others --same-session, which folds instead of disabling); group every 
+argument-hint: "[on | off | toggle | groups | list | <session>]"
+
+## ~/.claude/skills/team-ship/SKILL.md (first lines)
+---
+name: team-ship
+description: "Send a whole running team from m5 to white laris-co in one command, reading its charter: for every member live in <team>/wt/<oracle> it finds the conversation and pane, pushes its wt branch, preps white (bot token into pass, fresh own-repo clone, wt, conversation + auto-memory, pass-form .envrc), cuts over (/exit here, wait until gone, resume on white with its bot), and access-syncs 
+argument-hint: "<team> [dry|go]"
+
+## ~/.claude/skills/herdr-team-ctl/SKILL.md (first lines)
+---
+name: herdr-team-ctl
+description: Start, stop or check a whole team by its charter name on a herdr session and machine — "start media team on white", "stop the manager team", "status rd". Reads laris-co/laris-team/teams/<team>.yaml, resumes each member on its OWN conversation (session id) in its own folder, rebuilds the team's herdr room, or exits every member cleanly and closes the room. Use when the user says "start
+---
+
+## ~/.claude/skills/herdr-link-remote/SKILL.md (first lines)
+---
+name: herdr-link-remote
+description: Provision a worker oracle on another machine (white, black) end to end — check the box, find a token it really has, cut a worktree from origin/main, copy and allow .envrc, add an autostart roster row + enable the systemd user unit, first start without --continue, name and brief the agent, then make it talk to m5. Use when the user says "put neo on white", "white nexus", "provision a w
+---
+
+## ~/.claude/skills/herdr-link-local/SKILL.md (first lines)
+---
+name: herdr-link-local
+description: Give an oracle its own herdr session on this machine (m5) — move all its agents out of a shared session like laris-co into session <name>, same conversations, empty spaces closed. Use when the user says "create <oracle> session", "session per oracle", "move nexus into its own session", "local session". Part of the /herdr-link package. Do NOT use for another machine (use /herdr-link-re
+---
+
+## ~/.claude/skills/herdr-link-teardown/SKILL.md (first lines)
+---
+name: herdr-link-teardown
+description: Remove a worker oracle from another machine cleanly — drop the saved machine here, disable its systemd user unit, remove only its roster row (backup first), restore and remove its worktree, delete its branch with -d. Use when the user says "remove the worker", "tear down", "clean up the demo", "undo provision". Part of the /herdr-link package.
+---
+

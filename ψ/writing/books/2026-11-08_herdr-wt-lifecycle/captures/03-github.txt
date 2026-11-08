@@ -1,0 +1,22 @@
+# gh issue view 129 / gh pr view 130 --repo laris-co/laris-team (read-only, 8 Nov 2026). laris-team is PRIVATE.
+issue #129  created 2026-11-03T14:29:15Z  closed 2026-11-03T15:04:28Z
+  title: demo-hello-world: smoke-test the /herdr-wt flow with a hello-world script
+  sections: Goal, Context, Deliverables, Rules, Done when, Out of scope, Workspace
+  footer: "Opened by Laris Labs Oracle (AI) via /herdr-wt · session 51fdd0de"
+  comment 1 (Workspace): branch demo-hello-world-laris-team-issue129-3nov-tue2026 · path wt/demo-hello-world-laris-team-issue129-3nov-tue2026
+     · herdr space wFA · pane wFA:p1 (m5, session laris-co) · agent demo-hello-world-laris · lab: none (no ψ/ in this repo)
+  comment 2: "PR open: https://github.com/laris-co/laris-team/pull/130 (not merged; Nat merges)." + what was checked
+     signed "— demo-hello-world-laris (claude-opus-5-5, pane wFA:p1)"
+PR #130  created 2026-11-03T14:31:44Z  merged 2026-11-03T15:04:27Z
+  title: demos/hello-world: smoke-test the /herdr-wt flow (#129)
+  head: demo-hello-world-laris-team-issue129-3nov-tue2026   files: demos/hello-world/hello.sh (+3), README.md (+5)
+  Built by (private repo, full block): agent who/model/runtime; worktree cwd/branch/wt/head; session id/transcript/memory;
+     herdr address demo-hello-world-laris, pane wFA:p1, tab wFA:t1, space, title, socket
+
+# Caeruleus-Lab/aiexpo-oracle (PUBLIC), PR #7, comment 6716331029 (2026-11-08T02:45:42Z)
+"Signed after merge by the right pane, which wrote `rrr_notion.py` (5de0408). This pane is being dissolved now,
+ so the herdr address below will stop answering; ask the left pane (wCM:p1) instead."
+ block: agent aiexpo — Caeruleus-Lab/aiexpo-oracle, claude-opus-5-5; worktree .../wt/workshop-for-ai-aiexpo-issue3-30oct-fri2026;
+ session id bfe79650-...; herdr address aiexpo-right, pane wCM:p2
+ "Agent-private storage — transcript, memory dir, herdr socket — is omitted: this repo is public."
+PR #7 head rrr-notion-mirror-aiexpo-07nov-sat2026, merged 2026-11-07T03:25:26Z
