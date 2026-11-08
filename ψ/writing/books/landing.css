@@ -87,3 +87,8 @@ body.bigshake{animation:bigshake .6s cubic-bezier(.36,.07,.19,.97)}@keyframes bi
 .chips{align-items:center}
 .chips .lab{color:var(--ink-3);font-size:.8em;font-weight:700;margin-right:2px}
 .chip{font-size:.8em;padding:3px 12px}
+/* the button and the lesson number take the colour of the card's cover group (same as the cover tag, covers/title.py TAG) */
+.card[data-g=start]{--g:#6ee7de}.card[data-g=build]{--g:#b2ec78}.card[data-g=memory]{--g:#c4b0ff}.card[data-g=team]{--g:#ff968c}.card[data-g=story]{--g:#ffc882}
+.card[data-g] .go{background:var(--g);color:#14151a}
+.card[data-g]:hover{border-color:var(--g)}
+html:not([data-theme=light]) .card[data-g] .num{color:var(--g)}

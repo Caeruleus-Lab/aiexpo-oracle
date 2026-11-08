@@ -148,6 +148,7 @@ def info(l):
 
 
 NO_TH = {"team-charter", "herdr-cmd-j"}
+GROUP_OF = {}   # lesson key -> landing group, filled where GROUPS_L is defined; colours match covers/title.py TAG
 
 
 def card(i, l):
@@ -162,7 +163,8 @@ def card(i, l):
     facts = "".join(f'<span><span data-l="th">{a}</span><span data-l="en">{b}</span></span>'
                     for a, b in zip(l["facts_th"], l["facts_en"]))
     addr = x["address"]
-    return f'''<article class="card">
+    g = GROUP_OF.get(l["key"], "")   # Nat, 8 Nov: "button color same cover color?": the card takes its group's cover colour
+    return f'''<article class="card" data-g="{g}">
   <a class="thumb" href="{d}" data-lesson="{d}"><img data-l="th" src="{d}{l["cover"].replace(".jpg", "-th.jpg")}" alt="" loading="lazy"><img data-l="en" src="{d}{l["cover"]}" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">{i:02d}</div>
@@ -384,6 +386,7 @@ def page():
                 ("ความจำ · relic5", "Memory · relic5", ["relic5-install", "relic5-ui"]),
                 ("ทีม agent · herdr", "Agent teams · herdr", ["team-charter", "herdr-room", "herdr-cmd-j"]),
                 ("เรื่องเล่า · ภูเขา", "Stories · Phukhao", ["phukhao-journey", "phukhao-film"])]
+    GROUP_OF.update({k: ("start", "build", "memory", "team", "story")[n] for n, (_, _, ks) in enumerate(GROUPS_L) for k in ks})
     num = {l["key"]: i for i, l in HUMAN}
     assert sorted(k for _, _, ks in GROUPS_L for k in ks) == sorted(num), "every public lesson in exactly one group"
     cards = "\n".join(f'<section class="lgroup"><h3><span data-l="th">{th}</span><span data-l="en">{en}</span> <small>{len(ks)}</small></h3>'

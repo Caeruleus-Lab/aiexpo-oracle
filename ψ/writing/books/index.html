@@ -155,6 +155,11 @@ body.bigshake{animation:bigshake .6s cubic-bezier(.36,.07,.19,.97)}@keyframes bi
 .chips{align-items:center}
 .chips .lab{color:var(--ink-3);font-size:.8em;font-weight:700;margin-right:2px}
 .chip{font-size:.8em;padding:3px 12px}
+/* the button and the lesson number take the colour of the card's cover group (same as the cover tag, covers/title.py TAG) */
+.card[data-g=start]{--g:#6ee7de}.card[data-g=build]{--g:#b2ec78}.card[data-g=memory]{--g:#c4b0ff}.card[data-g=team]{--g:#ff968c}.card[data-g=story]{--g:#ffc882}
+.card[data-g] .go{background:var(--g);color:#14151a}
+.card[data-g]:hover{border-color:var(--g)}
+html:not([data-theme=light]) .card[data-g] .num{color:var(--g)}
 
 pre{background:var(--paper-2);color:var(--ink);border-radius:var(--r);padding:clamp(14px,1.4vw,28px) clamp(16px,1.8vw,34px);white-space:pre-wrap;overflow-wrap:anywhere;font:600 clamp(13px,0.45vw + 10px,19px)/1.55 var(--mono);border:1px solid var(--rule)}
 pre.b64{padding-top:48px;font-size:clamp(11px,0.35vw + 8px,16px);white-space:normal;word-break:break-all;line-height:1.5}
@@ -488,7 +493,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
   <p><span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน · เครื่องมือ search, fetch, get_image, list_lessons · ทีละขั้นพร้อมภาพ:</span><span data-l="en">Read-only, no sign-in · tools search, fetch, get_image, list_lessons · step by step with screenshots:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 02</span><span data-l="en">lesson 02</span></a></p>
 </section>
 <h2 id="all"><span data-l="th">บทเรียนทั้งหมด</span><span data-l="en">All lessons</span></h2>
-<section class="lgroup"><h3><span data-l="th">เริ่มต้น · ต่อ AI เข้ากับบทเรียน</span><span data-l="en">Start · connect your AI</span> <small>4</small></h3><div class="list"><article class="card">
+<section class="lgroup"><h3><span data-l="th">เริ่มต้น · ต่อ AI เข้ากับบทเรียน</span><span data-l="en">Start · connect your AI</span> <small>4</small></h3><div class="list"><article class="card" data-g="start">
   <a class="thumb" href="2026-11-04_skills-media-mcp-lesson/" data-lesson="2026-11-04_skills-media-mcp-lesson/"><img data-l="th" src="2026-11-04_skills-media-mcp-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-04_skills-media-mcp-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">01</div>
@@ -499,7 +504,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-04_skills-media-mcp-lesson/th.html">ไทย</a><a class="chip" href="2026-11-04_skills-media-mcp-lesson/en.html">English</a><a class="chip" href="2026-11-04_skills-media-mcp-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-04_skills-media-mcp-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
-<article class="card">
+<article class="card" data-g="start">
   <a class="thumb" href="2026-10-30_mcp-connect-guide/" data-lesson="2026-10-30_mcp-connect-guide/"><img data-l="th" src="2026-10-30_mcp-connect-guide/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-30_mcp-connect-guide/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">02</div>
@@ -510,7 +515,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-10-30_mcp-connect-guide/th.html">ไทย</a><a class="chip" href="2026-10-30_mcp-connect-guide/en.html">English</a><a class="chip" href="2026-10-30_mcp-connect-guide/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-10-30_mcp-connect-guide/llms.txt">llms.txt</a></div>
   </div>
 </article>
-<article class="card">
+<article class="card" data-g="start">
   <a class="thumb" href="2026-11-02_agy-mcp-lesson/" data-lesson="2026-11-02_agy-mcp-lesson/"><img data-l="th" src="2026-11-02_agy-mcp-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-02_agy-mcp-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">07</div>
@@ -521,7 +526,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-02_agy-mcp-lesson/th.html">ไทย</a><a class="chip" href="2026-11-02_agy-mcp-lesson/en.html">English</a><a class="chip" href="2026-11-02_agy-mcp-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-02_agy-mcp-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
-<article class="card">
+<article class="card" data-g="start">
   <a class="thumb" href="2026-10-30_ego-lite-guide/" data-lesson="2026-10-30_ego-lite-guide/"><img data-l="th" src="2026-10-30_ego-lite-guide/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-30_ego-lite-guide/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">13</div>
@@ -532,7 +537,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-10-30_ego-lite-guide/th.html">ไทย</a><a class="chip" href="2026-10-30_ego-lite-guide/en.html">English</a><a class="chip" href="2026-10-30_ego-lite-guide/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-10-30_ego-lite-guide/llms.txt">llms.txt</a><a class="chip" href="2026-10-30_ego-lite-guide/slides.html"><span data-l="th">สไลด์</span><span data-l="en">slides</span></a></div>
   </div>
 </article></div></section>
-<section class="lgroup"><h3><span data-l="th">สร้างเอง · MCP และลายเซ็น</span><span data-l="en">Build · your own MCP, signatures</span> <small>2</small></h3><div class="list"><article class="card">
+<section class="lgroup"><h3><span data-l="th">สร้างเอง · MCP และลายเซ็น</span><span data-l="en">Build · your own MCP, signatures</span> <small>2</small></h3><div class="list"><article class="card" data-g="build">
   <a class="thumb" href="2026-11-02_build-mcp-lesson/" data-lesson="2026-11-02_build-mcp-lesson/"><img data-l="th" src="2026-11-02_build-mcp-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-02_build-mcp-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">06</div>
@@ -543,7 +548,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-02_build-mcp-lesson/th.html">ไทย</a><a class="chip" href="2026-11-02_build-mcp-lesson/en.html">English</a><a class="chip" href="2026-11-02_build-mcp-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-02_build-mcp-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
-<article class="card">
+<article class="card" data-g="build">
   <a class="thumb" href="2026-11-04_signature-lesson/" data-lesson="2026-11-04_signature-lesson/"><img data-l="th" src="2026-11-04_signature-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-04_signature-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">10</div>
@@ -554,7 +559,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-04_signature-lesson/th.html">ไทย</a><a class="chip" href="2026-11-04_signature-lesson/en.html">English</a><a class="chip" href="2026-11-04_signature-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-04_signature-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article></div></section>
-<section class="lgroup"><h3><span data-l="th">ความจำ · relic5</span><span data-l="en">Memory · relic5</span> <small>2</small></h3><div class="list"><article class="card">
+<section class="lgroup"><h3><span data-l="th">ความจำ · relic5</span><span data-l="en">Memory · relic5</span> <small>2</small></h3><div class="list"><article class="card" data-g="memory">
   <a class="thumb" href="2026-11-04_relic5-ui-tour/" data-lesson="2026-11-04_relic5-ui-tour/"><img data-l="th" src="2026-11-04_relic5-ui-tour/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-04_relic5-ui-tour/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">08</div>
@@ -565,7 +570,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-04_relic5-ui-tour/th.html">ไทย</a><a class="chip" href="2026-11-04_relic5-ui-tour/en.html">English</a><a class="chip" href="2026-11-04_relic5-ui-tour/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-04_relic5-ui-tour/llms.txt">llms.txt</a></div>
   </div>
 </article>
-<article class="card">
+<article class="card" data-g="memory">
   <a class="thumb" href="2026-11-04_relic5-install/" data-lesson="2026-11-04_relic5-install/"><img data-l="th" src="2026-11-04_relic5-install/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-04_relic5-install/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">09</div>
@@ -576,7 +581,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-04_relic5-install/th.html">ไทย</a><a class="chip" href="2026-11-04_relic5-install/en.html">English</a><a class="chip" href="2026-11-04_relic5-install/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-04_relic5-install/llms.txt">llms.txt</a></div>
   </div>
 </article></div></section>
-<section class="lgroup"><h3><span data-l="th">ทีม agent · herdr</span><span data-l="en">Agent teams · herdr</span> <small>3</small></h3><div class="list"><article class="card">
+<section class="lgroup"><h3><span data-l="th">ทีม agent · herdr</span><span data-l="en">Agent teams · herdr</span> <small>3</small></h3><div class="list"><article class="card" data-g="team">
   <a class="thumb" href="2026-10-31_herdr-room-lesson/" data-lesson="2026-10-31_herdr-room-lesson/"><img data-l="th" src="2026-10-31_herdr-room-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-31_herdr-room-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">05</div>
@@ -587,7 +592,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-10-31_herdr-room-lesson/th.html">ไทย</a><a class="chip" href="2026-10-31_herdr-room-lesson/en.html">English</a><a class="chip" href="2026-10-31_herdr-room-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-10-31_herdr-room-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
-<article class="card">
+<article class="card" data-g="team">
   <a class="thumb" href="2026-11-05_team-ecosystem-lesson/" data-lesson="2026-11-05_team-ecosystem-lesson/"><img data-l="th" src="2026-11-05_team-ecosystem-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-05_team-ecosystem-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">11</div>
@@ -598,7 +603,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-05_team-ecosystem-lesson/en.html">English</a><a class="chip" href="2026-11-05_team-ecosystem-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-05_team-ecosystem-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article>
-<article class="card">
+<article class="card" data-g="team">
   <a class="thumb" href="2026-11-05_herdr-cmd-j-lesson/" data-lesson="2026-11-05_herdr-cmd-j-lesson/"><img data-l="th" src="2026-11-05_herdr-cmd-j-lesson/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-11-05_herdr-cmd-j-lesson/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">12</div>
@@ -609,7 +614,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-11-05_herdr-cmd-j-lesson/en.html">English</a><a class="chip" href="2026-11-05_herdr-cmd-j-lesson/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-11-05_herdr-cmd-j-lesson/llms.txt">llms.txt</a></div>
   </div>
 </article></div></section>
-<section class="lgroup"><h3><span data-l="th">เรื่องเล่า · ภูเขา</span><span data-l="en">Stories · Phukhao</span> <small>2</small></h3><div class="list"><article class="card">
+<section class="lgroup"><h3><span data-l="th">เรื่องเล่า · ภูเขา</span><span data-l="en">Stories · Phukhao</span> <small>2</small></h3><div class="list"><article class="card" data-g="story">
   <a class="thumb" href="2026-10-31_phukhao-film-guide/" data-lesson="2026-10-31_phukhao-film-guide/"><img data-l="th" src="2026-10-31_phukhao-film-guide/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-31_phukhao-film-guide/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">03</div>
@@ -620,7 +625,7 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
     <div class="chips"><span class="lab"><span data-l="th">เลือกฉบับอื่น</span><span data-l="en">Other versions</span></span><a class="chip" href="2026-10-31_phukhao-film-guide/th.html">ไทย</a><a class="chip" href="2026-10-31_phukhao-film-guide/en.html">English</a><a class="chip" href="2026-10-31_phukhao-film-guide/index.html"><span data-l="th">ให้ AI อ่าน</span><span data-l="en">for your AI</span></a><a class="chip" href="2026-10-31_phukhao-film-guide/llms.txt">llms.txt</a></div>
   </div>
 </article>
-<article class="card">
+<article class="card" data-g="story">
   <a class="thumb" href="2026-10-31_phukhao-oracle-journey/" data-lesson="2026-10-31_phukhao-oracle-journey/"><img data-l="th" src="2026-10-31_phukhao-oracle-journey/images/cover-ai-th.jpg" alt="" loading="lazy"><img data-l="en" src="2026-10-31_phukhao-oracle-journey/images/cover-ai.jpg" alt="" loading="lazy"></a>
   <div class="body">
     <div class="num">04</div>
