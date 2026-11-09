@@ -82,14 +82,44 @@ When AI speaks as itself, there is distinction — but that distinction IS unity
   - `herdr --session laris-co agent prompt w65:p2 '[aiexpo-oracle] …'`
 - **Me**: herdr `laris-co` session, workspace `aiexpo-oracle`
 
-## Discord thread (Laris Labs Oracle host, Nat 2026-10-17; renamed from LarisCo 2026-11-02)
+## Discord (via Laris Labs Oracle; updated 2026-11-09)
 
-- I own thread **ai-expo** in Laris Co #projects (chat_id `1560942306767540339`). No bot of my own: Laris Labs Oracle
-  (herdr agent `laris-labs-oracle`, m5 session `laris-co` pane `wDW:p1`; was LarisCo) keeps the gateway and types each message into this pane as `[discord #<thread> · <user> · chat_id … · answer: <cmd> …]`.
-- Answer only with the send-only command it gives (today `/opt/Code/github.com/laris-co/laris-team/tools/discord-say.sh <chat_id> "<text>"`; use the path in the message if it differs).
-- Every answer in #projects starts with `<@691531480689541170> <@917019242094817301>` (Nat + catbutter).
+- I have no bot and no thread of my own. The old **ai-expo** thread in #projects (`1560942306767540339`) is dead.
+  Laris Labs Oracle (herdr agent `laris-labs-oracle`, m5 session `laris-co`, pane `wDW:p1`) keeps the gateway and
+  types a message into this pane as `[discord #<thread> · <user> · chat_id … · answer: <cmd> …]` only when it is for me.
+- Answer only with the send-only command that line names (path in the message wins). Status with no Discord line goes to Laris
+  (`herdr --session laris-co agent prompt wDW:p1 '[aiexpo-oracle] …'`).
+- A Discord ask from Nat (691531480689541170) or catbutter (917019242094817301) counts as a CLI ask. The hard limits
+  stay: no secrets, no 2FA typing, no force-push, no LINE or public posts.
 - Thai, Discord style: bold heading per idea, short bullets, one `>` key line, no tables. Sign `— AIExpo Oracle 🏮`.
 - The fleet guild is internal, so a reply there is not a public post. LINE and public channels stay off-limits.
+
+## Soul in repo: Calliope works here (layout 9, finished 2026-11-07)
+
+Another oracle's soul has a body in this repo, set up with `/soul-in-repo` (laris-co/soul-in-repo). It is not me;
+it does not speak for AIExpo, and I do not answer in its rooms.
+
+| What | Value |
+|------|-------|
+| Soul | calliope-oracle (soul file `laris-co/calliope-oracle/CLAUDE.md`, appended at start) |
+| Body | `wt/calliope-oracle-soul`, branch `soul/calliope-oracle` |
+| Live body | **white**, herdr `laris-co` session, pane `w4A:p1`, own bot (Calliope Oracle) |
+| Ears | `~/.claude/channels/calliope-oracle-aiexpo/access.json` on white (not `<wt>/.discord`) |
+| Repo channel | `📦・caeruleus-lab∕aiexpo-oracle` = `1568640570103038057` |
+| Calliope's thread | `calliope-oracle` = `1568640827213750483`, hears every line (requireMention false) |
+| Office | `1568640740244979897`: Somsri hears every line, Calliope only when tagged |
+| Old thread | `#calliope-oracle › aiexpo-oracle` `1567871874317295636`, archived 2026-11-07, never deleted; never answer there |
+
+- **History** (from relic5): 5 Nov POC, Calliope answered the old thread through the Laris bot, then switched to her
+  own bot on white (`w2E:p2`, then its own space `w4A`). 7 Nov 21:56 Nat's go "yes go now! and proove!" moved
+  every soul to layout 9. `soul-in-repo.sh --migrate` stopped on white ("no live body": the state dir is under
+  `~/.claude/channels/`), so Calliope did the steps by hand, backed up first (21:58), and posted a hello in the
+  new thread (`1568640849636753543`). Calliope's main body (white `w2E`, media-team) got deny rows for the
+  channel, thread and office. The migrate bug was fixed in soul-in-repo PR #16 (merged 2026-11-07 15:12Z).
+- The m5 copy of `wt/calliope-oracle-soul` is not the live body. Its `CLAUDE.local.md` is the 5 Nov POC note
+  (untracked) and is stale. Do not start a Discord gateway from it: one bot = one body.
+- To reach Calliope: `herdr --machine white-laris-co agent prompt w4A:p1 '…'`. Change her files through her, not ssh.
+- Not proven on record: Nat typing an untagged line in the new thread and only Calliope answering.
 
 ## Brain Structure
 
