@@ -281,7 +281,7 @@ def mcp_popup():
   <div class="in" tabindex="-1" autofocus>
     <form method="dialog"><button class="x" type="submit" aria-label="close">{I_X}</button></form>
     <p class="k">{I_TERM} MCP · <span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน</span><span data-l="en">read-only, no sign-in</span></p>
-    <h2 id="mcppoph"><span data-l="th">ต่อ AI ของคุณเข้ากับบทเรียน ด้วยคำสั่งเดียว</span><span data-l="en">Connect your AI to the lessons with one command</span></h2>
+    <h2 id="mcppoph"><span data-l="th">ต่อ AI ของคุณเข้ากับบทเรียน</span><span data-l="en">Connect your AI to the lessons</span></h2>
     <p><span data-l="th">เปิด terminal ก๊อปบรรทัดของ CLI ที่ใช้อยู่ แปะ แล้วกด Enter</span><span data-l="en">Open a terminal, copy the line for the CLI you use, paste it and press Enter</span></p>
 {rows}
     <p class="try"><span data-l="th">แล้วถาม AI ว่า <b>"ใช้ aiexpo MCP ลิสต์บทเรียนทั้งหมด"</b></span><span data-l="en">Then ask your AI: <b>"use the aiexpo MCP to list the lessons"</b></span></p>
