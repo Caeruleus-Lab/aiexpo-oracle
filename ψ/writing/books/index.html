@@ -202,13 +202,41 @@ body.wallopen #navback,body.wallopen #navnext,body.wallopen #rail,body.wallopen 
 .walltoast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,8px);z-index:85;background:#03140a;color:#b9ffd2;border:1px solid rgba(61,255,138,.6);border-radius:var(--r-sm);padding:8px 16px;font:600 14px var(--mono);box-shadow:0 0 18px rgba(34,224,107,.35);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
 .walltoast.on{opacity:1;transform:translate(-50%,0)}
 .wall pre.matrix-block{cursor:copy}
-html[data-mode=ai] .hero{grid-template-columns:1fr}html[data-mode=ai] .herobox{height:clamp(360px,58vh,640px)}html[data-mode=ai] .hero>div:first-child,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp):not(#brief):not(.enterbox){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp,html:not([data-mode=ai]) .enterbox{display:none}.enterbox .enter{margin:0 0 clamp(20px,3vh,36px)}</style>
+html[data-mode=ai] .hero{grid-template-columns:1fr}html[data-mode=ai] .herobox{height:clamp(360px,58vh,640px)}html[data-mode=ai] .hero>div:first-child,html[data-mode=ai] main#lessons>*:not(#ai):not(#mcp):not(#brief):not(.enterbox){display:none}html[data-mode=ai] #ai{margin-top:24px}html:not([data-mode=ai]) #mcp,html:not([data-mode=ai]) .enterbox{display:none}.enterbox .enter{margin:0 0 clamp(20px,3vh,36px)}
+
+.bar .right{flex-wrap:wrap;justify-content:flex-end}
+.mcpbtn{display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:4px 14px;font:700 15px var(--body);cursor:pointer}
+.mcpbtn:hover{filter:brightness(1.08)}
+.mcppop{padding:0;border:1px solid var(--accent);border-radius:var(--r);background:var(--paper-2);color:var(--ink);width:min(760px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.mcppop::backdrop{background:rgba(8,10,14,.66);backdrop-filter:blur(3px)}
+.mcppop .in{position:relative;padding:clamp(18px,3vw,36px)}
+.mcppop .in:focus{outline:none}
+.mcppop .x{position:absolute;top:10px;right:10px;display:inline-flex;background:none;border:1px solid transparent;color:var(--ink-2);border-radius:var(--r-sm);padding:6px;cursor:pointer}
+.mcppop .x:hover{border-color:var(--rule);color:var(--ink)}
+.mcppop .k{display:flex;align-items:center;gap:6px;margin:0 0 6px;color:var(--accent-text);font:700 14px var(--body)}
+.mcppop h2{font:600 clamp(22px,2.4vw,32px)/1.25 var(--display);margin:0 40px 8px 0}
+.mcppop p{margin:0 0 12px;color:var(--ink-2);font-size:clamp(15px,1vw,18px);line-height:1.55}
+.mcppop .cli{font-size:14px;display:grid;grid-template-columns:9.5em minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--rule);border-radius:var(--r-sm);padding:8px 8px 8px 12px;margin:0 0 8px}
+.mcppop .cli b{font:700 14px var(--display);color:var(--ink)}
+.mcppop .cli code{font:600 13px/1.45 var(--mono);color:var(--accent-text);overflow-wrap:anywhere}   /* breaks at the spaces first, so the URL stays on one line */
+.mcppop .cp{display:inline-flex;align-items:center;background:var(--paper-3);border:1px solid var(--rule);color:var(--ink);border-radius:var(--r-sm);padding:6px 10px;font:600 13px var(--body);cursor:pointer;white-space:nowrap}
+.mcppop .cp:hover{border-color:var(--accent)}
+.mcppop .cp>span{display:inline-flex;align-items:center;gap:5px}
+.mcppop .cp .ok,.mcppop .cp.done .no{display:none}
+.mcppop .cp.done .ok{display:inline-flex}
+.mcppop .cp.done{border-color:var(--ok);color:var(--ok)}
+.mcppop .try{margin-top:14px;color:var(--ink)}
+.mcppop .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:6px}
+.mcppop .row p{margin:0}
+.mcppop .go{background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);border-radius:999px;padding:8px 22px;font:700 15px var(--body);cursor:pointer}
+@media (max-width:560px){.mcppop .cli{grid-template-columns:minmax(0,1fr) auto}.mcppop .cli b{grid-column:1/-1}}
+</style>
 </head>
 <body>
 <header class="cover">
   <div class="bar">
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
-    <div class="right"><nav class="langs"><button data-set="ai">AI</button><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
+    <div class="right"><button class="mcpbtn" id="mcpbtn" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg><span data-l="th">ต่อ MCP</span><span data-l="en">Connect MCP</span></button><nav class="langs"><button data-set="ai">AI</button><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
   <nav class="menu" aria-label="menu"><a href="#all"><span data-l="th">บทเรียน</span><span data-l="en">Lessons</span></a><a href="narrated/"><span data-l="th">บทเรียนมีเสียง</span><span data-l="en">Narrated lessons</span></a><a href="https://aiexpo.buildwithoracle.com/talk/"><span data-l="th">สไลด์งาน AI Expo</span><span data-l="en">AI Expo talk slides</span></a><a href="about/"><span data-l="th">เกี่ยวกับเรา</span><span data-l="en">About</span></a><a href="https://github.com/Caeruleus-Lab/aiexpo-lessons">GitHub</a></nav>
   <div class="hero">
@@ -749,6 +777,22 @@ Slides: 5-8, title + 3 bullets + 1 real image URL each, markdown or one HTML fil
 </article></div></section>
 <p class="note"><span data-l="th">แต่ละบทเซ็นรวมกันทุกฉบับ กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Every edition of each lesson is signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
 </main>
+<dialog class="mcppop" id="mcppop" aria-labelledby="mcppoph">
+  <div class="in" tabindex="-1" autofocus>
+    <form method="dialog"><button class="x" type="submit" aria-label="close"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></form>
+    <p class="k"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19h8"/><path d="m4 17 6-6-6-6"/></svg> MCP · <span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน</span><span data-l="en">read-only, no sign-in</span></p>
+    <h2 id="mcppoph"><span data-l="th">ต่อ AI ของคุณเข้ากับบทเรียน ด้วยคำสั่งเดียว</span><span data-l="en">Connect your AI to the lessons with one command</span></h2>
+    <p><span data-l="th">เปิด terminal ก๊อปบรรทัดของ CLI ที่ใช้อยู่ แปะ แล้วกด Enter</span><span data-l="en">Open a terminal, copy the line for the CLI you use, paste it and press Enter</span></p>
+    <div class="cli"><b>Claude Code</b><code>claude mcp add --transport http aiexpo https://aiexpo.buildwithoracle.com/mcp</code><button class="cp" type="button" data-cp><span class="no"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span data-l="th">ก๊อป</span><span data-l="en">copy</span></span><span class="ok"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-l="th">แล้ว</span><span data-l="en">copied</span></span></button></div>
+    <div class="cli"><b>Codex</b><code>codex mcp add aiexpo --url https://aiexpo.buildwithoracle.com/mcp</code><button class="cp" type="button" data-cp><span class="no"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span data-l="th">ก๊อป</span><span data-l="en">copy</span></span><span class="ok"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-l="th">แล้ว</span><span data-l="en">copied</span></span></button></div>
+    <div class="cli"><b>Antigravity (agy)</b><code>agy mcp add aiexpo https://aiexpo.buildwithoracle.com/mcp</code><button class="cp" type="button" data-cp><span class="no"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span data-l="th">ก๊อป</span><span data-l="en">copy</span></span><span class="ok"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-l="th">แล้ว</span><span data-l="en">copied</span></span></button></div>
+    <p class="try"><span data-l="th">แล้วถาม AI ว่า <b>"ใช้ aiexpo MCP ลิสต์บทเรียนทั้งหมด"</b></span><span data-l="en">Then ask your AI: <b>"use the aiexpo MCP to list the lessons"</b></span></p>
+    <div class="row">
+      <p class="alt"><span data-l="th">ไม่มี terminal? claude.ai และ ChatGPT ต่อจากหน้าเว็บได้:</span><span data-l="en">No terminal? claude.ai and ChatGPT connect from their web settings:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 02</span><span data-l="en">lesson 02</span></a></p>
+      <form method="dialog"><button class="go" type="submit"><span data-l="th">เข้าใจแล้ว</span><span data-l="en">Got it</span></button></form>
+    </div>
+  </div>
+</dialog>
 <script>
 const root=document.documentElement;
 function lessonLinks(l){const pg={th:'th.html',en:'en.html',ai:'index.html'}[l]||'th.html';document.querySelectorAll('a[data-lesson]').forEach(a=>a.setAttribute('href',a.dataset.lesson+pg))}
@@ -841,6 +885,16 @@ if(wall){const pre=document.getElementById('blob'),cv=document.getElementById('w
   b.textContent=l?(th?'☾ โหมดมืด':'☾ Dark'):(th?'☀ โหมดสว่าง':'☀ Light');b.setAttribute('aria-pressed',String(l))}
  b.onclick=function(){r.dataset.theme=r.dataset.theme==='light'?'dark':'light';try{localStorage.setItem('aiexpo-theme',r.dataset.theme)}catch(e){}label()};
  window.aiexpoThemeLabel=label;label();if(window.matchMedia)matchMedia('(prefers-color-scheme: light)').addEventListener('change',function(e){if(!localStorage.getItem('aiexpo-theme')){r.dataset.theme=e.matches?'light':'dark';label()}})})();
+</script>
+<script>
+(function(){const d=document.getElementById('mcppop');if(!d||!d.showModal)return;
+ function open(){if(!d.open)d.showModal()}
+ document.getElementById('mcpbtn').onclick=open;
+ d.addEventListener('close',()=>{if(location.hash==='#connect')history.replaceState(null,'',location.pathname+location.search)});
+ d.addEventListener('click',e=>{if(e.target===d)d.close()});   // a click on the backdrop closes it
+ d.querySelectorAll('[data-cp]').forEach(b=>b.onclick=()=>navigator.clipboard.writeText(b.previousElementSibling.textContent).then(()=>{b.classList.add('done');clearTimeout(b.t);b.t=setTimeout(()=>b.classList.remove('done'),1800)}));
+ setTimeout(open,600);   // Nat, 10 Nov: "auto popup when landing", so every landing, not only the first visit
+ addEventListener('hashchange',()=>{if(location.hash==='#connect')open()})})();
 </script>
 </body>
 </html>

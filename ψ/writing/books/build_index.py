@@ -253,6 +253,86 @@ AI_MODE_CSS = "html[data-mode=ai] .hero{grid-template-columns:1fr}html[data-mode
 
 SITE = "https://aiexpo.buildwithoracle.com/"
 
+# The "connect the MCP fast" popup (Nat, 10 Nov: "a popup to tell people to connect mcp fast cli"): a <dialog> that
+# opens once per browser on the first visit, again from the "Connect MCP" button in the bar, and straight away on
+# /#connect. One line per CLI, each with a copy button; the commands are the ones lessons 02 and 07 ran for real.
+# Icons are inline Lucide SVGs (our web UIs use Lucide, catbutter 9 Nov), so the page loads no icon font.
+def lucide(paths, size=18):
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+            f'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths}</svg>')
+
+I_PLUG = lucide('<path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/>', 16)
+I_TERM = lucide('<path d="M12 19h8"/><path d="m4 17 6-6-6-6"/>', 16)
+I_COPY = lucide('<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>', 15)
+I_CHECK = lucide('<path d="M20 6 9 17l-5-5"/>', 15)
+I_X = lucide('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>', 20)
+
+MCP_URL = SITE + "mcp"
+CLI_ROWS = [("Claude Code", f"claude mcp add --transport http aiexpo {MCP_URL}"),
+            ("Codex", f"codex mcp add aiexpo --url {MCP_URL}"),
+            ("Antigravity (agy)", f"agy mcp add aiexpo {MCP_URL}")]
+
+
+def mcp_popup():
+    copy = (f'<button class="cp" type="button" data-cp><span class="no">{I_COPY}<span data-l="th">ก๊อป</span><span data-l="en">copy</span></span>'
+            f'<span class="ok">{I_CHECK}<span data-l="th">แล้ว</span><span data-l="en">copied</span></span></button>')
+    rows = "\n".join(f'    <div class="cli"><b>{name}</b><code>{H.escape(cmd)}</code>{copy}</div>' for name, cmd in CLI_ROWS)
+    return f"""<dialog class="mcppop" id="mcppop" aria-labelledby="mcppoph">
+  <div class="in" tabindex="-1" autofocus>
+    <form method="dialog"><button class="x" type="submit" aria-label="close">{I_X}</button></form>
+    <p class="k">{I_TERM} MCP · <span data-l="th">อ่านอย่างเดียว ไม่ต้องล็อกอิน</span><span data-l="en">read-only, no sign-in</span></p>
+    <h2 id="mcppoph"><span data-l="th">ต่อ AI ของคุณเข้ากับบทเรียน ด้วยคำสั่งเดียว</span><span data-l="en">Connect your AI to the lessons with one command</span></h2>
+    <p><span data-l="th">เปิด terminal ก๊อปบรรทัดของ CLI ที่ใช้อยู่ แปะ แล้วกด Enter</span><span data-l="en">Open a terminal, copy the line for the CLI you use, paste it and press Enter</span></p>
+{rows}
+    <p class="try"><span data-l="th">แล้วถาม AI ว่า <b>"ใช้ aiexpo MCP ลิสต์บทเรียนทั้งหมด"</b></span><span data-l="en">Then ask your AI: <b>"use the aiexpo MCP to list the lessons"</b></span></p>
+    <div class="row">
+      <p class="alt"><span data-l="th">ไม่มี terminal? claude.ai และ ChatGPT ต่อจากหน้าเว็บได้:</span><span data-l="en">No terminal? claude.ai and ChatGPT connect from their web settings:</span> <a href="2026-10-30_mcp-connect-guide/"><span data-l="th">บทเรียน 02</span><span data-l="en">lesson 02</span></a></p>
+      <form method="dialog"><button class="go" type="submit"><span data-l="th">เข้าใจแล้ว</span><span data-l="en">Got it</span></button></form>
+    </div>
+  </div>
+</dialog>"""
+
+
+POP_CSS = """
+.bar .right{flex-wrap:wrap;justify-content:flex-end}
+.mcpbtn{display:inline-flex;align-items:center;gap:6px;color:var(--accent-ink);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:4px 14px;font:700 15px var(--body);cursor:pointer}
+.mcpbtn:hover{filter:brightness(1.08)}
+.mcppop{padding:0;border:1px solid var(--accent);border-radius:var(--r);background:var(--paper-2);color:var(--ink);width:min(760px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.mcppop::backdrop{background:rgba(8,10,14,.66);backdrop-filter:blur(3px)}
+.mcppop .in{position:relative;padding:clamp(18px,3vw,36px)}
+.mcppop .in:focus{outline:none}
+.mcppop .x{position:absolute;top:10px;right:10px;display:inline-flex;background:none;border:1px solid transparent;color:var(--ink-2);border-radius:var(--r-sm);padding:6px;cursor:pointer}
+.mcppop .x:hover{border-color:var(--rule);color:var(--ink)}
+.mcppop .k{display:flex;align-items:center;gap:6px;margin:0 0 6px;color:var(--accent-text);font:700 14px var(--body)}
+.mcppop h2{font:600 clamp(22px,2.4vw,32px)/1.25 var(--display);margin:0 40px 8px 0}
+.mcppop p{margin:0 0 12px;color:var(--ink-2);font-size:clamp(15px,1vw,18px);line-height:1.55}
+.mcppop .cli{font-size:14px;display:grid;grid-template-columns:9.5em minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--rule);border-radius:var(--r-sm);padding:8px 8px 8px 12px;margin:0 0 8px}
+.mcppop .cli b{font:700 14px var(--display);color:var(--ink)}
+.mcppop .cli code{font:600 13px/1.45 var(--mono);color:var(--accent-text);overflow-wrap:anywhere}   /* breaks at the spaces first, so the URL stays on one line */
+.mcppop .cp{display:inline-flex;align-items:center;background:var(--paper-3);border:1px solid var(--rule);color:var(--ink);border-radius:var(--r-sm);padding:6px 10px;font:600 13px var(--body);cursor:pointer;white-space:nowrap}
+.mcppop .cp:hover{border-color:var(--accent)}
+.mcppop .cp>span{display:inline-flex;align-items:center;gap:5px}
+.mcppop .cp .ok,.mcppop .cp.done .no{display:none}
+.mcppop .cp.done .ok{display:inline-flex}
+.mcppop .cp.done{border-color:var(--ok);color:var(--ok)}
+.mcppop .try{margin-top:14px;color:var(--ink)}
+.mcppop .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:6px}
+.mcppop .row p{margin:0}
+.mcppop .go{background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);border-radius:999px;padding:8px 22px;font:700 15px var(--body);cursor:pointer}
+@media (max-width:560px){.mcppop .cli{grid-template-columns:minmax(0,1fr) auto}.mcppop .cli b{grid-column:1/-1}}
+"""
+
+POP_JS = """
+(function(){const d=document.getElementById('mcppop');if(!d||!d.showModal)return;
+ function open(){if(!d.open)d.showModal()}
+ document.getElementById('mcpbtn').onclick=open;
+ d.addEventListener('close',()=>{if(location.hash==='#connect')history.replaceState(null,'',location.pathname+location.search)});
+ d.addEventListener('click',e=>{if(e.target===d)d.close()});   // a click on the backdrop closes it
+ d.querySelectorAll('[data-cp]').forEach(b=>b.onclick=()=>navigator.clipboard.writeText(b.previousElementSibling.textContent).then(()=>{b.classList.add('done');clearTimeout(b.t);b.t=setTimeout(()=>b.classList.remove('done'),1800)}));
+ setTimeout(open,600);   // Nat, 10 Nov: "auto popup when landing", so every landing, not only the first visit
+ addEventListener('hashchange',()=>{if(location.hash==='#connect')open()})})();
+"""
+
 
 def ai_text():
     """The AI edition of this page: the whole page in Thai (its default language), top to bottom, as markdown."""
@@ -467,13 +547,13 @@ def page():
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
 {THEME_HEAD}{OG_TAGS}
-<style>{CSS}\n{WALL_CSS}\n{AI_MODE_CSS}</style>
+<style>{CSS}\n{WALL_CSS}\n{AI_MODE_CSS}\n{POP_CSS}</style>
 </head>
 <body>
 <header class="cover">
   <div class="bar">
     <a class="brand" href="./">AIExpo <em>Oracle</em></a>
-    <div class="right"><nav class="langs"><button data-set="ai">AI</button><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
+    <div class="right"><button class="mcpbtn" id="mcpbtn" type="button">{I_PLUG}<span data-l="th">ต่อ MCP</span><span data-l="en">Connect MCP</span></button><nav class="langs"><button data-set="ai">AI</button><button data-set="th">ไทย</button><button data-set="en">English</button></nav><button class="theme" id="themebtn" type="button">☀ Light</button></div>
   </div>
   <nav class="menu" aria-label="menu"><a href="#all"><span data-l="th">บทเรียน</span><span data-l="en">Lessons</span></a><a href="narrated/"><span data-l="th">บทเรียนมีเสียง</span><span data-l="en">Narrated lessons</span></a><a href="https://aiexpo.buildwithoracle.com/talk/"><span data-l="th">สไลด์งาน AI Expo</span><span data-l="en">AI Expo talk slides</span></a><a href="about/"><span data-l="th">เกี่ยวกับเรา</span><span data-l="en">About</span></a><a href="https://github.com/Caeruleus-Lab/aiexpo-lessons">GitHub</a></nav>
   <div class="hero">
@@ -513,8 +593,10 @@ def page():
 {cards}
 <p class="note"><span data-l="th">แต่ละบทเซ็นรวมกันทุกฉบับ กดปุ่มตรวจลายเซ็นท้ายหน้าได้ · agent อ่าน</span><span data-l="en">Every edition of each lesson is signed together; the button at the end of each page checks the signature · agents read</span> <a href="llms.txt">llms.txt</a></p>
 </main>
+{mcp_popup()}
 <script>{JS}\n{WALL_JS}</script>
 <script>{THEME_JS}</script>
+<script>{POP_JS}</script>
 </body>
 </html>
 """
